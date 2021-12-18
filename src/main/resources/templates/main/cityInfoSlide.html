@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<section class="hero-section" th:fragment="cityInfoSlide">
+    <div class="container">
+        <div class="hs-slider owl-carousel">
+            <div th:each="cityInfo : ${cityInfos}">
+                <div class="hs-item set-bg"
+                     th:style="'background-image:url(img/intro/' + ${cityInfo.image} + ');'">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="hc-inner-text">
+                                <div class="hc-text">
+                                    <h4 th:text="#{${cityInfo.city.name}}"></h4>
+                                    <p><span class="icon_pin_alt"></span>[[#{nation}]], [[#{${cityInfo.city.name}}]]</p>
+                                </div>
+                                <div class="hc-widget">
+                                    <ul>
+                                        <li><i class="fa fa-bed"></i> 05</li>
+                                        <li><i class="fa fa-automobile"></i> 01</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout/basicLayout}"
+>
+<head>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script>
+        $(document).ready(function () {
+            var owl = $('.owl-carousel');
+            owl.owlCarousel({
+                loop: true,
+                margin: 0,
+                items: 1,
+                dots: false,
+                nav: true,
+                navText: ['<i class="arrow_left"></i>', '<i class="arrow_right"></i>'],
+                smartSpeed: 1200,
+                autoHeight: false,
+                autoplay: true
+            });
+        });
+    </script>
+</head>
+<div layout:fragment="content">
+    <!--도시 소개 및 교통 날씨정보    -->
+    <section th:replace="city/cityIntro :: cityIntro"></section>
+    <!--Food 및 View 부분 Slide로 출력!!!-->
+    <section th:replace="city/cityPicture :: cityPicture"></section>
+</div>
+</html>

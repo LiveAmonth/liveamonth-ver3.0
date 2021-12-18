@@ -1,0 +1,121 @@
+.day {
+    color: #000;
+    font-weight: bold;
+    text-align: center;
+}
+
+.today_button_div {
+    float: right;
+}
+
+.calendar {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.calendar-header-day {
+    width: calc(14.286%);
+    background-color: #3D747D;
+    border-bottom: 1px solid #FFFFFF;;
+    color: #FFFFFF;
+}
+
+.calendar_body {
+    overflow: visible;
+    width: 80%;
+    height: 50px;
+    background-color: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 5px 10px 10px rgba(0,0,0,0.1);
+    color: #292929;
+    text-align: center;
+}
+
+.calendar_body:nth-child(even) {
+    background: #666666;
+    border: 2px solid #fff1f1;
+    color: #292929;
+}
+.calendar_body tr td{
+    position:relative;
+}
+.calendar_body .today {
+    text-align: center;
+    vertical-align: top;
+}
+
+.calendar_body .sat_day {
+    text-align: center;
+    vertical-align: top;
+    color: #1a38cb;
+}
+
+.calendar_body .sun_day {
+    text-align: center;
+    vertical-align: top;
+    color: red;
+}
+
+.calendar_body .normal_day {
+    vertical-align: top;
+    text-align: center;
+}
+
+.before_after_month {
+    font-weight: bold;
+}
+
+.before_after_year {
+    font-weight: bold;
+}
+
+.schdule_add_button {
+    float: right;
+}
+
+.scheduleContentsModal {
+    font-family: "Montserrat", sans-serif;
+    position: absolute;
+    z-index: 1;
+    width: 250px;
+    height: auto;
+    border-radius: 0.2rem;
+    border: 1px solid #fff;
+    box-shadow: 0px 10px 10px rgba(0,0,0,0.1);
+    background-color: #fff;
+    display: none;
+    opacity: 0.95;
+}
+#scheduleContentSubject{
+    font-size: 18px;
+    height: 35px;
+    vertical-align: middle;
+    text-align: left;
+}
+.contents-label{
+    display: block;
+    width: 100%;
+    height: 20px;
+    padding: 0.35rem 0.65rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #488993;
+    box-shadow: 0px 5px 5px rgba(0,0,0,0.1);
+}
+.scheduleContentLabel{
+    border-radius: 0.2rem;
+    width: 100%;
+    line-height: 40px;
+    font-size: 25px;
+    text-align: left;
+    color: #ffffff;
+    background-color: #488993;
+    letter-spacing: .1em;
+    text-shadow:
+            -1px -1px 1px #4D939E,
+            2px 2px 1px #3B7078;
+}
+
+

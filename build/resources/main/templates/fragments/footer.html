@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footerFragment" class="footer-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="fs-about">
+                    <div class="fs-logo">
+                        <a href="#">
+                            <img th:src="@{/img/logo_footer.png}" alt="">
+                        </a>
+                    </div>
+                    <p th:text="#{footer.info}"> '한달 살기'를 위한 정보를 공유하는 사이트입니다.</p>
+                    <div class="fs-social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6">
+                <div class="fs-widget">
+                    <h5 th:text="#{footer.menu.help}">고객센터</h5>
+                    <ul>
+                        <li th:if="${userVO}"><a href="oneToOneAsk" th:text="#{myPage.inquiry}">1:1 문의하기</a></li>
+                        <li><a th:href="@{/customerCenter(menu=Faq)}" th:text="#{customerCenter.faq}">자주 묻는 질문들</a></li>
+                        <li><a href="customerCenter?menu=PersonalTerms" th:text="#{customerCenter.personalTerms}">개인정보 처리방침</a></li>
+                        <li><a href="customerCenter?menu=TermsAndConditions" th:text="#{customerCenter.termsAndConditions}">이용약관</a></li>
+                        <li><a href="customerCenter?menu=Notice" th:text="#{customerCenter.notice}">공지사항</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-2 col-sm-6">
+                <div class="fs-widget">
+                    <h5 th:text="#{footer.menu.link}">바로가기</h5>
+                    <ul>
+                        <li><a th:href="@{/city(menu=SE)}" th:text="#{city}">도시 소개</a></li>
+                        <li><a th:href="@{/otherScheduleList(action=list)}" th:text="#{schedule.otherSchedule}">다른 사람 스케줄</a></li>
+                        <li><a th:href="@{/review}" th:text="#{review}">후기 게시판</a></li>
+                        <li th:unless="${loginUser}"><a th:href="@{/login}" th:text="#{login.signIn}">로그인</a></li>
+                        <li th:unless="${loginUser}"><a th:href="@{/user/signUp}" th:text="#{login.signUp}">회원가입</a></li>
+                        <li th:if="${loginUser}"><a th:href="@{/logout}" th:text="#{login.logout}">로그아웃</a></li>
+                        <li th:if="${loginUser}"><a th:href="@{/myPage}" th:text="#{myPage}">마이페이지</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="fs-widget">
+                    <h5 th:text="#{footer.menu.newsLetter}">뉴스레터</h5>
+                    <p th:text="#{footer.menu.newsLetter.info}">더 많은 한달살기 정보를 메일로 받아보세요~!</p>
+                    <form action="#" class="subscribe-form">
+                        <input type="text" placeholder="Email">
+                        <button type="submit" class="site-btn" th:text="#{footer.menu.newsLetter.subscribe}" >Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+<!--        <div class="copyright-text">-->
+<!--            <span th:text="${#temporals.format(localDateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>-->
+<!--        </div>-->
+    </div>
+</footer>
+</html>

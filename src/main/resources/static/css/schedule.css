@@ -1,0 +1,208 @@
+
+
+
+
+
+.divDotText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.addButton {
+    text-align: center;
+}
+
+.day {
+    width: 100px;
+    height: 30px;
+    font-weight: bold;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.sat {
+    color: #529dbc;
+}
+
+.sun {
+    color: red;
+}
+
+.today_button_div {
+    float: right;
+}
+
+.today_button {
+    width: 100px;
+    height: 30px;
+}
+
+.calendar {
+    width: 100%;
+    margin: auto;
+}
+
+.navigation {
+    /*margin-top:100px;*/
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 25px;
+    vertical-align: middle;
+}
+
+.calendar_body {
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid white;
+    margin-bottom: 60px;
+    border-collapse: collapse;
+}
+
+.calendar_body .today {
+    border: 1px solid white;
+    height: 120px;
+    background-color: #c9c9c9;
+    text-align: left;
+    vertical-align: top;
+}
+
+.calendar_body .date {
+    font-weight: bold;
+    font-size: 15px;
+    padding-left: 3px;
+    padding-top: 3px;
+}
+
+.date {
+    margin-bottom: 10px;
+}
+
+.sat {
+    margin-bottom: 10px;
+}
+
+.sun {
+    margin-bottom: 10px;
+}
+
+.calendar_body .sat_day {
+    border: 1px solid white;
+    height: 120px;
+    background-color: #EFEFEF;
+    text-align: left;
+    color: #529dbc;
+
+    vertical-align: top;
+}
+
+.calendar_body .sat_day .sat {
+    color: #529dbc;
+    font-size: 15px;
+    padding-left: 3px;
+    padding-top: 3px;
+}
+
+.calendar_body .sun_day {
+    border: 1px solid white;
+    height: 120px;
+    background-color: #EFEFEF;
+    text-align: left;
+    vertical-align: top;
+}
+
+.calendar_body .sun_day .sun {
+    color: red;
+    font-size: 15px;
+    padding-left: 3px;
+    padding-top: 3px;
+}
+
+.calendar_body .normal_day {
+    border: 1px solid white;
+    height: 120px;
+    background-color: #EFEFEF;
+    vertical-align: top;
+    text-align: left;
+}
+
+.before_after_month {
+    margin: 10px;
+    font-weight: bold;
+}
+
+.before_after_year {
+    font-weight: bold;
+}
+
+.this_month {
+    margin: 10px;
+}
+
+.schdule_add_button {
+    float: right;
+}
+
+.link-2 a:before {
+    content: '';
+    border-bottom: solid 1px #5CAAEF;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    opacity: 0;
+}
+
+.hoverScheduleSubject a:hover:before {
+    opacity: 1.0;
+}
+
+.hoverScheduleSubject2 a, .hoverScheduleSubject2 a:before {
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+
+.item-box {
+    padding-left: 20px;
+    font-size: 14px;
+    color: #111111;
+    font-weight: 500;
+    width: 80%;
+    height: 60px;
+    margin-right: 0px;
+}
+
+.item-box .item-title {
+    width: calc(30%);
+    height: 30px;
+    margin: 0;
+    float: left;
+}
+
+.item-box input {
+    width: calc(70%);
+    margin: 0;
+    float: right;
+}
+
+.item-box .item-desc {
+    width: calc(70%);
+    margin: 0;
+    float: right;
+}
+
+.item-box button {
+    margin: 0px;
+    /*float: right;*/
+}
+
+.item-box .site-btn {
+    /*float: right;*/
+}
+
+.modal-body .info {
+    float: right;
+    font-size: 11px;
+    color: #f02020;
+}

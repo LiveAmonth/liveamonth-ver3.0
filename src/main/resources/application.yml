@@ -1,0 +1,60 @@
+server:
+  port: 5000
+  servlet:
+    session:
+      tracking-modes : cookie
+      timeout: 1800
+
+spring:
+  messages:
+    basename: messages,errors
+
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/liveamonthdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 1234
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: none
+      properties:
+        hibernate:
+          format_sql: true
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tp.liveamonth@gmail.com
+    password: qsjriazlimmitdir
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        mime:
+          charset: UTF-8
+        transport:
+          protocol: smtp
+        debug: false
+
+    default-encoding: utf-8
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAYPRCH2IMEEXYKRMM
+      secretKey: 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
+      instanceProfile: true
+    s3:
+      bucket: liveamonth-simple-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+
+

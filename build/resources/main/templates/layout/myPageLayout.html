@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8" />
+    <!-- 공통으로 쓰이는 css파일을 넣는다.-->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/ihover.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/myPage.css}" type="text/css">
+
+    <!-- 컨텐츠페이지의 CSS 영역이 들어감 -->
+    <th:block layout:fragment="css"></th:block>
+
+    <!-- 공통으로 쓰이는 js 파일을 넣는다.-->
+    <script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/mixitup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.slicknav.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.richtext.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/image-uploader.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/owl.carousel.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/myPage.js}"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- 컨텐츠페이지의 스크립트 영역이 들어감 -->
+    <th:block layout:fragment="script"></th:block>
+
+</head>
+
+<body>
+<!-- header 시작 -->
+<header th:replace="fragments/header :: headerFragment"></header>
+<!-- header 끝 -->
+<!-- content 시작 -->
+<section layout:fragment="myPageProfile"></section>
+<section class="blog-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 p-0">
+                <div class="feature-property-left">
+                    <div layout:fragment="sideMenuBar"></div>
+                </div>
+            </div>
+            <div class="col-lg-9" id="body">
+                <div layout:fragment="content"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- content 끝 -->
+<!-- footer 시작 -->
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+<!-- footer 끝 -->
+</body>
+
+</html>

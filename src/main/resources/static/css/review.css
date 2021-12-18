@@ -1,0 +1,53 @@
+.default_review_page {
+    width: 100%; /*bootstrap : container (전체 화면 , width :960px)*/
+    height: 900px;
+    margin: 0px auto; /*가운데 정렬*/
+
+
+}
+
+.left_section {
+    width:49%;
+    height: 900px;
+    float: left;
+}
+.right_top_section{
+    width:49%;
+    height:450px;
+    float: right;
+
+}
+.right_bottom_section{
+    width:49%;
+    height:450px;
+    float: right;
+    margin-top: -65px;
+
+}
+
+.reviewCategorySubject{
+
+    border-top: 1px solid #efefef ;
+    border-bottom: 1px solid #efefef;
+    list-style:none;
+
+
+}
+
+.reviewCategoryViewCount{
+    float:right;
+    list-style:none;
+
+}
+
+.showMore{
+    float:right;
+}
+
+.reviewCategoryName{
+    font-weight: bold;
+}
+
+.reviewReplyCount{
+    color:red;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<section class="profile-section spad" th:fragment="myPageProfile">
+    <div class="container">
+        <div class="profile-agent-content">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="ih-item circle effect13 top_to_bottom"><a data-toggle="modal"
+                                                                          href="#modifyScheduleContentModal">
+                        <div class="img"><img th:src="@{${loginUser.getProfileImgPath()}}" alt="img"></div>
+                        <div class="info">
+                            <div class="info-back">
+                                <h3>[[${loginUser.nickname}]]</h3>
+                                <p>프로필 이미지 변경</p>
+                            </div>
+                        </div>
+                    </a></div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="profile-agent-widget">
+                        <ul>
+                            <li>[[#{login.name}]] <span>[[${loginUser.name}]]</span></li>
+                            <li>[[#{login.nickname}]] <span>[[${loginUser.nickname}]]</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="profile-agent-widget">
+                        <ul>
+                            <li>[[#{login.age}]] <span>[[${loginUser.calcAge()}]][[#{age}]]</span></li>
+                            <li>[[#{login.genderTypes}]] <span>[[#{'gender.'+${loginUser.genderTypes}}]]</span></li>
+                            <li>[[#{login.email}]] <span>[[${loginUser.email}]]</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modifyScheduleContentModal" role="dialog"
+         aria-labelledby="modifyUserImageLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modifyUserImageLabel">프로필 이미지 변경</h5>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="img">
+                        <div class="title_image" id="imgViewArea">
+                            <img th:id="imgArea" class="profile_img"
+                                 th:src="@{${loginUser.getProfileImgPath()}}"
+                                 style="height: 200px;width: 200px;border-radius: 50%;">
+                        </div>
+                    </div>
+
+                    <div class="filebox">
+                        <form th:action="@{/editProfileImage}" id="form" name="form"
+                              method="post" enctype="multipart/form-data" autocomplete="off">
+                            <label for="fileName" type="button">파일 선택</label>
+                            <input type="file" id="fileName" name="fileName" accept="image/*" style="display:none"
+                                   required/>
+                            <button type="submit" class="filebox-btn">업로드</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    $j351('#imgArea').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        var $j351 = jQuery.noConflict();
+        $j351(":input[name='fileName']").change(function () {
+            if ($j351(":input[name='fileName']").val() == '') {
+                $j351('#imgArea').attr('src', '');
+            }
+            $j351('#imgViewArea').css({'display': ''});
+            readURL(this);
+        });
+
+        // 이미지 에러 시 미리보기영역 미노출
+        function imgAreaError() {
+            $j351('#imgViewArea').css({'display': 'none'});
+        }
+    </script>
+</section>
+
+
+</html>

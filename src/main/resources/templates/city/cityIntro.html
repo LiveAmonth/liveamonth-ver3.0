@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<section class="property-details-section" th:fragment="cityIntro">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pd-text">
+                    <div class="row">
+                        <!--City 제목 및 도시 이름 리스트-->
+                        <div class="col-lg-6">
+                            <div class="pd-title">
+                                <h3 th:text="#{city.info.title}">제목</h3>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="pd-social">
+                                <th:block th:each="cityName:${cities}">
+                                    <a th:href="@{|/city?menu=${cityName}|}" th:text="#{${cityName}}"></a>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pd-board">
+                        <div class="tab-board">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                                       th:text="#{city.tab.intro}">도시 소개</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                                       th:text="#{city.tab.transport}">교통 정보</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab"
+                                       th:text="#{city.tab.weather}">전년도 기온 정보</a>
+                                </li>
+                            </ul><!-- Tab panes -->
+                            <div class="tab-content">
+                                <!--도시 소개-->
+                                <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                                    <div class="tab-desc">
+                                        <div class="row" th:with="cityInfo=${cityInfos['INTRO']}">
+                                            <div class="col-lg-4 col-md-6 mix">
+                                                <div class="cityImg set-bg"
+                                                     th:style="'background-image:url(img/intro/' + ${cityInfo.image} + ');'">
+                                                    <div class="label" th:text="#{${menu}}">도시 이름</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <p class="cityText" th:text="${cityInfo.content}">도시 소개 정보</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--교통 정보-->
+                                <div class="tab-pane" id="tabs-2" role="tabpanel">
+                                    <div class="tab-details"
+                                         th:with="cityTransports=${cityInfos['cityTransports']}">
+                                        <ul class="left-table">
+                                            <li>
+                                                <span class="type-title">[[#{city.tab.transport.infoTitle}]]::[[#{${menu}}]]</span>
+                                            </li>
+                                            <li th:each="num : ${#numbers.sequence(0,2)}">
+                                                        <span class="type-name"
+                                                              th:text="#{${cityTransports[num].transport_category}}">교통 종류</span>
+                                                <span class="type-value"
+                                                      th:text="${cityTransports[num].station_count}">정류장 및 노선 개수</span>
+                                            </li>
+                                            <li><span class="type-footer"> &nbsp;</span></li>
+                                        </ul>
+                                        <ul class="right-table">
+                                            <li><span class="type-title"> &nbsp;</span></li>
+                                            <li th:each="num : ${#numbers.sequence(3,5)}">
+                                                        <span class="type-name"
+                                                              th:text="#{${cityTransports[num].transport_category}}">교통 종류</span>
+                                                <span class="type-value"
+                                                      th:text="${cityTransports[num].station_count}">정류장 및 노선 개수</span>
+                                            </li>
+                                            <li class="type-footer" th:text="#{city.tab.transport.source}">출처 표시
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--전년도 기온 정보-->
+                                <div class="tab-pane" id="tabs-3" role="tabpanel">
+                                    <div class="tab-details" th:with="cityWeathers=${cityInfos['cityWeathers']}">
+                                        <ul class="left-table">
+                                            <li>
+                                                <span class="type-title">[[#{city.tab.weather.infoTitle}]]::[[#{${menu}}]]</span>
+                                            </li>
+                                            <li th:each="num : ${#numbers.sequence(0,5)}">
+                                                        <span class="type-name"
+                                                              th:text="#{${cityWeathers[num].month}}">월</span>
+                                                <span class="type-value">[[#{city.tab.weather.avg}]] : [[${cityWeathers[num].average_degree}]]&#8451; | [[#{city.tab.weather.low}]] : [[${cityWeathers[num].min_degree}]]&#8451; | [[#{city.tab.weather.high}]] : [[${cityWeathers[num].max_degree}]]&#8451;</span>
+                                            </li>
+                                            <li><span class="type-footer"> &nbsp;</span></li>
+                                        </ul>
+                                        <ul class="right-table">
+                                            <li><span class="type-title"> &nbsp;</span></li>
+                                            <li th:each="num : ${#numbers.sequence(6,11)}">
+                                                        <span class="type-name"
+                                                              th:text="#{${cityWeathers[num].month}}">월</span>
+                                                <span class="type-value">[[#{city.tab.weather.avg}]] : [[${cityWeathers[num].average_degree}]]&#8451; | [[#{city.tab.weather.low}]] : [[${cityWeathers[num].min_degree}]]&#8451; | [[#{city.tab.weather.high}]] : [[${cityWeathers[num].max_degree}]]&#8451;</span>
+                                            </li>
+                                            <li class="type-footer" th:text="#{city.tab.weather.source}">출처 표시</li>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section >
+</html>
