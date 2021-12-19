@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.*;
 import teamproject.lam_simple.constants.SessionConstants;
 import teamproject.lam_simple.domain.CityInfo;
 import teamproject.lam_simple.domain.User;
@@ -20,19 +18,19 @@ import static teamproject.lam_simple.constants.CategoryConstants.*;
 import static teamproject.lam_simple.constants.CategoryConstants.CityInfoCategory.INTRO;
 import static teamproject.lam_simple.constants.SessionConstants.LOGIN_USER;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class HomeController {
     private final CityService cityService;
     private final UserService userService;
 
-    @ModelAttribute("cityInfos")
+    @GetMapping(value = "/cityInfos")
     public List<CityInfo> cityInfos() {
         return cityService.findCityInfoByCategory(INTRO);
     }
 
-    @ModelAttribute("month")
+    @PostMapping("/month")
     public Month month() {
         return Month.values()[Calendar.getInstance().get(Calendar.MONTH)];
     }
