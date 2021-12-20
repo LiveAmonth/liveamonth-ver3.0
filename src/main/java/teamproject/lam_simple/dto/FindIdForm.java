@@ -18,7 +18,7 @@ public class FindIdForm {
     @NotEmpty
     private String email_domain;
 
-    public String unifyEmail(){
-        return this.email_id+"@"+this.email_domain;
+    public String unifyEmail() {
+        return this.email_id + "@" + this.email_domain;
     }
 }

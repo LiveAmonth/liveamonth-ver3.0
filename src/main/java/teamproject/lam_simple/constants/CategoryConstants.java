@@ -1,5 +1,10 @@
 package teamproject.lam_simple.constants;
 
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class CategoryConstants {
     public enum CityNames {SE,GN,GJ,BS,YS,JJ}
     public enum CityInfoCategory {INTRO,FOOD,VIEW}
@@ -19,10 +24,37 @@ public class CategoryConstants {
         }
     }
     public enum CustomerCenterCategory{faq,personalTerms,termsAndConditions,notice}
-    public interface MyPageCategory{}
-    public enum AccountCategory implements MyPageCategory {modify,drop}
-    public enum CommunityCategory implements MyPageCategory{review,schedule}
-    public enum InquiryCategory implements MyPageCategory{writeInquiry,inquiryAnswer}
+    public enum MyPageCategory {
+        modify("account"),
+        drop("account"),
+        review("community"),
+        schedule("community"),
+        writeInquiry("inquiry"),
+        inquiryAnswer("inquiry");
+        private final String category;
+        MyPageCategory(String category) {this.category = category;}
+        public String getCategory() {
+            return this.category;
+        }
+    }
+    public List<MyPageCategory> getAccountCategory(){
+        List<MyPageCategory> temp = new ArrayList<>();
+        temp.add(MyPageCategory.modify);
+        temp.add(MyPageCategory.drop);
+        return temp;
+    }
+    public List<MyPageCategory> getCommunityCategory(){
+        List<MyPageCategory> temp = new ArrayList<>();
+        temp.add(MyPageCategory.review);
+        temp.add(MyPageCategory.schedule);
+        return temp;
+    }
+    public List<MyPageCategory> getInquiryCategory(){
+        List<MyPageCategory> temp = new ArrayList<>();
+        temp.add(MyPageCategory.writeInquiry);
+        temp.add(MyPageCategory.inquiryAnswer);
+        return temp;
+    }
     public enum GenderTypes {MALE,FEMALE}
     public enum EmailDomains{NONE,NAVER,NATE,GMAIL,DAUM,SELF}
 }

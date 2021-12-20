@@ -1,5 +1,8 @@
 package teamproject.lam_simple.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.util.Assert;
@@ -14,27 +17,10 @@ import java.util.List;
 
 import static teamproject.lam_simple.constants.CategoryConstants.CityTransportGrade.*;
 
-@NamedEntityGraphs({
-        @NamedEntityGraph(
-                name = "city-with-cityInfos",
-                attributeNodes = {
-                        @NamedAttributeNode("cityInfos"),
-                }),
-        @NamedEntityGraph(
-                name = "city-with-cityWeathers",
-                attributeNodes = {
-                        @NamedAttributeNode("cityWeathers")
-                }),
-        @NamedEntityGraph(
-                name = "city-with-cityTransports",
-                attributeNodes = {
-                        @NamedAttributeNode("cityTransports")
-                })
-})
 @Entity
 @Table(name = "cities")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class City {
 
     @Id @GeneratedValue
@@ -45,34 +31,15 @@ public class City {
     private CityNames name;
 
     @OneToMany(mappedBy = "city")
+    @JsonIgnore
     private List<CityInfo> cityInfos = new ArrayList<>();
 
     @OneToMany(mappedBy = "city")
+    @JsonIgnore
     private List<CityWeather> cityWeathers = new ArrayList<>();
 
     @OneToMany(mappedBy = "city")
+    @JsonIgnore
     private List<CityTransport> cityTransports = new ArrayList<>();
 
-
-    @Builder
-    public City(CityNames name) {
-        Assert.notNull(name, "name must not be null");
-        this.name = name;
-    }
-
-    //==비즈니스 로직==//
-    public CityTransportGrade getTransportScore(){
-        int score = 0;
-        for (CityTransport cityTransport : cityTransports) {
-            int count = cityTransport.getStation_count();
-            score += count * cityTransport.getTransport_category().getScore();
-        }
-        if(score > 50) return T_GOOD;
-        else if(score>21 && score<=50) return T_FAIR;
-        else return T_POOR;
-    }
-
-    public float getAVGTemp(CategoryConstants.Month month){
-        return cityWeathers.get(month.ordinal()).getAverage_degree();
-    }
 }

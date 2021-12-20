@@ -9,6 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_simple.domain.User;
 
 import java.util.Optional;
+
+import static teamproject.lam_simple.constants.AttrConstants.*;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,Long>{
     Optional<User> findById(Long Id);
@@ -19,8 +22,8 @@ public interface UserRepository extends JpaRepository<User,Long>{
 
     Boolean existsByNickname(String nickname);
 
-    @Transactional
-    @Modifying
+    @Transactional @Modifying
     @Query(value = "update User u set u.image = :image where u.id=:id")
-    Integer editImage(@Param("id") Long id, @Param("image") String image);
+    Integer editImage(@Param(ID) Long id, @Param(IMAGE) String image);
+
 }

@@ -1,16 +1,22 @@
 package teamproject.lam_simple.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.*;
 
 @Entity
 @Table(name = "reviews")
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
 
     @Id
@@ -18,20 +24,25 @@ public class Review {
     @Column(name = "review_id")
     private Long id;
 
-    @Column
-    private String review_category;
+    @Column(name = "review_category")
+    private String reviewCategory;
+
+    private String title;
 
     @Lob
     private String content;
 
-    private LocalDateTime review_date;
+    @Column(name = "review_date")
+    private LocalDateTime reviewDate;
 
-    @Column
-    private int view_count;
+    @Column(name = "view_count")
+    private int viewCount;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "review")
+    private List<ReviewReply> reviewReplies = new ArrayList<>();
 }

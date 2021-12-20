@@ -1,5 +1,6 @@
 package teamproject.lam_simple.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import teamproject.lam_simple.constants.CategoryConstants.Month;
@@ -10,7 +11,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Table(name = "city_weather")
-@Getter @Setter
+@Getter
 public class CityWeather {
 
     @Id @GeneratedValue
@@ -24,7 +25,7 @@ public class CityWeather {
     private float min_degree;
     private float average_degree;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "city_id")
     private City city;
 

@@ -1,9 +1,11 @@
 package teamproject.lam_simple.dto;
 
+import lombok.Builder;
 import lombok.Data;
+import org.springframework.util.Assert;
+import teamproject.lam_simple.constants.CategoryConstants;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
 
 @Data
 public class LoginForm {
@@ -13,5 +15,10 @@ public class LoginForm {
 
     @NotEmpty
     private String password;
+
+    @Builder
+    public LoginForm(String loginId) {
+        this.loginId = loginId;
+    }
 
 }

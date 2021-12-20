@@ -9,6 +9,8 @@ import teamproject.lam_simple.repository.LoginRepository;
 import java.util.HashMap;
 import java.util.Map;
 
+import static teamproject.lam_simple.constants.AttrConstants.*;
+
 @Service
 @RequiredArgsConstructor
 public class LoginService {
@@ -38,17 +40,17 @@ public class LoginService {
     }
 
     private Map<String, Object> editPassword(User user) {
-        if(user==null) return null;
-        else{
+        if (user == null) return null;
+        else {
             Map<String, Object> result = new HashMap<>();
             String temporaryPw = "";
             for (int i = 0; i < 8; i++) {
                 temporaryPw += (char) ((Math.random() * 26) + 97);
             }
             loginRepository.editPassword(user, passwordEncoder.encode(temporaryPw));
-            result.put("email", user.getEmail());
-            result.put("name", user.getName());
-            result.put("temporaryPw", temporaryPw);
+            result.put(EMAIL, user.getEmail());
+            result.put(NAME, user.getName());
+            result.put(TEMPORARY_PW, temporaryPw);
             return result;
         }
     }

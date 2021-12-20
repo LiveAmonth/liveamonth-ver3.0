@@ -5,7 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_simple.constants.CategoryConstants.GenderTypes;
 import teamproject.lam_simple.domain.User;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Data

@@ -1,5 +1,6 @@
 package teamproject.lam_simple.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import teamproject.lam_simple.constants.CategoryConstants.TransportCategory;
@@ -10,7 +11,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Table(name = "city_transports")
-@Getter @Setter
+@Getter
 public class CityTransport {
 
     @Id @GeneratedValue
@@ -21,7 +22,7 @@ public class CityTransport {
     private TransportCategory transport_category;
     private int station_count;
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = EAGER)
     @JoinColumn(name = "city_id")
     private City city;
 

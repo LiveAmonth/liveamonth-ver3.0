@@ -1,15 +1,21 @@
 package teamproject.lam_simple.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "schedules")
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Schedule {
 
     @Id
@@ -19,7 +25,11 @@ public class Schedule {
 
     private String title;
 
-    private Boolean public_flag;
+    @Column(name = "public_flag")
+    private Boolean publicFlag;
+
+    @Column(name = "view_count")
+    private int viewCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -28,4 +38,10 @@ public class Schedule {
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "city_id")
     private City city;
+
+    @OneToMany(mappedBy = "schedule")
+    private List<ScheduleContent> scheduleContents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "schedule")
+    private List<ScheduleReply> scheduleReplies = new ArrayList<>();
 }

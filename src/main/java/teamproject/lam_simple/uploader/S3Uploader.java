@@ -30,7 +30,7 @@ public class S3Uploader {
         return uploadedFileName;
     }
 
-    public String uploadProfile(String loginId, String dirName, String originalFilename, byte[] bytes){
+    public String uploadProfile(String loginId, String dirName, String originalFilename, byte[] bytes) {
         UUID uid = UUID.randomUUID();
         String extension = FilenameUtils.getExtension(originalFilename);
         String fileName = uid.toString() + loginId + "." + extension;
@@ -39,6 +39,7 @@ public class S3Uploader {
         fileUpload(uploadedFileName, bytes);
         return fileName;
     }
+
     public void fileUpload(String fileName, byte[] fileData) {
         String filePath = (fileName).replace(File.separatorChar, '/');
         ObjectMetadata metaData = new ObjectMetadata();
@@ -50,9 +51,6 @@ public class S3Uploader {
     }
 
     public void delete(String key) throws Exception {
-        boolean isExistObject = amazonS3Client.doesObjectExist(bucket, key);
-        if (isExistObject == true) {
-            amazonS3Client.deleteObject(bucket, key);
-        }
+        if (amazonS3Client.doesObjectExist(bucket, key)) amazonS3Client.deleteObject(bucket, key);
     }
 }

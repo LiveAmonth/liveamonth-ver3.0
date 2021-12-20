@@ -3,8 +3,6 @@ package teamproject.lam_simple.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import teamproject.lam_simple.constants.InterceptorConstants;
-import teamproject.lam_simple.interceptor.LogInterceptor;
 import teamproject.lam_simple.interceptor.LoginCheckInterceptor;
 
 import java.util.List;
