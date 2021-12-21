@@ -43,6 +43,9 @@ spring:
         debug: false
 
     default-encoding: utf-8
+
+    jwt:
+      secret: {AccessToken}
 cloud:
   aws:
     credentials:
