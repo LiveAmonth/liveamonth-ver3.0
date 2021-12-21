@@ -31,7 +31,7 @@ public class HomeController {
     private final ReviewService reviewService;
 
 
-    @GetMapping("city/cityInfos")
+    @GetMapping("cities/intro")
     public List<CityInfo> cityInfos() {
         return cityService.findCityInfoByCategory(CityInfoCategory.INTRO);
     }
@@ -41,7 +41,7 @@ public class HomeController {
         return CategoryConstants.Month.values()[Calendar.getInstance().get(Calendar.MONTH)];
     }
 
-    @GetMapping("review/top5Reviews")
+    @GetMapping("reviews/top-five")
     public List<Review> otherReviewList() {
         return reviewService.findTOP5Reviews();
     }

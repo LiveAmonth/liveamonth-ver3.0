@@ -14,12 +14,12 @@ import java.util.Map;
 public class CityController extends MainController {
     private final CityService cityService;
 
-    @GetMapping("city")
-    public Object city(@RequestParam CityNames menu) {
+    @GetMapping("cities/{city}")
+    public Object city(@PathVariable CityNames city) {
         Map<String, Object> map = new HashMap<>();
-        map.put(AttrConstants.MENU, menu);
+        map.put(AttrConstants.MENU, city);
         map.put(AttrConstants.CITIES, CityNames.values());
-        map.put(AttrConstants.CITY_INFOS, cityService.getDataAboutCity(menu));
+        map.put(AttrConstants.CITY_INFOS, cityService.getDataAboutCity(city));
         return map;
     }
 
