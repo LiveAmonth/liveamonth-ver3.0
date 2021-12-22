@@ -15,13 +15,12 @@ public class CityController extends MainController {
     private final CityService cityService;
 
     @GetMapping("cities/{city}")
-    public Object city(@PathVariable CityNames city) {
-        Map<String, Object> map = new HashMap<>();
-        map.put(AttrConstants.MENU, city);
-        map.put(AttrConstants.CITIES, CityNames.values());
-        map.put(AttrConstants.CITY_INFOS, cityService.getDataAboutCity(city));
-        return map;
+    public Object getCity(@PathVariable CityNames city) {
+        return cityService.getDataAboutCity(city);
     }
 
-
+    @GetMapping("cities-menus")
+    public Object getCityNames(){
+        return CityNames.values();
+    }
 }

@@ -34,12 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/cities/**", "/customer-center/**", "/*/sign-up", "/*/sign-in").permitAll()
-                .antMatchers(HttpMethod.GET, "review/**", "schedules/**").permitAll()
-                .anyRequest().hasRole("USER")
+                    .authorizeRequests()
+                    .antMatchers("/cities/**", "/customer-center/**", "/*/sign-up", "/*/sign-in").permitAll()
+                    .antMatchers(HttpMethod.GET, "review/**", "schedules/**").permitAll()
+                    .anyRequest().hasRole("USER")
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

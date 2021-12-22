@@ -18,10 +18,7 @@ public class LoginService {
 
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * @return null 로그인 실패
-     */
-    public User login(String loginId, String password) {
+    public SingleResult<String> login(String loginId, String password) {
 //        return loginRepository.findUserByLoginId(loginid)
 //                .filter(m -> m.getPassword().equals(password))
 //                .orElse(null);
