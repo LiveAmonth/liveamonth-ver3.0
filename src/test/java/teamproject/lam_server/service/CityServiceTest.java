@@ -3,6 +3,7 @@ package teamproject.lam_server.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.app.city.service.CityServiceImpl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,5 +11,5 @@ import static org.junit.Assert.assertEquals;
 @Transactional
 class CityServiceTest {
     @Autowired
-    CityService cityService;
+    CityServiceImpl cityService;
 }

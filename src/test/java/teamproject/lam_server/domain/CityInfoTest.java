@@ -2,6 +2,8 @@ package teamproject.lam_server.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import teamproject.lam_server.app.city.domain.City;
+import teamproject.lam_server.app.city.domain.CityInfo;
 import teamproject.lam_server.constants.CategoryConstants.CityInfoCategory;
 import teamproject.lam_server.constants.CategoryConstants.CityNames;
 

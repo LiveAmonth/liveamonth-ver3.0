@@ -2,7 +2,7 @@ package teamproject.lam_server.validator;
 
 import org.junit.jupiter.api.Test;
 import teamproject.lam_server.constants.CategoryConstants;
-import teamproject.lam_server.dto.UserForm;
+import teamproject.lam_server.app.user.dto.UserForm;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

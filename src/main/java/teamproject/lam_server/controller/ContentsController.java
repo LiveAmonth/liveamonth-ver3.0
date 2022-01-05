@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ContentsController extends MainController {
 
-    protected Map<String,Object> createMenuMap(String path, String menuName, Object menus) {
+    protected Map<String, Object> createMenuMap(String path, String menuName, Object menus) {
         Map<String, Object> map = new HashMap<>();
         map.put(AttrConstants.PATH, path);
         map.put(AttrConstants.MENU_NAME, menuName);

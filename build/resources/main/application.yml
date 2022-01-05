@@ -1,5 +1,5 @@
 server:
-  port: 5000
+  port: 8000
   servlet:
     session:
       tracking-modes : cookie
@@ -11,7 +11,7 @@ spring:
 
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/liveamonthdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/liveamonthdb?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: 1234
 
@@ -21,7 +21,7 @@ spring:
       ddl-auto: none
       properties:
         hibernate:
-          format_sql: true
+          format_sql: false
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
@@ -43,6 +43,9 @@ spring:
         debug: false
 
     default-encoding: utf-8
+
+    jwt:
+      secret: {AccessToken}
 cloud:
   aws:
     credentials:

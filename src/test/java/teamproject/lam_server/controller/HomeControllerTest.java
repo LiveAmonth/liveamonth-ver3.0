@@ -9,8 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import teamproject.lam_server.domain.CityInfo;
-import teamproject.lam_server.service.CityService;
+import teamproject.lam_server.app.city.domain.CityInfo;
+import teamproject.lam_server.app.city.service.CityServiceImpl;
 
 import java.util.Calendar;
 import java.util.List;
@@ -24,7 +24,7 @@ class HomeControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    private CityService cityService;
+    private CityServiceImpl cityService;
 
     @Test
     @DisplayName("/home 테스트")

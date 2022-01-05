@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import teamproject.lam_server.dto.UserForm;
-import teamproject.lam_server.repository.UserRepository;
+import teamproject.lam_server.app.user.dto.UserForm;
+import teamproject.lam_server.app.user.repository.UserRepository;
 
 @Component
 @RequiredArgsConstructor
