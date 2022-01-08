@@ -42,6 +42,6 @@ public class ReviewReply {
     private ReviewReply parent;
 
     // 자식 정의
-    @OneToMany(mappedBy = "superReviewReply")
+    @OneToMany(mappedBy = "parent")
     private List<ReviewReply> child;
 }
