@@ -6,6 +6,7 @@ import teamproject.lam_server.constants.CategoryConstants.CityInfoCategory;
 import javax.persistence.*;
 
 import static javax.persistence.FetchType.EAGER;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "city_infos")
@@ -26,7 +27,7 @@ public class CityInfo {
 
     private String image;
 
-    @ManyToOne(fetch = EAGER)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 }

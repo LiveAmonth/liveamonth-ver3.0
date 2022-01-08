@@ -23,7 +23,7 @@ public class CityWeather {
     private float min_degree;
     private float average_degree;
 
-    @ManyToOne(fetch = EAGER)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 

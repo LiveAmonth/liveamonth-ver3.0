@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Date;
 
+import static javax.persistence.FetchType.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity

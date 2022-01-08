@@ -20,7 +20,7 @@ public class CityTransport {
     private TransportCategory transport_category;
     private int station_count;
 
-    @ManyToOne(fetch = EAGER)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 

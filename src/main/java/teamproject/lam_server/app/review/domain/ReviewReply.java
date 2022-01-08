@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static javax.persistence.FetchType.*;
 import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
@@ -32,15 +33,15 @@ public class ReviewReply {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = EAGER)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "review_id")
     private Review review;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "ref_review_reply_id")
-    private ReviewReply superReviewReply;
+    private ReviewReply parent;
 
     // 자식 정의
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "superReviewReply", cascade = CascadeType.ALL)
-    private List<ReviewReply> subReviewReplies;
+    @OneToMany(mappedBy = "superReviewReply")
+    private List<ReviewReply> child;
 }

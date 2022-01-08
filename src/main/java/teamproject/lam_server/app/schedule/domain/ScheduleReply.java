@@ -7,6 +7,7 @@ import teamproject.lam_server.app.user.domain.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -36,11 +37,11 @@ public class ScheduleReply {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "ref_schedule_reply_id")
-    private ScheduleReply superScheduleReply;
+    private ScheduleReply parent;
 
     // 자식 정의
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "superScheduleReply", cascade = CascadeType.ALL)
-    private List<ScheduleReply> subScheduleReplies;
+    @OneToMany(mappedBy = "parent")
+    private List<ScheduleReply> child = new ArrayList<>();
 }

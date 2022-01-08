@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -32,7 +33,7 @@ public class Schedule {
     @Column(name = "view_count")
     private int viewCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

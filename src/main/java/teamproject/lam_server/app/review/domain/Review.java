@@ -38,7 +38,7 @@ public class Review {
     @Column(name = "view_count")
     private int viewCount;
 
-    @ManyToOne(fetch = EAGER)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
