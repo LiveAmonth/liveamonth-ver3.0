@@ -44,7 +44,14 @@ public class User {
     private Date birth;
 
     private String image;
-
+    /**
+     * 아래의 리스트들이 사실상 필요없다.
+     * 어떤 회원이 작성한 게시글들의 관점으로 보는 것이 아니라
+     * 게시글을 작성할 때 회원 정보가 필요한 것.
+     * 사람의 입장이 아니라 시스템의 입장에서 생각해보자
+     * -> 비즈니스 로직 어떤 회원이 작성한 게시글을 찾을 때
+     *    user.getReviews()가 아니라 reviewRepository.findByUser(user) 로 찾자!!
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
