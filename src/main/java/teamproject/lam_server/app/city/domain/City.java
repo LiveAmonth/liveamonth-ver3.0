@@ -1,18 +1,16 @@
 package teamproject.lam_server.app.city.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import teamproject.lam_server.constants.CategoryConstants.CityNames;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "cities")
-@Getter
-@NoArgsConstructor
-public class City {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Getter @NoArgsConstructor
+public abstract class City {
 
     @Id @GeneratedValue
     @Column(name = "city_id")
@@ -20,17 +18,5 @@ public class City {
 
     @Enumerated(EnumType.STRING)
     private CityNames name;
-
-    @OneToMany(mappedBy = "city")
-    @JsonIgnore
-    private List<CityInfo> cityInfos = new ArrayList<>();
-
-    @OneToMany(mappedBy = "city")
-    @JsonIgnore
-    private List<CityWeather> cityWeathers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "city")
-    @JsonIgnore
-    private List<CityTransport> cityTransports = new ArrayList<>();
 
 }
