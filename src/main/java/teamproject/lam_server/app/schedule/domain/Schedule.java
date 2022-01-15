@@ -3,7 +3,7 @@ package teamproject.lam_server.app.schedule.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.app.city.domain.City;
+import teamproject.lam_server.app.city.entity.City;
 import teamproject.lam_server.app.user.domain.User;
 
 import javax.persistence.*;
@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.FetchType.*;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity

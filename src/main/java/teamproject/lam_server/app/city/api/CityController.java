@@ -6,7 +6,7 @@ import teamproject.lam_server.app.city.service.CityService;
 import teamproject.lam_server.constants.CategoryConstants;
 import teamproject.lam_server.constants.CategoryConstants.CityNames;
 import teamproject.lam_server.controller.MainController;
-import teamproject.lam_server.app.city.domain.CityInfo;
+import teamproject.lam_server.app.city.entity.CityInfo;
 
 import java.util.List;
 

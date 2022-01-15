@@ -1,7 +1,7 @@
 package teamproject.lam_server.domain;
 
 import org.junit.jupiter.api.Test;
-import teamproject.lam_server.app.city.domain.City;
+import teamproject.lam_server.app.city.entity.City;
 import teamproject.lam_server.constants.CategoryConstants;
 
 import static org.assertj.core.api.Assertions.assertThat;

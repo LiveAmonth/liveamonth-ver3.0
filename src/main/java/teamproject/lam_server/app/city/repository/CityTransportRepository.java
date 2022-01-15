@@ -2,7 +2,7 @@ package teamproject.lam_server.app.city.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import teamproject.lam_server.constants.CategoryConstants.CityNames;
-import teamproject.lam_server.app.city.domain.CityTransport;
+import teamproject.lam_server.app.city.entity.CityTransport;
 
 import java.util.List;
 

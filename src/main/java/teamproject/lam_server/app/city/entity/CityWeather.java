@@ -1,4 +1,4 @@
-package teamproject.lam_server.app.city.domain;
+package teamproject.lam_server.app.city.entity;
 
 import lombok.Getter;
 import teamproject.lam_server.constants.CategoryConstants.Month;

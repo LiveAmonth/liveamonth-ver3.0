@@ -1,8 +1,7 @@
-package teamproject.lam_server.app.city.domain;
+package teamproject.lam_server.app.city.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.constants.CategoryConstants.CityNames;
 
 import javax.persistence.*;
 
@@ -17,6 +16,5 @@ public abstract class City {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    private CityNames name;
-
+    private CityNames cityNames;
 }

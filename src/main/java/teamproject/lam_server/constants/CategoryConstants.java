@@ -3,9 +3,6 @@ package teamproject.lam_server.constants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class CategoryConstants {
     public enum CityNames {SE,GN,GJ,BS,YS,JJ}

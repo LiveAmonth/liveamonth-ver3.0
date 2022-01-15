@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.app.city.repository.CityInfoRepository;
 import teamproject.lam_server.app.city.repository.CityTransportRepository;
 import teamproject.lam_server.app.city.repository.CityWeatherRepository;
-import teamproject.lam_server.app.city.domain.CityInfo;
+import teamproject.lam_server.app.city.entity.CityInfo;
 
 import java.util.HashMap;
 import java.util.List;
