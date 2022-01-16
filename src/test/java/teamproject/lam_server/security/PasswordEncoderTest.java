@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import teamproject.lam_server.app.user.service.UserService;
 
 import static org.junit.jupiter.api.Assertions.*;
 

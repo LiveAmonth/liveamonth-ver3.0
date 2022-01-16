@@ -1,0 +1,1 @@
+INSERT INTO city_infos (name , `cityInfoDesc`, `cityInfoImage`, `cityNO`) VALUES ('VIEW', 'ㅁㄴㅇ', 'ㅁㅁㄴㅇ', '5');

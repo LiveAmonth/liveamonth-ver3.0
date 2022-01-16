@@ -1,15 +1,13 @@
 package teamproject.lam_server.app.city.entity;
 
 import lombok.Getter;
+import teamproject.lam_server.constants.CategoryConstants;
 import teamproject.lam_server.constants.CategoryConstants.Month;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "city_weather")
+@DiscriminatorValue("WEATHER")
 @Getter
 public class CityWeather extends City{
 

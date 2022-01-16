@@ -7,6 +7,6 @@ import teamproject.lam_server.app.city.entity.CityWeather;
 import java.util.List;
 
 public interface CityWeatherRepository extends CrudRepository<CityWeather,Long> {
-    List<CityWeather> findCityWeathersByCity_Name(CityNames name);
+//    List<CityWeather> findCityWeathersByCityNames(CityNames name);
 
 }

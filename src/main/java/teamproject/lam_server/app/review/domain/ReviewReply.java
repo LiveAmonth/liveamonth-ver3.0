@@ -20,7 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 public class ReviewReply {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_reply_id")
     private Long id;
 

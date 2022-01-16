@@ -11,7 +11,7 @@ import static teamproject.lam_server.constants.CategoryConstants.*;
 
 @Repository
 public interface CityInfoRepository extends CrudRepository<CityInfo, Long> {
-    List<CityInfo> findCityInfosByCityInfoCategory(CityInfoCategory category);
-
-    List<CityInfo> findCityInfosByCityInfoCategoryAndCity_Name(CityInfoCategory category, CityNames name);
+//    List<CityInfo> findCityInfosByCityInfoCategory(CityInfoCategory category);
+//
+//    List<CityInfo> findCityInfosByCityInfoCategoryAndCity_Name(CityInfoCategory category, CityNames name);
 }

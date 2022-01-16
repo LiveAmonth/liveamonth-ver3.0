@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class ReviewLike {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_like_id")
     private Long id;
 

@@ -3,18 +3,16 @@ package teamproject.lam_server.app.city.entity;
 import lombok.Getter;
 import teamproject.lam_server.constants.CategoryConstants.TransportCategory;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "city_transports")
+@DiscriminatorValue("TRANSPORT")
 @Getter
 public class CityTransport extends City{
 
     @Enumerated(EnumType.STRING)
-    private TransportCategory transport_category;
+    @Column(name = "city_transport_category")
+    private TransportCategory category;
 
     private int station_count;
 

@@ -3,7 +3,9 @@ package teamproject.lam_server.app.city.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.app.city.entity.City;
 import teamproject.lam_server.app.city.repository.CityInfoRepository;
+import teamproject.lam_server.app.city.repository.CityRepository;
 import teamproject.lam_server.app.city.repository.CityTransportRepository;
 import teamproject.lam_server.app.city.repository.CityWeatherRepository;
 import teamproject.lam_server.app.city.entity.CityInfo;
@@ -21,21 +23,34 @@ import static teamproject.lam_server.constants.CategoryConstants.CityNames;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CityServiceImpl implements CityService{
-    private final CityInfoRepository cityInfoRepository;
-    private final CityTransportRepository cityTransportRepository;
-    private final CityWeatherRepository cityWeatherRepository;
+    private final CityRepository cityRepository;
 
     public List<CityInfo> findCityInfoByCategory(CityInfoCategory category) {
-        return cityInfoRepository.findCityInfosByCityInfoCategory(category);
+        return null;
+//        return cityInfoRepository.findCityInfosByCityInfoCategory(category);
     }
 
     public Map<String, Object> getDataAboutCity(CityNames menu) {
-        Map<String, Object> cityInfoMap = new HashMap<>();
-        for (CityInfoCategory category : CityInfoCategory.values()) {
-            cityInfoMap.put(category.name(), cityInfoRepository.findCityInfosByCityInfoCategoryAndCity_Name(category,menu));
-        }
-        cityInfoMap.put(CITY_TRANSPORTS, cityTransportRepository.findCityTransportsByCity_Name(menu));
-        cityInfoMap.put(CITY_WEATHERS, cityWeatherRepository.findCityWeathersByCity_Name(menu));
-        return cityInfoMap;
+//        Map<String, Object> cityInfoMap = new HashMap<>();
+//        for (CityInfoCategory category : CityInfoCategory.values()) {
+//            cityInfoMap.put(category.name(), cityInfoRepository.findCityInfosByCityInfoCategoryAndCity_Name(category,menu));
+//        }
+//        cityInfoMap.put(CITY_TRANSPORTS, cityTransportRepository.findCityTransportsByCity_Name(menu));
+//        cityInfoMap.put(CITY_WEATHERS, cityWeatherRepository.findCityWeathersByCity_Name(menu));
+//        return cityInfoMap;
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public Long saveCityInfo(City city) {
+//        City city = cityRepository.save(city);
+//        return saveCityInfo.getId();
+        return null;
+    }
+
+    @Override
+    public City getCityInfoById(Long id) {
+        return cityRepository.findById(id);
     }
 }

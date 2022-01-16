@@ -6,7 +6,7 @@ server:
 
 spring:
   profiles:
-    active: local
+    active: test
 
   messages:
     basename: messages,errors
@@ -20,10 +20,10 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
       properties:
         hibernate:
-          format_sql: true
+          format_sql: false
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
@@ -63,6 +63,3 @@ cloud:
 
 
 
-logging:
-  level:
-    org.hibernate.SQL: debug # 하이버네이트가 생성하는 SQL이 다보인다.

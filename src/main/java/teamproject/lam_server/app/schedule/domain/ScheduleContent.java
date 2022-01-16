@@ -18,7 +18,7 @@ import static javax.persistence.FetchType.LAZY;
 public class ScheduleContent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "schedule_content_id")
     private Long id;
 

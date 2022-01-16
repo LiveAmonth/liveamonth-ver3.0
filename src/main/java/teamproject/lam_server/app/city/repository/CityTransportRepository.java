@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface CityTransportRepository extends CrudRepository<CityTransport,Long> {
 
-    List<CityTransport> findCityTransportsByCity_Name(CityNames name);
+//    List<CityTransport> findCityTransportsByCity_Name(CityNames name);
 }

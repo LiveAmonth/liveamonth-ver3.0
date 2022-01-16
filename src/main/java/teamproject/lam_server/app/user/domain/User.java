@@ -1,5 +1,6 @@
 package teamproject.lam_server.app.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,12 +26,11 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private long id;
+    private Long id;
 
-    @Column(name = "loginId")
+    @Column(name = "login_id")
     private String loginId;
     private String password;
     private String name;
@@ -41,6 +41,7 @@ public class User {
     @Column(name = "gender")
     private GenderTypes genderTypes;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date birth;
 
     private String image;
