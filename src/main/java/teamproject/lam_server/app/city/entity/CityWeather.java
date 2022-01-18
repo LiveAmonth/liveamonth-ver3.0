@@ -1,20 +1,32 @@
 package teamproject.lam_server.app.city.entity;
 
-import lombok.Getter;
+import lombok.*;
+import teamproject.lam_server.app.city.converter.MonthConverter;
 import teamproject.lam_server.constants.CategoryConstants;
+import teamproject.lam_server.constants.CategoryConstants.CityName;
 import teamproject.lam_server.constants.CategoryConstants.Month;
 
 import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("WEATHER")
 @Getter
-public class CityWeather extends City{
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class CityWeather extends City {
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = MonthConverter.class)
     private Month month;
 
-    private float max_degree;
-    private float min_degree;
-    private float average_degree;
+    private float maxDegree;
+    private float minDegree;
+    private float averageDegree;
+
+    public CityWeather(CityName name, Month month, float maxDegree, float minDegree) {
+        this.name = name;
+        this.month = month;
+        this.maxDegree = maxDegree;
+        this.minDegree = minDegree;
+        this.averageDegree = (maxDegree + minDegree) / 2;
+    }
+
+
 }
