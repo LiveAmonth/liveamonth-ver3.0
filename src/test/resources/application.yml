@@ -18,14 +18,16 @@ spring:
     password: 1234
 
   jpa:
-    database: mysql
     hibernate:
-      ddl-auto: create
-      properties:
-        hibernate:
-          format_sql: false
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: create #자동으로 테이블 생성
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+
+        default_batch_fetch_size: 100
+    open-in-view: true # db 커넥션을 트랜잭션에서만 하고 끝냄..
+
 
   mail:
     host: smtp.gmail.com
