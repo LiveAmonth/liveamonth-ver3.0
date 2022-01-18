@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.app.city.entity.City;
 import teamproject.lam_server.app.user.domain.User;
+import teamproject.lam_server.constants.CategoryConstants;
+import teamproject.lam_server.constants.CategoryConstants.CityName;
 
 import javax.persistence.*;
 
@@ -36,9 +38,7 @@ public class Schedule {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "city_id")
-    private City city;
+    private CityName cityName;
 
     @OneToMany(mappedBy = "schedule")
     private List<ScheduleContent> scheduleContents = new ArrayList<>();

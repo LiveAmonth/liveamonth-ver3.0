@@ -11,6 +11,7 @@ import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
 import teamproject.lam_server.app.schedule.domain.Schedule;
 import teamproject.lam_server.app.review.domain.Review;
 import teamproject.lam_server.app.review.domain.ReviewReply;
+import teamproject.lam_server.app.user.converter.GenderTypeConverter;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -30,16 +31,15 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "login_id")
     private String loginId;
     private String password;
     private String name;
     private String nickname;
     private String email;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = GenderTypeConverter.class)
     @Column(name = "gender")
-    private GenderTypes genderTypes;
+    private GenderTypes genderType;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private Date birth;
@@ -79,7 +79,7 @@ public class User {
         this.name = name;
         this.nickname = nickname;
         this.email = email;
-        this.genderTypes = genderTypes;
+        this.genderType = genderTypes;
         this.birth = birth;
     }
 
