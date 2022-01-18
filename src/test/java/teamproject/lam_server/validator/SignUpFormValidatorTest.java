@@ -11,6 +11,8 @@ import javax.validation.ValidatorFactory;
 import java.sql.Date;
 import java.util.Set;
 
+import static teamproject.lam_server.constants.CategoryConstants.GenderTypes.*;
+
 class SignUpFormValidatorTest {
 
     @Test
@@ -26,7 +28,7 @@ class SignUpFormValidatorTest {
         userForm.setPasswordCheck("home8324!");
         userForm.setName("이규연");
         userForm.setNickname("hihihi");
-        userForm.setGenderTypes(CategoryConstants.GenderTypes.FEMALE);
+        userForm.setGenderTypes(FEMALE);
         userForm.setEmail_id("rbdss");
         userForm.setEmail_domain("naver.com");
 
