@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum
-ErrorConst {
+public enum ErrorConst {
     OperationNotAuthorized(6000,"승인되지 않은 작업"),
     DuplicatedIdFound(6001,"중복 아이디"),
     UserNotFoundCException(6002,"등록되지 않은 사용자");
