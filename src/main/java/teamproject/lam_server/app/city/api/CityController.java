@@ -3,44 +3,78 @@ package teamproject.lam_server.app.city.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.app.city.dto.CreateCityInfoRequest;
-import teamproject.lam_server.app.city.dto.CreateCityInfoResponse;
-import teamproject.lam_server.app.city.repository.CityRepository;
-import teamproject.lam_server.app.city.service.CityService;
-import teamproject.lam_server.constants.CategoryConstants;
-import teamproject.lam_server.constants.CategoryConstants.CityNames;
+import teamproject.lam_server.app.city.dto.CityFoodAndViewResponse;
+import teamproject.lam_server.app.city.dto.CityGridDataResponse;
+import teamproject.lam_server.app.city.dto.CitySlideResponse;
+import teamproject.lam_server.app.city.dto.TotalCityInfoResponse;
+import teamproject.lam_server.app.city.service.query.CityQueryService;
+import teamproject.lam_server.constants.CategoryConstants.CityName;
 import teamproject.lam_server.controller.MainController;
-import teamproject.lam_server.app.city.entity.CityInfo;
 import teamproject.lam_server.global.dto.Result;
 
-import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/cities")
 public class CityController extends MainController {
-    private final CityService cityService;
+    private final CityQueryService cityQueryService;
 
-    @GetMapping("cities/{city}")
-    public Object getCity(@PathVariable CityNames city) {
-        return cityService.getDataAboutCity(city);
+
+    /**
+     * dependence presentation layer::home(header)
+     * -> menu bar
+     */
+    @GetMapping("/city-names")
+    public ResponseEntity<Result> getCityNames() {
+        List<String> cityNames =
+                Arrays.stream(CityName.values())
+                        .map(CityName::getValue)
+                        .collect(Collectors.toList());
+        return ResponseEntity.ok().body(new Result(cityNames));
     }
 
-    @GetMapping("cities-menus")
-    public Object getCityNames() {
-        return CityNames.values();
+    /**
+     * dependence presentation layer::home(body)
+     * -> slide image(top)
+     */
+    @GetMapping("/slide-images")
+    public ResponseEntity<Result> cityMainSlideImages() {
+        List<CitySlideResponse> citySlideResponse = cityQueryService.searchCityImage();
+        return ResponseEntity.ok().body(new Result(citySlideResponse));
     }
 
-    @GetMapping("cities/intro")
-    public List<CityInfo> cityInfos() {
-        return cityService.findCityInfoByCategory(CategoryConstants.CityInfoCategory.INTRO);
+    /**
+     * dependence presentation layer::home(body)
+     * -> grid info(bottom)
+     */
+    @GetMapping("/grid-infos")
+    public ResponseEntity<Result> searchCityGridInfos() {
+        List<CityGridDataResponse> cityGridResponse = cityQueryService.searchCurrentCityInfo();
+        return ResponseEntity.ok().body(new Result(cityGridResponse));
     }
 
-    @PostMapping("/city-infos/new")
-    public ResponseEntity<Result> createCityInfo(@RequestBody @Valid CreateCityInfoRequest request){
-        CityInfo cityInfo = request.toEntity();
-        Long id = cityService.saveCityInfo(cityInfo);
-        return null;
-
+    /**
+     * dependence presentation layer::city(body)
+     * -> total city info tab pane(top)
+     */
+    @GetMapping("{cityName}/total-info")
+    public ResponseEntity<Result> getTotalCityInfo(@PathVariable("cityName") CityName cityName) {
+        TotalCityInfoResponse totalCityInfoResponse = cityQueryService.searchTotalCityInfo(cityName);
+        return ResponseEntity.ok().body(new Result(totalCityInfoResponse));
     }
+
+    /**
+     * dependence presentation layer::city(body)
+     * -> food & view image slide(bottom)
+     */
+    @GetMapping("{cityName}/food-and-view")
+    public ResponseEntity<Result> getCityFoodAndViewInfo(@PathVariable("cityName") CityName cityName) {
+        CityFoodAndViewResponse cityFoodAndViewResponses = cityQueryService.searchCityFoodAndView(cityName);
+        return ResponseEntity.ok().body(new Result(cityFoodAndViewResponses));
+    }
+
+
 }
