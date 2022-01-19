@@ -1,0 +1,78 @@
+GET http://localhost:8080/cities/JEJU/food-and-view
+
+<> 2022-01-19T161209.200.json
+
+###
+
+GET http://localhost:8080/cities/JEJU/total-info
+
+<> 2022-01-19T161159.200.json
+
+###
+
+GET http://localhost:8080/cities/SE/total-info
+
+<> 2022-01-19T161146.400.json
+
+###
+
+GET http://localhost:8080/cities/SEOUL/total-info
+
+<> 2022-01-19T161045.200.json
+
+###
+
+GET http://localhost:8080/cities/SEOUL/food-and-view
+
+<> 2022-01-19T160624.200.json
+
+###
+
+GET http://localhost:8080/cities/SEOUL/total-info
+
+<> 2022-01-19T160614.200.json
+
+###
+
+GET http://localhost:8080/cities/grid-infos
+
+<> 2022-01-19T160545.200.json
+
+###
+
+GET http://localhost:8080/cities/slide-images
+
+<> 2022-01-19T160537.200.json
+
+###
+
+GET http://localhost:8080/cities/slide-images
+
+<> 2022-01-19T160530.200.json
+
+###
+
+GET http://localhost:8080/cities/grid-infos
+
+<> 2022-01-19T155323.200.json
+
+###
+
+GET http://localhost:8080/cities/grid-infos
+
+<> 2022-01-19T154846.200.json
+
+###
+
+GET http://localhost:8080/cities/slide-images
+
+<> 2022-01-19T154838.200.json
+
+###
+
+GET http://localhost:8080/cities/city-names
+
+<> 2022-01-19T154801.200.json
+
+###
+

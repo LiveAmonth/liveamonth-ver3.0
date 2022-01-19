@@ -1,0 +1,94 @@
+{
+  "count": 1,
+  "date": "2022-01-19-수 16:12:09",
+  "data": {
+    "foodInfos": [
+      {
+        "content": "흑돼지",
+        "image": "M_JJ1.png"
+      },
+      {
+        "content": "오분자기",
+        "image": "M_JJ2.png"
+      },
+      {
+        "content": "옥돔구이",
+        "image": "M_JJ3.png"
+      },
+      {
+        "content": "갈치구이",
+        "image": "M_JJ4.png"
+      },
+      {
+        "content": "고기국수",
+        "image": "M_JJ5.png"
+      },
+      {
+        "content": "감귤",
+        "image": "M_JJ6.png"
+      },
+      {
+        "content": "땅콩아이스크림",
+        "image": "M_JJ7.png"
+      },
+      {
+        "content": "오메기떡",
+        "image": "M_JJ8.png"
+      },
+      {
+        "content": "방어",
+        "image": "M_JJ9.png"
+      },
+      {
+        "content": "보리빵",
+        "image": "M_JJ10.png"
+      }
+    ],
+    "viewInfos": [
+      {
+        "content": "애월해수욕장",
+        "image": "B_JJ1.png"
+      },
+      {
+        "content": "쇠소깍",
+        "image": "B_JJ2.png"
+      },
+      {
+        "content": "비자림",
+        "image": "B_JJ3.png"
+      },
+      {
+        "content": "새별오름",
+        "image": "B_JJ4.png"
+      },
+      {
+        "content": "우도",
+        "image": "B_JJ5.png"
+      },
+      {
+        "content": "사려니숲길",
+        "image": "B_JJ6.png"
+      },
+      {
+        "content": "한라산",
+        "image": "B_JJ7.png"
+      },
+      {
+        "content": "제주민속촌",
+        "image": "B_JJ8.png"
+      },
+      {
+        "content": "올레길7코스",
+        "image": "B_JJ9.png"
+      },
+      {
+        "content": "1100고지",
+        "image": "B_JJ10.png"
+      },
+      {
+        "content": "마라도",
+        "image": "B_JJ11.png"
+      }
+    ]
+  }
+}
