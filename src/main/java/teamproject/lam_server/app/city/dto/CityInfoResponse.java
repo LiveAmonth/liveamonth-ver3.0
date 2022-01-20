@@ -14,8 +14,8 @@ public class CityInfoResponse {
 
     public CityInfoResponse(CityInfo cityInfo) {
         this.id = cityInfo.getId();
-        this.cityName = cityInfo.getName().name();
-        this.cityInfoCat = cityInfo.getCityInfoCat().name();
+        this.cityName = cityInfo.getName().getValue();
+        this.cityInfoCat = cityInfo.getCityInfoCat().getValue();
         this.content = cityInfo.getContent();
     }
 }

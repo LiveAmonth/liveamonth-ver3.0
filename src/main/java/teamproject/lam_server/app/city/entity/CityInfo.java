@@ -1,9 +1,6 @@
 package teamproject.lam_server.app.city.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import teamproject.lam_server.app.city.converter.CityInfoCategoryConverter;
 import teamproject.lam_server.constants.CategoryConstants.CityInfoCategory;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
@@ -26,6 +23,7 @@ public class CityInfo extends City {
 
     private String image;
 
+    @Builder
     public CityInfo(CityName cityName, CityInfoCategory category, String content, String image) {
         this.name = cityName;
         this.cityInfoCat = category;

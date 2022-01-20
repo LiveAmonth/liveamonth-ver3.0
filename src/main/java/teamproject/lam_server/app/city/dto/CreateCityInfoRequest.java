@@ -29,12 +29,12 @@ public class CreateCityInfoRequest {
     @NotEmpty
     @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)",message = "이미지 확장자가 아닙니다.")
     private String image;
-//
-//    public CityInfo toEntity() {
-//        return CityInfo.builder()
-//                .category(this.category)
-//                .content(this.content)
-//                .image(this.image)
-//                .build();
-//    }
+
+    public CityInfo toEntity() {
+        return CityInfo.builder()
+                .category(this.category)
+                .content(this.content)
+                .image(this.image)
+                .build();
+    }
 }

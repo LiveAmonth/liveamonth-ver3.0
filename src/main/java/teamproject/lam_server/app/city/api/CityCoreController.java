@@ -11,7 +11,7 @@ import teamproject.lam_server.global.dto.Result;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/city")
-public class CityCoreController {
+public class  CityCoreController {
 
     private final CityCoreService cityCoreService;
 

@@ -20,6 +20,7 @@ public class CityWeather extends City {
     private float minDegree;
     private float averageDegree;
 
+    @Builder
     public CityWeather(CityName name, Month month, float maxDegree, float minDegree) {
         this.name = name;
         this.month = month;

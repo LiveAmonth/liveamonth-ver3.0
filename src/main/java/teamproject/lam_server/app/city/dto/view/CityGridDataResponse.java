@@ -1,4 +1,4 @@
-package teamproject.lam_server.app.city.dto;
+package teamproject.lam_server.app.city.dto.view;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;

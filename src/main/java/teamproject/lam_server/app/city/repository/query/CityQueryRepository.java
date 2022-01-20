@@ -5,7 +5,7 @@ import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import teamproject.lam_server.app.city.dto.CityGridDataResponse;
+import teamproject.lam_server.app.city.dto.view.CityGridDataResponse;
 import teamproject.lam_server.app.city.dto.QCityGridDataResponse;
 import teamproject.lam_server.app.city.entity.CityInfo;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
