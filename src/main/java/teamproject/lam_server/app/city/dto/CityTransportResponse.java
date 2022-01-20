@@ -10,8 +10,11 @@ public class CityTransportResponse {
 
     private int station_count;
 
+    private int score;
+
     public CityTransportResponse(CityTransport cityTransport) {
         this.category = cityTransport.getCityTransportCat().getValue();
         this.station_count = cityTransport.getStation_count();
+        this.score = cityTransport.getScore();
     }
 }

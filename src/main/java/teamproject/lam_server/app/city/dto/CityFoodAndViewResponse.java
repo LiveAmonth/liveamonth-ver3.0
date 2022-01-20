@@ -5,20 +5,19 @@ import teamproject.lam_server.app.city.entity.CityInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
 
 @Data
 public class CityFoodAndViewResponse {
 
-    private List<CityInfoResponse> foodInfos = new ArrayList<>();
+    private List<CityInfoImageResponse> foodInfos = new ArrayList<>();
 
-    private List<CityInfoResponse> viewInfos = new ArrayList<>();
+    private List<CityInfoImageResponse> viewInfos = new ArrayList<>();
 
     public CityFoodAndViewResponse(List<CityInfo> foodInfos,List<CityInfo> viewInfos) {
-        this.foodInfos = foodInfos.stream().map(CityInfoResponse::new).collect(toList());
+        this.foodInfos = foodInfos.stream().map(CityInfoImageResponse::new).collect(toList());
 
-        this.viewInfos = viewInfos.stream().map(CityInfoResponse::new).collect(toList());
+        this.viewInfos = viewInfos.stream().map(CityInfoImageResponse::new).collect(toList());
     }
 }
