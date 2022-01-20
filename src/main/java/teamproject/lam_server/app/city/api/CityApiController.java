@@ -2,14 +2,16 @@ package teamproject.lam_server.app.city.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.app.city.dto.CityFoodAndViewResponse;
 import teamproject.lam_server.app.city.dto.CityGridDataResponse;
 import teamproject.lam_server.app.city.dto.CitySlideResponse;
 import teamproject.lam_server.app.city.dto.TotalCityInfoResponse;
 import teamproject.lam_server.app.city.service.query.CityQueryService;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
-import teamproject.lam_server.controller.MainController;
 import teamproject.lam_server.global.dto.Result;
 
 import java.util.Arrays;
@@ -18,8 +20,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cities")
-public class CityController extends MainController {
+@RequestMapping("/api/v1/city")
+public class CityApiController {
     private final CityQueryService cityQueryService;
 
 
@@ -27,7 +29,7 @@ public class CityController extends MainController {
      * dependence presentation layer::home(header)
      * -> menu bar
      */
-    @GetMapping("/city-names")
+    @GetMapping("/names")
     public ResponseEntity<Result> getCityNames() {
         List<String> cityNames =
                 Arrays.stream(CityName.values())
@@ -60,7 +62,7 @@ public class CityController extends MainController {
      * dependence presentation layer::city(body)
      * -> total city info tab pane(top)
      */
-    @GetMapping("{cityName}/total-info")
+    @GetMapping("{cityName}/total-infos")
     public ResponseEntity<Result> getTotalCityInfo(@PathVariable("cityName") CityName cityName) {
         TotalCityInfoResponse totalCityInfoResponse = cityQueryService.searchTotalCityInfo(cityName);
         return ResponseEntity.ok().body(new Result(totalCityInfoResponse));
@@ -70,7 +72,7 @@ public class CityController extends MainController {
      * dependence presentation layer::city(body)
      * -> food & view image slide(bottom)
      */
-    @GetMapping("{cityName}/food-and-view")
+    @GetMapping("{cityName}/foods-and-view")
     public ResponseEntity<Result> getCityFoodAndViewInfo(@PathVariable("cityName") CityName cityName) {
         CityFoodAndViewResponse cityFoodAndViewResponses = cityQueryService.searchCityFoodAndView(cityName);
         return ResponseEntity.ok().body(new Result(cityFoodAndViewResponses));
