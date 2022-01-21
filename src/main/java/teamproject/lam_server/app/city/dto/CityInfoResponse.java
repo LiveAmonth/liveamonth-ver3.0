@@ -11,11 +11,13 @@ public class CityInfoResponse {
     private String cityName;
     private String cityInfoCat;
     private String content;
+    private String image;
 
     public CityInfoResponse(CityInfo cityInfo) {
         this.id = cityInfo.getId();
         this.cityName = cityInfo.getName().getValue();
         this.cityInfoCat = cityInfo.getCityInfoCat().getValue();
         this.content = cityInfo.getContent();
+        this.image = cityInfo.getImage();
     }
 }

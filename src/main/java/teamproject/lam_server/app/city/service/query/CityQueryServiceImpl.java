@@ -8,6 +8,7 @@ import teamproject.lam_server.app.city.dto.view.CityGridDataResponse;
 import teamproject.lam_server.app.city.dto.view.CitySlideResponse;
 import teamproject.lam_server.app.city.dto.view.TotalCityInfoResponse;
 import teamproject.lam_server.app.city.entity.CityInfo;
+import teamproject.lam_server.app.city.repository.core.CityInfoRepository;
 import teamproject.lam_server.app.city.repository.core.CityTransportRepository;
 import teamproject.lam_server.app.city.repository.core.CityWeatherRepository;
 import teamproject.lam_server.app.city.repository.query.CityQueryRepository;
@@ -26,13 +27,14 @@ import static teamproject.lam_server.constants.CategoryConstants.CityInfoCategor
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CityQueryServiceImpl implements CityQueryService {
+    private final CityInfoRepository cityInfoRepository;
     private final CityWeatherRepository cityWeatherRepository;
     private final CityTransportRepository cityTransportRepository;
     private final CityQueryRepository cityQueryRepository;
 
     @Override
     public List<CitySlideResponse> searchCityImage() {
-        List<CityInfo> cityIntroImage = cityQueryRepository.findCityInfo(null,INTRO);
+        List<CityInfo> cityIntroImage = cityInfoRepository.findByCityInfoCat(INTRO);
         Collections.shuffle(cityIntroImage);
         return cityIntroImage.stream()
                 .map(CitySlideResponse::new)
@@ -53,7 +55,7 @@ public class CityQueryServiceImpl implements CityQueryService {
     @Override
     public TotalCityInfoResponse searchTotalCityInfo(CityName cityName) {
         return new TotalCityInfoResponse(
-                cityQueryRepository.findOneCityInfo(cityName, INTRO).orElseThrow(NoSuchElementException::new),
+                cityInfoRepository.findOneByNameAndCityInfoCat(cityName, INTRO).orElseThrow(NoSuchElementException::new),
                 cityTransportRepository.findByName(cityName),
                 cityWeatherRepository.findByName(cityName));
     }
@@ -61,8 +63,8 @@ public class CityQueryServiceImpl implements CityQueryService {
     @Override
     public CityFoodAndViewResponse searchCityFoodAndView(CityName cityName){
         return new CityFoodAndViewResponse(
-                cityQueryRepository.findCityInfo(cityName, FOOD),
-                cityQueryRepository.findCityInfo(cityName, VIEW)
+                cityInfoRepository.findByNameAndCityInfoCat(cityName, FOOD),
+                cityInfoRepository.findByNameAndCityInfoCat(cityName, VIEW)
         );
     }
 

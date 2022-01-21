@@ -1,5 +1,7 @@
 package teamproject.lam_server.app.city.service.core;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import teamproject.lam_server.app.city.dto.*;
 import teamproject.lam_server.app.city.dto.condition.CityInfoSearchCond;
 import teamproject.lam_server.app.city.dto.condition.CityTransportSearchCond;
@@ -17,17 +19,17 @@ public interface CityCoreService {
     /**
      * READ
      */
-    List<CityInfoResponse> findAllCityInfos();
+    Page<CityInfoResponse> findAllCityInfos(Pageable pageable);
 
-    List<CityTransportResponse> findAllCityTransports();
+    Page<CityTransportResponse> findAllCityTransports(Pageable pageable);
 
-    List<CityWeatherResponse> findAllCityWeathers();
+    Page<CityWeatherResponse> findAllCityWeathers(Pageable pageable);
 
-    List<CityInfoResponse> searchCityInfos(CityInfoSearchCond cond);
+    Page<CityInfoResponse> searchCityInfos(CityInfoSearchCond cond, Pageable pageable);
 
-    List<CityTransportResponse> searchCityTransports(CityTransportSearchCond cond);
+    Page<CityTransportResponse> searchCityTransports(CityTransportSearchCond cond, Pageable pageable);
 
-    List<CityWeatherResponse> searchCityWeathers(CityWeatherSearchCond cond);
+    Page<CityWeatherResponse> searchCityWeathers(CityWeatherSearchCond cond, Pageable pageable);
 
     /**
      * UPDATE

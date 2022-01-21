@@ -16,8 +16,13 @@ import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import static teamproject.lam_server.constants.CategoryConstants.*;
+
 @Data
+@AllArgsConstructor
 public class CreateCityInfoRequest {
+
+    private CityName name;
 
     @Enumerated(EnumType.STRING)
     private CityInfoCategory category;
@@ -32,9 +37,11 @@ public class CreateCityInfoRequest {
 
     public CityInfo toEntity() {
         return CityInfo.builder()
+                .name(name)
                 .category(this.category)
                 .content(this.content)
                 .image(this.image)
                 .build();
     }
+
 }

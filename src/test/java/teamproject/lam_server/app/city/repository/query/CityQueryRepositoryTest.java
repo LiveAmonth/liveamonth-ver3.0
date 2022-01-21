@@ -5,8 +5,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
+import teamproject.lam_server.app.city.dto.condition.CityInfoSearchCond;
+import teamproject.lam_server.app.city.dto.condition.CityTransportSearchCond;
+import teamproject.lam_server.app.city.dto.condition.CityWeatherSearchCond;
 import teamproject.lam_server.app.city.entity.CityInfo;
+import teamproject.lam_server.app.city.entity.CityTransport;
+import teamproject.lam_server.app.city.entity.CityWeather;
+import teamproject.lam_server.constants.CategoryConstants;
 import teamproject.lam_server.constants.CategoryConstants.CityInfoCategory;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
 
@@ -25,50 +35,41 @@ class CityQueryRepositoryTest {
 
 
     @Test
-    @DisplayName("도시이름과 카테고리로 도시 정보 가져오기")
-    public void findCityInfo_all_param() {
-        //given
-        CityName cityName = CityName.SEOUL;
-        CityInfoCategory category = INTRO;
+    public void searchCityInfosTest() {
+        CityInfoSearchCond cond = new CityInfoSearchCond();
+        cond.setName(CityName.SEOUL);
+        cond.setCategory(CityInfoCategory.FOOD);
+        cond.setImageExtension("png");
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<CityInfo> cityInfos = cityQueryRepository.searchCityInfos(cond, pageable);
 
-        //when
-        List<CityInfo> cityInfos = cityQueryRepository.findCityInfo(cityName, category);
-
-        //then
-        cityInfos.forEach(cityInfo -> {
-            assertThat(cityInfo.getCityInfoCat()).isEqualTo(category);
-            assertThat(cityInfo.getName()).isEqualTo(cityName);
-        });
-    }
-
-    @Test
-    @DisplayName("도시이름으로 도시 정보 가져오기")
-    public void findCityInfo_cityName() {
-        //given
-        CityName cityName = CityName.SEOUL;
-
-        //when
-        List<CityInfo> cityInfos_cityName = cityQueryRepository.findCityInfo(cityName, null);
-
-        //then
-        cityInfos_cityName.forEach(cityInfo -> {
-            assertThat(cityInfo.getName()).isEqualTo(cityName);
-        });
+        System.out.println("cityInfos.getTotalElements() = " + cityInfos.getTotalElements());
+        System.out.println("cityInfos.getTotalPages() = " + cityInfos.getTotalPages());
     }
     @Test
-    @DisplayName("카테고리로 도시 정보 가져오기")
-    public void findCityInfo_category() {
-        //given
-        CityInfoCategory category = INTRO;
+    public void searchCityTransportsTest() {
+        CityTransportSearchCond cond = new CityTransportSearchCond();
+//        cond.setName(CityName.SEOUL);
+        cond.setCategory(CategoryConstants.TransportCategory.T_BUS);
+        cond.setCountLoe(300);
+        cond.setCountGoe(160);
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<CityTransport> cityTransports = cityQueryRepository.searchCityTransports(cond, pageable);
 
-        //when
-        List<CityInfo> cityInfos = cityQueryRepository.findCityInfo(null, category);
-
-        //then
-        cityInfos.forEach(cityInfo -> {
-            assertThat(cityInfo.getCityInfoCat()).isEqualTo(category);
-        });
+        System.out.println("cityTransports.getTotalElements() = " + cityTransports.getTotalElements());
+        System.out.println("cityTransports.getTotalPages() = " + cityTransports.getTotalPages());
     }
+    @Test
+    public void searchCityWeatherTest() {
+        CityWeatherSearchCond cond = new CityWeatherSearchCond();
+        cond.setName(CityName.SEOUL);
+//        cond.setMonth(CategoryConstants.Month.DECEMBER);
+        cond.setDegreeGoe(10);
+        cond.setDegreeLoe(20);
+        Pageable pageable = PageRequest.of(0, 5);
+        Page<CityWeather> cityWeathers = cityQueryRepository.searchCityWeather(cond, pageable);
 
-
+        System.out.println("cityWeathers.getTotalElements() = " + cityWeathers.getTotalElements());
+        System.out.println("cityWeathers.getTotalPages() = " + cityWeathers.getTotalPages());
+    }
 }

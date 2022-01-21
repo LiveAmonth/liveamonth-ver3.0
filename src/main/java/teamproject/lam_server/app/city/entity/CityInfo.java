@@ -24,8 +24,8 @@ public class CityInfo extends City {
     private String image;
 
     @Builder
-    public CityInfo(CityName cityName, CityInfoCategory category, String content, String image) {
-        this.name = cityName;
+    public CityInfo(CityName name, CityInfoCategory category, String content, String image) {
+        this.name = name;
         this.cityInfoCat = category;
         this.content = content;
         this.image = image;
