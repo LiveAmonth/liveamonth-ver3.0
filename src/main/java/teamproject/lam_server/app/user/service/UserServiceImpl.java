@@ -3,67 +3,29 @@ package teamproject.lam_server.app.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.app.city.dto.CreateCityInfoRequest;
 import teamproject.lam_server.app.user.domain.User;
-import teamproject.lam_server.app.user.dto.UserForm;
+import teamproject.lam_server.app.user.dto.CreateUserRequest;
+import teamproject.lam_server.app.user.dto.CreateUserResponse;
 import teamproject.lam_server.app.user.repository.UserRepository;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static teamproject.lam_server.constants.AttrConstants.*;
+import teamproject.lam_server.validator.JoinUserValidator;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+@Transactional(readOnly = true)
+public class UserServiceImpl{
+
     private final UserRepository userRepository;
+    private final JoinUserValidator joinUserValidator;
+
     private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public User login(String loginId, String password) {
-        return userRepository.findUserByLoginId(loginId)
-                .filter(m -> passwordEncoder.matches(password, m.getPassword()))
-                .orElse(null);
+    @Transactional
+    public CreateUserResponse save(CreateUserRequest request) {
+        User saveUser = userRepository.save(request.toEntity(passwordEncoder));
+        return new CreateUserResponse(saveUser.getId(), saveUser.getName());
     }
 
-    @Override
-    public User findId(String name, String email) {
-        return userRepository.findUserByNameAndEmail(name, email)
-                .orElse(null);
-    }
 
-    @Override
-    public Map<String, Object> findPw(String loginId, String email) {
-        return this.editPassword(userRepository.findUserByLoginIdAndEmail(loginId, email).orElse(null));
-    }
-
-    private Map<String, Object> editPassword(User user) {
-        if (user == null) return null;
-        else {
-            Map<String, Object> result = new HashMap<>();
-            String temporaryPw = "";
-            for (int i = 0; i < 8; i++) {
-                temporaryPw += (char) ((Math.random() * 26) + 97);
-            }
-            userRepository.editPassword(user, passwordEncoder.encode(temporaryPw));
-            result.put(EMAIL, user.getEmail());
-            result.put(NAME, user.getName());
-            result.put(TEMPORARY_PW, temporaryPw);
-            return result;
-        }
-    }
-
-    @Override
-    public Long save(UserForm userForm) {
-        return userRepository.save(userForm.toEntity(passwordEncoder)).getId();
-    }
-
-    @Override
-    public void editUserImage(Long id, String image) {
-        userRepository.editImage(id, image);
-    }
-
-    @Override
-    public User find(long id) {
-        return userRepository.findById(id).orElse(null);
-    }
 }
