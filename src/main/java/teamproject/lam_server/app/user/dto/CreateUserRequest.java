@@ -9,10 +9,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Data
-public class UserForm {
+public class CreateUserRequest {
 
     @NotEmpty
     @Pattern(regexp = "[a-zA-Z0-9]{3,20}")
@@ -36,20 +36,17 @@ public class UserForm {
 
     @NotEmpty
     @Size(max = 20)
-    private String email_id;
+    private String emailId;
 
     @NotEmpty
     @Pattern(regexp = "[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")
-    private String email_domain;
+    private String emailDomain;
 
     @NotNull
-    private Date birth;
+    private LocalDateTime birth;
 
     @NotNull
-    private GenderTypes genderTypes;
-
-    // => 비즈니스 로직
-    public String unifyEmail(){return this.email_id+"@"+this.email_domain;}
+    private GenderTypes gender;
 
     public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
@@ -58,8 +55,8 @@ public class UserForm {
                 .name(this.name)
                 .nickname(this.nickname)
                 .birth(this.birth)
-                .email(this.unifyEmail())
-                .genderTypes(this.genderTypes)
+                .email(this.emailId +"@"+this.emailDomain)
+                .gender(this.gender)
                 .build();
     }
 

@@ -2,21 +2,16 @@ package teamproject.lam_server.app.city.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.app.city.entity.CityInfo;
-import teamproject.lam_server.app.user.domain.User;
-import teamproject.lam_server.constants.CategoryConstants;
 import teamproject.lam_server.constants.CategoryConstants.CityInfoCategory;
 
-import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-import static teamproject.lam_server.constants.CategoryConstants.*;
+import static teamproject.lam_server.constants.CategoryConstants.CityName;
 
 @Data
 @AllArgsConstructor

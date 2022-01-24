@@ -1,4 +1,4 @@
-package teamproject.lam_server.app.user.api;
+package teamproject.lam_server.app.user.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,7 @@ import teamproject.lam_server.constants.SessionConstants;
 import teamproject.lam_server.controller.ContentsController;
 import teamproject.lam_server.app.user.domain.User;
 import teamproject.lam_server.uploader.localUploader;
-import teamproject.lam_server.app.user.service.UserService;
+import teamproject.lam_server.app.user.service.UserWebService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ import static teamproject.lam_server.constants.SessionConstants.PROFILE_IMAGE_DI
 @Slf4j
 public class MyPageController extends ContentsController {
 
-    private final UserService userService;
+    private final UserWebService userWebService;
 //    private final S3Uploader upLoader;
     private final localUploader uploader;
 
@@ -53,7 +53,7 @@ public class MyPageController extends ContentsController {
             uploader.delete(PROFILE_IMAGE_DIR + loginUser.getImage());
         }
         String saveName = uploader.uploadProfile(loginUser.getLoginId(), PROFILE_IMAGE_DIR, mFile.getOriginalFilename(), mFile.getBytes());
-        userService.editUserImage(loginUser.getId(), saveName);
+        userWebService.editUserImage(loginUser.getId(), saveName);
 
         return RE_DIRECT_DIR+MY_PAGE;
     }

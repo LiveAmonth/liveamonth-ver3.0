@@ -25,13 +25,13 @@ public class WebConfig implements WebMvcConfigurer {
          * 자바 8 이후 상수 클래스 정보를 리스트로 담는 방법
          * 위의 whitelist의 리스트 정보를 여러군데에서 사용한다면
          * 상수클래스로 관리하는 게 편리
-         */
-        List<String> whitelist = Stream.of(Whitelist.values())
-                .map(Whitelist::getPath)
-                .collect(Collectors.toList());
-        registry.addInterceptor(new LoginCheckInterceptor())
-                .order(2)
-                .addPathPatterns("/**")
-                .excludePathPatterns(whitelist);
+//         */
+//        List<String> whitelist = Stream.of(Whitelist.values())
+//                .map(Whitelist::getPath)
+//                .collect(Collectors.toList());
+//        registry.addInterceptor(new LoginCheckInterceptor())
+//                .order(2)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns(whitelist);
     }
 }

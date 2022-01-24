@@ -31,6 +31,7 @@ public class CityCoreServiceImpl implements CityCoreService {
     private final CityQueryRepository cityQueryRepository;
 
     @Override
+    @Transactional
     public CreateEntityResponse saveCityInfo(CreateCityInfoRequest request) {
         // valid 로직 추가하기
         CityInfo save = cityInfoRepository.save(request.toEntity());

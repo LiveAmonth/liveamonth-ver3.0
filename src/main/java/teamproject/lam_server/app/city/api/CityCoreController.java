@@ -16,12 +16,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/city")
+@RequestMapping("/city")
 public class CityCoreController {
 
     private final CityCoreService cityCoreService;
 
-    @PostMapping("/infos")
+    @PostMapping("/infos/join")
     public ResponseEntity<Result> saveCityInfos(@RequestBody @Valid CreateCityInfoRequest request) {
         CreateEntityResponse createEntityResponse = cityCoreService.saveCityInfo(request);
         return ResponseEntity.ok().body(new Result(createEntityResponse));
@@ -45,19 +45,19 @@ public class CityCoreController {
         return ResponseEntity.ok().body(new Result(response));
     }
 
-    @GetMapping("/infos")
+    @GetMapping("/infos/search")
     public ResponseEntity<Result> searchCityInfos(CityInfoSearchCond cond, Pageable pageable) {
         Page<CityInfoResponse> response = cityCoreService.searchCityInfos(cond, pageable);
         return ResponseEntity.ok().body(new Result(response));
     }
 
-    @GetMapping("/transports")
+    @GetMapping("/transports/search")
     public ResponseEntity<Result> searchCityTransports(CityTransportSearchCond cond, Pageable pageable) {
         Page<CityTransportResponse> response = cityCoreService.searchCityTransports(cond, pageable);
         return ResponseEntity.ok().body(new Result(response));
     }
 
-    @GetMapping("/weather")
+    @GetMapping("/weather/search")
     public ResponseEntity<Result> searchCityWeather(CityWeatherSearchCond cond, Pageable pageable) {
         Page<CityWeatherResponse> response = cityCoreService.searchCityWeathers(cond, pageable);
         return ResponseEntity.ok().body(new Result(response));

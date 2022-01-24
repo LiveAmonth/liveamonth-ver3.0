@@ -155,7 +155,7 @@
             </div>
             <div class="row justify-content-center  p-0">
                 <div class="col-md-10">
-                    <form role="form" action="/user/signUp" th:object="${userForm}" method="post">
+                    <form role="form" action="/user/signUp" th:object="${createUserRequest}" method="post">
                         <div th:if="${#fields.hasGlobalErrors()}">
                             <p class="field-error msg" th:each="err : ${#fields.globalErrors()}"
                                th:text="${err}">전체 오류 메시지</p>

@@ -1,4 +1,4 @@
-package teamproject.lam_server.app.user.api;
+package teamproject.lam_server.app.user.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import teamproject.lam_server.app.user.dto.FindIdForm;
 import teamproject.lam_server.app.user.dto.FindPwForm;
 import teamproject.lam_server.app.user.dto.LoginForm;
 import teamproject.lam_server.mail.service.MailService;
-import teamproject.lam_server.app.user.service.UserService;
+import teamproject.lam_server.app.user.service.UserWebService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,7 +32,7 @@ import static teamproject.lam_server.constants.PathConstants.*;
 @RequiredArgsConstructor
 @Slf4j
 public class LoginController {
-    private final UserService userService;
+    private final UserWebService userWebService;
     private final MailService mailService;
 
     @ModelAttribute("emailDomains")
@@ -58,7 +58,7 @@ public class LoginController {
 
         if (bindingResult.hasErrors()) return LOGIN_DIR + FORM_DIR + LOGIN_FORM;
 
-        User loginUser = userService.login(form.getLoginId(), form.getPassword());
+        User loginUser = userWebService.login(form.getLoginId(), form.getPassword());
 
         if (loginUser == null) {
             bindingResult.reject(AttrConstants.NO_DATA);
@@ -89,7 +89,7 @@ public class LoginController {
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) return LOGIN_DIR + FORM_DIR + FIND_ID_FORM;
 
-        User foundUser = userService.findId(form.getName(), form.unifyEmail());
+        User foundUser = userWebService.findId(form.getName(), form.unifyEmail());
 
         if (foundUser == null) {
             bindingResult.reject(AttrConstants.NO_DATA);
@@ -123,7 +123,7 @@ public class LoginController {
     public String findPw(@Valid @ModelAttribute(FORM) FindPwForm form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return LOGIN_DIR + FORM_DIR + FIND_PW_FORM;
 
-        Map<String, Object> result = userService.findPw(form.getLoginId(), form.unifyEmail());
+        Map<String, Object> result = userWebService.findPw(form.getLoginId(), form.unifyEmail());
 
         if (result == null) {
             bindingResult.reject(AttrConstants.NO_DATA);
