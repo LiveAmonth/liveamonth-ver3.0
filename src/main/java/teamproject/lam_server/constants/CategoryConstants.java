@@ -7,6 +7,7 @@ import lombok.Getter;
 public class CategoryConstants {
     public interface CodeValue {
         String getCode();
+
         String getValue();
     }
 
@@ -26,9 +27,14 @@ public class CategoryConstants {
         }
 
         @Override
-        public String getCode() {return code;}
+        public String getCode() {
+            return code;
+        }
+
         @Override
-        public String getValue() {return value;}
+        public String getValue() {
+            return value;
+        }
     }
 
     public enum CityInfoCategory implements CodeValue {
@@ -44,14 +50,19 @@ public class CategoryConstants {
         }
 
         @Override
-        public String getCode() {return code;}
+        public String getCode() {
+            return code;
+        }
+
         @Override
-        public String getValue() {return value;}
+        public String getValue() {
+            return value;
+        }
     }
 
     public enum CityTransportGrade {T_GOOD, T_FAIR, T_POOR}
 
-    public enum Month implements CodeValue{
+    public enum Month implements CodeValue {
         JANUARY("JAN"),
         FEBRUARY("FEB"),
         MARCH("MAR"),
@@ -66,14 +77,21 @@ public class CategoryConstants {
         DECEMBER("DEC");
         private String code;
         private String value;
+
         Month(String code) {
             this.code = code;
-            this.value = String.valueOf(this.ordinal()+1);
+            this.value = String.valueOf(this.ordinal() + 1);
         }
+
         @Override
-        public String getCode() {return code;}
+        public String getCode() {
+            return code;
+        }
+
         @Override
-        public String getValue() {return value;}
+        public String getValue() {
+            return value;
+        }
     }
 
     public enum TransportCategory implements CodeValue {
@@ -92,15 +110,20 @@ public class CategoryConstants {
             this.value = value;
             this.score = score;
         }
+
         @Override
         public String getCode() {
             return code;
         }
+
         @Override
         public String getValue() {
             return value;
         }
-        public int getScore(){return score;}
+
+        public int getScore() {
+            return score;
+        }
     }
 
     public enum CustomerCenterCategory {faq, personalTerms, termsAndConditions, notice}
@@ -133,6 +156,7 @@ public class CategoryConstants {
         public String getCode() {
             return code;
         }
+
         @Override
         public String getValue() {
             return value;
@@ -140,4 +164,6 @@ public class CategoryConstants {
     }
 
     public enum EmailDomains {NONE, NAVER, NATE, GMAIL, DAUM, SELF}
+
+    public enum UserStatus {NORMAL, DROP}
 }
