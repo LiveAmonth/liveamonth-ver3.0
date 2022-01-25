@@ -8,6 +8,7 @@ import org.springframework.validation.Validator;
 import teamproject.lam_server.app.user.dto.CreateUserRequest;
 import teamproject.lam_server.app.user.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -25,7 +26,7 @@ public class JoinUserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         CreateUserRequest request = (CreateUserRequest) target;
-        if (request.getBirth().isAfter(LocalDateTime.now())) {
+        if (request.getBirth().isAfter(LocalDate.now())) {
             errors.reject("past.birth");
         }
         if (!request.getPassword().equals(request.getPasswordCheck())) {
