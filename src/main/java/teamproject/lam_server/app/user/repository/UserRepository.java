@@ -13,12 +13,12 @@ import java.util.Optional;
 import static teamproject.lam_server.constants.AttrConstants.*;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findUserByLoginId(String loginId);
+public interface UserRepository extends JpaRepository<User, Long>,UserRepositoryCustom {
+    Optional<User> findByLoginId(String loginId);
 
-    Optional<User> findUserByNameAndEmail(String name, String email);
+    Optional<User> findByNameAndEmail(String name, String email);
 
-    Optional<User> findUserByLoginIdAndEmail(String loginId, String email);
+    Optional<User> findByLoginIdAndEmail(String loginId, String email);
 
     Optional<User> findById(Long Id);
 
