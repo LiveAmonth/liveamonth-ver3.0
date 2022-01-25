@@ -1,6 +1,8 @@
 package teamproject.lam_server.app.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
 import teamproject.lam_server.app.user.domain.User;
@@ -9,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -43,7 +46,7 @@ public class CreateUserRequest {
     private String emailDomain;
 
     @NotNull
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     @NotNull
     private GenderTypes gender;

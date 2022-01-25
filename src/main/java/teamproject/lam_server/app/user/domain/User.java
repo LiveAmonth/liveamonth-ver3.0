@@ -1,18 +1,19 @@
 package teamproject.lam_server.app.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.util.Assert;
-import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
-import teamproject.lam_server.app.schedule.domain.Schedule;
 import teamproject.lam_server.app.review.domain.Review;
 import teamproject.lam_server.app.review.domain.ReviewReply;
+import teamproject.lam_server.app.schedule.domain.Schedule;
 import teamproject.lam_server.app.user.converter.GenderTypeConverter;
+import teamproject.lam_server.app.user.exception.AlreadyDropUserException;
+import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
+import teamproject.lam_server.constants.CategoryConstants.UserStatus;
+import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,7 +25,7 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of={"id","loginId","nickname","name","email","gender","birth"})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"loginId"}))
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -39,10 +40,13 @@ public class User {
     @Convert(converter = GenderTypeConverter.class)
     private GenderTypes gender;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     private String image;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     /**
      * 아래의 리스트들이 사실상 필요없다.
      * 어떤 회원이 작성한 게시글들의 관점으로 보는 것이 아니라
@@ -64,7 +68,7 @@ public class User {
     private List<ReviewReply> reviewReplies = new ArrayList<>();
 
     @Builder
-    public User(String loginId, String password, String name, String nickname, String email, GenderTypes gender, LocalDateTime birth) {
+    public User(String loginId, String password, String name, String nickname, String email, GenderTypes gender, LocalDate birth) {
         Assert.notNull(loginId, "loginId must not be empty");
         Assert.notNull(password, "password must not be empty");
         Assert.notNull(name, "name must not be empty");
@@ -79,13 +83,14 @@ public class User {
         this.email = email;
         this.gender = gender;
         this.birth = birth;
+        this.status = UserStatus.NORMAL;
     }
 
     // => 비즈니스 로직
     public int calcAge() {
         Calendar current = Calendar.getInstance();
         int currentYear = current.get(Calendar.YEAR);
-        int age = currentYear - this.birth.toLocalDate().getYear() + 1;
+        int age = currentYear - this.birth.getYear() + 1;
         return age;
     }
 
@@ -102,10 +107,22 @@ public class User {
     }
 
     public void updateNickname(String nickname) {
-        this.nickname = nickname;
+        if (nickname != null) this.nickname = nickname;
     }
 
     public void updateImage(String image) {
-        this.image = image;
+        if (image != null) this.image = image;
+    }
+
+    public void drop(){
+        if(this.status == UserStatus.DROP){
+            throw new AlreadyDropUserException(id);
+        }
+        this.status = UserStatus.DROP;
+    }
+
+    public void modifyUserInfo(String nickname, String image) {
+        updateNickname(nickname);
+        updateImage(image);
     }
 }

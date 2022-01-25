@@ -5,7 +5,11 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CreateUserResponse {
+public class SimpleUserResponse {
     private Long id;
     private String userId;
+
+    public SimpleUserResponse(Long id) {
+        this.id = id;
+    }
 }
