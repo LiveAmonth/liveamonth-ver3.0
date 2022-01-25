@@ -20,20 +20,20 @@ public class UserWebServiceImpl implements UserWebService {
 
     @Override
     public User login(String loginId, String password) {
-        return userRepository.findUserByLoginId(loginId)
+        return userRepository.findByLoginId(loginId)
                 .filter(m -> passwordEncoder.matches(password, m.getPassword()))
                 .orElse(null);
     }
 
     @Override
     public User findId(String name, String email) {
-        return userRepository.findUserByNameAndEmail(name, email)
+        return userRepository.findByNameAndEmail(name, email)
                 .orElse(null);
     }
 
     @Override
     public Map<String, Object> findPw(String loginId, String email) {
-        return this.editPassword(userRepository.findUserByLoginIdAndEmail(loginId, email).orElse(null));
+        return this.editPassword(userRepository.findByLoginIdAndEmail(loginId, email).orElse(null));
     }
 
     private Map<String, Object> editPassword(User user) {

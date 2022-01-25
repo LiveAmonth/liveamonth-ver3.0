@@ -1,9 +1,9 @@
 package teamproject.lam_server.app.user.service;
 
 import teamproject.lam_server.app.city.dto.CreateCityInfoRequest;
-import teamproject.lam_server.app.user.dto.CreateUserResponse;
+import teamproject.lam_server.app.user.dto.SimpleUserResponse;
 
 public interface UserService {
 
-    CreateUserResponse save(CreateCityInfoRequest request);
+    SimpleUserResponse save(CreateCityInfoRequest request);
 }
