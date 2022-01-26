@@ -7,10 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
 import teamproject.lam_server.app.user.domain.User;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -46,6 +43,7 @@ public class CreateUserRequest {
     private String emailDomain;
 
     @NotNull
+    @Past
     private LocalDate birth;
 
     @NotNull
@@ -58,7 +56,7 @@ public class CreateUserRequest {
                 .name(this.name)
                 .nickname(this.nickname)
                 .birth(this.birth)
-                .email(this.emailId +"@"+this.emailDomain)
+                .email(this.emailId + "@" + this.emailDomain)
                 .gender(this.gender)
                 .build();
     }
