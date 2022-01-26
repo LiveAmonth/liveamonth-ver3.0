@@ -5,11 +5,13 @@ server:
       timeout: 1800
 
 spring:
+  messages:
+    basename: messages, errors
+
   profiles:
     active: local
 
-  messages:
-    basename: messages,errors
+
 
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
