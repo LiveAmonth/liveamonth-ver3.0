@@ -1,15 +1,12 @@
 package teamproject.lam_server.app.user.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
 import teamproject.lam_server.app.user.domain.User;
+import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 public class CreateUserRequest {
@@ -18,27 +15,27 @@ public class CreateUserRequest {
     @Pattern(regexp = "[a-zA-Z0-9]{3,20}")
     private String loginId;
 
-    @NotEmpty
+    @NotBlank
     @Pattern(regexp = "[a-zA-Z가-힣]{2,20}")
     private String name;
 
-    @NotEmpty
+    @NotBlank
     @Pattern(regexp = "(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{8,20}")
     private String password;
 
-    @NotEmpty
+    @NotBlank
     @Pattern(regexp = "(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{8,20}")
     private String passwordCheck;
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 20)
     private String nickname;
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 20)
     private String emailId;
 
-    @NotEmpty
+    @NotBlank
     @Pattern(regexp = "[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")
     private String emailDomain;
 

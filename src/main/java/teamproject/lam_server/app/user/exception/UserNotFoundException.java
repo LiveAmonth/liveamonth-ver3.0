@@ -10,4 +10,7 @@ public class UserNotFoundException extends RuntimeException {
     public UserNotFoundException(Long id) {
         super(USER_NOT_FOUND_EXCEPTION_MESSAGES.getMessage(id));
     }
+    public UserNotFoundException() {
+        super(USER_NOT_FOUND_EXCEPTION_MESSAGES.getMessage());
+    }
 }

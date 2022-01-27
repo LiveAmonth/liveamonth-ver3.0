@@ -5,9 +5,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import teamproject.lam_server.app.user.dto.FindPasswordResponse;
+import teamproject.lam_server.mail.MailConstant;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Locale;
 import java.util.Map;
 
 import static teamproject.lam_server.constants.AttrConstants.*;
@@ -20,10 +23,12 @@ public class MailService {
     private final MessageSource messageSource;
 
     public void sendPasswordByMail(Map<String, Object> result) {
+        // 필요한거 -> 회원 이름, 이메일, 임시 비번
         MimeMessage message = mailSender.createMimeMessage();
+        messageSource.getMessage("mail.ment.intro",new String[]{(String)result.get(NAME)}, Locale.KOREA);
         try {
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, UTF_8);
-            messageHelper.setSubject("[한달살기에서 알려드립니다]고객님의 임시 비밀번호가 발급되었습니다.");
+            messageHelper.setSubject(transMessage("mail.pw.subject",null));
             String htmlContent = "<img src=\"https://liveamonth-simple-bucket.s3.ap-northeast-2.amazonaws.com/logo.png\"><br><br>"
                     + "안녕하세요. " + result.get(NAME) + " 고객님<br><br>"
                     + "<h4>요청하신 임시 비밀번호는 다음과 같습니다.<br>"
@@ -41,6 +46,39 @@ public class MailService {
         }
     }
 
+    public void sendMail(FindPasswordResponse response) {
+        // 필요한거 -> 회원 이름, 이메일, 임시 비번
+        MimeMessage message = mailSender.createMimeMessage();
+        String helloUser = transMessage(MailConstant.HELLO.getCode(), new String[]{response.getName()});
+        String intro = transMessage(MailConstant.INTRO.getCode(), null);
+        String temp = transMessage(MailConstant.TEMP.getCode(), new String[]{response.getPassword()});
+        String login = transMessage(MailConstant.LOGIN.getCode(), null);
+        String edit = transMessage(MailConstant.EDIT.getCode(), null);
+        String ask = transMessage(MailConstant.ASK.getCode(), null);
+        String end = transMessage(MailConstant.END.getCode(), null);
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, UTF_8);
+            messageHelper.setSubject(transMessage(MailConstant.PW_SUBJECT.getPwMailCode(), null));
+            String htmlContent = "<img src=\"https://liveamonth-simple-bucket.s3.ap-northeast-2.amazonaws.com/logo.png\"><br><br>"
+                    + helloUser+ "<br><br>"
+                    + "<h4>"+intro+"<br>"
+                    + temp + "<br>"
+                    + "<a href=\"http://liveamonth.ap-northeast-2.elasticbeanstalk.com/" + "login\">"+login+"</a></h4><br>"
+                    + "<p>"+edit+"</p><br>"
+                    + "<p>"+ask+"</p><br>"
+                    + "<strong>"+end+"</strong>";
+            messageHelper.setText(htmlContent, true);
+            messageHelper.setFrom(ADMIN_EMAIL, ADMIN_NAME);
+            messageHelper.setTo(new InternetAddress(response.getEmail(), response.getName(), UTF_8));
+            mailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String transMessage(String code, String[] params){
+        return messageSource.getMessage(code, params, Locale.KOREA);
+    }
 //    public void sendOneToOneAskByMail(OneToOneAskVO oneToOneAskVO, UserVO userVO) {
 //        MimeMessage message = mailSender.createMimeMessage();
 //        try {

@@ -13,8 +13,8 @@ import teamproject.lam_server.constants.AttrConstants;
 import teamproject.lam_server.constants.CategoryConstants;
 import teamproject.lam_server.constants.SessionConstants;
 import teamproject.lam_server.app.user.domain.User;
-import teamproject.lam_server.app.user.dto.FindIdForm;
-import teamproject.lam_server.app.user.dto.FindPwForm;
+import teamproject.lam_server.app.user.dto.FindLoginIdRequest;
+import teamproject.lam_server.app.user.dto.FindPasswordRequest;
 import teamproject.lam_server.app.user.dto.LoginForm;
 import teamproject.lam_server.mail.service.MailService;
 import teamproject.lam_server.app.user.service.UserWebService;
@@ -80,16 +80,16 @@ public class LoginController {
      * @Return findIdForm, findIdResult
      */
     @GetMapping("/findId")
-    public String findId(@ModelAttribute(FORM) FindIdForm form) {
+    public String findId(@ModelAttribute(FORM) FindLoginIdRequest form) {
         return LOGIN_DIR + FORM_DIR + FIND_ID_FORM;
     }
 
     @PostMapping("/findId")
-    public String findId(@Valid @ModelAttribute(FORM) FindIdForm form, BindingResult bindingResult,
+    public String findId(@Valid @ModelAttribute(FORM) FindLoginIdRequest form, BindingResult bindingResult,
                          RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) return LOGIN_DIR + FORM_DIR + FIND_ID_FORM;
 
-        User foundUser = userWebService.findId(form.getName(), form.unifyEmail());
+        User foundUser = userWebService.findId(form.getName(), form.getEmail_id()+"@"+form.getEmail_domain());
 
         if (foundUser == null) {
             bindingResult.reject(AttrConstants.NO_DATA);
@@ -115,15 +115,15 @@ public class LoginController {
      * @Return findPwForm, findPwResult
      */
     @GetMapping("/findPw")
-    public String findPw(@ModelAttribute(FORM) FindPwForm form) {
+    public String findPw(@ModelAttribute(FORM) FindPasswordRequest form) {
         return "login/form/findPwForm";
     }
 
     @PostMapping("/findPw")
-    public String findPw(@Valid @ModelAttribute(FORM) FindPwForm form, BindingResult bindingResult) {
+    public String findPw(@Valid @ModelAttribute(FORM) FindPasswordRequest form, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) return LOGIN_DIR + FORM_DIR + FIND_PW_FORM;
 
-        Map<String, Object> result = userWebService.findPw(form.getLoginId(), form.unifyEmail());
+        Map<String, Object> result = userWebService.findPw(form.getLoginId(), form.getEmail_id()+"@"+form.getEmail_domain());
 
         if (result == null) {
             bindingResult.reject(AttrConstants.NO_DATA);

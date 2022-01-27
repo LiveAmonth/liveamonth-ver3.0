@@ -2,21 +2,17 @@ package teamproject.lam_server.app.user.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class FindPwForm {
+public class FindPasswordRequest {
 
-    @NotEmpty
+    @NotBlank
     private String loginId;
-
-    @NotEmpty
+    @NotBlank
     private String email_id;
-
-    @NotEmpty
+    @NotBlank
     private String email_domain;
 
-    public String unifyEmail() {
-        return this.email_id + "@" + this.email_domain;
-    }
 }

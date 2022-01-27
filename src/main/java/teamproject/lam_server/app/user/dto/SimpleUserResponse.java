@@ -12,4 +12,7 @@ public class SimpleUserResponse {
     public SimpleUserResponse(Long id) {
         this.id = id;
     }
+    public SimpleUserResponse(String userId) {
+        this.userId = userId;
+    }
 }
