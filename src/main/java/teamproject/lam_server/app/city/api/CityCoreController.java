@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/city")
+@RequestMapping("/v1/api/city")
 public class CityCoreController {
 
     private final CityCoreService cityCoreService;

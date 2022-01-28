@@ -12,7 +12,9 @@ import teamproject.lam_server.app.city.dto.view.CitySlideResponse;
 import teamproject.lam_server.app.city.dto.view.TotalCityInfoResponse;
 import teamproject.lam_server.app.city.service.query.CityQueryService;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
+import teamproject.lam_server.global.dto.MenuResponse;
 import teamproject.lam_server.global.dto.Result;
+import teamproject.lam_server.global.service.MenuService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,10 +22,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/city")
+@RequestMapping("/v1/api/city")
 public class CityApiController {
     private final CityQueryService cityQueryService;
-
+    private final MenuService menuService;
 
     /**
      * dependence presentation layer::home(header)
@@ -31,11 +33,8 @@ public class CityApiController {
      */
     @GetMapping("/names")
     public ResponseEntity<Result> getCityNames() {
-        List<String> cityNames =
-                Arrays.stream(CityName.values())
-                        .map(CityName::getValue)
-                        .collect(Collectors.toList());
-        return ResponseEntity.ok().body(new Result(cityNames));
+        MenuResponse response = menuService.getCityMenus();
+        return ResponseEntity.ok().body(new Result(response));
     }
 
     /**
