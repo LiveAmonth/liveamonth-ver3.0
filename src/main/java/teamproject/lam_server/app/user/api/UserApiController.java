@@ -3,22 +3,39 @@ package teamproject.lam_server.app.user.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import teamproject.lam_server.app.user.domain.User;
 import teamproject.lam_server.app.user.dto.*;
-import teamproject.lam_server.app.user.repository.UserCheckRepository;
 import teamproject.lam_server.app.user.service.UserServiceImpl;
+import teamproject.lam_server.constants.SessionConstants;
+import teamproject.lam_server.global.dto.MenuResponse;
 import teamproject.lam_server.global.dto.Result;
+import teamproject.lam_server.global.service.MenuService;
 
 import javax.validation.Valid;
 import java.net.URI;
 
+import static teamproject.lam_server.constants.PathConstants.*;
+import static teamproject.lam_server.constants.SessionConstants.PROFILE_IMAGE_DIR;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/v1/api")
 public class UserApiController {
 
     private final UserServiceImpl userService;
+    private final MenuService menuService;
+
+    /**
+     * presentation layer::my page
+     * -> my page menus
+     */
+    @GetMapping("/my-page/menus")
+    public ResponseEntity<Result> getMyPageMenus(){
+        MenuResponse response = menuService.getMyPageMenus();
+        return ResponseEntity.ok().body(new Result(response));
+    }
 
     /**
      * presentation layer::home, sign up
@@ -129,5 +146,17 @@ public class UserApiController {
     }
 
 
+//    @PostMapping("/editProfileImage")
+//    public String editProfileImage(@SessionAttribute(name = SessionConstants.LOGIN_USER, required = false) User loginUser, @RequestPart(FILE_NAME) MultipartFile mFile) throws Exception {
+//        log.info("fileNAme = {}",mFile.getOriginalFilename());
+//        if (loginUser.getImage() != null) {
+//            log.info("UserImageName = {}",loginUser.getImage());
+//            uploader.delete(PROFILE_IMAGE_DIR + loginUser.getImage());
+//        }
+//        String saveName = uploader.uploadProfile(loginUser.getLoginId(), PROFILE_IMAGE_DIR, mFile.getOriginalFilename(), mFile.getBytes());
+//        userWebService.editUserImage(loginUser.getId(), saveName);
+//
+//        return RE_DIRECT_DIR+MY_PAGE;
+//    }
 
 }

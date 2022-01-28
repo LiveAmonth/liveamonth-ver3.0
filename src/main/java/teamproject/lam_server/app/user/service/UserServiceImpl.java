@@ -13,7 +13,6 @@ import teamproject.lam_server.app.user.exception.UserNotFoundException;
 import teamproject.lam_server.app.user.repository.UserCheckRepository;
 import teamproject.lam_server.app.user.repository.UserRepository;
 import teamproject.lam_server.mail.service.MailService;
-import teamproject.lam_server.validator.JoinUserValidator;
 
 import java.util.List;
 
