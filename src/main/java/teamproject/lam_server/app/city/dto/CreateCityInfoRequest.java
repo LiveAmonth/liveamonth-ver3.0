@@ -2,6 +2,7 @@ package teamproject.lam_server.app.city.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import teamproject.lam_server.app.city.entity.CityInfo;
 import teamproject.lam_server.constants.CategoryConstants.CityInfoCategory;
 
@@ -15,6 +16,7 @@ import static teamproject.lam_server.constants.CategoryConstants.CityName;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateCityInfoRequest {
 
     private CityName name;
