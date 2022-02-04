@@ -55,7 +55,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     // 테스트
-    testImplementation( 'org.springframework.boot:spring-boot-starter-test'){
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     //테스트에서 lombok 사용
@@ -70,16 +70,17 @@ dependencies {
 
     // 메일
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 test {
     useJUnitPlatform()
 }
 
-bootJar{
-    archiveBaseName ='-'
-    archiveFileName='application.jar'
-    archiveVersion ="0.0.0"
+bootJar {
+    archiveBaseName = '-'
+    archiveFileName = 'application.jar'
+    archiveVersion = "0.0.0"
 }
 
 //querydsl 추가 시작
