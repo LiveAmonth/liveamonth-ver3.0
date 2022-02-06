@@ -21,8 +21,7 @@ import static teamproject.lam_server.constants.PathConstants.CUSTOMER_CENTER_DIR
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/customerCenter")
-@Slf4j
+@RequestMapping("/api/v1/customerCenter")
 public class CustomerCenterController extends ContentsController {
 
     @GetMapping("/sideBarMenus")
