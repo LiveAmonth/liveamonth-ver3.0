@@ -26,7 +26,7 @@ public class TotalCityInfoResponse {
     private List<CityWeatherResponse> weathers = new ArrayList<>();
 
     public TotalCityInfoResponse(CityInfo info, List<CityTransport> transports, List<CityWeather> weathers) {
-        this.name = info.getName().getValue();
+        this.name = info.getName().getCode();
         this.content = info.getContent();
         this.image = info.getImage();
 

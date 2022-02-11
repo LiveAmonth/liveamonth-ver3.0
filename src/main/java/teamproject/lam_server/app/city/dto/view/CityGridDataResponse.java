@@ -8,14 +8,14 @@ import teamproject.lam_server.constants.CategoryConstants.CityName;
 
 @Data
 public class CityGridDataResponse {
-    private CityName name;
+    private String name;
     private String image;
     private float averageDegree;
     private int transportScore;
 
     @QueryProjection
     public CityGridDataResponse(CityName name, String image, float averageDegree, int transportScore) {
-        this.name = name;
+        this.name = name.getCode();
         this.image = image;
         this.averageDegree = averageDegree;
         this.transportScore = transportScore;

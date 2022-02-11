@@ -10,7 +10,7 @@ public class CitySlideResponse {
     private String image;
 
     public CitySlideResponse(CityInfo cityInfo) {
-        this.name = cityInfo.getName().getValue();
+        this.name = cityInfo.getName().getCode();
         this.image = cityInfo.getImage();
     }
 }
