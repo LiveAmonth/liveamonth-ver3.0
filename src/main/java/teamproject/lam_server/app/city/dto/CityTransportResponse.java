@@ -16,8 +16,8 @@ public class CityTransportResponse {
 
     public CityTransportResponse(CityTransport cityTransport) {
         this.id = cityTransport.getId();
-        this.name = cityTransport.getName().getValue();
-        this.category = cityTransport.getCityTransportCat().getValue();
+        this.name = cityTransport.getName().getCode();
+        this.category = cityTransport.getCityTransportCat().getCode();
         this.station_count = cityTransport.getStationCount();
         this.score = cityTransport.getScore();
     }
