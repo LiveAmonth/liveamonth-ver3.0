@@ -39,19 +39,9 @@ public class CityApiController {
 
     /**
      * dependence presentation layer::home(body)
-     * -> slide image(top)
+     * -> slide info(top)
      */
-    @GetMapping("/slide-images")
-    public ResponseEntity<Result> cityMainSlideImages() {
-        List<CitySlideResponse> citySlideResponse = cityQueryService.searchCityImage();
-        return ResponseEntity.ok().body(new Result(citySlideResponse));
-    }
-
-    /**
-     * dependence presentation layer::home(body)
-     * -> grid info(bottom)
-     */
-    @GetMapping("/grid-infos")
+    @GetMapping("/slide-infos")
     public ResponseEntity<Result> searchCityGridInfos() {
         List<CityGridDataResponse> cityGridResponse = cityQueryService.searchCurrentCityInfo();
         return ResponseEntity.ok().body(new Result(cityGridResponse));
