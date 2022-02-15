@@ -17,7 +17,7 @@ public class CityWeatherResponse {
     public CityWeatherResponse(CityWeather cityWeather) {
         this.id = cityWeather.getId();
         this.name = cityWeather.getName();
-        this.month = cityWeather.getMonth().getValue();
+        this.month = cityWeather.getMonth().getCode();
         this.maxDegree = cityWeather.getMaxDegree();
         this.minDegree = cityWeather.getMinDegree();
         this.averageDegree = cityWeather.getAverageDegree();
