@@ -12,6 +12,7 @@ import teamproject.lam_server.constants.CategoryConstants.CustomerCenterCategory
 import teamproject.lam_server.controller.ContentsController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,14 @@ import static teamproject.lam_server.constants.PathConstants.CUSTOMER_CENTER_DIR
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/customerCenter")
-public class CustomerCenterController extends ContentsController {
+public class CustomerCenterController {
+    protected Map<String, Object> createMenuMap(String path, String menuName, Object menus) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(AttrConstants.PATH, path);
+        map.put(AttrConstants.MENU_NAME, menuName);
+        map.put(AttrConstants.MENUS, menus);
+        return map;
+    }
 
     @GetMapping("/sideBarMenus")
     public List<Map<String,Object>> sideBarMenus() {

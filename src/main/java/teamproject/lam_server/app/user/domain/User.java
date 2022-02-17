@@ -13,6 +13,7 @@ import teamproject.lam_server.constants.CategoryConstants.UserStatus;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +26,7 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of={"id","loginId","nickname","name","email","gender","birth"})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"loginId"}))
-public class User extends BaseTimeEntity {
+public class User extends BaseTimeEntity implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
