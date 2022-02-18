@@ -1,7 +1,11 @@
 package teamproject.lam_server.app.user.api;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -22,8 +26,8 @@ import static teamproject.lam_server.constants.SessionConstants.PROFILE_IMAGE_DI
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api")
+@Slf4j
 public class UserApiController {
-
     private final UserServiceImpl userService;
     private final MenuService menuService;
 
@@ -55,7 +59,7 @@ public class UserApiController {
      * presentation layer::home, login
      * -> user login
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Result> login(@RequestBody LoginUserRequest request) {
         User login = userService.login(request);
         return ResponseEntity.ok().body(new Result(login));

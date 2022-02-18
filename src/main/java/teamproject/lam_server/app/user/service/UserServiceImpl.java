@@ -47,6 +47,7 @@ public class UserServiceImpl {
     }
 
     public User login(LoginUserRequest request) {
+
         return userRepository.findByLoginId(request.getLoginId())
                 .filter(m -> passwordEncoder.matches(request.getPassword(), m.getPassword()))
                 .orElse(null);

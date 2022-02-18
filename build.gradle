@@ -62,7 +62,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 //    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.1'
-//    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     // S3 버킷
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.5.RELEASE'
@@ -70,6 +70,10 @@ dependencies {
 
     // 메일
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    // 스웨거
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
 }
 
