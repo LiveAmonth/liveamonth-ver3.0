@@ -1,4 +1,4 @@
-package teamproject.lam_server.app.user.converter;
+package teamproject.lam_server.app.member.converter;
 
 import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
 import teamproject.lam_server.global.converter.CodeValueConverter;

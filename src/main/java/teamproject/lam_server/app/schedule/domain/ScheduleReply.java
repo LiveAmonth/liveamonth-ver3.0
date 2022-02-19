@@ -3,7 +3,7 @@ package teamproject.lam_server.app.schedule.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.app.user.domain.User;
+import teamproject.lam_server.app.member.domain.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -31,7 +31,7 @@ public class ScheduleReply {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member member;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")

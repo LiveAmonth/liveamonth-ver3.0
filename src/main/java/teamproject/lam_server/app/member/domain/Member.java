@@ -1,23 +1,28 @@
-package teamproject.lam_server.app.user.domain;
+package teamproject.lam_server.app.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 import teamproject.lam_server.app.review.domain.Review;
 import teamproject.lam_server.app.review.domain.ReviewReply;
 import teamproject.lam_server.app.schedule.domain.Schedule;
-import teamproject.lam_server.app.user.converter.GenderTypeConverter;
-import teamproject.lam_server.app.user.exception.AlreadyDropUserException;
+import teamproject.lam_server.app.member.converter.GenderTypeConverter;
+import teamproject.lam_server.app.member.exception.AlreadyDropUserException;
+import teamproject.lam_server.constants.CategoryConstants;
 import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
-import teamproject.lam_server.constants.CategoryConstants.UserStatus;
+import teamproject.lam_server.constants.CategoryConstants.MemberStatus;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static teamproject.lam_server.constants.SessionConstants.*;
 
@@ -26,10 +31,10 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of={"id","loginId","nickname","name","email","gender","birth"})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"loginId"}))
-public class User extends BaseTimeEntity implements Serializable {
+public class Member extends BaseTimeEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String loginId;
@@ -46,7 +51,12 @@ public class User extends BaseTimeEntity implements Serializable {
     private String image;
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private CategoryConstants.MemberStatus status;
+
+    @Column
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
 
     /**
      * 아래의 리스트들이 사실상 필요없다.
@@ -57,19 +67,19 @@ public class User extends BaseTimeEntity implements Serializable {
      *    user.getReviews()가 아니라 reviewRepository.findByUser(user) 로 찾자!!
      */
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member")
     private List<Schedule> schedules = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member")
     private List<ReviewReply> reviewReplies = new ArrayList<>();
 
     @Builder
-    public User(String loginId, String password, String name, String nickname, String email, GenderTypes gender, LocalDate birth) {
+    public Member(String loginId, String password, String name, String nickname, String email, GenderTypes gender, LocalDate birth) {
         Assert.notNull(loginId, "loginId must not be empty");
         Assert.notNull(password, "password must not be empty");
         Assert.notNull(name, "name must not be empty");
@@ -84,7 +94,7 @@ public class User extends BaseTimeEntity implements Serializable {
         this.email = email;
         this.gender = gender;
         this.birth = birth;
-        this.status = UserStatus.NORMAL;
+        this.status = MemberStatus.NORMAL;
     }
 
     // => 비즈니스 로직
@@ -116,14 +126,47 @@ public class User extends BaseTimeEntity implements Serializable {
     }
 
     public void drop(){
-        if(this.status == UserStatus.DROP){
+        if(this.status == MemberStatus.DROP){
             throw new AlreadyDropUserException(id);
         }
-        this.status = UserStatus.DROP;
+        this.status = MemberStatus.DROP;
     }
 
-    public void modifyUserInfo(String nickname, String image) {
+    public void modifyMemberInfo(String nickname, String image) {
         updateNickname(nickname);
         updateImage(image);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public String getUsername() {
+        return loginId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

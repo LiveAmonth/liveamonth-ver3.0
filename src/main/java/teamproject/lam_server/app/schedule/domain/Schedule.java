@@ -3,9 +3,7 @@ package teamproject.lam_server.app.schedule.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.app.city.entity.City;
-import teamproject.lam_server.app.user.domain.User;
-import teamproject.lam_server.constants.CategoryConstants;
+import teamproject.lam_server.app.member.domain.Member;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
 
 import javax.persistence.*;
@@ -35,8 +33,8 @@ public class Schedule {
     private int viewCount;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private CityName cityName;
 

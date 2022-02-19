@@ -1,18 +1,18 @@
-package teamproject.lam_server.app.user.dto;
+package teamproject.lam_server.app.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SimpleUserResponse {
+public class SimpleMemberResponse {
     private Long id;
     private String userId;
 
-    public SimpleUserResponse(Long id) {
+    public SimpleMemberResponse(Long id) {
         this.id = id;
     }
-    public SimpleUserResponse(String userId) {
+    public SimpleMemberResponse(String userId) {
         this.userId = userId;
     }
 }

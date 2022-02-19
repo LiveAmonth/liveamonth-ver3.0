@@ -1,6 +1,6 @@
-package teamproject.lam_server.app.user.exception;
+package teamproject.lam_server.app.member.exception;
 
-import static teamproject.lam_server.app.user.exception.messages.UserExceptionMessages.EXISTS_EXCEPTION_MESSAGES;
+import static teamproject.lam_server.app.member.exception.messages.UserExceptionMessages.EXISTS_EXCEPTION_MESSAGES;
 
 public class ExistsException extends RuntimeException {
     public ExistsException(String param) {

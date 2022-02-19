@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.app.user.domain.User;
+import teamproject.lam_server.app.member.domain.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,8 +39,8 @@ public class Review {
     private int viewCount;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @JsonIgnore
     @OneToMany(mappedBy = "review")

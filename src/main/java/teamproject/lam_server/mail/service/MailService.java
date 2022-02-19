@@ -5,7 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import teamproject.lam_server.app.user.dto.FindPasswordResponse;
+import teamproject.lam_server.app.member.dto.FindPasswordResponse;
 import teamproject.lam_server.mail.MailConstant;
 
 import javax.mail.internet.InternetAddress;

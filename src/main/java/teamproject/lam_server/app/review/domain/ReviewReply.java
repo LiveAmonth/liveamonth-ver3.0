@@ -3,14 +3,12 @@ package teamproject.lam_server.app.review.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.app.user.domain.User;
+import teamproject.lam_server.app.member.domain.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static javax.persistence.FetchType.*;
-import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
@@ -30,8 +28,8 @@ public class ReviewReply {
     private LocalDateTime reviewReplyDate;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "review_id")

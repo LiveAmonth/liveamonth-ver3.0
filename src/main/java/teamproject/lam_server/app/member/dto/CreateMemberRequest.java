@@ -1,15 +1,15 @@
-package teamproject.lam_server.app.user.dto;
+package teamproject.lam_server.app.member.dto;
 
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import teamproject.lam_server.app.user.domain.User;
+import teamproject.lam_server.app.member.domain.Member;
 import teamproject.lam_server.constants.CategoryConstants.GenderTypes;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Data
-public class CreateUserRequest {
+public class CreateMemberRequest {
 
     @NotEmpty
     @Pattern(regexp = "[a-zA-Z0-9]{3,20}")
@@ -46,8 +46,8 @@ public class CreateUserRequest {
     @NotNull
     private GenderTypes gender;
 
-    public User toEntity(PasswordEncoder passwordEncoder) {
-        return User.builder()
+    public Member toEntity(PasswordEncoder passwordEncoder) {
+        return Member.builder()
                 .loginId(this.loginId)
                 .password(passwordEncoder.encode(this.password))
                 .name(this.name)
