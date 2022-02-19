@@ -165,5 +165,5 @@ public class CategoryConstants {
 
     public enum EmailDomains {NONE, NAVER, NATE, GMAIL, DAUM, SELF}
 
-    public enum UserStatus {NORMAL, DROP}
+    public enum MemberStatus {NORMAL, DROP}
 }
