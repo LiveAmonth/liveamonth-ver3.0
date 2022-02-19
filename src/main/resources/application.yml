@@ -12,6 +12,9 @@ spring:
   profiles:
     active: local
 
+  redis:
+    host: localhost
+    port: 6379
 
 
   datasource:
@@ -50,19 +53,7 @@ spring:
     default-encoding: utf-8
 
     jwt:
-      secret: { AccessToken }
-cloud:
-  aws:
-    credentials:
-      accessKey: AKIAYPRCH2IMEEXYKRMM
-      secretKey: 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
-      instanceProfile: true
-    s3:
-      bucket: liveamonth-simple-bucket
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
+      secret: liveamonthjwtsecretkey
 
 
 
