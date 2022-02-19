@@ -1,4 +1,4 @@
-package teamproject.lam_server.app.user.dto;
+package teamproject.lam_server.app.member.dto;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
-package teamproject.lam_server.app.user.exception;
+package teamproject.lam_server.app.member.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import teamproject.lam_server.app.user.exception.messages.UserExceptionMessages;
+import teamproject.lam_server.app.member.exception.messages.UserExceptionMessages;
 
 @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
 public class NormalUserDeleteException extends RuntimeException {
