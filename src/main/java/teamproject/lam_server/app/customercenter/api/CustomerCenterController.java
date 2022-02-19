@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.constants.AttrConstants;
 import teamproject.lam_server.constants.CategoryConstants.CustomerCenterCategory;
-import teamproject.lam_server.controller.ContentsController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
