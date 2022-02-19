@@ -33,7 +33,7 @@ public class CityApiController {
      */
     @ApiOperation(value = "도시 이름 조회",notes = "등록되어 있는 도시 이름을 가져온다.")
     @GetMapping("/names")
-    public ResponseEntity<Result> getCityNames() {
+    public ResponseEntity<?> getCityNames() {
         MenuResponse response = menuService.getCityMenus();
         return ResponseEntity.ok().body(new Result(response));
     }
@@ -43,7 +43,7 @@ public class CityApiController {
      * -> slide info(top)
      */
     @GetMapping("/slide-infos")
-    public ResponseEntity<Result> searchCityGridInfos() {
+    public ResponseEntity<?> searchCityGridInfos() {
         List<CityGridDataResponse> cityGridResponse = cityQueryService.searchCurrentCityInfo();
         return ResponseEntity.ok().body(new Result(cityGridResponse));
     }
@@ -53,7 +53,7 @@ public class CityApiController {
      * -> total city info tab pane(top)
      */
     @GetMapping("{cityName}/total-infos")
-    public ResponseEntity<Result> getTotalCityInfo(@PathVariable("cityName") CityName cityName) {
+    public ResponseEntity<?> getTotalCityInfo(@PathVariable("cityName") CityName cityName) {
         TotalCityInfoResponse totalCityInfoResponse = cityQueryService.searchTotalCityInfo(cityName);
         return ResponseEntity.ok().body(new Result(totalCityInfoResponse));
     }
@@ -63,7 +63,7 @@ public class CityApiController {
      * -> food & view image slide(bottom)
      */
     @GetMapping("{cityName}/foods-and-view")
-    public ResponseEntity<Result> getCityFoodAndViewInfo(@PathVariable("cityName") CityName cityName) {
+    public ResponseEntity<?> getCityFoodAndViewInfo(@PathVariable("cityName") CityName cityName) {
         CityFoodAndViewResponse cityFoodAndViewResponses = cityQueryService.searchCityFoodAndView(cityName);
         return ResponseEntity.ok().body(new Result(cityFoodAndViewResponses));
     }

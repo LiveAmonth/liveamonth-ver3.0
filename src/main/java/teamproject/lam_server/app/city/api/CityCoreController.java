@@ -22,19 +22,19 @@ public class CityCoreController {
     private final CityCoreService cityCoreService;
 
     @PostMapping("/infos/join")
-    public ResponseEntity<Result> saveCityInfos(@RequestBody @Valid CreateCityInfoRequest request) {
+    public ResponseEntity<?> saveCityInfos(@RequestBody @Valid CreateCityInfoRequest request) {
         CreateEntityResponse createEntityResponse = cityCoreService.saveCityInfo(request);
         return ResponseEntity.ok().body(new Result(createEntityResponse));
     }
 
     @GetMapping("/infos")
-    public ResponseEntity<Result> findCityInfos(Pageable pageable) {
+    public ResponseEntity<?> findCityInfos(Pageable pageable) {
         Page<CityInfoResponse> response = cityCoreService.findAllCityInfos(pageable);
         return ResponseEntity.ok().body(new Result(response));
     }
 
     @GetMapping("/transports")
-    public ResponseEntity<Result> findCityTransports(Pageable pageable) {
+    public ResponseEntity<?> findCityTransports(Pageable pageable) {
         Page<CityTransportResponse> response = cityCoreService.findAllCityTransports(pageable);
         return ResponseEntity.ok().body(new Result(response));
     }
@@ -46,19 +46,19 @@ public class CityCoreController {
     }
 
     @GetMapping("/infos/search")
-    public ResponseEntity<Result> searchCityInfos(CityInfoSearchCond cond, Pageable pageable) {
+    public ResponseEntity<?> searchCityInfos(CityInfoSearchCond cond, Pageable pageable) {
         Page<CityInfoResponse> response = cityCoreService.searchCityInfos(cond, pageable);
         return ResponseEntity.ok().body(new Result(response));
     }
 
     @GetMapping("/transports/search")
-    public ResponseEntity<Result> searchCityTransports(CityTransportSearchCond cond, Pageable pageable) {
+    public ResponseEntity<?> searchCityTransports(CityTransportSearchCond cond, Pageable pageable) {
         Page<CityTransportResponse> response = cityCoreService.searchCityTransports(cond, pageable);
         return ResponseEntity.ok().body(new Result(response));
     }
 
     @GetMapping("/weather/search")
-    public ResponseEntity<Result> searchCityWeather(CityWeatherSearchCond cond, Pageable pageable) {
+    public ResponseEntity<?> searchCityWeather(CityWeatherSearchCond cond, Pageable pageable) {
         Page<CityWeatherResponse> response = cityCoreService.searchCityWeathers(cond, pageable);
         return ResponseEntity.ok().body(new Result(response));
     }
