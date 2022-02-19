@@ -52,8 +52,10 @@ dependencies {
     // 보안, 검증
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     // 테스트
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -75,6 +77,8 @@ dependencies {
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
+    // Redis (for Token)
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 test {
@@ -84,7 +88,7 @@ test {
 bootJar {
     archiveBaseName = '-'
     archiveFileName = 'application.jar'
-    archiveVersion = "0.0.0"
+    archiveVersion = "1.0.0"
 }
 
 //querydsl 추가 시작
