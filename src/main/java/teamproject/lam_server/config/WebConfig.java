@@ -2,7 +2,6 @@ package teamproject.lam_server.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
-import teamproject.lam_server.interceptor.LoginCheckInterceptor;
 
 import java.util.List;
 import java.util.stream.Collectors;
