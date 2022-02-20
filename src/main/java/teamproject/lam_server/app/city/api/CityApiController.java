@@ -14,6 +14,7 @@ import teamproject.lam_server.app.city.dto.view.TotalCityInfoResponse;
 import teamproject.lam_server.app.city.service.query.CityQueryService;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
 import teamproject.lam_server.global.dto.MenuResponse;
+import teamproject.lam_server.global.dto.Response;
 import teamproject.lam_server.global.dto.Result;
 import teamproject.lam_server.global.service.MenuService;
 
@@ -26,7 +27,7 @@ import java.util.List;
 public class CityApiController {
     private final CityQueryService cityQueryService;
     private final MenuService menuService;
-
+    private final Response response;
     /**
      * dependence presentation layer::home(header)
      * -> menu bar
@@ -34,8 +35,8 @@ public class CityApiController {
     @ApiOperation(value = "도시 이름 조회",notes = "등록되어 있는 도시 이름을 가져온다.")
     @GetMapping("/names")
     public ResponseEntity<?> getCityNames() {
-        MenuResponse response = menuService.getCityMenus();
-        return ResponseEntity.ok().body(new Result(response));
+        MenuResponse result = menuService.getCityMenus();
+        return response.success(result);
     }
 
     /**
@@ -44,8 +45,8 @@ public class CityApiController {
      */
     @GetMapping("/slide-infos")
     public ResponseEntity<?> searchCityGridInfos() {
-        List<CityGridDataResponse> cityGridResponse = cityQueryService.searchCurrentCityInfo();
-        return ResponseEntity.ok().body(new Result(cityGridResponse));
+        List<CityGridDataResponse> result = cityQueryService.searchCurrentCityInfo();
+        return response.success(result);
     }
 
     /**
@@ -54,8 +55,8 @@ public class CityApiController {
      */
     @GetMapping("{cityName}/total-infos")
     public ResponseEntity<?> getTotalCityInfo(@PathVariable("cityName") CityName cityName) {
-        TotalCityInfoResponse totalCityInfoResponse = cityQueryService.searchTotalCityInfo(cityName);
-        return ResponseEntity.ok().body(new Result(totalCityInfoResponse));
+        TotalCityInfoResponse result = cityQueryService.searchTotalCityInfo(cityName);
+        return response.success(result);
     }
 
     /**
@@ -64,8 +65,8 @@ public class CityApiController {
      */
     @GetMapping("{cityName}/foods-and-view")
     public ResponseEntity<?> getCityFoodAndViewInfo(@PathVariable("cityName") CityName cityName) {
-        CityFoodAndViewResponse cityFoodAndViewResponses = cityQueryService.searchCityFoodAndView(cityName);
-        return ResponseEntity.ok().body(new Result(cityFoodAndViewResponses));
+        CityFoodAndViewResponse result = cityQueryService.searchCityFoodAndView(cityName);
+        return response.success(result);
     }
 
 
