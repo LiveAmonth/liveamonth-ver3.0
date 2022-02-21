@@ -31,7 +31,7 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of={"id","loginId","nickname","name","email","gender","birth"})
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"loginId"}))
-public class Member extends BaseTimeEntity implements UserDetails {
+public class Member extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -52,11 +52,6 @@ public class Member extends BaseTimeEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private CategoryConstants.MemberStatus status;
-
-    @Column
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
 
     /**
      * 아래의 리스트들이 사실상 필요없다.
@@ -135,38 +130,5 @@ public class Member extends BaseTimeEntity implements UserDetails {
     public void modifyMemberInfo(String nickname, String image) {
         updateNickname(nickname);
         updateImage(image);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
-    public String getUsername() {
-        return loginId;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

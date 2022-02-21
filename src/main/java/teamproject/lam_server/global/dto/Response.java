@@ -32,6 +32,7 @@ public class Response {
                         .data(data)
                         .result("ok")
                         .error(Collections.emptyList())
+                        .message(message)
                         .timeStamp(LocalDateTime.now())
                         .build());
     }

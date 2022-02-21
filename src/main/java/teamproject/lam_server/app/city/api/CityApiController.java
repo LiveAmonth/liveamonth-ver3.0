@@ -15,7 +15,6 @@ import teamproject.lam_server.app.city.service.query.CityQueryService;
 import teamproject.lam_server.constants.CategoryConstants.CityName;
 import teamproject.lam_server.global.dto.MenuResponse;
 import teamproject.lam_server.global.dto.Response;
-import teamproject.lam_server.global.dto.Result;
 import teamproject.lam_server.global.service.MenuService;
 
 import java.util.List;

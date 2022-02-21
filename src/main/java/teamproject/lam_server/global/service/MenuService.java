@@ -3,6 +3,7 @@ package teamproject.lam_server.global.service;
 import org.springframework.stereotype.Service;
 import teamproject.lam_server.constants.CategoryConstants;
 import teamproject.lam_server.global.dto.MenuResponse;
+import teamproject.lam_server.global.dto.Response;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import static teamproject.lam_server.constants.CategoryConstants.*;
 import static teamproject.lam_server.constants.PathConstants.MY_PAGE;
 
 @Service
-public class MenuService {
 
+public class MenuService {
     public MenuResponse getCityMenus(){
         List<String> cityMenus =
                 Arrays.stream(CityName.values())

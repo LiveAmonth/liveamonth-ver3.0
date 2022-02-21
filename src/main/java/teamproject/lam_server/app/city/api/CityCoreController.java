@@ -11,7 +11,6 @@ import teamproject.lam_server.app.city.dto.condition.CityTransportSearchCond;
 import teamproject.lam_server.app.city.dto.condition.CityWeatherSearchCond;
 import teamproject.lam_server.app.city.service.core.CityCoreService;
 import teamproject.lam_server.global.dto.Response;
-import teamproject.lam_server.global.dto.Result;
 
 import javax.validation.Valid;
 

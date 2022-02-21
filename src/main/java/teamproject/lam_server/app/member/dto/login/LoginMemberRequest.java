@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 @Data
-public class LoginUserRequest {
+public class LoginMemberRequest {
 
     @NotEmpty
     @Pattern(regexp = "[a-zA-Z0-9]{3,20}")

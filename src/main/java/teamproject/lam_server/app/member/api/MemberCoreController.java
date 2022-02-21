@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.app.member.dto.MemberResponse;
 import teamproject.lam_server.app.member.service.MemberServiceImpl;
-import teamproject.lam_server.global.dto.Result;
+import teamproject.lam_server.global.dto.Response;
 
 import java.util.List;
 
@@ -16,19 +16,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/v1/api")
 public class MemberCoreController {
-
+    private final Response response;
     private final MemberServiceImpl userService;
 
-    @GetMapping("/users")
-    public ResponseEntity<Result> allUsers() {
-        List<MemberResponse> responses = userService.findAll();
-        return ResponseEntity.ok().body(new Result(responses));
+    @GetMapping("/members")
+    public ResponseEntity<?> allUsers() {
+        List<MemberResponse> result = userService.findAll();
+        return response.success(result);
     }
 
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<Result> findUser(@PathVariable Long id) {
-        MemberResponse response = userService.findOne(id);
-        return ResponseEntity.ok().body(new Result(response));
+    @GetMapping("/members/{id}")
+    public ResponseEntity<?> findUser(@PathVariable Long id) {
+        MemberResponse result = userService.findOne(id);
+        return response.success(result);
     }
 }

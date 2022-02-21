@@ -2,7 +2,6 @@ package teamproject.lam_server.app.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.app.member.dto.login.ReissueTokenRequest;
-import teamproject.lam_server.app.member.dto.login.LoginUserRequest;
+import teamproject.lam_server.app.member.dto.login.LoginMemberRequest;
 import teamproject.lam_server.app.member.dto.login.TokenResponse;
 import teamproject.lam_server.app.member.exception.UserNotFoundException;
 import teamproject.lam_server.app.member.repository.MemberRepository;
@@ -43,7 +42,7 @@ public class LoginServiceImpl {
      * <p>
      * 3. 인증 정보를 기반으로 JWT토큰 생성
      */
-    public ResponseEntity<?> login(LoginUserRequest request) {
+    public TokenResponse login(LoginMemberRequest request) {
         memberRepository.findByLoginId(request.getLoginId()).orElseThrow(UserNotFoundException::new);
 
         // LoginID/Pw 로 Authentication 객체 생성
@@ -64,7 +63,7 @@ public class LoginServiceImpl {
                         tokenInfo.getAccessTokenExpirationTime(),
                         TimeUnit.MILLISECONDS);
 
-        return response.success(tokenInfo, "Login Success!!", HttpStatus.OK);
+        return tokenInfo;
     }
     public ResponseEntity<?> reissue(ReissueTokenRequest request) {
         return null;

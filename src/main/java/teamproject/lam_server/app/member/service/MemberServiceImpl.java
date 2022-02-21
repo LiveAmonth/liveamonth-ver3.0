@@ -11,7 +11,7 @@ import teamproject.lam_server.app.member.exception.NormalUserDeleteException;
 import teamproject.lam_server.app.member.exception.UserNotFoundException;
 import teamproject.lam_server.app.member.repository.MemberCheckRepository;
 import teamproject.lam_server.app.member.repository.MemberRepository;
-import teamproject.lam_server.app.member.dto.login.LoginUserRequest;
+import teamproject.lam_server.app.member.dto.login.LoginMemberRequest;
 import teamproject.lam_server.mail.service.MailService;
 
 import java.util.List;
@@ -46,7 +46,7 @@ public class MemberServiceImpl {
         return new SimpleMemberResponse(saveMember.getId(), saveMember.getName());
     }
 
-    public Member login(LoginUserRequest request) {
+    public Member login(LoginMemberRequest request) {
 
         return memberRepository.findByLoginId(request.getLoginId())
                 .filter(m -> passwordEncoder.matches(request.getPassword(), m.getPassword()))

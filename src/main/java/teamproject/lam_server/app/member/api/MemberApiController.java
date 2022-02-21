@@ -2,15 +2,18 @@ package teamproject.lam_server.app.member.api;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import teamproject.lam_server.app.member.domain.Member;
 import teamproject.lam_server.app.member.dto.*;
-import teamproject.lam_server.app.member.dto.login.LoginUserRequest;
+import teamproject.lam_server.app.member.dto.login.LoginMemberRequest;
+import teamproject.lam_server.app.member.dto.login.TokenResponse;
+import teamproject.lam_server.app.member.service.LoginServiceImpl;
 import teamproject.lam_server.app.member.service.MemberServiceImpl;
+import teamproject.lam_server.auth.JwtTokenProvider;
 import teamproject.lam_server.global.dto.MenuResponse;
-import teamproject.lam_server.global.dto.Result;
+import teamproject.lam_server.global.dto.Response;
 import teamproject.lam_server.global.service.MenuService;
 
 import javax.validation.Valid;
@@ -21,31 +24,33 @@ import java.net.URI;
 @RequestMapping("/v1/api")
 @Slf4j
 public class MemberApiController {
-    private final MemberServiceImpl userService;
-    private final MenuService menuService;
+    private final Response response;
 
+    private final MemberServiceImpl memberService;
+    private final MenuService menuService;
+    private final LoginServiceImpl loginService;
     /**
      * presentation layer::my page
      * -> my page menus
      */
     @GetMapping("/my-page/menus")
-    public ResponseEntity<Result> getMyPageMenus(){
-        MenuResponse response = menuService.getMyPageMenus();
-        return ResponseEntity.ok().body(new Result(response));
+    public ResponseEntity<?> getMyPageMenus(){
+        MenuResponse result = menuService.getMyPageMenus();
+        return response.success(result);
     }
 
     /**
      * presentation layer::home, sign up
      * -> user sign up
      */
-    @PostMapping("/users")
-    public ResponseEntity<Result> joinUser(@RequestBody @Valid CreateMemberRequest request) {
-        SimpleMemberResponse response = userService.save(request);
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> joinUser(@Valid @RequestBody CreateMemberRequest request) {
+        SimpleMemberResponse result = memberService.save(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(response.getId())
+                .buildAndExpand(result.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(new Result(response));
+        return response.success(result);
     }
 
     /**
@@ -53,93 +58,99 @@ public class MemberApiController {
      * -> user login
      */
     @PostMapping("/login")
-    public ResponseEntity<Result> login(@RequestBody LoginUserRequest request) {
-        Member login = userService.login(request);
-        return ResponseEntity.ok().body(new Result(login));
+    public ResponseEntity<?> login(@Valid @RequestBody LoginMemberRequest request) {
+        TokenResponse result = loginService.login(request);
+        return response.success(result, "Login Success!!", HttpStatus.OK);
     }
 
     /**
      * presentation layer::login
      * -> find user login id
      */
-    @PostMapping("/users/findId")
-    public ResponseEntity<Result> findLoginId(@RequestBody FindLoginIdRequest request) {
-        SimpleMemberResponse response = userService.findLoginId(request);
-        return ResponseEntity.ok().body(new Result(response));
+    @PostMapping("/members/findId")
+    public ResponseEntity<?> findLoginId(@Valid @RequestBody FindLoginIdRequest request) {
+        SimpleMemberResponse result = memberService.findLoginId(request);
+        return response.success(result);
     }
 
     /**
      * presentation layer::login
      * -> find user password
      */
-    @PostMapping("/users/findPw")
-    public ResponseEntity<Result> findPassword(@RequestBody FindPasswordRequest request){
-        FindPasswordResponse response = userService.findPassword(request);
-        return ResponseEntity.ok().body(new Result(response));
+    @PostMapping("/members/findPw")
+    public ResponseEntity<?> findPassword(@Valid @RequestBody FindPasswordRequest request){
+        FindPasswordResponse result = memberService.findPassword(request);
+        return response.success(result);
     }
 
     /**
      * presentation layer::my page
      * -> modify user information
      */
-    @PostMapping("/users/{id}/modify")
-    public ResponseEntity<Result> modifyUser(
+    @PostMapping("/members/{id}/modify")
+    public ResponseEntity<?> modifyUser(
             @PathVariable Long id,
-            @RequestBody ModifyMemberRequest request) {
-        Long modifiedId = userService.modify(id, request);
-        return ResponseEntity.ok().body(new Result(modifiedId));
+            @Valid @RequestBody ModifyMemberRequest request) {
+        Long result = memberService.modify(id, request);
+        return response.success(result);
     }
 
     /**
      * presentation layer::my page
      * -> drop user(customer)
      */
-    @PostMapping("/users/{id}/drop")
-    public ResponseEntity<Result> dropUser(@PathVariable Long id) {
-        SimpleMemberResponse response = userService.dropUser(id);
-        return ResponseEntity.ok().body(new Result(response));
+    @PostMapping("/members/{id}/drop")
+    public ResponseEntity<?> dropUser(@PathVariable Long id) {
+        SimpleMemberResponse result = memberService.dropUser(id);
+        return response.success(result);
     }
 
     /**
      * presentation layer::my page
      * -> delete user(admin)
      */
-    @DeleteMapping("/users/{id}/clean-delete")
-    public ResponseEntity<Result> cleanDeleteUser(@PathVariable Long id) {
-        SimpleMemberResponse response = userService.delete(id);
-        return ResponseEntity.ok().body(new Result(response));
+    @DeleteMapping("/members/{id}/clean-delete")
+    public ResponseEntity<?> cleanDeleteUser(@PathVariable Long id) {
+        SimpleMemberResponse result = memberService.delete(id);
+        return response.success(result);
     }
 
     /**
      * presentation layer::sign up
      * -> login id duplicate check
      */
-    @GetMapping("/user-login-id/{loginId}/exists")
-    public ResponseEntity<Result> checkDuplicateLoginId(@PathVariable String loginId) {
-        DuplicateCheckResponse response = userService.checkDuplicateLoginId(loginId);
-        return ResponseEntity.ok().body(new Result(response));
+    @GetMapping("/member-login-id/{loginId}/exists")
+    public ResponseEntity<?> checkDuplicateLoginId(@PathVariable String loginId) {
+        DuplicateCheckResponse result = memberService.checkDuplicateLoginId(loginId);
+        return result.getCondition()
+                ? response.success(result,"사용 가능", HttpStatus.OK)
+                : response.success(result,"사용중인 아이디", HttpStatus.OK);
     }
 
     /**
      * presentation layer::sign up
      * -> email(id & domain) duplicate check
      */
-    @GetMapping("/user-email/{emailId}/{domain}/exists")
-    public ResponseEntity<Result> checkDuplicateEmail(
+    @GetMapping("/member-email/{emailId}/{domain}/exists")
+    public ResponseEntity<?> checkDuplicateEmail(
             @PathVariable String emailId,
             @PathVariable String domain) {
-        DuplicateCheckResponse response = userService.checkDuplicateEmail(emailId,domain);
-        return ResponseEntity.ok().body(new Result(response));
+        DuplicateCheckResponse result = memberService.checkDuplicateEmail(emailId,domain);
+        return result.getCondition()
+                ? response.success(result,"사용 가능", HttpStatus.OK)
+                : response.success(result,"사용중인 이메일", HttpStatus.OK);
     }
 
     /**
      * presentation layer::sign up
      * -> nickname duplicate check
      */
-    @GetMapping("/user-nickname/{nickname}/exists")
-    public ResponseEntity<Result> checkDuplicateNickname(@PathVariable String nickname) {
-        DuplicateCheckResponse response = userService.checkDuplicateNickname(nickname);
-        return ResponseEntity.ok().body(new Result(response));
+    @GetMapping("/member-nickname/{nickname}/exists")
+    public ResponseEntity<?> checkDuplicateNickname(@PathVariable String nickname) {
+        DuplicateCheckResponse result = memberService.checkDuplicateNickname(nickname);
+        return result.getCondition()
+                ? response.success(result,"사용 가능", HttpStatus.OK)
+                : response.success(result,"사용중인 닉네임", HttpStatus.OK);
     }
 
 
