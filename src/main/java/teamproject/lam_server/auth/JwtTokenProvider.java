@@ -1,11 +1,11 @@
 package teamproject.lam_server.auth;
 
 import io.jsonwebtoken.*;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
+@PropertySource(value = {"classpath:application.yml"})
 public class JwtTokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
@@ -39,6 +40,7 @@ public class JwtTokenProvider {
 
     /**
      * Create AccessToken, RefreshToken By Member Information
+     *
      * @param authentication
      * @return
      */
@@ -67,14 +69,18 @@ public class JwtTokenProvider {
         return TokenResponse.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
-                .accessTokenExpirationTime(accessTokenExpiresIn.getTime())
                 .refreshToken(refreshToken)
+                .refreshTokenExpirationTime(accessTokenExpiresIn.getTime())
                 .build();
     }
 
+    /**
+     * valid token information
+     */
     public boolean validateToken(String token) {
-        try{
+        try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
@@ -87,7 +93,9 @@ public class JwtTokenProvider {
         return false;
     }
 
-    // decrypt JWT token
+    /**
+     * decrypt JWT token
+     */
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
@@ -107,9 +115,22 @@ public class JwtTokenProvider {
 
     private Claims parseClaims(String accessToken) {
         try {
-            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+            return Jwts.parserBuilder()
+                    .setSigningKey(key).build()
+                    .parseClaimsJws(accessToken)
+                    .getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+
+    public Long getExpiration(String accessToken) {
+        Date expiration = Jwts.parserBuilder()
+                .setSigningKey(key).build()
+                .parseClaimsJws(accessToken)
+                .getBody()
+                .getExpiration();
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
     }
 }

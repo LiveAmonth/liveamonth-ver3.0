@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import teamproject.lam_server.app.member.dto.*;
 import teamproject.lam_server.app.member.dto.login.LoginMemberRequest;
+import teamproject.lam_server.app.member.dto.login.LogoutMemberRequest;
 import teamproject.lam_server.app.member.dto.login.TokenResponse;
 import teamproject.lam_server.app.member.service.LoginServiceImpl;
 import teamproject.lam_server.app.member.service.MemberServiceImpl;
-import teamproject.lam_server.auth.JwtTokenProvider;
 import teamproject.lam_server.global.dto.MenuResponse;
 import teamproject.lam_server.global.dto.Response;
 import teamproject.lam_server.global.service.MenuService;
@@ -61,6 +61,12 @@ public class MemberApiController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginMemberRequest request) {
         TokenResponse result = loginService.login(request);
         return response.success(result, "Login Success!!", HttpStatus.OK);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@Valid @RequestBody LogoutMemberRequest request){
+        loginService.logout(request);
+        return response.success("Logout Success");
     }
 
     /**
