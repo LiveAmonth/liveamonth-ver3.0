@@ -1,10 +1,8 @@
 package teamproject.lam_server.uploader;
 
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
@@ -43,11 +41,11 @@ public class localUploader {
     }
 
     public void fileUpload(String fileName, byte[] fileData) {
-        String filePath = (fileName).replace(File.separatorChar, '/');
-        ObjectMetadata metaData = new ObjectMetadata();
-
-        metaData.setContentLength(fileData.length);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
+//        String filePath = (fileName).replace(File.separatorChar, '/');
+//        ObjectMetadata metaData = new ObjectMetadata();
+//
+//        metaData.setContentLength(fileData.length);
+//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(fileData);
 
 //        amazonS3Client.putObject(bucket, filePath, byteArrayInputStream, metaData);
     }
