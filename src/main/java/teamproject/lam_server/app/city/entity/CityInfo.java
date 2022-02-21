@@ -12,7 +12,6 @@ import javax.persistence.Lob;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"name", "cityInfoCat", "content", "image"})
 public class CityInfo extends City {
 
     @Convert(converter = CityInfoCategoryConverter.class)

@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"name", "cityTransportCat", "station_count"})
 public class CityTransport extends City {
 
     @Convert(converter = TransportCategoryConverter.class)
