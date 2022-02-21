@@ -67,7 +67,6 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     // S3 버킷
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.5.RELEASE'
     implementation 'commons-io:commons-io:2.6'
 
     // 메일

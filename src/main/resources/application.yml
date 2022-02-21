@@ -5,7 +5,13 @@ server:
       timeout: 1800
   port: 8080
 
+jwt:
+  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+
 spring:
+  default-encoding: utf-8
+
+
   messages:
     basename: messages, errors
 
@@ -49,12 +55,6 @@ spring:
         transport:
           protocol: smtp
         debug: false
-
-    default-encoding: utf-8
-
-    jwt:
-      secret: liveamonthjwtsecretkey
-
 
 
 logging:
