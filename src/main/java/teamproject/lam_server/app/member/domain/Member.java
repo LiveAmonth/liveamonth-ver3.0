@@ -1,11 +1,13 @@
 package teamproject.lam_server.app.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.jsonwebtoken.Claims;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
+import teamproject.lam_server.app.member.dto.MemberResponse;
 import teamproject.lam_server.app.review.domain.Review;
 import teamproject.lam_server.app.review.domain.ReviewReply;
 import teamproject.lam_server.app.schedule.domain.Schedule;

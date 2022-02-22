@@ -15,7 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import teamproject.lam_server.auth.JwtAccessDeniedEntryPoint;
+import teamproject.lam_server.auth.JwtAuthenticationEntryPoint;
 import teamproject.lam_server.auth.JwtAuthenticationFilter;
 import teamproject.lam_server.auth.JwtTokenProvider;
 
@@ -30,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final RedisTemplate redisTemplate;
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -41,23 +44,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and()
+        http.
+            httpBasic().disable()
                 .csrf().disable()
-                // 토큰을 활욜하면 세션이 필요 없어지므로 STATELESS로 설정.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            // 토큰을 활욜하면 세션이 필요 없어지므로 STATELESS로 설정.
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
+            .authorizeRequests()
+            .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                .antMatchers("/v1/api/sign-up").permitAll()
+//                .antMatchers("/v1/api/login").permitAll()
+//                .antMatchers("/v1/api/find-id").permitAll()
+//                .antMatchers("/v1/api/find-pw").permitAll()
+//                .antMatchers("/exception/**").permitAll()
+//                .anyRequest().hasRole("ROLE_USER")
                 // 토큰을 이용하는 경우 모든 요청에 대해 접근이 가능하도록 함
                 .anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider,redisTemplate), UsernamePasswordAuthenticationFilter.class)
-                // form 기반의 로그인에 대해 비활성화 한다.
-                .formLogin().disable();
+            .cors()
+                .and()
+            .exceptionHandling().accessDeniedHandler(new JwtAccessDeniedEntryPoint())
+                .and()
+            .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                .and()
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
+            // form 기반의 로그인에 대해 비활성화 한다.
+            .formLogin().disable();
 
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(){
+    public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:8081"));
         configuration.addAllowedHeader("*");

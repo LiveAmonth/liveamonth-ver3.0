@@ -1,10 +1,11 @@
 package teamproject.lam_server.app.member.dto;
 
 import lombok.Data;
+import org.springframework.security.core.userdetails.User;
 import teamproject.lam_server.app.member.domain.Member;
 
 @Data
-public class MemberResponse {
+public class MemberResponse{
 
     private String loginId;
 

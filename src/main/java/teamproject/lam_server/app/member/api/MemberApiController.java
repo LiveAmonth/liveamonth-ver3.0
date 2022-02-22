@@ -12,6 +12,7 @@ import teamproject.lam_server.app.member.dto.login.LogoutMemberRequest;
 import teamproject.lam_server.app.member.dto.login.TokenResponse;
 import teamproject.lam_server.app.member.service.LoginServiceImpl;
 import teamproject.lam_server.app.member.service.MemberServiceImpl;
+import teamproject.lam_server.auth.JwtTokenProvider;
 import teamproject.lam_server.global.dto.MenuResponse;
 import teamproject.lam_server.global.dto.Response;
 import teamproject.lam_server.global.service.MenuService;
@@ -29,6 +30,8 @@ public class MemberApiController {
     private final MemberServiceImpl memberService;
     private final MenuService menuService;
     private final LoginServiceImpl loginService;
+
+    private JwtTokenProvider jwtTokenProvider;
     /**
      * presentation layer::my page
      * -> my page menus
@@ -73,7 +76,7 @@ public class MemberApiController {
      * presentation layer::login
      * -> find user login id
      */
-    @PostMapping("/members/findId")
+    @PostMapping("/find-id")
     public ResponseEntity<?> findLoginId(@Valid @RequestBody FindLoginIdRequest request) {
         SimpleMemberResponse result = memberService.findLoginId(request);
         return response.success(result);
@@ -83,7 +86,7 @@ public class MemberApiController {
      * presentation layer::login
      * -> find user password
      */
-    @PostMapping("/members/findPw")
+    @PostMapping("/find-pw")
     public ResponseEntity<?> findPassword(@Valid @RequestBody FindPasswordRequest request){
         FindPasswordResponse result = memberService.findPassword(request);
         return response.success(result);

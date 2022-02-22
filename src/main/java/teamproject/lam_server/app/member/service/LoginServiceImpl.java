@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.app.member.domain.Member;
+import teamproject.lam_server.app.member.dto.MemberResponse;
 import teamproject.lam_server.app.member.dto.login.LoginMemberRequest;
 import teamproject.lam_server.app.member.dto.login.LogoutMemberRequest;
 import teamproject.lam_server.app.member.dto.login.ReissueTokenRequest;
@@ -42,7 +44,7 @@ public class LoginServiceImpl {
      * 3. 인증 정보를 기반으로 JWT토큰 생성
      */
     public TokenResponse login(LoginMemberRequest request) {
-        memberRepository.findByLoginId(request.getLoginId()).orElseThrow(UserNotFoundException::new);
+        Member findMember = memberRepository.findByLoginId(request.getLoginId()).orElseThrow(UserNotFoundException::new);
 
         // LoginID/Pw 로 Authentication 객체 생성
         // authentication 은 인증 여부를 확인하는 authenticated -> false
