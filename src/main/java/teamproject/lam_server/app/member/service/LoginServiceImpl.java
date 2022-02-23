@@ -55,7 +55,7 @@ public class LoginServiceImpl {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 인증 정보를 기반으로 JWT 토큰 생성
-        TokenResponse tokenResponse = jwtTokenProvider.generateToken(authentication);
+        TokenResponse tokenResponse = jwtTokenProvider.generateToken(authentication,new MemberResponse(findMember));
 
         // RefreshToken Redis 저장, expirationTime -> 자동 삭제
         System.out.println("authentication = " + authentication);
@@ -74,13 +74,15 @@ public class LoginServiceImpl {
         // 토큰에서 회원 정보 가져오기(login id)
         Authentication authentication = getUserNameByAuthentication(request.getAccessToken());
 
+        // access token 에 담을 회원 response
+        Member findMember = memberRepository.findByLoginId(authentication.getName()).orElseThrow(UserNotFoundException::new);
+
         String key = this.getKey(authentication);
-        if (!key.equals(request.getRefreshToken())) {
-            throw new CorrespondException();
-        }
+        // redis 에 저장되어 있는 refresh 토큰이 있는지 확인 By key(access token loginId)
+        if (!redisTemplate.opsForValue().get(key).equals(request.getRefreshToken())) throw new CorrespondException();
 
         // 새로운 토큰 생성
-        TokenResponse tokenResponse = jwtTokenProvider.generateToken(authentication);
+        TokenResponse tokenResponse = jwtTokenProvider.generateToken(authentication,new MemberResponse(findMember));
 
         // Refresh 토큰 업데이트
         this.updateToken(key, tokenResponse.getRefreshToken(), tokenResponse.getRefreshTokenExpirationTime());
@@ -89,10 +91,8 @@ public class LoginServiceImpl {
     }
 
     public void logout(LogoutMemberRequest request) {
-        log.info("request={}", request);
         // Access 토큰 검증
         this.checkValidateToken(request.getAccessToken());
-        System.out.println(" 검증완료 ");
 
         // 토큰에서 회원 정보 가져오기(login id)
         Authentication authentication = getUserNameByAuthentication(request.getAccessToken());
@@ -109,6 +109,12 @@ public class LoginServiceImpl {
         this.updateToken(request.getAccessToken(), "logout", expiration);
     }
 
+    /**
+     * update redis
+     * @param key
+     * @param refreshToken
+     * @param refreshTokenExpirationTime
+     */
     private void updateToken(String key, String refreshToken, Long refreshTokenExpirationTime) {
         redisTemplate.opsForValue().set(
                 key,

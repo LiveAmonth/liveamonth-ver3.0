@@ -4,11 +4,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import teamproject.lam_server.app.member.domain.Member;
 import teamproject.lam_server.app.member.dto.*;
 import teamproject.lam_server.app.member.dto.login.LoginMemberRequest;
 import teamproject.lam_server.app.member.dto.login.LogoutMemberRequest;
+import teamproject.lam_server.app.member.dto.login.ReissueTokenRequest;
 import teamproject.lam_server.app.member.dto.login.TokenResponse;
 import teamproject.lam_server.app.member.service.LoginServiceImpl;
 import teamproject.lam_server.app.member.service.MemberServiceImpl;
@@ -60,13 +63,21 @@ public class MemberApiController {
      * presentation layer::home, login
      * -> user login
      */
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginMemberRequest request) {
         TokenResponse result = loginService.login(request);
+
         return response.success(result, "Login Success!!", HttpStatus.OK);
     }
 
-    @PostMapping("/logout")
+    @PostMapping("/auth/reissue")
+    public ResponseEntity<?> reissue(@Valid @RequestBody ReissueTokenRequest request
+                                     ) {
+        TokenResponse result = loginService.reissue(request);
+        return response.success(result, "Reissue Token!!", HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/logout")
     public ResponseEntity<?> logout(@Valid @RequestBody LogoutMemberRequest request){
         loginService.logout(request);
         return response.success("Logout Success");

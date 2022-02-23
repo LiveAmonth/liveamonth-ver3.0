@@ -46,7 +46,7 @@ public class JwtTokenProvider {
      * @param authentication
      * @return
      */
-    public TokenResponse generateToken(Authentication authentication) {
+    public TokenResponse generateToken(Authentication authentication, MemberResponse response) {
         // get authority
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -58,6 +58,7 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
+                .claim("member",response)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
