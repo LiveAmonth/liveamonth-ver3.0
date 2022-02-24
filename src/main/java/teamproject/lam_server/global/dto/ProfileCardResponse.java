@@ -1,15 +1,10 @@
-package teamproject.lam_server.app.member.dto;
+package teamproject.lam_server.global.dto;
 
 import lombok.Data;
-import org.springframework.security.core.userdetails.User;
 import teamproject.lam_server.app.member.domain.Member;
 
 @Data
-public class MemberResponse{
-
-    private String loginId;
-
-    private String name;
+public class ProfileCardResponse {
 
     private String nickname;
 
@@ -19,13 +14,10 @@ public class MemberResponse{
 
     private int age;
 
-    public MemberResponse(Member member) {
-        this.loginId = member.getLoginId();
-        this.name = member.getName();
+    public ProfileCardResponse(Member member) {
         this.nickname = member.getNickname();
         this.email = member.getEmail();
         this.gender = member.getGender().getCode();
         this.age = member.calcAge();
     }
-
 }

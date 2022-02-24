@@ -37,7 +37,7 @@ class CityQueryRepositoryTest {
     @Test
     public void searchCityInfosTest() {
         CityInfoSearchCond cond = new CityInfoSearchCond();
-        cond.setName(CityName.SEOUL);
+        cond.setName(CityName.SE);
         cond.setCategory(CityInfoCategory.FOOD);
         cond.setImageExtension("png");
         Pageable pageable = PageRequest.of(0, 5);
@@ -62,7 +62,7 @@ class CityQueryRepositoryTest {
     @Test
     public void searchCityWeatherTest() {
         CityWeatherSearchCond cond = new CityWeatherSearchCond();
-        cond.setName(CityName.SEOUL);
+        cond.setName(CityName.SE);
 //        cond.setMonth(CategoryConstants.Month.DECEMBER);
         cond.setDegreeGoe(10);
         cond.setDegreeLoe(20);

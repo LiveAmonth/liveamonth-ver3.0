@@ -12,12 +12,12 @@ public class CategoryConstants {
     }
 
     public enum CityName implements CodeValue {
-        SEOUL("SE", "서울"),
-        GANGNEUNG("GN", "강릉"),
-        GYEONGJU("GJ", "경주"),
-        BUSAN("BS", "부산"),
-        YEOSU("YS", "여수"),
-        JEJU("JJ", "제주");
+        SE("SE", "서울"),
+        GN("GN", "강릉"),
+        GJ("GJ", "경주"),
+        BS("BS", "부산"),
+        YS("YS", "여수"),
+        JJ("JJ", "제주");
         private String code;
         private String value;
 

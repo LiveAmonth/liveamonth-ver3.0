@@ -60,7 +60,7 @@ class CityCoreServiceTest {
     }
     private CreateCityInfoRequest createCityInfo(){
         CreateCityInfoRequest request = new CreateCityInfoRequest();
-        request.setName(CategoryConstants.CityName.SEOUL);
+        request.setName(CategoryConstants.CityName.SE);
         request.setCategory(CategoryConstants.CityInfoCategory.INTRO);
         request.setContent("테스트 데이터");
         request.setImage("test.jpg");

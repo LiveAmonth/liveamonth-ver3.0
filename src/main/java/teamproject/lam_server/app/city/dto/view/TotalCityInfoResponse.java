@@ -15,18 +15,18 @@ import java.util.stream.Collectors;
 public class TotalCityInfoResponse {
 
     //== 도시 소개 정보 ==//
-    private String name;
+    private String cityName;
     private String content;
     private String image;
 
     //== 도시 교통 정보 ==//
-    private List<CityTransportResponse> transports = new ArrayList<>();
+    private List<CityTransportResponse> transports;
 
     //== 날씨 정보 ==//
-    private List<CityWeatherResponse> weathers = new ArrayList<>();
+    private List<CityWeatherResponse> weathers;
 
     public TotalCityInfoResponse(CityInfo info, List<CityTransport> transports, List<CityWeather> weathers) {
-        this.name = info.getName().getCode();
+        this.cityName = info.getName().name();
         this.content = info.getContent();
         this.image = info.getImage();
 
