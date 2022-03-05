@@ -71,8 +71,7 @@ public class MemberApiController {
     }
 
     @PostMapping("/auth/reissue")
-    public ResponseEntity<?> reissue(@Valid @RequestBody ReissueTokenRequest request
-                                     ) {
+    public ResponseEntity<?> reissue(@Valid @RequestBody ReissueTokenRequest request) {
         TokenResponse result = loginService.reissue(request);
         return response.success(result, "Reissue Token!!", HttpStatus.OK);
     }
