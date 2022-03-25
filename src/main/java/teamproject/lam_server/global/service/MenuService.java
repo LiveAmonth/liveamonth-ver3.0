@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -21,7 +22,7 @@ import static teamproject.lam_server.constants.PathConstants.MY_PAGE;
 @Service
 
 public class MenuService {
-    public MenuResponse getCityMenus(){
+    public MenuResponse getCityMenus() {
         List<String> cityMenus =
                 Arrays.stream(CityName.values())
                         .map(CityName::getValue)
@@ -29,12 +30,12 @@ public class MenuService {
         return new MenuResponse("cityMenus", Collections.singletonList(cityMenus));
     }
 
-    public MenuResponse getMyPageMenus(){
-        List<MenuResponse> middleMenus = new ArrayList<>();
+    public MenuResponse getMyPageMenus() {
+        List<Object> middleMenus = new ArrayList<>();
         middleMenus.add(new MenuResponse(ACCOUNT, menuToList(ACCOUNT)));
         middleMenus.add(new MenuResponse(COMMUNITY, menuToList(COMMUNITY)));
         middleMenus.add(new MenuResponse(INQUIRY, menuToList(INQUIRY)));
-        return new MenuResponse("myPage", Collections.singletonList(middleMenus));
+        return new MenuResponse("myPage", middleMenus);
     }
 
     private List<Object> menuToList(String middleTitle) {

@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.app.member.domain.Member;
@@ -31,7 +32,7 @@ public class LoginServiceImpl {
     private final JwtTokenProvider jwtTokenProvider;
     private final MemberRepository memberRepository;
     private final RedisTemplate redisTemplate;
-
+    private final PasswordEncoder passwordEncoder;
     /**
      * 1. authentication 생성
      * - request로 들어온 LoginId, Password로 Authentication 객체 생성
@@ -135,5 +136,11 @@ public class LoginServiceImpl {
 
     private String getKey(Authentication authentication) {
         return "RT:" + authentication.getName();
+    }
+
+    public boolean reCheckPassword(LoginMemberRequest request) {
+        Member findMember = memberRepository.findByLoginId(request.getLoginId()).orElseThrow(UserNotFoundException::new);
+        if (passwordEncoder.matches(request.getPassword(), findMember.getPassword())) return true;
+        return false;
     }
 }

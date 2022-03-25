@@ -66,8 +66,12 @@ public class MemberApiController {
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginMemberRequest request) {
         TokenResponse result = loginService.login(request);
-
         return response.success(result, "Login Success!!", HttpStatus.OK);
+    }
+    @PostMapping("/auth/re-check-password")
+    public ResponseEntity<?> reCheckPassword(@Valid @RequestBody LoginMemberRequest request) {
+        boolean result = loginService.reCheckPassword(request);
+        return response.success(result, "ReCheck Password!!", HttpStatus.OK);
     }
 
     @PostMapping("/auth/reissue")

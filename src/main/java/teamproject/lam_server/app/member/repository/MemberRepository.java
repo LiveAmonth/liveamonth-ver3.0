@@ -28,14 +28,5 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
 
     Boolean existsByNickname(String nickname);
 
-//    @Transactional
-//    @Modifying
-//    @Query(value = "update Member u set u.password = :temporaryPw where u.id=:#{#member.id}")
-//    Integer editPassword(@Param(USER) Member member, @Param(TEMPORARY_PW) String temporaryPw);
-
-//    @Transactional
-//    @Modifying
-//    @Query(value = "update Member u set u.image = :image where u.id=:id")
-//    Integer editImage(@Param(ID) Long id, @Param(IMAGE) String image);
 
 }
