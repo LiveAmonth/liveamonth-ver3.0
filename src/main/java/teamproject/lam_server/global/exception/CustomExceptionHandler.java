@@ -5,6 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import teamproject.lam_server.app.member.exception.*;
+import teamproject.lam_server.global.dto.Response;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +36,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(createExceptionResponse(ex, request), HttpStatus.METHOD_NOT_ALLOWED);
     }
 
-    @ExceptionHandler({ValidTokenException.class,CorrespondException.class, UserNotFoundException.class})
+    @ExceptionHandler({AuthenticationException.class, ValidTokenException.class, CorrespondException.class, UserNotFoundException.class})
     public final ResponseEntity<Object> handleTokenException(Exception ex, WebRequest request) {
         return new ResponseEntity(createExceptionResponse(ex, request), HttpStatus.BAD_REQUEST);
     }
@@ -49,7 +51,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status,
                                                                   WebRequest request) {
 
-        ExceptionResponse response = new ExceptionResponse(LocalDateTime.now(),"Validation Failed",createValidationDetails(ex));
+        ExceptionResponse response = new ExceptionResponse(LocalDateTime.now(), "Validation Failed", createValidationDetails(ex));
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
 

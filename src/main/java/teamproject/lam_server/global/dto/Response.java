@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 @Component
 public class Response {
@@ -46,5 +48,30 @@ public class Response {
     }
     public ResponseEntity<?> success(Object data) {
         return this.success(data, null, HttpStatus.OK);
+    }
+    public ResponseEntity<?> fail(Object data, String msg, HttpStatus status) {
+        Body body = Body.builder()
+                .status(status.value())
+                .data(data)
+                .result("fail")
+                .message(msg)
+                .error(Collections.emptyList())
+                .build();
+        return ResponseEntity.ok(body);
+    }
+
+    public ResponseEntity<?> fail(String msg, HttpStatus status) {
+        return fail(Collections.emptyList(), msg, status);
+    }
+
+    public ResponseEntity<?> invalidFields(LinkedList<LinkedHashMap<String, String>> errors) {
+        Body body = Body.builder()
+                .status(HttpStatus.BAD_REQUEST.value())
+                .data(Collections.emptyList())
+                .result("fail")
+                .message("")
+                .error(errors)
+                .build();
+        return ResponseEntity.ok(body);
     }
 }

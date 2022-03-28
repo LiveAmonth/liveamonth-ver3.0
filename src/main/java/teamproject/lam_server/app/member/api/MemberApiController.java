@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import teamproject.lam_server.app.member.domain.Member;
 import teamproject.lam_server.app.member.dto.*;
 import teamproject.lam_server.app.member.dto.login.LoginMemberRequest;
 import teamproject.lam_server.app.member.dto.login.LogoutMemberRequest;
@@ -35,12 +34,13 @@ public class MemberApiController {
     private final LoginServiceImpl loginService;
 
     private JwtTokenProvider jwtTokenProvider;
+
     /**
      * presentation layer::my page
      * -> my page menus
      */
     @GetMapping("/my-page/menus")
-    public ResponseEntity<?> getMyPageMenus(){
+    public ResponseEntity<?> getMyPageMenus() {
         MenuResponse result = menuService.getMyPageMenus();
         return response.success(result);
     }
@@ -146,8 +146,8 @@ public class MemberApiController {
     public ResponseEntity<?> checkDuplicateLoginId(@PathVariable String loginId) {
         DuplicateCheckResponse result = memberService.checkDuplicateLoginId(loginId);
         return result.getCondition()
-                ? response.success(result,"사용 가능", HttpStatus.OK)
-                : response.success(result,"사용중인 아이디", HttpStatus.OK);
+                ? response.success(result, "사용 가능", HttpStatus.OK)
+                : response.success(result, "사용중인 아이디", HttpStatus.OK);
     }
 
     /**
@@ -158,10 +158,10 @@ public class MemberApiController {
     public ResponseEntity<?> checkDuplicateEmail(
             @PathVariable String emailId,
             @PathVariable String domain) {
-        DuplicateCheckResponse result = memberService.checkDuplicateEmail(emailId,domain);
+        DuplicateCheckResponse result = memberService.checkDuplicateEmail(emailId, domain);
         return result.getCondition()
-                ? response.success(result,"사용 가능", HttpStatus.OK)
-                : response.success(result,"사용중인 이메일", HttpStatus.OK);
+                ? response.success(result, "사용 가능", HttpStatus.OK)
+                : response.success(result, "사용중인 이메일", HttpStatus.OK);
     }
 
     /**
@@ -172,8 +172,8 @@ public class MemberApiController {
     public ResponseEntity<?> checkDuplicateNickname(@PathVariable String nickname) {
         DuplicateCheckResponse result = memberService.checkDuplicateNickname(nickname);
         return result.getCondition()
-                ? response.success(result,"사용 가능", HttpStatus.OK)
-                : response.success(result,"사용중인 닉네임", HttpStatus.OK);
+                ? response.success(result, "사용 가능", HttpStatus.OK)
+                : response.success(result, "사용중인 닉네임", HttpStatus.OK);
     }
 
 

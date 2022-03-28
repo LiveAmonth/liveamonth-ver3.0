@@ -141,6 +141,7 @@ public class LoginServiceImpl {
     public boolean reCheckPassword(LoginMemberRequest request) {
         Member findMember = memberRepository.findByLoginId(request.getLoginId()).orElseThrow(UserNotFoundException::new);
         if (passwordEncoder.matches(request.getPassword(), findMember.getPassword())) return true;
-        return false;
+        else throw new UserNotFoundException();
     }
+
 }
