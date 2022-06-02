@@ -1,7 +1,7 @@
 package teamproject.lam_server.global.dto;
 
 import lombok.Data;
-import teamproject.lam_server.app.member.domain.Member;
+import teamproject.lam_server.domain.member.entity.Member;
 
 @Data
 public class ProfileCardResponse {

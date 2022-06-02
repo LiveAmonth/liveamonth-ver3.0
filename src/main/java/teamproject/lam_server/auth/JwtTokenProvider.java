@@ -11,11 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.app.member.domain.Member;
-import teamproject.lam_server.app.member.dto.MemberResponse;
-import teamproject.lam_server.app.member.dto.login.TokenResponse;
+import teamproject.lam_server.domain.member.dto.MemberResponse;
+import teamproject.lam_server.domain.member.dto.login.TokenResponse;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -58,7 +56,7 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-                .claim("member",response)
+                .claim("member", response)
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

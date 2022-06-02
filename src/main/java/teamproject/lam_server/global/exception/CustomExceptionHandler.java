@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import teamproject.lam_server.app.member.exception.*;
-import teamproject.lam_server.global.dto.Response;
+import teamproject.lam_server.domain.member.exception.*;
+import teamproject.lam_server.global.dto.CustomResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +25,12 @@ import java.util.stream.Collectors;
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final MessageSource messageSource;
+
+    @ExceptionHandler(value = CustomException.class)
+    public final ResponseEntity<?> handleCustomExceptions(CustomException e) {
+        return CustomResponse.fail(e.getErrorCode());
+    }
+
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {

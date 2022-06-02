@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import teamproject.lam_server.config.AopConfig;
-import teamproject.lam_server.trace.logtrace.LogTrace;
-import teamproject.lam_server.trace.logtrace.ThreadLocalLogTrace;
+import teamproject.lam_server.aop.trace.logtrace.LogTrace;
+import teamproject.lam_server.aop.trace.logtrace.ThreadLocalLogTrace;
 
 import javax.persistence.EntityManager;
 import java.util.Locale;

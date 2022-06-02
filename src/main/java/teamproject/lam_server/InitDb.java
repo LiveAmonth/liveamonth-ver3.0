@@ -2,14 +2,15 @@ package teamproject.lam_server;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.app.city.entity.CityInfo;
+import teamproject.lam_server.domain.city.constants.CityName;
+import teamproject.lam_server.domain.city.entity.CityInfo;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
-import static teamproject.lam_server.constants.CategoryConstants.CityInfoCategory.INTRO;
-import static teamproject.lam_server.constants.CategoryConstants.CityName;
-import static teamproject.lam_server.constants.CategoryConstants.CityName.SE;
+import static teamproject.lam_server.domain.city.constants.CityInfoCategory.INTRO;
+import static teamproject.lam_server.domain.city.constants.CityName.SE;
+
 
 //@Component
 @RequiredArgsConstructor
