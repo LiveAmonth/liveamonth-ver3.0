@@ -5,12 +5,7 @@ server:
       timeout: 1800
   port: 8080
 
-jwt:
-  secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
-
 spring:
-
-
   messages:
     basename: messages, errors
 
@@ -59,3 +54,13 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug # 하이버네이트가 생성하는 SQL이 다보인다.
+
+app:
+  auth:
+    tokenSecret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+    accessTokenExpireTime: 3600000
+    refreshTokenExpireTime: 1209600000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth/redirect
+

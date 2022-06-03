@@ -17,10 +17,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import teamproject.lam_server.auth.JwtAccessDeniedEntryPoint;
-import teamproject.lam_server.auth.JwtAuthenticationEntryPoint;
-import teamproject.lam_server.auth.JwtAuthenticationFilter;
-import teamproject.lam_server.auth.JwtTokenProvider;
+import teamproject.lam_server.auth.exception.CustomAccessDeniedEntryPoint;
+import teamproject.lam_server.auth.exception.CustomAuthenticationEntryPoint;
+import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 
 import java.util.List;
 
@@ -63,9 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .cors()
                 .and()
-                .exceptionHandling().accessDeniedHandler(new JwtAccessDeniedEntryPoint())
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedEntryPoint())
                 .and()
-                .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
                 // form 기반의 로그인에 대해 비활성화 한다.

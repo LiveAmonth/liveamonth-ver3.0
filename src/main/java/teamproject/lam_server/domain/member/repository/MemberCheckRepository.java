@@ -6,8 +6,6 @@ import teamproject.lam_server.domain.member.entity.Member;
 public interface MemberCheckRepository extends JpaRepository<Member, Long> {
 
     Boolean existsByLoginId(String loginId);
-    Boolean existsByEmail(String Email);
-    Boolean existsByNickname(String nickname);
 
-    Boolean existsByLoginIdAndPassword(String loginId, String password);
+    Boolean existsByEmail(String Email);
 }

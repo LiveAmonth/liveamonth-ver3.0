@@ -1,15 +1,17 @@
 package teamproject.lam_server.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.springframework.util.Assert;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
-import teamproject.lam_server.domain.member.exception.AlreadyDropUserException;
+import teamproject.lam_server.domain.member.constants.Role;
+import teamproject.lam_server.domain.member.constants.SocialType;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewReply;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.exception.CustomException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,12 +20,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import static teamproject.lam_server.constants.SessionConstants.*;
+import static teamproject.lam_server.global.exception.ErrorCode.ALREADY_DROP_MEMBER;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "loginId", "nickname", "name", "email", "gender", "birth"})
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"loginId"}))
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -31,10 +33,16 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(unique = true, updatable = false)
     private String loginId;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
     private String name;
+
     private String nickname;
+
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -43,6 +51,12 @@ public class Member extends BaseTimeEntity {
     private LocalDate birth;
 
     private String image;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Enumerated(EnumType.STRING)
     private AccountState status;
@@ -67,15 +81,8 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<ReviewReply> reviewReplies = new ArrayList<>();
 
-    @Builder
-    public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth) {
-        Assert.notNull(loginId, "loginId must not be empty");
-        Assert.notNull(password, "password must not be empty");
-        Assert.notNull(name, "name must not be empty");
-        Assert.notNull(nickname, "nickname must not be empty");
-        Assert.notNull(email, "email must not be empty");
-        Assert.notNull(gender, "gender must not be null");
-        Assert.notNull(birth, "birth must not be empty");
+    @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")
+    public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth, Role role) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
@@ -83,6 +90,16 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.gender = gender;
         this.birth = birth;
+        this.role = role;
+        this.status = AccountState.NORMAL;
+    }
+
+    @Builder(builderClassName = "socialBuilder", builderMethodName = "socialBuilder")
+    public Member(String email, String name, SocialType socialType) {
+        this.email = email;
+        this.name = name;
+        this.socialType = socialType;
+        this.role = Role.GUEST;
         this.status = AccountState.NORMAL;
     }
 
@@ -99,6 +116,14 @@ public class Member extends BaseTimeEntity {
         else return S3_BUCKET_PATH + PROFILE_IMAGE_DIR + this.image;
     }
 
+    public void registerBasicInfo(String password, String nickname, LocalDate birth, GenderType gender) {
+        updatePassword(password);
+        updateNickname(nickname);
+        updateBirth(birth);
+        updateGender(gender);
+        conferRole(Role.USER);
+    }
+
     /**
      * Update logic
      */
@@ -106,8 +131,16 @@ public class Member extends BaseTimeEntity {
         this.password = password;
     }
 
+    private void updateBirth(LocalDate birth) {
+        this.birth = birth;
+    }
+
     public void updateNickname(String nickname) {
-        if (nickname != null) this.nickname = nickname;
+        this.nickname = nickname;
+    }
+
+    public void updateGender(GenderType gender) {
+        this.gender = gender;
     }
 
     public void updateImage(String image) {
@@ -116,7 +149,7 @@ public class Member extends BaseTimeEntity {
 
     public void drop() {
         if (this.status == AccountState.DROP) {
-            throw new AlreadyDropUserException(id);
+            throw new CustomException(ALREADY_DROP_MEMBER);
         }
         this.status = AccountState.DROP;
     }
@@ -124,5 +157,13 @@ public class Member extends BaseTimeEntity {
     public void modifyMemberInfo(String nickname, String image) {
         updateNickname(nickname);
         updateImage(image);
+    }
+
+    public void connectSocial(SocialType socialType) {
+        this.socialType = socialType;
+    }
+
+    public void conferRole(Role role) {
+        this.role = role;
     }
 }

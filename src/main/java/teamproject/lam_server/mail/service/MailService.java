@@ -5,8 +5,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import teamproject.lam_server.domain.member.dto.FindPasswordResponse;
-import teamproject.lam_server.mail.MailConstant;
+import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
+import teamproject.lam_server.mail.constants.MailConstant;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -46,12 +46,12 @@ public class MailService {
         }
     }
 
-    public void sendMail(FindPasswordResponse response) {
+    public void sendMail(TempPasswordSendMailInfo info) {
         // 필요한거 -> 회원 이름, 이메일, 임시 비번
         MimeMessage message = mailSender.createMimeMessage();
-        String helloUser = transMessage(MailConstant.HELLO.getCode(), new String[]{response.getName()});
+        String helloUser = transMessage(MailConstant.HELLO.getCode(), new String[]{info.getName()});
         String intro = transMessage(MailConstant.INTRO.getCode(), null);
-        String temp = transMessage(MailConstant.TEMP.getCode(), new String[]{response.getPassword()});
+        String temp = transMessage(MailConstant.TEMP.getCode(), new String[]{info.getPassword()});
         String login = transMessage(MailConstant.LOGIN.getCode(), null);
         String edit = transMessage(MailConstant.EDIT.getCode(), null);
         String ask = transMessage(MailConstant.ASK.getCode(), null);
@@ -69,7 +69,7 @@ public class MailService {
                     + "<strong>"+end+"</strong>";
             messageHelper.setText(htmlContent, true);
             messageHelper.setFrom(ADMIN_EMAIL, ADMIN_NAME);
-            messageHelper.setTo(new InternetAddress(response.getEmail(), response.getName(), UTF_8));
+            messageHelper.setTo(new InternetAddress(info.getEmail(), info.getName(), UTF_8));
             mailSender.send(message);
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,24 +4,30 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
+import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
+import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
+import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
+import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.dto.*;
-import teamproject.lam_server.domain.member.exception.ExistsException;
-import teamproject.lam_server.domain.member.exception.NormalUserDeleteException;
-import teamproject.lam_server.domain.member.exception.UserNotFoundException;
 import teamproject.lam_server.domain.member.repository.MemberCheckRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.domain.member.dto.login.LoginMemberRequest;
+import teamproject.lam_server.global.dto.PostIdResponse;
+import teamproject.lam_server.global.exception.CustomException;
+import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
 import teamproject.lam_server.mail.service.MailService;
+import teamproject.lam_server.util.JwtUtil;
 
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import static teamproject.lam_server.global.constants.ResponseMessage.*;
+import static teamproject.lam_server.global.exception.ErrorCode.MEMBER_NOT_FOUND;
+import static teamproject.lam_server.global.exception.ErrorCode.NOT_DROP_MEMBER;
+import static teamproject.lam_server.util.BasicServiceUtil.getExceptionSupplier;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberServiceImpl {
+public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberCheckRepository memberCheckRepository;
@@ -29,112 +35,80 @@ public class MemberServiceImpl {
 
     private final PasswordEncoder passwordEncoder;
 
-    public List<MemberResponse> findAll() {
-        return memberRepository.findAll().stream()
-                .map(MemberResponse::new)
-                .collect(toList());
-    }
-
-    public MemberResponse findOne(Long id) {
-        Member findMember = memberRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        return new MemberResponse(findMember);
-    }
-
+    @Override
     @Transactional
-    public SimpleMemberResponse save(CreateMemberRequest request) {
+    public PostIdResponse signUp(SignUpRequest request) {
         Member saveMember = memberRepository.save(request.toEntity(passwordEncoder));
-        return new SimpleMemberResponse(saveMember.getId(), saveMember.getName());
+        return PostIdResponse.of(saveMember.getId());
     }
 
-    public Member login(LoginMemberRequest request) {
-
-        return memberRepository.findByLoginId(request.getLoginId())
-                .filter(m -> passwordEncoder.matches(request.getPassword(), m.getPassword()))
-                .orElse(null);
+    @Override
+    public DuplicateCheckResponse checkDuplicateEmail(String email) {
+        Boolean isDuplicated = memberCheckRepository.existsByEmail(email);
+        return isDuplicated
+                ? DuplicateCheckResponse.of(false, email, DUPLICATE_EMAIL)
+                : DuplicateCheckResponse.of(true, email, AVAILABLE_EMAIL);
     }
 
-    @Transactional
-    public SimpleMemberResponse dropUser(Long id) {
-        Member dropMember = memberRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        dropMember.drop();
-        return new SimpleMemberResponse(dropMember.getId(), dropMember.getLoginId());
-    }
-
-    @Transactional
-    public SimpleMemberResponse delete(Long id) {
-        Long queryCount = memberRepository.cleanDeleteById(id);
-        if (queryCount == 0) throw new NormalUserDeleteException(id);
-        return new SimpleMemberResponse(id);
-    }
-
-    @Transactional
-    public Long modify(Long id, ModifyMemberRequest request) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        member.modifyMemberInfo(request.getNickname(), request.getImage());
-        return id;
-    }
-
-    public DuplicateCheckResponse checkDuplicateEmail(String emailId, String domain) {
-        String email = unifyEmail(emailId, domain);
-        return checkDuplicateParam(memberCheckRepository.existsByEmail(email), email);
-    }
-
+    @Override
     public DuplicateCheckResponse checkDuplicateLoginId(String LoginId) {
-        return checkDuplicateParam(memberCheckRepository.existsByLoginId(LoginId), LoginId);
+        Boolean isDuplicated = memberCheckRepository.existsByLoginId(LoginId);
+        return isDuplicated
+                ? DuplicateCheckResponse.of(false, LoginId, DUPLICATE_LOGIN_ID)
+                : DuplicateCheckResponse.of(true, LoginId, AVAILABLE_LOGIN_ID);
     }
 
+    @Override
     public DuplicateCheckResponse checkDuplicateNickname(String nickname) {
-        return checkDuplicateParam(memberCheckRepository.existsByEmail(nickname), nickname);
+        Boolean isDuplicated = memberCheckRepository.existsByEmail(nickname);
+        return isDuplicated
+                ? DuplicateCheckResponse.of(false, nickname, DUPLICATE_NICKNAME)
+                : DuplicateCheckResponse.of(true, nickname, AVAILABLE_NICKNAME);
     }
 
-
-    public SimpleMemberResponse findLoginId(FindLoginIdRequest request) {
-        String userLoginId = memberRepository.findLoginIdByNameAndEmail(
-                request.getName(),
-                unifyEmail(request.getEmail_id(), request.getEmail_domain()))
-                .orElseThrow(() -> new UserNotFoundException());
-        return new SimpleMemberResponse(userLoginId);
+    @Override
+    public FindIdResponse findLoginId(FindIdRequest request) {
+        Member findMember = memberRepository.findByNameAndEmail(
+                request.getName(), request.getEmail())
+                .orElseThrow(getExceptionSupplier(MEMBER_NOT_FOUND));
+        return FindIdResponse.of(findMember);
     }
 
+    @Override
     @Transactional
-    public FindPasswordResponse findPassword(FindPasswordRequest request) {
-        // unify email
-        String email = unifyEmail(request.getEmail_id(), request.getEmail_domain());
+    public void findPassword(FindPasswordRequest request) {
         // find user with request
-        Member findMember = memberRepository.findByLoginIdAndEmail(request.getLoginId(), email)
-                .orElseThrow(() -> new UserNotFoundException());
+        Member findMember = memberRepository.findByLoginIdAndEmail(request.getLoginId(), request.getEmail())
+                .orElseThrow(getExceptionSupplier(MEMBER_NOT_FOUND));
+
         // create random password
-        String tempPassword = createRandomPassword();
+        String tempPassword = JwtUtil.createRandomPassword();
+
         // update password (temporary password)
         findMember.updatePassword(passwordEncoder.encode(tempPassword));
 
         // mail send
-        FindPasswordResponse response = new FindPasswordResponse(findMember);
-        mailService.sendMail(response);
-        return response;
+        mailService.sendMail(TempPasswordSendMailInfo.of(findMember));
     }
 
-    private String createRandomPassword() {
-        int index = 0;
-        char[] charArr = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a',
-                'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-                'w', 'x', 'y', 'z'};
-
-        StringBuffer tempPassword = new StringBuffer();
-        for (int i = 0; i < 10; i++) {
-            index = (int) (charArr.length * Math.random());
-            tempPassword.append(charArr[index]);
-        }
-        return tempPassword.toString();
+    @Override
+    @Transactional
+    public void modify(Long id, ModifyMemberRequest request) {
+        Member member = memberRepository.getById(id);
+        member.modifyMemberInfo(request.getNickname(), request.getImage());
     }
 
-    private DuplicateCheckResponse checkDuplicateParam(Boolean result, String param) {
-        if (result == null) throw new ExistsException(param);
-        return new DuplicateCheckResponse(result, param);
+    @Override
+    @Transactional
+    public void dropUser(Long id) {
+        Member dropMember = memberRepository.getById(id);
+        dropMember.drop();
     }
 
-    private String unifyEmail(String emailId, String domain) {
-        return emailId + "@" + domain;
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Long queryCount = memberRepository.cleanDeleteById(id);
+        if (queryCount == 0) throw new CustomException(NOT_DROP_MEMBER);
     }
 }

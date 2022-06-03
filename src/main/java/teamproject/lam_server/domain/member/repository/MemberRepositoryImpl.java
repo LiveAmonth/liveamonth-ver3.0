@@ -1,11 +1,10 @@
 package teamproject.lam_server.domain.member.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.member.constants.AccountState;
-
-import java.util.Optional;
 
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 
@@ -21,20 +20,17 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return queryFactory
                 .delete(member)
                 .where(
-                        member.id.eq(id),
-                        member.status.eq(AccountState.DROP))
+                        IdEq(id),
+                        isDropMember()
+                )
                 .execute();
     }
 
-    @Override
-    public Optional<String> findLoginIdByNameAndEmail(String name, String email) {
-        return Optional.ofNullable(queryFactory
-                .select(member.loginId)
-                .from(member)
-                .where(
-                        member.name.eq(name),
-                        member.email.eq(email)
-                )
-                .fetchOne());
+    private BooleanExpression IdEq(Long id) {
+        return id != null ? member.id.eq(id) : null;
+    }
+
+    private BooleanExpression isDropMember() {
+        return member.status.eq(AccountState.DROP);
     }
 }
