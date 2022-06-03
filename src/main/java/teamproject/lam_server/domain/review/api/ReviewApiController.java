@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/reviews")
+@RequestMapping("/api/v1/reviews")
 @Slf4j
 public class ReviewApiController {
     private final CustomResponse customResponse;

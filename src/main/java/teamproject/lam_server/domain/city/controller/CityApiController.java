@@ -19,7 +19,7 @@ import java.util.List;
 @Api(tags = {"City"})
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/city")
+@RequestMapping("/api/v1/city")
 public class CityApiController {
     private final CityQueryService cityQueryService;
     private final CustomResponse customResponse;

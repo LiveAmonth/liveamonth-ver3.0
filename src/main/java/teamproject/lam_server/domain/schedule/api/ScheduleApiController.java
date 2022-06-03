@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/schedules")
+@RequestMapping("/api/v1/schedules")
 @Slf4j
 public class ScheduleApiController {
     private final CustomResponse customResponse;
