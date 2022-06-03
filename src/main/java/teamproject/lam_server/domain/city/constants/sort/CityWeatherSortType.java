@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.city.sort;
+package teamproject.lam_server.domain.city.constants.sort;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

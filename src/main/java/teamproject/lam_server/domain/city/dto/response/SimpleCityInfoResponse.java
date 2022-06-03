@@ -4,24 +4,23 @@ package teamproject.lam_server.domain.city.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.city.entity.CityIntro;
+import teamproject.lam_server.util.SimpleResponseUtil;
 
 @Getter
 @Builder
-public class CityInfoResponse {
+public class SimpleCityInfoResponse {
 
     private Long id;
     private String cityName;
     private String cityInfoCat;
     private String content;
-    private String image;
 
-    public static CityInfoResponse of(CityIntro cityIntro) {
-        return CityInfoResponse.builder()
+    public static SimpleCityInfoResponse of(CityIntro cityIntro) {
+        return SimpleCityInfoResponse.builder()
                 .id(cityIntro.getId())
                 .cityName(cityIntro.getName().getCode())
                 .cityInfoCat(cityIntro.getCityInfoCat().getCode())
-                .content(cityIntro.getContent())
-                .image(cityIntro.getImage())
+                .content(SimpleResponseUtil.previewContent(cityIntro.getContent()))
                 .build();
     }
 }

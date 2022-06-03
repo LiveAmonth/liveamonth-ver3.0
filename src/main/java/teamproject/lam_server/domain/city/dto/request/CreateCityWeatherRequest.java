@@ -5,25 +5,26 @@ import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.constants.MonthCategory;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
-public class UpdateCityWeatherRequest {
-    @NotEmpty
+public class CreateCityWeatherRequest {
+
+    @NotNull
     private CityName name;
-
-    @NotEmpty
+    @NotNull
     private MonthCategory month;
-
-    private float maxDegree;
+    @NotNull
     private float minDegree;
+    @NotNull
+    private float maxDegree;
 
     public CityWeather toEntity() {
         return CityWeather.builder()
-                .name(this.name)
-                .month(this.month)
-                .maxDegree(this.maxDegree)
-                .minDegree(this.minDegree)
+                .name(name)
+                .month(month)
+                .minDegree(minDegree)
+                .maxDegree(maxDegree)
                 .build();
     }
 }

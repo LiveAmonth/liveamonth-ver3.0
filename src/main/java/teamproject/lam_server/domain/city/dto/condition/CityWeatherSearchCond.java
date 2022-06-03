@@ -8,11 +8,9 @@ import teamproject.lam_server.domain.city.constants.MonthCategory;
 public class CityWeatherSearchCond{
 
     /**
-     * 도시 이름, 월, 온도(degreeGoe, degreeLoe)
+     * 도시 이름, 월
      */
     private MonthCategory month;
-    private Integer degreeGoe;
-    private Integer degreeLoe;
     private CityName name;
 
 }

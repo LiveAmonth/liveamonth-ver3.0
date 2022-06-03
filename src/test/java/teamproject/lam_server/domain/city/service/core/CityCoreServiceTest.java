@@ -6,9 +6,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
-import teamproject.lam_server.domain.city.dto.request.CreateCityInfoRequest;
-import teamproject.lam_server.domain.city.entity.CityInfo;
-import teamproject.lam_server.domain.city.repository.core.CityInfoRepository;
+import teamproject.lam_server.domain.city.dto.request.CreateCityIntroRequest;
+import teamproject.lam_server.domain.city.entity.CityIntro;
+import teamproject.lam_server.domain.city.repository.core.CityIntroRepository;
 import teamproject.lam_server.domain.city.repository.core.CityTransportRepository;
 import teamproject.lam_server.domain.city.repository.core.CityWeatherRepository;
 import teamproject.lam_server.domain.city.repository.query.CityQueryRepository;
@@ -18,7 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static teamproject.lam_server.domain.city.constants.CityInfoCategory.INTRO;
+import static teamproject.lam_server.domain.city.constants.CityIntroCategory.INTRO;
 import static teamproject.lam_server.domain.city.constants.CityName.SE;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,7 +26,8 @@ class CityCoreServiceTest {
     @InjectMocks
     CityAdminServiceImpl cityCoreService;
 
-    @Mock CityInfoRepository cityInfoRepository;
+    @Mock
+    CityIntroRepository cityIntroRepository;
     @Mock CityTransportRepository cityTransportRepository;
     @Mock CityWeatherRepository cityWeatherRepository;
     @Mock CityQueryRepository cityQueryRepository;
@@ -35,33 +36,33 @@ class CityCoreServiceTest {
     @Test
     public void 도시_저장() throws Exception{
         //given
-        CreateCityInfoRequest request = createCityInfo();
-        CityInfo cityInfo = createCityInfoEntity(request);
+        CreateCityIntroRequest request = createCityInfo();
+        CityIntro cityIntro = createCityInfoEntity(request);
 
         Long fakeCityInfoId = 1l;
-        ReflectionTestUtils.setField(cityInfo, "id", fakeCityInfoId);
+        ReflectionTestUtils.setField(cityIntro, "id", fakeCityInfoId);
 
         //mocking
-        given(cityInfoRepository.save(any()))
-                .willReturn(cityInfo);
-        given(cityInfoRepository.findById(fakeCityInfoId))
-                .willReturn(Optional.ofNullable(cityInfo));
+        given(cityIntroRepository.save(any()))
+                .willReturn(cityIntro);
+        given(cityIntroRepository.findById(fakeCityInfoId))
+                .willReturn(Optional.ofNullable(cityIntro));
 
         //when
-        Long newCityInfoId = cityCoreService.saveCityInfo(request).getId();
+        Long newCityInfoId = cityCoreService.saveIntro(request).getId();
 
         //then
-        CityInfo findCityInfo = cityInfoRepository.findById(newCityInfoId).get();
+        CityIntro findCityIntro = cityIntroRepository.findById(newCityInfoId).get();
 
-        assertEquals(cityInfo.getId(), findCityInfo.getId());
-        assertEquals(cityInfo.getName(), findCityInfo.getName());
-        assertEquals(cityInfo.getCityInfoCat(), findCityInfo.getCityInfoCat());
+        assertEquals(cityIntro.getId(), findCityIntro.getId());
+        assertEquals(cityIntro.getName(), findCityIntro.getName());
+        assertEquals(cityIntro.getCityInfoCat(), findCityIntro.getCityInfoCat());
     }
-    private CityInfo createCityInfoEntity(CreateCityInfoRequest request){
+    private CityIntro createCityInfoEntity(CreateCityIntroRequest request){
         return request.toEntity();
     }
-    private CreateCityInfoRequest createCityInfo(){
-        CreateCityInfoRequest request = new CreateCityInfoRequest();
+    private CreateCityIntroRequest createCityInfo(){
+        CreateCityIntroRequest request = new CreateCityIntroRequest();
         request.setName(SE);
         request.setCategory(INTRO);
         request.setContent("테스트 데이터");

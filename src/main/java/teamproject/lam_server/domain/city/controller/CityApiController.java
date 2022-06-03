@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.domain.city.constants.CityName;
-import teamproject.lam_server.domain.city.dto.response.CityFoodAndViewResponse;
-import teamproject.lam_server.domain.city.dto.response.CityGridDataResponse;
-import teamproject.lam_server.domain.city.dto.response.TotalCityInfoResponse;
+import teamproject.lam_server.domain.city.dto.response.api.CityFoodAndViewResponse;
+import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
+import teamproject.lam_server.domain.city.dto.response.api.TotalCityInfoResponse;
 import teamproject.lam_server.domain.city.service.query.CityQueryService;
 import teamproject.lam_server.global.dto.CustomResponse;
 

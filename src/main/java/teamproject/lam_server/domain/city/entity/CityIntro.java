@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.domain.city.constants.CityInfoCategory;
+import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 
 import javax.persistence.Entity;
@@ -15,10 +15,10 @@ import javax.persistence.Lob;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CityInfo extends City {
+public class CityIntro extends City {
 
     @Enumerated(EnumType.STRING)
-    private CityInfoCategory cityInfoCat;
+    private CityIntroCategory cityInfoCat;
 
     @Lob
     private String content;
@@ -26,11 +26,15 @@ public class CityInfo extends City {
     private String image;
 
     @Builder
-    public CityInfo(CityName name, CityInfoCategory category, String content, String image) {
+    public CityIntro(CityName name, CityIntroCategory category, String content, String image) {
         this.name = name;
         this.cityInfoCat = category;
         this.content = content;
         this.image = image;
     }
 
+    //==업데이트 로직==//
+    public void updateContent(String content){
+        this.content = content;
+    }
 }

@@ -2,11 +2,14 @@ package teamproject.lam_server.domain.city.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 
 @Getter
 @Builder
 public class CityWeatherResponse {
+    private Long id;
+    private CityName name;
     private String month;
     private float maxDegree;
     private float minDegree;
@@ -14,6 +17,8 @@ public class CityWeatherResponse {
 
     public static CityWeatherResponse of(CityWeather cityWeather) {
         return CityWeatherResponse.builder()
+                .id(cityWeather.getId())
+                .name(cityWeather.getName())
                 .month(cityWeather.getMonth().getCode())
                 .maxDegree(cityWeather.getMaxDegree())
                 .minDegree(cityWeather.getMinDegree())

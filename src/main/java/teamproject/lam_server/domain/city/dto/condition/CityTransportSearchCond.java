@@ -11,7 +11,5 @@ public class CityTransportSearchCond{
      * 도시 이름, 카테고리, 개수(countGoe, countLoe)
      */
     private TransportCategory category;
-    private Integer countGoe;
-    private Integer countLoe;
     private CityName name;
 }

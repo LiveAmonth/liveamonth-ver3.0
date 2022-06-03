@@ -8,7 +8,7 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 @AllArgsConstructor
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CityInfoCategory implements EnumMapperType {
+public enum CityIntroCategory implements EnumMapperType {
     INTRO("소개"),
     FOOD("먹거리"),
     VIEW("볼거리");

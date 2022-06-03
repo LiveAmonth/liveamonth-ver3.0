@@ -9,16 +9,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import teamproject.lam_server.domain.city.constants.CityInfoCategory;
+import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.constants.MonthCategory;
 import teamproject.lam_server.domain.city.constants.TransportCategory;
-import teamproject.lam_server.domain.city.dto.condition.CityInfoSearchCond;
+import teamproject.lam_server.domain.city.dto.condition.CityIntroSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityTransportSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityWeatherSearchCond;
-import teamproject.lam_server.domain.city.dto.response.CityGridDataResponse;
+import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
 import teamproject.lam_server.domain.city.dto.view.QCityGridDataResponse;
-import teamproject.lam_server.domain.city.entity.CityInfo;
+import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.entity.CityTransport;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 import teamproject.lam_server.domain.city.entity.QCity;
@@ -36,11 +36,11 @@ import static teamproject.lam_server.domain.city.entity.QCityWeather.cityWeather
 public class CityQueryRepository extends BasicRepositoryUtil {
     private final JPAQueryFactory queryFactory;
 
-    public Page<CityInfo> searchInfo(CityInfoSearchCond cond, Pageable pageable) {
-        List<CityInfo> content = getSearchInfoElementsQuery(cond)
+    public Page<CityIntro> searchIntro(CityIntroSearchCond cond, Pageable pageable) {
+        List<CityIntro> content = getSearchInfoElementsQuery(cond)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(mapToOrderSpec(pageable.getSort(), CityInfo.class, cityInfo))
+                .orderBy(mapToOrderSpec(pageable.getSort(), CityIntro.class, cityInfo))
                 .fetch();
 
         JPAQuery<Long> countQuery = getSearchInfoCountQuery(cond);
@@ -70,7 +70,7 @@ public class CityQueryRepository extends BasicRepositoryUtil {
         return getPage(content, pageable, countQuery::fetchOne);
     }
 
-    private JPAQuery<CityInfo> getSearchInfoElementsQuery(CityInfoSearchCond cond) {
+    private JPAQuery<CityIntro> getSearchInfoElementsQuery(CityIntroSearchCond cond) {
         return queryFactory.selectFrom(cityInfo)
                 .where(
                         nameEq(cityInfo._super, cond.getName()),
@@ -78,7 +78,7 @@ public class CityQueryRepository extends BasicRepositoryUtil {
                 );
     }
 
-    private JPAQuery<Long> getSearchInfoCountQuery(CityInfoSearchCond cond) {
+    private JPAQuery<Long> getSearchInfoCountQuery(CityIntroSearchCond cond) {
         return count(queryFactory, cityInfo,
                 nameEq(cityInfo._super, cond.getName()),
                 infoCatEq(cond.getCategory())
@@ -89,18 +89,14 @@ public class CityQueryRepository extends BasicRepositoryUtil {
         return queryFactory.selectFrom(cityTransport)
                 .where(
                         nameEq(cityTransport._super, cond.getName()),
-                        cityTransportCatEq(cond.getCategory()),
-                        numGoe(cityTransport.stationCount, cond.getCountGoe()),
-                        numLoe(cityTransport.stationCount, cond.getCountLoe())
+                        cityTransportCatEq(cond.getCategory())
                 );
     }
 
     private JPAQuery<Long> getSearchTransportCountQuery(CityTransportSearchCond cond) {
         return count(queryFactory, cityInfo,
                 nameEq(cityTransport._super, cond.getName()),
-                cityTransportCatEq(cond.getCategory()),
-                numGoe(cityTransport.stationCount, cond.getCountGoe()),
-                numLoe(cityTransport.stationCount, cond.getCountLoe())
+                cityTransportCatEq(cond.getCategory())
         );
     }
 
@@ -108,21 +104,17 @@ public class CityQueryRepository extends BasicRepositoryUtil {
         return queryFactory.selectFrom(cityWeather)
                 .where(
                         nameEq(cityWeather._super, cond.getName()),
-                        cityMonthEq(cond.getMonth()),
-                        numGoe(cityWeather.averageDegree, cond.getDegreeGoe()),
-                        numLoe(cityWeather.averageDegree, cond.getDegreeLoe())
+                        cityMonthEq(cond.getMonth())
                 );
     }
 
     private JPAQuery<Long> getSearchWeatherCountQuery(CityWeatherSearchCond cond) {
         return count(queryFactory, cityWeather,
                 nameEq(cityWeather._super, cond.getName()),
-                cityMonthEq(cond.getMonth()),
-                numGoe(cityWeather.averageDegree, cond.getDegreeGoe()),
-                numLoe(cityWeather.averageDegree, cond.getDegreeLoe()));
+                cityMonthEq(cond.getMonth()));
     }
 
-    public List<CityGridDataResponse> findCityGridInfo(CityInfoCategory category, MonthCategory month) {
+    public List<CityGridDataResponse> findCityGridInfo(CityIntroCategory category, MonthCategory month) {
         return queryFactory
                 .select(new QCityGridDataResponse(cityInfo.name,
                         cityInfo.image,
@@ -162,7 +154,7 @@ public class CityQueryRepository extends BasicRepositoryUtil {
         return name != null ? t.name.eq(name) : null;
     }
 
-    private BooleanExpression infoCatEq(CityInfoCategory category) {
+    private BooleanExpression infoCatEq(CityIntroCategory category) {
         return category != null ? cityInfo.cityInfoCat.eq(category) : null;
     }
 

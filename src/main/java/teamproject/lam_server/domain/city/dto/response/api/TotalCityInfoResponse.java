@@ -1,8 +1,8 @@
-package teamproject.lam_server.domain.city.dto.response;
+package teamproject.lam_server.domain.city.dto.response.api;
 
 import lombok.Builder;
 import lombok.Getter;
-import teamproject.lam_server.domain.city.entity.CityInfo;
+import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.entity.CityTransport;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 
@@ -24,7 +24,7 @@ public class TotalCityInfoResponse {
     //== 날씨 정보 ==//
     private List<CityWeatherResponse> weathers;
 
-    public static TotalCityInfoResponse of(CityInfo info, List<CityTransport> transports, List<CityWeather> weathers) {
+    public static TotalCityInfoResponse of(CityIntro info, List<CityTransport> transports, List<CityWeather> weathers) {
         return TotalCityInfoResponse.builder()
                 .cityName(info.getName().name())
                 .content(info.getContent())
