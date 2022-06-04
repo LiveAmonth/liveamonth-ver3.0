@@ -18,7 +18,7 @@ public class SimpleReviewResponse {
     private int viewCount;
 
     public SimpleReviewResponse(Review review) {
-        this.member = new ProfileCardResponse(review.getMember());
+        this.member = ProfileCardResponse.of(review.getMember());
         this.title = review.getTitle();
         this.content = review.getContent();
         this.viewCount = review.getViewCount();
