@@ -24,7 +24,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/city")
+@RequestMapping("/admin/v1/city")
 public class CityAdminController {
     private final CityAdminService cityService;
 

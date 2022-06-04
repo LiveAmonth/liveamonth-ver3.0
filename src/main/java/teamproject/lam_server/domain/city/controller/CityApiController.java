@@ -1,6 +1,5 @@
 package teamproject.lam_server.domain.city.controller;
 
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import teamproject.lam_server.global.dto.CustomResponse;
 
 import java.util.List;
 
-@Api(tags = {"City"})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/city")
