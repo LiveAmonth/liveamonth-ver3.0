@@ -1,6 +1,7 @@
 package teamproject.lam_server.auth.oauth2.userInfo;
 
-import study.movie.domain.member.entity.SocialType;
+
+import teamproject.lam_server.domain.member.constants.SocialType;
 
 import java.util.Map;
 
@@ -34,8 +35,4 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo {
         return (String) attributes.get("profile_image");
     }
 
-    @Override
-    public String getMobile() {
-        return (String) attributes.get("mobile");
-    }
 }

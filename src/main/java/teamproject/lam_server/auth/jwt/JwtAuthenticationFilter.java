@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
-import study.movie.exception.CustomException;
-import study.movie.global.utils.JwtUtil;
-import study.movie.redis.RedisRepository;
+import teamproject.lam_server.global.exception.CustomException;
+import teamproject.lam_server.redis.RedisRepository;
+import teamproject.lam_server.util.JwtUtil;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,13 +16,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-import static study.movie.exception.ErrorCode.ALREADY_USED_TOKEN;
+import static teamproject.lam_server.global.exception.ErrorCode.ALREADY_USED_TOKEN;
 
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-    private final study.movie.auth.jwt.JwtTokenProvider jwtProvider;
+    private final JwtTokenProvider jwtProvider;
     private final RedisRepository redisRepository;
 
     /**

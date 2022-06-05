@@ -3,7 +3,7 @@ package teamproject.lam_server.domain.member.constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import study.movie.global.enumMapper.EnumMapperType;
+import teamproject.lam_server.global.enumMapper.EnumMapperType;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

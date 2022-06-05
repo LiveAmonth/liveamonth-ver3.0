@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.access.expression.SecurityExpressionHandler;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,77 +15,98 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.CorsUtils;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import teamproject.lam_server.auth.exception.CustomAccessDeniedEntryPoint;
+import teamproject.lam_server.auth.exception.CustomAccessDeniedHandler;
 import teamproject.lam_server.auth.exception.CustomAuthenticationEntryPoint;
+import teamproject.lam_server.auth.jwt.CustomUserDetailsService;
+import teamproject.lam_server.auth.jwt.JwtAuthenticationFilter;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
+import teamproject.lam_server.auth.oauth2.OAuth2AuthenticationFilter;
+import teamproject.lam_server.redis.RedisRepository;
 
-import java.util.List;
+import static teamproject.lam_server.domain.member.constants.Role.*;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        jsr250Enabled = true,
+        prePostEnabled = true
+)
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final RedisTemplate redisTemplate;
+    private final JwtTokenProvider jwtProvider;
+    private final RedisRepository redisRepository;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final OAuth2AuthenticationFilter oAuth2AuthenticationFilter;
 
     @Bean
-    public PasswordEncoder getPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtProvider, redisRepository);
+    }
+
+    @Bean
+    public RoleHierarchyImpl roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy(getRoleHierarchy());
+        return roleHierarchy;
+    }
+
+    private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
+        DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+        defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
+        return defaultWebSecurityExpressionHandler;
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic().disable()
+                .csrf().disable()
+                .formLogin().disable()
+                .logout().disable()
+                // 토큰을 활욜하면 세션이 필요 없어지므로 STATELESS 로 설정.
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
+                .expressionHandler(webExpressionHandler())
+                .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
+                .antMatchers("/admin/**").hasRole(MANAGER.getCode())
+                .antMatchers("/api/*/schedules/selected").hasRole(USER.getCode())
+                .antMatchers(
+//                        "/login/**",
+                        "/api/*/auth/login",
+                        "/api/*/members/sign-up",
+                        "/api/*/movies/**",
+                        "/api/*/schedules/**",
+                        "/api/*/theater/**",
+                        "/api/*/categories/**"
+                ).permitAll()
+                .anyRequest().permitAll()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                .addFilterBefore(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.
-                httpBasic().disable()
-                .csrf().disable()
-                // 토큰을 활욜하면 세션이 필요 없어지므로 STATELESS로 설정.
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-//                .antMatchers("/v1/api/sign-up").permitAll()
-//                .antMatchers("/v1/api/auth/login").permitAll()
-//                .antMatchers("/v1/api/find-id").permitAll()
-//                .antMatchers("/v1/api/find-pw").permitAll()
-//                .antMatchers("/exception/**").permitAll()
-//                .anyRequest().hasRole("ROLE_USER")
-                // 토큰을 이용하는 경우 모든 요청에 대해 접근이 가능하도록 함
-                .anyRequest().permitAll()
-                .and()
-                .cors()
-                .and()
-                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedEntryPoint())
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
-                // form 기반의 로그인에 대해 비활성화 한다.
-                .formLogin().disable();
-
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
-
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
 }

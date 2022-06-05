@@ -1,7 +1,7 @@
 package teamproject.lam_server.auth.oauth2.userInfo;
 
 import lombok.Getter;
-import study.movie.domain.member.entity.SocialType;
+import teamproject.lam_server.domain.member.constants.SocialType;
 
 import java.util.Map;
 
@@ -35,10 +35,5 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
     @Override
     public String getImage() {
         return (String) profile.get("profile_image_url");
-    }
-
-    @Override
-    public String getMobile() {
-        return "";
     }
 }

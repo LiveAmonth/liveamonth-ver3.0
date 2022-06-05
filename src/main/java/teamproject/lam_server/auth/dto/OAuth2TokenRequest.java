@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import study.movie.global.utils.OAuth2Util;
+import teamproject.lam_server.util.OAuth2Util;
 
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.*;
 

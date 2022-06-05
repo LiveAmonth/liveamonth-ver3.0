@@ -15,10 +15,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
-import study.movie.auth.dto.CustomOAuth2AuthenticationToken;
-import study.movie.auth.dto.OAuth2TokenRequest;
-import study.movie.auth.dto.OAuth2TokenResponse;
-import study.movie.global.utils.OAuth2Util;
+import teamproject.lam_server.auth.dto.CustomOAuth2AuthenticationToken;
+import teamproject.lam_server.auth.dto.OAuth2TokenRequest;
+import teamproject.lam_server.auth.dto.OAuth2TokenResponse;
+import teamproject.lam_server.util.OAuth2Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
