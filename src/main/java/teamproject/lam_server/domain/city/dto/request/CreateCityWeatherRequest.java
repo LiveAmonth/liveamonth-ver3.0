@@ -15,16 +15,19 @@ public class CreateCityWeatherRequest {
     @NotNull
     private MonthCategory month;
     @NotNull
-    private float minDegree;
+    private float avg;
     @NotNull
-    private float maxDegree;
+    private float min;
+    @NotNull
+    private float max;
 
     public CityWeather toEntity() {
         return CityWeather.builder()
                 .name(name)
                 .month(month)
-                .minDegree(minDegree)
-                .maxDegree(maxDegree)
+                .averageDegree(avg)
+                .maxDegree(max)
+                .minDegree(min)
                 .build();
     }
 }

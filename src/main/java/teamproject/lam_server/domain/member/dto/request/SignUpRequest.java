@@ -1,6 +1,8 @@
 package teamproject.lam_server.domain.member.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -17,12 +19,12 @@ public class SignUpRequest {
     private String loginId;
 
     @NotBlank
-    @Pattern(regexp = "[a-zA-Z가-힣]{2,20}")
-    private String name;
-
-    @NotBlank
     @Pattern(regexp = "(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{8,20}")
     private String password;
+
+    @NotBlank
+    @Pattern(regexp = "[a-zA-Z가-힣]{2,20}")
+    private String name;
 
     @NotBlank
     @Size(max = 20)
@@ -34,6 +36,7 @@ public class SignUpRequest {
 
     @NotNull
     @Past
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
 

@@ -2,6 +2,8 @@ package teamproject.lam_server.domain.city.dto.response.api;
 
 import lombok.Builder;
 import lombok.Getter;
+import teamproject.lam_server.domain.city.dto.response.CityTransportResponse;
+import teamproject.lam_server.domain.city.dto.response.CityWeatherResponse;
 import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.entity.CityTransport;
 import teamproject.lam_server.domain.city.entity.CityWeather;

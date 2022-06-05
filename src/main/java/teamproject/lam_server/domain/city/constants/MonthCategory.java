@@ -9,18 +9,18 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum MonthCategory implements EnumMapperType {
-    JANUARY("1월"),
-    FEBRUARY("2월"),
-    MARCH("3월"),
-    APRIL("4월"),
+    JAN("1월"),
+    FEB("2월"),
+    MAR("3월"),
+    APR("4월"),
     MAY("5월"),
-    JUNE("6월"),
-    JULY("7월"),
-    AUGUST("8월"),
-    SEPTEMBER("9월"),
-    OCTOBER("10월"),
-    NOVEMBER("11월"),
-    DECEMBER("12월");
+    JUN("6월"),
+    JUL("7월"),
+    AUG("8월"),
+    SEP("9월"),
+    OCT("10월"),
+    NOV("11월"),
+    DEC("12월");
     private String value;
 
     @Override

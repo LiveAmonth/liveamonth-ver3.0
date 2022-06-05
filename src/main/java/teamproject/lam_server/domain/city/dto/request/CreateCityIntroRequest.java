@@ -1,8 +1,6 @@
 package teamproject.lam_server.domain.city.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.entity.CityIntro;
@@ -13,8 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CreateCityIntroRequest {
     @NotNull
     private CityName name;

@@ -24,11 +24,11 @@ public class CityWeather extends City {
     private float averageDegree;
 
     @Builder
-    public CityWeather(CityName name, MonthCategory month, float maxDegree, float minDegree) {
+    public CityWeather(CityName name, MonthCategory month, float averageDegree, float maxDegree, float minDegree) {
         this.name = name;
         this.month = month;
+        this.averageDegree = averageDegree;
         this.maxDegree = maxDegree;
         this.minDegree = minDegree;
-        this.averageDegree = (maxDegree + minDegree) / 2;
     }
 }
