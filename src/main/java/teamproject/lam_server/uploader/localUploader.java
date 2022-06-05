@@ -2,12 +2,10 @@ package teamproject.lam_server.uploader;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.UUID;
 
@@ -22,6 +20,7 @@ public class localUploader {
     public String getFullPath(String fileName) {
         return fileDir + fileName;
     }
+
     public String upload(String dirName, String originalFilename, byte[] bytes) throws Exception {
         UUID uid = UUID.randomUUID();
         String savedName = "/" + uid.toString() + "_" + originalFilename;
@@ -30,15 +29,15 @@ public class localUploader {
         return uploadedFileName;
     }
 
-    public String uploadProfile(String loginId, String dirName, String originalFilename, byte[] bytes) {
-        String uuid = UUID.randomUUID().toString();
-        String ext = FilenameUtils.getExtension(originalFilename);
-        String fileName = uuid + "." + ext;
-        String fullPath = getFullPath(fileName);
-        String uploadedFileName = (fullPath).replace(File.separatorChar, '/');
-        fileUpload(uploadedFileName, bytes);
-        return fileName;
-    }
+//    public String uploadProfile(String loginId, String dirName, String originalFilename, byte[] bytes) {
+//        String uuid = UUID.randomUUID().toString();
+//        String ext = FilenameUtils.getExtension(originalFilename);
+//        String fileName = uuid + "." + ext;
+//        String fullPath = getFullPath(fileName);
+//        String uploadedFileName = (fullPath).replace(File.separatorChar, '/');
+//        fileUpload(uploadedFileName, bytes);
+//        return fileName;
+//    }
 
     public void fileUpload(String fileName, byte[] fileData) {
 //        String filePath = (fileName).replace(File.separatorChar, '/');

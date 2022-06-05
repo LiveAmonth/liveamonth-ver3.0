@@ -1,37 +1,14 @@
-server:
-  servlet:
-    session:
-      tracking-modes: cookie
-      timeout: 1800
-  port: 8080
-
 spring:
-  messages:
-    basename: messages, errors
 
+  config:
+    import: classpath:database.yml, classpath:oauth2.yml
   profiles:
-    active: local
+    include:
+      - database
+      - ouath2
 
-  redis:
-    host: localhost
-    port: 6379
-
-
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/liveamonth?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: 1234
-
-  jpa:
-    hibernate:
-      ddl-auto: create #자동으로 테이블 생성
-    properties:
-      hibernate:
-        #        show_sql: true
-        format_sql: true
-        default_batch_fetch_size: 100
-    open-in-view: true # db 커넥션을 트랜잭션에서만 하고 끝냄..
+  messages:
+    basename: messages, errors, initdb
 
   mail:
     host: smtp.gmail.com
@@ -54,13 +31,3 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug # 하이버네이트가 생성하는 SQL이 다보인다.
-
-app:
-  auth:
-    tokenSecret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
-    accessTokenExpireTime: 3600000
-    refreshTokenExpireTime: 1209600000
-  oauth2:
-    authorizedRedirectUris:
-      - http://localhost:3000/oauth/redirect
-

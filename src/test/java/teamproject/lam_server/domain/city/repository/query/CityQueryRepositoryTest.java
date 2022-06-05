@@ -38,26 +38,24 @@ class CityQueryRepositoryTest {
         System.out.println("cityInfos.getTotalElements() = " + cityInfos.getTotalElements());
         System.out.println("cityInfos.getTotalPages() = " + cityInfos.getTotalPages());
     }
+
     @Test
     public void searchCityTransportsTest() {
         CityTransportSearchCond cond = new CityTransportSearchCond();
 //        cond.setName(CityName.SEOUL);
         cond.setCategory(TransportCategory.T_BUS);
-        cond.setCountLoe(300);
-        cond.setCountGoe(160);
         Pageable pageable = PageRequest.of(0, 5);
         Page<CityTransport> cityTransports = cityQueryRepository.searchTransport(cond, pageable);
 
         System.out.println("cityTransports.getTotalElements() = " + cityTransports.getTotalElements());
         System.out.println("cityTransports.getTotalPages() = " + cityTransports.getTotalPages());
     }
+
     @Test
     public void searchCityWeatherTest() {
         CityWeatherSearchCond cond = new CityWeatherSearchCond();
         cond.setName(CityName.SE);
 //        cond.setMonth(CategoryConstants.Month.DECEMBER);
-        cond.setDegreeGoe(10);
-        cond.setDegreeLoe(20);
         Pageable pageable = PageRequest.of(0, 5);
         Page<CityWeather> cityWeathers = cityQueryRepository.searchWeather(cond, pageable);
 

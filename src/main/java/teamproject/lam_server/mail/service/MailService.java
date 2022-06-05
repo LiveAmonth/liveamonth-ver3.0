@@ -5,13 +5,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
 import teamproject.lam_server.mail.constants.MailConstant;
+import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Locale;
-import java.util.Map;
 
 import static teamproject.lam_server.constants.AttrConstants.*;
 
@@ -21,30 +20,6 @@ import static teamproject.lam_server.constants.AttrConstants.*;
 public class MailService {
     private final JavaMailSender mailSender;
     private final MessageSource messageSource;
-
-    public void sendPasswordByMail(Map<String, Object> result) {
-        // 필요한거 -> 회원 이름, 이메일, 임시 비번
-        MimeMessage message = mailSender.createMimeMessage();
-        messageSource.getMessage("mail.ment.intro",new String[]{(String)result.get(NAME)}, Locale.KOREA);
-        try {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, UTF_8);
-            messageHelper.setSubject(transMessage("mail.pw.subject",null));
-            String htmlContent = "<img src=\"https://liveamonth-simple-bucket.s3.ap-northeast-2.amazonaws.com/logo.png\"><br><br>"
-                    + "안녕하세요. " + result.get(NAME) + " 고객님<br><br>"
-                    + "<h4>요청하신 임시 비밀번호는 다음과 같습니다.<br>"
-                    + "임시비밀번호 : " + result.get("temporaryPw") + "<br>"
-                    + "<a href=\"http://liveamonth.ap-northeast-2.elasticbeanstalk.com/" + "login\">로그인 하러가기</a></h4><br>"
-                    + "<p>발급된 비밀번호는 임시로 발급된 것이므로 로그인 후 '마이페이지 -> 회원정보 수정'을 통해 비밀번호를 변경해주시기 바랍니다.</p><br>"
-                    + "<p>다른 문의사항이 있으시면 한달살기(TP.liveamonth@gamil.com)으로 문의해 주시기 바랍니다.</p><br>"
-                    + "<strong>감사합니다.</strong>";
-            messageHelper.setText(htmlContent, true);
-            messageHelper.setFrom(ADMIN_EMAIL, ADMIN_NAME);
-            messageHelper.setTo(new InternetAddress((String) result.get(EMAIL), (String) result.get(NAME), UTF_8));
-            mailSender.send(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public void sendMail(TempPasswordSendMailInfo info) {
         // 필요한거 -> 회원 이름, 이메일, 임시 비번
@@ -59,14 +34,14 @@ public class MailService {
         try {
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, UTF_8);
             messageHelper.setSubject(transMessage(MailConstant.PW_SUBJECT.getPwMailCode(), null));
-            String htmlContent = "<img src=\"https://liveamonth-simple-bucket.s3.ap-northeast-2.amazonaws.com/logo.png\"><br><br>"
-                    + helloUser+ "<br><br>"
-                    + "<h4>"+intro+"<br>"
+            String htmlContent = "<img src=\"img/logo.png\"><br><br>"
+                    + helloUser + "<br><br>"
+                    + "<h4>" + intro + "<br>"
                     + temp + "<br>"
-                    + "<a href=\"http://liveamonth.ap-northeast-2.elasticbeanstalk.com/" + "login\">"+login+"</a></h4><br>"
-                    + "<p>"+edit+"</p><br>"
-                    + "<p>"+ask+"</p><br>"
-                    + "<strong>"+end+"</strong>";
+                    + "<a href=\"http://localhost:8081/" + "login\">" + login + "</a></h4><br>"
+                    + "<p>" + edit + "</p><br>"
+                    + "<p>" + ask + "</p><br>"
+                    + "<strong>" + end + "</strong>";
             messageHelper.setText(htmlContent, true);
             messageHelper.setFrom(ADMIN_EMAIL, ADMIN_NAME);
             messageHelper.setTo(new InternetAddress(info.getEmail(), info.getName(), UTF_8));
@@ -76,7 +51,7 @@ public class MailService {
         }
     }
 
-    private String transMessage(String code, String[] params){
+    private String transMessage(String code, String[] params) {
         return messageSource.getMessage(code, params, Locale.KOREA);
     }
 //    public void sendOneToOneAskByMail(OneToOneAskVO oneToOneAskVO, UserVO userVO) {

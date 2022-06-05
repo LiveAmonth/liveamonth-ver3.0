@@ -55,6 +55,9 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     implementation 'com.google.code.gson:gson'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.10'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
 
     // 테스트
     implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
