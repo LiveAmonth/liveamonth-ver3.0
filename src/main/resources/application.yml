@@ -1,14 +1,6 @@
 spring:
-
-  config:
-    import: classpath:database.yml, classpath:oauth2.yml
-  profiles:
-    include:
-      - database
-      - ouath2
-
   messages:
-    basename: messages, errors, initdb
+    basename: messages, errors
 
   mail:
     host: smtp.gmail.com
@@ -27,7 +19,44 @@ spring:
           protocol: smtp
         debug: false
 
+  config:
+    import: classpath:oauth2.yml
+  profiles:
+    include:
+      - ouath2
+    group:
+      local: local-server
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local-server
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/liveamonth?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: create # 자동으로 테이블 생성
+
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: true
+
+  redis:
+    host: localhost
+    port: 6379
+    password:
+
+server:
+  port: 8080
 
 logging:
   level:
-    org.hibernate.SQL: debug # 하이버네이트가 생성하는 SQL이 다보인다.
+    org.hibernate.SQL: debug

@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.member.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
@@ -21,7 +20,6 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
-@Slf4j
 public class MemberApiController {
     private final MemberServiceImpl memberService;
 
