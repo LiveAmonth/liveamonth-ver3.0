@@ -1,0 +1,507 @@
+[
+  {
+    "avg": 1.6,
+    "max": 5.9,
+    "min": -1.7,
+    "month": "JAN",
+    "name": "SE"
+  },
+  {
+    "avg": 2.5,
+    "max": 7.2,
+    "min": -1.3,
+    "month": "FEB",
+    "name": "SE"
+  },
+  {
+    "avg": 7.7,
+    "max": 13.3,
+    "min": 2.6,
+    "month": "MAR",
+    "name": "SE"
+  },
+  {
+    "avg": 11.1,
+    "max": 16.6,
+    "min": 6.3,
+    "month": "APR",
+    "name": "SE"
+  },
+  {
+    "avg": 18,
+    "max": 23.3,
+    "min": 13.7,
+    "month": "MAY",
+    "name": "SE"
+  },
+  {
+    "avg": 23.9,
+    "max": 29,
+    "min": 19.9,
+    "month": "JUN",
+    "name": "SE"
+  },
+  {
+    "avg": 24.1,
+    "max": 28,
+    "min": 21.1,
+    "month": "JUL",
+    "name": "SE"
+  },
+  {
+    "avg": 26.5,
+    "max": 29.3,
+    "min": 24.4,
+    "month": "AUG",
+    "name": "SE"
+  },
+  {
+    "avg": 21.4,
+    "max": 25.6,
+    "min": 18,
+    "month": "SEP",
+    "name": "SE"
+  },
+  {
+    "avg": 14.3,
+    "max": 19.5,
+    "min": 9.6,
+    "month": "OCT",
+    "name": "SE"
+  },
+  {
+    "avg": 8,
+    "max": 12.6,
+    "min": 4,
+    "month": "NOV",
+    "name": "SE"
+  },
+  {
+    "avg": -0.4,
+    "max": 3.9,
+    "min": -4.2,
+    "month": "DEC",
+    "name": "SE"
+  },
+  {
+    "avg": 4.4,
+    "max": 8.1,
+    "min": 1.7,
+    "month": "JAN",
+    "name": "GN"
+  },
+  {
+    "avg": 5,
+    "max": 9.6,
+    "min": 0.9,
+    "month": "FEB",
+    "name": "GN"
+  },
+  {
+    "avg": 8.7,
+    "max": 13.9,
+    "min": 3.6,
+    "month": "MAR",
+    "name": "GN"
+  },
+  {
+    "avg": 11.8,
+    "max": 16.4,
+    "min": 7.1,
+    "month": "APR",
+    "name": "GN"
+  },
+  {
+    "avg": 18.3,
+    "max": 22.9,
+    "min": 14.3,
+    "month": "MAY",
+    "name": "GN"
+  },
+  {
+    "avg": 24.1,
+    "max": 28.2,
+    "min": 20.1,
+    "month": "JUN",
+    "name": "GN"
+  },
+  {
+    "avg": 22.4,
+    "max": 25.5,
+    "min": 19.6,
+    "month": "JUL",
+    "name": "GN"
+  },
+  {
+    "avg": 27,
+    "max": 30.5,
+    "min": 24.1,
+    "month": "AUG",
+    "name": "GN"
+  },
+  {
+    "avg": 20.6,
+    "max": 24.5,
+    "min": 17.2,
+    "month": "SEP",
+    "name": "GN"
+  },
+  {
+    "avg": 15.1,
+    "max": 20.1,
+    "min": 10.8,
+    "month": "OCT",
+    "name": "GN"
+  },
+  {
+    "avg": 11,
+    "max": 15.6,
+    "min": 6.7,
+    "month": "NOV",
+    "name": "GN"
+  },
+  {
+    "avg": 3,
+    "max": 7.8,
+    "min": -0.8,
+    "month": "DEC",
+    "name": "GN"
+  },
+  {
+    "avg": 3.9,
+    "max": 8.8,
+    "min": -0.3,
+    "month": "JAN",
+    "name": "GJ"
+  },
+  {
+    "avg": 4.6,
+    "max": 10.9,
+    "min": -0.7,
+    "month": "FEB",
+    "name": "GJ"
+  },
+  {
+    "avg": 8.7,
+    "max": 15.7,
+    "min": 2.1,
+    "month": "MAR",
+    "name": "GJ"
+  },
+  {
+    "avg": 11.8,
+    "max": 18.9,
+    "min": 4.8,
+    "month": "APR",
+    "name": "GJ"
+  },
+  {
+    "avg": 18.5,
+    "max": 25.2,
+    "min": 12.9,
+    "month": "MAY",
+    "name": "GJ"
+  },
+  {
+    "avg": 23.5,
+    "max": 29.9,
+    "min": 18.1,
+    "month": "JUN",
+    "name": "GJ"
+  },
+  {
+    "avg": 22.4,
+    "max": 26.4,
+    "min": 19.5,
+    "month": "JUL",
+    "name": "GJ"
+  },
+  {
+    "avg": 27.6,
+    "max": 33.1,
+    "min": 23.5,
+    "month": "AUG",
+    "name": "GJ"
+  },
+  {
+    "avg": 20.2,
+    "max": 25.6,
+    "min": 16.2,
+    "month": "SEP",
+    "name": "GJ"
+  },
+  {
+    "avg": 14.7,
+    "max": 21.5,
+    "min": 9.2,
+    "month": "OCT",
+    "name": "GJ"
+  },
+  {
+    "avg": 9.2,
+    "max": 15.6,
+    "min": 3.3,
+    "month": "NOV",
+    "name": "GJ"
+  },
+  {
+    "avg": 1.5,
+    "max": 7.7,
+    "min": -4,
+    "month": "DEC",
+    "name": "GJ"
+  },
+  {
+    "avg": 6.4,
+    "max": 10.9,
+    "min": 3.1,
+    "month": "JAN",
+    "name": "BS"
+  },
+  {
+    "avg": 7.1,
+    "max": 11.8,
+    "min": 3.1,
+    "month": "FEB",
+    "name": "BS"
+  },
+  {
+    "avg": 10.4,
+    "max": 15,
+    "min": 6.4,
+    "month": "MAR",
+    "name": "BS"
+  },
+  {
+    "avg": 12.6,
+    "max": 17.5,
+    "min": 8.9,
+    "month": "APR",
+    "name": "BS"
+  },
+  {
+    "avg": 17.9,
+    "max": 21.8,
+    "min": 15,
+    "month": "MAY",
+    "name": "BS"
+  },
+  {
+    "avg": 22.4,
+    "max": 26.6,
+    "min": 19.5,
+    "month": "JUN",
+    "name": "BS"
+  },
+  {
+    "avg": 22.1,
+    "max": 24.8,
+    "min": 20.3,
+    "month": "JUL",
+    "name": "BS"
+  },
+  {
+    "avg": 27.2,
+    "max": 30.4,
+    "min": 24.8,
+    "month": "AUG",
+    "name": "BS"
+  },
+  {
+    "avg": 21.9,
+    "max": 25.6,
+    "min": 19.2,
+    "month": "OCT",
+    "name": "BS"
+  },
+  {
+    "avg": 17.3,
+    "max": 22.2,
+    "min": 13.8,
+    "month": "NOV",
+    "name": "BS"
+  },
+  {
+    "avg": 12.4,
+    "max": 17.2,
+    "min": 8.5,
+    "month": "SEP",
+    "name": "BS"
+  },
+  {
+    "avg": 4.3,
+    "max": 9.3,
+    "min": 0.5,
+    "month": "DEC",
+    "name": "BS"
+  },
+  {
+    "avg": 5.8,
+    "max": 9.2,
+    "min": 3.2,
+    "month": "JAN",
+    "name": "YS"
+  },
+  {
+    "avg": 6.4,
+    "max": 10.5,
+    "min": 3,
+    "month": "FEB",
+    "name": "YS"
+  },
+  {
+    "avg": 9.9,
+    "max": 14.1,
+    "min": 5.9,
+    "month": "MAR",
+    "name": "YS"
+  },
+  {
+    "avg": 12.5,
+    "max": 17,
+    "min": 8.6,
+    "month": "APR",
+    "name": "YS"
+  },
+  {
+    "avg": 18,
+    "max": 21.3,
+    "min": 15.2,
+    "month": "MAY",
+    "name": "YS"
+  },
+  {
+    "avg": 22.4,
+    "max": 25.7,
+    "min": 19.8,
+    "month": "JUN",
+    "name": "YS"
+  },
+  {
+    "avg": 22.6,
+    "max": 25,
+    "min": 21.1,
+    "month": "JUL",
+    "name": "YS"
+  },
+  {
+    "avg": 27.1,
+    "max": 29.7,
+    "min": 25.3,
+    "month": "AUG",
+    "name": "YS"
+  },
+  {
+    "avg": 22.2,
+    "max": 24.8,
+    "min": 19.9,
+    "month": "SEP",
+    "name": "YS"
+  },
+  {
+    "avg": 17.3,
+    "max": 21,
+    "min": 14.3,
+    "month": "OCT",
+    "name": "YS"
+  },
+  {
+    "avg": 12.1,
+    "max": 16,
+    "min": 8.9,
+    "month": "NOV",
+    "name": "YS"
+  },
+  {
+    "avg": 4.3,
+    "max": 8.3,
+    "min": 1,
+    "month": "DEC",
+    "name": "YS"
+  },
+  {
+    "avg": 8.9,
+    "max": 11,
+    "min": 7,
+    "month": "JAN",
+    "name": "JJ"
+  },
+  {
+    "avg": 9.1,
+    "max": 12.3,
+    "min": 6.1,
+    "month": "FEB",
+    "name": "JJ"
+  },
+  {
+    "avg": 11.5,
+    "max": 15.1,
+    "min": 7.9,
+    "month": "MAR",
+    "name": "JJ"
+  },
+  {
+    "avg": 13.2,
+    "max": 16.9,
+    "min": 9.8,
+    "month": "APR",
+    "name": "JJ"
+  },
+  {
+    "avg": 18.8,
+    "max": 23.4,
+    "min": 15.6,
+    "month": "MAY",
+    "name": "JJ"
+  },
+  {
+    "avg": 22.4,
+    "max": 26.1,
+    "min": 19.8,
+    "month": "JUN",
+    "name": "JJ"
+  },
+  {
+    "avg": 24.2,
+    "max": 27.3,
+    "min": 21.8,
+    "month": "JUL",
+    "name": "JJ"
+  },
+  {
+    "avg": 29.4,
+    "max": 32.8,
+    "min": 26.8,
+    "month": "AUG",
+    "name": "JJ"
+  },
+  {
+    "avg": 22.9,
+    "max": 25.6,
+    "min": 20.6,
+    "month": "SEP",
+    "name": "JJ"
+  },
+  {
+    "avg": 18.4,
+    "max": 21.2,
+    "min": 16,
+    "month": "OCT",
+    "name": "JJ"
+  },
+  {
+    "avg": 14.1,
+    "max": 17.3,
+    "min": 11.2,
+    "month": "NOV",
+    "name": "JJ"
+  },
+  {
+    "avg": 7.7,
+    "max": 10.4,
+    "min": 5,
+    "month": "DEC",
+    "name": "JJ"
+  }
+]
+
