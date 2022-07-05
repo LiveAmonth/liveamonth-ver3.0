@@ -35,7 +35,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     // 사용자의 id를 반환
     @Override
     public String getUsername() {
-        return member.getEmail();
+        return member.getLoginId();
     }
 
     // 사용자의 password를 반환
@@ -80,6 +80,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public String getName() {
-        return member.getEmail();
+        return member.getLoginId();
     }
 }

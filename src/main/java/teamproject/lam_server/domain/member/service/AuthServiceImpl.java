@@ -40,7 +40,7 @@ public class AuthServiceImpl extends BasicServiceUtil implements AuthService {
 
     public TokenResponse login(LoginRequest request) {
         // request로 온 email을 가지고 해당 회원이 있는지 확인
-        if (!memberRepository.existsByEmail(request.getEmail()))
+        if (!memberRepository.existsByLoginId(request.getLoginId()))
             throw new CustomException(MEMBER_NOT_FOUND);
 
         // email, pw 로 Authentication 객체 생성 -> email password // request

@@ -10,8 +10,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
+import teamproject.lam_server.domain.member.dto.response.SimpleMemberResponse;
 import teamproject.lam_server.global.exception.CustomException;
 
 import java.security.Key;
@@ -28,6 +30,7 @@ public class JwtTokenProvider {
     private Key key;
     private final AppProperties appProperties;
     private static final String AUTHORITIES_KEY = "auth";
+    private static final String PROFILE_INFO = "profile";
 
     public JwtTokenProvider(AppProperties appProperties) {
         this.appProperties = appProperties;
@@ -39,7 +42,6 @@ public class JwtTokenProvider {
      * 회원 정보를 가지고 Access Token, Refresh Token 생성
      *
      * @param authentication
-     * @param response
      * @return TokenResponse
      */
     public TokenResponse generateToken(Authentication authentication) {
@@ -175,8 +177,6 @@ public class JwtTokenProvider {
      * Access Token 생성
      *
      * @param authentication
-     * @param email
-     * @param expiration
      * @return
      */
     public String createAccessToken(Authentication authentication, Date date) {
@@ -187,8 +187,9 @@ public class JwtTokenProvider {
         String authorities = this.convertToString(authentication);
 
         return Jwts.builder()
-                .setSubject(authentication.getName()) // email
+                .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities) // 권한 정보
+                .claim(PROFILE_INFO, SimpleMemberResponse.of(((PrincipalDetails) authentication).getMember()))
                 .setExpiration(accessTokenExpiration) // 만료 시간
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -196,9 +197,6 @@ public class JwtTokenProvider {
 
     /**
      * Refresh Token 생성
-     *
-     * @param expiration
-     * @return
      */
     private String createRefreshToken(Date date) {
         Date refreshTokenExpiration = this.getExpireTime(date, appProperties.getAuth().getRefreshTokenExpireTime());

@@ -10,15 +10,14 @@ import javax.validation.constraints.Pattern;
 public class LoginRequest {
 
     @NotBlank
-    @Pattern(regexp = "[a-z0-9A-Z._-]*@[a-z0-9A-Z]*.[a-zA-Z.]*")
-    private String email;
+    private String loginId;
 
     @NotBlank
     private String password;
 
     public UsernamePasswordAuthenticationToken toAuthentication(){
         return new UsernamePasswordAuthenticationToken(
-                email, password
+                loginId, password
         );
     }
 }

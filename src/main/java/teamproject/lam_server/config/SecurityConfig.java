@@ -18,13 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import teamproject.lam_server.auth.exception.CustomAccessDeniedHandler;
 import teamproject.lam_server.auth.exception.CustomAuthenticationEntryPoint;
 import teamproject.lam_server.auth.jwt.CustomUserDetailsService;
 import teamproject.lam_server.auth.jwt.JwtAuthenticationFilter;
-import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.auth.oauth2.OAuth2AuthenticationFilter;
-import teamproject.lam_server.redis.RedisRepository;
 
 import static teamproject.lam_server.domain.member.constants.Role.*;
 
@@ -38,24 +39,19 @@ import static teamproject.lam_server.domain.member.constants.Role.*;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtTokenProvider jwtProvider;
-    private final RedisRepository redisRepository;
-    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final OAuth2AuthenticationFilter oAuth2AuthenticationFilter;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtProvider, redisRepository);
     }
 
     @Bean
@@ -64,11 +60,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         roleHierarchy.setHierarchy(getRoleHierarchy());
         return roleHierarchy;
     }
-
-    private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
-        DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
-        defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
-        return defaultWebSecurityExpressionHandler;
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.addAllowedOrigin("https://www.inf-cinema.shop");
+        corsConfig.addAllowedOrigin("https://inf-cinema.shop");
+        corsConfig.addAllowedOrigin("https://icinema.netlify.app");
+        corsConfig.addAllowedOrigin("http://localhost:3000");
+        corsConfig.addAllowedMethod("*");
+        corsConfig.addAllowedHeader("*");
+        corsConfig.setAllowCredentials(true);
+        corsConfig.setMaxAge(7200L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);
+        return source;
     }
 
     @Override
@@ -102,11 +107,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
                 .addFilterBefore(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+    }
+
+    private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {
+        DefaultWebSecurityExpressionHandler defaultWebSecurityExpressionHandler = new DefaultWebSecurityExpressionHandler();
+        defaultWebSecurityExpressionHandler.setRoleHierarchy(roleHierarchy());
+        return defaultWebSecurityExpressionHandler;
     }
 }
