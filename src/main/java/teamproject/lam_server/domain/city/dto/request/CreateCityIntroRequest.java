@@ -23,7 +23,7 @@ public class CreateCityIntroRequest {
     private String content;
 
     @NotEmpty
-    @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "이미지 확장자가 아닙니다.")
+    @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "지원하지 않는 확장자입니다.")
     private String image;
 
     public CityIntro toEntity() {
