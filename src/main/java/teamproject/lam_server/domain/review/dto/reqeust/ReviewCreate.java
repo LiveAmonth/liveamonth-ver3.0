@@ -11,7 +11,7 @@ import teamproject.lam_server.domain.review.entity.Review;
 import java.time.LocalDateTime;
 
 @Getter
-public class WriteReviewRequest {
+public class ReviewCreate {
 
     private String title;
     private String content;

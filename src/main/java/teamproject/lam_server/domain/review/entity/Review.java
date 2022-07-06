@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
+import teamproject.lam_server.domain.review.entity.editor.ReviewEditor;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -44,7 +45,7 @@ public class Review extends BaseTimeEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "review")
-    private List<ReviewReply> reviewReplies = new ArrayList<>();
+    private final List<ReviewReply> reviewReplies = new ArrayList<>();
 
     @Builder
     public Review(ReviewCategory reviewCategory, String title, String content, LocalDateTime reviewDateTime, Member member) {
@@ -59,5 +60,18 @@ public class Review extends BaseTimeEntity {
     private void setMember(Member member) {
         this.member = member;
         member.getReviews().add(this);
+    }
+
+    public ReviewEditor.ReviewEditorBuilder toEditor(){
+        return ReviewEditor.builder()
+                .title(title)
+                .content(content)
+                .reviewCategory(reviewCategory);
+    }
+
+    public void edit(ReviewEditor reviewEditor) {
+        this.title = reviewEditor.getTitle();
+        this.reviewCategory = reviewEditor.getReviewCategory();
+        this.content = reviewEditor.getContent();
     }
 }

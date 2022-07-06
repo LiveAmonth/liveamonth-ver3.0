@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import axios from "axios";
 import {onMounted, ref} from "vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
 
 const reviews = ref([]);
 onMounted(() => {
   axios.post(`/lam-api/reviews/search?sort=id,desc`).then((response) => {
-    reviews.value = response.data.data.content;
+    reviews.value = response
+        .data.data.content;
   });
 })
 
@@ -15,7 +19,9 @@ onMounted(() => {
   <ul>
     <li v-for="review in reviews" :key="review.id">
       <div>
-        {{ review.title }}
+        <router-link :to="{name:'read',params:{reviewId: review.id}}">
+          {{ review.title }}
+        </router-link>
       </div>
       <div>
         {{ review.content }}
