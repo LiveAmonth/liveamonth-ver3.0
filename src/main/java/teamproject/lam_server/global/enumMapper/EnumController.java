@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.global.dto.CustomResponse;
 
+import static teamproject.lam_server.global.constants.ResponseMessage.READ_CATEGORY;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
 
 /**
@@ -25,7 +26,7 @@ public class EnumController {
      */
     @GetMapping("/gender-type")
     public ResponseEntity<?> getGenderType() {
-        return CustomResponse.getCategorySuccess(enumMapper, GENDER_TYPE);
+        return getCategories(GENDER_TYPE);
     }
 
     /**
@@ -33,7 +34,7 @@ public class EnumController {
      */
     @GetMapping("/account-state")
     public ResponseEntity<?> getAccountState() {
-        return CustomResponse.getCategorySuccess(enumMapper, ACCOUNT_STATE);
+        return getCategories(ACCOUNT_STATE);
     }
 
     /**
@@ -41,7 +42,7 @@ public class EnumController {
      */
     @GetMapping("/city/name")
     public ResponseEntity<?> getCityName() {
-        return CustomResponse.getCategorySuccess(enumMapper, CITY_NAME);
+        return getCategories(CITY_NAME);
     }
 
     /**
@@ -49,7 +50,7 @@ public class EnumController {
      */
     @GetMapping("/city/info")
     public ResponseEntity<?> getCityInfo() {
-        return CustomResponse.getCategorySuccess(enumMapper, CITY_INFO_CATEGORY);
+        return getCategories(CITY_INFO_CATEGORY);
     }
 
     /**
@@ -57,7 +58,7 @@ public class EnumController {
      */
     @GetMapping("/transport")
     public ResponseEntity<?> getTransport() {
-        return CustomResponse.getCategorySuccess(enumMapper, TRANSPORT_CATEGORY);
+        return getCategories(TRANSPORT_CATEGORY);
     }
 
     /**
@@ -65,7 +66,7 @@ public class EnumController {
      */
     @GetMapping("/transport/grade")
     public ResponseEntity<?> getTransportGrade() {
-        return CustomResponse.getCategorySuccess(enumMapper, TRANSPORT_GRADE);
+        return getCategories(TRANSPORT_GRADE);
     }
 
     /**
@@ -73,7 +74,15 @@ public class EnumController {
      */
     @GetMapping("/month")
     public ResponseEntity<?> getMonth() {
-        return CustomResponse.getCategorySuccess(enumMapper, MONTH_CATEGORY);
+        return getCategories(MONTH_CATEGORY);
+    }
+
+    /**
+     * 리뷰 카테고리
+     */
+    @GetMapping("/review")
+    public ResponseEntity<?> getReviewCategory() {
+        return getCategories(REVIEW_CATEGORY);
     }
 
     /**
@@ -81,8 +90,8 @@ public class EnumController {
      */
     @GetMapping("/status/{entityName}")
     public ResponseEntity<?> getEntityStatus(@PathVariable String entityName) {
-        EnumClassConst eStatus = EnumUtil.getEnumClassConst(entityName, EnumMapper.STATUS_PATH);
-        return CustomResponse.getCategorySuccess(enumMapper, eStatus);
+        EnumClassConst eStatus = getEnumClassConst(entityName, EnumMapper.STATUS_PATH);
+        return getCategories(eStatus);
     }
 
     /**
@@ -90,8 +99,8 @@ public class EnumController {
      */
     @GetMapping("/search-conditions/{entityName}")
     public ResponseEntity<?> getEntitySearchCondTypes(@PathVariable String entityName) {
-        EnumClassConst eSearchCondType = EnumUtil.getEnumClassConst(entityName, EnumMapper.SEARCH_TYPE_PATH);
-        return CustomResponse.getCategorySuccess(enumMapper, eSearchCondType);
+        EnumClassConst eSearchCondType = getEnumClassConst(entityName, EnumMapper.SEARCH_TYPE_PATH);
+        return getCategories(eSearchCondType);
     }
 
     /**
@@ -99,9 +108,23 @@ public class EnumController {
      */
     @GetMapping("/sort-types/{entityName}")
     public ResponseEntity<?> getEntitySortTypes(@PathVariable String entityName) {
-        EnumClassConst eSortType = EnumUtil.getEnumClassConst(entityName, EnumMapper.SORT_TYPE_PATH);
-        return CustomResponse.getCategorySuccess(enumMapper, eSortType);
+        EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.SORT_TYPE_PATH);
+        return getCategories(eSortType);
     }
 
+
+
+    /**
+     * EnumClassConst 에 있는 카테고리 조회
+     *
+     * @param category
+     */
+    private ResponseEntity<?> getCategories(EnumClassConst category) {
+        return CustomResponse.success(category.getValue() + READ_CATEGORY, enumMapper.get(category.getClassName()));
+    }
+
+    private EnumClassConst getEnumClassConst(String entityName, String path) {
+        return EnumClassConst.valueOf(entityName.toUpperCase() + path);
+    }
 
 }

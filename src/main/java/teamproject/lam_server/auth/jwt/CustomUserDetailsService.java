@@ -21,7 +21,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     /**
      * email로 member를 찾은 뒤 UserDetails 객체로 매핑해 리턴
      *
-     * @param email
      * @return
      * @throws UsernameNotFoundException
      */

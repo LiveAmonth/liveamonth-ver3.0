@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.review.dto;
+package teamproject.lam_server.domain.review.dto.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ public class SimpleReviewResponse {
 
     private String content;
 
-    private int viewCount;
+    private long viewCount;
 
     public SimpleReviewResponse(Review review) {
         this.member = ProfileCardResponse.of(review.getMember());

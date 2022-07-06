@@ -27,7 +27,7 @@ public class DomainSpec<T extends Enum<T>> {
     private int defaultPage = 0;
     @Getter
     @Setter
-    private int defaultSize = 20;
+    private int defaultSize = 10;
     private SortStrategy<T> sortStrategy;
 
     public DomainSpec(Class<T> clazz) {

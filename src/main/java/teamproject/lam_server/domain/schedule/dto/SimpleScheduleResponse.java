@@ -15,7 +15,7 @@ public class SimpleScheduleResponse {
 
     private String content;
 
-    private int viewCount;
+    private long viewCount;
 
     public SimpleScheduleResponse(Review review) {
         this.member = ProfileCardResponse.of(review.getMember());

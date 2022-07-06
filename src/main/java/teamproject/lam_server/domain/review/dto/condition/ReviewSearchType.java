@@ -1,16 +1,16 @@
-package teamproject.lam_server.domain.city.constants;
+package teamproject.lam_server.domain.review.dto.condition;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import teamproject.lam_server.global.enumMapper.EnumMapperType;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum CityIntroCategory implements EnumMapperType {
-    INTRO("소개"),
-    FOOD("먹거리"),
-    VIEW("볼거리");
+public enum ReviewSearchType implements EnumMapperType {
+    TITLE("제목"),
+    CONTENT("내용"),
+    WRITER("닉네임");
     private String value;
 
-    CityIntroCategory(String value) {
+    ReviewSearchType(String value) {
         this.value = value;
     }
 

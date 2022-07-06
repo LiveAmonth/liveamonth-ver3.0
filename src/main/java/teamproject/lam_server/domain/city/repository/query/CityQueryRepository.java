@@ -17,7 +17,7 @@ import teamproject.lam_server.domain.city.dto.condition.CityIntroSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityTransportSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityWeatherSearchCond;
 import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
-import teamproject.lam_server.domain.city.dto.view.QCityGridDataResponse;
+import teamproject.lam_server.domain.city.dto.response.api.QCityGridDataResponse;
 import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.entity.CityTransport;
 import teamproject.lam_server.domain.city.entity.CityWeather;
@@ -27,7 +27,7 @@ import teamproject.lam_server.util.BasicRepositoryUtil;
 import java.util.List;
 
 import static org.springframework.data.support.PageableExecutionUtils.getPage;
-import static teamproject.lam_server.domain.city.entity.QCityInfo.cityInfo;
+import static teamproject.lam_server.domain.city.entity.QCityIntro.cityIntro;
 import static teamproject.lam_server.domain.city.entity.QCityTransport.cityTransport;
 import static teamproject.lam_server.domain.city.entity.QCityWeather.cityWeather;
 
@@ -40,7 +40,7 @@ public class CityQueryRepository extends BasicRepositoryUtil {
         List<CityIntro> content = getSearchInfoElementsQuery(cond)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(mapToOrderSpec(pageable.getSort(), CityIntro.class, cityInfo))
+                .orderBy(mapToOrderSpec(pageable.getSort(), CityIntro.class, cityIntro))
                 .fetch();
 
         JPAQuery<Long> countQuery = getSearchInfoCountQuery(cond);
@@ -71,16 +71,16 @@ public class CityQueryRepository extends BasicRepositoryUtil {
     }
 
     private JPAQuery<CityIntro> getSearchInfoElementsQuery(CityIntroSearchCond cond) {
-        return queryFactory.selectFrom(cityInfo)
+        return queryFactory.selectFrom(cityIntro)
                 .where(
-                        nameEq(cityInfo._super, cond.getName()),
+                        nameEq(cityIntro._super, cond.getName()),
                         infoCatEq(cond.getCategory())
                 );
     }
 
     private JPAQuery<Long> getSearchInfoCountQuery(CityIntroSearchCond cond) {
-        return count(queryFactory, cityInfo,
-                nameEq(cityInfo._super, cond.getName()),
+        return count(queryFactory, cityIntro,
+                nameEq(cityIntro._super, cond.getName()),
                 infoCatEq(cond.getCategory())
         );
     }
@@ -94,7 +94,7 @@ public class CityQueryRepository extends BasicRepositoryUtil {
     }
 
     private JPAQuery<Long> getSearchTransportCountQuery(CityTransportSearchCond cond) {
-        return count(queryFactory, cityInfo,
+        return count(queryFactory, cityIntro,
                 nameEq(cityTransport._super, cond.getName()),
                 cityTransportCatEq(cond.getCategory())
         );
@@ -116,11 +116,11 @@ public class CityQueryRepository extends BasicRepositoryUtil {
 
     public List<CityGridDataResponse> findCityGridInfo(CityIntroCategory category, MonthCategory month) {
         return queryFactory
-                .select(new QCityGridDataResponse(cityInfo.name,
-                        cityInfo.image,
+                .select(new QCityGridDataResponse(cityIntro.name,
+                        cityIntro.image,
                         cityWeather.averageDegree,
                         cityTransport.score.sum().as("transportScore")))
-                .from(cityInfo)
+                .from(cityIntro)
                 .leftJoin(cityWeather).on(
                         joinCityNameEq(cityWeather.name),
                         cityMonthEq(month))
@@ -143,11 +143,11 @@ public class CityQueryRepository extends BasicRepositoryUtil {
 
 
     private BooleanExpression joinCityNameEq(EnumPath<CityName> comp) {
-        return comp != null ? cityInfo.name.eq(comp) : null;
+        return comp != null ? cityIntro.name.eq(comp) : null;
     }
 
     private BooleanExpression joinNameEq() {
-        return cityInfo.name.eq(cityWeather.name).and(cityInfo.name.eq(cityTransport.name));
+        return cityIntro.name.eq(cityWeather.name).and(cityIntro.name.eq(cityTransport.name));
     }
 
     private <T extends QCity> BooleanExpression nameEq(T t, CityName name) {
@@ -155,7 +155,7 @@ public class CityQueryRepository extends BasicRepositoryUtil {
     }
 
     private BooleanExpression infoCatEq(CityIntroCategory category) {
-        return category != null ? cityInfo.cityInfoCat.eq(category) : null;
+        return category != null ? cityIntro.cityInfoCat.eq(category) : null;
     }
 
     private BooleanExpression cityMonthEq(MonthCategory month) {

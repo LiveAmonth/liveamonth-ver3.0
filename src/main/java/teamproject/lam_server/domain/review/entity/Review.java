@@ -2,9 +2,12 @@ package teamproject.lam_server.domain.review.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.member.entity.Member;
+import teamproject.lam_server.domain.review.constants.ReviewCategory;
+import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,29 +17,26 @@ import java.util.List;
 import static javax.persistence.FetchType.*;
 
 @Entity
-@Table(name = "reviews")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Review {
+public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
     private Long id;
 
-    @Column(name = "review_category")
-    private String reviewCategory;
+    @Enumerated(EnumType.STRING)
+    private ReviewCategory reviewCategory;
 
     private String title;
 
     @Lob
     private String content;
 
-    @Column(name = "review_date")
-    private LocalDateTime reviewDate;
+    private LocalDateTime reviewDateTime;
 
-    @Column(name = "view_count")
-    private int viewCount;
+    private long viewCount;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -45,4 +45,19 @@ public class Review {
     @JsonIgnore
     @OneToMany(mappedBy = "review")
     private List<ReviewReply> reviewReplies = new ArrayList<>();
+
+    @Builder
+    public Review(ReviewCategory reviewCategory, String title, String content, LocalDateTime reviewDateTime, Member member) {
+        this.reviewCategory = reviewCategory;
+        this.title = title;
+        this.content = content;
+        this.reviewDateTime = reviewDateTime;
+        this.viewCount = 0;
+        setMember(member);
+    }
+
+    private void setMember(Member member) {
+        this.member = member;
+        member.getReviews().add(this);
+    }
 }
