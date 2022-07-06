@@ -1,8 +1,9 @@
 HELP.md
-.gradle/**
+.gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
-build/**
+!**/src/main/**/build/
+!**/src/test/**/build/
 src/main/resources/application.yml
 src/main/resources/oauth2.yml.yml
 
@@ -14,3 +15,4 @@ src/main/resources/oauth2.yml.yml
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
