@@ -74,7 +74,7 @@ const edit = () => {
   <div class="mt-2">
     <el-input v-model="review.content" type="textarea" rows="15"></el-input>
   </div>
-  <div class="mt-2">
+  <div class="mt-2 d-flex justify-content-end">
     <el-button type="warning" @click="edit()">수정완료</el-button>
   </div>
 </template>

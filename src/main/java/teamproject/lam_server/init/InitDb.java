@@ -14,7 +14,7 @@ public class InitDb {
     private final InitCityService initCityService;
     private final InitMemberService initMemberService;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         initCityService.initCityIntroData();
         initCityService.initCityTransportData();

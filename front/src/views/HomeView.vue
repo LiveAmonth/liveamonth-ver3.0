@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import axios from "axios";
-import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import {onMounted, ref} from "vue";
 
 const reviews = ref([]);
 onMounted(() => {
@@ -72,11 +71,11 @@ ul {
     .sub {
       margin-top: 7px;
       font-size: 0.78rem;
-    }
 
-    .regDate {
-      margin-left: 10px;
-      color: #6b6b6b;
+      .regDate {
+        margin-left: 10px;
+        color: #6b6b6b;
+      }
     }
   }
 }
