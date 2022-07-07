@@ -41,6 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public PostIdResponse write(ReviewCreate request) {
         Member writer = memberRepository.findByNickname(request.getWriter())
                 .orElseThrow(getExceptionSupplier(MEMBER_NOT_FOUND));
@@ -69,12 +70,6 @@ public class ReviewServiceImpl implements ReviewService {
                 .reviewCategory(reviewEdit.getReviewCategory())
                 .content(reviewEdit.getContent())
                 .build();
-        log.info("title={}", reviewEdit.getTitle());
-        log.info("title={}", reviewEdit.getReviewCategory());
-        log.info("title={}", reviewEdit.getContent());
-        log.info("title={}", reviewEditor.getTitle());
-        log.info("title={}", reviewEditor.getReviewCategory());
-        log.info("title={}", reviewEditor.getContent());
         review.edit(reviewEditor);
     }
 

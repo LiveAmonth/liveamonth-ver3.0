@@ -47,9 +47,6 @@ public class ReviewApiController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> edit(@PathVariable Long id, @RequestBody @Valid ReviewEdit request) {
-        log.info("request={}", request.getTitle());
-        log.info("request={}", request.getReviewCategory());
-        log.info("request={}", request.getContent());
         reviewService.edit(id, request);
         return CustomResponse.success(UPDATE_REVIEW);
     }

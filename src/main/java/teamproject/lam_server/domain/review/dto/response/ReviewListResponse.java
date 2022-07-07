@@ -11,18 +11,22 @@ import java.time.LocalDate;
 @Builder
 public class ReviewListResponse {
 
-    private Long id;
-    private String writer;
-    private String title;
+    private final Long id;
+    private final String writer;
+    private final String title;
+    private final String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    private LocalDate writeDate;
+    private final LocalDate writeDate;
+    private final Long viewCount;
 
     public static ReviewListResponse of(Review review) {
         return ReviewListResponse.builder()
                 .id(review.getId())
                 .title(review.getTitle())
                 .writer(review.getMember().getNickname())
+                .content(review.getContent())
                 .writeDate(review.getReviewDateTime().toLocalDate())
+                .viewCount(review.getViewCount())
                 .build();
     }
 }
