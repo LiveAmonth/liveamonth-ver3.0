@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {defineProps, onMounted, ref} from "vue";
+import { defineProps, onMounted, ref } from "vue";
 import axios from "axios";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   reviewId: {
@@ -18,16 +18,17 @@ const review = ref({
   writeDate: "",
   viewCount: 0,
 });
+
 const router = useRouter();
 
 const moveToEdit = () => {
-  router.push({name: "edit", params: {reviewId: props.reviewId}});
-}
+  router.push({ name: "edit", params: { reviewId: props.reviewId } });
+};
 onMounted(() => {
   axios.get(`/lam-api/reviews/${props.reviewId}`).then((response) => {
     review.value = response.data.data;
   });
-})
+});
 </script>
 
 <template>
@@ -37,7 +38,5 @@ onMounted(() => {
   <div>{{ review.writeDate }}</div>
   <div>{{ review.viewCount }}</div>
 
-  <el-button type="warning" @click="moveToEdit()">
-    수정
-  </el-button>
+  <el-button type="warning" @click="moveToEdit()"> 수정 </el-button>
 </template>

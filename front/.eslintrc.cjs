@@ -9,4 +9,9 @@ module.exports = {
     "@vue/eslint-config-typescript/recommended",
     "@vue/eslint-config-prettier",
   ],
+  "rules": {
+    "vue/multi-word-component-names": ["error", {
+      "ignores": ["Header","Footer","Content"]
+    }]
+  }
 };

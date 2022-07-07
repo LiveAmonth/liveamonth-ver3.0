@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import axios from "axios";
-import {defineProps, onMounted, ref} from "vue";
-import {useRouter} from "vue-router";
-import dayjs from "dayjs";
+import { defineProps, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
 
@@ -15,7 +14,7 @@ onMounted(() => {
   axios.get(`/lam-api/reviews/${props.reviewId}`).then((response) => {
     review.value = response.data.data;
   });
-})
+});
 
 const props = defineProps({
   reviewId: {
@@ -42,26 +41,31 @@ const edit = () => {
   console.log(review.value.title);
   console.log(review.value.content);
   console.log(review.value.reviewCategory.code);
-  axios.patch(`/lam-api/reviews/${props.reviewId}`, {
-    title: review.value.title,
-    reviewCategory: review.value.reviewCategory.code,
-    content: review.value.content,
-
-  }).then(() => {
-    router.replace({name: "home"})
-  });
-}
+  axios
+    .patch(`/lam-api/reviews/${props.reviewId}`, {
+      title: review.value.title,
+      reviewCategory: review.value.reviewCategory.code,
+      content: review.value.content,
+    })
+    .then(() => {
+      router.replace({ name: "home" });
+    });
+};
 </script>
 
 <template>
   <div class="d-flex">
-    <el-input v-model="review.title"/>
-    <el-select class="ms-2" v-model="review.reviewCategory" :placeholder="review.reviewCategory.value">
+    <el-input v-model="review.title" />
+    <el-select
+      class="ms-2"
+      v-model="review.reviewCategory"
+      :placeholder="review.reviewCategory.value"
+    >
       <el-option
-          v-for="item in reviewCategories"
-          :key="item.code"
-          :label="item.value"
-          :value="item"
+        v-for="item in reviewCategories"
+        :key="item.code"
+        :label="item.value"
+        :value="item"
       >
       </el-option>
     </el-select>
