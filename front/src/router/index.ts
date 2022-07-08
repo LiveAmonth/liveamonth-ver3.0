@@ -1,8 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import WriteView from "../views/WriteView.vue";
-import ReadView from "../views/ReadView.vue";
-import EditView from "../views/EditView.vue";
+import CityView from "../views/city/CityView.vue";
+import LoginView from "../views/login/LoginView.vue";
+import SignUpView from "../views/login/SignUpView.vue";
+import WriteView from "../views/review/WriteView.vue";
+import ReadView from "../views/review/ReadView.vue";
+import EditView from "../views/review/EditView.vue";
+import ReviewView from "../views/review/ReviewView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +17,26 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: "/city",
+      name: "city",
+      component: CityView,
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: LoginView,
+    },
+    {
+      path: "/signUp",
+      name: "sign-up",
+      component: SignUpView,
+    },
+    {
+      path: "/review",
+      name: "review",
+      component: ReviewView,
+    },
+    {
       path: "/write",
       name: "write",
       component: WriteView,
@@ -21,22 +45,14 @@ const router = createRouter({
       path: "/read/:reviewId",
       name: "read",
       component: ReadView,
-      props: true
+      props: true,
     },
     {
       path: "/edit/:reviewId",
       name: "edit",
       component: EditView,
-      props: true
+      props: true,
     },
-    // {
-    //   path: "/about",
-    //   name: "about",
-    //   // route level code-splitting
-    //   // this generates a separate chunk (About.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () => import("../views/AboutView.vue"),
-    // },
   ],
 });
 
