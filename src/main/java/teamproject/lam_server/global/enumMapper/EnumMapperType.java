@@ -6,6 +6,5 @@ package teamproject.lam_server.global.enumMapper;
 public interface EnumMapperType {
 
     String getCode();
-
     String getValue();
 }

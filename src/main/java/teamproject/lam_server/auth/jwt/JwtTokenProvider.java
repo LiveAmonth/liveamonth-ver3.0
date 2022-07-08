@@ -14,15 +14,13 @@ import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
 import teamproject.lam_server.domain.member.dto.response.SimpleMemberResponse;
-import teamproject.lam_server.global.exception.CustomException;
+import teamproject.lam_server.exception.badrequest.PermissionNotAccessible;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
-
-import static teamproject.lam_server.global.exception.ErrorCode.PERMISSION_NOT_ACCESSIBLE;
 
 @Slf4j
 @Component
@@ -95,7 +93,7 @@ public class JwtTokenProvider {
 
         // 복호화한 Claim 에 권한 정보가 없으면 예외 발생
         if (claims.get(AUTHORITIES_KEY) == null)
-            throw new CustomException(PERMISSION_NOT_ACCESSIBLE);
+            throw new PermissionNotAccessible();
 
         // 복호화한 Claim 에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities = convertToAuthorities(claims.get(AUTHORITIES_KEY).toString());

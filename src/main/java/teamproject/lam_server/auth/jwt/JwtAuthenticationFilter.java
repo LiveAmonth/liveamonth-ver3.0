@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import teamproject.lam_server.global.exception.CustomException;
+import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
 import teamproject.lam_server.redis.RedisRepository;
 import teamproject.lam_server.util.JwtUtil;
 
@@ -16,8 +16,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-
-import static teamproject.lam_server.global.exception.ErrorCode.ALREADY_USED_TOKEN;
 
 @Component
 @RequiredArgsConstructor
@@ -48,7 +46,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // 토큰 정보가 있으면 유효성 검사
         if (accessToken != null && jwtProvider.validateToken(accessToken)) {
             // 블랙리스트에 있는 토큰인지 확인
-            if (this.isInBlackList(accessToken)) throw new CustomException(ALREADY_USED_TOKEN);
+            if (this.isInBlackList(accessToken)) throw new AlreadyUsedToken();
             // Authentication 객체를 꺼냄
             Authentication authentication = jwtProvider.getAuthentication(accessToken);
             // email, role

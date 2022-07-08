@@ -17,15 +17,13 @@ import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.editor.ReviewEditor;
 import teamproject.lam_server.domain.review.repository.ReviewRepository;
+import teamproject.lam_server.exception.notfound.MemberNotFound;
+import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.global.dto.PostIdResponse;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.List;
-
-import static teamproject.lam_server.global.exception.ErrorCode.MEMBER_NOT_FOUND;
-import static teamproject.lam_server.global.exception.ErrorCode.REVIEW_NOT_FOUND;
-import static teamproject.lam_server.util.BasicServiceUtil.getExceptionSupplier;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public PostIdResponse write(ReviewCreate request) {
         Member writer = memberRepository.findByNickname(request.getWriter())
-                .orElseThrow(getExceptionSupplier(MEMBER_NOT_FOUND));
+                .orElseThrow(MemberNotFound::new);
 
         Review review = reviewRepository.save(request.toEntity(writer));
         return PostIdResponse.of(review.getId());
@@ -55,14 +53,14 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewDetailResponse.of(
                 reviewRepository
                         .findById(id)
-                        .orElseThrow(getExceptionSupplier(REVIEW_NOT_FOUND))
+                        .orElseThrow(ReviewNotFound::new)
         );
     }
 
     @Transactional
     public void edit(Long id, ReviewEdit reviewEdit) {
         Review review = reviewRepository.findById(id)
-                .orElseThrow(getExceptionSupplier(REVIEW_NOT_FOUND));
+                .orElseThrow(ReviewNotFound::new);
 
         ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
 

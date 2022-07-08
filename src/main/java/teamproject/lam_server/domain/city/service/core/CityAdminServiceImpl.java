@@ -23,13 +23,11 @@ import teamproject.lam_server.domain.city.repository.core.CityIntroRepository;
 import teamproject.lam_server.domain.city.repository.core.CityTransportRepository;
 import teamproject.lam_server.domain.city.repository.core.CityWeatherRepository;
 import teamproject.lam_server.domain.city.repository.query.CityQueryRepository;
+import teamproject.lam_server.exception.notfound.CityNotFound;
 import teamproject.lam_server.global.dto.IdListRequest;
 import teamproject.lam_server.global.dto.PostIdResponse;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
-
-import static teamproject.lam_server.global.exception.ErrorCode.CITY_NOT_FOUND;
-import static teamproject.lam_server.util.BasicServiceUtil.getExceptionSupplier;
 
 @Service
 @Transactional(readOnly = true)
@@ -90,7 +88,7 @@ public class CityAdminServiceImpl implements CityAdminService {
     public CityInfoResponse findIntroById(Long infoId) {
         return CityInfoResponse.of(
                 cityIntroRepository.findById(infoId)
-                        .orElseThrow(getExceptionSupplier(CITY_NOT_FOUND))
+                        .orElseThrow(CityNotFound::new)
         );
     }
 

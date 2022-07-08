@@ -10,8 +10,8 @@ import teamproject.lam_server.domain.member.constants.SocialType;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewReply;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
+import teamproject.lam_server.exception.badrequest.AlreadyDropMember;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
-import teamproject.lam_server.global.exception.CustomException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,7 +20,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import static teamproject.lam_server.constants.SessionConstants.*;
-import static teamproject.lam_server.global.exception.ErrorCode.ALREADY_DROP_MEMBER;
 
 @Entity
 @Getter
@@ -149,7 +148,7 @@ public class Member extends BaseTimeEntity {
 
     public void drop() {
         if (this.status == AccountState.DROP) {
-            throw new CustomException(ALREADY_DROP_MEMBER);
+            throw new AlreadyDropMember();
         }
         this.status = AccountState.DROP;
     }

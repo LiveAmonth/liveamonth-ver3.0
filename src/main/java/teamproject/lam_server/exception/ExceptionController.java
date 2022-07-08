@@ -1,4 +1,4 @@
-package teamproject.lam_server.global.exception;
+package teamproject.lam_server.exception;
 
 import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
@@ -15,28 +15,21 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import teamproject.lam_server.global.dto.CustomResponse;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static teamproject.lam_server.global.exception.ErrorCode.*;
+import static teamproject.lam_server.exception.ErrorCode.*;
 
 @RestController
 @ControllerAdvice
 @RequiredArgsConstructor
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+public class ExceptionController extends ResponseEntityExceptionHandler {
 
     private final MessageSource messageSource;
 
-    @ExceptionHandler(value = CustomException.class)
-    public final ResponseEntity<?> handleCustomExceptions(CustomException e) {
+    @ExceptionHandler(value = LiveamonthException.class)
+    public final ResponseEntity<?> liveamonthExcption(LiveamonthException e) {
         return CustomResponse.fail(e.getErrorCode());
-    }
-
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        return CustomResponse.fail(ENTITY_NOT_FOUND);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

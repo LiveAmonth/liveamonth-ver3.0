@@ -1,6 +1,5 @@
-package teamproject.lam_server.global.exception;
+package teamproject.lam_server.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.MessageSource;

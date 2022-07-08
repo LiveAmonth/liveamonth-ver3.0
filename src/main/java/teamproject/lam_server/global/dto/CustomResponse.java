@@ -7,36 +7,30 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.global.enumMapper.EnumClassConst;
-import teamproject.lam_server.global.enumMapper.EnumMapper;
-import teamproject.lam_server.global.exception.ErrorCode;
-import teamproject.lam_server.global.exception.ValidationResponse;
+import teamproject.lam_server.exception.ErrorCode;
+import teamproject.lam_server.exception.ValidationResponse;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static teamproject.lam_server.global.constants.ResponseMessage.READ_CATEGORY;
+import static teamproject.lam_server.exception.ErrorCode.ARGUMENTS_NOT_VALID;
 import static teamproject.lam_server.global.constants.ResponseMessage.SUCCESS;
-import static teamproject.lam_server.global.exception.ErrorCode.ARGUMENTS_NOT_VALID;
 
 @Component
 public class CustomResponse {
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     private static class Result<T> {
-
         private int status;
         private LocalDateTime timeStamp;
         private String message;
         private T data;
         private String error;
-        private String code;
 
         @Builder(builderClassName = "ResponseBuilder", builderMethodName = "ResponseBuilder")
-        public Result(int status, LocalDateTime timeStamp, String message, T data, String code) {
+        public Result(int status, LocalDateTime timeStamp, String message, T data) {
             this.status = status;
-            this.code = code;
             this.timeStamp = timeStamp;
             this.message = message;
             this.data = data;
@@ -45,19 +39,17 @@ public class CustomResponse {
         @Builder(builderClassName = "ErrorBuilder", builderMethodName = "ErrorBuilder")
         private Result(ErrorCode errorCode) {
             this.timeStamp = LocalDateTime.now();
-            this.status = errorCode.getStatus().value();
-            this.error = errorCode.getStatus().name();
-            this.code = errorCode.name();
-            this.message = errorCode.getDetail();
+            this.status = errorCode.getStatusCode();
+            this.error = errorCode.name();
+            this.message = errorCode.getMessage();
         }
 
         @Builder(builderClassName = "ValidationBuilder", builderMethodName = "ValidationBuilder")
         private Result(ErrorCode errorCode, T data) {
             this.timeStamp = LocalDateTime.now();
-            this.status = errorCode.getStatus().value();
-            this.error = errorCode.getStatus().name();
-            this.code = errorCode.name();
-            this.message = errorCode.getDetail();
+            this.status = errorCode.getStatusCode();
+            this.error = errorCode.name();
+            this.message = errorCode.getMessage();
             this.data = data;
         }
     }
@@ -109,16 +101,9 @@ public class CustomResponse {
         return success(HttpStatus.OK, message, data);
     }
 
-    public static ResponseEntity<?> getCategorySuccess(EnumMapper enumMapper, EnumClassConst category) {
-        return CustomResponse.success(
-                category.getValue() + READ_CATEGORY,
-                enumMapper.get(category.getClassName())
-        );
-    }
-
     public static ResponseEntity<Object> fail(ErrorCode errorCode) {
         return ResponseEntity
-                .status(errorCode.getStatus())
+                .status(errorCode.getStatusCode())
                 .body(Result.ErrorBuilder()
                         .errorCode(errorCode)
                         .build()
@@ -127,7 +112,7 @@ public class CustomResponse {
 
     public static ResponseEntity<Object> validationFail(List<ValidationResponse> detail) {
         return ResponseEntity
-                .status(ARGUMENTS_NOT_VALID.getStatus())
+                .status(ARGUMENTS_NOT_VALID.getStatusCode())
                 .body(Result.ValidationBuilder()
                         .errorCode(ARGUMENTS_NOT_VALID)
                         .data(detail)

@@ -16,20 +16,20 @@ import teamproject.lam_server.domain.member.dto.request.LoginRequest;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.global.exception.CustomException;
+import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
+import teamproject.lam_server.exception.badrequest.InvalidRefreshToken;
+import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.redis.RedisRepository;
-import teamproject.lam_server.util.BasicServiceUtil;
 
 import java.util.Date;
 
 import static org.springframework.util.StringUtils.hasText;
-import static teamproject.lam_server.global.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Slf4j
-public class AuthServiceImpl extends BasicServiceUtil implements AuthService {
+public class AuthServiceImpl implements AuthService {
     private static final String BLACK_LIST_VALUE = "LOGOUT_TOKEN";
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -41,7 +41,7 @@ public class AuthServiceImpl extends BasicServiceUtil implements AuthService {
     public TokenResponse login(LoginRequest request) {
         // request로 온 email을 가지고 해당 회원이 있는지 확인
         if (!memberRepository.existsByLoginId(request.getLoginId()))
-            throw new CustomException(MEMBER_NOT_FOUND);
+            throw new MemberNotFound();
 
         // email, pw 로 Authentication 객체 생성 -> email password // request
         UsernamePasswordAuthenticationToken authenticationToken = request.toAuthentication();
@@ -65,7 +65,7 @@ public class AuthServiceImpl extends BasicServiceUtil implements AuthService {
     public TokenResponse reissue(String refreshTokenRequest) {
         // Refresh 토큰 검증
         if (isInvalidationToken(refreshTokenRequest))
-            throw new CustomException(INVALID_REFRESH_TOKEN);
+            throw new InvalidRefreshToken();
 
         // Security Context 에서 Authentication 객체 가져오기 :: email
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -76,11 +76,11 @@ public class AuthServiceImpl extends BasicServiceUtil implements AuthService {
 
         // logout 되어 Redis 에 refreshToken 이 없는 경우 체크
         if (!hasText(savedRefreshToken))
-            throw new CustomException(ALREADY_USED_TOKEN);
+            throw new AlreadyUsedToken();
 
         // Redis 에 저장되어 있는 RefreshToken 정보와 request 의 RefreshToken 정보 비교
         if (!savedRefreshToken.equals(refreshTokenRequest))
-            throw new CustomException(MISMATCH_REFRESH_TOKEN);
+            throw new InvalidRefreshToken();
 
         // 새로운 토큰 생성 -> access만 재발급 하는걸로
         String accessToken = jwtTokenProvider.createAccessToken(authentication, new Date());

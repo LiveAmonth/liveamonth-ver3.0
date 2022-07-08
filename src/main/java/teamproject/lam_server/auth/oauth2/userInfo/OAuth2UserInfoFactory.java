@@ -1,8 +1,7 @@
 package teamproject.lam_server.auth.oauth2.userInfo;
 
 import teamproject.lam_server.domain.member.constants.SocialType;
-import teamproject.lam_server.global.exception.CustomException;
-import teamproject.lam_server.global.exception.ErrorCode;
+import teamproject.lam_server.exception.badrequest.InvalidOAuth2Provider;
 
 import java.util.Map;
 
@@ -19,7 +18,7 @@ public class OAuth2UserInfoFactory {
             case GOOGLE:
                 return new GoogleOAuth2UserInfo(attributes);
             default:
-                throw new CustomException(ErrorCode.INVALID_OAUTH2_PROVIDER);
+                throw new InvalidOAuth2Provider();
         }
     }
 }

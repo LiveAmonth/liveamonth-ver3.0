@@ -13,16 +13,14 @@ import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberCheckRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.exception.badrequest.NotDropMember;
+import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.global.dto.PostIdResponse;
-import teamproject.lam_server.global.exception.CustomException;
 import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
 import teamproject.lam_server.mail.service.MailService;
 import teamproject.lam_server.util.JwtUtil;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
-import static teamproject.lam_server.global.exception.ErrorCode.MEMBER_NOT_FOUND;
-import static teamproject.lam_server.global.exception.ErrorCode.NOT_DROP_MEMBER;
-import static teamproject.lam_server.util.BasicServiceUtil.getExceptionSupplier;
 
 @Service
 @RequiredArgsConstructor
@@ -69,8 +67,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public FindIdResponse findLoginId(FindIdRequest request) {
         Member findMember = memberRepository.findByNameAndEmail(
-                request.getName(), request.getEmail())
-                .orElseThrow(getExceptionSupplier(MEMBER_NOT_FOUND));
+                        request.getName(), request.getEmail())
+                .orElseThrow(MemberNotFound::new);
         return FindIdResponse.of(findMember);
     }
 
@@ -79,7 +77,7 @@ public class MemberServiceImpl implements MemberService {
     public void findPassword(FindPasswordRequest request) {
         // find user with request
         Member findMember = memberRepository.findByLoginIdAndEmail(request.getLoginId(), request.getEmail())
-                .orElseThrow(getExceptionSupplier(MEMBER_NOT_FOUND));
+                .orElseThrow(MemberNotFound::new);
 
         // create random password
         String tempPassword = JwtUtil.createRandomPassword();
@@ -109,6 +107,6 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void delete(Long id) {
         Long queryCount = memberRepository.cleanDeleteById(id);
-        if (queryCount == 0) throw new CustomException(NOT_DROP_MEMBER);
+        if (queryCount == 0) throw new NotDropMember();
     }
 }

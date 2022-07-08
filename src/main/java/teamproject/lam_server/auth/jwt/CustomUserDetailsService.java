@@ -7,10 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.util.BasicServiceUtil;
-
-import static teamproject.lam_server.global.exception.ErrorCode.MEMBER_NOT_FOUND;
-import static teamproject.lam_server.util.BasicServiceUtil.getExceptionSupplier;
+import teamproject.lam_server.exception.notfound.MemberNotFound;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +25,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         return memberRepository.findByLoginId(loginId)
                 .map(PrincipalDetails::new)
-                .orElseThrow(getExceptionSupplier(MEMBER_NOT_FOUND));
+                .orElseThrow(MemberNotFound::new);
     }
 }

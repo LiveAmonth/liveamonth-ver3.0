@@ -112,8 +112,6 @@ public class EnumController {
         return getCategories(eSortType);
     }
 
-
-
     /**
      * EnumClassConst 에 있는 카테고리 조회
      *
