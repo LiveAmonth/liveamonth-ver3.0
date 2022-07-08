@@ -1,0 +1,32 @@
+{
+  "hello": {
+    "name": "Hello! {user}"
+  },
+  "member": {
+    "signUp": "SIGN UP",
+    "member": "SIGN IN",
+    "logout": "Logout",
+    "findId": "Find ID",
+    "findPw": "Find PW",
+    "loginId": "ID",
+    "password": "PASSWORD",
+    "password.check": "PASSWORD CHECK",
+    "name": "NICKNAME",
+    "nickname": "NAME",
+    "email": "E-MAIL",
+    "genderTypes": "GENDER",
+    "birth": "BIRTH"
+  },
+  "footer": {
+    "info": "We are a site that shares information for 'Living for a Month.'",
+    "menu": {
+      "help": "Help",
+      "link": "Links",
+      "news": {
+        "letter": "News Letter",
+        "info": "Get more information about living a month through e-mail~!",
+        "subscribe": "Subscribe"
+      }
+    }
+  }
+}

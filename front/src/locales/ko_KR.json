@@ -1,0 +1,141 @@
+{
+  "hello": {
+    "name": "{user}님 안녕하세요!"
+  },
+  "home": {
+    "popularContent": "인기 게시물",
+    "moreSchedule": "해당 스케줄 더보기",
+    "moreReview": "해당 게시글 더보기",
+    "title": "제목",
+    "profile": "프로필"
+  },
+  "member": {
+    "signUp": "회원가입",
+    "login": "로그인",
+    "logout": "로그아웃",
+    "notMember": "아직 회원이 아니신가요?",
+    "reCheck": "비밀번호 재확인",
+    "findId": "아이디 찾기",
+    "findPw": "비밀번호 찾기",
+    "loginId": "아이디",
+    "password": "비밀번호",
+    "password.check": "비밀번호 확인",
+    "name": "이름",
+    "nickname": "닉네임",
+    "email": "이메일",
+    "gender": {
+      "title": "성별",
+      "M": "남성",
+      "F": "여성"
+    },
+    "age": {
+      "start": "나이",
+      "end": "세"
+    },
+    "birth": "생년월일"
+  },
+  "footer": {
+    "info": "'한달 살기'를 위한 정보를 공유하는 사이트입니다.",
+    "menu": {
+      "help": "고객 센터",
+      "link": "바로가기",
+      "news": {
+        "letter": "뉴스레터",
+        "info": "더 많은 한달살기 정보를 메일로 받아보세요~!",
+        "subscribe": "구독하기"
+      }
+    }
+  },
+  "menu": {
+    "city": "도시 소개",
+    "schedule": "스케줄",
+    "otherSchedule": "다른 사람 스케줄",
+    "mySchedule": "내 스케줄",
+    "review": "후기 게시판",
+    "myPage": "내 정보",
+    "tCustomerCenter": "고객 센터",
+    "customerCenter": {
+      "faq": "자주 묻는 질문들",
+      "personalTerms": "개인정보 처리방침",
+      "termsAndConditions": "이용 약관",
+      "notice": "공지사항"
+    }
+  },
+  "city": {
+    "info": {
+      "title": "'한달살기' 추천 도시",
+      "food": "먹거리",
+      "view": "볼거리"
+    },
+    "transport": {
+      "grade": {
+        "GOOD": "좋음",
+        "FAIR": "보통",
+        "POOR": "나쁨"
+      },
+      "name": {
+        "SUB": "지하철역",
+        "BUS": "버스정류장",
+        "BYC": "공공자전거",
+        "B_TER": "버스터미널",
+        "TRA": "기차역",
+        "AIR": "공항"
+      }
+    },
+    "tab": {
+      "intro": "도시 소개",
+      "tTransport": "교통 정보",
+      "transport": {
+        "infoTitle": "정류장 및 노선 개수",
+        "source": "출처 : 교통정보"
+      },
+      "tWeather": "전년도 기온 정보",
+      "weather": {
+        "source": "출처 : 기상청 홈페이지",
+        "infoTitle": "전년도 월 평균 기온",
+        "high": "최고",
+        "avg": "평균",
+        "low": "최저",
+        "month": {
+          "JAN": "1월",
+          "FEB": "2월",
+          "MAR": "3월",
+          "APR": "4월",
+          "MAY": "5월",
+          "JUN": "6월",
+          "JUL": "7월",
+          "AUG": "8월",
+          "SEP": "9월",
+          "OCT": "10월",
+          "NOV": "11월",
+          "DEC": "12월"
+        }
+      }
+    },
+    "name": {
+      "SE": "서울",
+      "GN": "강릉",
+      "GJ": "경주",
+      "BS": "부산",
+      "YS": "여수",
+      "JJ": "제주"
+    }
+  },
+  "myPage": {
+    "account": {
+      "title": "계정",
+      "modify": "회원정보 수정",
+      "drop": "회원 탈퇴"
+    },
+    "community": {
+      "title": "커뮤니티",
+      "review": "게시글 관리",
+      "schedule": "스케줄 관리"
+    },
+    "inquiry": {
+      "title": "1:1 문의",
+      "writeInquiry": "문의 하기",
+      "inquiryAnswer": "문의 답변"
+    }
+  }
+}
