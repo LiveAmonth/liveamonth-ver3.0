@@ -8,8 +8,6 @@ import "normalize.css";
 
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
-import { ElConfigProvider } from "element-plus";
-import koKR from "element-plus/lib/locale/lang/ko";
 
 import "bootstrap/dist/css/bootstrap-utilities.min.css";
 
@@ -24,9 +22,7 @@ const i18n = createI18n({
 });
 
 app.use(createPinia());
-app.use(ElementPlus, {
-  locale: koKR
-});
+app.use(ElementPlus);
 app.use(router);
 app.use(i18n);
 app.mount("#app");

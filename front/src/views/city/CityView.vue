@@ -1,11 +1,19 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import type { TabsPaneContext } from "element-plus";
+import axios from "axios";
 
-const activeName = ref("first");
-
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event);
+const cityNames = ref([]);
+const activeName = ref("");
+onMounted(() => {
+  axios.get("/lam-api/categories/city/name").then((res) => {
+    cityNames.value = res.data.data;
+    activeName.value = cityNames.value[0].code;
+  });
+});
+const handleClick = (tab: TabsPaneContext) => {
+  console.log(tab);
+  console.log(tab.props.name);
 };
 </script>
 
@@ -13,21 +21,22 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   <div class="px-0">
     <el-tabs
       v-model="activeName"
-      type="card"
-      class="demo-tabs"
+      class="city-intro-tabs"
+      type="border-card"
       @tab-click="handleClick"
     >
-      <el-tab-pane label="User" name="first">User</el-tab-pane>
-      <el-tab-pane label="Config" name="second">Config</el-tab-pane>
-      <el-tab-pane label="Role" name="third">Role</el-tab-pane>
-      <el-tab-pane label="Role" name="third">Role</el-tab-pane>
-      <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
+      <template v-for="cityName in cityNames" :key="cityName.code">
+        <el-tab-pane
+          :name="cityName.code"
+          :label="cityName.value"
+        ></el-tab-pane>
+      </template>
     </el-tabs>
   </div>
 </template>
 
 <style>
-.demo-tabs > .el-tabs__content {
+.city-intro-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;
   font-size: 32px;

@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import Header from "@/components/Header.vue";
 import Content from "@/components/Content.vue";
-import { ElConfigProvider } from "element-plus";
-import koKR from "element-plus/lib/locale/lang/ko";
-
-const local = koKR;
 </script>
 
 <template>
-  <el-config-provider :locale="local">
-    <Header />
-    <Content />
-  </el-config-provider>
+  <Header />
+  <Content />
 </template>
 
 <style>
