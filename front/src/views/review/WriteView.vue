@@ -11,14 +11,14 @@ const category = ref("");
 const router = useRouter();
 const reviewCategories = ref([]);
 onMounted(() => {
-  axios.get("/lam-api/categories/review").then((res) => {
+  axios.get("/categories/review").then((res) => {
     reviewCategories.value = res.data.data;
   });
 });
 
 const write = function () {
   axios
-    .post("/lam-api/reviews", {
+    .post("/reviews", {
       title: title.value,
       content: content.value,
       category: category.value,

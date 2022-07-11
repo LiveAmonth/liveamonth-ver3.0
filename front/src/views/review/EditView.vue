@@ -7,11 +7,11 @@ const router = useRouter();
 
 const reviewCategories = ref([]);
 onMounted(() => {
-  axios.get("/lam-api/categories/review").then((res) => {
+  axios.get("/categories/review").then((res) => {
     reviewCategories.value = res.data.data;
   });
 
-  axios.get(`/lam-api/reviews/${props.reviewId}`).then((response) => {
+  axios.get(`/reviews/${props.reviewId}`).then((response) => {
     review.value = response.data.data;
   });
 });

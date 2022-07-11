@@ -1,19 +1,22 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import type { TabsPaneContext } from "element-plus";
-import axios from "axios";
+import CityApiService from "@/services/CityApiService";
+import CityIntroTab from "@/components/city/CityIntroTab.vue";
+import type {EnumResponse} from "@/modules/types/common/EnumResponse";
 
-const cityNames = ref([]);
-const activeName = ref("");
-onMounted(() => {
-  axios.get("/lam-api/categories/city/name").then((res) => {
-    cityNames.value = res.data.data;
-    activeName.value = cityNames.value[0].code;
-  });
+const cityNames = ref<EnumResponse[]>();
+const activeName = ref();
+onMounted(async () => {
+  cityNames.value = await CityApiService.getCityNames();
+  activeName.value = cityNames.value?.[0].code;
 });
+
 const handleClick = (tab: TabsPaneContext) => {
-  console.log(tab);
-  console.log(tab.props.name);
+  activeName.value = tab.props.name;
+  // CityApiService.getTotalCityIntro(tab.props.name).then((response) => {
+  //   cityIntro.value = response.data.data;
+  // });
 };
 </script>
 
@@ -26,10 +29,9 @@ const handleClick = (tab: TabsPaneContext) => {
       @tab-click="handleClick"
     >
       <template v-for="cityName in cityNames" :key="cityName.code">
-        <el-tab-pane
-          :name="cityName.code"
-          :label="cityName.value"
-        ></el-tab-pane>
+        <el-tab-pane :name="cityName.code" :label="cityName.value">
+          <CityIntroTab :name="cityName.code" />
+        </el-tab-pane>
       </template>
     </el-tabs>
   </div>

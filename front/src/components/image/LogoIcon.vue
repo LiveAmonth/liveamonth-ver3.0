@@ -1,10 +1,6 @@
 <template>
   <div class="logo-container">
-    <el-image
-      style="width: 128px; height: 55px"
-      :src="Logo"
-      fit="fill"
-    />
+    <el-image style="width: 128px; height: 55px" :src="Logo" fit="fill" />
   </div>
 </template>
 

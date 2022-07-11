@@ -1,23 +1,20 @@
-import {fileURLToPath, URL} from "url";
+import { fileURLToPath, URL } from "url";
 
-import {defineConfig} from "vite";
+import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(), vueJsx()],
-    resolve: {
-        alias: {
-            "@": fileURLToPath(new URL("./src", import.meta.url)),
-        },
+  plugins: [vue(), vueJsx()],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-    server: {
-        proxy: {
-            "/lam-api": {
-                target: "http://localhost:8080/api/v1",
-                rewrite: (path) => path.replace(/^\/lam-api/, "")
-            },
-        }
-    }
+  },
+  define: {
+    __VUE_I18N_FULL_INSTALL__: true,
+    __VUE_I18N_LEGACY_API__: false,
+    __INTLIFY_PROD_DEVTOOLS__: false,
+  },
 });

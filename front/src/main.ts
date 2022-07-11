@@ -10,16 +10,9 @@ import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 
 import "bootstrap/dist/css/bootstrap-utilities.min.css";
-
-import { createI18n } from "vue-i18n";
-import messages from "./i18n";
+import i18n from "@/i18n";
 
 const app = createApp(App);
-const i18n = createI18n({
-  locale: "ko",
-  fallbackLocale: "en",
-  messages,
-});
 
 app.use(createPinia());
 app.use(ElementPlus);

@@ -4,7 +4,7 @@ import {onMounted, ref} from "vue";
 
 const reviews = ref([]);
 onMounted(() => {
-  axios.post(`/lam-api/reviews/search?sort=id,desc`).then((response) => {
+  axios.post(`/reviews/search?sort=id,desc`).then((response) => {
     reviews.value = response.data.data.content;
   });
 });
