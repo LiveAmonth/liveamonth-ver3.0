@@ -26,7 +26,7 @@ public class EnumConfig {
         enumMapper.put(ACCOUNT_STATE, AccountState.class);
 
         // City
-        enumMapper.put(CITY_INFO_CATEGORY, CityIntroCategory.class);
+        enumMapper.put(CITY_INTRO_CATEGORY, CityIntroCategory.class);
         enumMapper.put(CITY_NAME, CityName.class);
         enumMapper.put(TRANSPORT_CATEGORY, TransportCategory.class);
         enumMapper.put(TRANSPORT_GRADE, TransportGrade.class);

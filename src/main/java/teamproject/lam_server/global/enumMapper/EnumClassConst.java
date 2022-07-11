@@ -15,7 +15,7 @@ public enum EnumClassConst implements EnumMapperType {
     ACCOUNT_STATE("AccountState", "계정 상태"),
 
     // City
-    CITY_INFO_CATEGORY("CityInfoCategory","도시 정보"),
+    CITY_INTRO_CATEGORY("CityIntroCategory","도시 정보"),
     CITY_NAME("CityName","도시 이름"),
     TRANSPORT_CATEGORY("TransportCategory","대중 교통"),
     TRANSPORT_GRADE("TransportGrade","대중 교통 등급"),

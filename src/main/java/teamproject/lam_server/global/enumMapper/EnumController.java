@@ -40,7 +40,7 @@ public class EnumController {
     /**
      * 도시 이름
      */
-    @GetMapping("/city/name")
+    @GetMapping("/city/names")
     public ResponseEntity<?> getCityName() {
         return getCategories(CITY_NAME);
     }
@@ -48,9 +48,9 @@ public class EnumController {
     /**
      * 도시 소개 카테고리
      */
-    @GetMapping("/city/info")
-    public ResponseEntity<?> getCityInfo() {
-        return getCategories(CITY_INFO_CATEGORY);
+    @GetMapping("/city/intro")
+    public ResponseEntity<?> getCityIntro() {
+        return getCategories(CITY_INTRO_CATEGORY);
     }
 
     /**
