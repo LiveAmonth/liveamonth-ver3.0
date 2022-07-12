@@ -1,183 +1,219 @@
 [
   {
-    "stationCount": 5,
+    "stationCount": 9,
     "category": "T_SUBWAY",
-    "name": "SE"
+    "name": "SE",
+    "score": 5
   },
   {
-    "stationCount": 4,
+    "stationCount": 361,
     "category": "T_BUS",
-    "name": "SE"
+    "name": "SE",
+    "score": 5
+  },
+  {
+    "stationCount": 2228,
+    "category": "T_BICYCLE",
+    "name": "SE",
+    "score": 5
+  },
+  {
+    "stationCount": 5,
+    "category": "T_BUS_TERMINAL",
+    "name": "SE",
+    "score": 5
+  },
+  {
+    "stationCount": 5,
+    "category": "T_TRAIN",
+    "name": "SE",
+    "score": 5
+  },
+  {
+    "stationCount": 1,
+    "category": "T_AIRPORT",
+    "name": "SE",
+    "score": 5
+  },
+  {
+    "stationCount": 0,
+    "category": "T_SUBWAY",
+    "name": "GN",
+    "score": 0
+  },
+  {
+    "stationCount": 91,
+    "category": "T_BUS",
+    "name": "GN",
+    "score": 3
+  },
+  {
+    "stationCount": 1,
+    "category": "T_BICYCLE",
+    "name": "GN",
+    "score": 1
+  },
+  {
+    "stationCount": 2,
+    "category": "T_BUS_TERMINAL",
+    "name": "GN",
+    "score": 5
+  },
+  {
+    "stationCount": 2,
+    "category": "T_TRAIN",
+    "name": "GN",
+    "score": 4
+  },
+  {
+    "stationCount": 0,
+    "category": "T_AIRPORT",
+    "name": "GN",
+    "score": 0
+  },
+  {
+    "stationCount": 0,
+    "category": "T_SUBWAY",
+    "name": "GJ",
+    "score": 0
+  },
+  {
+    "stationCount": 82,
+    "category": "T_BUS",
+    "name": "GJ",
+    "score": 3
+  },
+  {
+    "stationCount": 0,
+    "category": "T_BICYCLE",
+    "name": "GJ",
+    "score": 0
+  },
+  {
+    "stationCount": 2,
+    "category": "T_BUS_TERMINAL",
+    "name": "GJ",
+    "score": 4
   },
   {
     "stationCount": 3,
-    "category": "T_BICYCLE",
-    "name": "SE"
-  },
-  {
-    "stationCount": 2,
-    "category": "T_BUS_TERMINAL",
-    "name": "SE"
-  },
-  {
-    "stationCount": 1,
     "category": "T_TRAIN",
-    "name": "SE"
+    "name": "GJ",
+    "score": 3
   },
   {
     "stationCount": 1,
     "category": "T_AIRPORT",
-    "name": "SE"
+    "name": "GJ",
+    "score": 5
   },
   {
-    "stationCount": 5,
+    "stationCount": 6,
     "category": "T_SUBWAY",
-    "name": "GN"
+    "name": "BS",
+    "score": 4
+  },
+  {
+    "stationCount": 144,
+    "category": "T_BUS",
+    "name": "BS",
+    "score": 4
   },
   {
     "stationCount": 4,
-    "category": "T_BUS",
-    "name": "GN"
-  },
-  {
-    "stationCount": 1,
     "category": "T_BICYCLE",
-    "name": "GN"
+    "name": "BS",
+    "score": 3
   },
   {
     "stationCount": 2,
     "category": "T_BUS_TERMINAL",
-    "name": "GN"
+    "name": "BS",
+    "score": 4
   },
   {
-    "stationCount": 1,
+    "stationCount": 4,
     "category": "T_TRAIN",
-    "name": "GN"
+    "name": "BS",
+    "score": 4
   },
   {
     "stationCount": 1,
     "category": "T_AIRPORT",
-    "name": "GN"
-  },
-  {
-    "stationCount": 5,
-    "category": "T_SUBWAY",
-    "name": "GJ"
-  },
-  {
-    "stationCount": 4,
-    "category": "T_BUS",
-    "name": "GJ"
+    "name": "BS",
+    "score": 5
   },
   {
     "stationCount": 0,
-    "category": "T_BICYCLE",
-    "name": "GJ"
+    "category": "T_SUBWAY",
+    "name": "YS",
+    "score": 0
   },
   {
-    "stationCount": 2,
+    "stationCount": 63,
+    "category": "T_BUS",
+    "name": "YS",
+    "score": 2
+  },
+  {
+    "stationCount": 44,
+    "category": "T_BICYCLE",
+    "name": "YS",
+    "score": 4
+  },
+  {
+    "stationCount": 1,
     "category": "T_BUS_TERMINAL",
-    "name": "GJ"
+    "name": "YS",
+    "score": 3
   },
   {
     "stationCount": 1,
     "category": "T_TRAIN",
-    "name": "GJ"
+    "name": "YS",
+    "score": 1
   },
   {
     "stationCount": 1,
     "category": "T_AIRPORT",
-    "name": "GJ"
-  },
-  {
-    "stationCount": 5,
-    "category": "T_SUBWAY",
-    "name": "BS"
-  },
-  {
-    "stationCount": 4,
-    "category": "T_BUS",
-    "name": "BS"
-  },
-  {
-    "stationCount": 1,
-    "category": "T_BICYCLE",
-    "name": "BS"
-  },
-  {
-    "stationCount": 2,
-    "category": "T_BUS_TERMINAL",
-    "name": "BS"
-  },
-  {
-    "stationCount": 1,
-    "category": "T_TRAIN",
-    "name": "BS"
-  },
-  {
-    "stationCount": 1,
-    "category": "T_AIRPORT",
-    "name": "BS"
-  },
-  {
-    "stationCount": 5,
-    "category": "T_SUBWAY",
-    "name": "YS"
-  },
-  {
-    "stationCount": 4,
-    "category": "T_BUS",
-    "name": "YS"
+    "name": "YS",
+    "score": 5
   },
   {
     "stationCount": 0,
+    "category": "T_SUBWAY",
+    "name": "JJ",
+    "score": 0
+  },
+  {
+    "stationCount": 222,
+    "category": "T_BUS",
+    "name": "JJ",
+    "score": 4
+  },
+  {
+    "stationCount": 11,
     "category": "T_BICYCLE",
-    "name": "YS"
+    "name": "JJ",
+    "score": 3
   },
   {
     "stationCount": 2,
     "category": "T_BUS_TERMINAL",
-    "name": "YS"
-  },
-  {
-    "stationCount": 1,
-    "category": "T_TRAIN",
-    "name": "YS"
-  },
-  {
-    "stationCount": 1,
-    "category": "T_AIRPORT",
-    "name": "YS"
-  },
-  {
-    "stationCount": 5,
-    "category": "T_SUBWAY",
-    "name": "JJ"
-  },
-  {
-    "stationCount": 4,
-    "category": "T_BUS",
-    "name": "JJ"
+    "name": "JJ",
+    "score": 4
   },
   {
     "stationCount": 0,
-    "category": "T_BICYCLE",
-    "name": "JJ"
-  },
-  {
-    "stationCount": 2,
-    "category": "T_BUS_TERMINAL",
-    "name": "JJ"
-  },
-  {
-    "stationCount": 1,
     "category": "T_TRAIN",
-    "name": "JJ"
+    "name": "JJ",
+    "score": 0
   },
   {
     "stationCount": 1,
     "category": "T_AIRPORT",
-    "name": "JJ"
+    "name": "JJ",
+    "score": 5
   }
 ]
 

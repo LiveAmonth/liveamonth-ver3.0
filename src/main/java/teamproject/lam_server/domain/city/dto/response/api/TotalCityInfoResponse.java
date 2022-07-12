@@ -2,6 +2,7 @@ package teamproject.lam_server.domain.city.dto.response.api;
 
 import lombok.Builder;
 import lombok.Getter;
+import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.dto.response.CityTransportResponse;
 import teamproject.lam_server.domain.city.dto.response.CityWeatherResponse;
 import teamproject.lam_server.domain.city.entity.CityIntro;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class TotalCityInfoResponse {
 
     //== 도시 소개 정보 ==//
-    private String cityName;
+    private CityName cityName;
     private String content;
     private String image;
 
@@ -28,7 +29,7 @@ public class TotalCityInfoResponse {
 
     public static TotalCityInfoResponse of(CityIntro info, List<CityTransport> transports, List<CityWeather> weathers) {
         return TotalCityInfoResponse.builder()
-                .cityName(info.getName().name())
+                .cityName(info.getName())
                 .content(info.getContent())
                 .image(info.getImage())
                 .transports(transports.stream().map(CityTransportResponse::of).collect(Collectors.toList()))

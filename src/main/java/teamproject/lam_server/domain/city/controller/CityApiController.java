@@ -20,7 +20,6 @@ import java.util.List;
 @RequestMapping("/api/v1/city")
 public class CityApiController {
     private final CityQueryService cityQueryService;
-    private final CustomResponse customResponse;
 
     /**
      * dependence presentation layer::home(body)
@@ -29,7 +28,7 @@ public class CityApiController {
     @GetMapping("/slide-infos")
     public ResponseEntity<?> searchCityGridInfos() {
         List<CityGridDataResponse> result = cityQueryService.searchCurrentCityInfo();
-        return customResponse.success(result);
+        return CustomResponse.success(result);
     }
 
     /**
@@ -39,17 +38,17 @@ public class CityApiController {
     @GetMapping("{cityName}/total-infos")
     public ResponseEntity<?> getTotalCityInfo(@PathVariable("cityName") CityName cityName) {
         TotalCityInfoResponse result = cityQueryService.searchTotalCityInfo(cityName);
-        return customResponse.success(result);
+        return CustomResponse.success(result);
     }
 
     /**
      * dependence presentation layer::city(body)
      * -> food & view image slide(bottom)
      */
-    @GetMapping("{cityName}/foods-and-view")
+    @GetMapping("{cityName}/food-and-view")
     public ResponseEntity<?> getCityFoodAndViewInfo(@PathVariable("cityName") CityName cityName) {
         CityFoodAndViewResponse result = cityQueryService.searchCityFoodAndView(cityName);
-        return customResponse.success(result);
+        return CustomResponse.success(result);
     }
 
 

@@ -24,11 +24,11 @@ public class CityTransport extends City {
     private int score;
 
     @Builder
-    public CityTransport(CityName name, TransportCategory category, int stationCount) {
+    public CityTransport(CityName name, TransportCategory category, int stationCount,int score) {
         this.name = name;
         this.cityTransportCat = category;
         this.stationCount = stationCount;
-        this.score = category.calcScore(stationCount);
+        this.score = score;
     }
 
     public void updateStationCount(int stationCount) {
