@@ -68,25 +68,22 @@
       "view": "볼거리"
     },
     "transport": {
-      "grade": {
-        "GOOD": "좋음",
-        "FAIR": "보통",
-        "POOR": "나쁨"
-      },
       "name": {
-        "SUB": "지하철역",
-        "BUS": "버스정류장",
-        "BYC": "공공자전거",
-        "B_TER": "버스터미널",
-        "TRA": "기차역",
-        "AIR": "공항"
+        "T_SUBWAY": "지하철역",
+        "T_BUS": "버스정류장",
+        "T_BICYCLE": "공공자전거",
+        "T_BUS_TERMINAL": "버스터미널",
+        "T_TRAIN": "기차역",
+        "T_AIRPORT": "공항"
       }
     },
     "tab": {
       "intro": "도시 소개",
       "tTransport": "교통 정보",
       "transport": {
+        "category": "종류",
         "infoTitle": "정류장 및 노선 개수",
+        "score": "상대 점수",
         "source": "출처 : 교통정보"
       },
       "tWeather": "전년도 기온 정보",

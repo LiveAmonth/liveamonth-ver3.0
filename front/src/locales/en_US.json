@@ -17,6 +17,63 @@
     "genderTypes": "GENDER",
     "birth": "BIRTH"
   },
+  "city": {
+    "info": {
+      "title": "'Live A Month' City",
+      "food": "Food",
+      "view": "View"
+    },
+    "transport": {
+      "name": {
+        "T_SUBWAY": "subway",
+        "T_BUS": "bus",
+        "T_BICYCLE": "bicycle",
+        "T_BUS_TERMINAL": "bus terminal",
+        "T_TRAIN": "train station",
+        "T_AIRPORT": "air port"
+      }
+    },
+    "tab": {
+      "intro": "도시 소개",
+      "tTransport": "교통 정보",
+      "transport": {
+        "category": "종류",
+        "infoTitle": "정류장 및 노선 개수",
+        "score": "상대 점수",
+        "source": "출처 : 교통정보"
+      },
+      "tWeather": "전년도 기온 정보",
+      "weather": {
+        "source": "출처 : 기상청 홈페이지",
+        "infoTitle": "전년도 월 평균 기온",
+        "high": "최고",
+        "avg": "평균",
+        "low": "최저",
+        "month": {
+          "JAN": "1월",
+          "FEB": "2월",
+          "MAR": "3월",
+          "APR": "4월",
+          "MAY": "5월",
+          "JUN": "6월",
+          "JUL": "7월",
+          "AUG": "8월",
+          "SEP": "9월",
+          "OCT": "10월",
+          "NOV": "11월",
+          "DEC": "12월"
+        }
+      }
+    },
+    "name": {
+      "SE": "서울",
+      "GN": "강릉",
+      "GJ": "경주",
+      "BS": "부산",
+      "YS": "여수",
+      "JJ": "제주"
+    }
+  },
   "footer": {
     "info": "We are a site that shares information for 'Living for a Month.'",
     "menu": {
