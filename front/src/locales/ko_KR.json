@@ -2,6 +2,15 @@
   "hello": {
     "name": "{user}님 안녕하세요!"
   },
+  "menu": {
+    "city": "도시 소개",
+    "schedule": "스케줄",
+    "otherSchedule": "다른 사람 스케줄",
+    "mySchedule": "내 스케줄",
+    "review": "후기 게시판",
+    "myPage": "내 정보",
+    "customerCenter": "고객 센터"
+  },
   "home": {
     "popularContent": "인기 게시물",
     "moreSchedule": "해당 스케줄 더보기",
@@ -19,7 +28,7 @@
     "findPw": "비밀번호 찾기",
     "loginId": "아이디",
     "password": "비밀번호",
-    "password.check": "비밀번호 확인",
+    "passwordCheck": "비밀번호 확인",
     "name": "이름",
     "nickname": "닉네임",
     "email": "이메일",
@@ -33,33 +42,6 @@
       "end": "세"
     },
     "birth": "생년월일"
-  },
-  "footer": {
-    "info": "'한달 살기'를 위한 정보를 공유하는 사이트입니다.",
-    "menu": {
-      "help": "고객 센터",
-      "link": "바로가기",
-      "news": {
-        "letter": "뉴스레터",
-        "info": "더 많은 한달살기 정보를 메일로 받아보세요~!",
-        "subscribe": "구독하기"
-      }
-    }
-  },
-  "menu": {
-    "city": "도시 소개",
-    "schedule": "스케줄",
-    "otherSchedule": "다른 사람 스케줄",
-    "mySchedule": "내 스케줄",
-    "review": "후기 게시판",
-    "myPage": "내 정보",
-    "tCustomerCenter": "고객 센터",
-    "customerCenter": {
-      "faq": "자주 묻는 질문들",
-      "personalTerms": "개인정보 처리방침",
-      "termsAndConditions": "이용 약관",
-      "notice": "공지사항"
-    }
   },
   "city": {
     "name": {
@@ -81,8 +63,8 @@
       "title": "'한 달 살기' 추천 도시",
       "category": {
         "INTRO": "소개",
-        "FOOD": "먹거리",
-        "VIEW": "볼거리"
+        "food": "먹거리",
+        "view": "볼거리"
       }
     },
     "transport": {
@@ -136,6 +118,24 @@
       "title": "1:1 문의",
       "writeInquiry": "문의 하기",
       "inquiryAnswer": "문의 답변"
+    }
+  },
+  "customerCenter": {
+    "faq": "자주 묻는 질문들",
+    "personalTerms": "개인정보 처리방침",
+    "termsAndConditions": "이용 약관",
+    "notice": "공지사항"
+  },
+  "footer": {
+    "info": "'한달 살기'를 위한 정보를 공유하는 사이트입니다.",
+    "menu": {
+      "help": "고객 센터",
+      "link": "바로가기",
+      "news": {
+        "letter": "뉴스레터",
+        "info": "더 많은 한달살기 정보를 메일로 받아보세요~!",
+        "subscribe": "구독하기"
+      }
     }
   }
 }
