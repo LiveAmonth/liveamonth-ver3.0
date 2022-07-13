@@ -23,7 +23,7 @@ spring:
     import: classpath:oauth2.yml
   profiles:
     include:
-      - ouath2
+      - oauth2
     group:
       local: local-server
 
@@ -41,7 +41,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update # 자동으로 테이블 생성
+      ddl-auto: create # 자동으로 테이블 생성
 
     properties:
       hibernate:
