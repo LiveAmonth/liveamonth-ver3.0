@@ -23,7 +23,7 @@ const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
 </script>
 
 <template>
-  <el-carousel direction="vertical" height="300px">
+  <el-carousel direction="vertical" height="350px">
     <el-carousel-item v-for="idx in carouselLen" :key="idx">
       <el-row :gutter="5">
         <el-col v-for="col in 4" :key="col" :span="6">

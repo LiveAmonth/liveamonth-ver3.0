@@ -52,16 +52,10 @@ const handleClick = async (tab: TabsPaneContext) => {
     </el-col>
   </el-row>
   <div v-if="!isPending && store.views && store.foods" class="mt-5">
-    <el-row class="mb-lg-2">
+    <el-row v-for="cat in ['food', 'view']" :key="cat" class="mb-lg-2">
       <el-col>
-        <TitleSlot>{{ $t("city.intro.category.FOOD") }}</TitleSlot>
-        <CardModeCarousel dir="food" />
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col>
-        <TitleSlot>{{ $t("city.intro.category.VIEW") }}</TitleSlot>
-        <CardModeCarousel dir="view" />
+        <TitleSlot>{{ $t(`city.intro.category.${cat}`) }}</TitleSlot>
+        <CardModeCarousel :dir="cat" />
       </el-col>
     </el-row>
   </div>
