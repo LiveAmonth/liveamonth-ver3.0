@@ -62,53 +62,6 @@
     }
   },
   "city": {
-    "info": {
-      "title": "'한달살기' 추천 도시",
-      "food": "먹거리",
-      "view": "볼거리"
-    },
-    "transport": {
-      "name": {
-        "T_SUBWAY": "지하철역",
-        "T_BUS": "버스정류장",
-        "T_BICYCLE": "공공자전거",
-        "T_BUS_TERMINAL": "버스터미널",
-        "T_TRAIN": "기차역",
-        "T_AIRPORT": "공항"
-      }
-    },
-    "tab": {
-      "intro": "도시 소개",
-      "tTransport": "교통 정보",
-      "transport": {
-        "category": "종류",
-        "infoTitle": "정류장 및 노선 개수",
-        "score": "상대 점수",
-        "source": "출처 : 교통정보"
-      },
-      "tWeather": "전년도 기온 정보",
-      "weather": {
-        "source": "출처 : 기상청 홈페이지",
-        "infoTitle": "전년도 월 평균 기온",
-        "high": "최고",
-        "avg": "평균",
-        "low": "최저",
-        "month": {
-          "JAN": "1월",
-          "FEB": "2월",
-          "MAR": "3월",
-          "APR": "4월",
-          "MAY": "5월",
-          "JUN": "6월",
-          "JUL": "7월",
-          "AUG": "8월",
-          "SEP": "9월",
-          "OCT": "10월",
-          "NOV": "11월",
-          "DEC": "12월"
-        }
-      }
-    },
     "name": {
       "SE": "서울",
       "GN": "강릉",
@@ -116,6 +69,56 @@
       "BS": "부산",
       "YS": "여수",
       "JJ": "제주"
+    },
+    "tab": {
+      "category": {
+        "intro": "도시 소개",
+        "transport": "교통 정보",
+        "weather": "전년도 기온 정보"
+      }
+    },
+    "intro": {
+      "title": "'한 달 살기' 추천 도시",
+      "category": {
+        "INTRO": "소개",
+        "FOOD": "먹거리",
+        "VIEW": "볼거리"
+      }
+    },
+    "transport": {
+      "category": {
+        "T_SUBWAY": "지하철 역",
+        "T_BUS": "버스 정류장",
+        "T_BICYCLE": "공공 자전거",
+        "T_BUS_TERMINAL": "버스 터미널",
+        "T_TRAIN": "기차역",
+        "T_AIRPORT": "공항"
+      },
+      "kind": "종류",
+      "infoTitle": "정류장 및 노선 개수",
+      "score": "상대 점수",
+      "source": "출처 : 교통 정보"
+    },
+    "weather": {
+      "source": "출처 : 기상청 홈페이지",
+      "infoTitle": "전년도 월 평균 기온",
+      "high": "최고",
+      "avg": "평균",
+      "low": "최저",
+      "month": {
+        "JAN": "1월",
+        "FEB": "2월",
+        "MAR": "3월",
+        "APR": "4월",
+        "MAY": "5월",
+        "JUN": "6월",
+        "JUL": "7월",
+        "AUG": "8월",
+        "SEP": "9월",
+        "OCT": "10월",
+        "NOV": "11월",
+        "DEC": "12월"
+      }
     }
   },
   "myPage": {

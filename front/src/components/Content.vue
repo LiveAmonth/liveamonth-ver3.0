@@ -2,14 +2,14 @@
   <el-main class="content">
     <el-row>
       <el-col>
-        <RouterView/>
+        <RouterView />
       </el-col>
     </el-row>
   </el-main>
 </template>
 
-<script setup lang="ts">
-import {RouterView} from "vue-router";
+<script lang="ts" setup>
+import { RouterView } from "vue-router";
 </script>
 
 <style scoped>
@@ -17,8 +17,5 @@ import {RouterView} from "vue-router";
   .content {
     margin: 0 15%;
   }
-}
-.content {
-  height: calc(100vh - 60px);
 }
 </style>

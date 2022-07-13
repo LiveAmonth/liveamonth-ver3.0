@@ -12,7 +12,7 @@ const cityIntroDetail = ref<ImageContentType>(store.introDetail);
   <el-row>
     <el-col :span="6">
       <el-image
-        style="width: auto; height: auto;box-shadow: var(--el-box-shadow)"
+        style="width: auto; height: auto; box-shadow: var(--el-box-shadow)"
         :src="`/src/assets/image/intro/${cityIntroDetail.image}`"
         fit="cover"
       />

@@ -14,7 +14,8 @@ export const useCityStore = defineStore({
   state: () => ({
     cityNames: {} as EnumType[],
     cityIntro: {} as CityIntroType,
-    cityIntroCat: ["intro", "tTransport", "tWeather"],
+    cityIntroCategory: {} as EnumType[],
+    cityCategory: ["intro", "transport", "weather"],
     cityFoodAndView: {} as CityFoodAndViewType,
   }),
   getters: {
@@ -33,6 +34,13 @@ export const useCityStore = defineStore({
     async getCityNames() {
       try {
         this.cityNames = await CityApiService.getCityNames();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getCityIntroCategory() {
+      try {
+        this.cityIntroCategory = await CityApiService.getCityIntroCategory();
       } catch (error) {
         console.log(error);
       }
