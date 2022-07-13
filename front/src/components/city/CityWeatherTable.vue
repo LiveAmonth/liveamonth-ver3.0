@@ -20,13 +20,10 @@ const cityWeather = ref<CityWeatherType[]>(store.weathers);
         </div>
       </template>
     </el-table-column>
-    <el-table-column label="기온 정보">
-      <el-table-column :label="$t('city.weather.low')" prop="minDegree">
-      </el-table-column>
-      <el-table-column :label="$t('city.weather.avg')" prop="averageDegree">
-      </el-table-column>
-      <el-table-column :label="$t('city.weather.high')" prop="maxDegree">
-      </el-table-column>
+    <el-table-column label="기온 정보(&#8451;)">
+      <el-table-column :label="$t('city.weather.low')" prop="minDegree" />
+      <el-table-column :label="$t('city.weather.avg')" prop="averageDegree" />
+      <el-table-column :label="$t('city.weather.high')" prop="maxDegree" />
     </el-table-column>
   </el-table>
 </template>
