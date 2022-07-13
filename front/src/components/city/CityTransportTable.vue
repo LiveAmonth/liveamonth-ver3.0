@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import type { CityTransportType } from "@/modules/types/city/CityIntroType";
 import { useCityStore } from "@/stores/city";
+import type { CityTransportType } from "@/modules/types/city/CityIntroType";
 
 const store = useCityStore();
 

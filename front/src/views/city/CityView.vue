@@ -4,7 +4,6 @@ import { useCity } from "@/composables/city";
 import { useCityStore } from "@/stores/city";
 import type { TabsPaneContext } from "element-plus";
 import type { EnumType } from "@/modules/types/common/EnumType";
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
 import CardModeCarousel from "@/components/CardModeCarousel.vue";
 import TitleSlot from "@/views/city/TitleSlot.vue";
