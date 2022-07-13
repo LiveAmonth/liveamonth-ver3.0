@@ -1,28 +1,32 @@
 <script lang="ts" setup>
-import {onBeforeMount, onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
+import { useCity } from "@/composables/city";
+import { useCityStore } from "@/stores/city";
 import type { TabsPaneContext } from "element-plus";
-import CityApiService from "@/services/CityApiService";
+import type { EnumType } from "@/modules/types/common/EnumType";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
-import type {EnumResponse} from "@/modules/types/common/EnumResponse";
 
-const cityNames = ref<EnumResponse[]>();
+const cityNames = ref<EnumType[]>();
 const activeName = ref();
+const store = useCityStore();
+
+const { isPending, getCityNames } = useCity();
+
 onMounted(async () => {
-  cityNames.value = await CityApiService.getCityNames();
-  activeName.value = cityNames.value?.[0].code;
+  await getCityNames();
+  cityNames.value = store.cityNames;
+  activeName.value = store.cityNames?.[0].code;
 });
 
 const handleClick = (tab: TabsPaneContext) => {
   activeName.value = tab.props.name;
-  // CityApiService.getTotalCityIntro(tab.props.name).then((response) => {
-  //   cityIntro.value = response.data.data;
-  // });
 };
 </script>
 
 <template>
   <div class="px-0">
     <el-tabs
+      v-if="!isPending"
       v-model="activeName"
       class="city-intro-tabs"
       type="border-card"
