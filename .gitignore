@@ -16,6 +16,6 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+application.yml
+oauth2.yml
 .gradle\
-/.gradle/
-/.gradle/
