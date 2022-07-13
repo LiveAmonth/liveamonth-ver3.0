@@ -1,48 +1,61 @@
-<script setup lang="ts">
-import { defineProps, ref } from "vue";
+<script lang="ts" setup>
+import { computed, defineProps, ref } from "vue";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
+import { useCityStore } from "@/stores/city";
+
 const props = defineProps({
-  data: {
-    type: Array as () => ImageContentType[],
-    required: true,
-  },
   dir: {
     type: String,
     required: true,
+    validator: function (value) {
+      return value === "food" || value === "view";
+    },
   },
 });
 
-const carouselData = ref<ImageContentType[]>(props.data);
+const store = useCityStore();
+const carouselData = ref<ImageContentType[]>(
+  props.dir === "food" ? store.foods : store.views
+);
+const dataSize = ref<number>(carouselData.value.length);
+const carouselLen = computed<number>(() => Math.ceil(dataSize.value / 4));
+const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
 </script>
 
 <template>
-  <el-carousel :interval="2000" type="card" height="300px">
-    <el-carousel-item v-for="item in carouselData" :key="item.content">
-      <el-row>
-        <el-col>
-          <div style="box-shadow: var(--el-box-shadow)">
-            <el-card :body-style="{ padding: '0px' }">
-              <img
-                :src="`/src/assets/image/${props.dir}/${item.image}`"
-                class="image"
-              />
-              <div style="padding: 14px">
-                <span>${{ item.content }}</span>
-              </div>
-            </el-card>
-          </div>
+  <el-carousel direction="vertical" height="300px">
+    <el-carousel-item v-for="idx in carouselLen" :key="idx">
+      <el-row :gutter="5">
+        <el-col v-for="col in 4" :key="col" :span="6">
+          <el-card v-if="calcIdx(idx, col) < dataSize">
+            <img
+              :src="`/src/assets/image/${props.dir}/${
+                carouselData[calcIdx(idx, col)].image
+              }`"
+              class="image"
+            />
+            <div class="content mt-3">
+              <span>{{ carouselData[calcIdx(idx, col)].content }}</span>
+            </div>
+          </el-card>
         </el-col>
       </el-row>
     </el-carousel-item>
   </el-carousel>
 </template>
 
-<style scoped>
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+<style lang="scss" scoped>
+.image {
+  width: 100%;
+  display: block;
+  box-shadow: var(--el-box-shadow);
 }
 
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+.content {
+  text-align: end;
+
+  > span {
+    font-size: var(--el-font-size-large);
+  }
 }
 </style>

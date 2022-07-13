@@ -15,31 +15,23 @@ const { isPending, getCityNames, getCityFoodAndView } = useCity();
 
 const cityNames = ref<EnumType[]>();
 const activeName = ref();
-const cityFood = ref<ImageContentType[]>();
-const cityView = ref<ImageContentType[]>();
 
 onMounted(async () => {
   await getCityNames();
   cityNames.value = store.cityNames;
   activeName.value = store.cityNames?.[0].code;
-  await setCityFoodAndView(activeName.value);
+  await getCityFoodAndView(activeName.value);
 });
-
-const setCityFoodAndView = async (cityName: string) => {
-  await getCityFoodAndView(cityName);
-  cityFood.value = store.foods;
-  cityView.value = store.views;
-};
 
 const handleClick = async (tab: TabsPaneContext) => {
   const selected = String(tab.props.name);
-  await setCityFoodAndView(selected);
+  await getCityFoodAndView(selected);
   activeName.value = selected;
 };
 </script>
 
 <template>
-  <el-row>
+  <el-row class="mb-lg-2">
     <el-col>
       <TitleSlot>{{ $t("city.intro.title") }}</TitleSlot>
       <div class="px-0">
@@ -59,17 +51,17 @@ const handleClick = async (tab: TabsPaneContext) => {
       </div>
     </el-col>
   </el-row>
-  <div v-if="!isPending && cityView && cityFood" class="mt-5">
-    <el-row>
+  <div v-if="!isPending && store.views && store.foods" class="mt-5">
+    <el-row class="mb-lg-2">
       <el-col>
         <TitleSlot>{{ $t("city.intro.category.FOOD") }}</TitleSlot>
-        <CardModeCarousel :data="cityFood" dir="food" />
+        <CardModeCarousel dir="food" />
       </el-col>
     </el-row>
     <el-row>
       <el-col>
         <TitleSlot>{{ $t("city.intro.category.VIEW") }}</TitleSlot>
-        <CardModeCarousel :data="cityView" dir="view" />
+        <CardModeCarousel dir="view" />
       </el-col>
     </el-row>
   </div>
