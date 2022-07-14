@@ -6,7 +6,7 @@ import type { TabsPaneContext } from "element-plus";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
 import CardModeCarousel from "@/components/CardModeCarousel.vue";
-import TitleSlot from "@/views/city/TitleSlot.vue";
+import TitleSlot from "@/components/TitleSlot.vue";
 
 const store = useCityStore();
 
