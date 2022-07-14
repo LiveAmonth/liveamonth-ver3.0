@@ -22,7 +22,7 @@ import static teamproject.lam_server.domain.city.constants.CityIntroCategory.*;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CityQueryServiceImpl implements CityQueryService {
+public class CityApiServiceImpl implements CityApiService {
     private final CityIntroRepository cityIntroRepository;
     private final CityWeatherRepository cityWeatherRepository;
     private final CityTransportRepository cityTransportRepository;

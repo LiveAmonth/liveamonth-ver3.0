@@ -10,7 +10,7 @@ import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.dto.response.api.CityFoodAndViewResponse;
 import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
 import teamproject.lam_server.domain.city.dto.response.api.TotalCityInfoResponse;
-import teamproject.lam_server.domain.city.service.query.CityQueryService;
+import teamproject.lam_server.domain.city.service.query.CityApiService;
 import teamproject.lam_server.global.dto.CustomResponse;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/city")
 public class CityApiController {
-    private final CityQueryService cityQueryService;
+    private final CityApiService cityApiService;
 
     /**
      * dependence presentation layer::home(body)
@@ -27,7 +27,7 @@ public class CityApiController {
      */
     @GetMapping("/slide-infos")
     public ResponseEntity<?> searchCityGridInfos() {
-        List<CityGridDataResponse> result = cityQueryService.searchCurrentCityInfo();
+        List<CityGridDataResponse> result = cityApiService.searchCurrentCityInfo();
         return CustomResponse.success(result);
     }
 
@@ -37,7 +37,7 @@ public class CityApiController {
      */
     @GetMapping("{cityName}/total-infos")
     public ResponseEntity<?> getTotalCityInfo(@PathVariable("cityName") CityName cityName) {
-        TotalCityInfoResponse result = cityQueryService.searchTotalCityInfo(cityName);
+        TotalCityInfoResponse result = cityApiService.searchTotalCityInfo(cityName);
         return CustomResponse.success(result);
     }
 
@@ -47,7 +47,7 @@ public class CityApiController {
      */
     @GetMapping("{cityName}/food-and-view")
     public ResponseEntity<?> getCityFoodAndViewInfo(@PathVariable("cityName") CityName cityName) {
-        CityFoodAndViewResponse result = cityQueryService.searchCityFoodAndView(cityName);
+        CityFoodAndViewResponse result = cityApiService.searchCityFoodAndView(cityName);
         return CustomResponse.success(result);
     }
 

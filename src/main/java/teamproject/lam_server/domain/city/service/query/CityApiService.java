@@ -7,7 +7,7 @@ import teamproject.lam_server.domain.city.dto.response.api.TotalCityInfoResponse
 
 import java.util.List;
 
-public interface CityQueryService {
+public interface CityApiService {
 
     List<CityGridDataResponse> searchCurrentCityInfo();
 
