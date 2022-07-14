@@ -1,15 +1,13 @@
 package teamproject.lam_server.domain.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.schedule.dto.CreateSchedule;
 import teamproject.lam_server.domain.schedule.dto.SimpleScheduleResponse;
+import teamproject.lam_server.domain.schedule.service.ScheduleApiService;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.global.dto.ProfileCardResponse;
 
@@ -21,9 +19,15 @@ import static teamproject.lam_server.global.constants.ResponseMessage.READ_SCHED
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/schedules")
-@Slf4j
 public class ScheduleApiController {
     private final MemberRepository memberRepository;
+    private final ScheduleApiService scheduleApiService;
+    @PostMapping("/{memberId}")
+    public ResponseEntity<?> addSchedule(@PathVariable Long memberId, CreateSchedule request){
+        scheduleApiService.addSchedule(memberId, request);
+        return null;
+    }
+
 
     @GetMapping("/other")
     public ResponseEntity<?> getOtherSchedules() {

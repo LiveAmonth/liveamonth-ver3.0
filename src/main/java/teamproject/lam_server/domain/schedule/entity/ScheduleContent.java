@@ -1,20 +1,19 @@
 package teamproject.lam_server.domain.schedule.entity;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDate;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@Table(name = "schedule_contents")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScheduleContent {
+@ToString
+public class ScheduleContent extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +25,20 @@ public class ScheduleContent {
     @Lob
     private String content;
 
-    @Column(name = "schedule_content_date")
-    private Date scheduleContentDate;
-    @Column(name = "cost_total")
-    private int costTotal;
+    private LocalDate date;
+
+    private int cost;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")
+    @ToString.Exclude
     private Schedule schedule;
 
+    @Builder
+    public ScheduleContent(String title, String content, LocalDate date, int cost) {
+        this.title = title;
+        this.content = content;
+        this.date = date;
+        this.cost = cost;
+    }
 }
