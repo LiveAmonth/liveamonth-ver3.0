@@ -3,6 +3,8 @@ import HomeView from "../views/HomeView.vue";
 import CityView from "../views/city/CityView.vue";
 import LoginView from "../views/login/LoginView.vue";
 import SignUpView from "../views/login/SignUpView.vue";
+import FindPwView from "../views/login/FindPwView.vue";
+import FindIdView from "../views/login/FindIdView.vue";
 import WriteView from "../views/review/WriteView.vue";
 import ReadView from "../views/review/ReadView.vue";
 import EditView from "../views/review/EditView.vue";
@@ -31,9 +33,19 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: "/signUp",
+      path: "/sign-up",
       name: "sign-up",
       component: SignUpView,
+    },
+    {
+      path: "/find-id",
+      name: "find-id",
+      component: FindIdView,
+    },
+    {
+      path: "/find-pw",
+      name: "find-pw",
+      component: FindPwView,
     },
     {
       path: "/review",

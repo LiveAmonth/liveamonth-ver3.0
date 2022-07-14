@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LoginForm from "@/components/form/LoginForm.vue";
 import LogoIcon from "@/components/image/LogoIcon.vue";
+import FindPwForm from "@/components/form/FindPwForm.vue";
 </script>
 
 <template>
@@ -20,17 +20,11 @@ import LogoIcon from "@/components/image/LogoIcon.vue";
               </router-link>
             </div>
           </template>
-          <LoginForm />
+          <FindPwForm />
           <div class="d-flex justify-content-end">
             <el-link :underline="false">
               <router-link to="/find-id">
                 {{ $t("member.findId") }}
-              </router-link>
-            </el-link>
-            <el-divider direction="vertical" />
-            <el-link :underline="false">
-              <router-link to="/find-pw">
-                {{ $t("member.findPw") }}
               </router-link>
             </el-link>
             <el-divider direction="vertical" />
