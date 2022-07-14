@@ -11,8 +11,13 @@ const props = defineProps({
 
 const currDate = ref(new Date());
 const calendar = ref();
+const dialogTableVisible = ref(false);
+
 const selectDate = (val: string) => {
   calendar.value.selectDate(val);
+};
+const removeZero = (date: string) => {
+  return Number.parseInt(date);
 };
 </script>
 
@@ -21,36 +26,36 @@ const selectDate = (val: string) => {
     <el-col>
       <TitleSlot>{{ props.scheduleId }}번 스케줄</TitleSlot>
       <el-calendar v-model="currDate">
-        <!--        <template #header="{ date }">-->
-        <!--          <span>{{ props.scheduleId }}님의 스케줄</span>-->
-        <!--          <span>{{ date }}</span>-->
-        <!--          <el-button-group>-->
-        <!--            <el-button size="small" @click="selectDate('2020-02-02')"-->
-        <!--              >작년</el-button-->
-        <!--            >-->
-        <!--            <el-button size="small" @click="selectDate('prev-month')"-->
-        <!--              >Previous Month</el-button-->
-        <!--            >-->
-        <!--            <el-button size="small" @click="selectDate('today')"-->
-        <!--              >Today</el-button-->
-        <!--            >-->
-        <!--            <el-button size="small" @click="selectDate('next-month')"-->
-        <!--              >Next Month</el-button-->
-        <!--            >-->
-        <!--            <el-button size="small" @click="selectDate('next-year')"-->
-        <!--              >Next Year</el-button-->
-        <!--            >-->
-        <!--          </el-button-group>-->
-        <!--        </template>-->
         <template #dateCell="{ data }">
-          <p :class="data.isSelected ? 'is-selected' : ''">
-            {{ data.day.split("-").slice(2).join("") }}
-            {{ data.isSelected ? "✔️" : "" }}
-          </p>
+          <el-row class="mb-2">
+            <el-col>
+              <span class="mb-5">
+                {{ removeZero(data.day.split("-").slice(2).join("")) }}
+              </span>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <el-button text @click="dialogTableVisible = true">
+                스케줄 보기</el-button
+              >
+            </el-col>
+          </el-row>
         </template>
       </el-calendar>
     </el-col>
   </el-row>
+  <el-dialog v-model="dialogTableVisible" title="Shipping address">
+    <el-table :data="gridData">
+      <el-table-column property="date" label="Date" width="150" />
+      <el-table-column property="name" label="Name" width="200" />
+      <el-table-column property="address" label="Address" />
+    </el-table>
+  </el-dialog>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-calendar-day {
+  padding: 0;
+}
+</style>
