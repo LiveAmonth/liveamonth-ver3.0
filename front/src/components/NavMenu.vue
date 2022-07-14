@@ -9,10 +9,10 @@
     <el-menu-item index="/city">{{ $t("menu.city") }}</el-menu-item>
     <el-sub-menu index="/schedule">
       <template #title>{{ $t("menu.schedule") }}</template>
-      <el-menu-item index="/schedule/other">{{
+      <el-menu-item index="/schedule">{{
         $t("menu.otherSchedule")
       }}</el-menu-item>
-      <el-menu-item index="/schedule/my">{{
+      <el-menu-item index="/my-schedule/1">{{
         $t("menu.mySchedule")
       }}</el-menu-item>
     </el-sub-menu>

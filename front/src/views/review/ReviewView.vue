@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from "axios";
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
 const reviews = ref([]);
 onMounted(() => {
