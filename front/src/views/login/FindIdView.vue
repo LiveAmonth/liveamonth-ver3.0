@@ -23,8 +23,8 @@ import FindIdForm from "@/components/form/FindIdForm.vue";
           <FindIdForm />
           <div class="d-flex justify-content-end">
             <el-link :underline="false">
-              <router-link to="/find-pw">
-                {{ $t("member.findPw") }}
+              <router-link to="/login">
+                {{ $t("member.login") }}
               </router-link>
             </el-link>
             <el-divider direction="vertical" />

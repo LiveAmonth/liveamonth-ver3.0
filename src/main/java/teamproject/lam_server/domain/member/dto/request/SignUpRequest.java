@@ -15,11 +15,11 @@ import java.time.LocalDate;
 public class SignUpRequest {
 
     @NotEmpty
-    @Pattern(regexp = "[a-zA-Z0-9]{3,20}")
+    @Pattern(regexp = "[a-zA-Z\\d]{3,20}")
     private String loginId;
 
     @NotBlank
-    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{8,20}")
+    @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,20}")
     private String password;
 
     @NotBlank

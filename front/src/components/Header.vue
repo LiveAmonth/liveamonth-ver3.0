@@ -19,7 +19,7 @@ import LogoIcon from "../components/image/LogoIcon.vue";
       </el-menu-item>
       <div class="flex-grow" />
       <el-menu-item index="/login">{{ $t("member.login") }}</el-menu-item>
-      <el-menu-item index="/signUp">{{ $t("member.signUp") }}</el-menu-item>
+      <el-menu-item index="/sign-up">{{ $t("member.signUp") }}</el-menu-item>
     </el-menu>
   </el-header>
   <el-header class="nav-header">

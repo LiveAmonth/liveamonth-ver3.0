@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useFormValidate } from "@/composables/formValidate";
+import type { FormRules, FormInstance } from "element-plus/es";
+import type { LoginType } from "@/modules/types/form/FormType";
 
-const rules = {
-  loginId: [{ required: true, message: "Please input id", trigger: "blur" }],
-  password: [
-    { required: true, message: "Please input password", trigger: "blur" },
-  ],
-};
+const { submitForm, validateRequire } = useFormValidate();
 
-const { ruleFormRef, formRules, submitForm } = useFormValidate(rules);
+const ruleFormRef = ref<FormInstance>();
+const rules = reactive<FormRules>({
+  loginId: [validateRequire("member.loginId")],
+  password: [validateRequire("member.password")],
+});
 
-const loginForm = reactive({
+const loginForm = reactive<LoginType>({
   loginId: "",
   password: "",
 });
@@ -21,7 +22,7 @@ const loginForm = reactive({
   <el-form
     ref="ruleFormRef"
     :model="loginForm"
-    :rules="formRules"
+    :rules="rules"
     status-icon
     label-position="top"
   >
@@ -36,15 +37,10 @@ const loginForm = reactive({
         :loading="false"
         color="#004A55"
         size="large"
+        style="width: 100%"
         @click="submitForm(ruleFormRef)"
         >{{ $t("member.login") }}
       </el-button>
     </el-form-item>
   </el-form>
 </template>
-
-<style scoped lang="scss">
-.el-button {
-  width: 100%;
-}
-</style>

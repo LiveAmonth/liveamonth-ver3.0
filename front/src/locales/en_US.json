@@ -130,5 +130,24 @@
         "subscribe": "Subscribe"
       }
     }
+  },
+  "validation": {
+    "require": {
+      "text": "Please input {field}.",
+      "select": "Please select {field}."
+    },
+    "pattern": {
+      "loginId": "The ID is 3 to 20 characters in English and the number.",
+      "password": "The password is 8 to 20 characters including English, numbers, and special characters.",
+      "name": "The name must be between 2 and 20 characters.",
+      "nickname": "Nickname must be within 20 characters.",
+      "email": "This doesn't fit the email form."
+    },
+    "range": "The {field} must be between {min} and {max} characters.",
+    "password": {
+      "recheck": "Password doesn't match."
+    },
+    "birth": "Please select a date again."
   }
+
 }

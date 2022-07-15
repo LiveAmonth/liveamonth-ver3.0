@@ -15,7 +15,6 @@ import "bootstrap/dist/css/bootstrap-utilities.min.css";
 import i18n from "@/i18n";
 
 const app = createApp(App);
-
 app.use(createPinia());
 app.use(ElementPlus, {
   locale: koKR,

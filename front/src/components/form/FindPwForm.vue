@@ -1,15 +1,18 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useFormValidate } from "@/composables/formValidate";
+import type { FormInstance, FormRules } from "element-plus/es";
+import type { FindPwType } from "@/modules/types/form/FormType";
 
-const rules = {
-  loginId: [{ required: true, message: "Please input id", trigger: "blur" }],
-  email: [{ required: true, message: "Please input email", trigger: "blur" }],
-};
+const { submitForm, validateRequire } = useFormValidate();
 
-const { ruleFormRef, formRules, submitForm } = useFormValidate(rules);
+const ruleFormRef = ref<FormInstance>();
+const rules = reactive<FormRules>({
+  loginId: [validateRequire("member.loginId")],
+  email: [validateRequire("member.email")],
+});
 
-const findPwForm = reactive({
+const findPwForm = reactive<FindPwType>({
   loginId: "",
   email: "",
 });
@@ -19,7 +22,7 @@ const findPwForm = reactive({
   <el-form
     ref="ruleFormRef"
     :model="findPwForm"
-    :rules="formRules"
+    :rules="rules"
     status-icon
     label-position="top"
   >

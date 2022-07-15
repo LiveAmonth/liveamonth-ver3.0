@@ -1,14 +1,17 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { useFormValidate } from "@/composables/formValidate";
+import type { FormInstance, FormRules } from "element-plus/es";
+import type { FindIdType } from "@/modules/types/form/FormType";
 
-const rules = {
-  email: [{ required: true, message: "Please input email", trigger: "blur" }],
-};
+const { submitForm, validateRequire } = useFormValidate();
 
-const { ruleFormRef, formRules, submitForm } = useFormValidate(rules);
+const ruleFormRef = ref<FormInstance>();
+const rules = reactive<FormRules>({
+  email: [validateRequire("member.email")],
+});
 
-const findIdForm = reactive({
+const findIdForm = reactive<FindIdType>({
   email: "",
 });
 </script>
@@ -17,7 +20,7 @@ const findIdForm = reactive({
   <el-form
     ref="ruleFormRef"
     :model="findIdForm"
-    :rules="formRules"
+    :rules="rules"
     status-icon
     label-position="top"
   >
