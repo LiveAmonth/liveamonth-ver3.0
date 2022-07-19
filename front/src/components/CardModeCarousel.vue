@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, defineProps, ref } from "vue";
+import { computed, defineProps, onMounted, ref } from "vue";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import { useCityStore } from "@/stores/city";
 
@@ -11,6 +11,10 @@ const props = defineProps({
       return value === "food" || value === "view";
     },
   },
+  name: {
+    type: String,
+    required: true,
+  },
 });
 
 const store = useCityStore();
@@ -20,6 +24,11 @@ const carouselData = ref<ImageContentType[]>(
 const dataSize = ref<number>(carouselData.value.length);
 const carouselLen = computed<number>(() => Math.ceil(dataSize.value / 4));
 const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
+
+onMounted(async () => {
+  await store.setCity(props.name);
+  carouselData.value = props.dir === "food" ? store.foods : store.views;
+});
 </script>
 
 <template>

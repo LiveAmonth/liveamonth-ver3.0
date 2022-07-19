@@ -19,11 +19,11 @@ export const useCity = () => {
     }
   };
 
-  const getTotalCityIntro = async (cityName: string) => {
+  const getCityIntro = async (cityName: string) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getTotalCityIntro(cityName);
+      await store.getCityIntro(cityName);
       error.value = null;
       isPending.value = false;
     } catch (err) {
@@ -32,11 +32,11 @@ export const useCity = () => {
     }
   };
 
-  const getCityFoodAndView = async (cityName: string) => {
+  const getExtraCityInfo = async (cityName: string) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getCityFoodAndView(cityName);
+      await store.getExtraCityInfo(cityName);
       error.value = null;
       isPending.value = false;
     } catch (err) {
@@ -48,7 +48,7 @@ export const useCity = () => {
     error,
     isPending,
     getCityNames,
-    getTotalCityIntro,
-    getCityFoodAndView,
+    getCityIntro,
+    getExtraCityInfo,
   };
 };

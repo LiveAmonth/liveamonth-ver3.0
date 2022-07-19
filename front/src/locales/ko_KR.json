@@ -139,6 +139,11 @@
     }
   },
   "validation": {
+    "duplication": {
+      "button":"중복 확인",
+      "check": "중복 확인을 해주세요.",
+      "duplicated": "{value}는 이미 존재하는 {field}입니다."
+    },
     "require": {
       "text": "{field}을(를) 입력해주세요.",
       "select": "{field}을(를) 선택해주세요."

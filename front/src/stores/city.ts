@@ -2,33 +2,27 @@ import { defineStore } from "pinia";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import type {
-  CityFoodAndViewType,
   CityIntroType,
   CityTransportType,
   CityWeatherType,
-} from "@/modules/types/city/CityIntroType";
+  CityExtraType,
+} from "@/modules/types/city/CityType";
 import CityApiService from "@/services/CityApiService";
+import { computed } from "vue";
 
-export const useCityStore = defineStore({
-  id: "city",
+export const useCityStore = defineStore("city", {
   state: () => ({
     cityNames: {} as EnumType[],
     cityIntro: {} as CityIntroType,
-    cityIntroCategory: {} as EnumType[],
     cityCategory: ["intro", "transport", "weather"],
-    cityFoodAndView: {} as CityFoodAndViewType,
+    cityExtraInfo: {} as CityExtraType,
   }),
   getters: {
-    introDetail: (state): ImageContentType => {
-      return {
-        content: state.cityIntro.content,
-        image: state.cityIntro.image,
-      };
-    },
-    transports: (state): CityTransportType[] => state.cityIntro.transports,
-    weathers: (state): CityWeatherType[] => state.cityIntro.weathers,
-    foods: (state): ImageContentType[] => state.cityFoodAndView.foodInfos,
-    views: (state): ImageContentType[] => state.cityFoodAndView.viewInfos,
+    introDetail: (state): ImageContentType[] => state.cityIntro["INTRO"],
+    foods: (state): ImageContentType[] => state.cityIntro["FOOD"],
+    views: (state): ImageContentType[] => state.cityIntro["VIEW"],
+    transports: (state): CityTransportType[] => state.cityExtraInfo.transports,
+    weathers: (state): CityWeatherType[] => state.cityExtraInfo.weathers,
   },
   actions: {
     async getCityNames() {
@@ -38,28 +32,32 @@ export const useCityStore = defineStore({
         console.log(error);
       }
     },
-    async getCityIntroCategory() {
+    async getCityIntro(cityName: string) {
       try {
-        this.cityIntroCategory = await CityApiService.getCityIntroCategory();
+        const response = await CityApiService.getCityIntro(cityName);
+        localStorage.setItem(`${cityName}-intro`, JSON.stringify(response));
       } catch (error) {
         console.log(error);
       }
     },
-    async getTotalCityIntro(cityName: string) {
+    async getExtraCityInfo(cityName: string) {
       try {
-        this.cityIntro = await CityApiService.getTotalCityIntro(cityName);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    async getCityFoodAndView(cityName: string) {
-      try {
-        this.cityFoodAndView = await CityApiService.getCityFoodAndView(
-          cityName
+        const response = await CityApiService.getExtraCityInfo(cityName);
+        localStorage.setItem(
+          `${cityName}-extra-info`,
+          JSON.stringify(response)
         );
       } catch (error) {
         console.log(error);
       }
+    },
+    setCity(cityName: string) {
+      this.cityIntro = JSON.parse(
+        localStorage.getItem(`${cityName}-intro`) || "{}"
+      );
+      this.cityExtraInfo = JSON.parse(
+        localStorage.getItem(`${cityName}-extra-info`) || "{}"
+      );
     },
   },
 });

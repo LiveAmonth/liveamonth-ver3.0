@@ -132,6 +132,11 @@
     }
   },
   "validation": {
+    "duplication": {
+      "button":"duplication check",
+      "check": "Please check duplication",
+      "duplicated": "{value} is duplicated {field}."
+    },
     "require": {
       "text": "Please input {field}.",
       "select": "Please select {field}."

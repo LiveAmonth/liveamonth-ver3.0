@@ -1,10 +1,18 @@
 import { useI18n } from "vue-i18n";
 import dayjs from "dayjs";
 import type { FormInstance, FormItemRule } from "element-plus/es";
-import type { SignUpType } from "@/modules/types/form/FormType";
+import type {
+  DuplicationCheckType,
+  SignUpType,
+} from "@/modules/types/form/FormType";
+import { ref } from "vue";
+import { useMemberStore } from "@/stores/member";
 
 export const useFormValidate = () => {
   const { t } = useI18n();
+  const store = useMemberStore();
+  const isPending = ref(false);
+
   const validateRequire = (field: string): FormItemRule => {
     return {
       required: true,
@@ -65,6 +73,33 @@ export const useFormValidate = () => {
       trigger: "select",
     };
   };
+  const checkedField = (form: SignUpType): FormItemRule => {
+    return {
+      validator: (rule, value, callback) => {
+        if (form.duplicationCheck) {
+          callback(new Error(t("validation.duplication.check")));
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur",
+    };
+  };
+  const duplicateCheck = async (
+    form: SignUpType,
+    field: string,
+    param: string
+  ) => {
+    isPending.value = true;
+    try {
+      await store.duplicateCheck(field, param);
+      isPending.value = false;
+      form.duplicationCheck = true;
+    } catch (error) {
+      isPending.value = false;
+    }
+  };
+
   const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     await formEl.validate((valid, fields) => {
@@ -77,12 +112,15 @@ export const useFormValidate = () => {
   };
 
   return {
+    isPending,
     validateRequire,
     validateSelection,
     validatePattern,
     validateRange,
     validatePassword,
     validateBirth,
+    checkedField,
+    duplicateCheck,
     submitForm,
   };
 };

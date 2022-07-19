@@ -1,14 +1,15 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
+import CityApiService from "@/services/CityApiService";
 
 export interface CityIntroType {
-  cityName: EnumType;
-  content: string;
-  image: string;
+  [category: string]: ImageContentType[];
+}
+
+export interface CityExtraType {
   transports: CityTransportType[];
   weathers: CityWeatherType[];
 }
-
 
 export interface CityTransportType {
   id: number;
@@ -25,9 +26,4 @@ export interface CityWeatherType {
   maxDegree: number;
   minDegree: number;
   averageDegree: number;
-}
-
-export interface CityFoodAndViewType {
-  foodInfos: ImageContentType[];
-  viewInfos: ImageContentType[];
 }

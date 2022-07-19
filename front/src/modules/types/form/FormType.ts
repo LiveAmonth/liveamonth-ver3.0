@@ -21,4 +21,11 @@ export interface SignUpType {
   email: string;
   birth: string;
   gender: string;
+  duplicationCheck: boolean;
+}
+
+export interface DuplicationCheckType {
+  isAvailable: boolean;
+  value: string;
+  message: string;
 }

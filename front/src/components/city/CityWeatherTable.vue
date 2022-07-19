@@ -1,11 +1,21 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onMounted, ref} from "vue";
 import { useCityStore } from "@/stores/city";
-import type { CityWeatherType } from "@/modules/types/city/CityIntroType";
-
+import type { CityWeatherType } from "@/modules/types/city/CityType";
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+});
 const store = useCityStore();
 
-const cityWeather = ref<CityWeatherType[]>(store.weathers);
+const cityWeather = ref<CityWeatherType[]>();
+
+onMounted(async () => {
+  await store.setCity(props.name);
+  cityWeather.value = store.weathers;
+});
 </script>
 
 <template>

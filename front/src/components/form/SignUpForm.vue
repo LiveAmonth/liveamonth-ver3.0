@@ -5,10 +5,14 @@ import type { SignUpType } from "@/modules/types/form/FormType";
 import { useFormValidate } from "@/composables/formValidate";
 import { useMember } from "@/composables/member";
 import { useMemberStore } from "@/stores/member";
+import { useI18n } from "vue-i18n";
+import { useMessageBox } from "@/composables/messageBox";
 
 const store = useMemberStore();
-
+const { t } = useI18n();
+const { openMessageBox } = useMessageBox();
 const {
+  isPending,
   submitForm,
   validateRequire,
   validateSelection,
@@ -16,6 +20,7 @@ const {
   validateRange,
   validatePassword,
   validateBirth,
+  duplicateCheck,
 } = useFormValidate();
 const { getGenderType } = useMember();
 
@@ -32,6 +37,7 @@ const signUpForm = reactive<SignUpType>({
   email: "",
   birth: "",
   gender: "",
+  duplicationCheck: false,
 });
 
 const ruleFormRef = ref<FormInstance>();
@@ -70,6 +76,27 @@ const rules = reactive<FormRules>({
   birth: [validateSelection("member.birth"), validateBirth(signUpForm)],
   gender: [validateSelection("member.gender.title")],
 });
+
+const check = async (form: SignUpType, field: string, value: string) => {
+  if (value.length !== 0) {
+    await duplicateCheck(form, field, value);
+    if (!store.isAvailable) {
+      await openMessageBox(
+        t("validation.duplication.duplicated", {
+          value: value,
+          field: t(`member.${field}`),
+        })
+      );
+    } else {
+      await openMessageBox("사용 가능합니다");
+    }
+    form.duplicationCheck = false;
+  } else {
+    await openMessageBox(
+      t("validation.require.text", { field: t(`member.${field}`) })
+    );
+  }
+};
 </script>
 
 <template>
@@ -83,6 +110,12 @@ const rules = reactive<FormRules>({
   >
     <el-form-item :label="$t('member.loginId')" prop="loginId">
       <el-input v-model="signUpForm.loginId" />
+      <el-button
+        :loading="isPending"
+        color="#004A55"
+        @click="check(signUpForm, 'loginId', signUpForm.loginId,signUpForm.loginId)"
+        >{{ $t("validation.duplication.button") }}
+      </el-button>
     </el-form-item>
     <el-form-item :label="$t('member.password')" prop="password">
       <el-input v-model="signUpForm.password" type="password" show-password />

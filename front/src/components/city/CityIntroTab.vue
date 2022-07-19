@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { defineProps, onMounted, ref } from "vue";
-import { useCity } from "@/composables/city";
+import { onMounted, ref } from "vue";
 import { useCityStore } from "@/stores/city";
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
+import { useCity } from "@/composables/city";
 import CityIntroDetail from "@/components/city/CityIntroDetail.vue";
 import CityTransportTable from "@/components/city/CityTransportTable.vue";
 import CityWeatherTable from "@/components/city/CityWeatherTable.vue";
+import CardModeCarousel from "@/components/CardModeCarousel.vue";
+import TitleSlot from "@/components/TitleSlot.vue";
 
 const props = defineProps({
   name: {
@@ -15,50 +16,48 @@ const props = defineProps({
 });
 const store = useCityStore();
 
-const { isPending, getTotalCityIntro } = useCity();
-
-const activeName = ref(store.cityCategory[0]);
-const cityIntro = ref<ImageContentType>();
+const { getCityIntro, getExtraCityInfo } = useCity();
+const loading = ref(true);
+const activeName = ref<string>("intro");
 
 onMounted(async () => {
-  await getTotalCityIntro(props.name);
-  cityIntro.value = store.introDetail;
+  await getCityIntro(props.name);
+  await getExtraCityInfo(props.name);
+  store.setCity(props.name);
+  loading.value = false;
 });
 </script>
 
 <template>
-  <el-row>
-    <el-col>
-      <el-tabs
-        v-model="activeName"
-        class="city-detail-tabs"
-        tab-position="left"
-      >
-        <template v-for="introCat in store.cityCategory" :key="introCat">
-          <el-tab-pane
-            :label="$t(`city.tab.category.${introCat}`)"
-            :name="introCat"
-          >
-            <template v-if="!isPending">
-              <CityIntroDetail v-if="introCat === 'intro'" class="tab-detail" />
-              <CityTransportTable
-                v-else-if="introCat === 'transport'"
-                class="tab-detail"
-              />
-              <CityWeatherTable
-                v-else-if="introCat === 'weather'"
-                class="tab-detail"
-              />
-            </template>
-          </el-tab-pane>
-        </template>
-      </el-tabs>
-    </el-col>
-  </el-row>
+  <div v-if="loading">로딩중</div>
+  <div v-else>
+    <el-tabs v-model="activeName" class="city-detail-tabs" tab-position="left">
+      <el-tab-pane :label="$t('city.tab.category.intro')" name="intro">
+        <CityIntroDetail :name="props.name" class="tab-detail" />
+      </el-tab-pane>
+      <el-tab-pane :label="$t('city.tab.category.transport')" name="transport">
+        <CityTransportTable :name="props.name" class="tab-detail" />
+      </el-tab-pane>
+      <el-tab-pane :label="$t('city.tab.category.weather')" name="weather">
+        <CityWeatherTable :name="props.name" class="tab-detail" />
+      </el-tab-pane>
+    </el-tabs>
+    <div class="mt-5">
+      <el-row v-for="cat in ['food', 'view']" :key="cat">
+        <el-col>
+          <TitleSlot>{{ $t(`city.intro.category.${cat}`) }}</TitleSlot>
+          <CardModeCarousel :name="props.name" :dir="cat" />
+        </el-col>
+      </el-row>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 .tab-detail {
   margin: 0 20px;
+}
+.title {
+  color: #111111;
 }
 </style>
