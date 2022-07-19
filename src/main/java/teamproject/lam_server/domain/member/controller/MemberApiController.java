@@ -77,8 +77,8 @@ public class MemberApiController {
      * presentation layer::sign up
      * -> login id duplicate check
      */
-    @GetMapping("/exists/login-id/{loginId}")
-    public ResponseEntity<?> checkDuplicateLoginId(@PathVariable String loginId) {
+    @GetMapping("/exists/loginId/{loginId}")
+    public ResponseEntity<?> duplicateCheckLoginId(@PathVariable String loginId) {
         DuplicateCheckResponse result = memberService.checkDuplicateLoginId(loginId);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
@@ -88,10 +88,9 @@ public class MemberApiController {
      * -> email(id & domain) duplicate check
      */
     @GetMapping("/exists/email/{email}")
-    public ResponseEntity<?> checkDuplicateEmail(@PathVariable String email) {
+    public ResponseEntity<?> duplicateCheckEmail(@PathVariable String email) {
         DuplicateCheckResponse result = memberService.checkDuplicateEmail(email);
         return CustomResponse.success(DUPLICATE_CHECK, result);
-
     }
 
     /**
@@ -99,10 +98,9 @@ public class MemberApiController {
      * -> nickname duplicate check
      */
     @GetMapping("/exists/nickname/{nickname}")
-    public ResponseEntity<?> checkDuplicateNickname(@PathVariable String nickname) {
+    public ResponseEntity<?> duplicateCheckNickname(@PathVariable String nickname) {
         DuplicateCheckResponse result = memberService.checkDuplicateNickname(nickname);
         return CustomResponse.success(DUPLICATE_CHECK, result);
-
     }
 
 

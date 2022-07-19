@@ -14,6 +14,8 @@ import java.util.Optional;
 
 public interface CityIntroRepository extends JpaRepository<CityIntro, Long> {
 
+    List<CityIntro> findByName(CityName cityName);
+
     Optional<CityIntro> findOneByNameAndCityInfoCat(CityName name, CityIntroCategory cityInfoCat);
 
     List<CityIntro> findByNameAndCityInfoCat(CityName name, CityIntroCategory cityInfoCat);

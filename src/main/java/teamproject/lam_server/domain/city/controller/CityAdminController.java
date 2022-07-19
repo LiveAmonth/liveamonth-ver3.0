@@ -8,7 +8,7 @@ import teamproject.lam_server.domain.city.dto.condition.CityIntroSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityTransportSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityWeatherSearchCond;
 import teamproject.lam_server.domain.city.dto.request.*;
-import teamproject.lam_server.domain.city.dto.response.CityInfoResponse;
+import teamproject.lam_server.domain.city.dto.response.CityIntroResponse;
 import teamproject.lam_server.domain.city.dto.response.CityTransportResponse;
 import teamproject.lam_server.domain.city.dto.response.CityWeatherResponse;
 import teamproject.lam_server.domain.city.dto.response.SimpleCityInfoResponse;
@@ -66,7 +66,7 @@ public class CityAdminController {
 
     @GetMapping("/intro/{id}")
     public ResponseEntity<?> getIntro(@PathVariable Long id) {
-        CityInfoResponse result = cityService.findIntroById(id);
+        CityIntroResponse result = cityService.findIntroById(id);
         return CustomResponse.success(READ_CITY, result);
     }
 

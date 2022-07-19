@@ -12,7 +12,7 @@ import teamproject.lam_server.domain.city.dto.condition.CityIntroSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityTransportSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityWeatherSearchCond;
 import teamproject.lam_server.domain.city.dto.request.*;
-import teamproject.lam_server.domain.city.dto.response.CityInfoResponse;
+import teamproject.lam_server.domain.city.dto.response.CityIntroResponse;
 import teamproject.lam_server.domain.city.dto.response.CityTransportResponse;
 import teamproject.lam_server.domain.city.dto.response.CityWeatherResponse;
 import teamproject.lam_server.domain.city.dto.response.SimpleCityInfoResponse;
@@ -85,8 +85,8 @@ public class CityAdminServiceImpl implements CityAdminService {
     }
 
     @Override
-    public CityInfoResponse findIntroById(Long infoId) {
-        return CityInfoResponse.of(
+    public CityIntroResponse findIntroById(Long infoId) {
+        return CityIntroResponse.of(
                 cityIntroRepository.findById(infoId)
                         .orElseThrow(CityNotFound::new)
         );
