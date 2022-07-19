@@ -38,7 +38,7 @@ public abstract class ResponseMessage {
     /**
      * Domain: City
      */
-    public static final String CREATE_CITY = "도시정보 저장 성송";
+    public static final String CREATE_CITY = "도시정보 저장 성공";
     public static final String READ_CITY = "도시정보 조회 성공";
     public static final String UPDATE_CITY = "도시정보 업데이트 성공";
     public static final String DELETE_CITY = "도시정보 삭제 성공";
