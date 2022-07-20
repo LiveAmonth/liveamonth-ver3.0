@@ -1,10 +1,7 @@
 import { useI18n } from "vue-i18n";
 import dayjs from "dayjs";
 import type { FormInstance, FormItemRule } from "element-plus/es";
-import type {
-  DuplicationCheckType,
-  SignUpType,
-} from "@/modules/types/form/FormType";
+import type { SignUpType } from "@/modules/types/form/FormType";
 import { ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 
@@ -85,16 +82,11 @@ export const useFormValidate = () => {
       trigger: "blur",
     };
   };
-  const duplicateCheck = async (
-    form: SignUpType,
-    field: string,
-    param: string
-  ) => {
+  const duplicateCheck = async (field: string, param: string) => {
     isPending.value = true;
     try {
       await store.duplicateCheck(field, param);
       isPending.value = false;
-      form.duplicationCheck = true;
     } catch (error) {
       isPending.value = false;
     }

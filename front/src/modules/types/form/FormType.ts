@@ -21,7 +21,17 @@ export interface SignUpType {
   email: string;
   birth: string;
   gender: string;
+
+  [key: string]: string;
+}
+
+export interface SignUpCheckType {
+  loginId: boolean;
+  nickname: boolean;
+  email: boolean;
   duplicationCheck: boolean;
+
+  [key: string]: boolean;
 }
 
 export interface DuplicationCheckType {

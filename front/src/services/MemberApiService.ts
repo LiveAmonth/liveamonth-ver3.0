@@ -13,6 +13,7 @@ class MemberApiService {
     field: string,
     param: string
   ): Promise<DuplicationCheckType> {
+    console.log("field:", field);
     return await http
       .get(`/members/exists/${field}/${param}`)
       .then((response) => {
