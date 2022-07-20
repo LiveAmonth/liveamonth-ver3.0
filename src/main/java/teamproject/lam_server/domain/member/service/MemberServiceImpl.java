@@ -11,7 +11,6 @@ import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberCheckRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.NotDropMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
@@ -28,7 +27,6 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final MemberCheckRepository memberCheckRepository;
     private final MailService mailService;
 
     private final PasswordEncoder passwordEncoder;
@@ -42,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DuplicateCheckResponse checkDuplicateEmail(String email) {
-        Boolean isDuplicated = memberCheckRepository.existsByEmail(email);
+        Boolean isDuplicated = memberRepository.existsByEmail(email);
         return isDuplicated
                 ? DuplicateCheckResponse.of(false, email, DUPLICATE_EMAIL)
                 : DuplicateCheckResponse.of(true, email, AVAILABLE_EMAIL);
@@ -50,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DuplicateCheckResponse checkDuplicateLoginId(String LoginId) {
-        Boolean isDuplicated = memberCheckRepository.existsByLoginId(LoginId);
+        Boolean isDuplicated = memberRepository.existsByLoginId(LoginId);
         return isDuplicated
                 ? DuplicateCheckResponse.of(false, LoginId, DUPLICATE_LOGIN_ID)
                 : DuplicateCheckResponse.of(true, LoginId, AVAILABLE_LOGIN_ID);
@@ -58,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public DuplicateCheckResponse checkDuplicateNickname(String nickname) {
-        Boolean isDuplicated = memberCheckRepository.existsByEmail(nickname);
+        Boolean isDuplicated = memberRepository.existsByNickname(nickname);
         return isDuplicated
                 ? DuplicateCheckResponse.of(false, nickname, DUPLICATE_NICKNAME)
                 : DuplicateCheckResponse.of(true, nickname, AVAILABLE_NICKNAME);
