@@ -1,10 +1,16 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import { useFormValidate } from "@/composables/formValidate";
+import { useAuth } from "@/composables/auth";
 import type { FormRules, FormInstance } from "element-plus/es";
 import type { LoginType } from "@/modules/types/form/FormType";
+import { useMessageBox } from "@/composables/messageBox";
+import { useRouter } from "vue-router";
 
-const { submitForm, validateRequire } = useFormValidate();
+const router = useRouter();
+const { openMessageBox } = useMessageBox();
+const { error, isPending, login } = useAuth();
+const { validateRequire } = useFormValidate();
 
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive<FormRules>({
@@ -16,6 +22,25 @@ const loginForm = reactive<LoginType>({
   loginId: "",
   password: "",
 });
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      login(loginForm);
+      if (!error) {
+        router.replace({ name: "home" });
+      } else {
+        openMessageBox("아이디 혹은 비밀번호가 틀렸습니다.");
+        for (const key in loginForm) {
+          loginForm[key] = "";
+        }
+      }
+    } else {
+      openMessageBox("정보를 제대로 입력해주세요");
+    }
+  });
+};
 </script>
 
 <template>
@@ -34,7 +59,7 @@ const loginForm = reactive<LoginType>({
     </el-form-item>
     <el-form-item>
       <el-button
-        :loading="false"
+        :loading="isPending"
         color="#004A55"
         size="large"
         style="width: 100%"

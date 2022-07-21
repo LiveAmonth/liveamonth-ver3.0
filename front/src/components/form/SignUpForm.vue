@@ -10,13 +10,13 @@ import { useMember } from "@/composables/member";
 import { useMemberStore } from "@/stores/member";
 import { useI18n } from "vue-i18n";
 import { useMessageBox } from "@/composables/messageBox";
+import { useRouter } from "vue-router";
 
 const store = useMemberStore();
+const router = useRouter();
 const { t } = useI18n();
 const { openMessageBox, openConfirmMessageBox } = useMessageBox();
 const {
-  isPending,
-  submitForm,
   validateRequire,
   validateSelection,
   validatePattern,
@@ -25,7 +25,7 @@ const {
   validateBirth,
   duplicateCheck,
 } = useFormValidate();
-const { getGenderType } = useMember();
+const { getGenderType, signUp, isPending, error } = useMember();
 
 onMounted(async () => {
   await getGenderType();
@@ -46,7 +46,6 @@ const signUpCheckForm = reactive<SignUpCheckType>({
   loginId: false,
   nickname: false,
   email: false,
-  duplicationCheck: false,
 });
 
 const ruleFormRef = ref<FormInstance>();
@@ -77,14 +76,13 @@ const rules = reactive<FormRules>({
   email: [
     validateRequire("member.email"),
     validatePattern(
-      "[a-z0-9A-Z._-]*@[a-z0-9A-Z]*.[a-zA-Z.]*",
+      "[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}",
       "validation.pattern.email"
     ),
   ],
   birth: [validateSelection("member.birth"), validateBirth(signUpForm)],
   gender: [validateSelection("member.gender.title")],
 });
-
 const checkField = async (formEl: FormInstance, field: string) => {
   const value = signUpForm[field];
   if (value.length === 0) {
@@ -104,7 +102,12 @@ const checkField = async (formEl: FormInstance, field: string) => {
       );
       signUpForm[field] = "";
     } else {
-      await openConfirmMessageBox("중복 확인", "해당 @@@를 사용하시겠습니까?")
+      await openConfirmMessageBox(
+        t("validation.duplication.button"),
+        t("validation.duplication.confirm", {
+          field: t(`member.${field}`),
+        })
+      )
         .then(() => {
           signUpCheckForm[field] = true;
         })
@@ -112,7 +115,6 @@ const checkField = async (formEl: FormInstance, field: string) => {
           signUpForm[field] = "";
         });
     }
-    signUpCheckForm.duplicationCheck = false;
   }
 };
 const resetField = async (field: string) => {
@@ -131,6 +133,25 @@ const isValidate = async (
     .catch(() => {
       return false;
     });
+};
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      signUp(signUpForm);
+      if (!error) {
+        openMessageBox("회원가입이 완료되었습니다. 로그인해주세요").finally(
+          () => {
+            router.replace({ name: "login" });
+          }
+        );
+      } else {
+        openMessageBox("알 수 없는 오류가 발생했습니다.");
+      }
+    } else {
+      openMessageBox("정보를 제대로 입력해주세요.");
+    }
+  });
 };
 </script>
 
@@ -218,13 +239,15 @@ const isValidate = async (
     <el-form-item :label="$t('member.gender.title')" prop="gender">
       <el-radio-group v-model="signUpForm.gender">
         <template v-for="type in store.genderType" :key="type.code">
-          <el-radio :label="$t(`member.gender.${type.code}`)" />
+          <el-radio :label="$t(`member.gender.${type.code}`)">
+            {{ $t(`member.gender.${type.code}`) }}
+          </el-radio>
         </template>
       </el-radio-group>
     </el-form-item>
     <el-form-item>
       <el-button
-        :loading="false"
+        :loading="isPending"
         color="#004A55"
         size="large"
         style="width: 100%"

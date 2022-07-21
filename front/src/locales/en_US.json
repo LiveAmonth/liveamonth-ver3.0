@@ -135,8 +135,10 @@
     "duplication": {
       "button":"duplication check",
       "check": "Please check duplication",
-      "duplicated": "{value} is duplicated {field}."
+      "duplicated": "{value} is duplicated {field}.",
+      "confirm": "Do you want to use that {field}?"
     },
+    "reset": "reset",
     "require": {
       "text": "Please input {field}.",
       "select": "Please select {field}."

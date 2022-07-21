@@ -1,6 +1,8 @@
 export interface LoginType {
   loginId: string;
   password: string;
+  [key: string]: string;
+
 }
 
 export interface FindIdType {
@@ -29,7 +31,6 @@ export interface SignUpCheckType {
   loginId: boolean;
   nickname: boolean;
   email: boolean;
-  duplicationCheck: boolean;
 
   [key: string]: boolean;
 }

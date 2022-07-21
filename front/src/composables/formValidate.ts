@@ -92,17 +92,6 @@ export const useFormValidate = () => {
     }
   };
 
-  const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return;
-    await formEl.validate((valid, fields) => {
-      if (valid) {
-        console.log("submit!");
-      } else {
-        console.log("error submit!", fields);
-      }
-    });
-  };
-
   return {
     isPending,
     validateRequire,
@@ -113,6 +102,5 @@ export const useFormValidate = () => {
     validateBirth,
     checkedField,
     duplicateCheck,
-    submitForm,
   };
 };

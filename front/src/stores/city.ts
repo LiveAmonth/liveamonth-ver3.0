@@ -8,7 +8,6 @@ import type {
   CityExtraType,
 } from "@/modules/types/city/CityType";
 import CityApiService from "@/services/CityApiService";
-import { computed } from "vue";
 
 export const useCityStore = defineStore("city", {
   state: () => ({

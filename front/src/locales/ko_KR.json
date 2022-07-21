@@ -142,7 +142,8 @@
     "duplication": {
       "button": "중복 확인",
       "check": "중복 확인을 해주세요.",
-      "duplicated": "{value}는 이미 존재하는 {field}입니다."
+      "duplicated": "{value}는 이미 존재하는 {field}입니다.",
+      "confirm": "해당 {field}를 사용하시겠습니까?"
     },
     "reset": "초기화",
     "require": {

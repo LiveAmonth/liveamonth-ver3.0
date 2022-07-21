@@ -1,6 +1,9 @@
 import http from "@/http-common";
 import type { EnumType } from "@/modules/types/common/EnumType";
-import type { DuplicationCheckType } from "@/modules/types/form/FormType";
+import type {
+  DuplicationCheckType,
+  SignUpType,
+} from "@/modules/types/form/FormType";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
@@ -18,6 +21,17 @@ class MemberApiService {
       .get(`/members/exists/${field}/${param}`)
       .then((response) => {
         return response.data.data;
+      });
+  }
+
+  async signUp(request: SignUpType) {
+    return await http
+      .post("/members/sign-up", JSON.stringify(request))
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }
 }
