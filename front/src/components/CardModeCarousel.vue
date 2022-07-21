@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, defineProps, onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import { useCityStore } from "@/stores/city";
 

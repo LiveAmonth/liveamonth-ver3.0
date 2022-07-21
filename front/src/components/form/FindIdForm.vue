@@ -4,7 +4,7 @@ import { useFormValidate } from "@/composables/formValidate";
 import type { FormInstance, FormRules } from "element-plus/es";
 import type { FindIdType } from "@/modules/types/form/FormType";
 
-const { submitForm, validateRequire } = useFormValidate();
+const { validateRequire } = useFormValidate();
 
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive<FormRules>({

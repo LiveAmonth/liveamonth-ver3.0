@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineProps } from "vue";
+import { ref } from "vue";
 import TitleSlot from "@/components/TitleSlot.vue";
 
 const props = defineProps({
