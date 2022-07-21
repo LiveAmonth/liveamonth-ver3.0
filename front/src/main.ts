@@ -14,15 +14,15 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "bootstrap/dist/css/bootstrap-utilities.min.css";
 import i18n from "@/i18n";
 
-import VueCookies from "vue3-cookies";
+// import VueCookies from "vue3-cookies";
 
 const app = createApp(App);
 
 app.use(createPinia());
-app.use(VueCookies, {
-  expireTimes: "7d",
-  secure: true,
-});
+// app.use(VueCookies, {
+//   expireTimes: "7d",
+//   secure: true,
+// });
 app.use(ElementPlus, {
   locale: koKR,
 });

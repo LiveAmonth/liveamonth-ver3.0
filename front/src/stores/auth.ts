@@ -6,9 +6,11 @@ import type { TokenType } from "@/modules/types/auth/AuthType";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    token: JSON.parse(
-      localStorage.getItem("access-token") || String({} as TokenType)
-    ),
+    token:
+      ({} as TokenType) ||
+      JSON.parse(
+        localStorage.getItem("access-token") || String({} as TokenType)
+      ),
   }),
   getters: {},
   actions: {
@@ -16,9 +18,7 @@ export const useAuthStore = defineStore("auth", {
       try {
         const response = await AuthApiService.login(data);
         const accessToken = jwtDecode(response.accessToken);
-        const refreshToken = $cookies.get("Refresh-Token");
         console.log(accessToken);
-        console.log(refreshToken);
       } catch (error) {
         console.log(error);
       }
