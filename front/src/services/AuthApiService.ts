@@ -10,7 +10,22 @@ class AuthApiService {
         return response.data.data;
       })
       .catch((error) => {
-        console.log(error);
+        throw error.response.data;
+      });
+  }
+  async logout(grantType: string, token: string): Promise<void> {
+    await http
+      .post(
+        "/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: `${grantType} ${token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        throw error.response.data;
       });
   }
 }

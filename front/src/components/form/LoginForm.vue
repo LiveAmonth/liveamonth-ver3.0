@@ -25,11 +25,11 @@ const loginForm = reactive<LoginType>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate((valid) => {
     if (valid) {
       login(loginForm);
       if (!error) {
-        router.replace({ name: "home" });
+        router.push({ name: "home" });
       } else {
         openMessageBox("아이디 혹은 비밀번호가 틀렸습니다.");
         for (const key in loginForm) {

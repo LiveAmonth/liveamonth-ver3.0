@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import teamproject.lam_server.domain.member.dto.response.MemberProfile;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import java.util.Collection;
@@ -81,5 +82,9 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     @Override
     public String getName() {
         return member.getLoginId();
+    }
+
+    public MemberProfile getProfile(){
+        return MemberProfile.of(this.member);
     }
 }

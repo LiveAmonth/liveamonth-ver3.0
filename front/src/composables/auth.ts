@@ -13,9 +13,21 @@ export const useAuth = () => {
     try {
       await store.login(request);
       error.value = null;
-      isPending.value = false;
     } catch (err) {
       error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+  const logout = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.logout();
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
       isPending.value = false;
     }
   };
@@ -23,5 +35,6 @@ export const useAuth = () => {
     error,
     isPending,
     login,
+    logout,
   };
 };

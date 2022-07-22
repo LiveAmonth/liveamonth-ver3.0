@@ -1,6 +1,5 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
-import CityApiService from "@/services/CityApiService";
 
 export interface CityIntroType {
   [category: string]: ImageContentType[];

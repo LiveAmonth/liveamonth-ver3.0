@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
-import teamproject.lam_server.domain.member.dto.response.SimpleMemberResponse;
+import teamproject.lam_server.domain.member.dto.response.MemberProfile;
 import teamproject.lam_server.exception.badrequest.PermissionNotAccessible;
 
 import java.security.Key;
@@ -143,9 +143,10 @@ public class JwtTokenProvider {
      * @return
      */
     private String convertToString(Authentication authentication) {
-        return authentication.getAuthorities().stream()
+        String collect = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+        return collect;
     }
 
     /**
@@ -178,16 +179,20 @@ public class JwtTokenProvider {
      * @return
      */
     public String createAccessToken(Authentication authentication, Date date) {
-        // 만료 시간 설정
-        Date accessTokenExpiration = this.getExpireTime(date, appProperties.getAuth().getAccessTokenExpireTime());
-
         // 권한 가져오기
         String authorities = this.convertToString(authentication);
+
+        // 회원 프로필 정보 가져오기
+        PrincipalDetails details = (PrincipalDetails) authentication.getPrincipal();
+        MemberProfile profile = details.getProfile();
+
+        // 만료 시간 설정
+        Date accessTokenExpiration = this.getExpireTime(date, appProperties.getAuth().getAccessTokenExpireTime());
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities) // 권한 정보
-                .claim(PROFILE_INFO, SimpleMemberResponse.of(((PrincipalDetails) authentication).getMember()))
+                .claim(PROFILE_INFO, profile) // 회원 프로필
                 .setExpiration(accessTokenExpiration) // 만료 시간
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

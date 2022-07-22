@@ -99,7 +99,6 @@ public class AuthServiceImpl implements AuthService {
         String key = jwtTokenProvider.getRefreshTokenKey(authentication);
         if (redisRepository.hasKey(key)) redisRepository.delete(key);
 
-        // HttpServletRequest Header 에서 accessToken을 가져옴
         String accessToken = accessTokenRequest.substring(7);
 
         // Access 토큰의 유효시간을 가져옴

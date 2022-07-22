@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import NavMenu from "@/components/NavMenu.vue";
 import LogoIcon from "../components/image/LogoIcon.vue";
+import { useAuthStore } from "@/stores/auth";
+import { useAuth } from "@/composables/auth";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const store = useAuthStore();
+const { error, isPending, logout } = useAuth();
+const logoutBtn = async () => {
+  await logout();
+};
 </script>
 
 <template>
@@ -18,8 +28,15 @@ import LogoIcon from "../components/image/LogoIcon.vue";
         <LogoIcon />
       </el-menu-item>
       <div class="flex-grow" />
-      <el-menu-item index="/login">{{ $t("member.login") }}</el-menu-item>
-      <el-menu-item index="/sign-up">{{ $t("member.signUp") }}</el-menu-item>
+      <tmeplate v-if="store.loggedIn">
+        <el-menu-item index="/login" @click="logoutBtn">{{
+          $t("member.logout")
+        }}</el-menu-item>
+      </tmeplate>
+      <template v-else>
+        <el-menu-item index="/login">{{ $t("member.login") }}</el-menu-item>
+        <el-menu-item index="/sign-up">{{ $t("member.signUp") }}</el-menu-item>
+      </template>
     </el-menu>
   </el-header>
   <el-header class="nav-header">
