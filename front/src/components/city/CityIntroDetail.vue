@@ -14,6 +14,7 @@ const cityIntroDetail = ref<ImageContentType[]>();
 
 onMounted(async () => {
   await store.setCity(props.name);
+  console.log("디테일 : ",props.name);
   cityIntroDetail.value = store.introDetail;
 });
 </script>

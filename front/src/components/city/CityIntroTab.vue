@@ -21,9 +21,12 @@ const loading = ref(true);
 const activeName = ref<string>("intro");
 
 onMounted(async () => {
-  await getCityIntro(props.name);
-  await getExtraCityInfo(props.name);
+  if (!store.cityIntro) {
+    await getCityIntro(props.name);
+    await getExtraCityInfo(props.name);
+  }
   store.setCity(props.name);
+  console.log("인트로 탭 : ", props.name);
   loading.value = false;
 });
 </script>

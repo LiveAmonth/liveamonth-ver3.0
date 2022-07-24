@@ -27,6 +27,7 @@ const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
 
 onMounted(async () => {
   await store.setCity(props.name);
+  console.log(props.dir + "슬라이드 : ", props.name);
   carouselData.value = props.dir === "food" ? store.foods : store.views;
 });
 </script>

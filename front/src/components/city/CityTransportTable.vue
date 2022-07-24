@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import { useCityStore } from "@/stores/city";
 import type { CityTransportType } from "@/modules/types/city/CityType";
 const props = defineProps({
@@ -13,6 +13,7 @@ const store = useCityStore();
 const cityTransport = ref<CityTransportType[]>();
 onMounted(async () => {
   await store.setCity(props.name);
+  console.log("교통 : ", props.name);
   cityTransport.value = store.transports;
 });
 </script>

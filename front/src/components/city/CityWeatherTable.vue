@@ -14,6 +14,7 @@ const cityWeather = ref<CityWeatherType[]>();
 
 onMounted(async () => {
   await store.setCity(props.name);
+  console.log("날씨 : ", props.name);
   cityWeather.value = store.weathers;
 });
 </script>

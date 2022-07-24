@@ -20,6 +20,7 @@ onMounted(async () => {
   cityNames.value = store.cityNames;
   activeName.value = store.cityNames?.[0].code;
   store.setCity(activeName.value);
+  console.log("시티 뷰 : ", activeName.value);
   loading.value = false;
 });
 
@@ -27,6 +28,7 @@ const handleClick = async (tab: TabsPaneContext) => {
   const selected = String(tab.props.name);
   activeName.value = selected;
   store.setCity(activeName.value);
+  console.log("탭 바꿈 : ", activeName.value);
 };
 </script>
 
@@ -35,7 +37,16 @@ const handleClick = async (tab: TabsPaneContext) => {
   <div v-else>
     <el-row class="mb-lg-2">
       <el-col>
-        <TitleSlot>{{ $t("city.intro.title") }}</TitleSlot>
+        <div class="d-flex justify-content-between">
+          <TitleSlot>{{ $t("city.intro.title") }}</TitleSlot>
+          <el-radio-group v-model="activeName" fill="#004a55" size="large">
+            <template v-for="name in cityNames" :key="name.code">
+              <el-radio-button :label="name.code">{{
+                name.value
+              }}</el-radio-button>
+            </template>
+          </el-radio-group>
+        </div>
         <div class="px-0">
           <el-tabs
             v-model="activeName"
@@ -55,7 +66,7 @@ const handleClick = async (tab: TabsPaneContext) => {
   </div>
 </template>
 
-<style>
+<style lang="scss">
 .city-intro-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;
