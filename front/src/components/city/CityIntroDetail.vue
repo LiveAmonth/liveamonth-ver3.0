@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed } from "vue";
 import { useCityStore } from "@/stores/city";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 const props = defineProps({
@@ -10,13 +10,7 @@ const props = defineProps({
 });
 const store = useCityStore();
 
-const cityIntroDetail = ref<ImageContentType[]>();
-
-onMounted(async () => {
-  await store.setCity(props.name);
-  console.log("디테일 : ",props.name);
-  cityIntroDetail.value = store.introDetail;
-});
+const cityIntroDetail = computed((): ImageContentType[] => store.introDetail);
 </script>
 
 <template>

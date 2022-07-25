@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, ref} from "vue";
+import { computed } from "vue";
 import { useCityStore } from "@/stores/city";
 import type { CityWeatherType } from "@/modules/types/city/CityType";
 const props = defineProps({
@@ -10,13 +10,7 @@ const props = defineProps({
 });
 const store = useCityStore();
 
-const cityWeather = ref<CityWeatherType[]>();
-
-onMounted(async () => {
-  await store.setCity(props.name);
-  console.log("날씨 : ", props.name);
-  cityWeather.value = store.weathers;
-});
+const cityWeather = computed((): CityWeatherType[] => store.weathers);
 </script>
 
 <template>
