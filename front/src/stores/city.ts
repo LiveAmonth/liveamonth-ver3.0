@@ -10,29 +10,26 @@ import type {
 } from "@/modules/types/city/CityType";
 import type { initDataType } from "@/modules/types/common/initDataType";
 
-const storageCityNames: EnumType[] = JSON.parse(
-  localStorage.getItem("city-names") || "{}"
-);
-const initCityNames: initDataType =
-  storageCityNames !== null
-    ? { state: true, data: storageCityNames }
-    : { state: false, data: {} as EnumType[] };
+const storageCityNames: EnumType[] = localStorage["city-names"]
+  ? JSON.parse(localStorage["city-names"])
+  : null;
+const initCityNames: initDataType = storageCityNames
+  ? { state: true, data: storageCityNames }
+  : { state: false, data: {} as EnumType[] };
 
-const storageIntro: CityIntroType = JSON.parse(
-  localStorage.getItem("intro") || "{}"
-);
-const initCityIntro: initDataType =
-  storageIntro !== null
-    ? { state: true, data: storageIntro }
-    : { state: false, data: {} as CityIntroType };
+const storageIntro: CityIntroType = localStorage["intro"]
+  ? JSON.parse(localStorage["intro"])
+  : null;
+const initCityIntro: initDataType = storageIntro
+  ? { state: true, data: storageIntro }
+  : { state: false, data: {} as CityIntroType };
 
-const storageExtraInfo: CityExtraType = JSON.parse(
-  localStorage.getItem("extra-info") || "{}"
-) as CityExtraType;
-const initCityExtraInfo: initDataType =
-  storageExtraInfo !== null
-    ? { state: true, data: storageExtraInfo }
-    : { state: false, data: {} as CityExtraType };
+const storageExtraInfo: CityExtraType = localStorage["extra-info"]
+  ? JSON.parse(localStorage["extra-info"])
+  : null;
+const initCityExtraInfo: initDataType = storageExtraInfo
+  ? { state: true, data: storageExtraInfo }
+  : { state: false, data: {} as CityExtraType };
 
 export const useCityStore = defineStore("city", {
   state: () => ({

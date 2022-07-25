@@ -6,13 +6,12 @@ import type { JWTType, TokenType } from "@/modules/types/auth/AuthType";
 import type { ProfileType } from "@/modules/types/member/MemberType";
 import type { initDataType } from "@/modules/types/common/initDataType";
 
-const storageToken: TokenType = JSON.parse(
-  localStorage.getItem("token-info") || "{}"
-);
-const initTokenInfo: initDataType =
-  storageToken !== null
-    ? { state: true, data: storageToken }
-    : { state: false, data: {} as TokenType };
+const storageToken: TokenType = localStorage["token-info"]
+  ? JSON.parse(localStorage["token-info"])
+  : null;
+const initTokenInfo: initDataType = storageToken
+  ? { state: true, data: storageToken }
+  : { state: false, data: {} as TokenType };
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
