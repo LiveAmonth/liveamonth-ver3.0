@@ -14,7 +14,7 @@ const storageCityNames: EnumType[] = JSON.parse(
   localStorage.getItem("city-names") || "{}"
 );
 const initCityNames: initDataType =
-  storageCityNames === null
+  storageCityNames !== null
     ? { state: true, data: storageCityNames }
     : { state: false, data: {} as EnumType[] };
 
@@ -22,7 +22,7 @@ const storageIntro: CityIntroType = JSON.parse(
   localStorage.getItem("intro") || "{}"
 );
 const initCityIntro: initDataType =
-  storageIntro === null
+  storageIntro !== null
     ? { state: true, data: storageIntro }
     : { state: false, data: {} as CityIntroType };
 
@@ -30,7 +30,7 @@ const storageExtraInfo: CityExtraType = JSON.parse(
   localStorage.getItem("extra-info") || "{}"
 ) as CityExtraType;
 const initCityExtraInfo: initDataType =
-  storageExtraInfo === null
+  storageExtraInfo !== null
     ? { state: true, data: storageExtraInfo }
     : { state: false, data: {} as CityExtraType };
 

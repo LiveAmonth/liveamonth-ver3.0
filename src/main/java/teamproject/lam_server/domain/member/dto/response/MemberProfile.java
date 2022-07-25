@@ -8,14 +8,14 @@ import teamproject.lam_server.domain.member.entity.Member;
 @Builder
 public class MemberProfile {
     private String LoginId;
-    private String nickName;
+    private String nickname;
     private String image;
 
 
     public static MemberProfile of(Member member) {
         return MemberProfile.builder()
                 .LoginId(member.getLoginId())
-                .nickName(member.getNickname())
+                .nickname(member.getNickname())
                 .image(member.getImage())
                 .build();
     }

@@ -10,7 +10,7 @@ const storageToken: TokenType = JSON.parse(
   localStorage.getItem("token-info") || "{}"
 );
 const initTokenInfo: initDataType =
-  storageToken === null
+  storageToken !== null
     ? { state: true, data: storageToken }
     : { state: false, data: {} as TokenType };
 
