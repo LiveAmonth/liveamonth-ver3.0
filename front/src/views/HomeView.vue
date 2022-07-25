@@ -7,9 +7,48 @@ const loggedIn = computed((): boolean => store.loggedIn);
 </script>
 
 <template>
-  <div>여기는 홈 화면입니다.</div>
-  <div v-if="loggedIn">
-    {{ store.profile.nickName }}
+  <div class="common-layout">
+    <el-row>
+      <el-col style="background-color: #383838"> asd</el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :span="18" style="background-color: #004a55"> aasd</el-col>
+      <el-col :span="6">
+        <el-card class="d-flex justify-content-center">
+          <el-row>
+            <el-col>
+
+            </el-col>
+          </el-row>
+          <el-avatar :src="`/src/assets/image/default.jpg`" :size="100">
+          </el-avatar>
+          <el-row class="mt-3" :gutter="10">
+            <el-col :span="10">
+              제목 :
+            </el-col>
+            <el-col :span="14">
+              내용
+            </el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="10">
+              제목 :
+            </el-col>
+            <el-col :span="14">
+              내용
+            </el-col>
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="10">
+              제목 :
+            </el-col>
+            <el-col :span="14">
+              내용
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
