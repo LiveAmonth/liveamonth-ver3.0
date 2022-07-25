@@ -1,11 +1,6 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 
-export interface initDataType {
-  state: boolean;
-  data: CityIntroType | CityExtraType | EnumType[];
-}
-
 export interface CityIntroType {
   [category: string]: ImageContentType[];
 }

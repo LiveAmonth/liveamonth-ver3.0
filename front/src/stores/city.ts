@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import CityApiService from "@/services/CityApiService";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import type {
@@ -6,9 +7,8 @@ import type {
   CityTransportType,
   CityWeatherType,
   CityExtraType,
-  initDataType,
 } from "@/modules/types/city/CityType";
-import CityApiService from "@/services/CityApiService";
+import type { initDataType } from "@/modules/types/common/initDataType";
 
 const storageCityNames: EnumType[] = JSON.parse(
   localStorage.getItem("city-names") || "{}"
