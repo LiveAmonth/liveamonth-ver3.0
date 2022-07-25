@@ -6,8 +6,10 @@ import type { FormRules, FormInstance } from "element-plus/es";
 import type { LoginType } from "@/modules/types/form/FormType";
 import { useMessageBox } from "@/composables/messageBox";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
 
 const router = useRouter();
+const store = useAuthStore();
 const { openMessageBox } = useMessageBox();
 const { error, isPending, login } = useAuth();
 const { validateRequire } = useFormValidate();
@@ -25,19 +27,20 @@ const loginForm = reactive<LoginType>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid) => {
+  await formEl.validate(async (valid) => {
     if (valid) {
-      login(loginForm);
-      if (!error) {
-        router.push({ name: "home" });
-      } else {
-        openMessageBox("아이디 혹은 비밀번호가 틀렸습니다.");
+      await login(loginForm);
+      console.log(error);
+      if (error === null) {
+        await openMessageBox("아이디 혹은 비밀번호가 틀렸습니다.");
         for (const key in loginForm) {
           loginForm[key] = "";
         }
+      } else if (store.loggedIn) {
+        await router.push({ name: "home" });
       }
     } else {
-      openMessageBox("정보를 제대로 입력해주세요");
+      await openMessageBox("정보를 제대로 입력해주세요");
     }
   });
 };

@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
         // JwtAuthenticationFilter 에서 doFilter 메서드를 통해 securityContext 에 들어있는 Authentication 객체를 가져옴.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // 위의 정보(email)로 저장된 refresh token 이 redis 에 있을 경우 삭제
+        // 위의 정보(loginId)로 저장된 refresh token 이 redis 에 있을 경우 삭제
         String key = jwtTokenProvider.getRefreshTokenKey(authentication);
         if (redisRepository.hasKey(key)) redisRepository.delete(key);
 

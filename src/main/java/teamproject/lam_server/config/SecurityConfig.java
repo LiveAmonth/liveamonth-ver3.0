@@ -95,12 +95,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                        "/login/**",
                         "/api/*/auth/login",
                         "/api/*/members/sign-up",
-                        "/api/*/movies/**",
-                        "/api/*/schedules/**",
-                        "/api/*/theater/**",
+                        "/api/*/members/find-id",
+                        "/api/*/members/find-pw",
+                        "/api/*/schedules/other",
+                        "/api/*/reviews/other",
+                        "/api/*/city/**",
                         "/api/*/categories/**"
                 ).permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()

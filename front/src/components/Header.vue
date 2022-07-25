@@ -4,12 +4,17 @@ import LogoIcon from "../components/image/LogoIcon.vue";
 import { useAuthStore } from "@/stores/auth";
 import { useAuth } from "@/composables/auth";
 import { useRouter } from "vue-router";
+import { computed } from "vue";
 
 const router = useRouter();
 const store = useAuthStore();
 const { error, isPending, logout } = useAuth();
+const loggedIn = computed((): boolean => store.loggedIn);
 const logoutBtn = async () => {
   await logout();
+  if (!store.loggedIn) {
+    await router.push({ name: "login" });
+  }
 };
 </script>
 
@@ -28,8 +33,8 @@ const logoutBtn = async () => {
         <LogoIcon />
       </el-menu-item>
       <div class="flex-grow" />
-      <tmeplate v-if="store.loggedIn">
-        <el-menu-item index="/login" @click="logoutBtn">{{
+      <tmeplate v-if="loggedIn">
+        <el-menu-item index="#" @click="logoutBtn">{{
           $t("member.logout")
         }}</el-menu-item>
       </tmeplate>

@@ -12,7 +12,7 @@ public class AccessTokenResponse {
     public static AccessTokenResponse of(String accessToken) {
         return AccessTokenResponse.builder()
                 .accessToken(accessToken)
-                .grantType("Baerer")
+                .grantType("Bearer")
                 .build();
     }
 }
