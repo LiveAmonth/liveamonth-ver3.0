@@ -7,7 +7,7 @@
     "schedule": "스케줄",
     "otherSchedule": "다른 사람 스케줄",
     "mySchedule": "내 스케줄",
-    "review": "후기 게시판",
+    "review": "후기",
     "myPage": "내 정보",
     "customerCenter": "고객 센터"
   },
@@ -23,6 +23,7 @@
     "login": "로그인",
     "logout": "로그아웃",
     "notMember": "아직 회원이 아니신가요?",
+    "askLogin": "한 달 살기의 다양한 서비스를 즐겨보세요",
     "reCheck": "비밀번호 재확인",
     "findId": "아이디 찾기",
     "findPw": "비밀번호 찾기",
@@ -78,12 +79,12 @@
       },
       "kind": "종류",
       "infoTitle": "정류장 및 노선 개수",
-      "score": "상대 점수",
+      "score": "교통 점수",
       "source": "출처 : 교통 정보"
     },
     "weather": {
       "source": "출처 : 기상청 홈페이지",
-      "infoTitle": "전년도 월 평균 기온",
+      "infoTitle": "월 평균 기온(작년)",
       "high": "최고",
       "avg": "평균",
       "low": "최저",

@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 import { useCity } from "@/composables/city";
 import { useCityStore } from "@/stores/city";
-import type { TabsPaneContext } from "element-plus";
 import CardModeCarousel from "@/components/CardModeCarousel.vue";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
@@ -44,9 +43,9 @@ const cityChange = async () => {
           <TitleSlot>{{ $t("city.intro.title") }}</TitleSlot>
           <el-radio-group v-model="activeName" fill="#004a55" size="large">
             <template v-for="name in cityNames" :key="name.code">
-              <el-radio-button :label="name.code" @change="cityChange">{{
-                name.value
-              }}</el-radio-button>
+              <el-radio-button :label="name.code" @change="cityChange"
+                >{{ name.value }}
+              </el-radio-button>
             </template>
           </el-radio-group>
         </div>

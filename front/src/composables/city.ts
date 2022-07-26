@@ -44,10 +44,23 @@ export const useCity = () => {
       isPending.value = false;
     }
   };
+  const getCityGridInfo = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getCityGridInfo();
+      error.value = null;
+      isPending.value = false;
+    } catch (err) {
+      error.value = err;
+      isPending.value = false;
+    }
+  };
   return {
     error,
     isPending,
     getCityNames,
+    getCityGridInfo,
     getCityIntro,
     getExtraCityInfo,
   };

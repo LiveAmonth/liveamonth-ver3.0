@@ -1,6 +1,13 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 
+export interface CityCardType {
+  name: EnumType;
+  image: string;
+  averageDegree: number;
+  transportScore: number;
+}
+
 export interface CityIntroType {
   [category: string]: ImageContentType[];
 }

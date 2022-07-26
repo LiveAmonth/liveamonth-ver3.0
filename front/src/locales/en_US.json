@@ -23,6 +23,7 @@
     "login": "LOGIN",
     "logout": "LOGOUT",
     "notMember": "Aren't you a member yet?",
+    "askLogin": "Enjoy the various services of 'LiveAmonth'!!",
     "reCheck": "RECHECK PW",
     "findId": "Find ID",
     "findPw": "Find PW",
@@ -133,7 +134,7 @@
   },
   "validation": {
     "duplication": {
-      "button":"duplication check",
+      "button": "duplication check",
       "check": "Please check duplication",
       "duplicated": "{value} is duplicated {field}.",
       "confirm": "Do you want to use that {field}?"
@@ -156,5 +157,4 @@
     },
     "birth": "Please select a date again."
   }
-
 }

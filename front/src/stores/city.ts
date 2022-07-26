@@ -3,12 +3,20 @@ import CityApiService from "@/services/CityApiService";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import type {
+  CityCardType,
+  CityExtraType,
   CityIntroType,
   CityTransportType,
   CityWeatherType,
-  CityExtraType,
 } from "@/modules/types/city/CityType";
 import type { initDataType } from "@/modules/types/common/initDataType";
+
+const storageGridInfo: CityCardType[] = localStorage["city-grid-info"]
+  ? JSON.parse(localStorage["city-grid-info"])
+  : null;
+const initCityGridInfo: initDataType = storageGridInfo
+  ? { state: true, data: storageGridInfo }
+  : { state: false, data: {} as CityCardType[] };
 
 const storageCityNames: EnumType[] = localStorage["city-names"]
   ? JSON.parse(localStorage["city-names"])
@@ -33,12 +41,15 @@ const initCityExtraInfo: initDataType = storageExtraInfo
 
 export const useCityStore = defineStore("city", {
   state: () => ({
+    cityGridInfo: initCityGridInfo as initDataType,
     cityNames: initCityNames as initDataType,
     cityCategory: ["intro", "transport", "weather"],
     cityIntro: initCityIntro as initDataType,
     cityExtraInfo: initCityExtraInfo as initDataType,
   }),
   getters: {
+    gridInfo: (state): CityCardType[] =>
+      state.cityGridInfo.data as CityCardType[],
     introDetail: (state): ImageContentType[] =>
       (state.cityIntro.data as CityIntroType)["INTRO"] as ImageContentType[],
     foods: (state): ImageContentType[] =>
@@ -78,6 +89,16 @@ export const useCityStore = defineStore("city", {
         localStorage.setItem("extra-info", JSON.stringify(response));
         this.cityExtraInfo.state = true;
         this.cityExtraInfo.data = response;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getCityGridInfo() {
+      try {
+        const response = await CityApiService.getCityGridInfo();
+        localStorage.setItem("city-grid-info", JSON.stringify(response));
+        this.cityGridInfo.state = true;
+        this.cityGridInfo.data = response;
       } catch (error) {
         console.log(error);
       }

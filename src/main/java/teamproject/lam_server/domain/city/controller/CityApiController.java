@@ -10,8 +10,8 @@ import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.dto.response.api.CityFoodAndViewResponse;
 import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
-import teamproject.lam_server.domain.city.dto.response.api.ImageContentResponse;
 import teamproject.lam_server.domain.city.dto.response.api.ExtraCityResponse;
+import teamproject.lam_server.domain.city.dto.response.api.ImageContentResponse;
 import teamproject.lam_server.domain.city.service.query.CityApiService;
 import teamproject.lam_server.global.dto.CustomResponse;
 
@@ -30,16 +30,18 @@ public class CityApiController {
      * dependence presentation layer::home(body)
      * -> slide info(top)
      */
-    @GetMapping("/slide-infos")
+    @GetMapping("/grid-infos")
     public ResponseEntity<?> searchCityGridInfos() {
         List<CityGridDataResponse> result = cityApiService.searchCurrentCityInfo();
         return CustomResponse.success(result);
     }
+
     @GetMapping("/{cityName}")
-    public ResponseEntity<?> getCityIntro(@PathVariable CityName cityName){
+    public ResponseEntity<?> getCityIntro(@PathVariable CityName cityName) {
         Map<CityIntroCategory, List<ImageContentResponse>> result = cityApiService.getCity(cityName);
         return CustomResponse.success(READ_CITY, result);
     }
+
     /**
      * dependence presentation layer::city(body)
      * -> total city info tab pane(top)

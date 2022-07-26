@@ -1,8 +1,8 @@
 import http from "@/http-common";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
-  CityIntroType,
   CityExtraType,
+  CityIntroType,
 } from "@/modules/types/city/CityType";
 
 class CityApiService {
@@ -20,6 +20,12 @@ class CityApiService {
 
   async getExtraCityInfo(cityName: string): Promise<CityExtraType> {
     return await http.get(`city/${cityName}/extra`).then((response) => {
+      return response.data.data;
+    });
+  }
+
+  async getCityGridInfo() {
+    return await http.get("city/grid-infos").then((response) => {
       return response.data.data;
     });
   }
