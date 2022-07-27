@@ -1,9 +1,7 @@
 package teamproject.lam_server.domain.member.service;
 
-import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
-import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
-import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.global.dto.PostIdResponse;
@@ -54,4 +52,10 @@ public interface MemberService {
      * 회원 DB 삭제
      */
     void delete(Long id);
+
+    @Transactional
+    void follow(FollowRequest request);
+
+    @Transactional
+    void unFollow(FollowRequest request);
 }

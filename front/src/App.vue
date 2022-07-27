@@ -22,6 +22,10 @@ body {
     sans-serif;
 }
 
+.el-icon {
+  vertical-align: middle;
+}
+
 @keyframes fadeInMove {
   0% {
     opacity: 0;

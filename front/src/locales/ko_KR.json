@@ -23,7 +23,7 @@
     "login": "로그인",
     "logout": "로그아웃",
     "notMember": "아직 회원이 아니신가요?",
-    "askLogin": "한 달 살기의 다양한 서비스를 즐겨보세요",
+    "askLogin": "리버먼스의 다양한 서비스를 즐겨보세요",
     "reCheck": "비밀번호 재확인",
     "findId": "아이디 찾기",
     "findPw": "비밀번호 찾기",
@@ -42,7 +42,11 @@
       "start": "나이",
       "end": "세"
     },
-    "birth": "생년월일"
+    "birth": "생년월일",
+    "follower": "팔로워",
+    "schedule": "내 스케줄",
+    "review": "내 후기",
+    "imageChange": "이미지 변경"
   },
   "city": {
     "name": {

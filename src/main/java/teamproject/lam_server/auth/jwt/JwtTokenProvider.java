@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
-import teamproject.lam_server.domain.member.dto.response.MemberProfile;
+import teamproject.lam_server.domain.member.dto.response.TokenMemberInfo;
 import teamproject.lam_server.exception.badrequest.PermissionNotAccessible;
 
 import java.security.Key;
@@ -28,7 +28,7 @@ public class JwtTokenProvider {
     private Key key;
     private final AppProperties appProperties;
     private static final String AUTHORITIES_KEY = "auth";
-    private static final String PROFILE_INFO = "profile";
+    private static final String MEMBER_INFO = "profile";
 
     public JwtTokenProvider(AppProperties appProperties) {
         this.appProperties = appProperties;
@@ -184,7 +184,7 @@ public class JwtTokenProvider {
 
         // 회원 프로필 정보 가져오기
         PrincipalDetails details = (PrincipalDetails) authentication.getPrincipal();
-        MemberProfile profile = details.getProfile();
+        TokenMemberInfo memberInfo = details.getMemberInfo();
 
         // 만료 시간 설정
         Date accessTokenExpiration = this.getExpireTime(date, appProperties.getAuth().getAccessTokenExpireTime());
@@ -192,7 +192,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities) // 권한 정보
-                .claim(PROFILE_INFO, profile) // 회원 프로필
+                .claim(MEMBER_INFO, memberInfo) // 회원 프로필
                 .setExpiration(accessTokenExpiration) // 만료 시간
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

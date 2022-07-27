@@ -1,4 +1,4 @@
-import type { ProfileType } from "@/modules/types/member/MemberType";
+import type { TokenMemberInfoType } from "@/modules/types/member/MemberType";
 
 export interface TokenType {
   accessToken: string;
@@ -9,6 +9,6 @@ export interface TokenType {
 export interface JWTType {
   auth: string;
   exp: number;
-  profile: ProfileType;
+  profile: TokenMemberInfoType;
   sub: string;
 }

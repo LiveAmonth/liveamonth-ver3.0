@@ -23,6 +23,13 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @GetMapping("/logged/profile")
+    public ResponseEntity<?> getLoggedMemberProfile(@RequestHeader(value = "Authorization") String accessTokenRequest){
+        authService.getLoggedMemberProfile(accessTokenRequest);
+        return null;
+    }
+
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
         TokenResponse result = authService.login(request);

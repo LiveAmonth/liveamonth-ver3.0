@@ -14,6 +14,7 @@ import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.member.dto.request.LoginRequest;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
+import teamproject.lam_server.domain.member.dto.response.MemberProfile;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
@@ -127,6 +128,11 @@ public class AuthServiceImpl implements AuthService {
         redisRepository.save(jwtTokenProvider.getRefreshTokenKey((Authentication) oAuth2User), tokenResponse);
 
         return tokenResponse;
+    }
+
+    @Override
+    public MemberProfile getLoggedMemberProfile(String accessTokenRequest) {
+        return null;
     }
 
     /**

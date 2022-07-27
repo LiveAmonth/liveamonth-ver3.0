@@ -1,33 +1,6 @@
-server:
-  servlet:
-    session:
-      tracking-modes : cookie
-      timeout: 1800
-
 spring:
-  profiles:
-    active: test
-
   messages:
-    basename: messages,errors
-
-  datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/liveamonth?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: 1234
-
-  jpa:
-    hibernate:
-      ddl-auto: create #자동으로 테이블 생성
-    properties:
-      hibernate:
-        #        show_sql: true
-        format_sql: true
-
-        default_batch_fetch_size: 100
-    open-in-view: true # db 커넥션을 트랜잭션에서만 하고 끝냄..
-
+    basename: messages, errors
 
   mail:
     host: smtp.gmail.com
@@ -46,22 +19,44 @@ spring:
           protocol: smtp
         debug: false
 
-    default-encoding: utf-8
+  config:
+    import: classpath:oauth2.yml
+  profiles:
+    include:
+      - oauth2
+    group:
+      local: local-server
 
-    jwt:
-      secret: {AccessToken}
-cloud:
-  aws:
-    credentials:
-      accessKey: AKIAYPRCH2IMEEXYKRMM
-      secretKey: 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
-      instanceProfile: true
-    s3:
-      bucket: liveamonth-simple-bucket
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: false
+---
+spring:
+  config:
+    activate:
+      on-profile: local-server
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/liveamonth?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: 1234
 
+  jpa:
+    hibernate:
+      ddl-auto: update # 자동으로 테이블 생성
 
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: true
+
+  redis:
+    host: localhost
+    port: 6379
+    password:
+
+server:
+  port: 8080
+
+logging:
+  level:
+    org.hibernate.SQL: debug

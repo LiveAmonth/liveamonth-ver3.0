@@ -8,7 +8,6 @@ import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.constants.SocialType;
 import teamproject.lam_server.domain.review.entity.Review;
-import teamproject.lam_server.domain.review.entity.ReviewReply;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.exception.badrequest.AlreadyDropMember;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
@@ -60,6 +59,13 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AccountState status;
 
+    @OneToMany(mappedBy = "to")
+    private final List<Followers> followers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from")
+    private final List<Followers> following = new ArrayList<>();
+
+
     /**
      * 아래의 리스트들이 사실상 필요없다.
      * 어떤 회원이 작성한 게시글들의 관점으로 보는 것이 아니라
@@ -70,15 +76,11 @@ public class Member extends BaseTimeEntity {
      */
     @JsonIgnore
     @OneToMany(mappedBy = "member")
-    private List<Review> reviews = new ArrayList<>();
+    private final List<Review> reviews = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "member")
-    private List<Schedule> schedules = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "member")
-    private List<ReviewReply> reviewReplies = new ArrayList<>();
+    private final List<Schedule> schedules = new ArrayList<>();
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")
     public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth) {

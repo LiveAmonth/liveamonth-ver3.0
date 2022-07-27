@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import AuthApiService from "@/services/AuthApiService";
 import type { LoginType } from "@/modules/types/form/FormType";
 import type { JWTType, TokenType } from "@/modules/types/auth/AuthType";
-import type { ProfileType } from "@/modules/types/member/MemberType";
+import type { TokenMemberInfoType } from "@/modules/types/member/MemberType";
 import type { initDataType } from "@/modules/types/common/initDataType";
 
 const storageToken: TokenType = localStorage["token-info"]
@@ -18,13 +18,13 @@ export const useAuthStore = defineStore("auth", {
     tokenInfo: initTokenInfo as initDataType,
   }),
   getters: {
-    profile: (state): ProfileType => {
+    memberInfo: (state): TokenMemberInfoType => {
       if (state.tokenInfo.state) {
         const token = (state.tokenInfo.data as TokenType).accessToken;
         const jwt: JWTType = jwtDecode(token);
         return jwt.profile;
       } else {
-        return {} as ProfileType;
+        return {} as TokenMemberInfoType;
       }
     },
     expireTime: (state): number => {

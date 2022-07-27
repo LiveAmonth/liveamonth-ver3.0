@@ -3,6 +3,7 @@ package teamproject.lam_server.domain.member.service;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.domain.member.dto.request.LoginRequest;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
+import teamproject.lam_server.domain.member.dto.response.MemberProfile;
 
 public interface AuthService {
 
@@ -48,4 +49,6 @@ public interface AuthService {
     void logout(String accessTokenRequest);
 
     TokenResponse socialRegister(OAuth2RegisterRequest request);
+
+    MemberProfile getLoggedMemberProfile(String accessTokenRequest);
 }
