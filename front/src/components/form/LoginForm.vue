@@ -7,9 +7,11 @@ import type { LoginType } from "@/modules/types/form/FormType";
 import { useMessageBox } from "@/composables/messageBox";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const store = useAuthStore();
+const { t } = useI18n();
 const { openMessageBox } = useMessageBox();
 const { error, isPending, login } = useAuth();
 const { validateRequire } = useFormValidate();
@@ -30,9 +32,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid) => {
     if (valid) {
       await login(loginForm);
-      console.log(error);
-      if (error === null) {
-        await openMessageBox("아이디 혹은 비밀번호가 틀렸습니다.");
+      if (error.value) {
+        await openMessageBox(t("form.message.wrongIdPw"));
         for (const key in loginForm) {
           loginForm[key] = "";
         }
@@ -40,7 +41,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         await router.push({ name: "home" });
       }
     } else {
-      await openMessageBox("정보를 제대로 입력해주세요");
+      await openMessageBox(t("form.message.reWrite"));
     }
   });
 };

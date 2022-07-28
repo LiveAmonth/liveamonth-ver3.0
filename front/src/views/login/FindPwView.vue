@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import FindPwForm from "@/components/form/FindPwForm.vue";
+import LinkSlot from "@/components/common/LinkSlot.vue";
 </script>
 
 <template>
   <div class="login-content d-flex justify-content-center mt-5">
-    <el-col :span="6">
+    <el-col :xs="16" :sm="8" :md="7" :lg="7" :xl="6">
       <el-space
         direction="vertical"
         style="width: 100%"
@@ -22,17 +23,9 @@ import FindPwForm from "@/components/form/FindPwForm.vue";
           </template>
           <FindPwForm />
           <div class="d-flex justify-content-end">
-            <el-link :underline="false">
-              <router-link to="/find-id">
-                {{ $t("member.findId") }}
-              </router-link>
-            </el-link>
+            <LinkSlot :label="$t('member.findId')" link="/find-id" />
             <el-divider direction="vertical" />
-            <el-link :underline="false">
-              <router-link to="/sign-up">
-                {{ $t("member.signUp") }}
-              </router-link>
-            </el-link>
+            <LinkSlot :label="$t('member.signUp')" link="/sign-up" />
           </div>
         </el-card>
       </el-space>

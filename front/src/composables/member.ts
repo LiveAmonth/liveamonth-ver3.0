@@ -1,7 +1,11 @@
 import { ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 import MemberApiService from "@/services/MemberApiService";
-import type { SignUpType } from "@/modules/types/form/FormType";
+import type {
+  FindIdType,
+  FindPwType,
+  SignUpType,
+} from "@/modules/types/form/FormType";
 
 export const useMember = () => {
   const store = useMemberStore();
@@ -33,7 +37,30 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
-
+  const findId = async (request: FindIdType) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.findId(request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+  const findPw = async (request: FindPwType) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await MemberApiService.findPw(request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
   const getPostCount = async (id: number) => {
     error.value = null;
     isPending.value = true;
@@ -50,6 +77,8 @@ export const useMember = () => {
     error,
     isPending,
     signUp,
+    findId,
+    findPw,
     getGenderType,
     getPostCount,
   };

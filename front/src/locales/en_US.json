@@ -42,7 +42,11 @@
       "start": "AGE",
       "end": ""
     },
-    "birth": "BIRTH"
+    "birth": "BIRTH",
+    "follower": "follower",
+    "schedule": "my schedule",
+    "review": "my review",
+    "imageChange": "change image"
   },
   "city": {
     "name": {
@@ -53,12 +57,19 @@
       "YS": "YEOSU",
       "JJ": "JEJU"
     },
+    "tab": {
+      "category": {
+        "intro": "Intro",
+        "transport": "Transport",
+        "weather": "Temperature"
+      }
+    },
     "intro": {
       "title": "'Live A Month' City",
       "category": {
-        "INTRO": "INTRODUCTION",
-        "food": "FOOD",
-        "view": "VIEW"
+        "INTRO": "Introduction",
+        "food": "Food",
+        "view": "View"
       }
     },
     "transport": {
@@ -156,5 +167,16 @@
       "recheck": "Password doesn't match."
     },
     "birth": "Please select a date again."
+  },
+  "form": {
+    "message": {
+      "reWrite": "Please enter it again.",
+      "noMember": "No matching member information found.",
+      "wrongIdPw": "The ID or password is incorrect.",
+      "findId":{
+        "title": "ID that matches your information.",
+        "created": "Join"
+      }
+    }
   }
 }

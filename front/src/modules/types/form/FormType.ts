@@ -2,16 +2,18 @@ export interface LoginType {
   loginId: string;
   password: string;
   [key: string]: string;
-
 }
 
 export interface FindIdType {
+  name: string;
   email: string;
+  [key: string]: string;
 }
 
 export interface FindPwType {
   loginId: string;
   email: string;
+  [key: string]: string;
 }
 
 export interface SignUpType {

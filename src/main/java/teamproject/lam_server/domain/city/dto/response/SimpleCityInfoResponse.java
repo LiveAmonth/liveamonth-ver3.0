@@ -4,7 +4,7 @@ package teamproject.lam_server.domain.city.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.city.entity.CityIntro;
-import teamproject.lam_server.util.SimpleResponseUtil;
+import teamproject.lam_server.util.StringUtil;
 
 @Getter
 @Builder
@@ -20,7 +20,7 @@ public class SimpleCityInfoResponse {
                 .id(cityIntro.getId())
                 .cityName(cityIntro.getName().getCode())
                 .cityInfoCat(cityIntro.getCityInfoCat().getCode())
-                .content(SimpleResponseUtil.previewContent(cityIntro.getContent()))
+                .content(StringUtil.previewContent(cityIntro.getContent()))
                 .build();
     }
 }

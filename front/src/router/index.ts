@@ -4,6 +4,7 @@ import CityView from "../views/city/CityView.vue";
 import LoginView from "../views/login/LoginView.vue";
 import SignUpView from "../views/login/SignUpView.vue";
 import FindPwView from "../views/login/FindPwView.vue";
+import FindResultView from "../views/login/FindIdResultView.vue";
 import FindIdView from "../views/login/FindIdView.vue";
 import WriteView from "../views/review/WriteView.vue";
 import ReadView from "../views/review/ReadView.vue";
@@ -46,6 +47,12 @@ const router = createRouter({
       path: "/find-pw",
       name: "find-pw",
       component: FindPwView,
+    },
+    {
+      path: "/:name/result",
+      name: "find-result",
+      component: FindResultView,
+      props: true,
     },
     {
       path: "/review",

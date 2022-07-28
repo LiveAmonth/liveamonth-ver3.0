@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export interface TokenMemberInfoType {
   id: number;
   loginId: string;
@@ -17,4 +19,8 @@ export interface PostCountType {
   numOfReviews: number;
   numOfSchedules: number;
   numOfFollowers: number;
+}
+
+export interface FoundIdType {
+  loginId: string;
 }

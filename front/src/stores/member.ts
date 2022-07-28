@@ -1,15 +1,21 @@
 import { defineStore } from "pinia";
 import MemberApiService from "@/services/MemberApiService";
 import type { EnumType } from "@/modules/types/common/EnumType";
-import type { DuplicationCheckType } from "@/modules/types/form/FormType";
-import type { PostCountType } from "@/modules/types/member/MemberType";
-import { resultProps } from "element-plus";
+import type {
+  DuplicationCheckType,
+  FindIdType,
+} from "@/modules/types/form/FormType";
+import type {
+  FoundIdType,
+  PostCountType,
+} from "@/modules/types/member/MemberType";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
     genderType: {} as EnumType[],
     duplicationCheck: {} as DuplicationCheckType,
     postCount: {} as PostCountType,
+    foundId: {} as FoundIdType,
   }),
   getters: {
     isAvailable: (state): boolean => state.duplicationCheck.isAvailable,
@@ -19,6 +25,16 @@ export const useMemberStore = defineStore("member", {
       await MemberApiService.getGenderTypes()
         .then((response: EnumType[]) => {
           this.genderType = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    async findId(param: FindIdType) {
+      await MemberApiService.findId(param)
+        .then((response: FoundIdType) => {
+          this.foundId = response;
         })
         .catch((error) => {
           throw error;
