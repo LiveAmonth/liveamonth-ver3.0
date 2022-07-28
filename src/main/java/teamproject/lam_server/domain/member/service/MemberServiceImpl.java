@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.member.dto.request.*;
+import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
+import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
+import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
+import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.entity.Followers;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.FollowRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
@@ -107,20 +109,5 @@ public class MemberServiceImpl implements MemberService {
     public void delete(Long id) {
         Long queryCount = memberRepository.cleanDeleteById(id);
         if (queryCount == 0) throw new NotDropMember();
-    }
-
-    @Override
-    @Transactional
-    public void follow(FollowRequest request){
-        Followers followers = Followers.builder()
-                .from(memberRepository.findByLoginId(request.getFrom()).orElseThrow(MemberNotFound::new))
-                .to(memberRepository.findByLoginId(request.getTo()).orElseThrow(MemberNotFound::new))
-                .build();
-        followRepository.save(followers);
-    }
-
-    @Override
-    @Transactional
-    public void unFollow(FollowRequest request){
     }
 }

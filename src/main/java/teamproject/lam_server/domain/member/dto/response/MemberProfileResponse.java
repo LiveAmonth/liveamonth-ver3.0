@@ -9,7 +9,8 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-public class MemberProfile {
+public class MemberProfileResponse {
+    private Long id;
     private String loginId;
     private String nickname;
     private String image;
@@ -22,8 +23,9 @@ public class MemberProfile {
     private int numberOfFollower;
 
 
-    public static MemberProfile of(Member member) {
-        return MemberProfile.builder()
+    public static MemberProfileResponse of(Member member) {
+        return MemberProfileResponse.builder()
+                .id(member.getId())
                 .loginId(member.getLoginId())
                 .nickname(member.getNickname())
                 .image(member.getImage())

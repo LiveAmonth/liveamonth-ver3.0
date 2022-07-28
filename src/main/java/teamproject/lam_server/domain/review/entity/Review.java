@@ -61,13 +61,13 @@ public class Review extends BaseTimeEntity {
         this.member = member;
         member.getReviews().add(this);
     }
-
-    public ReviewEditor.ReviewEditorBuilder toEditor(){
-        return ReviewEditor.builder()
-                .title(title)
-                .content(content)
-                .reviewCategory(reviewCategory);
-    }
+//
+//    public ReviewEditor.ReviewEditorBuilder toEditor(){
+//        return ReviewEditor.builder()
+//                .title(title)
+//                .content(content)
+//                .reviewCategory(reviewCategory);
+//    }
 
     public void edit(ReviewEditor reviewEditor) {
         this.title = reviewEditor.getTitle();

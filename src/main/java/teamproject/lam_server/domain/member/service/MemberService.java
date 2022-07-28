@@ -52,10 +52,4 @@ public interface MemberService {
      * 회원 DB 삭제
      */
     void delete(Long id);
-
-    @Transactional
-    void follow(FollowRequest request);
-
-    @Transactional
-    void unFollow(FollowRequest request);
 }

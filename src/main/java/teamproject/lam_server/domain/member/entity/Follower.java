@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
@@ -12,7 +13,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Followers {
+public class Follower extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "followers_id")
@@ -27,17 +28,17 @@ public class Followers {
     private Member to;
 
     @Builder
-    public Followers(Member from, Member to) {
+    public Follower(Member from, Member to) {
         this.from = from;
         this.to = to;
-        follow(from, to);
+        follow();
     }
 
-    private void follow(Member from, Member to){
+    private void follow(){
         from.getFollowing().add(this);
         to.getFollowers().add(this);
     }
-    public void unFollow(Member from, Member to){
+    public void unFollow(){
         from.getFollowing().remove(this);
         to.getFollowers().remove(this);
     }

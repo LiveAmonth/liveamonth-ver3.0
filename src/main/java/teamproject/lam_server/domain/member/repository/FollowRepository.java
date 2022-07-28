@@ -1,16 +1,17 @@
 package teamproject.lam_server.domain.member.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.member.entity.Followers;
+import teamproject.lam_server.domain.member.entity.Follower;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import java.util.Optional;
 
-public interface FollowRepository extends JpaRepository<Followers, Long>,FollowRepositoryCustom {
+public interface FollowRepository extends JpaRepository<Follower, Long>, FollowRepositoryCustom {
 
-    Optional<Followers> findByFromAndTo(Member from, Member to);
+    Optional<Follower> findByFromAndTo(Member from, Member to);
 
-    @Transactional
-    void deleteByFromAndTo(Member from, Member to);
+//    @Modifying
+//    @Transactional
+////    @Query(nativeQuery = true, value = "insert into follow ")
+//    Follower saveFollower(Member from, Member to);
 }

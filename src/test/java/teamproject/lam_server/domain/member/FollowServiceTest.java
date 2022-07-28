@@ -10,11 +10,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.dto.request.FollowRequest;
-import teamproject.lam_server.domain.member.entity.Followers;
+import teamproject.lam_server.domain.member.entity.Follower;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.FollowRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.domain.member.service.MemberServiceImpl;
+import teamproject.lam_server.domain.member.service.FollowServiceImpl;
 
 import javax.persistence.EntityManager;
 
@@ -23,12 +23,12 @@ import javax.persistence.EntityManager;
 @ActiveProfiles({"local","oauth2"})
 @Rollback
 @Slf4j
-public class MemberServiceTest {
+public class FollowServiceTest {
 
     @Autowired
     EntityManager em;
     @Autowired
-    MemberServiceImpl memberService;
+    FollowServiceImpl followService;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -36,6 +36,7 @@ public class MemberServiceTest {
 
     @Test
     @DisplayName("회원1이 회원2를 팔로우 한다.")
+    @Rollback
     void test1() {
         // given
         // json data | member1 : rbdus7174 | member2 : kxuxeon
@@ -44,22 +45,23 @@ public class MemberServiceTest {
 
         // when
         FollowRequest request = new FollowRequest();
-        request.setFrom(member1.getLoginId());
-        request.setTo(member2.getLoginId());
+        request.setFrom(member1.getId());
+        request.setTo(member2.getId());
 
-        memberService.follow(request);
+        followService.follow(request);
 
         System.out.println("========시작==========================");
-        Followers savedFollowers = followRepository.findByLoginId(request).get();
+        Follower savedFollower = followRepository.findByMemberId(request.getFrom(), request.getTo()).get();
         System.out.println("========끝==========================");
 
         // then
-        Assertions.assertThat(member1.getFollowing()).contains(savedFollowers);
-        Assertions.assertThat(member2.getFollowers()).contains(savedFollowers);
+        Assertions.assertThat(member1.getFollowing()).contains(savedFollower);
+        Assertions.assertThat(member2.getFollowers()).contains(savedFollower);
     }
 
     @Test
     @DisplayName("회원1이 회원2를 언팔로우 한다.")
+    @Rollback
     void test2() {
         // given
         // json data | member1 : rbdus7174 | member2 : kxuxeon
@@ -67,18 +69,17 @@ public class MemberServiceTest {
         Member member2 = memberRepository.findByLoginId("kxuxeon").get();
 
         FollowRequest request = new FollowRequest();
-        request.setFrom(member1.getLoginId());
-        request.setTo(member2.getLoginId());
+        request.setFrom(member1.getId());
+        request.setTo(member2.getId());
 
-        memberService.follow(request);
-        Followers savedFollowers = followRepository.findByFromAndTo(member1, member2).get();
+        followService.follow(request);
+        Follower savedFollower = followRepository.findByFromAndTo(member1, member2).get();
 
         // when
-        memberService.unFollow(request);
+        followService.unFollow(request);
 
         // then
-//        Assertions.assertThat(followRepository.count()).isEqualTo(0);
-        Assertions.assertThat(member1.getFollowing().contains(savedFollowers)).isFalse();
-        Assertions.assertThat(member2.getFollowers().contains(savedFollowers)).isFalse();
+        Assertions.assertThat(member1.getFollowing().contains(savedFollower)).isFalse();
+        Assertions.assertThat(member2.getFollowers().contains(savedFollower)).isFalse();
     }
 }

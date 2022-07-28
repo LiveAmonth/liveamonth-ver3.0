@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 public class FollowRequest {
 
     @NotNull
-    private String from;
+    private Long from;
 
     @NotNull
-    private String to;
+    private Long to;
 }

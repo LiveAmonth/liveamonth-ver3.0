@@ -77,7 +77,7 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
         </a>
       </div>
       <div class="ds-info d-flex justify-content-between">
-        <div class="ds followers">
+        <div class="ds follower">
           <h6>
             {{ $t("member.follower") }} <el-icon><User /></el-icon>
           </h6>
@@ -294,7 +294,7 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
     width: inherit;
     height: 40px;
 
-    .followers,
+    .follower,
     .schedules,
     .reviews {
       position: relative;

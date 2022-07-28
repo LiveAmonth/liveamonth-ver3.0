@@ -14,9 +14,7 @@ import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static teamproject.lam_server.constants.SessionConstants.*;
 
@@ -60,10 +58,10 @@ public class Member extends BaseTimeEntity {
     private AccountState status;
 
     @OneToMany(mappedBy = "to")
-    private final List<Followers> followers = new ArrayList<>();
+    private final Set<Follower> followers = new HashSet<>();
 
     @OneToMany(mappedBy = "from")
-    private final List<Followers> following = new ArrayList<>();
+    private final Set<Follower> following = new HashSet<>();
 
 
     /**
