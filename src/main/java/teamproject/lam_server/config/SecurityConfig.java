@@ -21,11 +21,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import teamproject.lam_server.domain.auth.exception.CustomAccessDeniedHandler;
-import teamproject.lam_server.domain.auth.exception.CustomAuthenticationEntryPoint;
-import teamproject.lam_server.domain.auth.jwt.CustomUserDetailsService;
-import teamproject.lam_server.domain.auth.jwt.JwtAuthenticationFilter;
-import teamproject.lam_server.domain.auth.oauth2.OAuth2AuthenticationFilter;
+import teamproject.lam_server.auth.exception.CustomAccessDeniedHandler;
+import teamproject.lam_server.auth.exception.CustomAuthenticationEntryPoint;
+import teamproject.lam_server.auth.jwt.CustomUserDetailsService;
+import teamproject.lam_server.auth.jwt.JwtAuthenticationFilter;
+import teamproject.lam_server.auth.oauth2.OAuth2AuthenticationFilter;
 
 import static teamproject.lam_server.domain.member.constants.Role.*;
 
@@ -92,7 +92,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasRole(MANAGER.getCode())
                 .antMatchers("/api/*/schedules/selected").hasRole(USER.getCode())
                 .antMatchers(
-//                        "/login/**",
                         "/api/*/auth/login",
                         "/api/*/members/sign-up",
                         "/api/*/members/find-id",

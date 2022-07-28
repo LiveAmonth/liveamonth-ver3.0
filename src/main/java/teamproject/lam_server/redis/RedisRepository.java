@@ -1,6 +1,6 @@
 package teamproject.lam_server.redis;
 
-import teamproject.lam_server.domain.auth.dto.TokenResponse;
+import teamproject.lam_server.auth.dto.TokenResponse;
 
 public interface RedisRepository {
     void save(String key, TokenResponse response);
