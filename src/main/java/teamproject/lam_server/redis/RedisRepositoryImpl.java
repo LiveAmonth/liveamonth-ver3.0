@@ -3,7 +3,7 @@ package teamproject.lam_server.redis;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.auth.dto.TokenResponse;
+import teamproject.lam_server.domain.auth.dto.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
 
 import java.util.concurrent.TimeUnit;

@@ -7,13 +7,15 @@ import teamproject.lam_server.domain.member.entity.Member;
 @Getter
 @Builder
 public class TokenMemberInfo {
-    private String LoginId;
+    private Long id;
+    private String loginId;
     private String nickname;
 
 
     public static TokenMemberInfo of(Member member) {
         return TokenMemberInfo.builder()
-                .LoginId(member.getLoginId())
+                .id(member.getId())
+                .loginId(member.getLoginId())
                 .nickname(member.getNickname())
                 .build();
     }
