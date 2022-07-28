@@ -10,6 +10,7 @@ import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
 import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
+import teamproject.lam_server.domain.member.dto.response.PostCountResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.FollowRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
@@ -109,5 +110,9 @@ public class MemberServiceImpl implements MemberService {
     public void delete(Long id) {
         Long queryCount = memberRepository.cleanDeleteById(id);
         if (queryCount == 0) throw new NotDropMember();
+    }
+
+    public PostCountResponse getMemberPostCount(Long id) {
+        return PostCountResponse.of(memberRepository.findById(id).orElseThrow(MemberNotFound::new));
     }
 }

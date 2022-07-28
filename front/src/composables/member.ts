@@ -14,9 +14,9 @@ export const useMember = () => {
     try {
       await store.getGenderType();
       error.value = null;
-      isPending.value = false;
     } catch (err) {
       error.value = err;
+    } finally {
       isPending.value = false;
     }
   };
@@ -27,17 +27,30 @@ export const useMember = () => {
     try {
       await MemberApiService.signUp(request);
       error.value = null;
-      isPending.value = false;
     } catch (err) {
       error.value = err;
+    } finally {
       isPending.value = false;
     }
   };
 
+  const getPostCount = async (id: number) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getPostCount(id);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
   return {
     error,
     isPending,
     signUp,
     getGenderType,
+    getPostCount,
   };
 };

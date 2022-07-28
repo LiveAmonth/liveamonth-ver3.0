@@ -46,7 +46,7 @@ public class CityApiController {
      * dependence presentation layer::city(body)
      * -> total city info tab pane(top)
      */
-    @GetMapping("{cityName}/extra")
+    @GetMapping("/{cityName}/extra")
     public ResponseEntity<?> getExtraCityInfo(@PathVariable CityName cityName) {
         ExtraCityResponse result = cityApiService.searchTotalCityInfo(cityName);
         return CustomResponse.success(result);
@@ -56,7 +56,7 @@ public class CityApiController {
      * dependence presentation layer::city(body)
      * -> food & view image slide(bottom)
      */
-    @GetMapping("{cityName}/food-and-view")
+    @GetMapping("/{cityName}/food-and-view")
     public ResponseEntity<?> getCityFoodAndViewInfo(@PathVariable CityName cityName) {
         CityFoodAndViewResponse result = cityApiService.searchCityFoodAndView(cityName);
         return CustomResponse.success(result);

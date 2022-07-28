@@ -9,6 +9,7 @@ import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
 import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
+import teamproject.lam_server.domain.member.dto.response.PostCountResponse;
 import teamproject.lam_server.domain.member.service.MemberServiceImpl;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.global.dto.PostIdResponse;
@@ -103,7 +104,11 @@ public class MemberApiController {
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
-
+    @GetMapping("/post-count/{id}")
+    public ResponseEntity<?> getMemberPostCount(@PathVariable Long id){
+        PostCountResponse result = memberService.getMemberPostCount(id);
+        return CustomResponse.success(READ_MEMBER, result);
+    }
 //    @PostMapping("/editProfileImage")
 //    public String editProfileImage(@SessionAttribute(name = SessionConstants.LOGIN_USER, required = false) User loginUser, @RequestPart(FILE_NAME) MultipartFile mFile) throws Exception {
 //        log.info("fileNAme = {}",mFile.getOriginalFilename());

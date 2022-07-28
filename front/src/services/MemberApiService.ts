@@ -4,23 +4,31 @@ import type {
   DuplicationCheckType,
   SignUpType,
 } from "@/modules/types/form/FormType";
+import type { PostCountType } from "@/modules/types/member/MemberType";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
-    return await http.get("/categories/gender-type").then((response) => {
-      return response.data.data;
-    });
+    return await http
+      .get("/categories/gender-type")
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
   }
 
   async duplicateCheck(
     field: string,
     param: string
   ): Promise<DuplicationCheckType> {
-    console.log("field:", field);
     return await http
       .get(`/members/exists/${field}/${param}`)
       .then((response) => {
         return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
       });
   }
 
@@ -31,7 +39,18 @@ class MemberApiService {
         return response.data.data;
       })
       .catch((error) => {
-        console.log(error);
+        throw error.response.data;
+      });
+  }
+
+  async getPostCount(id: number): Promise<PostCountType> {
+    return await http
+      .get(`/members/post-count/${id}`)
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
       });
   }
 }

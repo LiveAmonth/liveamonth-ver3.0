@@ -1,39 +1,31 @@
 <script lang="ts" setup>
 import { useAuthStore } from "@/stores/auth";
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useAuth } from "@/composables/auth";
 import { useRouter } from "vue-router";
-import type { UploadInstance, UploadProps } from "element-plus";
-import { ElMessage } from "element-plus";
+import { useMemberStore } from "@/stores/member";
+import { useMember } from "@/composables/member";
+import type { PostCountType } from "@/modules/types/member/MemberType";
 
 const router = useRouter();
-const store = useAuthStore();
-const { error, logout } = useAuth();
-const loggedIn = computed((): boolean => store.loggedIn);
-
+const authStore = useAuthStore();
+const memberStore = useMemberStore();
+const { logout } = useAuth();
+const { getPostCount } = useMember();
+const loggedIn = computed((): boolean => authStore.loggedIn);
+const postCount = computed((): PostCountType => memberStore.postCount);
 const logoutBtn = async () => {
   await logout();
-  if (!store.loggedIn) {
+  if (!authStore.loggedIn) {
     await router.push({ name: "login" });
   }
 };
 
-const imageUrl = ref("");
-const upload = ref<UploadInstance>();
-const handleAvatarSuccess: UploadProps["onSuccess"] = (
-  response,
-  uploadFile
-) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!);
-};
-
-const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
-  if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error("Avatar picture size can not exceed 2MB!");
-    return false;
+onMounted(async () => {
+  if (authStore.loggedIn) {
+    await getPostCount(authStore.memberInfo.id);
   }
-  return true;
-};
+});
 </script>
 
 <template>
@@ -41,35 +33,24 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
     <div class="ds-top"></div>
     <template v-if="loggedIn">
       <div class="avatar-holder">
-        <el-avatar v-if="imageUrl" :size="100" :src="imageUrl" />
-        <el-avatar v-else :size="100" :src="`/src/assets/image/default.jpg`" />
-        <el-upload
-          ref="upload"
-          class="uploader"
-          action="/"
-          :limit="1"
-          :show-file-list="false"
-          :on-change="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <div class="overlay">
-            <div class="text">{{ $t("member.imageChange") }}</div>
-          </div>
-        </el-upload>
+        <el-avatar :size="100" :src="`/src/assets/image/default.jpg`" />
+        <div class="overlay">
+          <div class="text">{{ $t("member.imageChange") }}</div>
+        </div>
       </div>
       <div class="name">
         <router-link :to="{ path: '/my-schedule/2' }" target="_blank"
-          >{{ store.memberInfo.nickname }}
+          >{{ authStore.memberInfo.nickname }}
         </router-link>
       </div>
       <div class="button d-flex justify-content-center">
-        <a class="btn" href="#" @click="logoutBtn">
+        <a href="#" @click="logoutBtn">
           {{ $t("menu.myPage") }}
           <el-icon>
             <Avatar />
           </el-icon>
         </a>
-        <a class="btn" href="#" @click="logoutBtn"
+        <a href="#" @click="logoutBtn"
           >{{ $t("member.logout") }}
           <el-icon>
             <Unlock />
@@ -81,19 +62,19 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
           <h6>
             {{ $t("member.follower") }} <el-icon><User /></el-icon>
           </h6>
-          <p>29</p>
+          <p>{{ postCount.numOfFollowers }}</p>
         </div>
         <div class="ds schedules">
           <h6>
             {{ $t("member.schedule") }} <el-icon><Calendar /></el-icon>
           </h6>
-          <p>29</p>
+          <p>{{ postCount.numOfSchedules }}</p>
         </div>
         <div class="ds reviews">
           <h6>
             {{ $t("member.review") }} <el-icon><Notebook /></el-icon>
           </h6>
-          <p>0</p>
+          <p>{{ postCount.numOfReviews }}</p>
         </div>
       </div>
     </template>
@@ -104,14 +85,14 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
       <div class="name">
         <h5 class="m-0 p-0">{{ $t("member.askLogin") }}</h5>
       </div>
-      <div class="button">
-        <router-link :to="{ name: 'login' }" class="btn">
+      <div class="button d-flex justify-content-center">
+        <router-link :to="{ name: 'login' }">
           {{ $t("member.login") }}
           <el-icon>
             <Lock />
           </el-icon>
         </router-link>
-        <router-link :to="{ name: 'sign-up' }" class="btn">
+        <router-link :to="{ name: 'sign-up' }">
           {{ $t("member.signUp") }}
           <el-icon>
             <UserFilled />
@@ -276,7 +257,8 @@ const beforeAvatarUpload: UploadProps["beforeUpload"] = (rawFile) => {
       text-decoration: none;
       font-size: 0.78rem;
       transition: all 1s;
-
+      padding: 5px 0;
+      margin: 0 5px;
       &:hover {
         color: white;
         background: #004a55;
