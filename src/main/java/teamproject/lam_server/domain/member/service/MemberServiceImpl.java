@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,6 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
@@ -85,7 +83,6 @@ public class MemberServiceImpl implements MemberService {
 
         // create random password
         String tempPassword = JwtUtil.createRandomPassword();
-        log.info("tempPassword={}", tempPassword);
         // update password (temporary password)
         findMember.updatePassword(passwordEncoder.encode(tempPassword));
 

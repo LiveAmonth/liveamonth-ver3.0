@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import NavMenu from "@/components/NavMenu.vue";
 import LogoIcon from "../components/image/LogoIcon.vue";
 import { useAuthStore } from "@/stores/auth";
@@ -21,23 +21,23 @@ const logoutBtn = async () => {
 <template>
   <el-header class="header" height="auto">
     <el-menu
-      class="header-content"
-      mode="horizontal"
-      text-color="#004A55"
+      :ellipsis="false"
       active-text-color="#004A55"
       background-color="#F6F6F6"
-      :ellipsis="false"
+      class="header-content"
+      mode="horizontal"
       router
+      text-color="#004A55"
     >
       <el-menu-item class="p-0 m-0" index="/">
         <LogoIcon />
       </el-menu-item>
       <div class="flex-grow" />
-      <tmeplate v-if="loggedIn">
-        <el-menu-item index="#" @click="logoutBtn">{{
-          $t("member.logout")
-        }}</el-menu-item>
-      </tmeplate>
+      <template v-if="loggedIn">
+        <el-menu-item index="#" @click="logoutBtn"
+          >{{ $t("member.logout") }}
+        </el-menu-item>
+      </template>
       <template v-else>
         <el-menu-item index="/login">{{ $t("member.login") }}</el-menu-item>
         <el-menu-item index="/sign-up">{{ $t("member.signUp") }}</el-menu-item>
@@ -49,7 +49,7 @@ const logoutBtn = async () => {
   </el-header>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .header {
   padding: 0;
   height: 60px;
