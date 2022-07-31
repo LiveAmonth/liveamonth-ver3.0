@@ -19,3 +19,6 @@ out/
 application.yml
 oauth2.yml
 .gradle\
+/bin
+/build
+/.gradle
