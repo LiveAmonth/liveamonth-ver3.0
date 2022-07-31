@@ -23,4 +23,5 @@ export interface PostCountType {
 
 export interface FoundIdType {
   loginId: string;
+  created: string;
 }
