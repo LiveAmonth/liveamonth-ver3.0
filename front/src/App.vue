@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import Content from "@/components/Content.vue";
+import Header from "@/components/Header.vue";
 </script>
 
 <template>
+  <Header />
   <Content />
 </template>
 
