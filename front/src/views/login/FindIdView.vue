@@ -1,8 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import FindIdForm from "@/components/form/FindIdForm.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
-import FindIdResult from "@/components/form/FindIdResult.vue";
 import { ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 
@@ -16,12 +15,12 @@ const findId = () => {
 
 <template>
   <div class="login-content d-flex justify-content-center mt-5">
-    <el-col :xs="16" :sm="8" :md="7" :lg="7" :xl="6">
+    <el-col :lg="8" :md="8" :sm="10" :xl="6" :xs="12">
       <el-space
-        direction="vertical"
-        style="width: 100%"
         :fill="true"
+        direction="vertical"
         size="small"
+        style="width: 100%"
       >
         <el-card class="box-card">
           <template #header>
@@ -49,7 +48,7 @@ const findId = () => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .card-header {
   background-color: #f6f6f6;
   background-clip: border-box;
