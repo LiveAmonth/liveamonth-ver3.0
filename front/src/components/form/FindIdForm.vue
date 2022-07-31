@@ -9,7 +9,6 @@ import { useMember } from "@/composables/member";
 import { useI18n } from "vue-i18n";
 import { useMemberStore } from "@/stores/member";
 
-const router = useRouter();
 const store = useMemberStore();
 const { t } = useI18n();
 const { openMessageBox } = useMessageBox();
@@ -53,8 +52,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     ref="ruleFormRef"
     :model="findIdForm"
     :rules="rules"
-    status-icon
     label-position="top"
+    status-icon
   >
     <el-form-item :label="$t('member.name')" prop="name">
       <el-input v-model="findIdForm.name" />
