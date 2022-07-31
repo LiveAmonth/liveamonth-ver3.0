@@ -173,13 +173,13 @@
       "reWrite": "Please enter it again.",
       "noMember": "No matching member information found.",
       "wrongIdPw": "The ID or password is incorrect.",
-      "findId":{
+      "findId": {
         "title": "ID that matches your information.",
         "created": "Join"
       },
       "findPw": {
-        "title" : "We sent a confirmation email to your email.",
-        "content" : "Please check the mail and reset the password."
+        "title": "A temporary password has been issued to your email.",
+        "content": "Please check the mail and reset the password."
       }
     }
   }

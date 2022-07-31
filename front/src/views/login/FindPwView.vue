@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import FindPwForm from "@/components/form/FindPwForm.vue";
+import FindPwResult from "@/components/form/FindPwResult.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
 import { ref } from "vue";
-import { useMemberStore } from "@/stores/member";
 
 const isFind = ref<boolean>(false);
-const store = useMemberStore();
-
 const findPw = () => {
   isFind.value = true;
 };
@@ -33,9 +31,7 @@ const findPw = () => {
           <FindPwForm v-if="!isFind" @find-pw="findPw" />
           <FindPwResult v-else />
           <div class="d-flex justify-content-end">
-            <LinkSlot :label="$t('member.findId')" link="/find-id" />
-            <el-divider direction="vertical" />
-            <LinkSlot :label="$t('member.signUp')" link="/sign-up" />
+            <LinkSlot :label="$t('member.login')" link="/login" />
           </div>
         </el-card>
       </el-space>

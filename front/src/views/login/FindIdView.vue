@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import FindIdForm from "@/components/form/FindIdForm.vue";
+import FindIdResult from "@/components/form/FindIdResult.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
 import { ref } from "vue";
-import { useMemberStore } from "@/stores/member";
 
 const isFind = ref<boolean>(false);
-const store = useMemberStore();
-
 const findId = () => {
   isFind.value = true;
 };

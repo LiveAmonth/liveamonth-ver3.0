@@ -4,7 +4,6 @@ import CityView from "../views/city/CityView.vue";
 import LoginView from "../views/login/LoginView.vue";
 import SignUpView from "../views/login/SignUpView.vue";
 import FindPwView from "../views/login/FindPwView.vue";
-import FindResultView from "../views/login/FindIdResultView.vue";
 import FindIdView from "../views/login/FindIdView.vue";
 import WriteView from "../views/review/WriteView.vue";
 import ReadView from "../views/review/ReadView.vue";
@@ -14,6 +13,8 @@ import ReadScheduleView from "../views/schedule/ReadScheduleView.vue";
 import ScheduleListView from "../views/schedule/ScheduleListView.vue";
 import OtherScheduleView from "../views/schedule/OtherScheduleView.vue";
 import MyScheduleView from "../views/schedule/MyScheduleView.vue";
+import MyPageView from "../views/member/MyPageView.vue";
+import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,12 +48,6 @@ const router = createRouter({
       path: "/find-pw",
       name: "find-pw",
       component: FindPwView,
-    },
-    {
-      path: "/:name/result",
-      name: "find-result",
-      component: FindResultView,
-      props: true,
     },
     {
       path: "/review",
@@ -95,7 +90,22 @@ const router = createRouter({
       component: MyScheduleView,
       props: true,
     },
+    {
+      path: "/my-page",
+      name: "my-page",
+      component: MyPageView,
+    },
   ],
 });
-
+router.beforeEach(async (to, from, next) => {
+  const store = useAuthStore();
+  const authenticationPages = ["my-page", "my-schedule"];
+  if (
+    authenticationPages.includes(<string>to.name) &&
+    to.name !== "login" &&
+    !store.loggedIn
+  )
+    next({ name: "login" });
+  else next();
+});
 export default router;

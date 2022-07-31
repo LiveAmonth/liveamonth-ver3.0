@@ -1,35 +1,27 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useMemberStore } from "@/stores/member";
+
 const store = useMemberStore();
 </script>
 <template>
   <div class="result-content mb-4">
-    <p class="result-info">{{ $t("form.message.findId.title") }}</p>
-    <div class="result-box d-flex justify-content-between p-2">
-      <p class="result-id">{{ store.foundId.loginId }}</p>
-      <p class="created-date">
-        {{ $t("form.message.findId.created") }} : {{ store.foundId.created }}
-      </p>
+    <div class="result-box p-2">
+      <p class="result-content">{{ $t("form.message.findPw.title") }}</p>
+      <p class="result-content">{{ $t("form.message.findPw.content") }}</p>
     </div>
   </div>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .result-content {
-  .result-info {
-    font-size: 0.8rem;
-  }
+  font-size: 0.9rem;
+}
 
-  .result-box {
-    border: 0.12rem solid #bbbbbb;
-    align-content: center;
-    .result-id {
-      font-weight: bold;
-    }
-    .created-date {
-      padding-top: 0.5rem;
-      font-size: 0.75rem;
-      color: #383838;
-    }
+.result-box {
+  border: 0.12rem solid #bbbbbb;
+  align-content: center;
+
+  .result-content {
+    font-weight: bold;
   }
 }
 </style>

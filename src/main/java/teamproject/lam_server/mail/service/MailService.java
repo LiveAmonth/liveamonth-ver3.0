@@ -38,7 +38,7 @@ public class MailService {
                     + helloUser + "<br><br>"
                     + "<h4>" + intro + "<br>"
                     + temp + "<br>"
-                    + "<a href=\"http://localhost:8081/" + "login\">" + login + "</a></h4><br>"
+                    + "<a href=\"http://localhost:3000/" + "login\">" + login + "</a></h4><br>"
                     + "<p>" + edit + "</p><br>"
                     + "<p>" + ask + "</p><br>"
                     + "<strong>" + end + "</strong>";
