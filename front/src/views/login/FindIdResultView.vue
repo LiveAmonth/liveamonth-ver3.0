@@ -1,13 +1,13 @@
-<script setup lang="ts"></script>
+<script lang="ts" setup></script>
 
 <template>
   <div class="login-content d-flex justify-content-center mt-5">
-    <el-col :span="6">
+    <el-col :lg="8" :md="8" :sm="10" :xl="6" :xs="12">
       <el-space
-        direction="vertical"
-        style="width: 100%"
         :fill="true"
+        direction="vertical"
         size="small"
+        style="width: 100%"
       >
         <el-card class="box-card">
           <template #header>
@@ -17,8 +17,6 @@
               </router-link>
             </div>
           </template>
-
-
           <div class="d-flex justify-content-end">
             <el-link :underline="false">
               <router-link to="/login">
