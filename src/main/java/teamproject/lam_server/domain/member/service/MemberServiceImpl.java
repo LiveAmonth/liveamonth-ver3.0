@@ -1,6 +1,8 @@
 package teamproject.lam_server.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,7 +12,7 @@ import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
 import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.dto.response.PostCountResponse;
+import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.FollowRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
@@ -111,7 +113,9 @@ public class MemberServiceImpl implements MemberService {
         if (queryCount == 0) throw new NotDropMember();
     }
 
-    public PostCountResponse getMemberPostCount(Long id) {
-        return PostCountResponse.of(memberRepository.findById(id).orElseThrow(MemberNotFound::new));
+    public SimpleProfileResponse getMemberPostCount() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new);
+        return SimpleProfileResponse.of(member);
     }
 }

@@ -93,6 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/*/schedules/selected").hasRole(USER.getCode())
                 .antMatchers(
                         "/api/*/auth/login",
+                        "/api/*/auth/reissue",
                         "/api/*/members/sign-up",
                         "/api/*/members/find-id",
                         "/api/*/members/find-pw",

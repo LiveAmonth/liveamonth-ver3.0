@@ -1,5 +1,3 @@
-import exp from "constants";
-
 export interface TokenMemberInfoType {
   id: number;
   loginId: string;
@@ -15,7 +13,10 @@ export interface ProfileType {
   gender: string;
 }
 
-export interface PostCountType {
+export interface SimpleProfileType {
+  id: number;
+  loginId: string;
+  nickname: string;
   numOfReviews: number;
   numOfSchedules: number;
   numOfFollowers: number;

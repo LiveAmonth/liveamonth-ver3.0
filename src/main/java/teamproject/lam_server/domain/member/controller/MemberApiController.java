@@ -9,7 +9,7 @@ import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
 import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.dto.response.PostCountResponse;
+import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.service.MemberServiceImpl;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.global.dto.PostIdResponse;
@@ -104,9 +104,9 @@ public class MemberApiController {
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
-    @GetMapping("/post-count/{id}")
-    public ResponseEntity<?> getMemberPostCount(@PathVariable Long id){
-        PostCountResponse result = memberService.getMemberPostCount(id);
+    @GetMapping("/simple-profile")
+    public ResponseEntity<?> getSimpleProfile(@RequestHeader("Authorization") String accessToken) {
+        SimpleProfileResponse result = memberService.getMemberPostCount();
         return CustomResponse.success(READ_MEMBER, result);
     }
 //    @PostMapping("/editProfileImage")

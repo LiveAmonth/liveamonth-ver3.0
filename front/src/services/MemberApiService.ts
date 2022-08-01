@@ -8,8 +8,9 @@ import type {
 } from "@/modules/types/form/FormType";
 import type {
   FoundIdType,
-  PostCountType,
+  SimpleProfileType,
 } from "@/modules/types/member/MemberType";
+import type { TokenType } from "@/modules/types/auth/AuthType";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
@@ -48,9 +49,13 @@ class MemberApiService {
       });
   }
 
-  async getPostCount(id: number): Promise<PostCountType> {
+  async getMemberProfile(request: TokenType): Promise<SimpleProfileType> {
     return await http
-      .get(`/members/post-count/${id}`)
+      .get("/members/simple-profile", {
+        headers: {
+          Authorization: `${request.grantType} ${request.accessToken}`,
+        },
+      })
       .then((response) => {
         return response.data.data;
       })

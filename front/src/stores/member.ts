@@ -7,14 +7,15 @@ import type {
 } from "@/modules/types/form/FormType";
 import type {
   FoundIdType,
-  PostCountType,
+  SimpleProfileType,
 } from "@/modules/types/member/MemberType";
+import type { TokenType } from "@/modules/types/auth/AuthType";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
     genderType: {} as EnumType[],
     duplicationCheck: {} as DuplicationCheckType,
-    postCount: {} as PostCountType,
+    simpleProfile: {} as SimpleProfileType,
     foundId: {} as FoundIdType,
   }),
   getters: {
@@ -49,10 +50,10 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
-    async getPostCount(param: number) {
-      await MemberApiService.getPostCount(param)
-        .then((response: PostCountType) => {
-          this.postCount = response;
+    async getMemberProfile(param: TokenType) {
+      await MemberApiService.getMemberProfile(param)
+        .then((response: SimpleProfileType) => {
+          this.simpleProfile = response;
         })
         .catch((error) => {
           throw error;

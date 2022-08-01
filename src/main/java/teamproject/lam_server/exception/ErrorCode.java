@@ -47,7 +47,7 @@ public enum ErrorCode {
      */
     EXPIRED_JWT(403, "해당 토큰이 만료되었습니다."),
     INVALID_TOKEN(403, "유효하지 않은 토큰입니다."),
-    UN_SUPPORTED_TOKEN(403, "지원하지 않는 토큰 유형입니다."),
+    UNSUPPORTED_TOKEN(403, "지원하지 않는 토큰 유형입니다."),
     EMPTY_TOKEN(403, "토큰 정보가 비어있습니다."),
 
     /**

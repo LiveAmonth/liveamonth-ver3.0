@@ -6,6 +6,7 @@ import type {
   FindPwType,
   SignUpType,
 } from "@/modules/types/form/FormType";
+import type { TokenType } from "@/modules/types/auth/AuthType";
 
 export const useMember = () => {
   const store = useMemberStore();
@@ -61,11 +62,11 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
-  const getPostCount = async (id: number) => {
+  const getMemberProfile = async (request: TokenType) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getPostCount(id);
+      await store.getMemberProfile(request);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -80,6 +81,6 @@ export const useMember = () => {
     findId,
     findPw,
     getGenderType,
-    getPostCount,
+    getMemberProfile,
   };
 };

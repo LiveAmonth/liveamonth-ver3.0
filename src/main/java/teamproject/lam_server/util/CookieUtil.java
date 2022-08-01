@@ -17,6 +17,9 @@ public abstract class CookieUtil {
 
     public static Cookie deleteRefreshTokenCookie() {
         Cookie cookie = new Cookie(REFRESH_TOKEN_HEADER, "");
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
         cookie.setMaxAge(0);
         return cookie;
     }

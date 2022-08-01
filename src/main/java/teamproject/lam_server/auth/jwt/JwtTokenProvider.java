@@ -1,24 +1,20 @@
 package teamproject.lam_server.auth.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
-import teamproject.lam_server.domain.member.dto.response.TokenMemberInfoResponse;
 import teamproject.lam_server.exception.badrequest.PermissionNotAccessible;
-import teamproject.lam_server.exception.token.CustomEmptyToken;
-import teamproject.lam_server.exception.token.CustomExpiredJwt;
-import teamproject.lam_server.exception.token.CustomInvalidToken;
-import teamproject.lam_server.exception.token.CustomUnsupportedToken;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -26,13 +22,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Component
 public class JwtTokenProvider {
-    private Key key;
-    private final AppProperties appProperties;
     private static final String AUTHORITIES_KEY = "auth";
-    private static final String MEMBER_INFO = "profile";
+    private final AppProperties appProperties;
+    private Key key;
 
     public JwtTokenProvider(AppProperties appProperties) {
         this.appProperties = appProperties;
@@ -70,22 +64,8 @@ public class JwtTokenProvider {
      * @return
      */
     public boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-            return true;
-        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT Token", e);
-            throw new CustomInvalidToken();
-        } catch (ExpiredJwtException e) {
-            log.info("Expired JWT Token", e);
-            throw new CustomExpiredJwt();
-        } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
-            throw new CustomUnsupportedToken();
-        } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
-            throw new CustomEmptyToken();
-        }
+        Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        return true;
     }
 
     /**
@@ -149,11 +129,10 @@ public class JwtTokenProvider {
      * @param authentication
      * @return
      */
-    private String convertToString(Authentication authentication) {
-        String collect = authentication.getAuthorities().stream()
+    private String getAuthoritiesToString(Authentication authentication) {
+        return authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
-        return collect;
     }
 
     /**
@@ -187,19 +166,13 @@ public class JwtTokenProvider {
      */
     public String createAccessToken(Authentication authentication, Date date) {
         // 권한 가져오기
-        String authorities = this.convertToString(authentication);
-
-        // 회원 프로필 정보 가져오기
-        PrincipalDetails details = (PrincipalDetails) authentication.getPrincipal();
-        TokenMemberInfoResponse memberInfo = details.getMemberInfo();
+        String authorities = this.getAuthoritiesToString(authentication);
 
         // 만료 시간 설정
         Date accessTokenExpiration = this.getExpireTime(date, appProperties.getAuth().getAccessTokenExpireTime());
-        log.info("date={}", accessTokenExpiration);
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities) // 권한 정보
-                .claim(MEMBER_INFO, memberInfo) // 회원 프로필
                 .setExpiration(accessTokenExpiration) // 만료 시간
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();

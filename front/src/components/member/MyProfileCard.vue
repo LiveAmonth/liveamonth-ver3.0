@@ -5,25 +5,33 @@ import { useAuth } from "@/composables/auth";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { useMember } from "@/composables/member";
-import type { PostCountType } from "@/modules/types/member/MemberType";
+import type { SimpleProfileType } from "@/modules/types/member/MemberType";
+import type { TokenType } from "@/modules/types/auth/AuthType";
 
 const router = useRouter();
 const authStore = useAuthStore();
 const memberStore = useMemberStore();
 const { logout } = useAuth();
-const { getPostCount } = useMember();
+const { getMemberProfile } = useMember();
 const loggedIn = computed((): boolean => authStore.loggedIn);
-const postCount = computed((): PostCountType => memberStore.postCount);
+const simpleProfile = computed(
+  (): SimpleProfileType => memberStore.simpleProfile
+);
 const logoutBtn = async () => {
   await logout();
   if (!authStore.loggedIn) {
     await router.push({ name: "login" });
   }
 };
+const myPageBtn = async () => {
+  if (!authStore.loggedIn) {
+    await router.push({ name: "home" });
+  }
+};
 
 onMounted(async () => {
   if (authStore.loggedIn) {
-    await getPostCount(authStore.memberInfo.id);
+    await getMemberProfile(authStore.tokenInfo.data as TokenType);
   }
 });
 </script>
@@ -40,11 +48,11 @@ onMounted(async () => {
       </div>
       <div class="name">
         <router-link :to="{ path: '/my-schedule/2' }" target="_blank"
-          >{{ authStore.memberInfo.nickname }}
+          >{{ simpleProfile.nickname }}
         </router-link>
       </div>
       <div class="button d-flex justify-content-center">
-        <a href="#" @click="logoutBtn">
+        <a href="#" @click="myPageBtn">
           {{ $t("menu.myPage") }}
           <el-icon>
             <Avatar />
@@ -60,21 +68,30 @@ onMounted(async () => {
       <div class="ds-info d-flex justify-content-between">
         <div class="ds follower">
           <h6>
-            {{ $t("member.follower") }} <el-icon><User /></el-icon>
+            {{ $t("member.follower") }}
+            <el-icon>
+              <User />
+            </el-icon>
           </h6>
-          <p>{{ postCount.numOfFollowers }}</p>
+          <p>{{ simpleProfile.numOfFollowers }}</p>
         </div>
         <div class="ds schedules">
           <h6>
-            {{ $t("member.schedule") }} <el-icon><Calendar /></el-icon>
+            {{ $t("member.schedule") }}
+            <el-icon>
+              <Calendar />
+            </el-icon>
           </h6>
-          <p>{{ postCount.numOfSchedules }}</p>
+          <p>{{ simpleProfile.numOfSchedules }}</p>
         </div>
         <div class="ds reviews">
           <h6>
-            {{ $t("member.review") }} <el-icon><Notebook /></el-icon>
+            {{ $t("member.review") }}
+            <el-icon>
+              <Notebook />
+            </el-icon>
           </h6>
-          <p>{{ postCount.numOfReviews }}</p>
+          <p>{{ simpleProfile.numOfReviews }}</p>
         </div>
       </div>
     </template>
@@ -147,6 +164,7 @@ onMounted(async () => {
       object-fit: cover;
     }
   }
+
   .avatar-holder {
     position: absolute;
     top: 35px;
@@ -259,6 +277,7 @@ onMounted(async () => {
       transition: all 1s;
       padding: 5px 0;
       margin: 0 5px;
+
       &:hover {
         color: white;
         background: #004a55;
@@ -287,6 +306,7 @@ onMounted(async () => {
       animation-fill-mode: forwards;
 
       h6 {
+        padding-top: 0.1rem;
         margin-bottom: 10px;
         text-transform: uppercase;
         color: #004a55;
