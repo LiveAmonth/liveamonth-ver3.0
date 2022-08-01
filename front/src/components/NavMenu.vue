@@ -12,7 +12,7 @@
       <el-menu-item index="/schedule"
         >{{ $t("menu.otherSchedule") }}
       </el-menu-item>
-      <el-menu-item index="/my-schedule/1"
+      <el-menu-item index="/schedule"
         >{{ $t("menu.mySchedule") }}
       </el-menu-item>
     </el-sub-menu>

@@ -15,6 +15,10 @@ import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
 import teamproject.lam_server.domain.member.dto.response.TokenMemberInfoResponse;
 import teamproject.lam_server.exception.badrequest.PermissionNotAccessible;
+import teamproject.lam_server.exception.token.CustomEmptyToken;
+import teamproject.lam_server.exception.token.CustomExpiredJwt;
+import teamproject.lam_server.exception.token.CustomInvalidToken;
+import teamproject.lam_server.exception.token.CustomUnsupportedToken;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -71,14 +75,17 @@ public class JwtTokenProvider {
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
+            throw new CustomInvalidToken();
         } catch (ExpiredJwtException e) {
             log.info("Expired JWT Token", e);
+            throw new CustomExpiredJwt();
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT Token", e);
+            throw new CustomUnsupportedToken();
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
+            throw new CustomEmptyToken();
         }
-        return false;
     }
 
     /**
@@ -188,7 +195,7 @@ public class JwtTokenProvider {
 
         // 만료 시간 설정
         Date accessTokenExpiration = this.getExpireTime(date, appProperties.getAuth().getAccessTokenExpireTime());
-
+        log.info("date={}", accessTokenExpiration);
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities) // 권한 정보

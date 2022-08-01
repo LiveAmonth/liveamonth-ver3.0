@@ -1,5 +1,6 @@
 package teamproject.lam_server.global.dto;
 
+import com.google.gson.Gson;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 import teamproject.lam_server.exception.ErrorCode;
 import teamproject.lam_server.exception.ValidationResponse;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -109,6 +112,11 @@ public class CustomResponse {
                         .build()
                 );
     }
+    public static Result<?> failToJson(ErrorCode errorCode) {
+        return Result.ErrorBuilder()
+                .errorCode(errorCode)
+                .build();
+    }
 
     public static ResponseEntity<Object> validationFail(List<ValidationResponse> detail) {
         return ResponseEntity
@@ -119,5 +127,11 @@ public class CustomResponse {
                         .build()
                 );
 
+    }
+
+    public static void setResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(errorCode.getStatusCode());
+        response.getWriter().print(new Gson().toJson(CustomResponse.failToJson(errorCode)));
     }
 }
