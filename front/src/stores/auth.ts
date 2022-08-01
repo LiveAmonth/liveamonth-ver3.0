@@ -18,6 +18,8 @@ export const useAuthStore = defineStore("auth", {
     tokenInfo: initTokenInfo as initDataType,
   }),
   getters: {
+    accessToken: (state): string =>
+      (state.tokenInfo.data as TokenType).accessToken,
     memberInfo: (state): TokenMemberInfoType => {
       if (state.tokenInfo.state) {
         const token = (state.tokenInfo.data as TokenType).accessToken;
@@ -27,13 +29,13 @@ export const useAuthStore = defineStore("auth", {
         return {} as TokenMemberInfoType;
       }
     },
-    expireTime: (state): number => {
+    isExpired: (state): boolean => {
       if (state.tokenInfo.state) {
         const token = (state.tokenInfo.data as TokenType).accessToken;
         const jwt: JWTType = jwtDecode(token);
-        return jwt.exp;
+        return Date.now() >= jwt.exp * 1000;
       } else {
-        return 0;
+        return false;
       }
     },
     loggedIn: (state): boolean => state.tokenInfo.state,
@@ -57,6 +59,17 @@ export const useAuthStore = defineStore("auth", {
           localStorage.removeItem("token-info");
           this.tokenInfo.state = false;
           this.tokenInfo.data = {} as TokenType;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+    async reissue() {
+      await AuthApiService.reissue()
+        .then((response: TokenType) => {
+          localStorage.setItem("token-info", JSON.stringify(response));
+          this.tokenInfo.state = true;
+          this.tokenInfo.data = response;
         })
         .catch((error) => {
           throw error;

@@ -10,6 +10,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.redis.RedisRepository;
+import teamproject.lam_server.util.CookieUtil;
 import teamproject.lam_server.util.JwtUtil;
 
 import javax.servlet.ServletException;
@@ -47,7 +48,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                     .queryParam("access-token", tokenResponse.getAccessToken())
                     .queryParam("token-type", JwtUtil.BEARER_TYPE)
                     .build().toUriString();
-            response.addCookie(tokenResponse.getRefreshTokenCookie());
+            response.addCookie(CookieUtil.addRefreshTokenCookie(tokenResponse.getRefreshToken()));
             getRedirectStrategy().sendRedirect(request, response, targetUrl);
         }
     }

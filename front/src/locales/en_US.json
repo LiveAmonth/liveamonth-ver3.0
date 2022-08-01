@@ -182,5 +182,10 @@
         "content": "Please check the mail and reset the password."
       }
     }
+  },
+  "auth": {
+    "reissue": {
+      "login": "Please log in again."
+    }
   }
 }
