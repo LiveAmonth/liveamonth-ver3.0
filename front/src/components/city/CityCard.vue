@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useCityStore } from "@/stores/city";
-import { computed, defineProps, ref } from "vue";
+import { computed, ref } from "vue";
 import type { CityCardType } from "@/modules/types/city/CityType";
 
 const props = defineProps({
