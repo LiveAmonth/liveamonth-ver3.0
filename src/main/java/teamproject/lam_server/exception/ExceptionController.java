@@ -18,7 +18,8 @@ import teamproject.lam_server.global.dto.CustomResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static teamproject.lam_server.exception.ErrorCode.*;
+import static teamproject.lam_server.exception.ErrorCode.DUPLICATED_RESOURCE;
+import static teamproject.lam_server.exception.ErrorCode.ILLEGAL_ARGUMENT;
 
 @RestController
 @ControllerAdvice
@@ -28,11 +29,11 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     private final MessageSource messageSource;
 
     @ExceptionHandler(value = LiveamonthException.class)
-    public final ResponseEntity<?> liveamonthExcption(LiveamonthException e) {
+    public final ResponseEntity<?> liveamonthException(LiveamonthException e) {
         return CustomResponse.fail(e.getErrorCode());
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({IllegalArgumentException.class})
     public final ResponseEntity<?> handleIllegalArgumentExceptions() {
         return CustomResponse.fail(ILLEGAL_ARGUMENT);
     }

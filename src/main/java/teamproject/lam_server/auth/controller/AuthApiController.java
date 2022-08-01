@@ -1,15 +1,17 @@
 package teamproject.lam_server.auth.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.auth.service.AuthService;
 import teamproject.lam_server.auth.dto.AccessTokenResponse;
 import teamproject.lam_server.auth.dto.TokenResponse;
+import teamproject.lam_server.auth.service.AuthService;
 import teamproject.lam_server.domain.member.dto.request.LoginRequest;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
 import teamproject.lam_server.global.dto.CustomResponse;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -19,6 +21,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@Slf4j
 public class AuthApiController {
 
     private final AuthService authService;
@@ -46,7 +49,7 @@ public class AuthApiController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(
-            @RequestHeader(value = "Authorization") String accessTokenRequest) {
+            @RequestHeader(value = "Authorization") String accessTokenRequest, HttpServletRequest request) {
         authService.logout(accessTokenRequest);
         return CustomResponse.success(LOGOUT_SUCCESS);
     }

@@ -10,4 +10,10 @@
   </el-main>
 </template>
 
-<style scoped></style>
+<style scoped>
+@media screen and (min-width: 1200px) {
+  .content {
+    margin: 0 15%;
+  }
+}
+</style>

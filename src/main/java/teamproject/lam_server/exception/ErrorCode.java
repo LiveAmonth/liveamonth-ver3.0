@@ -14,7 +14,7 @@ public enum ErrorCode {
      * Detail: 유효성 검증 실패
      */
     ARGUMENTS_NOT_VALID(400, "유효성 검증 실패"),
-
+    BAD_CREDENTIALS(400, "잘못된 인증정보 입니다."),
     /**
      * <p>
      * Status: 500 INTERNAL_SERVER_ERROR
