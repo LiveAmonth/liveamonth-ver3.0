@@ -1,5 +1,3 @@
-import type { TokenMemberInfoType } from "@/modules/types/member/MemberType";
-
 export interface TokenType {
   accessToken: string;
   refreshToken?: string;
@@ -9,6 +7,5 @@ export interface TokenType {
 export interface JWTType {
   auth: string;
   exp: number;
-  profile: TokenMemberInfoType;
   sub: string;
 }

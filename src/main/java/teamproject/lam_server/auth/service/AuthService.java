@@ -3,7 +3,6 @@ package teamproject.lam_server.auth.service;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.domain.member.dto.request.LoginRequest;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
-import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 
 public interface AuthService {
 
@@ -32,7 +31,7 @@ public interface AuthService {
      *
      * @return
      */
-    TokenResponse reissue(String refreshTokenRequest);
+    TokenResponse reissue(String accessTokenRequest, String refreshTokenRequest);
 
     /**
      * JwtAuthenticationFilter 에서 doFilter 메서드를 통해 securityContext 에 Authentication 객체가 이미 들어있음<p>
@@ -42,11 +41,8 @@ public interface AuthService {
      * 3. HttpServletRequest Header 에서 Access Token 의 만료시간을 가져옴
      * 4. Redis 에 Acces Token을 키 값으로 가지는 블랙 리스트 추가
      * 5. SecurityContext 에 있는 authentication 객체를 삭제.
-     *
      */
     void logout(String accessTokenRequest);
 
     TokenResponse socialRegister(OAuth2RegisterRequest request);
-
-    MemberProfileResponse getLoggedMemberProfile(String accessTokenRequest);
 }

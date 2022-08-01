@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
 import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.util.CookieUtil.deleteRefreshTokenCookie;
+import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 
 
 @RestController
@@ -27,13 +28,6 @@ public class AuthApiController {
 
     private final AuthService authService;
 
-    @GetMapping("/logged/profile")
-    public ResponseEntity<?> getLoggedMemberProfile(@RequestHeader(value = "Authorization") String accessTokenRequest){
-        authService.getLoggedMemberProfile(accessTokenRequest);
-        return null;
-    }
-
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
         TokenResponse result = authService.login(request);
@@ -43,8 +37,9 @@ public class AuthApiController {
 
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(
+            @RequestHeader(value = "Authorization") String accessTokenRequest,
             @CookieValue(value = "Refresh-Token") String refreshTokenRequest, HttpServletResponse response) {
-        TokenResponse result = authService.reissue(refreshTokenRequest);
+        TokenResponse result = authService.reissue(extractAccessToken(accessTokenRequest), refreshTokenRequest);
         response.addCookie(addRefreshTokenCookie(result.getRefreshToken()));
         return CustomResponse.success(REISSUE_TOKEN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));
     }

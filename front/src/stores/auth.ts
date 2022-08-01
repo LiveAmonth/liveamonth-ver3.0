@@ -3,7 +3,6 @@ import jwtDecode from "jwt-decode";
 import AuthApiService from "@/services/AuthApiService";
 import type { LoginType } from "@/modules/types/form/FormType";
 import type { JWTType, TokenType } from "@/modules/types/auth/AuthType";
-import type { TokenMemberInfoType } from "@/modules/types/member/MemberType";
 import type { initDataType } from "@/modules/types/common/initDataType";
 
 const storageToken: TokenType = localStorage["token-info"]
@@ -20,15 +19,7 @@ export const useAuthStore = defineStore("auth", {
   getters: {
     accessToken: (state): string =>
       (state.tokenInfo.data as TokenType).accessToken,
-    memberInfo: (state): TokenMemberInfoType => {
-      if (state.tokenInfo.state) {
-        const token = (state.tokenInfo.data as TokenType).accessToken;
-        const jwt: JWTType = jwtDecode(token);
-        return jwt.profile;
-      } else {
-        return {} as TokenMemberInfoType;
-      }
-    },
+    grantTye: (state): string => (state.tokenInfo.data as TokenType).grantType,
     isExpired: (state): boolean => {
       if (state.tokenInfo.state) {
         const token = (state.tokenInfo.data as TokenType).accessToken;
@@ -65,7 +56,8 @@ export const useAuthStore = defineStore("auth", {
         });
     },
     async reissue() {
-      await AuthApiService.reissue()
+      const tokenInfo = this.tokenInfo.data as TokenType;
+      await AuthApiService.reissue(tokenInfo.grantType, tokenInfo.accessToken)
         .then((response: TokenType) => {
           localStorage.setItem("token-info", JSON.stringify(response));
           this.tokenInfo.state = true;

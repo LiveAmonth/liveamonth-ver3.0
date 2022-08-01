@@ -1,7 +1,6 @@
 package teamproject.lam_server.auth.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -14,7 +13,6 @@ import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.member.dto.request.LoginRequest;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
-import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
@@ -22,14 +20,11 @@ import teamproject.lam_server.exception.badrequest.InvalidRefreshToken;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.redis.RedisRepository;
 
-import java.util.Date;
-
 import static org.springframework.util.StringUtils.hasText;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class AuthServiceImpl implements AuthService {
     private static final String BLACK_LIST_VALUE = "LOGOUT_TOKEN";
 
@@ -63,32 +58,34 @@ public class AuthServiceImpl implements AuthService {
         return tokenResponse;
     }
 
-    public TokenResponse reissue(String refreshTokenRequest) {
+    public TokenResponse reissue(String accessTokenRequest, String refreshTokenRequest) {
         // Refresh 토큰 검증
         if (isInvalidationToken(refreshTokenRequest))
             throw new InvalidRefreshToken();
 
-        // Security Context 에서 Authentication 객체 가져오기 :: email
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Security Context 에서 Authentication 객체 가져오기 :: loginId
 
-        // Redis 에서 'RT:'+email 을 key 값으로 하는 value 를 가져옴
-        String key = jwtTokenProvider.getRefreshTokenKey(authentication);
-        String savedRefreshToken = redisRepository.getValue(key);
+        // Redis 에서 'RT:'+loginId 을 key 값으로 하는 value 를 가져옴
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessTokenRequest);
+        String savedRefreshToken = redisRepository.getValue("RT:" + authentication.getName());
 
         // logout 되어 Redis 에 refreshToken 이 없는 경우 체크
-        if (!hasText(savedRefreshToken))
+        if (!hasText(accessTokenRequest)) {
             throw new AlreadyUsedToken();
+        }
 
         // Redis 에 저장되어 있는 RefreshToken 정보와 request 의 RefreshToken 정보 비교
-        if (!savedRefreshToken.equals(refreshTokenRequest))
+        if (!savedRefreshToken.equals(refreshTokenRequest)) {
             throw new InvalidRefreshToken();
+        }
 
-        // 새로운 토큰 생성 -> access만 재발급 하는걸로
-        String accessToken = jwtTokenProvider.createAccessToken(authentication, new Date());
+        // 새로운 토큰 생성
+        TokenResponse tokenResponse = jwtTokenProvider.generateToken(authentication);
+        redisRepository.save(jwtTokenProvider.getRefreshTokenKey(authentication), tokenResponse);
 
         return TokenResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshTokenRequest)
+                .accessToken(tokenResponse.getAccessToken())
+                .refreshToken(tokenResponse.getRefreshToken())
                 .build();
     }
 
@@ -105,9 +102,11 @@ public class AuthServiceImpl implements AuthService {
         // Access 토큰의 유효시간을 가져옴
         Long expiration = jwtTokenProvider.getExpiration(accessToken);
 
-        // 블랙리스트에 저장
-        // Redis 에 저장되는 key 값: accessToken / value: LOGOUT_TOKEN / expire: accessToken 의 만료시간
-        redisRepository.save(accessToken, BLACK_LIST_VALUE, expiration);
+        if (expiration > 0) {
+            // 블랙리스트에 저장
+            // Redis 에 저장되는 key 값: accessToken / value: LOGOUT_TOKEN / expire: accessToken 의 만료시간
+            redisRepository.save(accessToken, BLACK_LIST_VALUE, expiration);
+        }
 
         // SecurityContext 에 있는 authentication 객체를 삭제.
         SecurityContextHolder.clearContext();
@@ -128,11 +127,6 @@ public class AuthServiceImpl implements AuthService {
         redisRepository.save(jwtTokenProvider.getRefreshTokenKey((Authentication) oAuth2User), tokenResponse);
 
         return tokenResponse;
-    }
-
-    @Override
-    public MemberProfileResponse getLoggedMemberProfile(String accessTokenRequest) {
-        return null;
     }
 
     /**

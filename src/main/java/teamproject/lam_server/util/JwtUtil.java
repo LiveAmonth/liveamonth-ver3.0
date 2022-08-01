@@ -15,11 +15,9 @@ public abstract class JwtUtil {
      * ex) 'Bearer AS1DM2LAS47DLA9MSD2OMAWd' 와 같은 토큰이 request의 Authorization부분에 들어있음
      * 그러면 앞에서 부터 7번째(Bearer+공백)를 잘라내면 토큰 정보(뒷 부분)를 가져올 수 있다.
      *
-     * @param request
      * @return
      */
-    public static String extractAccessToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+    public static String extractAccessToken(String bearerToken) {
         return hasBearerToken(bearerToken) ? bearerToken.substring(7) : null;
     }
 
