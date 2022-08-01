@@ -78,7 +78,7 @@ dependencies {
 
     //querydsl
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 }
 test {
     useJUnitPlatform()
@@ -103,18 +103,35 @@ bootJar {
 }
 
 //querydsl 추가 시작
+// querydsl 에서 사용할 경로
 def querydslDir = "$buildDir/generated/querydsl"
-
+// JPA 사용 여부, 사용할 경로
 querydsl {
+    library = "com.querydsl:querydsl-apt"
     jpa = true
     querydslSourcesDir = querydslDir
 }
+// build 시 사용할 sourceSEt 추가
 sourceSets {
     main.java.srcDir querydslDir
 }
-configurations {
-    querydsl.extendsFrom compileClasspath
-}
+
+// querydsl 컴파일시 사용할 옵션 설정
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
+}
+// querydsl 이 complileClassPath를 상속하도록 설정
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
+
+project.afterEvaluate {
+    project.tasks.compileQuerydsl.options.compilerArgs = [
+            "-proc:only",
+            "-processor", project.querydsl.processors() +
+                    ',lombok.launch.AnnotationProcessorHider$AnnotationProcessor'
+    ]
 }
