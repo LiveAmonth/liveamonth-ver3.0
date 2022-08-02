@@ -12,7 +12,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const memberStore = useMemberStore();
 const { logout } = useAuth();
-const { getMemberProfile } = useMember();
+const { getSimpleProfile } = useMember();
 const loggedIn = computed((): boolean => authStore.loggedIn);
 const simpleProfile = computed(
   (): SimpleProfileType => memberStore.simpleProfile
@@ -31,7 +31,7 @@ const myPageBtn = async () => {
 
 onMounted(async () => {
   if (authStore.loggedIn) {
-    await getMemberProfile(authStore.tokenInfo.data as TokenType);
+    await getSimpleProfile(authStore.tokenInfo.data as TokenType);
   }
 });
 </script>
@@ -52,12 +52,12 @@ onMounted(async () => {
         </router-link>
       </div>
       <div class="button d-flex justify-content-center">
-        <a href="#" @click="myPageBtn">
+        <router-link to="/my-page">
           {{ $t("menu.myPage") }}
           <el-icon>
             <Avatar />
           </el-icon>
-        </a>
+        </router-link>
         <a href="#" @click="logoutBtn"
           >{{ $t("member.logout") }}
           <el-icon>

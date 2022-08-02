@@ -9,8 +9,13 @@ export interface ProfileType {
   loginId: string;
   nickname: string;
   image: string;
-  birth: string;
+  name: string;
+  email: string;
   gender: string;
+  birth: string;
+  numberOfReview: string;
+  numberOfSchedule: string;
+  numberOfFollower: string;
 }
 
 export interface SimpleProfileType {

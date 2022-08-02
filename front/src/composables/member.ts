@@ -62,11 +62,23 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
-  const getMemberProfile = async (request: TokenType) => {
+  const getMember = async (request: TokenType) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getMemberProfile(request);
+      await store.getMember(request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+  const getSimpleProfile = async (request: TokenType) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getSimpleProfile(request);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -81,6 +93,7 @@ export const useMember = () => {
     findId,
     findPw,
     getGenderType,
-    getMemberProfile,
+    getMember,
+    getSimpleProfile,
   };
 };

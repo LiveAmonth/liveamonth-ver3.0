@@ -2,19 +2,19 @@ package teamproject.lam_server.domain.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
 import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
 import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
 import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
+import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.FollowRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.NotDropMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
@@ -31,11 +31,9 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final FollowRepository followRepository;
-
     private final MailService mailService;
-
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     @Transactional
@@ -113,9 +111,16 @@ public class MemberServiceImpl implements MemberService {
         if (queryCount == 0) throw new NotDropMember();
     }
 
-    public SimpleProfileResponse getMemberPostCount() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Member member = memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new);
-        return SimpleProfileResponse.of(member);
+    @Override
+    public MemberProfileResponse getMember(String accessToken) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        return MemberProfileResponse.of(memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new));
     }
+
+    @Override
+    public SimpleProfileResponse getSimpleProfile(String accessToken) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        return SimpleProfileResponse.of(memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new));
+    }
+
 }
