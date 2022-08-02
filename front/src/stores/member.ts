@@ -7,6 +7,7 @@ import type {
 } from "@/modules/types/form/FormType";
 import type {
   FoundIdType,
+  ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
 import type { TokenType } from "@/modules/types/auth/AuthType";
@@ -16,6 +17,7 @@ export const useMemberStore = defineStore("member", {
     genderType: {} as EnumType[],
     duplicationCheck: {} as DuplicationCheckType,
     simpleProfile: {} as SimpleProfileType,
+    memberProfile: {} as ProfileType,
     foundId: {} as FoundIdType,
   }),
   getters: {
@@ -50,8 +52,17 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
-    async getMemberProfile(param: TokenType) {
-      await MemberApiService.getMemberProfile(param)
+    async getMember(param: TokenType) {
+      await MemberApiService.getMember(param)
+        .then((response: ProfileType) => {
+          this.memberProfile = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+    async getSimpleProfile(param: TokenType) {
+      await MemberApiService.getSimpleProfile(param)
         .then((response: SimpleProfileType) => {
           this.simpleProfile = response;
         })

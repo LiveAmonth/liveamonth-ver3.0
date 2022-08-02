@@ -35,7 +35,7 @@ public class MemberProfileResponse {
                 .birth(member.getBirth())
                 .numberOfReview(member.getReviews().size())
                 .numberOfSchedule(member.getSchedules().size())
-                .numberOfFollower(0)
+                .numberOfFollower(member.getFollowers().size())
                 .build();
     }
 }

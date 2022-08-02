@@ -9,20 +9,22 @@ import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
 import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
+import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
-import teamproject.lam_server.domain.member.service.MemberServiceImpl;
+import teamproject.lam_server.domain.member.service.MemberService;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.global.dto.PostIdResponse;
 
 import javax.validation.Valid;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
+import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
 public class MemberApiController {
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
     /**
      * presentation layer::home, sign up
@@ -104,11 +106,19 @@ public class MemberApiController {
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
-    @GetMapping("/simple-profile")
-    public ResponseEntity<?> getSimpleProfile(@RequestHeader("Authorization") String accessToken) {
-        SimpleProfileResponse result = memberService.getMemberPostCount();
+    @GetMapping("/profile")
+    public ResponseEntity<?> getMember(@RequestHeader("Authorization") String token) {
+        MemberProfileResponse result = memberService.getMember(extractAccessToken(token));
         return CustomResponse.success(READ_MEMBER, result);
     }
+
+    @GetMapping("/profile/simple")
+    public ResponseEntity<?> getSimpleProfile(@RequestHeader("Authorization") String token) {
+        SimpleProfileResponse result = memberService.getSimpleProfile(extractAccessToken(token));
+        return CustomResponse.success(READ_MEMBER, result);
+    }
+
+
 //    @PostMapping("/editProfileImage")
 //    public String editProfileImage(@SessionAttribute(name = SessionConstants.LOGIN_USER, required = false) User loginUser, @RequestPart(FILE_NAME) MultipartFile mFile) throws Exception {
 //        log.info("fileNAme = {}",mFile.getOriginalFilename());

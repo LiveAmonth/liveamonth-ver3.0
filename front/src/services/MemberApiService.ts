@@ -8,6 +8,7 @@ import type {
 } from "@/modules/types/form/FormType";
 import type {
   FoundIdType,
+  ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
 import type { TokenType } from "@/modules/types/auth/AuthType";
@@ -49,9 +50,24 @@ class MemberApiService {
       });
   }
 
-  async getMemberProfile(request: TokenType): Promise<SimpleProfileType> {
+  async getMember(request: TokenType): Promise<ProfileType> {
     return await http
-      .get("/members/simple-profile", {
+      .get("/members/profile/", {
+        headers: {
+          Authorization: `${request.grantType} ${request.accessToken}`,
+        },
+      })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async getSimpleProfile(request: TokenType): Promise<SimpleProfileType> {
+    return await http
+      .get("/members/profile/simple", {
         headers: {
           Authorization: `${request.grantType} ${request.accessToken}`,
         },
