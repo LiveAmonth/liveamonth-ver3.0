@@ -114,13 +114,19 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberProfileResponse getMember(String accessToken) {
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-        return MemberProfileResponse.of(memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new));
+        return MemberProfileResponse.of(
+                memberRepository.findByLoginId(authentication.getName())
+                        .orElseThrow(MemberNotFound::new)
+        );
     }
 
     @Override
     public SimpleProfileResponse getSimpleProfile(String accessToken) {
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-        return SimpleProfileResponse.of(memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new));
+        return SimpleProfileResponse.of(
+                memberRepository.findByLoginId(authentication.getName())
+                        .orElseThrow(MemberNotFound::new)
+        );
     }
 
 }
