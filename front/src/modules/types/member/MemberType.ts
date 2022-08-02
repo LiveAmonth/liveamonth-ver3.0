@@ -1,8 +1,4 @@
-export interface TokenMemberInfoType {
-  id: number;
-  loginId: string;
-  nickname: string;
-}
+import type { EnumType } from "@/modules/types/common/EnumType";
 
 export interface ProfileType {
   id: number;
@@ -11,7 +7,7 @@ export interface ProfileType {
   image: string;
   name: string;
   email: string;
-  gender: string;
+  gender: EnumType;
   birth: string;
   numberOfReview: string;
   numberOfSchedule: string;

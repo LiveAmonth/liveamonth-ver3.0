@@ -62,5 +62,8 @@ public interface MemberService {
      */
     MemberProfileResponse getMember(String accessToken);
 
+    /**
+     * 메인 화면 프로필
+     */
     SimpleProfileResponse getSimpleProfile(String accessToken);
 }
