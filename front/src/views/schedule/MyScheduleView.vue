@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TitleSlot from "@/components/TitleSlot.vue";
+import TitleSlot from "@/components/common/TitleSlot.vue";
 
 const props = defineProps({
   scheduleId: {

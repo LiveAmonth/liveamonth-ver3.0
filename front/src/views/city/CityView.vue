@@ -5,7 +5,7 @@ import { useCityStore } from "@/stores/city";
 import CardModeCarousel from "@/components/CardModeCarousel.vue";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
-import TitleSlot from "@/components/TitleSlot.vue";
+import TitleSlot from "@/components/common/TitleSlot.vue";
 
 const store = useCityStore();
 

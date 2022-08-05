@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 
 const count = ref(10);
 const loading = ref(false);
@@ -12,18 +13,28 @@ const load = () => {
     loading.value = false;
   }, 2000);
 };
-const events = ref([
+const todos = ref([
   {
-    start: "2022-8-20 14:00",
-    end: "2022-8-20 18:00",
-    title: "Need to go shopping",
-    icon: "shopping_cart", // Custom attribute.
-    content: "Click to see my shopping list",
-    contentFull:
-      "My shopping list is rather long:<br><ul><li>Avocados</li><li>Tomatoes</li><li>Potatoes</li><li>Mangoes</li></ul>", // Custom attribute.
-    class: "leisure",
+    description: "테스트1테스트1테스트1테스트1테스트1",
+    dates: new Date("2022-08-02"),
+    highlight: "",
+  },
+  {
+    description: "테스트2",
+    dates: new Date("2022-08-02"),
+    highlight: "",
   },
 ]);
+const attrs = computed(() =>
+  todos.value.map((todo) => ({
+    dates: todo.dates,
+    popover: {
+      label: todo.description,
+    },
+    highlight: "teal",
+    customData: todo,
+  }))
+);
 </script>
 
 <template>
@@ -41,26 +52,65 @@ const events = ref([
           <li v-for="i in count" :key="i" class="list-item p-4">
             <el-row :gutter="5">
               <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
-                <vue-cal
-                  :disable-views="['week']"
-                  :events="events"
-                  :time="false"
-                  active-view="month"
-                  click-to-navigate
-                  events-count-on-year-view
-                  hide-view-selector
-                  locale="ko"
-                  xsmall
-                >
-                </vue-cal>
+                <v-calendar :attributes="attrs" trim-weeks>
+                  <template #day-popover="{ day, attributes }">
+                    <el-row>
+                      {{ day.ariaLabel }}
+                    </el-row>
+                    <el-row class="mt-2 mx-1">
+                      <el-col>
+                        <el-timeline class="px-2">
+                          <el-timeline-item
+                            v-for="({ customData }, index) in attributes"
+                            :key="index"
+                            color="#004a55"
+                            :hollow="true"
+                            class="pb-1"
+                          >
+                            <span style="color: white" class="p-0 m-0">
+                              {{ customData.description }}
+                            </span>
+                          </el-timeline-item>
+                        </el-timeline>
+                      </el-col>
+                    </el-row>
+                  </template>
+                </v-calendar>
               </el-col>
               <el-col :span="12">
                 <el-card>
-                  <router-link
-                    :to="{ name: 'read-schedule', params: { scheduleId: 1 } }"
-                  >
-                    {{ i }} 번 스케줄 보기
-                  </router-link>
+                  <div class="profile-title d-flex">
+                    <div class="profile">
+                      <el-avatar
+                        :size="100"
+                        :src="`/src/assets/image/default.jpg`"
+                      />
+                      <div class="nickname mt-3">닉네임</div>
+                    </div>
+                    <div class="title-info">
+                      <SmallTitleSlot
+                        ><router-link
+                          :to="{
+                            name: 'read-schedule',
+                            params: { scheduleId: 1 },
+                          }"
+                        >
+                          {{ i }} 번 스케줄
+                        </router-link></SmallTitleSlot
+                      >
+                      <div class="date-range">
+                        <span class="p-0"
+                          ><el-icon style="vertical-align: top"
+                            ><Calendar
+                          /></el-icon>
+                          2022-02-02 ~ 2022-02-02</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div></div>
+                  </div>
                 </el-card>
               </el-col>
             </el-row>
@@ -89,22 +139,17 @@ const events = ref([
   }
 }
 
-.vuecal__cell--has-events {
-  background-color: #004a55;
+.title-info {
+  margin-left: 25px;
 }
 
-.vuecal__cell-events-count {
-  display: none;
-}
-
-.vuecal {
-  box-shadow: var(--el-box-shadow-light);
-  height: 300px;
-  width: auto;
-}
-
-.vuecal__title-bar {
-  background-color: #004a55 !important;
-  font-size: 0.8rem;
+a {
+  text-decoration: none;
+  &:hover {
+    font-weight: bold;
+  }
+  &:visited {
+    color: inherit;
+  }
 }
 </style>

@@ -14,19 +14,19 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "bootstrap/dist/css/bootstrap-utilities.min.css";
 import i18n from "@/i18n";
 
-import VueCal from "vue-cal";
-import "vue-cal/dist/vue-cal.css";
+import VCalender from "v-calendar";
+import "v-calendar/dist/style.css";
 
 const app = createApp(App);
 
 app.use(createPinia());
+app.use(VCalender, {});
 app.use(ElementPlus, {
   locale: koKR,
 });
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
-app.use(VueCal);
 app.use(router);
 app.use(i18n);
 app.mount("#app");
