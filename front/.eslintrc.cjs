@@ -13,6 +13,7 @@ module.exports = {
         "vue/multi-word-component-names": ["error", {
             "ignores": ["Header", "Footer", "Content"]
         }],
-        "prettier/prettier": ["error", {"endOfLine": "auto"}]
+        "prettier/prettier": ["error", {"endOfLine": "auto"}],
     }
+
 };

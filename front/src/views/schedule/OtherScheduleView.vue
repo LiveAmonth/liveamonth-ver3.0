@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useRoute, useRouter } from "vue-router";
-import TitleSlot from "@/components/TitleSlot.vue";
+import TitleSlot from "@/components/common/TitleSlot.vue";
 
 const route = useRoute();
 </script>
