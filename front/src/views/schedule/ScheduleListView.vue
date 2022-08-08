@@ -1,9 +1,14 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
+import SimpleCalendar from "@/components/schedule/SimpleCalendar.vue";
+import { useScheduleStore } from "@/stores/schedule";
 
+const store = useScheduleStore();
 const count = ref(10);
 const loading = ref(false);
+const otherSchedule = computed(() => store.otherSchedules);
 const noMore = computed(() => count.value >= 20);
 const disabled = computed(() => loading.value || noMore.value);
 const load = () => {
@@ -13,26 +18,6 @@ const load = () => {
     loading.value = false;
   }, 2000);
 };
-const todos = ref([
-  {
-    description: "테스트1테스트1테스트1테스트1테스트1",
-    dates: new Date("2022-08-02"),
-  },
-  {
-    description: "테스트2",
-    dates: new Date("2022-08-02"),
-  },
-]);
-const attrs = computed(() =>
-  todos.value.map((contents) => ({
-    dates: contents.dates,
-    popover: {
-      label: contents.description,
-    },
-    highlight: "teal",
-    customData: contents,
-  }))
-);
 </script>
 
 <template>
@@ -50,35 +35,7 @@ const attrs = computed(() =>
           <li v-for="i in count" :key="i" class="list-item p-4">
             <el-row :gutter="5">
               <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
-                <v-calendar
-                  :attributes="attrs"
-                  :max-date="'2022-08-12'"
-                  :min-date="'2022-08-02'"
-                  trim-weeks
-                >
-                  <template #day-popover="{ day, attributes }">
-                    <el-row>
-                      {{ day.ariaLabel }}
-                    </el-row>
-                    <el-row class="mt-2 mx-1">
-                      <el-col>
-                        <el-timeline class="px-2">
-                          <el-timeline-item
-                            v-for="({ customData }, index) in attributes"
-                            :key="index"
-                            :hollow="true"
-                            class="pb-1"
-                            color="#004a55"
-                          >
-                            <span class="p-0 m-0" style="color: white">
-                              {{ customData.description }}
-                            </span>
-                          </el-timeline-item>
-                        </el-timeline>
-                      </el-col>
-                    </el-row>
-                  </template>
-                </v-calendar>
+                <SimpleCalendar :index="i" />
               </el-col>
               <el-col :lg="14" :md="14" :sm="14" :xl="16" :xs="14">
                 <el-card class="information">

@@ -23,6 +23,11 @@ export interface SimpleProfileType {
   numOfFollowers: number;
 }
 
+export interface ScheduleProfileType {
+  image: string;
+  nickname: string;
+}
+
 export interface FoundIdType {
   loginId: string;
   created: string;
