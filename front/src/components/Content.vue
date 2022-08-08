@@ -6,7 +6,11 @@
   </el-main>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+.content {
+  height: calc(100vh - 250px);
+}
+
 @media screen and (min-width: 1200px) {
   .content {
     margin: 0 15%;

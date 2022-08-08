@@ -12,6 +12,7 @@ import koKR from "element-plus/es/locale/lang/ko";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 
 import "bootstrap/dist/css/bootstrap-utilities.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import i18n from "@/i18n";
 
 import VCalender from "v-calendar";
@@ -29,4 +30,9 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(router);
 app.use(i18n);
+app.config.globalProperties.$filters = {
+  makeComma(value: number) {
+    return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  },
+};
 app.mount("#app");

@@ -17,22 +17,20 @@ const todos = ref([
   {
     description: "테스트1테스트1테스트1테스트1테스트1",
     dates: new Date("2022-08-02"),
-    highlight: "",
   },
   {
     description: "테스트2",
     dates: new Date("2022-08-02"),
-    highlight: "",
   },
 ]);
 const attrs = computed(() =>
-  todos.value.map((todo) => ({
-    dates: todo.dates,
+  todos.value.map((contents) => ({
+    dates: contents.dates,
     popover: {
-      label: todo.description,
+      label: contents.description,
     },
     highlight: "teal",
-    customData: todo,
+    customData: contents,
   }))
 );
 </script>
@@ -52,7 +50,12 @@ const attrs = computed(() =>
           <li v-for="i in count" :key="i" class="list-item p-4">
             <el-row :gutter="5">
               <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
-                <v-calendar :attributes="attrs" trim-weeks>
+                <v-calendar
+                  :attributes="attrs"
+                  :max-date="'2022-08-12'"
+                  :min-date="'2022-08-02'"
+                  trim-weeks
+                >
                   <template #day-popover="{ day, attributes }">
                     <el-row>
                       {{ day.ariaLabel }}
@@ -63,11 +66,11 @@ const attrs = computed(() =>
                           <el-timeline-item
                             v-for="({ customData }, index) in attributes"
                             :key="index"
-                            color="#004a55"
                             :hollow="true"
                             class="pb-1"
+                            color="#004a55"
                           >
-                            <span style="color: white" class="p-0 m-0">
+                            <span class="p-0 m-0" style="color: white">
                               {{ customData.description }}
                             </span>
                           </el-timeline-item>
@@ -77,41 +80,92 @@ const attrs = computed(() =>
                   </template>
                 </v-calendar>
               </el-col>
-              <el-col :span="12">
-                <el-card>
+              <el-col :lg="14" :md="14" :sm="14" :xl="16" :xs="14">
+                <el-card class="information">
                   <div class="profile-title d-flex">
                     <div class="profile">
                       <el-avatar
-                        :size="100"
+                        :size="80"
                         :src="`/src/assets/image/default.jpg`"
                       />
-                      <div class="nickname mt-3">닉네임</div>
+                      <div class="nickname mt-2">닉네임</div>
                     </div>
                     <div class="title-info">
-                      <SmallTitleSlot
-                        ><router-link
-                          :to="{
-                            name: 'read-schedule',
-                            params: { scheduleId: 1 },
-                          }"
-                        >
-                          {{ i }} 번 스케줄
-                        </router-link></SmallTitleSlot
-                      >
-                      <div class="date-range">
-                        <span class="p-0"
-                          ><el-icon style="vertical-align: top"
-                            ><Calendar
-                          /></el-icon>
-                          2022-02-02 ~ 2022-02-02</span
-                        >
-                      </div>
+                      <el-row>
+                        <SmallTitleSlot>
+                          <router-link
+                            :to="{
+                              name: 'read-schedule',
+                              params: { scheduleId: 1 },
+                            }"
+                          >
+                            {{ i }} 번 스케줄
+                          </router-link>
+                        </SmallTitleSlot>
+                      </el-row>
+                      <el-row>
+                        <div class="date-range">
+                          <span>
+                            <el-tooltip
+                              :content="$t('schedule.tooltip.date')"
+                              placement="left-start"
+                            >
+                              <el-icon><Calendar /></el-icon>
+                            </el-tooltip>
+                            2022-02-02 ~ 2022-02-02</span
+                          >
+                        </div>
+                      </el-row>
+                      <el-row>
+                        <div class="cost">
+                          <span>
+                            <el-tooltip
+                              :content="$t('schedule.tooltip.cost')"
+                              placement="left-start"
+                              ><el-icon><Money /></el-icon>
+                            </el-tooltip>
+                            {{ $filters.makeComma(20000) }}원</span
+                          >
+                        </div>
+                      </el-row>
+                      <el-row>
+                        <div class="location">
+                          <span
+                            ><el-tooltip
+                              :content="$t('schedule.tooltip.location')"
+                              placement="left-start"
+                              ><el-icon><Location /></el-icon
+                            ></el-tooltip>
+                            {{ $t("city.name.SE") }}</span
+                          >
+                        </div>
+                      </el-row>
+                      <el-row>
+                        <div class="view me-2">
+                          <span
+                            ><el-tooltip
+                              :content="$t('schedule.tooltip.view')"
+                              placement="bottom-end"
+                              ><el-icon><View /></el-icon
+                            ></el-tooltip>
+                            1</span
+                          >
+                        </div>
+                        <div class="like">
+                          <span
+                            ><el-tooltip
+                              :content="$t('schedule.tooltip.like')"
+                              placement="bottom"
+                              ><i class="bi bi-hand-thumbs-up"></i
+                            ></el-tooltip>
+                            1</span
+                          >
+                        </div>
+                      </el-row>
                     </div>
                   </div>
-                  <div class="d-flex justify-content-between">
-                    <div></div>
-                  </div>
                 </el-card>
+                <el-card class="reply"> 댓글 내용 들어가야함.</el-card>
               </el-col>
             </el-row>
           </li>
@@ -125,7 +179,6 @@ const attrs = computed(() =>
 
 <style lang="scss" scoped>
 .infinite-list-wrapper {
-  height: 700px;
   text-align: center;
 
   .list {
@@ -139,15 +192,43 @@ const attrs = computed(() =>
   }
 }
 
-.title-info {
-  margin-left: 25px;
+.profile {
+  .nickname {
+    font-size: 0.9rem;
+  }
+}
+
+.information {
+  .title-info {
+    width: 100%;
+    margin-left: 25px;
+
+    .el-row {
+      justify-content: flex-start;
+    }
+
+    .el-icon {
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+
+    span {
+      font-size: 0.78rem;
+    }
+  }
+}
+
+.reply {
+  margin-top: 1.3rem;
 }
 
 a {
   text-decoration: none;
+
   &:hover {
     font-weight: bold;
   }
+
   &:visited {
     color: inherit;
   }
