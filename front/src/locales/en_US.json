@@ -187,5 +187,14 @@
     "reissue": {
       "login": "Please log in again."
     }
+  },
+  "schedule": {
+    "tooltip": {
+      "date": "A month's period of living",
+      "cost": "A month's cost of living",
+      "location": "A month's city of living",
+      "view": "view",
+      "like": "like"
+    }
   }
 }
