@@ -15,7 +15,7 @@ public enum MyPageSubCategory implements EnumMapperType {
     SCHEDULE("내가 쓴 스케줄"),
     WRITE_INQUIRY("1:1 문의하기"),
     INQUIRY_ANSWER("1:1 문의 답변");
-    private String value;
+    private final String value;
 
     @Override
     public String getCode() {

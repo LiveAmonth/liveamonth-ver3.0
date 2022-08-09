@@ -21,7 +21,7 @@ public enum MonthCategory implements EnumMapperType {
     OCT("10월"),
     NOV("11월"),
     DEC("12월");
-    private String value;
+    private final String value;
 
     @Override
     public String getCode() {

@@ -12,7 +12,7 @@ public enum TransportGrade implements EnumMapperType {
     GOOD("좋음"),
     FAIR("보통"),
     BAD("나쁨");
-    private String value;
+    private final String value;
 
     @Override
     public String getCode() {

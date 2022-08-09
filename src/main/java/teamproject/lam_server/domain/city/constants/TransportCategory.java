@@ -15,7 +15,7 @@ public enum TransportCategory implements EnumMapperType {
     T_BUS_TERMINAL("버스터미널"),
     T_TRAIN("기차역"),
     T_AIRPORT("공항");
-    private String value;
+    private final String value;
 
     @Override
     public String getCode() {

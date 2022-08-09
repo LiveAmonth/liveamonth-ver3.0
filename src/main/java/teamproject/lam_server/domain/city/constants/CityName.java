@@ -15,7 +15,7 @@ public enum CityName implements EnumMapperType {
     BS("부산"),
     YS("여수"),
     JJ("제주");
-    private String value;
+    private final String value;
 
     @Override
     public String getCode() {

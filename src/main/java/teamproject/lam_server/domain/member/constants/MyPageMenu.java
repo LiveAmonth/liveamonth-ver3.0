@@ -16,8 +16,8 @@ public enum MyPageMenu implements EnumMapperType {
     ACCOUNT("계정 관리", Set.of(MODIFY, DROP)),
     COMMUNITY("커뮤니티", Set.of(REVIEW, SCHEDULE)),
     INQUIRY("1:1 문의", Set.of(WRITE_INQUIRY, INQUIRY_ANSWER));
-    private String value;
-    private Set<MyPageSubCategory> subCategories;
+    private final String value;
+    private final Set<MyPageSubCategory> subCategories;
 
     @Override
     public String getCode() {

@@ -12,7 +12,7 @@ public enum GenderType implements EnumMapperType {
     MALE("남성"),
     FEMALE("여성");
 
-    private String value;
+    private final String value;
 
     @Override
     public String getCode() {

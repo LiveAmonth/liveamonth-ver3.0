@@ -9,7 +9,7 @@ public enum ReviewCategory implements EnumMapperType {
     RECOMMEND_FOOD("먹거리 추천"),
     RECOMMEND_VIEW("볼거리 추천"),
     FREE("자유게시판");
-    private String value;
+    private final String value;
 
     ReviewCategory(String value) {
         this.value = value;
