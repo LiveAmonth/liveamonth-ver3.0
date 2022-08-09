@@ -21,9 +21,9 @@ public enum CityWeatherSortType implements MetaModelType {
     MAX_DEGREE_ASC("최고 기온 낮은순", "max-degree,asc", getColumn(cityWeather.maxDegree)),
     MAX_DEGREE_DESC("최고 기온 높은순", "max-degree,desc", getColumn(cityWeather.maxDegree));
 
-    private String value;
-    private String title;
-    private String metaData;
+    private final String value;
+    private final String title;
+    private final String metaData;
 
     @Override
     public String getCode() {

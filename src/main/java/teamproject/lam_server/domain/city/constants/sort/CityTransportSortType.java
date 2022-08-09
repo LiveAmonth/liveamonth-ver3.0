@@ -15,9 +15,9 @@ public enum CityTransportSortType implements MetaModelType {
     TRANSPORT_SCORE_ASC("교통점수 낮은순", "score,asc", getColumn(cityTransport.score)),
     TRANSPORT_SCORE_DESC("교통점수 높은순", "score,asc", getColumn(cityTransport.score));
 
-    private String value;
-    private String title;
-    private String metaData;
+    private final String value;
+    private final String title;
+    private final String metaData;
 
     @Override
     public String getCode() {

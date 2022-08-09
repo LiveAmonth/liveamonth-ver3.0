@@ -8,7 +8,7 @@ public enum CityIntroCategory implements EnumMapperType {
     INTRO("소개"),
     FOOD("먹거리"),
     VIEW("볼거리");
-    private String value;
+    private final String value;
 
     CityIntroCategory(String value) {
         this.value = value;

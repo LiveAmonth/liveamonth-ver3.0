@@ -14,8 +14,8 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 public enum CityWeatherSearchType implements SearchConditionType {
     CITY_NAME("도시 이름", CityName.values()),
     MONTH("월", MonthCategory.values());
-    private String value;
-    private EnumMapperType[] conditionTypes;
+    private final String value;
+    private final EnumMapperType[] conditionTypes;
 
     @Override
     public String getCode() {

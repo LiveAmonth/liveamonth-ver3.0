@@ -18,14 +18,15 @@ public enum Role implements EnumMapperType {
     USER("ROLE_USER"),
     GUEST("ROLE_GUEST");
 
-    private String value;
+    private final String value;
+
+    public static String getRoleHierarchy() {
+        return Arrays.stream(Role.values()).map(Role::getValue).collect(Collectors.joining(" > "));
+    }
 
     @Override
     public String getCode() {
         return name();
-    }
-    public static String getRoleHierarchy(){
-        return Arrays.stream(Role.values()).map(Role::getValue).collect(Collectors.joining(" > "));
     }
 
 }
