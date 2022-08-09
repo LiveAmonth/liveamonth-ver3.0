@@ -1,6 +1,5 @@
 package teamproject.lam_server.domain.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import teamproject.lam_server.domain.member.constants.AccountState;
@@ -8,7 +7,9 @@ import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.constants.SocialType;
 import teamproject.lam_server.domain.review.entity.Review;
+import teamproject.lam_server.domain.review.entity.ReviewLike;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
+import teamproject.lam_server.domain.schedule.entity.ScheduleLike;
 import teamproject.lam_server.exception.badrequest.AlreadyDropMember;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
@@ -24,61 +25,50 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @ToString(of = {"id", "loginId", "nickname", "name", "email", "gender", "birth"})
 public class Member extends BaseTimeEntity {
 
+    @OneToMany(mappedBy = "to")
+    @ToString.Exclude
+    private final Set<Follower> followers = new HashSet<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<Follower> following = new HashSet<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ReviewLike> reviewLikes = new HashSet<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
-
     @Column(unique = true, updatable = false)
     private String loginId;
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-
     private String name;
-
     private String nickname;
-
     private String email;
-
     @Enumerated(EnumType.STRING)
     private GenderType gender;
-
     private LocalDate birth;
-
     private String image;
-
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
-
     @Enumerated(EnumType.STRING)
     private Role role;
-
     @Enumerated(EnumType.STRING)
     private AccountState status;
-
-    @OneToMany(mappedBy = "to")
-    private final Set<Follower> followers = new HashSet<>();
-
-    @OneToMany(mappedBy = "from")
-    private final Set<Follower> following = new HashSet<>();
-
-
-    /**
-     * 아래의 리스트들이 사실상 필요없다.
-     * 어떤 회원이 작성한 게시글들의 관점으로 보는 것이 아니라
-     * 게시글을 작성할 때 회원 정보가 필요한 것.
-     * 사람의 입장이 아니라 시스템의 입장에서 생각해보자
-     * -> 비즈니스 로직 어떤 회원이 작성한 게시글을 찾을 때
-     * user.getReviews()가 아니라 reviewRepository.findByUser(user) 로 찾자!!
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "member")
-    private final List<Review> reviews = new ArrayList<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "member")
-    private final List<Schedule> schedules = new ArrayList<>();
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")
     public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth) {
