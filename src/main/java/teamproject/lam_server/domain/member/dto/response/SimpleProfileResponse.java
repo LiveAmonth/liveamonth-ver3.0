@@ -10,6 +10,7 @@ public class SimpleProfileResponse {
     private Long id;
     private String loginId;
     private String nickname;
+    private String image;
     private int numOfReviews;
     private int numOfSchedules;
     private int numOfFollowers;
@@ -19,6 +20,7 @@ public class SimpleProfileResponse {
                 .id(member.getId())
                 .loginId(member.getLoginId())
                 .nickname(member.getNickname())
+                .image(member.getImage())
                 .numOfReviews(member.getReviews().size())
                 .numOfSchedules(member.getSchedules().size())
                 .numOfFollowers(member.getFollowers().size())

@@ -12,28 +12,4 @@ import static teamproject.lam_server.constants.AttrConstants.*;
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
 
-    List<Schedule> findTop5ByOrderByViewCountDesc();
-
-
-    @Query(
-            value = "select year(schedule_content_date)" +
-                    " from schedule_contents" +
-                    " where schedule_id = :id" +
-                    " group by year(schedule_content_date)" +
-                    " order by count(schedule_content_date) desc" +
-                    " limit 1",nativeQuery = true
-    )
-    String getTopContentToYear(@Param(ID) long id);
-
-    @Query(
-            value = "select month(schedule_content_date)" +
-                    " from schedule_contents" +
-                    " where schedule_id = :id" +
-                    " group by month(schedule_content_date)" +
-                    " order by count(schedule_content_date) desc" +
-                    " limit 1;",nativeQuery = true
-    )
-    String getTopContentToMoth(@Param(ID) long id);
-
-
 }

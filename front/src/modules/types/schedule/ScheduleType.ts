@@ -1,9 +1,9 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
-import type { ScheduleProfileType } from "@/modules/types/member/MemberType";
+import type { SimpleProfileType } from "@/modules/types/member/MemberType";
 
 export interface ScheduleContentType {
   date: string | Date;
-  description: string;
+  title: string;
 }
 
 export interface ScheduleType {
@@ -12,7 +12,7 @@ export interface ScheduleType {
   city: EnumType;
   hits: number;
   likes: number;
-  profile: ScheduleProfileType;
+  profile: SimpleProfileType;
   range: DateRangeType;
 }
 
@@ -23,9 +23,7 @@ export interface DateRangeType {
 
 export interface calendarAttrType {
   date: Date;
-  popover: {
-    label: string;
-  };
+  popover: boolean;
   highlight: string;
   customDate: ScheduleContentType[];
 }

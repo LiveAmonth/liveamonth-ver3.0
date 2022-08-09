@@ -9,7 +9,7 @@ import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 
 @Service
 @RequiredArgsConstructor
-public class ScheduleApiServiceImpl implements ScheduleApiService {
+public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ScheduleContentRepository scheduleContentRepository;
     private final MemberRepository memberRepository;
