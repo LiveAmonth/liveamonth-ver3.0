@@ -1,6 +1,6 @@
-package teamproject.lam_server.domain.member.repository;
+package teamproject.lam_server.domain.interaction.repository;
 
-import teamproject.lam_server.domain.member.entity.Follower;
+import teamproject.lam_server.domain.interaction.entity.Follower;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import java.util.List;

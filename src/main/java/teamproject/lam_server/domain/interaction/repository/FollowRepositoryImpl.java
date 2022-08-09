@@ -1,16 +1,16 @@
-package teamproject.lam_server.domain.member.repository;
+package teamproject.lam_server.domain.interaction.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import teamproject.lam_server.domain.member.entity.Follower;
+import teamproject.lam_server.domain.interaction.entity.Follower;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import java.util.List;
 import java.util.Optional;
 
-import static teamproject.lam_server.domain.member.entity.QFollower.follower;
+import static teamproject.lam_server.domain.interaction.entity.QFollower.follower;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 
 
@@ -37,7 +37,7 @@ public class FollowRepositoryImpl implements FollowRepositoryCustom {
     @Override
     public Long getFollowersCount(Long to) {
         return queryFactory.select(follower.count())
-                .join(follower.to,member).fetchJoin()
+                .join(follower.to, member).fetchJoin()
                 .where(
                         toMemberIdEq(to)
                 )
@@ -55,15 +55,17 @@ public class FollowRepositoryImpl implements FollowRepositoryCustom {
                 )
                 .fetch();
     }
+
     @Override
     public Long getFollowingsCount(Long from) {
         return queryFactory.select(follower.count())
-                .join(follower.from,member).fetchJoin()
+                .join(follower.from, member).fetchJoin()
                 .where(
                         fromMemberIdEq(from)
                 )
                 .fetchOne();
     }
+
     @Override
     public List<Member> getFollowings(Long from) {
         return queryFactory.select(follower.to)

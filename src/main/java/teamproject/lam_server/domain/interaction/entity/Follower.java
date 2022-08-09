@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.schedule.entity;
+package teamproject.lam_server.domain.interaction.entity;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,10 +14,10 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScheduleLike extends BaseTimeEntity {
+public class Follower extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_like_id")
+    @Column(name = "followers_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -25,24 +25,23 @@ public class ScheduleLike extends BaseTimeEntity {
     private Member from;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "to_schedule_id")
-    private Schedule to;
-
+    @JoinColumn(name = "to_member_id")
+    private Member to;
 
     @Builder
-    public ScheduleLike(Member from, Schedule to) {
+    public Follower(Member from, Member to) {
         this.from = from;
         this.to = to;
         follow();
     }
 
     private void follow() {
-        from.getScheduleLikes().add(this);
-        to.getLikes().add(this);
+        from.getFollowing().add(this);
+        to.getFollowers().add(this);
     }
 
     public void unFollow() {
-        from.getScheduleLikes().remove(this);
-        to.getLikes().remove(this);
+        from.getFollowing().remove(this);
+        to.getFollowers().remove(this);
     }
 }

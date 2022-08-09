@@ -2,14 +2,15 @@ package teamproject.lam_server.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import teamproject.lam_server.domain.interaction.entity.Follower;
+import teamproject.lam_server.domain.interaction.entity.ReviewLike;
+import teamproject.lam_server.domain.interaction.entity.ScheduleLike;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.constants.SocialType;
 import teamproject.lam_server.domain.review.entity.Review;
-import teamproject.lam_server.domain.review.entity.ReviewLike;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.entity.ScheduleLike;
 import teamproject.lam_server.exception.badrequest.AlreadyDropMember;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
