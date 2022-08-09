@@ -34,11 +34,12 @@ public class Follower extends BaseTimeEntity {
         follow();
     }
 
-    private void follow(){
+    private void follow() {
         from.getFollowing().add(this);
         to.getFollowers().add(this);
     }
-    public void unFollow(){
+
+    public void unFollow() {
         from.getFollowing().remove(this);
         to.getFollowers().remove(this);
     }
