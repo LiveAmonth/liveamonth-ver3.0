@@ -14,11 +14,9 @@ const scheduleContents = computed(() => store.scheduleContents(props.index));
 const attrs = computed(() =>
   scheduleContents.value.map((content: ScheduleContentType) => ({
     date: content.date,
-    popover: {
-      label: content.description,
-    },
+    popover: true,
     highlight: "teal",
-    customData: scheduleContents.value,
+    customData: content,
   }))
 );
 </script>
@@ -45,7 +43,7 @@ const attrs = computed(() =>
               color="#004a55"
             >
               <span class="p-0 m-0" style="color: white">
-                {{ customData.description }}
+                {{ customData.title }}
               </span>
             </el-timeline-item>
           </el-timeline>

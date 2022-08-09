@@ -18,14 +18,10 @@ export interface SimpleProfileType {
   id: number;
   loginId: string;
   nickname: string;
+  image: string;
   numOfReviews: number;
   numOfSchedules: number;
   numOfFollowers: number;
-}
-
-export interface ScheduleProfileType {
-  image: string;
-  nickname: string;
 }
 
 export interface FoundIdType {

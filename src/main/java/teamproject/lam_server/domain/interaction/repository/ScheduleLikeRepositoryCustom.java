@@ -7,7 +7,8 @@ import teamproject.lam_server.domain.schedule.entity.Schedule;
 import java.util.List;
 import java.util.Optional;
 
-public interface ScheduleLikeRepositoryCustom {
+public
+interface ScheduleLikeRepositoryCustom {
 
     Optional<ScheduleLike> findById(Long from, Long id);
 
