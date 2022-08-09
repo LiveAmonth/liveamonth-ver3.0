@@ -2,6 +2,7 @@ package teamproject.lam_server.domain.schedule.entity;
 
 import lombok.*;
 import teamproject.lam_server.domain.city.constants.CityName;
+import teamproject.lam_server.domain.interaction.entity.ScheduleLike;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.persistence.*;

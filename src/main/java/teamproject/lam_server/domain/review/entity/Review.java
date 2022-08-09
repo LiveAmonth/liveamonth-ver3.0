@@ -2,6 +2,7 @@ package teamproject.lam_server.domain.review.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import teamproject.lam_server.domain.interaction.entity.ReviewLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.entity.editor.ReviewEditor;

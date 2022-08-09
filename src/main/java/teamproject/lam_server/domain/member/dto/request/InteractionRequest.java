@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class FollowRequest {
+public class InteractionRequest {
 
     @NotNull
     private Long from;

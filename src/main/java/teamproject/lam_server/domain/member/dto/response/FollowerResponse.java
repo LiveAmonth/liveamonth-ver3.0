@@ -2,7 +2,7 @@ package teamproject.lam_server.domain.member.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import teamproject.lam_server.domain.member.entity.Follower;
+import teamproject.lam_server.domain.interaction.entity.Follower;
 
 import java.util.List;
 import java.util.stream.Collectors;

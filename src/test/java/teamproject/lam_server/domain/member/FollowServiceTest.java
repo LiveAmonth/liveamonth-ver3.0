@@ -9,18 +9,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.member.dto.request.FollowRequest;
-import teamproject.lam_server.domain.member.entity.Follower;
+import teamproject.lam_server.domain.interaction.entity.Follower;
+import teamproject.lam_server.domain.interaction.repository.FollowRepository;
+import teamproject.lam_server.domain.interaction.service.InteractionServiceImpl;
+import teamproject.lam_server.domain.member.dto.request.InteractionRequest;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.FollowRepository;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.domain.member.service.FollowServiceImpl;
 
 import javax.persistence.EntityManager;
 
 @SpringBootTest
 @Transactional
-@ActiveProfiles({"local","oauth2"})
+@ActiveProfiles({"local", "oauth2"})
 @Rollback
 @Slf4j
 public class FollowServiceTest {
@@ -28,7 +28,7 @@ public class FollowServiceTest {
     @Autowired
     EntityManager em;
     @Autowired
-    FollowServiceImpl followService;
+    InteractionServiceImpl followService;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -44,7 +44,7 @@ public class FollowServiceTest {
         Member member2 = memberRepository.findByLoginId("kxuxeon").get();
 
         // when
-        FollowRequest request = new FollowRequest();
+        InteractionRequest request = new InteractionRequest();
         request.setFrom(member1.getId());
         request.setTo(member2.getId());
 
@@ -68,7 +68,7 @@ public class FollowServiceTest {
         Member member1 = memberRepository.findByLoginId("rbdus7174").get();
         Member member2 = memberRepository.findByLoginId("kxuxeon").get();
 
-        FollowRequest request = new FollowRequest();
+        InteractionRequest request = new InteractionRequest();
         request.setFrom(member1.getId());
         request.setTo(member2.getId());
 
