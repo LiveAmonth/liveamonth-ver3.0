@@ -23,7 +23,7 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"id", "loginId", "nickname", "name", "email", "gender", "birth"})
+@ToString
 public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "to")

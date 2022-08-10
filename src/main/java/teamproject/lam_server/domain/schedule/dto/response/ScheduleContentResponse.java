@@ -11,14 +11,20 @@ import java.time.LocalDate;
 @Builder
 public class ScheduleContentResponse {
 
+    private String title;
+
+    private String content;
+
+    private int cost;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDate date;
-    private String title;
 
     public static ScheduleContentResponse of(ScheduleContent schedulecontent) {
         return ScheduleContentResponse.builder()
                 .date(schedulecontent.getDate())
                 .title(schedulecontent.getTitle())
+                .content(schedulecontent.getContent())
+                .cost(schedulecontent.getCost())
                 .build();
     }
 

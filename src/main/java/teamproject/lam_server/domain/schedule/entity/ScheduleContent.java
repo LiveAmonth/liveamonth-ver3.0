@@ -2,6 +2,7 @@ package teamproject.lam_server.domain.schedule.entity;
 
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -29,16 +30,23 @@ public class ScheduleContent extends BaseTimeEntity {
 
     private int cost;
 
+    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")
     @ToString.Exclude
     private Schedule schedule;
 
     @Builder
-    public ScheduleContent(String title, String content, LocalDate date, int cost) {
+    public ScheduleContent(String title, String content, LocalDate date, int cost, Schedule schedule) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.cost = cost;
+        connectSchedule(schedule);
+    }
+
+    public void connectSchedule(Schedule schedule) {
+        this.schedule = schedule;
+        schedule.getScheduleContents().add(this);
     }
 }

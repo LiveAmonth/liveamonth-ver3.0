@@ -21,6 +21,10 @@ public enum EnumClassConst implements EnumMapperType {
     TRANSPORT_GRADE("TransportGrade","대중 교통 등급"),
     MONTH_CATEGORY("MonthCategory","월"),
 
+    // Schedule
+    SCHEDULE_SEARCH_TYPE("ScheduleSearchCondType", "스케줄 검색 타입"),
+    SCHEDULE_SORT_TYPE("ScheduleSortType", "스케줄 정렬 방식"),
+
     // Review
     REVIEW_CATEGORY("ReviewCategory","리뷰 게시판"),
 

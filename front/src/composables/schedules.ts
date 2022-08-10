@@ -5,7 +5,18 @@ export const useSchedule = () => {
   const store = useScheduleStore();
   const error = ref();
   const isPending = ref<boolean>(false);
-
+  const getScheduleSearchCond = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getScheduleSearchCond();
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
   const getOtherSchedules = async (size: number) => {
     error.value = null;
     isPending.value = true;
@@ -22,6 +33,7 @@ export const useSchedule = () => {
   return {
     error,
     isPending,
+    getScheduleSearchCond,
     getOtherSchedules,
   };
 };

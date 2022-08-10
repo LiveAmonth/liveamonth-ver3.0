@@ -4,9 +4,11 @@ import type {
   ScheduleType,
 } from "@/modules/types/schedule/ScheduleType";
 import ScheduleApiService from "@/services/ScheduleApiService";
+import type { EnumType } from "@/modules/types/common/EnumType";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
+    scheduleSearchCond: {} as EnumType[],
     otherSchedules: {} as ScheduleType[],
   }),
   getters: {
@@ -17,6 +19,16 @@ export const useScheduleStore = defineStore("schedule", {
         state.otherSchedules[index].contents,
   },
   actions: {
+    async getScheduleSearchCond() {
+      await ScheduleApiService.getScheduleSearchCond()
+        .then((response: EnumType[]) => {
+          this.scheduleSearchCond = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     async getOtherSchedules(size: number) {
       await ScheduleApiService.getOtherSchedules(size)
         .then((response: ScheduleType[]) => {

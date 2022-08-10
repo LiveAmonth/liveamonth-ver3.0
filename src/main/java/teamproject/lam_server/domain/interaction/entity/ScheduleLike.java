@@ -34,16 +34,18 @@ public class ScheduleLike extends BaseTimeEntity {
     public ScheduleLike(Member from, Schedule to) {
         this.from = from;
         this.to = to;
-        follow();
+        like();
     }
 
-    private void follow() {
+    private void like() {
         from.getScheduleLikes().add(this);
         to.getLikes().add(this);
+        to.increaseLikeCount();
     }
 
-    public void unFollow() {
+    public void cancelLike() {
         from.getScheduleLikes().remove(this);
         to.getLikes().remove(this);
+        to.decreaseLikeCount();
     }
 }

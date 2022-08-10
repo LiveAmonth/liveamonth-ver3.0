@@ -9,6 +9,8 @@ import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.MyPageMenu;
 import teamproject.lam_server.domain.member.constants.MyPageSubCategory;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
+import teamproject.lam_server.domain.schedule.constants.ScheduleSearchType;
+import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
 
@@ -32,7 +34,11 @@ public class EnumConfig {
         enumMapper.put(TRANSPORT_GRADE, TransportGrade.class);
         enumMapper.put(MONTH_CATEGORY, MonthCategory.class);
 
-        //Review
+        // Schedule
+        enumMapper.put(SCHEDULE_SEARCH_TYPE, ScheduleSearchType.class);
+        enumMapper.put(SCHEDULE_SORT_TYPE, ScheduleSortType.class);
+
+        // Review
         enumMapper.put(REVIEW_CATEGORY, ReviewCategory.class);
 
         // Customer Center
