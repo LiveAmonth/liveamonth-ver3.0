@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 public class InitDb {
     private final InitCityService initCityService;
     private final InitMemberService initMemberService;
+    private final InitScheduleService initScheduleService;
 
     @PostConstruct
     public void init() {
@@ -20,5 +21,8 @@ public class InitDb {
         initCityService.initCityTransportData();
         initCityService.initCityWeatherData();
         initMemberService.initMemberData();
+        initScheduleService.initScheduleData();
+        initScheduleService.initScheduleContentData();
+
     }
 }

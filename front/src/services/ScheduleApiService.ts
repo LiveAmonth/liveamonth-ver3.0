@@ -12,6 +12,17 @@ class ScheduleApiService {
         throw error.response.data;
       });
   }
+
+  async getScheduleSearchCond() {
+    return await http
+      .get("/categories/search-conditions/schedule")
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
 }
 
 export default new ScheduleApiService();

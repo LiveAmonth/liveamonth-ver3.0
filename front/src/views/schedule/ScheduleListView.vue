@@ -1,23 +1,25 @@
 <script lang="ts" setup>
 import { computed, ref } from "vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
 import SimpleCalendar from "@/components/schedule/SimpleCalendar.vue";
 import { useScheduleStore } from "@/stores/schedule";
+import CustomPagination from "@/components/common/CustomPagination.vue";
 
 const store = useScheduleStore();
 const count = ref(10);
 const loading = ref(false);
 const otherSchedule = computed(() => store.otherSchedules);
-const noMore = computed(() => count.value >= 20);
-const disabled = computed(() => loading.value || noMore.value);
-const load = () => {
-  loading.value = true;
-  setTimeout(() => {
-    count.value += 2;
-    loading.value = false;
-  }, 2000);
-};
+
+const numberOfReviews = ref(0);
+const contentLimit = 4;
+const pageLimit = 5;
+const pageGroup = computed(() => {
+  return Math.ceil(currentPage.value / pageLimit) - 1;
+});
+const currentPage = ref(1);
+const numberOfPages = ref(0);
+const sortTypes = ref([]);
+const sortType = ref("id,desc");
 </script>
 
 <template>
@@ -127,9 +129,15 @@ const load = () => {
             </el-row>
           </li>
         </ul>
-        <p v-if="loading">Loading...</p>
-        <p v-if="noMore">No more</p>
       </div>
+      <CustomPagination
+        :number-of-pages="numberOfPages"
+        :current-page="currentPage"
+        :content-limit="contentLimit"
+        :page-limit="pageLimit"
+        :page-group="pageGroup"
+        @click="getReviews"
+      />
     </el-col>
   </el-row>
 </template>

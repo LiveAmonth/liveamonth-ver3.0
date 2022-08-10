@@ -77,7 +77,6 @@ public class InteractionServiceImpl implements InteractionService {
 
         Member from = memberRepository.findById(request.getFrom()).orElseThrow(MemberNotFound::new);
         Schedule to = scheduleRepository.findById(request.getTo()).orElseThrow(ScheduleNotFound::new);
-
         ScheduleLike scheduleLike = ScheduleLike.builder()
                 .from(from)
                 .to(to)
@@ -92,7 +91,7 @@ public class InteractionServiceImpl implements InteractionService {
                 .findById(request.getFrom(), request.getTo())
                 .orElseThrow(ScheduleNotFound::new);
 
-        scheduleLike.unFollow();
+        scheduleLike.cancelLike();
         scheduleLikeRepository.delete(scheduleLike);
     }
 
