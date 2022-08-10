@@ -2,6 +2,7 @@ package teamproject.lam_server.init;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentCreate;
@@ -24,6 +25,7 @@ public class InitScheduleService {
     private final ScheduleContentRepository scheduleContentRepository;
 
 
+    @Transactional
     public void initScheduleData() {
         scheduleRepository.saveAll(
                 JsonUtil.jsonArrayToList(SCHEDULE, ScheduleCreate.class).stream()
@@ -32,6 +34,7 @@ public class InitScheduleService {
         );
     }
 
+    @Transactional
     public void initScheduleContentData() {
         scheduleContentRepository.saveAll(
                 JsonUtil.jsonArrayToList(SCHEDULE_CONTENT, ScheduleContentCreate.class).stream()
