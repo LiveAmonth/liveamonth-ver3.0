@@ -39,6 +39,7 @@ public class Schedule extends BaseTimeEntity {
 
     private String title;
 
+    @Enumerated(EnumType.STRING)
     private CityName cityName;
 
     private int viewCount;

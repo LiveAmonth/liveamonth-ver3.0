@@ -10,9 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.city.constants.CityName;
-import teamproject.lam_server.domain.schedule.dto.ScheduleSearchCond;
+import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.util.BasicRepositoryUtil;
 
 import java.time.LocalDate;
@@ -21,7 +20,6 @@ import java.util.List;
 import static org.springframework.util.StringUtils.hasText;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
-import static teamproject.lam_server.domain.schedule.entity.QScheduleContent.scheduleContent;
 
 @Repository
 @RequiredArgsConstructor

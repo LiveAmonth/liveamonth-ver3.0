@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
-public class ScheduleCreate {
+public class CreateScheduleRequest {
 
     @NotNull
     private Long memberId;

@@ -1,29 +1,36 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
 
-export interface ScheduleContentType {
-  date: string | Date;
-  title: string;
+export interface ScheduleDetailType {
+  card: ScheduleCardType;
+  contents: ScheduleContentType[];
 }
 
-export interface ScheduleType {
-  contents: ScheduleContentType[];
-  price: number;
+export interface ScheduleCardType {
+  id: number;
+  title: string;
+  profile: SimpleProfileType;
+  cost: number;
   city: EnumType;
   hits: number;
   likes: number;
-  profile: SimpleProfileType;
-  range: DateRangeType;
+  period: DateRangeType;
+}
+
+export interface ScheduleContentType {
+  title: string;
+  content: string;
+  cost: number;
+  date: string;
 }
 
 export interface DateRangeType {
-  start: Date | string;
-  end: Date | string;
+  startDate: string | Date;
+  endDate: string | Date;
 }
 
-export interface calendarAttrType {
-  date: Date;
-  popover: boolean;
-  highlight: string;
-  customDate: ScheduleContentType[];
+export interface ScheduleSearchType {
+  memberNickname: string | null;
+  cityName: string | null;
+  startDate: string | null;
 }
