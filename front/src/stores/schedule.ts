@@ -1,38 +1,56 @@
 import { defineStore } from "pinia";
 import type {
   ScheduleContentType,
-  ScheduleType,
+  ScheduleSearchType,
+  ScheduleCardType,
+  ScheduleDetailType,
 } from "@/modules/types/schedule/ScheduleType";
 import ScheduleApiService from "@/services/ScheduleApiService";
 import type { EnumType } from "@/modules/types/common/EnumType";
+import type {
+  PageableRequestType,
+  PageableResponseType,
+} from "@/modules/types/common/PageableType";
+import type { SortType } from "@/modules/types/common/SortType";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
-    scheduleSearchCond: {} as EnumType[],
-    otherSchedules: {} as ScheduleType[],
+    sortTypes: {} as SortType[],
+    searchCond: {} as EnumType[],
+    pageableSchedules: {} as PageableResponseType,
   }),
   getters: {
-    numOfSchedules: (state): number => state.otherSchedules.length,
-    scheduleContents:
-      (state) =>
-      (index: number): ScheduleContentType[] =>
-        state.otherSchedules[index].contents,
+    scheduleDetails: (state): ScheduleCardType[] =>
+      state.pageableSchedules.content as ScheduleCardType[],
   },
   actions: {
+    async getSortTypes() {
+      await ScheduleApiService.getSortTypes()
+        .then((response: SortType[]) => {
+          this.sortTypes = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
     async getScheduleSearchCond() {
       await ScheduleApiService.getScheduleSearchCond()
         .then((response: EnumType[]) => {
-          this.scheduleSearchCond = response;
+          this.searchCond = response;
         })
         .catch((error) => {
           throw error;
         });
     },
 
-    async getOtherSchedules(size: number) {
-      await ScheduleApiService.getOtherSchedules(size)
-        .then((response: ScheduleType[]) => {
-          this.otherSchedules = response;
+    async getOtherSchedules(
+      request: ScheduleSearchType,
+      pageable: PageableRequestType
+    ) {
+      await ScheduleApiService.getOtherSchedules(request, pageable)
+        .then((response: PageableResponseType) => {
+          console.log(response.content);
+          this.pageableSchedules = response;
         })
         .catch((error) => {
           throw error;

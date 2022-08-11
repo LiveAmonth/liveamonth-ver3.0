@@ -8,11 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
-import teamproject.lam_server.domain.schedule.dto.ScheduleSearchCond;
-import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentCreate;
-import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
+import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
+import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
+import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.domain.schedule.repository.ScheduleContentRepository;
@@ -23,7 +22,6 @@ import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,7 +33,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final DomainSpec<ScheduleSortType> spec = new DomainSpec<>(ScheduleSortType.class);
 
     @Transactional
-    public void addSchedule(ScheduleCreate request) {
+    public void addSchedule(CreateScheduleRequest request) {
         Member member = memberRepository
                 .findById(request.getMemberId())
                 .orElseThrow(MemberNotFound::new);
@@ -44,7 +42,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Transactional
-    public void addScheduleContent(ScheduleContentCreate request) {
+    public void addScheduleContent(CreateScheduleContentRequest request) {
         Schedule schedule = scheduleRepository
                 .findById(request.getScheduleId())
                 .orElseThrow(ScheduleNotFound::new);
@@ -55,14 +53,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleContentRepository.save(scheduleContent);
     }
 
-    public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
+    public Page<ScheduleDetailResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
-        return scheduleRepository.search(cond, pageable).map(ScheduleCardResponse::of);
+        return scheduleRepository.search(cond, pageable).map(schedule -> ScheduleDetailResponse.of(schedule, schedule.getScheduleContents()));
     }
 
-    public List<ScheduleContentResponse> getScheduleContents(Long scheduleId){
-        return scheduleContentRepository.getScheduleContents(scheduleId).stream()
-                .map(ScheduleContentResponse::of)
-                .collect(Collectors.toList());
+    public ScheduleDetailResponse getScheduleDetails(Long scheduleId){
+        List<ScheduleContent> contents = scheduleContentRepository.getScheduleContents(scheduleId);
+        Schedule schedule = contents.stream().findAny().orElseThrow().getSchedule();
+        return ScheduleDetailResponse.of(schedule, contents);
     }
 }

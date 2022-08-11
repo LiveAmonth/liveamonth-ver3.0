@@ -10,6 +10,11 @@ const apiClient: AxiosInstance = axios.create({
     "Content-type": "application/json;charset=utf-8",
   },
 });
+export const getSort = (domain: string) =>
+  apiClient.get(`/categories/sort-types/${domain}`);
+
+export const getSearchCond = (domain: string) =>
+  apiClient.get(`/categories/search-conditions/${domain}`);
 
 apiClient.interceptors.response.use(
   function (response) {

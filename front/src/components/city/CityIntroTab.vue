@@ -34,7 +34,4 @@ const activeName = ref<string>("intro");
 .tab-detail {
   margin: 0 20px;
 }
-.title {
-  color: #111111;
-}
 </style>

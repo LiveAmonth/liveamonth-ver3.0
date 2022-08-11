@@ -9,12 +9,10 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ScheduleSearchType implements EnumMapperType {
-    MOVIE_TITLE("영화 제목"),
-    THEATER_NAME("극장 이름"),
-    SCREEN_FORMAT("상영관 포멧"),
-    SCREEN_START_TIME("시작 날짜"),
-    SCREEN_END_TIME("끝 날짜");
-    private String value;
+    MEMBER_NICKNAME("닉네임"),
+    CITY_NAME("도시 이름"),
+    START_DATE("시작 날짜");
+    private final String value;
 
     @Override
     public String getCode() {

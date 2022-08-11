@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.schedule.dto;
+package teamproject.lam_server.domain.schedule.dto.condition;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

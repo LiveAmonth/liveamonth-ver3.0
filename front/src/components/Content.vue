@@ -8,7 +8,11 @@
 
 <style lang="scss" scoped>
 .content {
-  height: calc(100vh - 250px);
+  height: fit-content;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @media screen and (min-width: 1200px) {

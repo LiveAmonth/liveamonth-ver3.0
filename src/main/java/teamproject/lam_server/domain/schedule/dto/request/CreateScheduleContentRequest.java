@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
-public class ScheduleContentCreate {
+public class CreateScheduleContentRequest {
 
     @NotNull
     private Long scheduleId;
