@@ -11,6 +11,7 @@ import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
@@ -53,12 +54,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleContentRepository.save(scheduleContent);
     }
 
-    public Page<ScheduleDetailResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
+    public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
-        return scheduleRepository.search(cond, pageable).map(schedule -> ScheduleDetailResponse.of(schedule, schedule.getScheduleContents()));
+        return scheduleRepository.search(cond, pageable).map(ScheduleCardResponse::of);
     }
 
-    public ScheduleDetailResponse getScheduleDetails(Long scheduleId){
+    public ScheduleDetailResponse getScheduleDetails(Long scheduleId) {
         List<ScheduleContent> contents = scheduleContentRepository.getScheduleContents(scheduleId);
         Schedule schedule = contents.stream().findAny().orElseThrow().getSchedule();
         return ScheduleDetailResponse.of(schedule, contents);

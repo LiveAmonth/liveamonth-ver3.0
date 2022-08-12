@@ -8,7 +8,7 @@ export const usePagination = () => {
   const pagination: CustomPaginationType = {
     numberOfPages: ref<number>(0),
     numberOfContents: ref<number>(0),
-    contentLimit: 1,
+    contentLimit: 4,
     pageLimit: 5,
     currentPage: ref<number>(1),
     pageGroup: computed(() => {

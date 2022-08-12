@@ -13,27 +13,15 @@ import type {
 import { useSort } from "@/composables/sort";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import ScheduleFilter from "@/components/schedule/ScheduleFilter.vue";
+import type { SearchSortFormType } from "@/modules/types/common/SearchSortType";
 
 const store = useScheduleStore();
-const {
-  error,
-  isPending,
-  getSortTypes,
-  getScheduleSearchCond,
-  getOtherSchedules,
-} = useSchedule();
+const { isPending, getOtherSchedules } = useSchedule();
 const { pagination, mappingPagination } = usePagination();
-const { types, currSortType } = useSort();
-const searchCond = ref<EnumType[]>();
 const schedules = computed((): ScheduleCardType[] => store.scheduleDetails);
-
+const currSortType = ref("id,desc");
 onMounted(async () => {
-  await getSortTypes().then(() => {
-    types.value = store.sortTypes;
-  });
-  await getScheduleSearchCond().then(() => {
-    searchCond.value = store.searchCond;
-  });
   const request: ScheduleSearchType = {
     memberNickname: null,
     cityName: null,
@@ -50,7 +38,6 @@ onMounted(async () => {
 });
 
 const pageClick = async (page: number) => {
-  console.log(page);
   pagination.currentPage.value = page;
   const request: ScheduleSearchType = {
     memberNickname: null,
@@ -66,37 +53,34 @@ const pageClick = async (page: number) => {
     mappingPagination(store.pageableSchedules);
   });
 };
-
-const activeName = ref([1]);
-const filter = ref("오래된 순");
+const adaptOptions = async (data: SearchSortFormType) => {
+  currSortType.value = String(data.sortType);
+  const request: ScheduleSearchType = {
+    memberNickname:
+      data.searchType === "MEMBER_NICKNAME"
+        ? (data.searchInput as string)
+        : null,
+    cityName:
+      data.searchType === "CITY_NAME" ? (data.searchInput as string) : null,
+    startDate:
+      data.searchType === "START_DATE" ? (data.searchInput as string) : null,
+  };
+  const pageable: PageableRequestType = {
+    page: pagination.currentPage.value,
+    size: pagination.contentLimit,
+    sorts: currSortType.value,
+  };
+  await getOtherSchedules(request, pageable).then(() => {
+    mappingPagination(store.pageableSchedules);
+  });
+};
 </script>
 
 <template>
   <el-row>
     <el-col>
-      <div class="filter-collapse">
-        <el-collapse v-model="activeName">
-          <el-collapse-item :name="1">
-            <template #title>
-              <el-icon class="me-1"><Search /></el-icon>
-              Search
-            </template>
-            <div>{{ store.searchCond }}</div>
-          </el-collapse-item>
-          <el-collapse-item :name="2">
-            <template #title>
-              <el-icon class="me-1"><Filter /></el-icon>
-              Filter
-            </template>
-            <div>
-              <el-radio-group v-model="filter" size="large">
-                <template v-for="type in store.sortTypes" :key="type.code">
-                  <el-radio-button :label="type.value" />
-                </template>
-              </el-radio-group>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
+      <div class="search-filter">
+        <ScheduleFilter @adapt-option="adaptOptions" />
       </div>
       <div class="schedule-list">
         <ul class="list">
@@ -209,6 +193,11 @@ const filter = ref("오래된 순");
 </template>
 
 <style lang="scss" scoped>
+.search-filter {
+  padding-left: 60px;
+  margin-top: 30px;
+}
+
 .schedule-list {
   text-align: center;
 
@@ -255,6 +244,7 @@ const filter = ref("오래된 순");
 
 a {
   text-decoration: none;
+  color: inherit;
 
   &:hover {
     font-weight: bold;

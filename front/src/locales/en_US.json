@@ -2,6 +2,13 @@
   "hello": {
     "name": "Hello! {user}"
   },
+  "common": {
+    "search": "Search",
+    "filter": "Filter",
+    "select": "Select",
+    "please-input": "Please input",
+    "pick-day": "Pick a Day"
+  },
   "menu": {
     "city": "CITY",
     "schedule": "SCHEDULE",
@@ -195,6 +202,11 @@
       "location": "A month's city of living",
       "view": "view",
       "like": "like"
+    },
+    "search": {
+      "member_nickname": "Nickname",
+      "city_name": "City",
+      "start_date": "Start Date"
     }
   }
 }
