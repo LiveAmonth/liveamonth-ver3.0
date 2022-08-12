@@ -2,6 +2,13 @@
   "hello": {
     "name": "{user}님 안녕하세요!"
   },
+  "common": {
+    "search": "검색",
+    "filter": "필터",
+    "select": "선택",
+    "please-input": "입력해주세요.",
+    "pick-day": "날짜를 선택해주세요"
+  },
   "menu": {
     "city": "도시 소개",
     "schedule": "스케줄",
@@ -195,6 +202,11 @@
       "location": "한 달 살기 지역",
       "view": "조회 수",
       "like": "좋아요 수"
+    },
+    "search": {
+      "member_nickname": "닉네임",
+      "city_name": "도시 이름",
+      "start_date": "시작 날짜"
     }
   }
 }

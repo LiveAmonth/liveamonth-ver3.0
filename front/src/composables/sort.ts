@@ -3,7 +3,7 @@ import { ref } from "vue";
 
 export const useSort = () => {
   const types = ref<SortType[]>([]);
-  const currSortType = ref<string>("id,desc");
+  const currSortType = ref<SortType>();
 
   return {
     types,

@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -15,7 +16,7 @@ public interface ScheduleService {
     @Transactional
     void addScheduleContent(CreateScheduleContentRequest request);
 
-    Page<ScheduleDetailResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO);
+    Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO);
 
     ScheduleDetailResponse getScheduleDetails(Long scheduleId);
 }

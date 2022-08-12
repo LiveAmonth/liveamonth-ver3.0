@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
 import teamproject.lam_server.global.dto.CustomResponse;
@@ -29,20 +30,20 @@ public class ScheduleApiController {
     }
 
     @PostMapping("/contents")
-    public ResponseEntity<?> addScheduleContent(@RequestBody CreateScheduleContentRequest request){
+    public ResponseEntity<?> addScheduleContent(@RequestBody CreateScheduleContentRequest request) {
         scheduleApiService.addScheduleContent(request);
         return CustomResponse.success(CREATE_SCHEDULE_CONTENT);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getScheduleDetails(@PathVariable Long id){
+    public ResponseEntity<?> getScheduleDetails(@PathVariable Long id) {
         ScheduleDetailResponse result = scheduleApiService.getScheduleDetails(id);
         return CustomResponse.success(READ_SCHEDULE_CONTENT, result);
     }
 
     @PostMapping("/search")
     public ResponseEntity<?> search(@RequestBody ScheduleSearchCond cond, PageableDTO pageableDTO) {
-        Page<ScheduleDetailResponse> result = scheduleApiService.search(cond, pageableDTO);
+        Page<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 }
