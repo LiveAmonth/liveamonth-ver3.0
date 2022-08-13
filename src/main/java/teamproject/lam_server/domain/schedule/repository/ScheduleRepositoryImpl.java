@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -23,7 +24,8 @@ import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 
 @Repository
 @RequiredArgsConstructor
-public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements ScheduleRepositoryCustom{
+@Slf4j
+public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements ScheduleRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -33,7 +35,9 @@ public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements Sched
                 .limit(pageable.getPageSize())
                 .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
                 .fetch();
-
+        for (Schedule element : elements) {
+            log.info("element={}", element.toString());
+        }
         JPAQuery<Long> countQuery = getSearchCountQuery(cond);
 
         return PageableExecutionUtils.getPage(
@@ -44,7 +48,7 @@ public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements Sched
 
     private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {
         return queryFactory.selectFrom(schedule)
-                .join(schedule.member, member).fetchJoin()
+                .join(schedule.member, member)
                 .where(getSearchPredicts(cond));
     }
 
@@ -70,6 +74,7 @@ public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements Sched
     private BooleanExpression cityNameEq(CityName cityName) {
         return cityName != null ? schedule.cityName.eq(cityName) : null;
     }
+
     private BooleanExpression startDateGoe(LocalDate start) {
         return start != null ? schedule.period.startDate.goe(start) : null;
     }

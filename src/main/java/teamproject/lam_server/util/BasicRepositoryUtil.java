@@ -6,19 +6,25 @@ import com.querydsl.core.types.dsl.EntityPathBase;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
 
+@Slf4j
 public class BasicRepositoryUtil {
     protected <T extends BaseTimeEntity, S extends EntityPathBase<T>> OrderSpecifier<?>[] mapToOrderSpec(Sort sort, Class<T> t, S s) {
-        return sort.stream().map(
+        OrderSpecifier[] orderSpecifiers = sort.stream().map(
                 order -> new OrderSpecifier(
                         order.getDirection().isAscending() ? ASC : DESC,
                         Expressions.path(t, s, order.getProperty()))
         ).toArray(OrderSpecifier[]::new);
+        for (OrderSpecifier orderSpecifier : orderSpecifiers) {
+            log.info("orderspecifier={}", orderSpecifier.toString());
+        }
+        return orderSpecifiers;
     }
 
     protected <T extends EntityPathBase> JPAQuery<Long> count(JPAQueryFactory queryFactory, T t, Predicate... predicate) {

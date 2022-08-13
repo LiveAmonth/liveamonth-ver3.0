@@ -36,6 +36,8 @@ public class PageableArgumentResolver implements HandlerMethodArgumentResolver {
                                 SortOption.valueOf(keywords[1].toUpperCase())
                         ));
             }
+            SortPair defaultSort = SortPair.of("ID_DESC", SortOption.DESC);
+            if (!sorts.contains(defaultSort)) sorts.add(defaultSort);
         }
         return PageableDTO.builder()
                 .page(getValue(webRequest.getParameter(PAGE)))
