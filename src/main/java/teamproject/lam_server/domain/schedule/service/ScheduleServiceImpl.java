@@ -1,6 +1,7 @@
 package teamproject.lam_server.domain.schedule.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ScheduleContentRepository scheduleContentRepository;
@@ -56,6 +58,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
+        log.info("pageable={}", pageable.getSort().toString());
         return scheduleRepository.search(cond, pageable).map(ScheduleCardResponse::of);
     }
 

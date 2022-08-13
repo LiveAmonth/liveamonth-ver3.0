@@ -68,7 +68,7 @@ const adaptOptions = async (data: SearchSortFormType) => {
   const pageable: PageableRequestType = {
     page: pagination.currentPage.value,
     size: pagination.contentLimit,
-    sorts: currSortType.value,
+    sorts: currSortType.value + "id,desc",
   };
   await getOtherSchedules(request, pageable).then(() => {
     mappingPagination(store.pageableSchedules);
