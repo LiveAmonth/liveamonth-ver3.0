@@ -35,9 +35,6 @@ public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements Sched
                 .limit(pageable.getPageSize())
                 .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
                 .fetch();
-        for (Schedule element : elements) {
-            log.info("element={}", element.toString());
-        }
         JPAQuery<Long> countQuery = getSearchCountQuery(cond);
 
         return PageableExecutionUtils.getPage(
@@ -48,9 +45,11 @@ public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements Sched
 
     private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {
         return queryFactory.selectFrom(schedule)
-                .join(schedule.member, member)
+                .join(schedule.member, member).fetchJoin()
                 .where(getSearchPredicts(cond));
     }
+
+
 
     private JPAQuery<Long> getSearchCountQuery(ScheduleSearchCond cond) {
         return queryFactory.select(schedule.count())

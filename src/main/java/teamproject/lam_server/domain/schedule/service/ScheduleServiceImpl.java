@@ -58,7 +58,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
-        log.info("pageable={}", pageable.getSort().toString());
         return scheduleRepository.search(cond, pageable).map(ScheduleCardResponse::of);
     }
 
