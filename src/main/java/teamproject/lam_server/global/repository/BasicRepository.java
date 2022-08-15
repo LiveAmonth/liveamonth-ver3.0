@@ -1,4 +1,4 @@
-package teamproject.lam_server.util;
+package teamproject.lam_server.global.repository;
 
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -14,7 +14,7 @@ import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
 
 @Slf4j
-public class BasicRepositoryUtil {
+public class BasicRepository {
     protected <T extends BaseTimeEntity, S extends EntityPathBase<T>> OrderSpecifier<?>[] mapToOrderSpec(Sort sort, Class<T> t, S s) {
         OrderSpecifier[] orderSpecifiers = sort.stream().map(
                 order -> new OrderSpecifier(

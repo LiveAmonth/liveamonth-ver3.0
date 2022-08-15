@@ -10,13 +10,10 @@ import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.entity.CityIntro;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CityIntroRepository extends JpaRepository<CityIntro, Long> {
 
     List<CityIntro> findByName(CityName cityName);
-
-    Optional<CityIntro> findOneByNameAndCityInfoCat(CityName name, CityIntroCategory cityInfoCat);
 
     List<CityIntro> findByNameAndCityInfoCat(CityName name, CityIntroCategory cityInfoCat);
 

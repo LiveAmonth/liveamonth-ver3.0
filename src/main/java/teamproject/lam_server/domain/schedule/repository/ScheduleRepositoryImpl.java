@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.util.BasicRepositoryUtil;
+import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,7 +25,7 @@ import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements ScheduleRepositoryCustom {
+public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 

@@ -22,7 +22,7 @@ import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.entity.CityTransport;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 import teamproject.lam_server.domain.city.entity.QCity;
-import teamproject.lam_server.util.BasicRepositoryUtil;
+import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ import static teamproject.lam_server.domain.city.entity.QCityWeather.cityWeather
 
 @Repository
 @RequiredArgsConstructor
-public class CityQueryRepository extends BasicRepositoryUtil {
+public class CityQueryRepository extends BasicRepository {
     private final JPAQueryFactory queryFactory;
 
     public Page<CityIntro> searchIntro(CityIntroSearchCond cond, Pageable pageable) {
@@ -47,7 +47,6 @@ public class CityQueryRepository extends BasicRepositoryUtil {
         return getPage(content, pageable, countQuery::fetchOne);
     }
 
-
     public Page<CityTransport> searchTransport(CityTransportSearchCond cond, Pageable pageable) {
         List<CityTransport> content = getSearchTransportElementsQuery(cond)
                 .offset(pageable.getOffset())
@@ -58,7 +57,6 @@ public class CityQueryRepository extends BasicRepositoryUtil {
         JPAQuery<Long> countQuery = getSearchTransportCountQuery(cond);
         return getPage(content, pageable, countQuery::fetchOne);
     }
-
     public Page<CityWeather> searchWeather(CityWeatherSearchCond cond, Pageable pageable) {
         List<CityWeather> content = getSearchWeatherElementsQuery(cond)
                 .offset(pageable.getOffset())

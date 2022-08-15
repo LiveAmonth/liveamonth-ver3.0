@@ -10,7 +10,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
 import teamproject.lam_server.domain.review.entity.Review;
-import teamproject.lam_server.util.BasicRepositoryUtil;
+import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import static teamproject.lam_server.domain.review.entity.QReview.review;
 
 @Repository
 @RequiredArgsConstructor
-public class ReviewRepositoryImpl extends BasicRepositoryUtil implements ReviewRepositoryCustom {
+public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     public Page<Review> search(ReviewSearchCond cond, Pageable pageable) {
