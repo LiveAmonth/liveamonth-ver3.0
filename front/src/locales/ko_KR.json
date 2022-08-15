@@ -218,6 +218,9 @@
       "cost_asc": "비용 적은 순",
       "like_desc": "좋아요 순",
       "view_desc": "조회수 순"
+    },
+    "popover": {
+      "link": "스케줄 보러가기"
     }
   }
 }
