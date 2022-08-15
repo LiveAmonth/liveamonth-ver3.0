@@ -9,6 +9,7 @@ import teamproject.lam_server.paging.sort.SortOption;
 import teamproject.lam_server.paging.sort.SortPair;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PageableArgumentResolver implements HandlerMethodArgumentResolver {
@@ -16,7 +17,7 @@ public class PageableArgumentResolver implements HandlerMethodArgumentResolver {
     private final String SIZE = "size";
     private final String SORT = "sort";
     private final String SEPARATE = ",";
-
+    private final String LATEST_CONTENT_ORDER = "id,desc";
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().equals(PageableDTO.class);
@@ -36,8 +37,8 @@ public class PageableArgumentResolver implements HandlerMethodArgumentResolver {
                                 SortOption.valueOf(keywords[1].toUpperCase())
                         ));
             }
-            SortPair defaultSort = SortPair.of("ID_DESC", SortOption.DESC);
-            if (!sorts.contains(defaultSort)) sorts.add(defaultSort);
+            // 최신순 정렬이 아닌 경우 같은 결과값 정렬에 대해 최신순 정렬을 하기 위해 추가
+            if (Arrays.stream(sortArr).noneMatch(s -> s.equals(LATEST_CONTENT_ORDER))) sorts.add(SortPair.of("ID_DESC", SortOption.DESC));
         }
         return PageableDTO.builder()
                 .page(getValue(webRequest.getParameter(PAGE)))
