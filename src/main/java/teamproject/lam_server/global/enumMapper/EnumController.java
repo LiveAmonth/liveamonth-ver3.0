@@ -90,26 +90,31 @@ public class EnumController {
      */
     @GetMapping("/status/{entityName}")
     public ResponseEntity<?> getEntityStatus(@PathVariable String entityName) {
-        EnumClassConst eStatus = getEnumClassConst(entityName, EnumMapper.STATUS_PATH);
+        EnumClassConst eStatus = getEnumClassConst(entityName, EnumMapper.STATUS_POSTFIX);
         return getCategories(eStatus);
     }
 
     /**
      * 엔티티 검색 방식 타입
      */
-    @GetMapping("/search-conditions/{entityName}")
+    @GetMapping("/search-types/{entityName}")
     public ResponseEntity<?> getEntitySearchCondTypes(@PathVariable String entityName) {
-        EnumClassConst eSearchCondType = getEnumClassConst(entityName, EnumMapper.SEARCH_TYPE_PATH);
+        EnumClassConst eSearchCondType = getEnumClassConst(entityName, EnumMapper.SEARCH_TYPE_POSTFIX);
         return getCategories(eSearchCondType);
     }
 
     /**
-     * 엔티티 검색 정렬 타입
+     * 엔티티 검색 필터 타입
      */
+    @GetMapping("/filter-types/{entityName}")
+    public ResponseEntity<?> getEntityFilterTypes(@PathVariable String entityName) {
+        EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.FILTER_TYPE_POSTFIX);
+        return getCategories(eSortType);
+    }
     @GetMapping("/sort-types/{entityName}")
     public ResponseEntity<?> getEntitySortTypes(@PathVariable String entityName) {
-        EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.SORT_TYPE_PATH);
-        return getCategories(eSortType);
+        EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.SORT_TYPE_POSTFIX);
+        return getSortCategories(eSortType);
     }
 
     /**
@@ -120,9 +125,11 @@ public class EnumController {
     private ResponseEntity<?> getCategories(EnumClassConst category) {
         return CustomResponse.success(category.getValue() + READ_CATEGORY, enumMapper.get(category.getClassName()));
     }
+    private ResponseEntity<?> getSortCategories(EnumClassConst category) {
+        return CustomResponse.success(category.getValue() + READ_CATEGORY, enumMapper.getMetaModel(category.getClassName()));
+    }
 
     private EnumClassConst getEnumClassConst(String entityName, String path) {
         return EnumClassConst.valueOf(entityName.toUpperCase() + path);
     }
-
 }

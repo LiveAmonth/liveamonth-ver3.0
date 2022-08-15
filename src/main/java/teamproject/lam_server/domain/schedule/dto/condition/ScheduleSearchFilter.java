@@ -11,16 +11,10 @@ import java.time.LocalDate;
 @Getter
 @ToString
 @Setter
-public class ScheduleSearchCond{
-
-    private String memberNickname;
-
-    private String title;
-
+public class ScheduleSearchFilter {
     private CityName cityName;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate startDate;
-
 
 }

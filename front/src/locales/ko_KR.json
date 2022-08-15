@@ -5,7 +5,9 @@
   "common": {
     "search": "검색",
     "filter": "필터",
+    "sort": "정렬",
     "select": "선택",
+    "application": "적용",
     "please-input": "입력해주세요.",
     "pick-day": "날짜를 선택해주세요"
   },
@@ -206,7 +208,16 @@
     "search": {
       "member_nickname": "닉네임",
       "city_name": "도시 이름",
-      "start_date": "시작 날짜"
+      "start_date": "시작 날짜",
+      "title": "제목"
+    },
+    "sort": {
+      "id_desc": "최신 순",
+      "id_asc": "오래된 순",
+      "cost_desc": "비용 많은 순",
+      "cost_asc": "비용 적은 순",
+      "like_desc": "좋아요 순",
+      "view_desc": "조회수 순"
     }
   }
 }

@@ -1,6 +1,7 @@
 package teamproject.lam_server.global.enumMapper;
 
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * Enum 을 바로 JSON으로 리턴하게 되면 name()만 출력됨.
@@ -12,22 +13,19 @@ import lombok.Getter;
  * 내용이 무엇인지 파악가능
  */
 @Getter
+@ToString
 public class EnumMapperValue {
 
-    private String code;
-    private String value;
+    private final String code;
+    private final String value;
 
     public EnumMapperValue(EnumMapperType enumMapperType) {
         this.code = enumMapperType.getCode();
         this.value = enumMapperType.getValue();
     }
-
-    @Override
-    public String toString() {
-        return '{' +
-                "code='" + code + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+    public EnumMapperValue(String code, String value) {
+        this.code = code;
+        this.value = value;
     }
 
 }

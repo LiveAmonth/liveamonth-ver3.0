@@ -62,12 +62,16 @@ public class ScheduleRepositoryImpl extends BasicRepositoryUtil implements Sched
         return new Predicate[]{
                 memberNicknameEq(cond.getMemberNickname()),
                 cityNameEq(cond.getCityName()),
-                startDateGoe(cond.getStartDate())
+                startDateGoe(cond.getStartDate()),
+                titleContain(cond.getTitle())
         };
     }
 
     private BooleanExpression memberNicknameEq(String nickname) {
         return hasText(nickname) ? member.nickname.eq(nickname) : null;
+    }
+    private BooleanExpression titleContain(String title) {
+        return hasText(title) ? schedule.title.contains(title) : null;
     }
 
     private BooleanExpression cityNameEq(CityName cityName) {

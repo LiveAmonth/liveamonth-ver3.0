@@ -8,9 +8,9 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 @Getter
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ScheduleSearchType implements EnumMapperType {
-    MEMBER_NICKNAME("작성자"),
-    TITLE("제목");
+public enum ScheduleFilterType implements EnumMapperType {
+    CITY_NAME("도시 이름"),
+    START_DATE("시작 날짜");
     private final String value;
 
     @Override

@@ -82,7 +82,7 @@ const onClick = (page: number) => {
         <li class="paging-side">
           <button
             class="btn-paging next"
-            @click="onClick(pagination.numberOfContents.value)"
+            @click="onClick(pagination.numberOfPages.value)"
             type="button"
           >
             <el-icon>

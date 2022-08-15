@@ -1,9 +1,7 @@
 import { defineStore } from "pinia";
 import type {
-  ScheduleContentType,
   ScheduleSearchType,
   ScheduleCardType,
-  ScheduleDetailType,
 } from "@/modules/types/schedule/ScheduleType";
 import ScheduleApiService from "@/services/ScheduleApiService";
 import type { EnumType } from "@/modules/types/common/EnumType";
@@ -16,7 +14,8 @@ import type { SortType } from "@/modules/types/common/SortType";
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
     sortTypes: {} as SortType[],
-    searchCond: {} as EnumType[],
+    searchTypes: {} as EnumType[],
+    filterTypes: {} as EnumType[],
     pageableSchedules: {} as PageableResponseType,
   }),
   getters: {
@@ -24,19 +23,28 @@ export const useScheduleStore = defineStore("schedule", {
       state.pageableSchedules.content as ScheduleCardType[],
   },
   actions: {
-    async getSortTypes() {
-      await ScheduleApiService.getSortTypes()
-        .then((response: SortType[]) => {
-          this.sortTypes = response;
+    async getSearchTypes() {
+      await ScheduleApiService.getSearchTypes()
+        .then((response: EnumType[]) => {
+          this.searchTypes = response;
         })
         .catch((error) => {
           throw error;
         });
     },
-    async getScheduleSearchCond() {
-      await ScheduleApiService.getScheduleSearchCond()
+    async getFilterTypes() {
+      await ScheduleApiService.getFilterTypes()
         .then((response: EnumType[]) => {
-          this.searchCond = response;
+          this.filterTypes = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+    async getSortTypes() {
+      await ScheduleApiService.getSortTypes()
+        .then((response: SortType[]) => {
+          this.sortTypes = response;
         })
         .catch((error) => {
           throw error;
@@ -49,7 +57,6 @@ export const useScheduleStore = defineStore("schedule", {
     ) {
       await ScheduleApiService.getOtherSchedules(request, pageable)
         .then((response: PageableResponseType) => {
-          console.log(response.content);
           this.pageableSchedules = response;
         })
         .catch((error) => {
