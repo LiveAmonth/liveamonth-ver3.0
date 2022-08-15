@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useScheduleStore } from "@/stores/schedule";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const props = defineProps({
   index: {
@@ -10,52 +11,53 @@ const props = defineProps({
     required: true,
   },
 });
+const emit = defineEmits(["goToMemberSchedules"]);
+
 const store = useScheduleStore();
 const schedule = computed(
   (): ScheduleCardType => store.scheduleDetails[props.index]
 );
+
+const goToMemberSchedules = () => {
+  const scheduleSearchForm: SearchSortFormType = {
+    searchType: store.searchTypes[0].code,
+    searchInput: schedule.value.profile.nickname,
+    filterType: null,
+    filterInput: null,
+    sortType: store.sortTypes[0].title,
+  };
+  emit("goToMemberSchedules", scheduleSearchForm);
+};
 </script>
 <template>
   <el-card class="information">
     <div class="profile-title d-flex">
       <div class="profile">
         <el-popover
-          :width="150"
+          :width="180"
           popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
         >
           <template #reference>
             <el-avatar :size="80" :src="`/src/assets/image/default.jpg`" />
-            <div class="nickname mt-2">
-              {{ schedule.profile.nickname }}
-            </div>
           </template>
           <template #default>
             <div
-              class="demo-rich-conent"
-              style="display: flex; gap: 16px; flex-direction: column"
+              class="popover-content"
+              style="display: flex; gap: 5px; flex-direction: column"
             >
               <el-avatar
                 :size="60"
                 :src="`/src/assets/image/default.jpg`"
                 style="margin-bottom: 8px"
               />
-              <div>
-                <p class="nickname" style="margin: 0; font-weight: 500">
-                  {{ schedule.profile.nickname }}
-                </p>
-                <p
-                  class="demo-rich-content__mention"
-                  style="
-                    margin: 0;
-                    font-size: 14px;
-                    color: var(--el-color-info);
-                  "
-                >
-                  @element-plus
-                </p>
-              </div>
+              <p class="nickname" style="margin: 0; font-weight: 500">
+                {{ schedule.profile.nickname }}
+              </p>
+              <a class="mention" @click="goToMemberSchedules">
+                @ {{ $t("schedule.popover.link") }}
+              </a>
 
-              <div class="ds-info d-flex justify-content-between m-0">
+              <div class="ds-info d-flex justify-content-center m-1">
                 <div class="ds follower">
                   <h6>
                     {{ $t("member.follower") }}
@@ -67,7 +69,7 @@ const schedule = computed(
                 </div>
                 <div class="ds schedules">
                   <h6>
-                    {{ $t("member.schedule") }}
+                    {{ $t("menu.schedule") }}
                     <el-icon>
                       <Calendar />
                     </el-icon>
@@ -76,7 +78,7 @@ const schedule = computed(
                 </div>
                 <div class="ds reviews">
                   <h6>
-                    {{ $t("member.review") }}
+                    {{ $t("menu.review") }}
                     <el-icon>
                       <Notebook />
                     </el-icon>
@@ -87,6 +89,9 @@ const schedule = computed(
             </div>
           </template>
         </el-popover>
+        <div class="nickname mt-2">
+          {{ schedule.profile.nickname }}
+        </div>
       </div>
       <div class="title-info">
         <el-row>
@@ -190,58 +195,81 @@ const schedule = computed(
       font-size: 0.78rem;
     }
   }
-}
 
-a {
-  text-decoration: none;
-  color: inherit;
-
-  &:hover {
-    font-weight: bold;
-  }
-
-  &:visited {
+  a {
+    text-decoration: none;
     color: inherit;
+
+    &:hover {
+      font-weight: bold;
+    }
+
+    &:visited {
+      color: inherit;
+    }
   }
 }
-.ds-info {
-  margin: auto;
-  top: 150px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  width: inherit;
-  height: 40px;
 
-  .follower,
-  .schedules,
-  .reviews {
-    position: relative;
-    width: 33%;
-    text-align: center;
-    color: black;
-    animation: fadeInMove 2s;
+.popover-content {
+  overflow: hidden;
 
-    h6 {
-      padding-top: 0.1rem;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      color: #004a55;
+  .mention {
+    margin: 0;
+    font-size: 14px;
+    color: var(--el-color-info);
+    text-decoration: none;
+
+    &:hover {
+      font-weight: bold;
+      cursor: pointer;
     }
 
-    p {
-      margin: 0;
-      font-size: 12px;
+    &:visited {
+      color: inherit;
     }
   }
 
-  .ds {
-    &:nth-of-type(2) {
-      animation-delay: 0.5s;
+  .ds-info {
+    margin: auto;
+    top: 100px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: inherit;
+    height: 40px;
+    display: flex;
+
+    .follower,
+    .schedules,
+    .reviews {
+      position: relative;
+      left: -300px;
+      width: 33%;
+      text-align: center;
+      color: black;
+      animation: fadeInMove 2s;
+      animation-fill-mode: forwards;
+
+      h6 {
+        margin: 0;
+        text-transform: uppercase;
+        color: #004a55;
+      }
+
+      p {
+        margin-top: 0;
+        font-size: 12px;
+      }
     }
 
-    &:nth-of-type(1) {
-      animation-delay: 1s;
+    .ds {
+      &:nth-of-type(2) {
+        animation-delay: 0.5s;
+      }
+
+      &:nth-of-type(1) {
+        animation-delay: 1s;
+      }
     }
   }
 }

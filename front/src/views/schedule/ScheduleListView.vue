@@ -65,7 +65,10 @@ const applyOptions = async (data: SearchSortFormType) => {
                     <SimpleCalendar :index="i" />
                   </el-col>
                   <el-col :lg="14" :md="14" :sm="14" :xl="16" :xs="14">
-                    <ScheduleInfoCard :index="i" />
+                    <ScheduleInfoCard
+                      :index="i"
+                      @go-to-member-schedules="applyOptions"
+                    />
                     <el-card class="reply"> 댓글 내용 들어가야함.</el-card>
                   </el-col>
                 </el-row>

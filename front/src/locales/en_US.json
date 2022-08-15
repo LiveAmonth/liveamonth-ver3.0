@@ -218,6 +218,9 @@
       "cost_asc": "Lowest Cost",
       "like_desc": "likes count",
       "view_desc": "view count"
+    },
+    "popover": {
+      "link": "Go To Schedule List"
     }
   }
 }
