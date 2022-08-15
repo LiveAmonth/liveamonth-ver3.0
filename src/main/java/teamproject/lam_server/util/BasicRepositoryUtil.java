@@ -21,9 +21,6 @@ public class BasicRepositoryUtil {
                         order.getDirection().isAscending() ? ASC : DESC,
                         Expressions.path(t, s, order.getProperty()))
         ).toArray(OrderSpecifier[]::new);
-        for (OrderSpecifier orderSpecifier : orderSpecifiers) {
-            log.info("orderspecifier={}", orderSpecifier.toString());
-        }
         return orderSpecifiers;
     }
 
