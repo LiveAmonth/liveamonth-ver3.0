@@ -43,8 +43,6 @@ public class ScheduleApiController {
 
     @PostMapping("/search")
     public ResponseEntity<?> search(@RequestBody ScheduleSearchCond cond, PageableDTO pageableDTO) {
-        log.info("cond={}", cond.toString());
-        log.info("cond={}", pageableDTO.toString());
         Page<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
