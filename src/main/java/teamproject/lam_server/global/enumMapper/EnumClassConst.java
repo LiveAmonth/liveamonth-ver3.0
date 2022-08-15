@@ -22,7 +22,8 @@ public enum EnumClassConst implements EnumMapperType {
     MONTH_CATEGORY("MonthCategory","월"),
 
     // Schedule
-    SCHEDULE_SEARCH_TYPE("ScheduleSearchCondType", "스케줄 검색 타입"),
+    SCHEDULE_SEARCH_TYPE("ScheduleSearchType", "스케줄 검색 타입"),
+    SCHEDULE_FILTER_TYPE("ScheduleFilterType", "스케줄 필터 타입"),
     SCHEDULE_SORT_TYPE("ScheduleSortType", "스케줄 정렬 방식"),
 
     // Review
@@ -31,8 +32,8 @@ public enum EnumClassConst implements EnumMapperType {
     // Customer Center
     CUSTOMER_CENTER_MENU("CustomerCenterCategory","고객 센터");
 
-    private String className;
-    private String value;
+    private final String className;
+    private final String value;
 
     @Override
     public String getCode() {

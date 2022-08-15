@@ -1,5 +1,6 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
+import type { SearchCondType, SearchSortFormType } from "../common/SearchType";
 
 export interface ScheduleDetailType {
   card: ScheduleCardType;
@@ -29,8 +30,9 @@ export interface DateRangeType {
   endDate: string | Date;
 }
 
-export interface ScheduleSearchType {
+export interface ScheduleSearchType extends SearchCondType {
   memberNickname: string | null;
   cityName: string | null;
   startDate: string | null;
+  title: string | null;
 }

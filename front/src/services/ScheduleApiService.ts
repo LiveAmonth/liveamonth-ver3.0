@@ -1,16 +1,17 @@
-import http, { getSearchCond, getSort } from "@/http-common";
-import type {
-  ScheduleDetailType,
-  ScheduleSearchType,
-} from "@/modules/types/schedule/ScheduleType";
+import http, {
+  getSearchTypes,
+  getSortTypes,
+  getFilterTypes,
+} from "@/http-common";
+import type { ScheduleSearchType } from "@/modules/types/schedule/ScheduleType";
 import type {
   PageableResponseType,
   PageableRequestType,
 } from "@/modules/types/common/PageableType";
 
 class ScheduleApiService {
-  async getScheduleSearchCond() {
-    return await getSearchCond("schedule")
+  async getSearchTypes() {
+    return await getSearchTypes("schedule")
       .then((response) => {
         return response.data.data;
       })
@@ -19,8 +20,17 @@ class ScheduleApiService {
       });
   }
 
+  async getFilterTypes() {
+    return await getFilterTypes("schedule")
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
   async getSortTypes() {
-    return await getSort("schedule")
+    return await getSortTypes("schedule")
       .then((response) => {
         return response.data.data;
       })
@@ -37,8 +47,8 @@ class ScheduleApiService {
       .post(
         `/schedules/search?page=${pageable.page - 1}&size=${
           pageable.size
-        }&sort=${pageable.sorts}`,
-        JSON.stringify(request)
+        }&sort=${pageable.sort}`,
+        JSON.stringify(request.fitToFormat())
       )
       .then((response) => {
         return response.data.data;

@@ -22,6 +22,6 @@ public enum ScheduleSortType implements MetaModelType {
 
     @Override
     public String getCode() {
-        return title;
+        return name();
     }
 }

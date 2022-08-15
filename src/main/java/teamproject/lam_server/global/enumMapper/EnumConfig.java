@@ -9,6 +9,7 @@ import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.MyPageMenu;
 import teamproject.lam_server.domain.member.constants.MyPageSubCategory;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
+import teamproject.lam_server.domain.schedule.constants.ScheduleFilterType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSearchType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 
@@ -36,7 +37,8 @@ public class EnumConfig {
 
         // Schedule
         enumMapper.put(SCHEDULE_SEARCH_TYPE, ScheduleSearchType.class);
-        enumMapper.put(SCHEDULE_SORT_TYPE, ScheduleSortType.class);
+        enumMapper.put(SCHEDULE_FILTER_TYPE, ScheduleFilterType.class);
+        enumMapper.putMetaModelType(SCHEDULE_SORT_TYPE, ScheduleSortType.class);
 
         // Review
         enumMapper.put(REVIEW_CATEGORY, ReviewCategory.class);

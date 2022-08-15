@@ -3,7 +3,7 @@ import type { Ref } from "vue";
 export interface PageableRequestType {
   page: number;
   size: number;
-  sorts: string;
+  sort: string;
 }
 
 export interface PageableResponseType {

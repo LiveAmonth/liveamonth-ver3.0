@@ -1,6 +1,8 @@
 package teamproject.lam_server.global.enumMapper;
 
 import lombok.NoArgsConstructor;
+import teamproject.lam_server.paging.metaModel.MetaModelType;
+import teamproject.lam_server.paging.metaModel.MetaModelValue;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -15,38 +17,51 @@ import java.util.stream.Collectors;
  */
 @NoArgsConstructor
 public class EnumMapper {
-    public static String STATUS_PATH = "_STATUS";
-    public static String SEARCH_TYPE_PATH = "_SEARCH_TYPE";
-    public static String SORT_TYPE_PATH = "_SORT_TYPE";
+    public static String STATUS_POSTFIX = "_STATUS";
+    public static String SEARCH_TYPE_POSTFIX = "_SEARCH_TYPE";
+    public static String FILTER_TYPE_POSTFIX = "_FILTER_TYPE";
+    public static String SORT_TYPE_POSTFIX = "_SORT_TYPE";
 
-    private Map<String, List<EnumMapperValue>> factory = new LinkedHashMap<>();
+    private final Map<String, List<EnumMapperValue>> enumFactory = new LinkedHashMap<>();
+    private final Map<String, List<MetaModelValue>> metaModelFactory = new LinkedHashMap<>();
 
     public void put(String key, Class<? extends EnumMapperType> e) {
-        factory.put(key, toEnumValues(e));
+        enumFactory.put(key, toEnumValues(e));
     }
 
     public void put(EnumClassConst enumClazz, Class<? extends EnumMapperType> e) {
-        factory.put(enumClazz.getClassName(), toEnumValues(e));
+        enumFactory.put(enumClazz.getClassName(), toEnumValues(e));
+    }
+    public void putMetaModelType(EnumClassConst enumClazz, Class<? extends MetaModelType> e) {
+        metaModelFactory.put(enumClazz.getClassName(), toMetaModelValues(e));
     }
 
     private List<EnumMapperValue> toEnumValues(Class<? extends EnumMapperType> e) {
         return Arrays.stream(e.getEnumConstants())
-                .map(EnumMapperValue::new)
-                .collect(Collectors.toList());
+                        .map(EnumMapperValue::new)
+                        .collect(Collectors.toList());
+    }
+    private List<MetaModelValue> toMetaModelValues(Class<? extends MetaModelType> e) {
+        return  Arrays.stream(e.getEnumConstants())
+                        .map(MetaModelValue::new)
+                        .collect(Collectors.toList());
     }
 
     public List<EnumMapperValue> get(String key) {
-        return factory.get(key);
+        return enumFactory.get(key);
+    }
+    public List<MetaModelValue> getMetaModel(String key) {
+        return metaModelFactory.get(key);
     }
 
     public Map<String, List<EnumMapperValue>> get(List<String> keys) {
         if (keys == null || keys.size() == 0) return new LinkedHashMap<>();
         return keys.stream()
-                .collect(Collectors.toMap(Function.identity(), key -> factory.get(key)));
+                .collect(Collectors.toMap(Function.identity(), key -> enumFactory.get(key)));
     }
 
     public Map<String, List<EnumMapperValue>> getAll() {
-        return factory;
+        return enumFactory;
     }
 
 

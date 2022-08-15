@@ -5,7 +5,9 @@
   "common": {
     "search": "Search",
     "filter": "Filter",
+    "sort": "Sort",
     "select": "Select",
+    "application": "Application",
     "please-input": "Please input",
     "pick-day": "Pick a Day"
   },
@@ -206,7 +208,16 @@
     "search": {
       "member_nickname": "Nickname",
       "city_name": "City",
-      "start_date": "Start Date"
+      "start_date": "Start Date",
+      "title": "Title"
+    },
+    "sort": {
+      "id_desc": "latest order",
+      "id_asc": "oldest order",
+      "cost_desc": "Highest Cost",
+      "cost_asc": "Lowest Cost",
+      "like_desc": "likes count",
+      "view_desc": "view count"
     }
   }
 }
