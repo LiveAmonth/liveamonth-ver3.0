@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import type { CustomPaginationType } from "@/modules/types/common/PageableType";
 import { usePagination } from "@/composables/pagination";
 
-const { isCurrPage, calcNumberOfPageGroup, getCurrPageNumber } =
-  usePagination();
-
-defineProps({
-  pagination: {
-    type: Object as () => CustomPaginationType,
-    required: true,
-  },
-});
+const { pagination } = usePagination();
+// defineProps({
+//   pagination: {
+//     type: Object as () => CustomPaginationType,
+//     required: true,
+//   },
+// });
 const emit = defineEmits(["click"]);
 const onClick = (page: number) => {
   emit("click", page);
@@ -20,7 +17,7 @@ const onClick = (page: number) => {
 <template>
   <div class="paging">
     <ul class="paging_point">
-      <template v-if="!pagination.isFirst.value">
+      <template v-if="!pagination.isFirst">
         <li class="paging-side">
           <button class="btn-paging prev" @click="onClick(1)" type="button">
             <el-icon>
@@ -31,7 +28,7 @@ const onClick = (page: number) => {
         <li class="paging-side">
           <button
             class="btn-paging prev"
-            @click="onClick(pagination.currentPage.value - 1)"
+            @click="onClick(pagination.currentPage - 1)"
             type="button"
           >
             <el-icon>
@@ -41,37 +38,23 @@ const onClick = (page: number) => {
         </li>
       </template>
       <li
-        v-for="page in calcNumberOfPageGroup(
-          pagination.pageGroup.value,
-          pagination.numberOfPageGroup.value,
-          pagination.numberOfPages.value
-        )"
+        v-for="page in pagination.getCurrentPageGroupPages()"
         :key="page"
-        :class="
-          isCurrPage(
-            pagination.pageGroup.value,
-            pagination.currentPage.value,
-            page
-          )
-            ? 'on'
-            : ''
-        "
+        :class="pagination.isCurrentPage(page) ? 'on' : ''"
       >
         <a
-          @click="onClick(getCurrPageNumber(pagination.pageGroup.value, page))"
-          :title="
-            getCurrPageNumber(pagination.pageGroup.value, page) + '페이지 선택'
-          "
+          @click="onClick(pagination.getCurrentPageNumber(page))"
+          :title="pagination.getCurrentPageNumber(page) + '페이지 선택'"
           style="cursor: pointer"
         >
-          {{ getCurrPageNumber(pagination.pageGroup.value, page) }}</a
+          {{ pagination.getCurrentPageNumber(page) }}</a
         >
       </li>
-      <template v-if="!pagination.isLast.value">
+      <template v-if="!pagination.isLast">
         <li class="paging-side">
           <button
             class="btn-paging next"
-            @click="onClick(pagination.currentPage.value + 1)"
+            @click="onClick(pagination.currentPage + 1)"
             type="button"
           >
             <el-icon>
@@ -82,7 +65,7 @@ const onClick = (page: number) => {
         <li class="paging-side">
           <button
             class="btn-paging next"
-            @click="onClick(pagination.numberOfPages.value)"
+            @click="onClick(pagination.numberOfPages)"
             type="button"
           >
             <el-icon>

@@ -247,7 +247,7 @@ const goToMemberSchedules = () => {
       width: 33%;
       text-align: center;
       color: black;
-      animation: fadeInMove 2s;
+      animation: fadeInMove 1s;
       animation-fill-mode: forwards;
 
       h6 {

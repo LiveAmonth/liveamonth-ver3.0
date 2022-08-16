@@ -1,6 +1,7 @@
 package teamproject.lam_server.domain.schedule.entity;
 
 import lombok.*;
+import net.minidev.json.annotate.JsonIgnore;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.interaction.entity.ScheduleLike;
 import teamproject.lam_server.domain.member.entity.Member;
@@ -24,12 +25,15 @@ public class Schedule extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
+    @JsonIgnore
     private final List<ScheduleContent> scheduleContents = new ArrayList<>();
     @OneToMany(mappedBy = "schedule")
     @ToString.Exclude
+    @JsonIgnore
     private final List<ScheduleReply> scheduleReplies = new ArrayList<>();
     @OneToMany(mappedBy = "to")
     @ToString.Exclude
+    @JsonIgnore
     private final Set<ScheduleLike> likes = new HashSet<>();
 
     @Id
@@ -81,10 +85,6 @@ public class Schedule extends BaseTimeEntity {
 
     public void makePublic() {
         this.publicFlag = true;
-    }
-
-    public int getTotalCost() {
-        return this.scheduleContents.stream().mapToInt(ScheduleContent::getCost).sum();
     }
 
     public void increaseLikeCount() {

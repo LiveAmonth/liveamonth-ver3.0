@@ -1,12 +1,17 @@
 import { useScheduleStore } from "@/stores/schedule";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import type { ScheduleSearchType } from "@/modules/types/schedule/ScheduleType";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 export const useSchedule = () => {
   const store = useScheduleStore();
   const error = ref();
   const isPending = ref<boolean>(false);
+
+  const request = computed((): ScheduleSearchType => store.searchCond);
+  const schedules = computed((): ScheduleCardType[] => store.scheduleDetails);
+
   const getSearchTypes = async () => {
     error.value = null;
     try {
@@ -34,14 +39,11 @@ export const useSchedule = () => {
       error.value = err;
     }
   };
-  const getOtherSchedules = async (
-    request: ScheduleSearchType,
-    pageable: PageableRequestType
-  ) => {
+  const getOtherSchedules = async (pageable: PageableRequestType) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getOtherSchedules(request, pageable);
+      await store.getOtherSchedules(pageable);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -53,6 +55,8 @@ export const useSchedule = () => {
   return {
     error,
     isPending,
+    request,
+    schedules,
     getSortTypes,
     getSearchTypes,
     getFilterTypes,

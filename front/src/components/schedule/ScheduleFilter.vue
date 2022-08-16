@@ -43,7 +43,6 @@ onMounted(async () => {
   });
   await getSortTypes().then(() => {
     sortTypes.value = store.sortTypes;
-    console.log(sortTypes.value);
     scheduleSearchForm.sortType = sortTypes.value[0].title;
   });
 });
