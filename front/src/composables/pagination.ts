@@ -3,56 +3,31 @@ import type {
   CustomPaginationType,
   PageableResponseType,
 } from "@/modules/types/common/PageableType";
+import { usePageableStore } from "@/stores/pageable";
+import type { PageableRequestType } from "@/modules/types/common/PageableType";
 
 export const usePagination = () => {
-  const pagination: CustomPaginationType = {
-    numberOfPages: ref<number>(0),
-    numberOfContents: ref<number>(0),
-    contentLimit: 4,
-    pageLimit: 5,
-    currentPage: ref<number>(1),
-    pageGroup: computed(() => {
-      return Math.ceil(pagination.currentPage.value / pagination.pageLimit) - 1;
-    }),
-    numberOfPageGroup: computed(() => {
-      return Math.ceil(pagination.numberOfPages.value / pagination.pageLimit);
-    }),
-    isFirst: ref<boolean>(true),
-    isLast: ref<boolean>(false),
+  const store = usePageableStore();
+  const pageable = computed((): PageableRequestType => store.getRequest);
+  const pagination = computed((): CustomPaginationType => store.getPagination);
+
+  const mappingPagination = (data: PageableResponseType): void => {
+    store.mappingPagination(data);
   };
-  const mappingPagination = (data: PageableResponseType) => {
-    pagination.numberOfContents.value = data.totalElements;
-    pagination.numberOfPages.value = data.totalPages;
-    pagination.isFirst.value = data.first;
-    pagination.isLast.value = data.last;
+  const movePage = (page: number) => {
+    pagination.value.currentPage = page;
+    pageable.value.page = page;
+  };
+  const setSort = (sortType: string): void => {
+    pageable.value.sort = sortType;
   };
 
-  const isCurrPage = (
-    pageGroup: number,
-    currPage: number,
-    page: number
-  ): boolean => {
-    return pageGroup * pagination.pageLimit + page === currPage;
-  };
-
-  const calcNumberOfPageGroup = (
-    pageGroup: number,
-    numberOfPageGroup: number,
-    numberOfPages: number
-  ): number => {
-    return pageGroup !== numberOfPageGroup - 1
-      ? pagination.pageLimit
-      : numberOfPages - pagination.pageLimit * pageGroup;
-  };
-
-  const getCurrPageNumber = (pageGroup: number, page: number): number => {
-    return page + pageGroup * pagination.pageLimit;
-  };
   return {
+    pageable,
     pagination,
-    isCurrPage,
-    calcNumberOfPageGroup,
-    getCurrPageNumber,
+
     mappingPagination,
+    movePage,
+    setSort,
   };
 };

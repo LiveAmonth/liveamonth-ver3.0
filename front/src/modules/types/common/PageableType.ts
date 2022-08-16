@@ -36,13 +36,28 @@ export interface PageableResponseType {
 }
 
 export interface CustomPaginationType {
-  numberOfPages: Ref<number>;
-  numberOfContents: Ref<number>;
+  numberOfPages: number;
+  numberOfContents: number;
   contentLimit: number;
   pageLimit: number;
-  pageGroup: Ref<number>;
-  currentPage: Ref<number>;
-  numberOfPageGroup: Ref<number>;
-  isFirst: Ref<boolean>;
-  isLast: Ref<boolean>;
+  currentPage: number;
+  isFirst: boolean;
+  isLast: boolean;
+  currentPageGroup(): void;
+  numberOfPageGroup(): number;
+  getCurrentPageGroupPages(): number;
+  isCurrentPage(index: number): boolean;
+  getCurrentPageNumber(index: number): number;
+  mappingPagination(data: PageableResponseType): void;
 }
+// export interface CustomPaginationType {
+//   numberOfPages: Ref<number>;
+//   numberOfContents: Ref<number>;
+//   contentLimit: number;
+//   pageLimit: number;
+//   pageGroup: Ref<number>;
+//   currentPage: Ref<number>;
+//   numberOfPageGroup: Ref<number>;
+//   isFirst: Ref<boolean>;
+//   isLast: Ref<boolean>;
+// }

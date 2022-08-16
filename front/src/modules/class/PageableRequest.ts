@@ -5,7 +5,7 @@ export class PageableRequest implements PageableRequestType {
   size: number;
   sort: string;
 
-  constructor(page = 1, size = 5, sorts = "id,desc") {
+  constructor(page = 1, size: number, sorts = "id,desc") {
     this.page = page;
     this.size = size;
     this.sort = sorts;

@@ -10,12 +10,14 @@ import type {
   PageableResponseType,
 } from "@/modules/types/common/PageableType";
 import type { SortType } from "@/modules/types/common/SortType";
+import ScheduleSearchCond from "@/modules/class/ScheduleCond";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
     sortTypes: {} as SortType[],
     searchTypes: {} as EnumType[],
     filterTypes: {} as EnumType[],
+    searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
   }),
   getters: {
@@ -50,12 +52,8 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-
-    async getOtherSchedules(
-      request: ScheduleSearchType,
-      pageable: PageableRequestType
-    ) {
-      await ScheduleApiService.getOtherSchedules(request, pageable)
+    async getOtherSchedules(pageable: PageableRequestType) {
+      await ScheduleApiService.getOtherSchedules(this.searchCond, pageable)
         .then((response: PageableResponseType) => {
           this.pageableSchedules = response;
         })
@@ -64,4 +62,5 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
   },
+  persist: true,
 });
