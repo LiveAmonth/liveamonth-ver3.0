@@ -17,10 +17,12 @@ import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.util.StringUtils.hasText;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
+import static teamproject.lam_server.domain.schedule.entity.QScheduleContent.scheduleContent;
 
 @Repository
 @RequiredArgsConstructor
@@ -43,12 +45,25 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
                 countQuery::fetchOne);
     }
 
+    @Override
+    public Optional<Schedule> getScheduleAndContents(String nickname, String title) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(schedule)
+                        .leftJoin(schedule.scheduleContents, scheduleContent).fetchJoin()
+                        .leftJoin(schedule.member, member).fetchJoin()
+                        .where(
+                                memberNicknameEq(nickname),
+                                scheduleTitleEq(title)
+                        )
+                        .fetchOne()
+        );
+    }
+
     private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {
         return queryFactory.selectFrom(schedule)
                 .join(schedule.member, member).fetchJoin()
                 .where(getSearchPredicts(cond));
     }
-
 
 
     private JPAQuery<Long> getSearchCountQuery(ScheduleSearchCond cond) {
@@ -67,9 +82,14 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
         };
     }
 
+    private BooleanExpression scheduleTitleEq(String title) {
+        return hasText(title) ? schedule.title.eq(title) : null;
+    }
+
     private BooleanExpression memberNicknameEq(String nickname) {
         return hasText(nickname) ? member.nickname.eq(nickname) : null;
     }
+
     private BooleanExpression titleContain(String title) {
         return hasText(title) ? schedule.title.contains(title) : null;
     }

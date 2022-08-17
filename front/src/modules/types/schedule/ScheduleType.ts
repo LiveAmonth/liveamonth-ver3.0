@@ -1,6 +1,6 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
-import type { SearchCondType, SearchSortFormType } from "../common/SearchType";
+import type { SearchCondType } from "../common/SearchType";
 
 export interface ScheduleDetailType {
   card: ScheduleCardType;
@@ -19,6 +19,7 @@ export interface ScheduleCardType {
 }
 
 export interface ScheduleContentType {
+  id?: number;
   title: string;
   content: string;
   cost: number;
@@ -35,4 +36,17 @@ export interface ScheduleSearchType extends SearchCondType {
   cityName: string | null;
   startDate: string | null;
   title: string | null;
+}
+
+export interface CalendarType {
+  title: string;
+  start: string;
+  end: string;
+  allDay: boolean;
+  extendedProps: CalendarExtendedType;
+}
+
+export interface CalendarExtendedType {
+  cost: number;
+  content: string;
 }

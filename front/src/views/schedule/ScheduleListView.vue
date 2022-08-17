@@ -3,7 +3,7 @@ import { onMounted } from "vue";
 import SimpleCalendar from "@/components/schedule/SimpleCalendar.vue";
 import { useScheduleStore } from "@/stores/schedule";
 import CustomPagination from "@/components/common/CustomPagination.vue";
-import { useSchedule } from "@/composables/schedules";
+import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
 import ScheduleFilter from "@/components/schedule/ScheduleFilter.vue";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";

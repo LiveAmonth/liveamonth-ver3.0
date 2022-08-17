@@ -18,5 +18,5 @@ public interface ScheduleService {
 
     Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO);
 
-    ScheduleDetailResponse getScheduleDetails(Long scheduleId);
+    ScheduleDetailResponse getScheduleDetails(String nickname, String title);
 }

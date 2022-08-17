@@ -1,12 +1,12 @@
 package teamproject.lam_server.domain.schedule.entity;
 
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.interaction.entity.ScheduleLike;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.global.entity.Period;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.entity.Period;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,16 +25,14 @@ public class Schedule extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
     @ToString.Exclude
-    @JsonIgnore
     private final List<ScheduleContent> scheduleContents = new ArrayList<>();
     @OneToMany(mappedBy = "schedule")
     @ToString.Exclude
-    @JsonIgnore
     private final List<ScheduleReply> scheduleReplies = new ArrayList<>();
     @OneToMany(mappedBy = "to")
     @ToString.Exclude
-    @JsonIgnore
     private final Set<ScheduleLike> likes = new HashSet<>();
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,10 +46,6 @@ public class Schedule extends BaseTimeEntity {
 
     private int viewCount;
 
-    private int likeCount;
-
-    private int totalCost;
-
     private Boolean publicFlag;
 
     @Embedded
@@ -61,6 +55,11 @@ public class Schedule extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     @ToString.Exclude
     private Member member;
+
+    @Formula("(select count(1) from schedule_like sl where sl.to_schedule_id = schedule_id)")
+    private int likeCount;
+    @Formula("(select ifnull(sum(sc.cost),0) from schedule_content sc where sc.schedule_id = schedule_id)")
+    private int totalCost;
 
     @Builder
     public Schedule(String title, Boolean publicFlag, Member member, CityName cityName, Period period) {
@@ -85,14 +84,6 @@ public class Schedule extends BaseTimeEntity {
 
     public void makePublic() {
         this.publicFlag = true;
-    }
-
-    public void increaseLikeCount() {
-        this.likeCount++;
-    }
-
-    public void decreaseLikeCount() {
-        this.likeCount--;
     }
 
     public void increaseTotalCost(int cost) {

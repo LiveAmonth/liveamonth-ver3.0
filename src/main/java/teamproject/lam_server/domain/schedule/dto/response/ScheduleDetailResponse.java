@@ -3,7 +3,6 @@ package teamproject.lam_server.domain.schedule.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,13 +17,13 @@ public class ScheduleDetailResponse {
     private ScheduleCardResponse card;
     private List<ScheduleContentResponse> contents;
 
-    public static ScheduleDetailResponse of(Schedule schedule, List<ScheduleContent> contents){
+    public static ScheduleDetailResponse of(Schedule schedule){
         return ScheduleDetailResponse.builder()
                 .card(
                         ScheduleCardResponse.of(schedule)
                 )
                 .contents(
-                        contents.stream()
+                        schedule.getScheduleContents().stream()
                         .map(ScheduleContentResponse::of)
                         .collect(Collectors.toList())
                 )
