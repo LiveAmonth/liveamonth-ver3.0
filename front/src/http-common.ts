@@ -11,13 +11,13 @@ const apiClient: AxiosInstance = axios.create({
   },
 });
 export const getSearchTypes = (domain: string) =>
-  apiClient.get(`/categories/search-types/${domain}`);
+  apiClient.get(`categories/search-types/${domain}`);
 
 export const getFilterTypes = (domain: string) =>
-  apiClient.get(`/categories/filter-types/${domain}`);
+  apiClient.get(`categories/filter-types/${domain}`);
 
 export const getSortTypes = (domain: string) =>
-  apiClient.get(`/categories/sort-types/${domain}`);
+  apiClient.get(`categories/sort-types/${domain}`);
 
 apiClient.interceptors.response.use(
   function (response) {
