@@ -2,7 +2,6 @@ package teamproject.lam_server.domain.city.repository.query;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.EnumPath;
-import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -131,21 +130,8 @@ public class CityQueryRepository extends BasicRepository {
                 .fetch();
     }
 
-    private BooleanExpression numGoe(NumberPath numberPath, Number numGoe) {
-        return numGoe != null ? numberPath.goe(numGoe) : null;
-    }
-
-    private BooleanExpression numLoe(NumberPath numberPath, Number numLoe) {
-        return numLoe != null ? numberPath.loe(numLoe) : null;
-    }
-
-
     private BooleanExpression joinCityNameEq(EnumPath<CityName> comp) {
         return comp != null ? cityIntro.name.eq(comp) : null;
-    }
-
-    private BooleanExpression joinNameEq() {
-        return cityIntro.name.eq(cityWeather.name).and(cityIntro.name.eq(cityTransport.name));
     }
 
     private <T extends QCity> BooleanExpression nameEq(T t, CityName name) {
