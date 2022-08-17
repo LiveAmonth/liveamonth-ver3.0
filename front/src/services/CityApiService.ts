@@ -7,7 +7,7 @@ import type {
 
 class CityApiService {
   async getCityNames(): Promise<EnumType[]> {
-    return await http.get("/categories/city/names").then((response) => {
+    return await http.get("categories/city/names").then((response) => {
       return response.data.data;
     });
   }
