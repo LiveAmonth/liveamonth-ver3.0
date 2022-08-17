@@ -52,6 +52,18 @@ export const useSchedule = () => {
     }
   };
 
+  const getSchedule = async (nickname: string, title: string) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getSchedule(nickname, title);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
   return {
     error,
     isPending,
@@ -61,5 +73,6 @@ export const useSchedule = () => {
     getSearchTypes,
     getFilterTypes,
     getOtherSchedules,
+    getSchedule,
   };
 };

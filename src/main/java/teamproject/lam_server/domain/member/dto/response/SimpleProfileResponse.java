@@ -21,9 +21,9 @@ public class SimpleProfileResponse {
                 .loginId(member.getLoginId())
                 .nickname(member.getNickname())
                 .image(member.getImage())
-                .numOfReviews(member.getReviews().size())
-                .numOfSchedules(member.getSchedules().size())
-                .numOfFollowers(member.getFollowers().size())
+                .numOfReviews(member.getReviewCount())
+                .numOfSchedules(member.getScheduleCount())
+                .numOfFollowers(member.getFollowersCount())
                 .build();
     }
 }

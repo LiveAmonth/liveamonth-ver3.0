@@ -2,6 +2,7 @@ package teamproject.lam_server.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.interaction.entity.Follower;
 import teamproject.lam_server.domain.interaction.entity.ReviewLike;
 import teamproject.lam_server.domain.interaction.entity.ScheduleLike;
@@ -29,6 +30,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "to")
     @ToString.Exclude
     private final Set<Follower> followers = new HashSet<>();
+
     @OneToMany(mappedBy = "from")
     @ToString.Exclude
     private final Set<Follower> following = new HashSet<>();
@@ -70,6 +72,16 @@ public class Member extends BaseTimeEntity {
     private Role role;
     @Enumerated(EnumType.STRING)
     private AccountState status;
+
+    @Formula("(select count(1) from follower f where f.to_member_id = member_id)")
+    private int followersCount;
+    @Formula("(select count(1) from follower f where f.from_member_id = member_id)")
+    private int followingCount;
+    @Formula("(select count(1) from review r where r.member_id = member_id)")
+    private int reviewCount;
+    @Formula("(select count(1) from schedule s where s.member_id = member_id)")
+    private int scheduleCount;
+
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")
     public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth) {

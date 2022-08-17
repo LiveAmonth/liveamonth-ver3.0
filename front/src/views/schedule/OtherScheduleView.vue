@@ -6,8 +6,8 @@ const route = useRoute();
 </script>
 
 <template>
-  <TitleSlot
-    >{{ route.name === "schedule-list" ? $t("menu.otherSchedule") : "스케줄" }}
+  <TitleSlot v-if="route.name === 'schedule-list'"
+    >{{ $t("menu.otherSchedule") }}
   </TitleSlot>
   <el-row>
     <el-col>

@@ -40,12 +40,10 @@ public class ScheduleLike extends BaseTimeEntity {
     private void like() {
         from.getScheduleLikes().add(this);
         to.getLikes().add(this);
-        to.increaseLikeCount();
     }
 
     public void cancelLike() {
         from.getScheduleLikes().remove(this);
         to.getLikes().remove(this);
-        to.decreaseLikeCount();
     }
 }

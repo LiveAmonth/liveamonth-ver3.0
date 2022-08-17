@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useScheduleStore } from "@/stores/schedule";
 import { onMounted, reactive, ref } from "vue";
-import { useSchedule } from "@/composables/schedules";
+import { useSchedule } from "@/composables/schedule";
 import { Search } from "@element-plus/icons-vue";
 import { useCityStore } from "@/stores/city";
 import type { EnumType } from "@/modules/types/common/EnumType";

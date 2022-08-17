@@ -23,7 +23,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<?> addSchedule(@RequestBody CreateScheduleRequest request) {
         scheduleApiService.addSchedule(request);
         return CustomResponse.success(CREATE_SCHEDULE);
@@ -35,9 +35,9 @@ public class ScheduleApiController {
         return CustomResponse.success(CREATE_SCHEDULE_CONTENT);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getScheduleDetails(@PathVariable Long id) {
-        ScheduleDetailResponse result = scheduleApiService.getScheduleDetails(id);
+    @GetMapping("/detail")
+    public ResponseEntity<?> getScheduleDetails(@RequestParam String nickname, @RequestParam String title) {
+        ScheduleDetailResponse result = scheduleApiService.getScheduleDetails(nickname, title);
         return CustomResponse.success(READ_SCHEDULE_CONTENT, result);
     }
 

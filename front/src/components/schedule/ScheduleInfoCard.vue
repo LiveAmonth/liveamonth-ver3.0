@@ -99,7 +99,10 @@ const goToMemberSchedules = () => {
             <router-link
               :to="{
                 name: 'read-schedule',
-                params: { scheduleId: schedule.id },
+                params: {
+                  nickname: schedule.profile.nickname,
+                  title: schedule.title,
+                },
               }"
             >
               {{ schedule.title }}

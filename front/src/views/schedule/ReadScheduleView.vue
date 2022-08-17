@@ -1,57 +1,39 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
 
+import { computed, onMounted, ref } from "vue";
+import { useScheduleStore } from "@/stores/schedule";
+import { useSchedule } from "@/composables/schedule";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
+import ScheduleCalendar from "@/components/schedule/ScheduleCalendar.vue";
+
 const props = defineProps({
-  scheduleId: {
-    type: [Number, String],
+  nickname: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
     required: true,
   },
 });
-
-const currDate = ref(new Date());
-const calendar = ref();
-const dialogTableVisible = ref(false);
-
-const selectDate = (val: string) => {
-  calendar.value.selectDate(val);
-};
-const removeZero = (date: string) => {
-  return Number.parseInt(date);
-};
+const store = useScheduleStore();
+const { getSchedule } = useSchedule();
+const scheduleCard = computed((): ScheduleCardType => store.scheduleCard);
+onMounted(async () => {
+  console.log(props.nickname);
+  console.log(props.title);
+  await getSchedule(props.nickname, props.title);
+});
 </script>
 
 <template>
   <el-row>
     <el-col>
-      <TitleSlot>{{ props.scheduleId }}번 스케줄</TitleSlot>
-      <el-calendar v-model="currDate">
-        <template #dateCell="{ data }">
-          <el-row class="mb-2">
-            <el-col>
-              <span class="mb-5">
-                {{ removeZero(data.day.split("-").slice(2).join("")) }}
-              </span>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-button text @click="dialogTableVisible = true">
-                스케줄 보기</el-button
-              >
-            </el-col>
-          </el-row>
-        </template>
-      </el-calendar>
+      <TitleSlot>{{ title }}</TitleSlot>
+      <ScheduleCalendar />
     </el-col>
   </el-row>
-  <el-dialog v-model="dialogTableVisible" title="Shipping address">
-    <el-table :data="gridData">
-      <el-table-column property="date" label="Date" width="150" />
-      <el-table-column property="name" label="Name" width="200" />
-      <el-table-column property="address" label="Address" />
-    </el-table>
-  </el-dialog>
 </template>
 
 <style scoped lang="scss">
