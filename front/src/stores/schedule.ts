@@ -15,8 +15,6 @@ import type {
 } from "@/modules/types/common/PageableType";
 import type { SortType } from "@/modules/types/common/SortType";
 import ScheduleSearchCond from "@/modules/class/ScheduleCond";
-import type { CalendarDateType } from "element-plus";
-import type { EventRefiners } from "@fullcalendar/common";
 import { ref } from "vue";
 
 export const useScheduleStore = defineStore("schedule", {
@@ -26,13 +24,10 @@ export const useScheduleStore = defineStore("schedule", {
     filterTypes: {} as EnumType[],
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
-    schedule: {} as ScheduleDetailType,
   }),
   getters: {
-    scheduleDetails: (state): ScheduleCardType[] =>
+    otherScheduleCards: (state): ScheduleCardType[] =>
       state.pageableSchedules.content as ScheduleCardType[],
-    scheduleCard: (state): ScheduleCardType => state.schedule.card,
-    scheduleContents: (state): ScheduleContentType[] => state.schedule.contents,
   },
   actions: {
     async getSearchTypes() {
@@ -70,31 +65,6 @@ export const useScheduleStore = defineStore("schedule", {
         .catch((error) => {
           throw error;
         });
-    },
-    async getSchedule(nickname: string, title: string) {
-      await ScheduleApiService.getSchedule(nickname, title)
-        .then((response: ScheduleDetailType) => {
-          this.schedule = response;
-        })
-        .catch((error) => {
-          throw error;
-        });
-    },
-    async setScheduleEvent() {
-      const data: any = ref([]);
-      this.schedule.contents.forEach((value: ScheduleContentType) => {
-        data.value.push({
-          title: value.title,
-          start: value.date,
-          end: value.date,
-          extendedProps: <CalendarExtendedType>{
-            cost: value.cost,
-            content: value.content,
-          },
-          allDay: true,
-        });
-      });
-      return data;
     },
   },
   persist: true,

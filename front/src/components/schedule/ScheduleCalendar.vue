@@ -8,16 +8,21 @@ import koLocale from "@fullcalendar/core/locales/ko";
 import listPlugin from "@fullcalendar/list";
 import { useScheduleStore } from "@/stores/schedule";
 import { computed, reactive, ref, watch } from "vue";
-import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
 import type { CalendarOptions } from "@fullcalendar/core";
 import { useCalendarEvent } from "@/composables/calendarEvent";
 
+const props = defineProps({
+  manageState: {
+    type: Boolean,
+    required: true,
+  },
+  editable: {
+    type: Boolean,
+    required: true,
+  },
+});
 const store = useScheduleStore();
-const { getEvents, createEvents } = useCalendarEvent();
-const scheduleContents = computed(
-  (): ScheduleContentType[] => store.scheduleContents
-);
-const id = ref(10);
+const { setContent, getEvents, createEvents } = useCalendarEvent();
 const options: CalendarOptions = reactive({
   locale: koLocale,
   plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
@@ -25,27 +30,19 @@ const options: CalendarOptions = reactive({
   headerToolbar: {
     left: "prev,next today",
     center: "title",
-    right: "dayGridMonth,listDay",
+    right: "dayGridMonth,listYear",
   },
-  editable: true,
+  editable: props.editable,
   selectable: true,
   weekends: true,
   select: (arg) => {
-    console.log(arg);
-    id.value = id.value + 1;
-    const cal = arg.view.calendar;
-    cal.unselect();
-    cal.addEvent({
-      id: `${id.value}`,
-      title: `New event ${id.value}`,
-      start: arg.start,
-      end: arg.end,
-      allDay: true,
-    });
+    // if (eventsCount === 1) {
+    //   console.log("컨텐츠 개수가 1개 입니다.");
+    // }
   },
   dayMaxEvents: true,
   eventClick: (arg) => {
-    console.log(arg.event);
+    setContent(props.manageState, arg.event);
   },
   eventAdd: (arg) => {
     createEvents({
@@ -68,4 +65,8 @@ watch(getEvents, () => {
   <FullCalendar :options="options" />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.fc .fc-daygrid-body-balanced .fc-daygrid-day-events:hover {
+  cursor: pointer !important;
+}
+</style>

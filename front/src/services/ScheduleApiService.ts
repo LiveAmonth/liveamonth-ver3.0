@@ -4,8 +4,9 @@ import http, {
   getFilterTypes,
 } from "@/http-common";
 import type {
-  ScheduleDetailType,
+  ScheduleContentType,
   ScheduleSearchType,
+  ScheduleSimpleCardType,
 } from "@/modules/types/schedule/ScheduleType";
 import type {
   PageableResponseType,
@@ -61,14 +62,22 @@ class ScheduleApiService {
       });
   }
 
-  async getSchedule(
-    nickname: string,
-    title: string
-  ): Promise<ScheduleDetailType> {
+  async getScheduleContents(id: number): Promise<ScheduleContentType[]> {
     return await http
-      .get(`/schedules/detail`, {
-        params: { nickname: nickname, title: title },
+      .get(`/schedules/${id}/contents`)
+      .then((response) => {
+        return response.data.data;
       })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async getMemberScheduleList(
+    loginId: string
+  ): Promise<ScheduleSimpleCardType[]> {
+    return await http
+      .get(`/schedules/${loginId}/list`)
       .then((response) => {
         return response.data.data;
       })

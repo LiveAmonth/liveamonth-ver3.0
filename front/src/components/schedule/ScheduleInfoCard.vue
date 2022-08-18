@@ -1,22 +1,21 @@
 <script setup lang="ts">
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
-import { computed, reactive, ref } from "vue";
+import { ref } from "vue";
 import { useScheduleStore } from "@/stores/schedule";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
+import { useSchedule } from "@/composables/schedule";
 
 const props = defineProps({
   index: {
-    type: Number,
+    type: Number || String,
     required: true,
   },
 });
 const emit = defineEmits(["goToMemberSchedules"]);
 
 const store = useScheduleStore();
-const schedule = computed(
-  (): ScheduleCardType => store.scheduleDetails[props.index]
-);
+const { otherSchedules } = useSchedule();
+const schedule = ref(otherSchedules.value[props.index]);
 
 const goToMemberSchedules = () => {
   const scheduleSearchForm: SearchSortFormType = {
@@ -100,8 +99,7 @@ const goToMemberSchedules = () => {
               :to="{
                 name: 'read-schedule',
                 params: {
-                  nickname: schedule.profile.nickname,
-                  title: schedule.title,
+                  id: schedule.id,
                 },
               }"
             >

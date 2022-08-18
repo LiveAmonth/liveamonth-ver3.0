@@ -2,11 +2,10 @@ package teamproject.lam_server.domain.schedule.entity;
 
 
 import lombok.*;
-import net.minidev.json.annotate.JsonIgnore;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.entity.TimePeriod;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -26,21 +25,20 @@ public class ScheduleContent extends BaseTimeEntity {
     @Lob
     private String content;
 
-    private LocalDate date;
+    @Embedded
+    private TimePeriod timePeriod;
 
     private int cost;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")
-    @ToString.Exclude
     private Schedule schedule;
 
     @Builder
-    public ScheduleContent(String title, String content, LocalDate date, int cost, Schedule schedule) {
+    public ScheduleContent(String title, String content, TimePeriod timePeriod, int cost, Schedule schedule) {
         this.title = title;
         this.content = content;
-        this.date = date;
+        this.timePeriod = timePeriod;
         this.cost = cost;
         connectSchedule(schedule);
     }

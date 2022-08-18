@@ -23,16 +23,17 @@ import static javax.persistence.FetchType.LAZY;
 @ToString
 public class Schedule extends BaseTimeEntity {
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @ToString.Exclude
     private final List<ScheduleContent> scheduleContents = new ArrayList<>();
-    @OneToMany(mappedBy = "schedule")
-    @ToString.Exclude
-    private final List<ScheduleReply> scheduleReplies = new ArrayList<>();
-    @OneToMany(mappedBy = "to")
-    @ToString.Exclude
-    private final Set<ScheduleLike> likes = new HashSet<>();
 
+    @ToString.Exclude
+    @OneToMany(mappedBy = "schedule")
+    private final List<ScheduleReply> scheduleReplies = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "to")
+    private final Set<ScheduleLike> likes = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

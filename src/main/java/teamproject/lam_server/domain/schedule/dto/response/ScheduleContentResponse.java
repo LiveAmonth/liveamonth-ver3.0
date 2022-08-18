@@ -1,30 +1,27 @@
 package teamproject.lam_server.domain.schedule.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
-
-import java.time.LocalDate;
+import teamproject.lam_server.global.entity.TimePeriod;
 
 @Getter
 @Builder
 public class ScheduleContentResponse {
 
+    private Long id;
     private String title;
-
     private String content;
-
     private int cost;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDate date;
+    private TimePeriod timePeriod;
 
     public static ScheduleContentResponse of(ScheduleContent schedulecontent) {
         return ScheduleContentResponse.builder()
-                .date(schedulecontent.getDate())
+                .id(schedulecontent.getId())
                 .title(schedulecontent.getTitle())
                 .content(schedulecontent.getContent())
                 .cost(schedulecontent.getCost())
+                .timePeriod(schedulecontent.getTimePeriod())
                 .build();
     }
 

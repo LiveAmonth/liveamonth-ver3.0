@@ -15,20 +15,34 @@ export interface ScheduleCardType {
   city: EnumType;
   hits: number;
   likes: number;
-  period: DateRangeType;
+  period: DatePeriodType;
+}
+export interface ScheduleSimpleCardType {
+  id: number;
+  title: string;
+  profile: SimpleProfileType;
+  cost: number;
+  city: EnumType;
+  hits: number;
+  likes: number;
+  period: DatePeriodType;
 }
 
 export interface ScheduleContentType {
-  id?: number;
+  id: number;
   title: string;
   content: string;
   cost: number;
-  date: string;
+  timePeriod: DateTimePeriodType;
 }
 
-export interface DateRangeType {
+export interface DatePeriodType {
   startDate: string | Date;
   endDate: string | Date;
+}
+export interface DateTimePeriodType {
+  startDateTime: string | Date;
+  endDateTime: string | Date;
 }
 
 export interface ScheduleSearchType extends SearchCondType {

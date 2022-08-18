@@ -1,37 +1,51 @@
 <script setup lang="ts">
 import TitleSlot from "@/components/common/TitleSlot.vue";
-
+import ScheduleCalendar from "@/components/schedule/ScheduleCalendar.vue";
+import ScheduleInformation from "@/components/schedule/ScheduleInformation.vue";
 import { computed, onMounted, ref } from "vue";
 import { useScheduleStore } from "@/stores/schedule";
 import { useSchedule } from "@/composables/schedule";
+import { useMemberStore } from "@/stores/member";
+import { useAuthStore } from "@/stores/auth";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
-import ScheduleCalendar from "@/components/schedule/ScheduleCalendar.vue";
+import { useCalendarEvent } from "@/composables/calendarEvent";
 
 const props = defineProps({
-  nickname: {
-    type: String,
-    required: true,
-  },
-  title: {
-    type: String,
+  id: {
+    type: [String || Number],
     required: true,
   },
 });
-const store = useScheduleStore();
-const { getSchedule } = useSchedule();
-const scheduleCard = computed((): ScheduleCardType => store.scheduleCard);
+const { isPending, getOtherSchedule, getScheduleContents } = useSchedule();
+const { setContentCollapse } = useCalendarEvent();
+const scheduleCard = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
+
+// const authStore = useAuthStore();
+// const loggedIn = computed(() => authStore.loggedIn);
+// const isLoggedInMemberSchedule = () => {
+//   return (
+//     loggedIn.value &&
+//     memberStore.memberProfile.loginId === scheduleCard.value.profile.loginId
+//   );
+// };
 onMounted(async () => {
-  console.log(props.nickname);
-  console.log(props.title);
-  await getSchedule(props.nickname, props.title);
+  await getScheduleContents(Number(props.id));
+  await setContentCollapse();
 });
 </script>
 
 <template>
-  <el-row>
+  <el-row v-if="!isPending">
     <el-col>
-      <TitleSlot>{{ title }}</TitleSlot>
-      <ScheduleCalendar />
+      <TitleSlot>{{ scheduleCard.title }}</TitleSlot>
+      <el-row :gutter="10">
+        <el-col :span="18">
+          <ScheduleCalendar :manage-state="false" :editable="false" />
+        </el-col>
+        <el-col :span="6">
+          <ScheduleInformation :id="id" />
+        </el-col>
+      </el-row>
     </el-col>
   </el-row>
 </template>

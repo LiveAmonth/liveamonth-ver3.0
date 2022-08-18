@@ -1,23 +1,44 @@
 import { computed, onMounted, ref } from "vue";
-import { useScheduleStore } from "@/stores/schedule";
-import type {
-  CalendarType,
-  ScheduleContentType,
-} from "@/modules/types/schedule/ScheduleType";
+import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
 import CalendarService from "@/services/CalendarService";
-import type { EventRefiners } from "@fullcalendar/common";
+import { useScheduleContentStore } from "@/stores/scheduleContent";
+import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 
 export const useCalendarEvent = () => {
   const getEvents = ref([]);
-  const store = useScheduleStore();
-  const setEvents = async () => {
-    getEvents.value = await store.setScheduleEvent();
+  const contentStore = useScheduleContentStore();
+  const contentCollapse = ref<number>();
+
+  const scheduleContentDetail = computed(
+    (): ScheduleContentFormType => contentStore.contentForm
+  );
+
+  const setContentCollapse = () => {
+    contentCollapse.value = contentStore.scheduleContents[0].id;
   };
+
+  const setContent = async (state: boolean, event: any) => {
+    state
+      ? await contentStore.setContent(event)
+      : (contentCollapse.value = event.id);
+  };
+
+  const resetContent = async () => {
+    await contentStore.resetContent();
+  };
+
+  const setEvents = async () => {
+    getEvents.value = await contentStore.setScheduleEvent();
+  };
+
   const createEvents = async (event: any) => {
     const request: ScheduleContentType = {
-      id: store.schedule.card.id,
+      id: event.id,
       title: event.title,
-      date: event.start.toString(),
+      timePeriod: {
+        startDateTime: event.start.toString(),
+        endDateTime: event.end.toString(),
+      },
       content: event.extendedProps.content,
       cost: event.extendedProps.cost,
     };
@@ -31,7 +52,12 @@ export const useCalendarEvent = () => {
   onMounted(setEvents);
 
   return {
+    scheduleContentDetail,
     getEvents,
+    contentCollapse,
+    setContent,
+    setContentCollapse,
+    resetContent,
     setEvents,
     createEvents,
     // updateEvents,
