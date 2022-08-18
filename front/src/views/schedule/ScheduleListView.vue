@@ -10,7 +10,7 @@ import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 import ScheduleInfoCard from "@/components/schedule/ScheduleInfoCard.vue";
 
 const store = useScheduleStore();
-const { isPending, request, schedules, getOtherSchedules } = useSchedule();
+const { isPending, request, otherSchedules, getOtherSchedules } = useSchedule();
 const { pageable, mappingPagination, movePage, setSort } = usePagination();
 
 onMounted(async () => {
@@ -46,7 +46,7 @@ const applyOptions = async (data: SearchSortFormType) => {
             <div class="schedule-list">
               <ul class="list">
                 <li
-                  v-for="(schedule, i) in schedules"
+                  v-for="(schedule, i) in otherSchedules"
                   :key="schedule.id"
                   class="list-item p-4"
                 >

@@ -3,7 +3,7 @@ export const useDate = () => {
     return value >= 10 ? String(value) : `0${value}`;
   };
 
-  const convertDateToString = (value: Date, delimiter = "-") => {
+  const convertDateToString = (value: any, delimiter = "-") => {
     return [
       value.getFullYear(),
       leftPad(value.getMonth() + 1),

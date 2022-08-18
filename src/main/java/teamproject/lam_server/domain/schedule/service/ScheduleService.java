@@ -6,8 +6,12 @@ import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.paging.PageableDTO;
+
+import java.util.List;
 
 public interface ScheduleService {
 
@@ -18,5 +22,7 @@ public interface ScheduleService {
 
     Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO);
 
-    ScheduleDetailResponse getScheduleDetails(String nickname, String title);
+    List<ScheduleContentResponse> getScheduleDetails(Long id);
+
+    List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId);
 }

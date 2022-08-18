@@ -13,7 +13,8 @@ import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleContentRepository;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
@@ -21,6 +22,9 @@ import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,9 +51,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .findById(request.getScheduleId())
                 .orElseThrow(ScheduleNotFound::new);
 
-//        ScheduleContent scheduleContent = request.toEntity(schedule);
-//        schedule.increaseTotalCost(scheduleContent.getCost());
-
         scheduleContentRepository.save(request.toEntity(schedule));
     }
 
@@ -58,8 +59,17 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.search(cond, pageable).map(ScheduleCardResponse::of);
     }
 
-    public ScheduleDetailResponse getScheduleDetails(String nickname, String title) {
-        Schedule schedule = scheduleRepository.getScheduleAndContents(nickname, title).orElseThrow(ScheduleNotFound::new);
-        return ScheduleDetailResponse.of(schedule);
+    public List<ScheduleContentResponse> getScheduleDetails(Long scheduleId) {
+        return scheduleRepository.getScheduleContents(scheduleId).stream()
+                .map(ScheduleContentResponse::of)
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId) {
+        return scheduleRepository.getScheduleByMember(loginId).stream()
+                .map(ScheduleSimpleCardResponse::of)
+                .collect(Collectors.toList());
+    }
+
 }

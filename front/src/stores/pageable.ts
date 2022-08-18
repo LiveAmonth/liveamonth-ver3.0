@@ -5,9 +5,10 @@ import Pagination from "@/modules/class/Pagination";
 
 const contentLimit = 2;
 const firstPage = 1;
+const initialSort = "id,desc";
 export const usePageableStore = defineStore("pageable", {
   state: () => ({
-    request: new PageableRequest(firstPage, contentLimit, "id,desc"),
+    request: new PageableRequest(firstPage, contentLimit, initialSort),
     pagination: new Pagination(contentLimit, 5, firstPage, true, false, 0, 0),
   }),
   getters: {

@@ -1,19 +1,20 @@
 <script lang="ts" setup>
-import { computed, ref } from "vue";
-import type { DateRangeType } from "@/modules/types/schedule/ScheduleType";
-import { useScheduleStore } from "@/stores/schedule";
+import { ref } from "vue";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
+import { useSchedule } from "@/composables/schedule";
 
-const store = useScheduleStore();
 const props = defineProps({
   index: {
     type: Number,
     required: true,
   },
 });
-const scheduleDetail = computed(() => store.scheduleDetails[props.index]);
-const period: DateRangeType = {
-  startDate: new Date(scheduleDetail.value.period.startDate),
-  endDate: new Date(scheduleDetail.value.period.endDate),
+const { otherSchedules } = useSchedule();
+const schedule = ref(otherSchedules.value[props.index]);
+
+const period: DatePeriodType = {
+  startDate: new Date(schedule.value.period.startDate),
+  endDate: new Date(schedule.value.period.endDate),
 };
 const fromPage = ref({
   month: (period.startDate as Date).getMonth() + 1,

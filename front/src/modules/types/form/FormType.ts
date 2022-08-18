@@ -1,3 +1,6 @@
+import type { DateRange } from "@fullcalendar/vue3";
+import type { DatePeriodType, DateTimePeriodType } from "@/modules/types/schedule/ScheduleType";
+
 export interface LoginType {
   loginId: string;
   password: string;
@@ -41,4 +44,21 @@ export interface DuplicationCheckType {
   isAvailable: boolean;
   value: string;
   message: string;
+}
+
+export interface ScheduleContentFormType {
+  title: string;
+  content: string;
+  cost: number;
+  start: string | Date;
+  end: string | Date;
+  setAttr(event: any): void;
+  resetAttr(): void;
+}
+
+export interface ScheduleFormType {
+  title: string;
+  publicFlag: boolean;
+  city: string;
+  range: DatePeriodType;
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
+import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.time.LocalDate;
@@ -46,17 +47,35 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
     }
 
     @Override
-    public Optional<Schedule> getScheduleAndContents(String nickname, String title) {
+    public Optional<Schedule> getScheduleAndContents(Long id) {
         return Optional.ofNullable(
                 queryFactory.selectFrom(schedule)
                         .leftJoin(schedule.scheduleContents, scheduleContent).fetchJoin()
                         .leftJoin(schedule.member, member).fetchJoin()
                         .where(
-                                memberNicknameEq(nickname),
-                                scheduleTitleEq(title)
+                                scheduleIdEq(id)
                         )
                         .fetchOne()
         );
+    }
+
+    @Override
+    public List<ScheduleContent> getScheduleContents(Long scheduleId){
+        return queryFactory.selectFrom(scheduleContent)
+                .join(scheduleContent.schedule, schedule).fetchJoin()
+                .where(
+                        scheduleIdEq(scheduleId)
+                )
+                .fetch();
+    }
+    @Override
+    public List<Schedule> getScheduleByMember(String loginId) {
+        return queryFactory.selectFrom(schedule)
+                .leftJoin(schedule.member, member).fetchJoin()
+                .where(
+                        memberLoginIdEq(loginId)
+                )
+                .fetch();
     }
 
     private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {
@@ -85,9 +104,15 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
     private BooleanExpression scheduleTitleEq(String title) {
         return hasText(title) ? schedule.title.eq(title) : null;
     }
-
+    private BooleanExpression scheduleIdEq(Long id) {
+        return id != null ? schedule.id.eq(id) : null;
+    }
     private BooleanExpression memberNicknameEq(String nickname) {
         return hasText(nickname) ? member.nickname.eq(nickname) : null;
+    }
+
+    private BooleanExpression memberLoginIdEq(String loginId) {
+        return hasText(loginId) ? member.loginId.eq(loginId) : null;
     }
 
     private BooleanExpression titleContain(String title) {

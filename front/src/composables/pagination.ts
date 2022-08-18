@@ -1,10 +1,11 @@
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import type {
   CustomPaginationType,
   PageableResponseType,
 } from "@/modules/types/common/PageableType";
 import { usePageableStore } from "@/stores/pageable";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import PageableRequest from "@/modules/class/PageableRequest";
 
 export const usePagination = () => {
   const store = usePageableStore();
@@ -25,7 +26,6 @@ export const usePagination = () => {
   return {
     pageable,
     pagination,
-
     mappingPagination,
     movePage,
     setSort,

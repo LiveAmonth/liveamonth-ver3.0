@@ -1,14 +1,11 @@
 package teamproject.lam_server.domain.schedule.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.Getter;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
+import teamproject.lam_server.global.entity.TimePeriod;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Getter
 public class CreateScheduleContentRequest {
@@ -23,9 +20,7 @@ public class CreateScheduleContentRequest {
     private String content;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate date;
+    private TimePeriod timePeriod;
 
     private int cost;
 
@@ -33,7 +28,7 @@ public class CreateScheduleContentRequest {
         return ScheduleContent.builder()
                 .title(title)
                 .content(content)
-                .date(date)
+                .timePeriod(timePeriod)
                 .cost(cost)
                 .schedule(schedule)
                 .build();

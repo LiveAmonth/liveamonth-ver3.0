@@ -9,10 +9,13 @@ import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.paging.PageableDTO;
+
+import java.util.List;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
@@ -35,15 +38,21 @@ public class ScheduleApiController {
         return CustomResponse.success(CREATE_SCHEDULE_CONTENT);
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<?> getScheduleDetails(@RequestParam String nickname, @RequestParam String title) {
-        ScheduleDetailResponse result = scheduleApiService.getScheduleDetails(nickname, title);
+    @GetMapping("/{id}/contents")
+    public ResponseEntity<?> getScheduleContents(@PathVariable Long id) {
+        List<ScheduleContentResponse> result = scheduleApiService.getScheduleDetails(id);
         return CustomResponse.success(READ_SCHEDULE_CONTENT, result);
     }
 
     @PostMapping("/search")
     public ResponseEntity<?> search(@RequestBody ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Page<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
+        return CustomResponse.success(READ_SCHEDULE, result);
+    }
+
+    @GetMapping("/{loginId}/list")
+    public ResponseEntity<?> getScheduleByMember(@PathVariable String loginId) {
+        List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 }
