@@ -58,7 +58,6 @@ export class ScheduleContentDetail implements ScheduleContentFormType {
   setAttr(event: any) {
     this._content = event.extendedProps.content;
     this._cost = event.extendedProps.cost;
-    console.log(event.startStr);
     this._start = event.startStr;
     this._end = event.endStr;
     this._title = event.title;

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import ScheduleContentForm from "@/components/form/ScheduleContentForm.vue";
 import ScheduleForm from "@/components/schedule/ScheduleForm.vue";
+import { useCalendarEvent } from "@/composables/calendarEvent";
 
 defineProps({
   loginId: {
@@ -9,7 +10,7 @@ defineProps({
     required: true,
   },
 });
-const editorCollapse = ref(1);
+
 </script>
 
 <template>

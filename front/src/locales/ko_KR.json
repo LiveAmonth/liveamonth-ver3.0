@@ -199,6 +199,10 @@
     }
   },
   "schedule": {
+    "title": {
+      "schedule": "스케줄 정보",
+      "content": "컨텐츠 목록"
+    },
     "tooltip": {
       "date": "한 달 살기 기간",
       "cost": "한 달 살기 비용",

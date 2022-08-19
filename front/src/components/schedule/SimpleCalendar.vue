@@ -9,6 +9,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const { otherSchedules } = useSchedule();
 const schedule = ref(otherSchedules.value[props.index]);
 
