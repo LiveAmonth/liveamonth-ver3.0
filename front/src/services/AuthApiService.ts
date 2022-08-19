@@ -12,7 +12,6 @@ class AuthApiService {
         return response.data.data;
       })
       .catch((error) => {
-        console.log(error.response.data);
         throw error.response.data;
       });
   }
@@ -33,7 +32,6 @@ class AuthApiService {
         return response.data.data;
       })
       .catch((error) => {
-        console.log(error.response.data);
         throw error.response.data;
       });
   }

@@ -38,9 +38,6 @@ const review = ref({
 });
 
 const edit = () => {
-  console.log(review.value.title);
-  console.log(review.value.content);
-  console.log(review.value.reviewCategory.code);
   axios
     .patch(`/lam-api/reviews/${props.reviewId}`, {
       title: review.value.title,

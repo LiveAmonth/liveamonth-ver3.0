@@ -1,4 +1,4 @@
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
 import CalendarService from "@/services/CalendarService";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
@@ -7,20 +7,20 @@ import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 export const useCalendarEvent = () => {
   const getEvents = ref([]);
   const contentStore = useScheduleContentStore();
-  const contentCollapse = ref<number>();
+  const contentCollapse = computed(() => contentStore.contentCollapse);
 
   const scheduleContentDetail = computed(
     (): ScheduleContentFormType => contentStore.contentForm
   );
 
-  const setContentCollapse = () => {
-    contentCollapse.value = contentStore.scheduleContents[0].id;
+  const setContentCollapse = async (
+    id = contentStore.scheduleContents[0].id
+  ) => {
+    await contentStore.setContentCollapse(id);
   };
 
-  const setContent = async (state: boolean, event: any) => {
-    state
-      ? await contentStore.setContent(event)
-      : (contentCollapse.value = event.id);
+  const setContent = async (event: any) => {
+    await contentStore.setContent(event);
   };
 
   const resetContent = async () => {

@@ -20,6 +20,20 @@ body {
   vertical-align: middle;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  &:visited {
+    color: inherit;
+  }
+}
+
 @keyframes fadeInMove {
   0% {
     opacity: 0;

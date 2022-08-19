@@ -8,16 +8,19 @@ import type {
 } from "@/modules/types/schedule/ScheduleType";
 import ScheduleApiService from "@/services/ScheduleApiService";
 
+const collapseArr: number[] = [];
 export const useScheduleContentStore = defineStore("scheduleContent", {
   state: () => ({
     contentForm: new ScheduleContentDetail() as ScheduleContentFormType,
     scheduleContents: [] as ScheduleContentType[],
+    contentCollapse: collapseArr,
   }),
   getters: {},
   actions: {
     async setContent(event: any) {
       await this.contentForm.setAttr(event);
     },
+
     async resetContent() {
       await this.contentForm.resetAttr();
     },
@@ -36,6 +39,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
       const data: any = ref([]);
       this.scheduleContents.forEach((value: ScheduleContentType) => {
         data.value.push({
+          id: value.id,
           title: value.title,
           start: value.timePeriod.startDateTime,
           end: value.timePeriod.endDateTime,
@@ -47,6 +51,10 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
         });
       });
       return data;
+    },
+
+    async setContentCollapse(id: number) {
+      this.contentCollapse.push(id);
     },
   },
 });

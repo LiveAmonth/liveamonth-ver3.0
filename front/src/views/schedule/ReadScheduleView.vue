@@ -2,13 +2,11 @@
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import ScheduleCalendar from "@/components/schedule/ScheduleCalendar.vue";
 import ScheduleInformation from "@/components/schedule/ScheduleInformation.vue";
-import { computed, onMounted, ref } from "vue";
-import { useScheduleStore } from "@/stores/schedule";
+import ReplyComponent from "@/components/reply/ReplyComponent.vue";
+import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
-import { useMemberStore } from "@/stores/member";
-import { useAuthStore } from "@/stores/auth";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 import { useCalendarEvent } from "@/composables/calendarEvent";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
   id: {
@@ -17,7 +15,7 @@ const props = defineProps({
   },
 });
 const { isPending, getOtherSchedule, getScheduleContents } = useSchedule();
-const { setContentCollapse } = useCalendarEvent();
+const { contentCollapse, setContentCollapse } = useCalendarEvent();
 const scheduleCard = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
 
 // const authStore = useAuthStore();
@@ -32,21 +30,33 @@ onMounted(async () => {
   await getScheduleContents(Number(props.id));
   await setContentCollapse();
 });
+
+const changeCollapse = (id: number) => {
+  setContentCollapse(id);
+};
 </script>
 
 <template>
-  <el-row v-if="!isPending">
+  <el-row class="mb-5" v-if="!isPending">
     <el-col>
       <TitleSlot>{{ scheduleCard.title }}</TitleSlot>
       <el-row :gutter="10">
         <el-col :span="18">
-          <ScheduleCalendar :manage-state="false" :editable="false" />
+          <ScheduleCalendar
+            @select-content="changeCollapse"
+            :manage-state="false"
+            :editable="false"
+          />
         </el-col>
         <el-col :span="6">
           <ScheduleInformation :id="id" />
         </el-col>
       </el-row>
     </el-col>
+  </el-row>
+  <el-row>
+    <TitleSlot>댓글</TitleSlot>
+    <ReplyComponent />
   </el-row>
 </template>
 

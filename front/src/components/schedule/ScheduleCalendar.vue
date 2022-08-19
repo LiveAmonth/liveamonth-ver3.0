@@ -21,7 +21,7 @@ const props = defineProps({
     required: true,
   },
 });
-const store = useScheduleStore();
+const emit = defineEmits(["selectContent"]);
 const { setContent, getEvents, createEvents } = useCalendarEvent();
 const options: CalendarOptions = reactive({
   locale: koLocale,
@@ -36,13 +36,12 @@ const options: CalendarOptions = reactive({
   selectable: true,
   weekends: true,
   select: (arg) => {
-    // if (eventsCount === 1) {
-    //   console.log("컨텐츠 개수가 1개 입니다.");
-    // }
   },
   dayMaxEvents: true,
   eventClick: (arg) => {
-    setContent(props.manageState, arg.event);
+    props.manageState
+      ? setContent(arg.event)
+      : emit("selectContent", Number(arg.event.id));
   },
   eventAdd: (arg) => {
     createEvents({
@@ -62,7 +61,9 @@ watch(getEvents, () => {
 </script>
 
 <template>
-  <FullCalendar :options="options" />
+  <el-card>
+    <FullCalendar :options="options" />
+  </el-card>
 </template>
 
 <style scoped lang="scss">
