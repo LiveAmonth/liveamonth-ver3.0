@@ -3,9 +3,9 @@ package teamproject.lam_server.domain.member.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.Formula;
-import teamproject.lam_server.domain.interaction.entity.Follower;
-import teamproject.lam_server.domain.interaction.entity.ReviewLike;
-import teamproject.lam_server.domain.interaction.entity.ScheduleLike;
+import teamproject.lam_server.domain.comment.entity.ReviewComment;
+import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.domain.interaction.entity.*;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.Role;
@@ -26,30 +26,6 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Member extends BaseTimeEntity {
-
-    @OneToMany(mappedBy = "to")
-    @ToString.Exclude
-    private final Set<Follower> followers = new HashSet<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<Follower> following = new HashSet<>();
-
-    @OneToMany(mappedBy = "member")
-    @ToString.Exclude
-    private final List<Schedule> schedules = new ArrayList<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
-
-    @OneToMany(mappedBy = "member")
-    @ToString.Exclude
-    private final List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ReviewLike> reviewLikes = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,6 +48,46 @@ public class Member extends BaseTimeEntity {
     private Role role;
     @Enumerated(EnumType.STRING)
     private AccountState status;
+
+    @OneToMany(mappedBy = "to")
+    @ToString.Exclude
+    private final Set<Follower> followers = new HashSet<>();
+
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<Follower> following = new HashSet<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<ScheduleComment> scheduleComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
+
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ScheduleCommentLike> scheduleCommentLikes = new HashSet<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<ReviewComment> reviewComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ReviewLike> reviewLikes = new HashSet<>();
+
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ReviewCommentLike> reviewCommentLikes = new HashSet<>();
 
     @Formula("(select count(1) from follower f where f.to_member_id = member_id)")
     private int followersCount;

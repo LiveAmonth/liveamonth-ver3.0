@@ -41,14 +41,25 @@ public abstract class ResponseMessage {
      */
     public static final String CREATE_CITY = "도시정보 저장 성공";
     public static final String READ_CITY = "도시정보 조회 성공";
-    public static final String UPDATE_CITY = "도시정보 업데이트 성공";
+    public static final String UPDATE_CITY = "도시정보 변경 성공";
     public static final String DELETE_CITY = "도시정보 삭제 성공";
 
 
+    /**
+     * Domain: Review
+     */
     public static final String CREATE_REVIEW = "후기글 저장 성공";
-    public static final String UPDATE_REVIEW = "후기글 업데이트 성공";
+    public static final String UPDATE_REVIEW = "후기글 변경 성공";
     public static final String DELETE_REVIEW = "후기글 삭제 성공";
     public static final String READ_REVIEW = "후기글 조회 성공";
+
+    /**
+     * Domain: Comment
+     */
+    public static final String CREATE_COMMENT = "댓글 저장 성공";
+    public static final String UPDATE_COMMENT = "댓글 변경 성공";
+    public static final String DELETE_COMMENT = "댓글 삭제 성공";
+    public static final String READ_COMMENT = "댓글 조회 성공";
 
 
     /**

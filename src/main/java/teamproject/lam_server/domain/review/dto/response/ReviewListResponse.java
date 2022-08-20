@@ -25,7 +25,7 @@ public class ReviewListResponse {
                 .title(review.getTitle())
                 .writer(review.getMember().getNickname())
                 .content(review.getContent())
-                .writeDate(review.getReviewDateTime().toLocalDate())
+                .writeDate(review.getDateTime().toLocalDate())
                 .viewCount(review.getViewCount())
                 .build();
     }

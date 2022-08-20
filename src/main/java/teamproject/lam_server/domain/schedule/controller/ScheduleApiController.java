@@ -15,6 +15,7 @@ import teamproject.lam_server.domain.schedule.service.ScheduleService;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.paging.PageableDTO;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
@@ -27,13 +28,13 @@ public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
 
     @PostMapping
-    public ResponseEntity<?> addSchedule(@RequestBody CreateScheduleRequest request) {
+    public ResponseEntity<?> addSchedule(@RequestBody @Valid CreateScheduleRequest request) {
         scheduleApiService.addSchedule(request);
         return CustomResponse.success(CREATE_SCHEDULE);
     }
 
     @PostMapping("/contents")
-    public ResponseEntity<?> addScheduleContent(@RequestBody CreateScheduleContentRequest request) {
+    public ResponseEntity<?> addScheduleContent(@RequestBody @Valid CreateScheduleContentRequest request) {
         scheduleApiService.addScheduleContent(request);
         return CustomResponse.success(CREATE_SCHEDULE_CONTENT);
     }
@@ -45,7 +46,7 @@ public class ScheduleApiController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> search(@RequestBody ScheduleSearchCond cond, PageableDTO pageableDTO) {
+    public ResponseEntity<?> search(@RequestBody @Valid ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Page<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
         return CustomResponse.success(READ_SCHEDULE, result);
     }

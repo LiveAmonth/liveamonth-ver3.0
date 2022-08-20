@@ -40,10 +40,10 @@ public class ScheduleContent extends BaseTimeEntity {
         this.content = content;
         this.timePeriod = timePeriod;
         this.cost = cost;
-        connectSchedule(schedule);
+        setUpSchedule(schedule);
     }
 
-    public void connectSchedule(Schedule schedule) {
+    public void setUpSchedule(Schedule schedule) {
         this.schedule = schedule;
         schedule.getScheduleContents().add(this);
     }

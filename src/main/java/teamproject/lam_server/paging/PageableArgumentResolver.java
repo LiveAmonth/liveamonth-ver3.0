@@ -18,6 +18,7 @@ public class PageableArgumentResolver implements HandlerMethodArgumentResolver {
     private final String SORT = "sort";
     private final String SEPARATE = ",";
     private final String LATEST_CONTENT_ORDER = "id,desc";
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().equals(PageableDTO.class);
@@ -38,7 +39,8 @@ public class PageableArgumentResolver implements HandlerMethodArgumentResolver {
                         ));
             }
             // 최신순 정렬이 아닌 경우 같은 결과값 정렬에 대해 최신순 정렬을 하기 위해 추가
-            if (Arrays.stream(sortArr).noneMatch(s -> s.equals(LATEST_CONTENT_ORDER))) sorts.add(SortPair.of("ID_DESC", SortOption.DESC));
+            if (Arrays.stream(sortArr).noneMatch(s -> s.equals(LATEST_CONTENT_ORDER)))
+                sorts.add(SortPair.of("ID_DESC", SortOption.DESC));
         }
         return PageableDTO.builder()
                 .page(getValue(webRequest.getParameter(PAGE)))

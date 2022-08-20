@@ -8,7 +8,7 @@ import teamproject.lam_server.domain.interaction.service.InteractionService;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/interactions")
-public class InteractionController {
+public class InteractionApiController {
 
     private final InteractionService interactionService;
 }
