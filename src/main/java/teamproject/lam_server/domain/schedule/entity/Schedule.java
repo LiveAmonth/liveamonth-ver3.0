@@ -3,12 +3,14 @@ package teamproject.lam_server.domain.schedule.entity;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.city.constants.CityName;
+import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.interaction.entity.ScheduleLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 import teamproject.lam_server.global.entity.Period;
 
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,18 +24,6 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Schedule extends BaseTimeEntity {
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private final List<ScheduleContent> scheduleContents = new ArrayList<>();
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "schedule")
-    private final List<ScheduleReply> scheduleReplies = new ArrayList<>();
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "to")
-    private final Set<ScheduleLike> likes = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,13 +44,26 @@ public class Schedule extends BaseTimeEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
-    @ToString.Exclude
     private Member member;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private final List<ScheduleContent> scheduleContents = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "schedule")
+    private final List<ScheduleComment> scheduleComments = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "to")
+    private final Set<ScheduleLike> likes = new HashSet<>();
 
     @Formula("(select count(1) from schedule_like sl where sl.to_schedule_id = schedule_id)")
     private int likeCount;
     @Formula("(select ifnull(sum(sc.cost),0) from schedule_content sc where sc.schedule_id = schedule_id)")
     private int totalCost;
+    @Formula("(select count(1) from schedule_comment sc where sc.schedule_id = schedule_id)")
+    private int commentCount;
 
     @Builder
     public Schedule(String title, Boolean publicFlag, Member member, CityName cityName, Period period) {
@@ -71,10 +74,10 @@ public class Schedule extends BaseTimeEntity {
         this.likeCount = 0;
         this.totalCost = 0;
         this.period = period;
-        connectMember(member);
+        setUpMember(member);
     }
 
-    private void connectMember(Member member) {
+    private void setUpMember(Member member) {
         this.member = member;
         member.getSchedules().add(this);
     }
