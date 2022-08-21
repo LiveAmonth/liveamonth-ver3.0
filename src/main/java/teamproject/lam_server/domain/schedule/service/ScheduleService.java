@@ -7,7 +7,6 @@ import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentR
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleDetailResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -22,7 +21,7 @@ public interface ScheduleService {
 
     Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO);
 
-    List<ScheduleContentResponse> getScheduleDetails(Long id);
+    List<ScheduleContentResponse> getScheduleContents(Long id);
 
     List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId);
 }

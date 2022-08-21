@@ -50,8 +50,6 @@ public class InitScheduleService {
 
     private ScheduleContent mapToScheduleContent(CreateScheduleContentRequest request) {
         Schedule schedule = scheduleRepository.findAll().get((int) (request.getScheduleId() - 1));
-//        ScheduleContent scheduleContent = request.toEntity(schedule);
-//        schedule.increaseTotalCost(scheduleContent.getCost());
         return request.toEntity(schedule);
     }
 }

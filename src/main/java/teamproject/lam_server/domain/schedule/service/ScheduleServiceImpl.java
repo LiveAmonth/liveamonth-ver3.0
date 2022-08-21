@@ -59,7 +59,8 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.search(cond, pageable).map(ScheduleCardResponse::of);
     }
 
-    public List<ScheduleContentResponse> getScheduleDetails(Long scheduleId) {
+    @Transactional
+    public List<ScheduleContentResponse> getScheduleContents(Long scheduleId) {
         return scheduleRepository.getScheduleContents(scheduleId).stream()
                 .map(ScheduleContentResponse::of)
                 .collect(Collectors.toList());

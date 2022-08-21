@@ -22,6 +22,11 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review extends BaseTimeEntity {
 
+    @OneToMany(mappedBy = "review")
+    private final List<ReviewComment> reviewComments = new ArrayList<>();
+    @OneToMany(mappedBy = "to")
+    @ToString.Exclude
+    private final Set<ReviewLike> likes = new HashSet<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id")
@@ -31,18 +36,10 @@ public class Review extends BaseTimeEntity {
     private String title;
     @Lob
     private String content;
-    private int viewCount;
+    private Long viewCount;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @OneToMany(mappedBy = "review")
-    private final List<ReviewComment> reviewComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "to")
-    @ToString.Exclude
-    private final Set<ReviewLike> likes = new HashSet<>();
-
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
     private int likeCount;
 
@@ -54,7 +51,7 @@ public class Review extends BaseTimeEntity {
         this.reviewCategory = reviewCategory;
         this.title = title;
         this.content = content;
-        this.viewCount = 0;
+        this.viewCount = 0L;
         setUpMember(member);
     }
 

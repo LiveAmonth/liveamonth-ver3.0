@@ -23,32 +23,18 @@ public class CommentApiController {
     @PostMapping("/schedule/{scheduleId}")
     public ResponseEntity<?> writeScheduleComment(
             @PathVariable Long scheduleId,
+            @RequestParam(required = false) Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeScheduleComment(scheduleId, request);
-        return CustomResponse.success(CREATE_COMMENT);
-    }
-
-    @PostMapping("/schedule/comments/{commentId}")
-    public ResponseEntity<?> writeScheduleChildComment(
-            @PathVariable Long commentId,
-            @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeScheduleChildComment(commentId, request);
+        commentService.writeScheduleComment(scheduleId, commentId, request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 
     @PostMapping("/review/{reviewId}")
     public ResponseEntity<?> writeReviewComment(
             @PathVariable Long reviewId,
+            @RequestParam(required = false) Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeReviewComment(reviewId, request);
-        return CustomResponse.success(CREATE_COMMENT);
-    }
-
-    @PostMapping("/review/comments/{commentId}")
-    public ResponseEntity<?> writeReviewChildComment(
-            @PathVariable Long commentId,
-            @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeReviewChildComment(commentId, request);
+        commentService.writeReviewComment(reviewId, commentId, request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 

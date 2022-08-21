@@ -44,7 +44,7 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .where(
                         titleContains(cond.getTitle()),
                         contentContains(cond.getContent()),
-                        memberNicknameEq(cond.getWriter())
+                        memberNicknameEq(cond.getMember())
                 );
     }
 
@@ -56,7 +56,7 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .where(
                         titleContains(cond.getTitle()),
                         contentContains(cond.getContent()),
-                        memberNicknameEq(cond.getWriter())
+                        memberNicknameEq(cond.getMember())
                 );
     }
 

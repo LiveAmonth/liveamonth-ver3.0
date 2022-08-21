@@ -40,10 +40,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public PostIdResponse write(ReviewCreate request) {
-        Member writer = memberRepository.findByNickname(request.getWriter())
+        Member member = memberRepository.findByNickname(request.getWriter())
                 .orElseThrow(MemberNotFound::new);
 
-        Review review = reviewRepository.save(request.toEntity(writer));
+        Review review = reviewRepository.save(request.toEntity(member));
         return PostIdResponse.of(review.getId());
     }
 

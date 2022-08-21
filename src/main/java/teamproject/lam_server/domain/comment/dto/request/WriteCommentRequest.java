@@ -25,6 +25,7 @@ public class WriteCommentRequest {
                 .content(comment)
                 .member(member);
     }
+
     public ReviewComment.ReviewCommentBuilder toReviewEntity(Member member) {
         return ReviewComment.builder()
                 .content(comment)
