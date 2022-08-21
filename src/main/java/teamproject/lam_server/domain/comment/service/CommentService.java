@@ -12,10 +12,8 @@ public interface CommentService {
 
     void writeScheduleChildComment(Long commentId, WriteCommentRequest request);
 
-    @Transactional
     void writeReviewComment(Long reviewId, WriteCommentRequest request);
 
-    @Transactional
     void writeReviewChildComment(Long commentId, WriteCommentRequest request);
 
     Page<CommentResponse> getScheduleComments(Long scheduleId, PageableDTO pageableDTO);

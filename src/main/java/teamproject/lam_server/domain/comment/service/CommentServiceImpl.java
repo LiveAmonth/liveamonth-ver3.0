@@ -1,10 +1,12 @@
 package teamproject.lam_server.domain.comment.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.comment.dto.CommentResponse;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
@@ -82,8 +84,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void getScheduleComments(Long scheduleId, PageableDTO pageableDTO) {
+    public Page<CommentResponse> getScheduleComments(Long scheduleId, PageableDTO pageableDTO) {
         Pageable pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
-        scheduleCommentRepository.getScheduleComments(scheduleId, pageable);
+        scheduleCommentRepository.getScheduleComments(scheduleId, pageable).stream().map(CommentResponse::of);
+
     }
 }
