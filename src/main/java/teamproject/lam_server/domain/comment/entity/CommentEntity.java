@@ -8,6 +8,7 @@ import teamproject.lam_server.global.entity.BaseTimeEntity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -21,4 +22,6 @@ public abstract class CommentEntity extends BaseTimeEntity {
     @JoinColumn(name = "member_id")
     @ToString.Exclude
     protected Member member;
+
+    public abstract List<? extends CommentEntity> getChildren();
 }
