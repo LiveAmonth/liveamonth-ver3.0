@@ -2,7 +2,6 @@ package teamproject.lam_server.domain.comment.entity;
 
 import lombok.*;
 import org.hibernate.annotations.Formula;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.lang.Nullable;
 import teamproject.lam_server.domain.interaction.entity.ScheduleCommentLike;
 import teamproject.lam_server.domain.member.entity.Member;
@@ -20,33 +19,26 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class ScheduleComment extends CommentEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_comment_id")
-    private Long id;
-
-    @Length(max = 1000)
-    private String content;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "schedule_id")
-    @ToString.Exclude
-    private Schedule schedule;
-
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "parent_id")
-    @ToString.Exclude
-    private ScheduleComment parent;
+public class ScheduleComment extends Comment {
 
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     @ToString.Exclude
     private final List<ScheduleComment> children = new ArrayList<>();
-
-    @ToString.Exclude
     @OneToMany(mappedBy = "to")
+    @ToString.Exclude
     private final Set<ScheduleCommentLike> likes = new HashSet<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "schedule_comment_id")
+    private Long id;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "schedule_id")
+    @ToString.Exclude
+    private Schedule schedule;
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_comment_id")
+    @ToString.Exclude
+    private ScheduleComment parent;
 
     @Formula("(select count(sc.parent) from schedule_comment sc where sc.parent = schedule_comment_id)")
     private int childrenCount;
@@ -54,17 +46,20 @@ public class ScheduleComment extends CommentEntity {
     private int likeCount;
 
     @Builder
-    public ScheduleComment(String content, Member member, @Nullable Schedule schedule, @Nullable ScheduleComment parent) {
+    public ScheduleComment(String content, Member member, Schedule schedule, @Nullable ScheduleComment parent) {
         this.content = content;
-        setUpMember(member);
-        if (parent != null) setUpParent(parent);
-        if (schedule != null) setUpSchedule(schedule);
+        setUpWriter(member);
+        setUpSchedule(schedule);
+        if (parent != null) {
+            setUpParent(parent);
+        }
     }
 
-    private void setUpMember(Member member) {
+    protected void setUpWriter(Member member) {
         this.member = member;
         member.getScheduleComments().add(this);
     }
+
 
     private void setUpSchedule(Schedule schedule) {
         this.schedule = schedule;

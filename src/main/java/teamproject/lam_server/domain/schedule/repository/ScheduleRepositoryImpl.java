@@ -60,7 +60,13 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
     }
 
     @Override
-    public List<ScheduleContent> getScheduleContents(Long scheduleId){
+    public List<ScheduleContent> getScheduleContents(Long scheduleId) {
+        queryFactory.update(schedule)
+                .set(schedule.viewCount, schedule.viewCount.add(1))
+                .where(
+                        scheduleIdEq(scheduleId)
+                ).execute();
+
         return queryFactory.selectFrom(scheduleContent)
                 .join(scheduleContent.schedule, schedule).fetchJoin()
                 .where(
@@ -68,6 +74,7 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
                 )
                 .fetch();
     }
+
     @Override
     public List<Schedule> getScheduleByMember(String loginId) {
         return queryFactory.selectFrom(schedule)
@@ -104,9 +111,11 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
     private BooleanExpression scheduleTitleEq(String title) {
         return hasText(title) ? schedule.title.eq(title) : null;
     }
+
     private BooleanExpression scheduleIdEq(Long id) {
         return id != null ? schedule.id.eq(id) : null;
     }
+
     private BooleanExpression memberNicknameEq(String nickname) {
         return hasText(nickname) ? member.nickname.eq(nickname) : null;
     }

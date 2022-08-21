@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import teamproject.lam_server.domain.comment.service.CommentService;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
@@ -26,6 +27,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @Slf4j
 public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
+    private final CommentService commentService;
 
     @PostMapping
     public ResponseEntity<?> addSchedule(@RequestBody @Valid CreateScheduleRequest request) {
@@ -41,7 +43,7 @@ public class ScheduleApiController {
 
     @GetMapping("/{id}/contents")
     public ResponseEntity<?> getScheduleContents(@PathVariable Long id) {
-        List<ScheduleContentResponse> result = scheduleApiService.getScheduleDetails(id);
+        List<ScheduleContentResponse> result = scheduleApiService.getScheduleContents(id);
         return CustomResponse.success(READ_SCHEDULE_CONTENT, result);
     }
 

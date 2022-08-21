@@ -4,10 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.comment.dto.CommentResponse;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
+import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentRepository;
@@ -18,6 +19,7 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.ReviewRepository;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.exception.notfound.CommentNotFound;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
@@ -35,58 +37,42 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public void writeScheduleComment(Long scheduleId, WriteCommentRequest request) {
+    public Long writeScheduleComment(Long scheduleId, @Nullable Long commentId, WriteCommentRequest request) {
         Member member = memberRepository.findById(request.getMemberId()).orElseThrow(MemberNotFound::new);
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(ScheduleNotFound::new);
-
         ScheduleComment comment = request.toScheduleEntity(member)
                 .schedule(schedule)
+                .parent(
+                        commentId != null
+                                ? scheduleCommentRepository.findById(commentId).orElseThrow(CommentNotFound::new)
+                                : null
+                )
                 .build();
-        scheduleCommentRepository.save(comment);
+        return scheduleCommentRepository.save(comment).getId();
     }
 
     @Override
     @Transactional
-    public void writeScheduleChildComment(Long commentId, WriteCommentRequest request) {
-        Member member = memberRepository.findById(request.getMemberId()).orElseThrow(MemberNotFound::new);
-        ScheduleComment parent = scheduleCommentRepository.findById(commentId).orElseThrow(ScheduleNotFound::new);
-
-        ScheduleComment comment = request.toScheduleEntity(member)
-                .parent(parent)
-                .build();
-
-        scheduleCommentRepository.save(comment);
-    }
-
-    @Override
-    @Transactional
-    public void writeReviewComment(Long reviewId, WriteCommentRequest request) {
+    public void writeReviewComment(Long reviewId, @Nullable Long commentId, WriteCommentRequest request) {
         Member member = memberRepository.findById(request.getMemberId()).orElseThrow(MemberNotFound::new);
         Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
 
         ReviewComment comment = request.toReviewEntity(member)
                 .review(review)
+                .parent(
+                        commentId != null
+                                ? reviewCommentRepository.findById(commentId).orElseThrow(CommentNotFound::new)
+                                : null
+                )
                 .build();
         reviewCommentRepository.save(comment);
     }
 
-    @Override
-    @Transactional
-    public void writeReviewChildComment(Long commentId, WriteCommentRequest request) {
-        Member member = memberRepository.findById(request.getMemberId()).orElseThrow(MemberNotFound::new);
-        ReviewComment parent = reviewCommentRepository.findById(commentId).orElseThrow(ScheduleNotFound::new);
-
-        ReviewComment comment = request.toReviewEntity(member)
-                .parent(parent)
-                .build();
-
-        reviewCommentRepository.save(comment);
-    }
 
     @Override
     public Page<CommentResponse> getScheduleComments(Long scheduleId, PageableDTO pageableDTO) {
         Pageable pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
-        scheduleCommentRepository.getScheduleComments(scheduleId, pageable).stream().map(CommentResponse::of);
-
+        scheduleCommentRepository.getTest(scheduleId, pageable);
+        return null;
     }
 }

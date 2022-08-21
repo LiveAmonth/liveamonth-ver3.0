@@ -1,11 +1,7 @@
 import { defineStore } from "pinia";
 import type {
-  ScheduleSearchType,
   ScheduleCardType,
-  ScheduleDetailType,
-  ScheduleContentType,
-  CalendarType,
-  CalendarExtendedType,
+  ScheduleSearchType,
 } from "@/modules/types/schedule/ScheduleType";
 import ScheduleApiService from "@/services/ScheduleApiService";
 import type { EnumType } from "@/modules/types/common/EnumType";
@@ -15,13 +11,12 @@ import type {
 } from "@/modules/types/common/PageableType";
 import type { SortType } from "@/modules/types/common/SortType";
 import ScheduleSearchCond from "@/modules/class/ScheduleCond";
-import { ref } from "vue";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
-    sortTypes: {} as SortType[],
-    searchTypes: {} as EnumType[],
-    filterTypes: {} as EnumType[],
+    sortTypes: [] as SortType[],
+    searchTypes: [] as EnumType[],
+    filterTypes: [] as EnumType[],
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
   }),
@@ -39,6 +34,7 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
+
     async getFilterTypes() {
       await ScheduleApiService.getFilterTypes()
         .then((response: EnumType[]) => {

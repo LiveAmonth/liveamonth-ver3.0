@@ -26,7 +26,6 @@ public class ReviewCreate {
                 .title(title)
                 .content(content)
                 .reviewCategory(category)
-                .reviewDateTime(reviewDateTime)
                 .member(member)
                 .build();
     }
