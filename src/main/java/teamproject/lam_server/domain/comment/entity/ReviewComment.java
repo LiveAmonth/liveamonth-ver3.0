@@ -40,7 +40,7 @@ public class ReviewComment extends Comment {
     @ToString.Exclude
     private ReviewComment parent;
 
-    @Formula("(select count(rc.parent) from review_comment rc where rc.parent = review_comment_id)")
+    @Formula("(select count(rc.parent_comment_id) from review_comment rc where rc.parent_comment_id = review_comment_id)")
     private int childrenCount;
     @Formula("(select count(1) from review_comment_like rcl where rcl.to_review_comment_id = review_comment_id)")
     private int likeCount;

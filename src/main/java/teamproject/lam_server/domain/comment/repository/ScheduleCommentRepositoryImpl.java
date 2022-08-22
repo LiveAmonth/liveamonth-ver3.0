@@ -32,15 +32,6 @@ public class ScheduleCommentRepositoryImpl implements ScheduleCommentRepositoryC
                 .fetch();
         JPAQuery<Long> countQuery = getScheduleCountQuery(scheduleId);
 
-        log.info("elements={}", elements);
-        List<ScheduleComment> elements2 = queryFactory.selectFrom(scheduleComment)
-                .where(scheduleIdEq(scheduleId))
-                .groupBy(scheduleComment.parent.id)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(scheduleComment.id.desc())
-                .fetch();
-
         return PageableExecutionUtils.getPage(
                 elements,
                 pageable,
@@ -48,42 +39,51 @@ public class ScheduleCommentRepositoryImpl implements ScheduleCommentRepositoryC
     }
 
     @Override
-    public void getTest(Long scheduleId, Pageable pageable) {
-        List<ScheduleComment> elements = getScheduleElementsQuery(scheduleId)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+    public List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, Long from, Long to) {
+        return queryFactory.selectFrom(scheduleComment)
+                .leftJoin(scheduleComment.schedule, schedule).fetchJoin()
+                .leftJoin(scheduleComment.member, member).fetchJoin()
+                .leftJoin(scheduleComment.parent).fetchJoin()
+                .where(
+                        scheduleIdEq(scheduleId),
+                        parentIdNotNull(),
+                        parentIdBetween(from, to)
+                )
                 .orderBy(scheduleComment.id.desc())
                 .fetch();
-        JPAQuery<Long> countQuery = getScheduleCountQuery(scheduleId);
-
-        log.info("elements={}", elements);
-        List<ScheduleComment> elements2 = queryFactory.selectFrom(scheduleComment)
-                .where(scheduleIdEq(scheduleId))
-                .groupBy(scheduleComment.parent.id)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(scheduleComment.id.desc())
-                .fetch();
-        log.info("childElements={}", elements2);
     }
 
     private JPAQuery<ScheduleComment> getScheduleElementsQuery(Long scheduleId) {
         return queryFactory.select(scheduleComment)
                 .from(scheduleComment)
-                .leftJoin(scheduleComment.parent).fetchJoin()
+                .leftJoin(scheduleComment.schedule, schedule).fetchJoin()
                 .leftJoin(scheduleComment.member, member).fetchJoin()
                 .where(
-                        scheduleIdEq(scheduleId)
+                        scheduleIdEq(scheduleId),
+                        parentIdNull()
                 );
     }
 
     private JPAQuery<Long> getScheduleCountQuery(Long scheduleId) {
         return queryFactory.select(scheduleComment.count())
                 .from(scheduleComment)
-                .where(scheduleIdEq(scheduleId));
+                .where(
+                        scheduleIdEq(scheduleId),
+                        parentIdNull()
+                );
     }
 
     private BooleanExpression scheduleIdEq(Long id) {
         return id != null ? schedule.id.eq(id) : null;
+    }
+
+    private BooleanExpression parentIdNull() {
+        return scheduleComment.parent.id.isNull();
+    }
+    private BooleanExpression parentIdNotNull() {
+        return scheduleComment.parent.id.isNotNull();
+    }
+    private BooleanExpression parentIdBetween(Long min, Long max) {
+        return scheduleComment.parent.id.between(min, max);
     }
 }

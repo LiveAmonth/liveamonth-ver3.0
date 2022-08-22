@@ -2,7 +2,7 @@
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import ScheduleCalendar from "@/components/schedule/ScheduleCalendar.vue";
 import ScheduleInformation from "@/components/schedule/ScheduleInformation.vue";
-import ReplyComponent from "@/components/reply/ReplyComponent.vue";
+import ReplyComponent from "@/components/comment/CommentComponent.vue";
 import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
 import { useCalendarEvent } from "@/composables/calendarEvent";
@@ -54,9 +54,12 @@ const changeCollapse = (id: number) => {
       </el-row>
     </el-col>
   </el-row>
+  <el-divider />
+  <TitleSlot>댓글({{ scheduleCard.comments }})</TitleSlot>
   <el-row>
-    <TitleSlot>댓글</TitleSlot>
-    <ReplyComponent />
+    <el-col>
+      <ReplyComponent :path="'schedule'" :id="id" />
+    </el-col>
   </el-row>
 </template>
 

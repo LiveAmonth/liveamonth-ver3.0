@@ -12,10 +12,11 @@ public class ScheduleSimpleCardResponse {
 
     private Long id;
     private String title;
-    private int cost;
     private CityName city;
+    private int cost;
     private int hits;
     private int likes;
+    private int comments;
     private Period period;
 
     public static ScheduleSimpleCardResponse of(Schedule schedule) {
@@ -26,6 +27,7 @@ public class ScheduleSimpleCardResponse {
                 .city(schedule.getCityName())
                 .hits(schedule.getViewCount())
                 .likes(schedule.getLikeCount())
+                .comments(schedule.getCommentCount())
                 .period(schedule.getPeriod())
                 .build();
     }

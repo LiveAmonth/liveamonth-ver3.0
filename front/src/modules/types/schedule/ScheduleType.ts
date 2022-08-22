@@ -15,6 +15,7 @@ export interface ScheduleCardType {
   city: EnumType;
   hits: number;
   likes: number;
+  comments: number;
   period: DatePeriodType;
 }
 export interface ScheduleSimpleCardType {
@@ -25,6 +26,7 @@ export interface ScheduleSimpleCardType {
   city: EnumType;
   hits: number;
   likes: number;
+  comments: number;
   period: DatePeriodType;
 }
 

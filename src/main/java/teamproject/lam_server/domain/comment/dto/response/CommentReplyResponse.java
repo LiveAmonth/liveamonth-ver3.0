@@ -2,22 +2,27 @@ package teamproject.lam_server.domain.comment.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
+import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.util.DateTimeUtil;
 
 @Getter
 @Builder
 public class CommentReplyResponse {
 
-    private Long commentId;
-    private Long parentId;
-    private String content;
-    private CommentProfileResponse profile;
-    private String elapsedTime;
+    private final Long commentId;
+    private final Long parentId;
+    private final String content;
+    private final CommentProfileResponse profile;
+    private final String elapsedTime;
 
-    public CommentReplyResponse(Long commentId, Long parentId, String content, CommentProfileResponse profile, String elapsedTime) {
-        this.commentId = commentId;
-        this.parentId = parentId;
-        this.content = content;
-        this.profile = profile;
-        this.elapsedTime = elapsedTime;
+    public static CommentReplyResponse of(ScheduleComment comment) {
+        return CommentReplyResponse.builder()
+                .commentId(comment.getId())
+                .parentId(comment.getParent().getId())
+                .content(comment.getContent())
+                .profile(CommentProfileResponse.of(comment.getMember()))
+                .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
+                .build();
     }
 }

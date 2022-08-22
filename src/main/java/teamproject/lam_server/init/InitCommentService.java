@@ -12,12 +12,16 @@ import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentR
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.util.JsonUtil;
+
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class InitCommentService {
 
     private static final String SCHEDULE_COMMENT = "scheduleComment";
+    private static final String SCHEDULE_REPLY_COMMENT = "scheduleReplyComment";
     private final MemberRepository memberRepository;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleCommentRepository scheduleCommentRepository;
@@ -25,18 +29,35 @@ public class InitCommentService {
 
     @Transactional
     public void initScheduleCommentData() {
-//        scheduleRepository.saveAll(
-//                JsonUtil.jsonArrayToList(SCHEDULE_COMMENT, WriteCommentRequest.class).stream()
-//                        .map(this::mapToSchedule)
-//                        .collect(Collectors.toList())
-//        );
+        scheduleCommentRepository.saveAll(
+                JsonUtil.jsonArrayToList(SCHEDULE_COMMENT, WriteCommentRequest.class).stream()
+                        .map(this::mapToScheduleComment)
+                        .collect(Collectors.toList())
+        );
+    }
+    @Transactional
+    public void initScheduleReplyCommentData() {
+        scheduleCommentRepository.saveAll(
+                JsonUtil.jsonArrayToList(SCHEDULE_REPLY_COMMENT, WriteCommentRequest.class).stream()
+                        .map(this::mapToScheduleReplyComment)
+                        .collect(Collectors.toList())
+        );
     }
 
 
-    private ScheduleComment mapToSchedule(WriteCommentRequest request) {
+    private ScheduleComment mapToScheduleComment(WriteCommentRequest request) {
         Member member = memberRepository.findAll().get((int) (request.getMemberId() - 1));
-        Schedule schedule = scheduleRepository.findAll().get(0);
+        Schedule schedule = scheduleRepository.findAll().stream().findAny().get();
         return request.toScheduleEntity(member).schedule(schedule).build();
+    }
+    private ScheduleComment mapToScheduleReplyComment(WriteCommentRequest request) {
+        int parentCommentSize = (int) scheduleCommentRepository.count();
+        Member member = memberRepository.findAll().get((int) (request.getMemberId() - 1));
+        Schedule schedule = scheduleRepository.findAll().stream().findAny().get();
+        ScheduleComment comment = scheduleCommentRepository.findAll().stream()
+                .skip((int) (parentCommentSize * Math.random()))
+                .findAny().get();
+        return request.toScheduleEntity(member).schedule(schedule).parent(comment).build();
     }
 
     private ScheduleContent mapToScheduleContent(CreateScheduleContentRequest request) {

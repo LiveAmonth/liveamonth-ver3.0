@@ -22,6 +22,7 @@ public class ScheduleCardResponse {
     private CityName city;
     private int hits;
     private int likes;
+    private int comments;
     private Period period;
 
     public static ScheduleCardResponse of(Schedule schedule){
@@ -33,6 +34,7 @@ public class ScheduleCardResponse {
                 .city(schedule.getCityName())
                 .hits(schedule.getViewCount())
                 .likes(schedule.getLikeCount())
+                .comments(schedule.getCommentCount())
                 .period(schedule.getPeriod())
                 .build();
     }
