@@ -62,7 +62,7 @@ public class Schedule extends BaseTimeEntity {
     private int likeCount;
     @Formula("(select ifnull(sum(sc.cost),0) from schedule_content sc where sc.schedule_id = schedule_id)")
     private int totalCost;
-    @Formula("(select count(1) from schedule_comment sc where sc.schedule_id = schedule_id)")
+    @Formula("(select count(1) from schedule_comment sc where sc.schedule_id = schedule_id and sc.parent_comment_id is null)")
     private int commentCount;
 
     @Builder

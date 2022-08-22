@@ -15,6 +15,7 @@ public class InitDb {
     private final InitMemberService initMemberService;
     private final InitScheduleService initScheduleService;
 
+    private final InitCommentService initCommentService;
     @PostConstruct
     public void init() {
         initCityService.initCityIntroData();
@@ -23,6 +24,8 @@ public class InitDb {
         initMemberService.initMemberData();
         initScheduleService.initScheduleData();
         initScheduleService.initScheduleContentData();
+        initCommentService.initScheduleCommentData();
+        initCommentService.initScheduleReplyCommentData();
 
     }
 }

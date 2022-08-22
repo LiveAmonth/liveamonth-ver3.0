@@ -40,7 +40,7 @@ public class ScheduleComment extends Comment {
     @ToString.Exclude
     private ScheduleComment parent;
 
-    @Formula("(select count(sc.parent) from schedule_comment sc where sc.parent = schedule_comment_id)")
+    @Formula("(select count(sc.parent_comment_id) from schedule_comment sc where sc.parent_comment_id = schedule_comment_id)")
     private int childrenCount;
     @Formula("(select count(1) from schedule_comment_like scl where scl.to_schedule_comment_id = schedule_comment_id)")
     private int likeCount;

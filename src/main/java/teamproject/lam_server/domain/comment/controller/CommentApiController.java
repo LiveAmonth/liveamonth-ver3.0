@@ -1,9 +1,11 @@
 package teamproject.lam_server.domain.comment.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
+import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.service.CommentService;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.paging.PageableDTO;
@@ -23,7 +25,7 @@ public class CommentApiController {
     @PostMapping("/schedule/{scheduleId}")
     public ResponseEntity<?> writeScheduleComment(
             @PathVariable Long scheduleId,
-            @RequestParam(required = false) Long commentId,
+            @RequestParam(required = false, defaultValue = "0") Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
         commentService.writeScheduleComment(scheduleId, commentId, request);
         return CustomResponse.success(CREATE_COMMENT);
@@ -32,7 +34,7 @@ public class CommentApiController {
     @PostMapping("/review/{reviewId}")
     public ResponseEntity<?> writeReviewComment(
             @PathVariable Long reviewId,
-            @RequestParam(required = false) Long commentId,
+            @RequestParam(required = false, defaultValue = "0") Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
         commentService.writeReviewComment(reviewId, commentId, request);
         return CustomResponse.success(CREATE_COMMENT);
@@ -40,8 +42,8 @@ public class CommentApiController {
 
     @GetMapping("/schedule/{scheduleId}")
     public ResponseEntity<?> getScheduleComment(@PathVariable Long scheduleId, PageableDTO pageableDTO) {
-        commentService.getScheduleComments(scheduleId, pageableDTO);
-        return CustomResponse.success(READ_COMMENT);
+        Page<CommentResponse> result = commentService.getScheduleComments(scheduleId, pageableDTO);
+        return CustomResponse.success(READ_COMMENT, result);
     }
 
 }

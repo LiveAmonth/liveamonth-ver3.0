@@ -1,0 +1,34 @@
+[
+  {
+    "memberId": 2,
+    "comment": "스케줄 대댓글입니다. 1"
+  },
+  {
+    "memberId": 1,
+    "comment": "스케줄 대댓글입니다. 2"
+  },
+  {
+    "memberId": 2,
+    "comment": "스케줄 대댓글입니다. 3"
+  },
+  {
+    "memberId": 1,
+    "comment": "스케줄 대댓글입니다. 4"
+  },
+  {
+    "memberId": 2,
+    "comment": "스케줄 대댓글입니다. 5"
+  },
+  {
+    "memberId": 2,
+    "comment": "스케줄 대댓글입니다. 6"
+  },
+  {
+    "memberId": 1,
+    "comment": "스케줄 대댓글입니다. 7"
+  },
+  {
+    "memberId": 1,
+    "comment": "스케줄 대댓글입니다. 8"
+  }
+]

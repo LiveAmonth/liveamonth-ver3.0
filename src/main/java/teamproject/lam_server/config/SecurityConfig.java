@@ -98,9 +98,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/*/members/find-id",
                         "/api/*/members/find-pw",
                         "/api/*/members/exists/**",
-//                        "/api/*/schedules/search",
-//                        "/api/*/schedules/*/detail",
-                        "/api/*/schedules/**",
+                        "/api/*/schedules/search",
+                        "/api/*/schedules/*/contents",
+                        "/api/*/comments/**",
                         "/api/*/reviews/search",
                         "/api/*/city/**",
                         "/api/*/categories/**"

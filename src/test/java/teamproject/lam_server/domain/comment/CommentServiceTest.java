@@ -7,10 +7,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
+import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
 import teamproject.lam_server.domain.comment.service.CommentService;
@@ -18,6 +20,7 @@ import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.paging.PageableDTO;
 
 @SpringBootTest
 @Transactional
@@ -40,7 +43,7 @@ public class CommentServiceTest {
 
     @BeforeEach
     void setUp() {
-        this.schedule = scheduleRepository.findAll().stream().findAny().get();
+        this.schedule = scheduleRepository.findAll().stream().findFirst().get();
         this.member = memberRepository.findAll().stream().findAny().get();
 
     }
@@ -81,6 +84,19 @@ public class CommentServiceTest {
         Assertions.assertThat(findComment.getMember().getId()).isEqualTo(member.getId());
         Assertions.assertThat(findComment.getContent()).isEqualTo("테스트 댓글");
         Assertions.assertThat(findComment.getParent().getId()).isEqualTo(parentCommentId);
+    }
+
+    @Test
+    @DisplayName("스케줄 댓글 조회")
+    void test3() {
+        // given
+        PageableDTO pageableDTO = new PageableDTO(0, 20, null);
+
+        // when
+        Page<CommentResponse> scheduleComments = commentService.getScheduleComments(this.schedule.getId(), pageableDTO);
+        log.info("scheduleComments={}", scheduleComments);
+
+        // then
     }
 
 }

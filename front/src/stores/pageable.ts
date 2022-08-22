@@ -25,5 +25,4 @@ export const usePageableStore = defineStore("pageable", {
       this.pagination.mappingPagination(data);
     },
   },
-  persist: true,
 });
