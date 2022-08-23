@@ -8,14 +8,10 @@ import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 public class WriteCommentRequest {
-
-    @NotNull
-    private Long memberId;
     @NotEmpty
     @Length(max = 1000)
     private String comment;

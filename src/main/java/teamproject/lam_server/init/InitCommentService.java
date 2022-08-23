@@ -46,13 +46,13 @@ public class InitCommentService {
 
 
     private ScheduleComment mapToScheduleComment(WriteCommentRequest request) {
-        Member member = memberRepository.findAll().get((int) (request.getMemberId() - 1));
+        Member member = memberRepository.findAll().get(0);
         Schedule schedule = scheduleRepository.findAll().stream().findAny().get();
         return request.toScheduleEntity(member).schedule(schedule).build();
     }
     private ScheduleComment mapToScheduleReplyComment(WriteCommentRequest request) {
         int parentCommentSize = (int) scheduleCommentRepository.count();
-        Member member = memberRepository.findAll().get((int) (request.getMemberId() - 1));
+        Member member = memberRepository.findAll().get(1);
         Schedule schedule = scheduleRepository.findAll().stream().findAny().get();
         ScheduleComment comment = scheduleCommentRepository.findAll().stream()
                 .skip((int) (parentCommentSize * Math.random()))

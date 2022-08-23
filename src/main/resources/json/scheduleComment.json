@@ -1,34 +1,26 @@
 [
   {
-    "memberId": 1,
     "comment": "스케줄 댓글입니다. 1"
   },
   {
-    "memberId": 1,
-    "comment": "스케줄 댓글입니다. 2"
+    "comment": "안녕하세요!!!!"
   },
   {
-    "memberId": 2,
-    "comment": "스케줄 댓글입니다. 3"
+    "comment": "감사합니다@@@@@@@@@@@"
   },
   {
-    "memberId": 1,
-    "comment": "스케줄 댓글입니다. 4"
+    "comment": "잘보고 갑니다@@@@@@@@@@@"
   },
   {
-    "memberId": 1,
-    "comment": "스케줄 댓글입니다. 5"
+    "comment": "좋은 글이네요"
   },
   {
-    "memberId": 2,
-    "comment": "스케줄 댓글입니다. 6"
+    "comment": "굿굿굿"
   },
   {
-    "memberId": 1,
-    "comment": "스케줄 댓글입니다. 7"
+    "comment": "일정참고 할게요"
   },
   {
-    "memberId": 2,
-    "comment": "스케줄 댓글입니다. 8"
+    "comment": "좋은 글 감사합니다."
   }
 ]

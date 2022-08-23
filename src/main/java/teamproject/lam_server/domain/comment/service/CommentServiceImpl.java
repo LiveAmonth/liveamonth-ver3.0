@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
 import teamproject.lam_server.domain.comment.dto.response.CommentReplyResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
@@ -25,6 +27,7 @@ import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
 import teamproject.lam_server.paging.PageableDTO;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,26 +41,30 @@ public class CommentServiceImpl implements CommentService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
+    private final JwtTokenProvider jwtTokenProvider;
     @Override
     @Transactional
-    public Long writeScheduleComment(Long scheduleId, Long commentId, WriteCommentRequest request) {
-        Member member = memberRepository.findById(request.getMemberId()).orElseThrow(MemberNotFound::new);
+    public Long writeScheduleComment(String accessToken, Long scheduleId, Long commentId, WriteCommentRequest request) {
+        // access token 으로 작성자 검색
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        Member member = memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new);
+
+        // 댓글을 자성한 게시물 확인
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(ScheduleNotFound::new);
+
         ScheduleComment comment = request.toScheduleEntity(member)
                 .schedule(schedule)
-                .parent(
-                        commentId != 0
-                                ? scheduleCommentRepository.findById(commentId).orElseThrow(CommentNotFound::new)
-                                : null
-                )
+                .parent(scheduleCommentRepository.findById(commentId).orElse(null))
                 .build();
+
         return scheduleCommentRepository.save(comment).getId();
     }
 
     @Override
     @Transactional
-    public void writeReviewComment(Long reviewId, Long commentId, WriteCommentRequest request) {
-        Member member = memberRepository.findById(request.getMemberId()).orElseThrow(MemberNotFound::new);
+    public void writeReviewComment(String accessToken, Long reviewId, Long commentId, WriteCommentRequest request) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        Member member = memberRepository.findByLoginId(authentication.getName()).orElseThrow(MemberNotFound::new);
         Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFound::new);
 
         ReviewComment comment = request.toReviewEntity(member)
@@ -76,8 +83,13 @@ public class CommentServiceImpl implements CommentService {
     public Page<CommentResponse> getScheduleComments(Long scheduleId, PageableDTO pageableDTO) {
         Pageable pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
         Page<ScheduleComment> scheduleComments = scheduleCommentRepository.getScheduleComments(scheduleId, pageable);
-        List<ScheduleComment> scheduleCommentReplies = getScheduleCommentReplies(scheduleId, scheduleComments);
-        return scheduleComments.map(comment -> mapToCommentResponse(CommentResponse.of(comment), comment.getId(), scheduleCommentReplies));
+        List<ScheduleComment> scheduleCommentReplies = scheduleComments.getNumberOfElements() != 0
+                ? getScheduleCommentReplies(scheduleId, scheduleComments)
+                : Collections.emptyList();
+        return scheduleComments.map(comment -> mapToCommentResponse(
+                CommentResponse.of(comment),
+                comment.getId(),
+                scheduleCommentReplies));
     }
 
     private CommentResponse mapToCommentResponse(CommentResponse.CommentResponseBuilder builder, Long parentId, List<ScheduleComment> children) {

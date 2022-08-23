@@ -14,7 +14,7 @@ export const useCalendarEvent = () => {
   );
 
   const setContentCollapse = async (
-    id = contentStore.scheduleContents[0].id
+    id = contentStore.scheduleContents[0]?.id
   ) => {
     await contentStore.setContentCollapse(id);
   };

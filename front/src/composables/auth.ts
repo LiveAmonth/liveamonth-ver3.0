@@ -1,11 +1,21 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import type { LoginType } from "@/modules/types/form/FormType";
 import { useAuthStore } from "@/stores/auth";
+import type { TokenType } from "@/modules/types/auth/AuthType";
 
 export const useAuth = () => {
   const store = useAuthStore();
   const error = ref();
   const isPending = ref(false);
+  const isLoggedIn = computed(() => store.loggedIn);
+  const tokenInfo = computed(() => store.accessToken);
+
+  const getTokenInfo = computed(() => {
+    return {
+      accessToken: store.accessToken,
+      grantType: store.grantTye,
+    } as TokenType;
+  });
 
   const login = async (request: LoginType) => {
     error.value = null;
@@ -34,6 +44,8 @@ export const useAuth = () => {
   return {
     error,
     isPending,
+    isLoggedIn,
+    getTokenInfo,
     login,
     logout,
   };

@@ -34,7 +34,6 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-
     async getFilterTypes() {
       await ScheduleApiService.getFilterTypes()
         .then((response: EnumType[]) => {
@@ -63,5 +62,8 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
   },
-  persist: true,
+  persist: {
+    // paths: ["sortTypes", "searchTypes", "filterTypes", "searchCond"],
+    storage: sessionStorage,
+  },
 });

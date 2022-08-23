@@ -17,3 +17,7 @@ export interface CommentReplyType {
   profile: CommentProfileType;
   elapsedTime: string;
 }
+
+export interface WriteCommentType {
+  comment: string;
+}

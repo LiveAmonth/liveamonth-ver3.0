@@ -1,5 +1,4 @@
-import type { DateRange } from "@fullcalendar/vue3";
-import type { DatePeriodType, DateTimePeriodType } from "@/modules/types/schedule/ScheduleType";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
 export interface LoginType {
   loginId: string;
@@ -61,4 +60,8 @@ export interface ScheduleFormType {
   publicFlag: boolean;
   city: string;
   range: DatePeriodType;
+}
+
+export interface CommentFormType {
+  comment: string;
 }

@@ -1,8 +1,10 @@
 import { defineStore } from "pinia";
 import type { CommentType } from "@/modules/types/comment/CommentTypes";
 import type { PageableResponseType } from "@/modules/types/common/PageableType";
-import CommentApiService from "@/services/CommentApiService";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type { TokenType } from "@/modules/types/auth/AuthType";
+import type { CommentFormType } from "@/modules/types/form/FormType";
+import CommentApiService from "@/services/CommentApiService";
 
 export const useCommentStore = defineStore("comment", {
   state: () => ({
@@ -19,6 +21,28 @@ export const useCommentStore = defineStore("comment", {
       pageable: PageableRequestType
     ) {
       await CommentApiService.getComments(path, contentId, pageable)
+        .then((response) => {
+          this.pageableComments = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    async writeComment(
+      path: string,
+      contentId: number,
+      commentId = 0,
+      tokenInfo: TokenType,
+      request: CommentFormType
+    ) {
+      await CommentApiService.writeComment(
+        path,
+        contentId,
+        commentId,
+        tokenInfo,
+        request
+      )
         .then((response) => {
           this.pageableComments = response;
         })
