@@ -66,7 +66,6 @@ export const useSchedule = () => {
       isPending.value = false;
     }
   };
-
   const getOtherSchedule = (id: number): ScheduleCardType => {
     return otherSchedules.value.find(
       (value: ScheduleCardType) => value.id === id

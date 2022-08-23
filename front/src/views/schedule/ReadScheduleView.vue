@@ -2,11 +2,12 @@
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import ScheduleCalendar from "@/components/schedule/ScheduleCalendar.vue";
 import ScheduleInformation from "@/components/schedule/ScheduleInformation.vue";
-import ReplyComponent from "@/components/comment/CommentComponent.vue";
-import { onMounted, ref } from "vue";
+import Comment from "@/components/comment/CommentComponent.vue";
+import { computed, onBeforeMount, onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
 import { useCalendarEvent } from "@/composables/calendarEvent";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
+import { useRoute, useRouter } from "vue-router";
 
 const props = defineProps({
   id: {
@@ -15,9 +16,8 @@ const props = defineProps({
   },
 });
 const { isPending, getOtherSchedule, getScheduleContents } = useSchedule();
-const { contentCollapse, setContentCollapse } = useCalendarEvent();
+const { setContentCollapse } = useCalendarEvent();
 const scheduleCard = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
-
 // const authStore = useAuthStore();
 // const loggedIn = computed(() => authStore.loggedIn);
 // const isLoggedInMemberSchedule = () => {
@@ -55,10 +55,9 @@ const changeCollapse = (id: number) => {
     </el-col>
   </el-row>
   <el-divider />
-  <TitleSlot>댓글({{ scheduleCard.comments }})</TitleSlot>
   <el-row>
     <el-col>
-      <ReplyComponent :path="'schedule'" :id="id" />
+      <Comment :path="'schedule'" :id="id" />
     </el-col>
   </el-row>
 </template>

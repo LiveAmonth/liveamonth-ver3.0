@@ -15,12 +15,13 @@ export const usePagination = () => {
   const mappingPagination = (data: PageableResponseType): void => {
     store.mappingPagination(data);
   };
+
   const movePage = (page: number) => {
-    pagination.value.currentPage = page;
-    pageable.value.page = page;
+    store.movePage(page);
   };
-  const setSort = (sortType: string): void => {
-    pageable.value.sort = sortType;
+
+  const setSort = (sortType: string) => {
+    store.changeSortType(sortType);
   };
 
   return {

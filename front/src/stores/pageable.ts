@@ -3,13 +3,10 @@ import PageableRequest from "@/modules/class/PageableRequest";
 import type { PageableResponseType } from "@/modules/types/common/PageableType";
 import Pagination from "@/modules/class/Pagination";
 
-const contentLimit = 2;
-const firstPage = 1;
-const initialSort = "id,desc";
 export const usePageableStore = defineStore("pageable", {
   state: () => ({
-    request: new PageableRequest(firstPage, contentLimit, initialSort),
-    pagination: new Pagination(contentLimit, 5, firstPage, true, false, 0, 0),
+    request: new PageableRequest(1, 2, "id,desc"),
+    pagination: new Pagination(2, 5, 1, true, false, 0, 0),
   }),
   getters: {
     getPagination: (state) => state.pagination,
@@ -21,8 +18,15 @@ export const usePageableStore = defineStore("pageable", {
       this.request.page = page;
     },
 
+    changeSortType(sortType: string) {
+      this.request.sort = sortType;
+    },
+
     mappingPagination(data: PageableResponseType) {
       this.pagination.mappingPagination(data);
     },
+  },
+  persist: {
+    storage: sessionStorage,
   },
 });

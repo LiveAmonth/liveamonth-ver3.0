@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.CREATE_COMMENT;
 import static teamproject.lam_server.global.constants.ResponseMessage.READ_COMMENT;
+import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,19 +25,21 @@ public class CommentApiController {
 
     @PostMapping("/schedule/{scheduleId}")
     public ResponseEntity<?> writeScheduleComment(
+            @RequestHeader("Authorization") String token,
             @PathVariable Long scheduleId,
             @RequestParam(required = false, defaultValue = "0") Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeScheduleComment(scheduleId, commentId, request);
+        commentService.writeScheduleComment(extractAccessToken(token), scheduleId, commentId, request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 
     @PostMapping("/review/{reviewId}")
     public ResponseEntity<?> writeReviewComment(
+            @RequestHeader("Authorization") String token,
             @PathVariable Long reviewId,
             @RequestParam(required = false, defaultValue = "0") Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeReviewComment(reviewId, commentId, request);
+        commentService.writeReviewComment(extractAccessToken(token), reviewId, commentId, request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 

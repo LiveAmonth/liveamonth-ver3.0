@@ -46,9 +46,11 @@ onMounted(async () => {
     scheduleSearchForm.sortType = sortTypes.value[0].title;
   });
 });
+
 const selectSearchType = () => {
   scheduleSearchForm.searchInput = "";
 };
+
 const selectFilterType = () => {
   scheduleSearchForm.filterInput =
     scheduleSearchForm.filterType === "CITY_NAME"
@@ -62,8 +64,12 @@ const applyOption = () => {
       scheduleSearchForm.filterInput = convertDateToString(date);
     }
   }
+  searchCollapse.value = 0;
+  filterCollapse.value = 0;
+  sortCollapse.value = 0;
   emit("applyOption", scheduleSearchForm);
 };
+
 const disabledDate = (time: Date) => {
   return time.getTime() > Date.now();
 };
