@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.interaction.entity;
+package teamproject.lam_server.domain.interaction.entity.review;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,10 +14,11 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewCommentLike {
+public class ReviewCommentDislike {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_comment_like_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_comment_dislike_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -29,19 +30,19 @@ public class ReviewCommentLike {
     private ReviewComment to;
 
     @Builder
-    public ReviewCommentLike(Member from, ReviewComment to) {
+    public ReviewCommentDislike(Member from, ReviewComment to) {
         this.from = from;
         this.to = to;
-        like();
+        dislike();
     }
 
-    private void like() {
-        from.getReviewCommentLikes().add(this);
-        to.getLikes().add(this);
+    private void dislike() {
+        from.getReviewCommentDislikes().add(this);
+        to.getDislikes().add(this);
     }
 
-    public void cancelLike() {
-        from.getReviewCommentLikes().remove(this);
-        to.getLikes().remove(this);
+    public void cancelDislike() {
+        from.getReviewCommentDislikes().remove(this);
+        to.getDislikes().remove(this);
     }
 }

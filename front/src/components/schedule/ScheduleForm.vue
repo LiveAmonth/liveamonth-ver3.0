@@ -12,14 +12,11 @@ const props = defineProps({
 });
 const { getMemberScheduleList } = useSchedule();
 const scheduleList = ref<ScheduleSimpleCardType[]>();
-const scheduleForm =
-onMounted(async () => {
+const scheduleForm = onMounted(async () => {
   scheduleList.value = await getMemberScheduleList(props.loginId);
 });
-
-
 </script>
-  <el-form
+<el-form
   ref="ruleFormRef"
   :model="scheduleContentDetail"
   :rules="rules"
@@ -27,17 +24,17 @@ onMounted(async () => {
   label-width="120px"
   status-icon
 >
-<span size="small" class="resetBtn" @click="resetField"
-><el-icon><Refresh /></el-icon>{{ $t("form.reset") }}
+<span class="resetBtn" size="small" @click="resetField"
+><el-icon><Refresh/></el-icon>{{ $t("form.reset") }}
     </span>
 <el-form-item :label="$t('schedule.form.content.title')" prop="title">
-  <el-input v-model="scheduleContentDetail.title" />
+  <el-input v-model="scheduleContentDetail.title"/>
 </el-form-item>
 <el-form-item :label="$t('schedule.form.content.content')" prop="content">
   <el-input
-    v-model="scheduleContentDetail.content"
-    autosize
-    type="textarea"
+      v-model="scheduleContentDetail.content"
+      autosize
+      type="textarea"
   />
 </el-form-item>
 <el-form-item :label="$t('schedule.form.content.cost')" prop="cost">
@@ -46,39 +43,36 @@ onMounted(async () => {
   </el-input>
 </el-form-item>
 <el-form-item
-  :label="$t('schedule.form.content.period.start')"
-  prop="start"
+    :label="$t('schedule.form.content.period.start')"
+    prop="start"
 >
   <v-date-picker
-    class
-    mode="time"
-    v-model="scheduleContentDetail.start"
-    timezone="Asia/Seoul"
+      v-model="scheduleContentDetail.start"
+      class
+      mode="time"
+      timezone="Asia/Seoul"
   />
 </el-form-item>
 <el-form-item :label="$t('schedule.form.content.period.end')" prop="end">
   <v-date-picker
-    readonly
-    mode="time"
-    v-model="scheduleContentDetail.end"
-    timezone="Asia/Seoul"
+      v-model="scheduleContentDetail.end"
+      mode="time"
+      readonly
+      timezone="Asia/Seoul"
   />
 </el-form-item>
 <el-form-item>
   <el-button
-    color="#004A55"
-    size="large"
-    style="width: 100%"
-    @click="submitForm(ruleFormRef)"
+      color="#004A55"
+      size="large"
+      style="width: 100%"
+      @click="submitForm(ruleFormRef)"
   >{{ $t("schedule.form.content.add") }}
   </el-button>
 </el-form-item>
 </el-form>
-<template>
-
-
-</template>
-<style scoped lang="scss">
+<template></template>
+<style lang="scss" scoped>
 .resetBtn {
   float: right;
 

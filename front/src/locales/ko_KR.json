@@ -8,8 +8,9 @@
     "sort": "정렬",
     "select": "선택",
     "application": "적용",
-    "please-input": "입력해주세요.",
-    "pick-day": "날짜를 선택해주세요"
+    "please-input": "{field}을 입력해주세요.",
+    "pick-day": "날짜를 선택해주세요",
+    "before-input": "{field}을 작성하려면 로그인 해주세요."
   },
   "menu": {
     "city": "도시 소개",
@@ -251,6 +252,8 @@
     }
   },
   "comment": {
-    "title": "댓글"
+    "title": "댓글",
+    "write": "댓글 쓰기",
+    "reply": "댓글의 댓글"
   }
 }

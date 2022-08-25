@@ -35,6 +35,8 @@ public enum ErrorCode {
     ALREADY_DROP_MEMBER(400, "이미 탈퇴한 회원입니다."),
     ALREADY_FOLLOW_MEMBER(400, "이미 '팔로우'한 회원입니다."),
     ALREADY_LIKE_SCHEDULE(400, "이미 '좋아요'한 스케줄입니다."),
+    ALREADY_DISLIKE_COMMENT(400, "이미 비공감한 글입니다."),
+    ALREADY_LIKE_COMMENT(400, "이미 공감한 글입니다."),
     ALREADY_LIKE_REVIEW(400, "이미 '좋아요'한 후기입니다."),
     NOT_DROP_MEMBER(400, "탈퇴하지 않은 회원입니다."),
     INVALID_SORT_OPTION(400, "정렬 조건이 올바르지 않습니다."),
@@ -64,6 +66,8 @@ public enum ErrorCode {
     CITY_NOT_FOUND(404, "해당 도시 정보를 찾을 수 없습니다."),
     SCHEDULE_NOT_FOUND(404, "해당 스케줄를 찾을 수 없습니다."),
     REVIEW_NOT_FOUND(404, "해당 리뷰를 찾을 수 없습니다."),
+
+    SERVICE_NOT_FOUND(404, "해당 타입에 맞는 서비스를 찾을 수 없습니다."),
 
     /**
      * <p>

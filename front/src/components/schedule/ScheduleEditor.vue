@@ -1,8 +1,6 @@
-<script setup lang="ts">
-import { ref, watch } from "vue";
+<script lang="ts" setup>
 import ScheduleContentForm from "@/components/form/ScheduleContentForm.vue";
 import ScheduleForm from "@/components/schedule/ScheduleForm.vue";
-import { useCalendarEvent } from "@/composables/calendarEvent";
 
 defineProps({
   loginId: {
@@ -10,7 +8,6 @@ defineProps({
     required: true,
   },
 });
-
 </script>
 
 <template>
@@ -45,4 +42,4 @@ defineProps({
   </el-collapse>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

@@ -2,7 +2,6 @@ package teamproject.lam_server.domain.comment.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.util.DateTimeUtil;
 
@@ -10,11 +9,13 @@ import teamproject.lam_server.util.DateTimeUtil;
 @Builder
 public class CommentReplyResponse {
 
-    private final Long commentId;
-    private final Long parentId;
-    private final String content;
-    private final CommentProfileResponse profile;
-    private final String elapsedTime;
+    private Long commentId;
+    private Long parentId;
+    private String content;
+    private CommentProfileResponse profile;
+    private String elapsedTime;
+    private int likes;
+    private int dislikes;
 
     public static CommentReplyResponse of(ScheduleComment comment) {
         return CommentReplyResponse.builder()
@@ -23,6 +24,8 @@ public class CommentReplyResponse {
                 .content(comment.getContent())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
+                .likes(comment.getLikeCount())
+                .dislikes(comment.getDislikeCount())
                 .build();
     }
 }

@@ -3,7 +3,8 @@ package teamproject.lam_server.domain.comment.entity;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.lang.Nullable;
-import teamproject.lam_server.domain.interaction.entity.ScheduleCommentLike;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentDislike;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 
@@ -27,6 +28,10 @@ public class ScheduleComment extends Comment {
     @OneToMany(mappedBy = "to")
     @ToString.Exclude
     private final Set<ScheduleCommentLike> likes = new HashSet<>();
+    @OneToMany(mappedBy = "to")
+    @ToString.Exclude
+    private final Set<ScheduleCommentDislike> dislikes = new HashSet<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "schedule_comment_id")
@@ -44,6 +49,8 @@ public class ScheduleComment extends Comment {
     private int childrenCount;
     @Formula("(select count(1) from schedule_comment_like scl where scl.to_schedule_comment_id = schedule_comment_id)")
     private int likeCount;
+    @Formula("(select count(1) from schedule_comment_dislike scd where scd.to_schedule_comment_id = schedule_comment_id)")
+    private int dislikeCount;
 
     @Builder
     public ScheduleComment(String content, Member member, Schedule schedule, @Nullable ScheduleComment parent) {

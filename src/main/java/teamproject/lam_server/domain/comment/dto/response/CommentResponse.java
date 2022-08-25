@@ -16,6 +16,8 @@ public class CommentResponse {
     private CommentProfileResponse profile;
     private List<CommentReplyResponse> commentReplies;
     private String elapsedTime;
+    private int likes;
+    private int dislikes;
 
 
     public static CommentResponse.CommentResponseBuilder of(ScheduleComment comment) {
@@ -23,6 +25,8 @@ public class CommentResponse {
                 .commentId(comment.getId())
                 .content(comment.getContent())
                 .profile(CommentProfileResponse.of(comment.getMember()))
-                .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()));
+                .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
+                .likes(comment.getLikeCount())
+                .dislikes(comment.getDislikeCount());
     }
 }

@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
-import teamproject.lam_server.domain.comment.service.CommentService;
+import teamproject.lam_server.domain.comment.service.CommentServiceFinder;
 import teamproject.lam_server.global.dto.CustomResponse;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -21,31 +22,31 @@ import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 @RequestMapping("/api/v1/comments")
 public class CommentApiController {
 
-    private final CommentService commentService;
+    private final CommentServiceFinder commentServiceFinder;
 
-    @PostMapping("/schedule/{scheduleId}")
-    public ResponseEntity<?> writeScheduleComment(
+    @PostMapping("/{contentId}")
+    public ResponseEntity<?> writeComment(
             @RequestHeader("Authorization") String token,
-            @PathVariable Long scheduleId,
+            @PathVariable Long contentId,
             @RequestParam(required = false, defaultValue = "0") Long commentId,
+            @RequestParam CommentType type,
             @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeScheduleComment(extractAccessToken(token), scheduleId, commentId, request);
+
+        commentServiceFinder.find(type)
+                .writeComment(extractAccessToken(token), contentId, commentId, request);
+
         return CustomResponse.success(CREATE_COMMENT);
     }
 
-    @PostMapping("/review/{reviewId}")
-    public ResponseEntity<?> writeReviewComment(
-            @RequestHeader("Authorization") String token,
-            @PathVariable Long reviewId,
-            @RequestParam(required = false, defaultValue = "0") Long commentId,
-            @RequestBody @Valid WriteCommentRequest request) {
-        commentService.writeReviewComment(extractAccessToken(token), reviewId, commentId, request);
-        return CustomResponse.success(CREATE_COMMENT);
-    }
+    @GetMapping("/{contentId}")
+    public ResponseEntity<?> getComments(
+            @PathVariable Long contentId,
+            @RequestParam CommentType type,
+            PageableDTO pageableDTO) {
 
-    @GetMapping("/schedule/{scheduleId}")
-    public ResponseEntity<?> getScheduleComment(@PathVariable Long scheduleId, PageableDTO pageableDTO) {
-        Page<CommentResponse> result = commentService.getScheduleComments(scheduleId, pageableDTO);
+        Page<CommentResponse> result =
+                commentServiceFinder.find(type).getComments(contentId, pageableDTO);
+
         return CustomResponse.success(READ_COMMENT, result);
     }
 

@@ -11,7 +11,6 @@ import { useDate } from "@/composables/date";
 import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(["applyOption"]);
-const { t } = useI18n();
 const store = useScheduleStore();
 const cityStore = useCityStore();
 const { getSearchTypes, getFilterTypes, getSortTypes } = useSchedule();
@@ -110,7 +109,11 @@ const disabledDate = (time: Date) => {
                   <el-form-item>
                     <el-input
                       v-model="scheduleSearchForm.searchInput"
-                      :placeholder="$t('common.please-input')"
+                      :placeholder="
+                        $t('common.please-input', {
+                          field: $t('member.nickname'),
+                        })
+                      "
                       style="width: 200px"
                     >
                     </el-input>
@@ -227,6 +230,7 @@ const disabledDate = (time: Date) => {
   &.filter {
     width: 350px;
   }
+
   &.sort {
     width: 140px;
   }
