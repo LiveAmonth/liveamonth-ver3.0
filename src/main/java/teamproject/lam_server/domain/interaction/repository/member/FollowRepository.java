@@ -16,11 +16,18 @@ public interface FollowRepository extends JpaRepository<Follower, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "insert into follower (from_member_id, to_member_id) values(:#{#request.from}, :#{#request.to})", nativeQuery = true)
+    @Query(value = "" +
+            "insert into follower (from_member_id, to_member_id) " +
+            "values(:#{#request.from}, :#{#request.to})"
+            , nativeQuery = true)
     void follow(@Param("request") InteractionRequest request);
 
     @Modifying
     @Transactional
-    @Query(value = "delete from follower where from_member_id = :#{#request.from} and to_member_id = :#{#request.to};", nativeQuery = true)
+    @Query(value = "" +
+            "delete from follower " +
+            "where from_member_id = :#{#request.from} " +
+            "and to_member_id = :#{#request.to};"
+            , nativeQuery = true)
     void unFollow(@Param("request") InteractionRequest request);
 }

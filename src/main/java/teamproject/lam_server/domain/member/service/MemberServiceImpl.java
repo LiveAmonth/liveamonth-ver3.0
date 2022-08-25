@@ -10,10 +10,7 @@ import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
 import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
 import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
 import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
-import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
-import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
-import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
+import teamproject.lam_server.domain.member.dto.response.*;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.NotDropMember;
@@ -128,5 +125,4 @@ public class MemberServiceImpl implements MemberService {
                         .orElseThrow(MemberNotFound::new)
         );
     }
-
 }

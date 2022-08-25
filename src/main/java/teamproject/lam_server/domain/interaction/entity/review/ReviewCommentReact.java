@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
+import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewCommentLike {
+public class ReviewCommentReact {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_comment_like_id")
@@ -28,20 +29,24 @@ public class ReviewCommentLike {
     @JoinColumn(name = "to_review_comment_id")
     private ReviewComment to;
 
+    @Enumerated(EnumType.STRING)
+    private ReactType type;
+
     @Builder
-    public ReviewCommentLike(Member from, ReviewComment to) {
+    public ReviewCommentReact(Member from, ReviewComment to, ReactType type) {
         this.from = from;
         this.to = to;
+        this.type = type;
         like();
     }
 
     private void like() {
-        from.getReviewCommentLikes().add(this);
-        to.getLikes().add(this);
+        from.getReviewCommentReacts().add(this);
+        to.getReacts().add(this);
     }
 
     public void cancelLike() {
-        from.getReviewCommentLikes().remove(this);
-        to.getLikes().remove(this);
+        from.getReviewCommentReacts().remove(this);
+        to.getReacts().remove(this);
     }
 }

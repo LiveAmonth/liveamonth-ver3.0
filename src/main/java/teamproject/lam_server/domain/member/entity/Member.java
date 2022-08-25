@@ -6,11 +6,9 @@ import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.interaction.entity.member.Follower;
-import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentDislike;
-import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentLike;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentDislike;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentLike;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleLike;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -39,6 +37,8 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "from")
     @ToString.Exclude
     private final Set<Follower> following = new HashSet<>();
+
+    // 스케줄
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     private final List<Schedule> schedules = new ArrayList<>();
@@ -50,10 +50,9 @@ public class Member extends BaseTimeEntity {
     private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
     @OneToMany(mappedBy = "from")
     @ToString.Exclude
-    private final Set<ScheduleCommentLike> scheduleCommentLikes = new HashSet<>();
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ScheduleCommentDislike> scheduleCommentDislikes = new HashSet<>();
+    private final Set<ScheduleCommentReact> scheduleCommentReacts = new HashSet<>();
+
+    // 리뷰
     @OneToMany(mappedBy = "member")
     @ToString.Exclude
     private final List<Review> reviews = new ArrayList<>();
@@ -65,10 +64,9 @@ public class Member extends BaseTimeEntity {
     private final Set<ReviewLike> reviewLikes = new HashSet<>();
     @OneToMany(mappedBy = "from")
     @ToString.Exclude
-    private final Set<ReviewCommentLike> reviewCommentLikes = new HashSet<>();
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ReviewCommentDislike> reviewCommentDislikes = new HashSet<>();
+    private final Set<ReviewCommentReact> reviewCommentReacts = new HashSet<>();
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")

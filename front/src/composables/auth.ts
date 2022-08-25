@@ -8,13 +8,8 @@ export const useAuth = () => {
   const error = ref();
   const isPending = ref(false);
   const isLoggedIn = computed(() => store.loggedIn);
-  const tokenInfo = computed(() => store.accessToken);
-
-  const getTokenInfo = computed(() => {
-    return {
-      accessToken: store.accessToken,
-      grantType: store.grantTye,
-    } as TokenType;
+  const bearerToken = computed((): string => {
+    return `${store.grantTye} ${store.accessToken}`;
   });
 
   const login = async (request: LoginType) => {
@@ -41,11 +36,12 @@ export const useAuth = () => {
       isPending.value = false;
     }
   };
+
   return {
     error,
     isPending,
     isLoggedIn,
-    getTokenInfo,
+    bearerToken,
     login,
     logout,
   };

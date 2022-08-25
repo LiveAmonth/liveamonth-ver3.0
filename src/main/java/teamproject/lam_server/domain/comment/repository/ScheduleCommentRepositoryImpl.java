@@ -80,9 +80,11 @@ public class ScheduleCommentRepositoryImpl implements ScheduleCommentRepositoryC
     private BooleanExpression parentIdNull() {
         return scheduleComment.parent.id.isNull();
     }
+
     private BooleanExpression parentIdNotNull() {
         return scheduleComment.parent.id.isNotNull();
     }
+
     private BooleanExpression parentIdBetween(Long min, Long max) {
         return scheduleComment.parent.id.between(min, max);
     }

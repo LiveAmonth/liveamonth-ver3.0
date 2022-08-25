@@ -3,8 +3,7 @@ package teamproject.lam_server.domain.comment.entity;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.lang.Nullable;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentDislike;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentLike;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 
@@ -27,10 +26,7 @@ public class ScheduleComment extends Comment {
     private final List<ScheduleComment> children = new ArrayList<>();
     @OneToMany(mappedBy = "to")
     @ToString.Exclude
-    private final Set<ScheduleCommentLike> likes = new HashSet<>();
-    @OneToMany(mappedBy = "to")
-    @ToString.Exclude
-    private final Set<ScheduleCommentDislike> dislikes = new HashSet<>();
+    private final Set<ScheduleCommentReact> reacts = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,9 +43,9 @@ public class ScheduleComment extends Comment {
 
     @Formula("(select count(sc.parent_comment_id) from schedule_comment sc where sc.parent_comment_id = schedule_comment_id)")
     private int childrenCount;
-    @Formula("(select count(1) from schedule_comment_like scl where scl.to_schedule_comment_id = schedule_comment_id)")
+    @Formula("(select count(1) from schedule_comment_react scr where scr.to_schedule_comment_id = schedule_comment_id and scr.type = 'LIKE')")
     private int likeCount;
-    @Formula("(select count(1) from schedule_comment_dislike scd where scd.to_schedule_comment_id = schedule_comment_id)")
+    @Formula("(select count(1) from schedule_comment_react scr where scr.to_schedule_comment_id = schedule_comment_id and scr.type = 'DISLIKE')")
     private int dislikeCount;
 
     @Builder

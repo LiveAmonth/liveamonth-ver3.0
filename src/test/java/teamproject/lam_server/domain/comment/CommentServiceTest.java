@@ -52,56 +52,56 @@ public class CommentServiceTest {
         this.member = memberRepository.findAll().stream().findAny().get();
     }
 
-    @Test
-    @DisplayName("스케줄 댓글 저장")
-    void test1() {
-        // given
-        WriteCommentRequest request = new WriteCommentRequest();
-//        request.setMemberId(member.getId());
-        request.setComment("테스트 댓글");
-
-        // when
-        LoginRequest request1 = new LoginRequest();
-        Long saveCommentId = commentService.writeScheduleComment(token, schedule.getId(), null, request);
-
-        ScheduleComment findComment = scheduleCommentRepository.findById(saveCommentId).get();
-
-        // then
-        Assertions.assertThat(findComment.getMember().getId()).isEqualTo(member.getId());
-        Assertions.assertThat(findComment.getContent()).isEqualTo("테스트 댓글");
-    }
-
-    @Test
-    @DisplayName("스케줄 대댓글 저장")
-    void test2() {
-        // given
-        WriteCommentRequest request = new WriteCommentRequest();
-//        request.setMemberId(member.getId());
-        request.setComment("테스트 댓글");
-
-        // when
-        Long parentCommentId = commentService.writeScheduleComment(token, schedule.getId(), null, request);
-        Long childCommentId = commentService.writeScheduleComment(token, schedule.getId(), parentCommentId, request);
-
-        ScheduleComment findComment = scheduleCommentRepository.findById(childCommentId).get();
-
-        // then
-        Assertions.assertThat(findComment.getMember().getId()).isEqualTo(member.getId());
-        Assertions.assertThat(findComment.getContent()).isEqualTo("테스트 댓글");
-        Assertions.assertThat(findComment.getParent().getId()).isEqualTo(parentCommentId);
-    }
-
-    @Test
-    @DisplayName("스케줄 댓글 조회")
-    void test3() {
-        // given
-        PageableDTO pageableDTO = new PageableDTO(0, 20, null);
-
-        // when
-        Page<CommentResponse> scheduleComments = commentService.getScheduleComments(this.schedule.getId(), pageableDTO);
-        log.info("scheduleComments={}", scheduleComments);
-
-        // then
-    }
+//    @Test
+//    @DisplayName("스케줄 댓글 저장")
+//    void test1() {
+//        // given
+//        WriteCommentRequest request = new WriteCommentRequest();
+////        request.setMemberId(member.getId());
+//        request.setComment("테스트 댓글");
+//
+//        // when
+//        LoginRequest request1 = new LoginRequest();
+//        Long saveCommentId = commentService.writeScheduleComment(token, schedule.getId(), null, request);
+//
+//        ScheduleComment findComment = scheduleCommentRepository.findById(saveCommentId).get();
+//
+//        // then
+//        Assertions.assertThat(findComment.getMember().getId()).isEqualTo(member.getId());
+//        Assertions.assertThat(findComment.getContent()).isEqualTo("테스트 댓글");
+//    }
+//
+//    @Test
+//    @DisplayName("스케줄 대댓글 저장")
+//    void test2() {
+//        // given
+//        WriteCommentRequest request = new WriteCommentRequest();
+////        request.setMemberId(member.getId());
+//        request.setComment("테스트 댓글");
+//
+//        // when
+//        Long parentCommentId = commentService.writeScheduleComment(token, schedule.getId(), null, request);
+//        Long childCommentId = commentService.writeScheduleComment(token, schedule.getId(), parentCommentId, request);
+//
+//        ScheduleComment findComment = scheduleCommentRepository.findById(childCommentId).get();
+//
+//        // then
+//        Assertions.assertThat(findComment.getMember().getId()).isEqualTo(member.getId());
+//        Assertions.assertThat(findComment.getContent()).isEqualTo("테스트 댓글");
+//        Assertions.assertThat(findComment.getParent().getId()).isEqualTo(parentCommentId);
+//    }
+//
+//    @Test
+//    @DisplayName("스케줄 댓글 조회")
+//    void test3() {
+//        // given
+//        PageableDTO pageableDTO = new PageableDTO(0, 20, null);
+//
+//        // when
+//        Page<CommentResponse> scheduleComments = commentService.getScheduleComments(this.schedule.getId(), pageableDTO);
+//        log.info("scheduleComments={}", scheduleComments);
+//
+//        // then
+//    }
 
 }

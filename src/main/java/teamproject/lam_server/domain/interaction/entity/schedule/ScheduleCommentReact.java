@@ -5,20 +5,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.persistence.*;
 
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScheduleCommentDislike {
+public class ScheduleCommentReact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_comment_dislike_id")
+    @Column(name = "schedule_comment_like_id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
@@ -29,20 +31,24 @@ public class ScheduleCommentDislike {
     @JoinColumn(name = "to_schedule_comment_id")
     private ScheduleComment to;
 
+    @Enumerated(STRING)
+    private ReactType type;
+
     @Builder
-    public ScheduleCommentDislike(Member from, ScheduleComment to) {
+    public ScheduleCommentReact(Member from, ScheduleComment to, ReactType type) {
         this.from = from;
         this.to = to;
-        dislike();
+        this.type = type;
+        like();
     }
 
-    private void dislike() {
-        from.getScheduleCommentDislikes().add(this);
-        to.getDislikes().add(this);
+    private void like() {
+        from.getScheduleCommentReacts().add(this);
+        to.getReacts().add(this);
     }
 
-    public void cancelDislike() {
-        from.getScheduleCommentDislikes().remove(this);
-        to.getDislikes().remove(this);
+    public void cancelLike() {
+        from.getScheduleCommentReacts().remove(this);
+        to.getReacts().remove(this);
     }
 }

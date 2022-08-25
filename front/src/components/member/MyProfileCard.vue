@@ -1,45 +1,43 @@
 <script lang="ts" setup>
-import { useAuthStore } from "@/stores/auth";
 import { computed, onMounted, ref } from "vue";
 import { useAuth } from "@/composables/auth";
 import { useRouter } from "vue-router";
 import { useMemberStore } from "@/stores/member";
 import { useMember } from "@/composables/member";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
-import type { TokenType } from "@/modules/types/auth/AuthType";
 
 const router = useRouter();
-const authStore = useAuthStore();
-const memberStore = useMemberStore();
-const { logout } = useAuth();
-const { getSimpleProfile } = useMember();
-const loggedIn = computed((): boolean => authStore.loggedIn);
-const simpleProfile = computed(
-  (): SimpleProfileType => memberStore.simpleProfile
-);
+const store = useMemberStore();
+const { isLoggedIn, getTokenInfo, logout } = useAuth();
+const { simpleProfile, getSimpleProfile, getMemberInteractions } = useMember();
+
+
+onMounted(async () => {
+  if (isLoggedIn.value) {
+    await getSimpleProfile();
+    await getMemberInteractions();
+  }
+});
+
 const logoutBtn = async () => {
   await logout();
-  if (!authStore.loggedIn) {
+  if (!isLoggedIn.value) {
     await router.push({ name: "login" });
   }
 };
 const myPageBtn = async () => {
-  if (!authStore.loggedIn) {
+  if (!isLoggedIn.value) {
     await router.push({ name: "home" });
   }
 };
 
-onMounted(async () => {
-  if (authStore.loggedIn) {
-    await getSimpleProfile(authStore.tokenInfo.data as TokenType);
-  }
-});
+
 </script>
 
 <template>
   <el-card class="p-0">
     <div class="ds-top"></div>
-    <template v-if="loggedIn">
+    <template v-if="isLoggedIn">
       <div class="avatar-holder">
         <el-avatar :size="100" :src="`/src/assets/image/default.jpg`" />
         <div class="overlay">

@@ -24,7 +24,8 @@ const emit = defineEmits(["submitForm"]);
 const { isLoggedIn } = useAuth();
 const { isPending } = useComment();
 const { validateRequire, validateRange } = useFormValidate();
-const { openMessageBox } = useMessageBox();
+const { openMessageBox, requireLoginMessageBox } = useMessageBox();
+
 const { t } = useI18n();
 
 const ruleFormRef = ref<FormInstance>();
@@ -79,8 +80,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             :loading="isPending"
             color="#004A55"
             size="large"
+            :disabled="!isLoggedIn"
             @click="submitForm(ruleFormRef)"
-            >Submit
+            >{{ $t("common.submit") }}
           </el-button>
         </el-form-item>
       </el-col>

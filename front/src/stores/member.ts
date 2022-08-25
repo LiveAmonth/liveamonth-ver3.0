@@ -11,6 +11,7 @@ import type {
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
 import type { TokenType } from "@/modules/types/auth/AuthType";
+import InteractionApiService from "@/services/InteractionApiService";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
@@ -52,7 +53,7 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
-    async getMember(param: TokenType) {
+    async getMember(param: string) {
       await MemberApiService.getMember(param)
         .then((response: ProfileType) => {
           this.memberProfile = response;
@@ -61,7 +62,7 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
-    async getSimpleProfile(param: TokenType) {
+    async getSimpleProfile(param: string) {
       await MemberApiService.getSimpleProfile(param)
         .then((response: SimpleProfileType) => {
           this.simpleProfile = response;
@@ -70,5 +71,9 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
+  },
+  persist: {
+    storage: sessionStorage,
+    paths: ["simpleProfile"],
   },
 });

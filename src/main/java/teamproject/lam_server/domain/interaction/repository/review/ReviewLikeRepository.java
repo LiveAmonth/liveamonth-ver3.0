@@ -1,8 +1,38 @@
 package teamproject.lam_server.domain.interaction.repository.review;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
 
 public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
+    @Modifying
+    @Transactional
+    @Query(value = "" +
+            "insert into review_like (from_member_id, to_review_id) " +
+            "values(:#{#request.from}, :#{#request.to})"
+            , nativeQuery = true)
+    void like(@Param("request") InteractionRequest request);
 
+    @Modifying
+    @Transactional
+    @Query(value = "" +
+            "delete from review_like " +
+            "where from_member_id = :#{#request.from} " +
+            "and to_review_id = :#{#request.to};"
+            , nativeQuery = true)
+    void cancelLike(@Param("request") InteractionRequest request);
+
+    @Query(value = "select exists" +
+            "(select count(1) " +
+            "from review_like rl " +
+            "inner join member m " +
+            "on m.member_id = rl.from_review_id " +
+            "where rl.to_review_id = :reviewId " +
+            "and m.login_id = :loginId)"
+            , nativeQuery = true)
+    boolean isMemberLike(@Param("loginId") String loginId, @Param("reviewId") Long reviewId);
 }

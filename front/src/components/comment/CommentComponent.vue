@@ -8,45 +8,57 @@ import { onMounted } from "vue";
 import { usePagination } from "@/composables/pagination";
 import { useComment } from "@/composables/comment";
 import { useCommentStore } from "@/stores/comment";
+import { useAuth } from "@/composables/auth";
 import type { CommentFormType } from "@/modules/types/form/FormType";
+import { useMessageBox } from "@/composables/messageBox";
 
 const props = defineProps({
   id: {
     type: [String || Number],
     required: true,
   },
-  path: {
+  type: {
     type: String,
     required: true,
     validator(value: string): boolean {
-      return value === "schedule" || value === "review";
+      return value === "SCHEDULE" || value === "REVIEW";
     },
   },
 });
 const store = useCommentStore();
 const { isPending, comments, commentsCount, getComments, writeComment } =
   useComment();
+const { isLoggedIn } = useAuth();
 const { pageable, mappingPagination, movePage } = usePagination();
+const { openMessageBox, requireLoginMessageBox } = useMessageBox();
 
 onMounted(async () => {
-  await getComments(props.path, Number(props.id), pageable.value).then(() => {
+  await getComments(props.type, Number(props.id), pageable.value).then(() => {
     mappingPagination(store.pageableComments);
   });
 });
 
 const pageClick = async (page: number) => {
   movePage(page);
-  await getComments(props.path, Number(props.id), pageable.value).then(() => {
+  await getComments(props.type, Number(props.id), pageable.value).then(() => {
     mappingPagination(store.pageableComments);
   });
 };
 
 const submitForm = async (form: CommentFormType, commentId = 0) => {
-  await writeComment(props.path, Number(props.id), commentId, form).then(() => {
-    getComments(props.path, Number(props.id), pageable.value).then(() => {
+  await writeComment(props.type, Number(props.id), commentId, form).then(() => {
+    getComments(props.type, Number(props.id), pageable.value).then(() => {
       mappingPagination(store.pageableComments);
     });
   });
+};
+
+const reactComment = (option: boolean) => {
+  if (isLoggedIn.value) {
+    console.log(option);
+  } else {
+    requireLoginMessageBox();
+  }
 };
 </script>
 
@@ -61,10 +73,13 @@ const submitForm = async (form: CommentFormType, commentId = 0) => {
       <CommentSlot
         :avatar-url="'/src/assets/image/default.jpg'"
         :is-reply="false"
+        @react-comment="reactComment"
       >
         <template v-slot:writer>{{ comment.profile.nickname }}</template>
         <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
         <template v-slot:content>{{ comment.content }}</template>
+        <template v-slot:likeCount>{{ comment.likes }}</template>
+        <template v-slot:dislikeCount>{{ comment.dislikes }}</template>
       </CommentSlot>
       <el-collapse>
         <el-collapse-item
@@ -75,10 +90,13 @@ const submitForm = async (form: CommentFormType, commentId = 0) => {
               <CommentSlot
                 :avatar-url="'/src/assets/image/default.jpg'"
                 :is-reply="true"
+                @react-comment="reactComment"
               >
                 <template v-slot:writer>{{ reply.profile.nickname }}</template>
                 <template v-slot:elapsedTime>{{ reply.elapsedTime }}</template>
                 <template v-slot:content>{{ reply.content }}</template>
+                <template v-slot:likeCount>{{ reply.likes }}</template>
+                <template v-slot:dislikeCount>{{ reply.dislikes }}</template>
               </CommentSlot>
               <el-divider class="mt-1 mb-0" />
             </li>

@@ -28,8 +28,8 @@ public class CommentApiController {
     public ResponseEntity<?> writeComment(
             @RequestHeader("Authorization") String token,
             @PathVariable Long contentId,
-            @RequestParam(required = false, defaultValue = "0") Long commentId,
             @RequestParam CommentType type,
+            @RequestParam(name = "comment_id", required = false, defaultValue = "0") Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
 
         commentServiceFinder.find(type)
