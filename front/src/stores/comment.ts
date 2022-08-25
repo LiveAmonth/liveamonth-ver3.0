@@ -16,11 +16,11 @@ export const useCommentStore = defineStore("comment", {
   },
   actions: {
     async getComments(
-      path: string,
+      type: string,
       contentId: number,
       pageable: PageableRequestType
     ) {
-      await CommentApiService.getComments(path, contentId, pageable)
+      await CommentApiService.getComments(type, contentId, pageable)
         .then((response) => {
           this.pageableComments = response;
         })
@@ -30,14 +30,14 @@ export const useCommentStore = defineStore("comment", {
     },
 
     async writeComment(
-      path: string,
+      type: string,
       contentId: number,
       commentId = 0,
       tokenInfo: TokenType,
       request: CommentFormType
     ) {
       await CommentApiService.writeComment(
-        path,
+        type,
         contentId,
         commentId,
         tokenInfo,

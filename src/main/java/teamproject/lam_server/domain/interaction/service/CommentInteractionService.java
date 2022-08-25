@@ -1,10 +1,14 @@
 package teamproject.lam_server.domain.interaction.service;
 
+import teamproject.lam_server.domain.interaction.constants.InteractionType;
+import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 
-public interface CommentInteractionService extends InteractionService {
-    void dislike(InteractionRequest request);
+public interface CommentInteractionService {
 
-    void cancelDislike(InteractionRequest request);
+    InteractionType getType();
 
+    void react(InteractionRequest request, ReactType type);
+
+    void cancelReact(InteractionRequest request, ReactType type);
 }

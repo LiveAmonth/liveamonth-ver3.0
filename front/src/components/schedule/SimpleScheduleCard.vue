@@ -1,17 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import PopoverProfileSlot from "@/components/common/PopoverProfileSlot.vue";
+import type { PropType } from "vue";
 import ScheduleInfoSlot from "@/components/schedule/ScheduleInfoSlot.vue";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
-const props = defineProps({
-  id: {
-    type: [String || Number],
+defineProps({
+  schedule: {
+    type: Object as PropType<ScheduleCardType>,
     required: true,
   },
 });
-const { getOtherSchedule } = useSchedule();
-const schedule = ref(getOtherSchedule(Number(props.id)));
 </script>
 
 <template>
@@ -36,9 +33,6 @@ const schedule = ref(getOtherSchedule(Number(props.id)));
         <span>
           <el-icon><View /></el-icon> 조회수:
         </span>
-      </template>
-      <template v-slot:like-title>
-        <span> <i class="bi bi-hand-thumbs-up"></i> 좋아요: </span>
       </template>
     </ScheduleInfoSlot>
   </div>

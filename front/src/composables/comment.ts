@@ -2,8 +2,6 @@ import { computed, ref } from "vue";
 import { useCommentStore } from "@/stores/comment";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
 import type { CommentType } from "@/modules/types/comment/CommentTypes";
-import type { TokenType } from "@/modules/types/auth/AuthType";
-import type { WriteCommentType } from "@/modules/types/comment/CommentTypes";
 import { useAuth } from "@/composables/auth";
 import type { CommentFormType } from "@/modules/types/form/FormType";
 
@@ -18,14 +16,14 @@ export const useComment = () => {
   );
 
   const getComments = async (
-    path: string,
+    type: string,
     contentId: number,
     pageable: PageableRequestType
   ) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getComments(path, contentId, pageable);
+      await store.getComments(type, contentId, pageable);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -35,14 +33,14 @@ export const useComment = () => {
   };
 
   const writeComment = async (
-    path: string,
+    type: string,
     contentId: number,
     commentId = 0,
     request: CommentFormType
   ) => {
     try {
       await store.writeComment(
-        path,
+        type,
         contentId,
         commentId,
         getTokenInfo.value,

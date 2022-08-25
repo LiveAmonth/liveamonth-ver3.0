@@ -10,6 +10,5 @@ public interface ScheduleCommentRepositoryCustom {
 
     Page<ScheduleComment> getScheduleComments(Long scheduleId, Pageable pageable);
 
-
     List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, Long from, Long to);
 }

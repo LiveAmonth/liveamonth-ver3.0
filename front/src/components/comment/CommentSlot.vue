@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import BootstrapIcon from "@/components/common/BootstrapIcon.vue";
+
 defineProps({
   avatarUrl: {
     type: String,
@@ -9,12 +11,9 @@ defineProps({
     required: true,
   },
 });
-
-const like = (e: Event) => {
-  console.log(e.path[0]);
-};
-const unLike = (e) => {
-  console.log(e);
+const emit = defineEmits(["reactComment"]);
+const reactComment = (option: boolean) => {
+  emit("reactComment", option);
 };
 </script>
 <template>
@@ -30,8 +29,36 @@ const unLike = (e) => {
       <slot name="elapsedTime"></slot>
     </div>
     <div class="like ms-2">
-      <i class="bi bi-hand-thumbs-up me-2" @click="like"> </i>
-      <i class="bi bi-hand-thumbs-down" @click="unLike"></i>
+      <span class="me-2">
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          :content="$t('comment.react.like')"
+          placement="top"
+        >
+          <BootstrapIcon
+            :icon="'bi-hand-thumbs-up'"
+            class="me-1"
+            @click="reactComment(true)"
+          />
+        </el-tooltip>
+        <slot name="likeCount"></slot>
+      </span>
+      <span>
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          :content="$t('comment.react.dislike')"
+          placement="top"
+        >
+          <BootstrapIcon
+            :icon="'bi-hand-thumbs-down'"
+            class="me-1"
+            @click="reactComment(false)"
+          />
+        </el-tooltip>
+        <slot name="dislikeCount"></slot>
+      </span>
     </div>
   </div>
   <div class="content">

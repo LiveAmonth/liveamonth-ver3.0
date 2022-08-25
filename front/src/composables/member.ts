@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 import MemberApiService from "@/services/MemberApiService";
 import type {
@@ -6,12 +6,16 @@ import type {
   FindPwType,
   SignUpType,
 } from "@/modules/types/form/FormType";
-import type { TokenType } from "@/modules/types/auth/AuthType";
+import { useAuth } from "@/composables/auth";
+import type { SimpleProfileType } from "@/modules/types/member/MemberType";
 
 export const useMember = () => {
   const store = useMemberStore();
   const error = ref();
   const isPending = ref(false);
+  const { bearerToken } = useAuth();
+
+  const simpleProfile = computed((): SimpleProfileType => store.simpleProfile);
 
   const getGenderType = async () => {
     error.value = null;
@@ -62,11 +66,11 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
-  const getMember = async (request: TokenType) => {
+  const getMember = async () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getMember(request);
+      await store.getMember(bearerToken.value);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -74,11 +78,11 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
-  const getSimpleProfile = async (request: TokenType) => {
+  const getSimpleProfile = async () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getSimpleProfile(request);
+      await store.getSimpleProfile(bearerToken.value);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -86,9 +90,11 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
+
   return {
     error,
     isPending,
+    simpleProfile,
     signUp,
     findId,
     findPw,

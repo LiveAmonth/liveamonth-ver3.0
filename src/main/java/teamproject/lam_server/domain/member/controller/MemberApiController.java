@@ -118,7 +118,6 @@ public class MemberApiController {
         return CustomResponse.success(READ_MEMBER, result);
     }
 
-
 //    @PostMapping("/editProfileImage")
 //    public String editProfileImage(@SessionAttribute(name = SessionConstants.LOGIN_USER, required = false) User loginUser, @RequestPart(FILE_NAME) MultipartFile mFile) throws Exception {
 //        log.info("fileNAme = {}",mFile.getOriginalFilename());

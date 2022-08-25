@@ -10,9 +10,7 @@ public enum InteractionType implements EnumMapperType {
 
     MEMBER("member"),
     SCHEDULE("schedule"),
-    SCHEDULE_COMMENT("scheduleComment"),
-    REVIEW("review"),
-    REVIEW_COMMENT("reviewComment");
+    REVIEW("review");
 
     private final String value;
 

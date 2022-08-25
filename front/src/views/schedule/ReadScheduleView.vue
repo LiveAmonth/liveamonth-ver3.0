@@ -55,7 +55,7 @@ const changeCollapse = (id: number) => {
   <el-divider />
   <el-row>
     <el-col>
-      <CommentComponent :id="id" :path="'schedule'" />
+      <CommentComponent :id="id" :type="'SCHEDULE'" />
     </el-col>
   </el-row>
 </template>

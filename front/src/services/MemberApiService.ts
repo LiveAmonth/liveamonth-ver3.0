@@ -11,7 +11,6 @@ import type {
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
-import type { TokenType } from "@/modules/types/auth/AuthType";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
@@ -50,11 +49,11 @@ class MemberApiService {
       });
   }
 
-  async getMember(request: TokenType): Promise<ProfileType> {
+  async getMember(request: string): Promise<ProfileType> {
     return await http
       .get("/members/profile/", {
         headers: {
-          Authorization: `${request.grantType} ${request.accessToken}`,
+          Authorization: request,
         },
       })
       .then((response) => {
@@ -65,11 +64,11 @@ class MemberApiService {
       });
   }
 
-  async getSimpleProfile(request: TokenType): Promise<SimpleProfileType> {
+  async getSimpleProfile(request: string): Promise<SimpleProfileType> {
     return await http
       .get("/members/profile/simple", {
         headers: {
-          Authorization: `${request.grantType} ${request.accessToken}`,
+          Authorization: request,
         },
       })
       .then((response) => {

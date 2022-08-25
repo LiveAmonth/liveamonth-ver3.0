@@ -3,8 +3,7 @@ package teamproject.lam_server.domain.comment.entity;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.lang.Nullable;
-import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentDislike;
-import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentLike;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.entity.Review;
 
@@ -28,11 +27,7 @@ public class ReviewComment extends Comment {
 
     @OneToMany(mappedBy = "to")
     @ToString.Exclude
-    private final Set<ReviewCommentLike> likes = new HashSet<>();
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "to")
-    private final Set<ReviewCommentDislike> dislikes = new HashSet<>();
+    private final Set<ReviewCommentReact> reacts = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,9 +44,9 @@ public class ReviewComment extends Comment {
 
     @Formula("(select count(rc.parent_comment_id) from review_comment rc where rc.parent_comment_id = review_comment_id)")
     private int childrenCount;
-    @Formula("(select count(1) from review_comment_like rcl where rcl.to_review_comment_id = review_comment_id)")
+    @Formula("(select count(1) from review_comment_react rcr where rcr.to_review_comment_id = review_comment_id and rcr.type = 'LIKE')")
     private int likeCount;
-    @Formula("(select count(1) from review_comment_dislike rcd where rcd.to_review_comment_id = review_comment_id)")
+    @Formula("(select count(1) from review_comment_react rcr where rcr.to_review_comment_id = review_comment_id and rcr.type = 'DISLIKE')")
     private int dislikeCount;
 
 
