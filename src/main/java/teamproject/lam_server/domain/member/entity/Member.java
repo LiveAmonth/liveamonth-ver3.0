@@ -5,7 +5,13 @@ import lombok.*;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
-import teamproject.lam_server.domain.interaction.entity.*;
+import teamproject.lam_server.domain.interaction.entity.member.Follower;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentDislike;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentLike;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentDislike;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentLike;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleLike;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.Role;
@@ -27,6 +33,42 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @ToString
 public class Member extends BaseTimeEntity {
 
+    @OneToMany(mappedBy = "to")
+    @ToString.Exclude
+    private final Set<Follower> followers = new HashSet<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<Follower> following = new HashSet<>();
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<Schedule> schedules = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<ScheduleComment> scheduleComments = new ArrayList<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ScheduleCommentLike> scheduleCommentLikes = new HashSet<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ScheduleCommentDislike> scheduleCommentDislikes = new HashSet<>();
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    @ToString.Exclude
+    private final List<ReviewComment> reviewComments = new ArrayList<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ReviewLike> reviewLikes = new HashSet<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ReviewCommentLike> reviewCommentLikes = new HashSet<>();
+    @OneToMany(mappedBy = "from")
+    @ToString.Exclude
+    private final Set<ReviewCommentDislike> reviewCommentDislikes = new HashSet<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
@@ -48,46 +90,6 @@ public class Member extends BaseTimeEntity {
     private Role role;
     @Enumerated(EnumType.STRING)
     private AccountState status;
-
-    @OneToMany(mappedBy = "to")
-    @ToString.Exclude
-    private final Set<Follower> followers = new HashSet<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<Follower> following = new HashSet<>();
-
-    @OneToMany(mappedBy = "member")
-    @ToString.Exclude
-    private final List<Schedule> schedules = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    @ToString.Exclude
-    private final List<ScheduleComment> scheduleComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ScheduleCommentLike> scheduleCommentLikes = new HashSet<>();
-
-    @OneToMany(mappedBy = "member")
-    @ToString.Exclude
-    private final List<Review> reviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    @ToString.Exclude
-    private final List<ReviewComment> reviewComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ReviewLike> reviewLikes = new HashSet<>();
-
-    @OneToMany(mappedBy = "from")
-    @ToString.Exclude
-    private final Set<ReviewCommentLike> reviewCommentLikes = new HashSet<>();
 
     @Formula("(select count(1) from follower f where f.to_member_id = member_id)")
     private int followersCount;

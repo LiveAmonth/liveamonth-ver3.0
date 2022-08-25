@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import SimpleCalendar from "@/components/schedule/SimpleCalendar.vue";
+import SimpleCalendar from "@/components/schedule/list/SimpleCalendar.vue";
 import { useScheduleStore } from "@/stores/schedule";
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
-import ScheduleFilter from "@/components/schedule/ScheduleFilter.vue";
+import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
-import ScheduleInfoCard from "@/components/schedule/ScheduleInfoCard.vue";
+import ScheduleInfoCard from "@/components/schedule/list/ScheduleInfoCard.vue";
 
 const store = useScheduleStore();
 const { isPending, request, otherSchedules, getOtherSchedules } = useSchedule();

@@ -1,11 +1,12 @@
-package teamproject.lam_server.domain.interaction.entity;
+package teamproject.lam_server.domain.interaction.entity.review;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.domain.review.entity.Review;
+import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
@@ -14,34 +15,36 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScheduleCommentLike {
+public class ReviewLike extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_comment_like_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "review_like_id")
     private Long id;
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_member_id")
     private Member from;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "to_schedule_comment_id")
-    private ScheduleComment to;
+    @JoinColumn(name = "to_review_id")
+    private Review to;
+
 
     @Builder
-    public ScheduleCommentLike(Member from, ScheduleComment to) {
+    public ReviewLike(Member from, Review to) {
         this.from = from;
         this.to = to;
         like();
     }
 
     private void like() {
-        from.getScheduleCommentLikes().add(this);
+        from.getReviewLikes().add(this);
         to.getLikes().add(this);
     }
 
-    public void cancelLike() {
-        from.getScheduleCommentLikes().remove(this);
+    public void unFollow() {
+        from.getReviewLikes().remove(this);
         to.getLikes().remove(this);
     }
+
 }

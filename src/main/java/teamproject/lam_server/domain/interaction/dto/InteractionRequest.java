@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.member.dto.request;
+package teamproject.lam_server.domain.interaction.dto;
 
 import lombok.Getter;
 import lombok.Setter;

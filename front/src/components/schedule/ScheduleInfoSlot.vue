@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { PropType } from "vue";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
-const props = defineProps({
+defineProps({
   schedule: {
     type: Object as PropType<ScheduleCardType>,
     required: true,
@@ -17,7 +17,7 @@ const rowClass = "d-flex justify-content-start";
 </script>
 
 <template>
-  <div class="title-info" :style="{ fontSize: fontSize + 'rem' }">
+  <div :style="{ fontSize: fontSize + 'rem' }" class="title-info">
     <el-row>
       <slot name="title"></slot>
     </el-row>
@@ -60,7 +60,7 @@ const rowClass = "d-flex justify-content-start";
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .information {
   .title-info {
     width: 100%;
@@ -73,6 +73,7 @@ const rowClass = "d-flex justify-content-start";
     }
   }
 }
+
 .value {
   margin-left: 0.5rem;
 }

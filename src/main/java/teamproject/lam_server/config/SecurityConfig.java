@@ -103,7 +103,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/*/comments/**",
                         "/api/*/reviews/search",
                         "/api/*/city/**",
-                        "/api/*/categories/**"
+                        "/api/*/categories/**",
+                        "/api/*/interactions/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

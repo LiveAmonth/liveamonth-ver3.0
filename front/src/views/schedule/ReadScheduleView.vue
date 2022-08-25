@@ -1,13 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
-import ScheduleCalendar from "@/components/schedule/ScheduleCalendar.vue";
-import ScheduleInformation from "@/components/schedule/ScheduleInformation.vue";
-import Comment from "@/components/comment/CommentComponent.vue";
-import { computed, onBeforeMount, onMounted, ref } from "vue";
+import ScheduleCalendar from "@/components/schedule/detail/ScheduleCalendar.vue";
+import ScheduleContentCollapse from "@/components/schedule/detail/ScheduleContentsCollapse.vue";
+import CommentComponent from "@/components/comment/CommentComponent.vue";
+import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
 import { useCalendarEvent } from "@/composables/calendarEvent";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
-import { useRoute, useRouter } from "vue-router";
 
 const props = defineProps({
   id: {
@@ -28,7 +27,6 @@ const scheduleCard = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
 // };
 onMounted(async () => {
   await getScheduleContents(Number(props.id));
-  await setContentCollapse();
 });
 
 const changeCollapse = (id: number) => {
@@ -37,19 +35,19 @@ const changeCollapse = (id: number) => {
 </script>
 
 <template>
-  <el-row class="mb-5" v-if="!isPending">
+  <el-row v-if="!isPending" class="mb-5">
     <el-col>
       <TitleSlot>{{ scheduleCard.title }}</TitleSlot>
       <el-row :gutter="10">
         <el-col :span="18">
           <ScheduleCalendar
-            @select-content="changeCollapse"
-            :manage-state="false"
             :editable="false"
+            :manage-state="false"
+            @select-content="changeCollapse"
           />
         </el-col>
         <el-col :span="6">
-          <ScheduleInformation :id="id" />
+          <ScheduleContentCollapse :id="id" />
         </el-col>
       </el-row>
     </el-col>
@@ -57,12 +55,12 @@ const changeCollapse = (id: number) => {
   <el-divider />
   <el-row>
     <el-col>
-      <Comment :path="'schedule'" :id="id" />
+      <CommentComponent :id="id" :path="'schedule'" />
     </el-col>
   </el-row>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .el-calendar-day {
   padding: 0;
 }

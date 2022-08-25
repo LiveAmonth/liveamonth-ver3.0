@@ -3,7 +3,7 @@ package teamproject.lam_server.domain.review.entity;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
-import teamproject.lam_server.domain.interaction.entity.ReviewLike;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.entity.editor.ReviewEditor;

@@ -9,10 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.interaction.entity.Follower;
-import teamproject.lam_server.domain.interaction.repository.FollowRepository;
-import teamproject.lam_server.domain.interaction.service.InteractionServiceImpl;
-import teamproject.lam_server.domain.member.dto.request.InteractionRequest;
+import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
+import teamproject.lam_server.domain.interaction.entity.member.Follower;
+import teamproject.lam_server.domain.interaction.repository.member.FollowRepository;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 

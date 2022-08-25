@@ -3,7 +3,8 @@ package teamproject.lam_server.domain.comment.entity;
 import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.lang.Nullable;
-import teamproject.lam_server.domain.interaction.entity.ReviewCommentLike;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentDislike;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.entity.Review;
 
@@ -24,9 +25,15 @@ public class ReviewComment extends Comment {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     @ToString.Exclude
     private final List<ReviewComment> children = new ArrayList<>();
+
+    @OneToMany(mappedBy = "to")
+    @ToString.Exclude
+    private final Set<ReviewCommentLike> likes = new HashSet<>();
+
     @ToString.Exclude
     @OneToMany(mappedBy = "to")
-    private final Set<ReviewCommentLike> likes = new HashSet<>();
+    private final Set<ReviewCommentDislike> dislikes = new HashSet<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_comment_id")
@@ -44,6 +51,8 @@ public class ReviewComment extends Comment {
     private int childrenCount;
     @Formula("(select count(1) from review_comment_like rcl where rcl.to_review_comment_id = review_comment_id)")
     private int likeCount;
+    @Formula("(select count(1) from review_comment_dislike rcd where rcd.to_review_comment_id = review_comment_id)")
+    private int dislikeCount;
 
 
     @Builder
