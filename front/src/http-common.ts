@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuthStore } from "@/stores/auth";
 import { useMessageBox } from "@/composables/messageBox";
 import i18n from "@/i18n";
+import { useAuth } from "@/composables/auth";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: "http://localhost:8080/api/v1",
@@ -10,6 +11,7 @@ const apiClient: AxiosInstance = axios.create({
     "Content-type": "application/json;charset=utf-8",
   },
 });
+
 export const getSearchTypes = (domain: string) =>
   apiClient.get(`categories/search-types/${domain}`);
 
@@ -18,7 +20,16 @@ export const getFilterTypes = (domain: string) =>
 
 export const getSortTypes = (domain: string) =>
   apiClient.get(`categories/sort-types/${domain}`);
-
+apiClient.interceptors.request.use(
+  (config) => {
+    const { isLoggedIn, bearerToken } = useAuth();
+    if (config.headers && isLoggedIn) {
+      config.headers.Authorization = `${bearerToken.value}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 apiClient.interceptors.response.use(
   function (response) {
     // 응답 데이터로 처리

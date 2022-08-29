@@ -25,14 +25,4 @@ public interface ScheduleLikeRepository extends JpaRepository<ScheduleLike, Long
             "and to_schedule_id = :#{#request.to};"
             , nativeQuery = true)
     void cancelLike(@Param("request") InteractionRequest request);
-
-    @Query(value = "select exists" +
-            "(select count(1) " +
-            "from schedule_like sl " +
-            "inner join member m " +
-            "on m.member_id = sl.from_member_id " +
-            "where sl.to_schedule_id = :scheduleId " +
-            "and m.login_id = :loginId)"
-            , nativeQuery = true)
-    boolean isMemberLike(@Param("loginId") String loginId, @Param("scheduleId") Long scheduleId);
 }

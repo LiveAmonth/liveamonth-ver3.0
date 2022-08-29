@@ -1,6 +1,7 @@
 package teamproject.lam_server.domain.comment.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/comments")
+@Slf4j
 public class CommentApiController {
 
     private final CommentServiceFinder commentServiceFinder;
@@ -29,12 +31,10 @@ public class CommentApiController {
             @RequestHeader("Authorization") String token,
             @PathVariable Long contentId,
             @RequestParam CommentType type,
-            @RequestParam(name = "comment_id", required = false, defaultValue = "0") Long commentId,
+            @RequestParam(name = "comment_id", required = false) Long commentId,
             @RequestBody @Valid WriteCommentRequest request) {
-
         commentServiceFinder.find(type)
-                .writeComment(extractAccessToken(token), contentId, commentId, request);
-
+                .writeComment(extractAccessToken(token), contentId, commentId != 0 ? commentId : null, request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 

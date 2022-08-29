@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.member.entity.Member;
+import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
@@ -15,9 +16,10 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewCommentReact {
+public class ReviewCommentReact extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_comment_like_id")
     private Long id;
 

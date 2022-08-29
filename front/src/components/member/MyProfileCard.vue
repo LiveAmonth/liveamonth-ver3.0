@@ -8,14 +8,12 @@ import type { SimpleProfileType } from "@/modules/types/member/MemberType";
 
 const router = useRouter();
 const store = useMemberStore();
-const { isLoggedIn, getTokenInfo, logout } = useAuth();
-const { simpleProfile, getSimpleProfile, getMemberInteractions } = useMember();
-
+const { isLoggedIn, logout } = useAuth();
+const { simpleProfile, getSimpleProfile } = useMember();
 
 onMounted(async () => {
   if (isLoggedIn.value) {
     await getSimpleProfile();
-    await getMemberInteractions();
   }
 });
 
@@ -30,8 +28,6 @@ const myPageBtn = async () => {
     await router.push({ name: "home" });
   }
 };
-
-
 </script>
 
 <template>

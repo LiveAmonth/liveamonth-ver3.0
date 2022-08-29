@@ -11,8 +11,6 @@ import teamproject.lam_server.global.dto.CustomResponse;
 
 import javax.validation.Valid;
 
-import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/interactions")
@@ -54,12 +52,11 @@ public class InteractionApiController {
         return CustomResponse.success();
     }
 
-    @GetMapping("/member/likes")
+    @PostMapping("/member/likes")
     public ResponseEntity<?> getLoggedInMemberLikes(
             @RequestParam InteractionType type,
-            @RequestParam("content_id") Long contentId,
-            @RequestHeader("Authorization") String token){
-        boolean result = interactionServiceFinder.find(type).isLike(extractAccessToken(token), contentId);
+            @RequestBody @Valid InteractionRequest request) {
+        boolean result = interactionServiceFinder.find(type).isLike(request);
         return CustomResponse.success(result);
     }
 }

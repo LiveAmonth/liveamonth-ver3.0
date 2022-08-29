@@ -1,25 +1,18 @@
 import http from "@/http-common";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
-import type { TokenType } from "@/modules/types/auth/AuthType";
 import type { CommentFormType } from "@/modules/types/form/FormType";
 
 class CommentApiService {
   async writeComment(
     type: string,
     contentId: number,
-    commentId = 0,
-    tokenInfo: TokenType,
+    commentId: number,
     request: CommentFormType
   ) {
     return await http
       .post(
         `/comments/${contentId}?type=${type}&comment_id=${commentId}`,
-        JSON.stringify(request),
-        {
-          headers: {
-            Authorization: `${tokenInfo.grantType} ${tokenInfo.accessToken}`,
-          },
-        }
+        JSON.stringify(request)
       )
       .then((response) => {
         return response.data.data;

@@ -28,11 +28,9 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
 
     @Query(value = "select exists" +
             "(select count(1) " +
-            "from review_like rl " +
-            "inner join member m " +
-            "on m.member_id = rl.from_review_id " +
-            "where rl.to_review_id = :reviewId " +
-            "and m.login_id = :loginId)"
+            "from review_like " +
+            "where from_member_id = :#{#request.from} " +
+            "and to_review_id = :#{#request.to});"
             , nativeQuery = true)
-    boolean isMemberLike(@Param("loginId") String loginId, @Param("reviewId") Long reviewId);
+    boolean isMemberLike(@Param("request") InteractionRequest request);
 }

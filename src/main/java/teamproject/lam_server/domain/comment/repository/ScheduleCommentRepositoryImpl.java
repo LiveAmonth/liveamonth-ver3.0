@@ -23,6 +23,7 @@ import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 public class ScheduleCommentRepositoryImpl implements ScheduleCommentRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
+
     @Override
     public Page<ScheduleComment> getScheduleComments(Long scheduleId, Pageable pageable) {
         List<ScheduleComment> elements = getScheduleElementsQuery(scheduleId)

@@ -3,18 +3,21 @@ import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 export interface LoginType {
   loginId: string;
   password: string;
+
   [key: string]: string;
 }
 
 export interface FindIdType {
   name: string;
   email: string;
+
   [key: string]: string;
 }
 
 export interface FindPwType {
   loginId: string;
   email: string;
+
   [key: string]: string;
 }
 
@@ -51,7 +54,9 @@ export interface ScheduleContentFormType {
   cost: number;
   start: string | Date;
   end: string | Date;
+
   setAttr(event: any): void;
+
   resetAttr(): void;
 }
 

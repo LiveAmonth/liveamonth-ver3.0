@@ -37,7 +37,8 @@ public class ReviewCommentService extends CommentService {
     }
 
     @Override
-    public Long writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request) {
+    @Transactional
+    public void writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request) {
         Member member = getMemberFromAuthentication(accessToken);
 
         Review review = reviewRepository.findById(contentId).orElseThrow(ReviewNotFound::new);
@@ -47,7 +48,7 @@ public class ReviewCommentService extends CommentService {
                 .parent(reviewCommentRepository.findById(commentId).orElse(null))
                 .build();
 
-        return reviewCommentRepository.save(comment).getId();
+//        return reviewCommentRepository.save(comment).getId();
     }
 
     @Override

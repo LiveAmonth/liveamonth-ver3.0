@@ -23,13 +23,6 @@ public abstract class CommentService {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    //    Long writeScheduleComment(String accessToken, Long scheduleId, Long commentId, WriteCommentRequest request);
-//
-//
-//    void writeReviewComment(String accessToken, Long reviewId, Long commentId, WriteCommentRequest request);
-//
-//
-//    Page<CommentResponse> getScheduleComments(Long scheduleId, PageableDTO pageableDTO);
     protected Member getMemberFromAuthentication(String accessToken) {
         return memberRepository.findByLoginId(
                         jwtTokenProvider.getAuthentication(accessToken).getName())
@@ -48,5 +41,5 @@ public abstract class CommentService {
 
     public abstract Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO);
 
-    public abstract Long writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request);
+    public abstract void writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request);
 }
