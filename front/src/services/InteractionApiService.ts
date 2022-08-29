@@ -1,17 +1,14 @@
 import http from "@/http-common";
+import type { InteractionType } from "@/modules/types/interaction/InteractionType";
 
 class InteractionApiService {
   async isMemberLikeContent(
-    token: string,
     type: string,
-    contentId: number
+    request: InteractionType
   ): Promise<boolean> {
+    console.log(request);
     return await http
-      .get(`interactions/member/likes?type=${type}&content_id=${contentId}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
+      .post(`interactions/member/likes?type=${type}`, JSON.stringify(request))
       .then((response) => {
         return response.data.data;
       })
@@ -20,17 +17,23 @@ class InteractionApiService {
       });
   }
 
-  async likeContent(
-    token: string,
+  async likeContent(type: string, request: InteractionType): Promise<void> {
+    return await http
+      .post(`interactions/like?type=${type}`, JSON.stringify(request))
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async cancelLikeContent(
     type: string,
-    contentId: number
+    request: InteractionType
   ): Promise<void> {
     return await http
-      .get(`interactions/member/likes?type=${type}&content_id=${contentId}`, {
-        headers: {
-          Authorization: token,
-        },
-      })
+      .post(`interactions/like/cancel?type=${type}`, JSON.stringify(request))
       .then((response) => {
         return response.data.data;
       })
@@ -38,8 +41,6 @@ class InteractionApiService {
         throw error.response.data;
       });
   }
-
-
 }
 
 export default new InteractionApiService();

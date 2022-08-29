@@ -77,10 +77,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <el-col :span="2">
         <el-form-item>
           <el-button
+            :disabled="!isLoggedIn"
             :loading="isPending"
             color="#004A55"
             size="large"
-            :disabled="!isLoggedIn"
             @click="submitForm(ruleFormRef)"
             >{{ $t("common.submit") }}
           </el-button>

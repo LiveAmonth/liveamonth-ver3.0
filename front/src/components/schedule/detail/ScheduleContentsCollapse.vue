@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SimpleScheduleCard from "@/components/schedule/SimpleScheduleCard.vue";
 import { useSchedule } from "@/composables/schedule";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
@@ -18,14 +18,19 @@ const props = defineProps({
 const store = useScheduleContentStore();
 const { currScheduleContents } = useSchedule();
 const { getOtherSchedule } = useSchedule();
-const { isLike, isLoggedInMemberLikes, likeContent } = useInteraction();
+const { isLike, isLoggedInMemberLikes, likeContent, cancelLikeContent } =
+  useInteraction();
 
 const schedule = ref(getOtherSchedule(Number(props.id)));
 
 onMounted(async () => {
   await isLoggedInMemberLikes("SCHEDULE", Number(props.id));
 });
-
+const clickHeart = () => {
+  isLike
+    ? cancelLikeContent("SCHEDULE", Number(props.id))
+    : likeContent("SCHEDULE", Number(props.id));
+};
 </script>
 <template>
   <el-card class="mb-3">
@@ -34,11 +39,11 @@ onMounted(async () => {
         {{ $t("schedule.title.schedule") }}
       </SmallTitleSlot>
       <ImageIcon
-        class="ms-2"
         :height="30"
-        :width="30"
         :url="`/src/assets/image/icon/love${isLike ? '-fill' : ''}.png`"
-        @click="likeContent('SCHEDULE', Number(id))"
+        :width="30"
+        class="ms-2"
+        @click="clickHeart"
       />
       <span class="likes">
         {{ schedule.likes }}
@@ -47,9 +52,9 @@ onMounted(async () => {
     <SimpleScheduleCard :schedule="schedule" />
   </el-card>
   <el-card>
-    <SmallTitleSlot class="mb-4">{{
-      $t("schedule.title.content")
-    }}</SmallTitleSlot>
+    <SmallTitleSlot class="mb-4"
+      >{{ $t("schedule.title.content") }}
+    </SmallTitleSlot>
     <el-collapse v-model="store.contentCollapse" class="search">
       <template v-for="(content, idx) in currScheduleContents" :key="idx">
         <el-collapse-item :name="content.id">
@@ -60,11 +65,11 @@ onMounted(async () => {
             {{ content.title }}
           </template>
           <el-descriptions
-            :title="content.title"
-            direction="vertical"
             :column="2"
-            size="small"
+            :title="content.title"
             border
+            direction="vertical"
+            size="small"
           >
             <el-descriptions-item>
               <template #label>
@@ -116,7 +121,7 @@ onMounted(async () => {
     </el-collapse>
   </el-card>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .el-icon {
   padding-bottom: 0.1rem;
 }

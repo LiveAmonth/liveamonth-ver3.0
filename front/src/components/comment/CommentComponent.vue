@@ -85,7 +85,7 @@ const reactComment = (option: boolean) => {
         <el-collapse-item
           :title="`${$t('comment.reply')}(${comment.commentReplies.length})`"
         >
-          <ul>
+          <ul class="reply">
             <li v-for="reply in comment.commentReplies" :key="reply.commentId">
               <CommentSlot
                 :avatar-url="'/src/assets/image/default.jpg'"

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.expression.SecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -90,7 +91,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .expressionHandler(webExpressionHandler())
                 .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
                 .antMatchers("/admin/**").hasRole(MANAGER.getCode())
-                .antMatchers("/api/*/schedules/selected").hasRole(USER.getCode())
+                .antMatchers("/api/*/interactions/**").hasRole(USER.getCode())
+                .antMatchers(HttpMethod.POST, "/api/*/comments/*").hasRole(USER.getCode())
                 .antMatchers(
                         "/api/*/auth/login",
                         "/api/*/auth/reissue",
@@ -100,7 +102,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/*/members/exists/**",
                         "/api/*/schedules/search",
                         "/api/*/schedules/*/contents",
-                        "/api/*/comments/**",
                         "/api/*/reviews/search",
                         "/api/*/city/**",
                         "/api/*/categories/**",

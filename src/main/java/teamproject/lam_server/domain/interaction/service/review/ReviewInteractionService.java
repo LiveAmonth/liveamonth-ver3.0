@@ -3,7 +3,6 @@ package teamproject.lam_server.domain.interaction.service.review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.repository.review.ReviewLikeRepository;
@@ -15,7 +14,6 @@ import teamproject.lam_server.domain.interaction.service.InteractionService;
 public class ReviewInteractionService implements InteractionService {
 
     private final ReviewLikeRepository reviewLikeRepository;
-    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
     public InteractionType getType() {
@@ -35,8 +33,7 @@ public class ReviewInteractionService implements InteractionService {
     }
 
     @Override
-    public boolean isLike(String accessToken, Long contentId) {
-        String loginId = jwtTokenProvider.getAuthentication(accessToken).getName();
-        return reviewLikeRepository.isMemberLike(loginId, contentId);
+    public boolean isLike(InteractionRequest request) {
+        return reviewLikeRepository.isMemberLike(request);
     }
 }

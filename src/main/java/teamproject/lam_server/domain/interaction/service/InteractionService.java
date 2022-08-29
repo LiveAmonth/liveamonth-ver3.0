@@ -10,5 +10,6 @@ public interface InteractionService {
     void like(InteractionRequest request);
 
     void cancelLike(InteractionRequest request);
-    boolean isLike(String accessToken, Long contentId);
+
+    boolean isLike(InteractionRequest request);
 }

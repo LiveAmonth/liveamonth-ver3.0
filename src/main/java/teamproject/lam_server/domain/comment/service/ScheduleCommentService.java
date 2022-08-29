@@ -13,9 +13,7 @@ import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
-import teamproject.lam_server.exception.notfound.ScheduleNotFound;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.Collections;
@@ -42,19 +40,20 @@ public class ScheduleCommentService extends CommentService {
     }
 
     @Override
-    public Long writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request) {
+    @Transactional
+    public void writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request) {
         // access token 으로 작성자 검색
         Member member = getMemberFromAuthentication(accessToken);
 
-        // 댓글을 자성한 게시물 확인
-        Schedule schedule = scheduleRepository.findById(commentId).orElseThrow(ScheduleNotFound::new);
-
-        ScheduleComment comment = request.toScheduleEntity(member)
-                .schedule(schedule)
-                .parent(scheduleCommentRepository.findById(commentId).orElse(null))
-                .build();
-
-        return scheduleCommentRepository.save(comment).getId();
+        // 댓글을 작성한 게시물 확인
+//        Schedule schedule = scheduleRepository.findById(contentId).orElseThrow(ScheduleNotFound::new);
+//
+//        ScheduleComment comment = request.toScheduleEntity(member)
+//                .schedule(schedule)
+//                .parent(scheduleCommentRepository.findById(commentId).orElse(null))
+//                .build();
+//        return scheduleCommentRepository.save(comment).getId();
+        scheduleCommentRepository.write(request, member.getId(), contentId, commentId);
     }
 
     @Override
