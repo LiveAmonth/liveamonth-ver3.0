@@ -10,13 +10,12 @@ import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.persistence.*;
 
-import static javax.persistence.EnumType.STRING;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScheduleCommentReact {
+public class ScheduleCommentReact extends ReactEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +30,11 @@ public class ScheduleCommentReact {
     @JoinColumn(name = "to_schedule_comment_id")
     private ScheduleComment to;
 
-    @Enumerated(STRING)
-    private ReactType type;
-
     @Builder
     public ScheduleCommentReact(Member from, ScheduleComment to, ReactType type) {
         this.from = from;
         this.to = to;
-        this.type = type;
+        super.type = type;
         like();
     }
 
