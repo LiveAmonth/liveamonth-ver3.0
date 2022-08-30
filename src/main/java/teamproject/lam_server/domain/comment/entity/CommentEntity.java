@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @MappedSuperclass
-public abstract class Comment extends BaseTimeEntity {
+public abstract class CommentEntity extends BaseTimeEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")

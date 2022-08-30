@@ -19,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class ReviewComment extends Comment {
+public class ReviewComment extends CommentEntity {
 
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     @ToString.Exclude
