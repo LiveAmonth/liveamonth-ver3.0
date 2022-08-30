@@ -52,10 +52,14 @@ public class InteractionApiController {
         return CustomResponse.success();
     }
 
-    @PostMapping("/member/likes")
-    public ResponseEntity<?> getLoggedInMemberLikes(
-            @RequestParam InteractionType type,
-            @RequestBody @Valid InteractionRequest request) {
+    @GetMapping("/member/likes")
+    public ResponseEntity<?> isMemberLikeContent(@RequestParam InteractionType type, InteractionRequest request) {
+        boolean result = interactionServiceFinder.find(type).isLike(request);
+        return CustomResponse.success(result);
+    }
+
+    @GetMapping("/member/like-comments")
+    public ResponseEntity<?> getMemberLikeComments(@RequestParam InteractionType type, InteractionRequest request) {
         boolean result = interactionServiceFinder.find(type).isLike(request);
         return CustomResponse.success(result);
     }

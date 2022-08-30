@@ -6,9 +6,22 @@ class InteractionApiService {
     type: string,
     request: InteractionType
   ): Promise<boolean> {
+    return await http
+      .get(`interactions/member/likes?type=${type}`, { params: request })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+  async isMemberLikeComment(
+    type: string,
+    request: InteractionType
+  ): Promise<boolean> {
     console.log(request);
     return await http
-      .post(`interactions/member/likes?type=${type}`, JSON.stringify(request))
+      .get(`interactions/member/like-comments?type=${type}`)
       .then((response) => {
         return response.data.data;
       })
