@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
+import teamproject.lam_server.domain.interaction.repository.InteractionRepository;
 import teamproject.lam_server.domain.interaction.repository.review.ReviewLikeRepository;
 import teamproject.lam_server.domain.interaction.service.InteractionService;
 
@@ -14,7 +15,7 @@ import teamproject.lam_server.domain.interaction.service.InteractionService;
 public class ReviewInteractionService implements InteractionService {
 
     private final ReviewLikeRepository reviewLikeRepository;
-
+    private final InteractionRepository interactionRepository;
     @Override
     public InteractionType getType() {
         return InteractionType.REVIEW;
@@ -34,6 +35,6 @@ public class ReviewInteractionService implements InteractionService {
 
     @Override
     public boolean isLike(InteractionRequest request) {
-        return reviewLikeRepository.isMemberLike(request);
+        return interactionRepository.isMemberLikeReview(request);
     }
 }

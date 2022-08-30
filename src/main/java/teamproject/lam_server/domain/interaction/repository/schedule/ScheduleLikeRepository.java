@@ -12,8 +12,8 @@ public interface ScheduleLikeRepository extends JpaRepository<ScheduleLike, Long
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into schedule_like (from_member_id, to_schedule_id) " +
-            "values(:#{#request.from}, :#{#request.to})"
+            "insert into schedule_like (created_date, last_modified_date, from_member_id, to_schedule_id) " +
+            "values(now(), now(), :#{#request.from}, :#{#request.to})"
             , nativeQuery = true)
     void like(@Param("request") InteractionRequest request);
 

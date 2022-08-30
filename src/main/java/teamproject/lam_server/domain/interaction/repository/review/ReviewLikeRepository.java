@@ -12,8 +12,8 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into review_like (from_member_id, to_review_id) " +
-            "values(:#{#request.from}, :#{#request.to})"
+            "insert into review_like (created_date, last_modified_date, from_member_id, to_review_id) " +
+            "values(now(), now(), :#{#request.from}, :#{#request.to})"
             , nativeQuery = true)
     void like(@Param("request") InteractionRequest request);
 
@@ -26,11 +26,4 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
             , nativeQuery = true)
     void cancelLike(@Param("request") InteractionRequest request);
 
-    @Query(value = "select exists" +
-            "(select count(1) " +
-            "from review_like " +
-            "where from_member_id = :#{#request.from} " +
-            "and to_review_id = :#{#request.to});"
-            , nativeQuery = true)
-    boolean isMemberLike(@Param("request") InteractionRequest request);
 }
