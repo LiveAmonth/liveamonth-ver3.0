@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.interaction.constants.ReactType;
+import teamproject.lam_server.domain.interaction.entity.schedule.ReactEntity;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewCommentReact extends BaseTimeEntity {
+public class ReviewCommentReact extends ReactEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,14 +31,12 @@ public class ReviewCommentReact extends BaseTimeEntity {
     @JoinColumn(name = "to_review_comment_id")
     private ReviewComment to;
 
-    @Enumerated(EnumType.STRING)
-    private ReactType type;
 
     @Builder
     public ReviewCommentReact(Member from, ReviewComment to, ReactType type) {
         this.from = from;
         this.to = to;
-        this.type = type;
+        super.type = type;
         like();
     }
 
