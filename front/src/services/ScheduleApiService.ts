@@ -48,11 +48,11 @@ class ScheduleApiService {
     pageable: PageableRequestType
   ): Promise<PageableResponseType> {
     return await http
-      .post(
+      .get(
         `schedules/search?page=${pageable.page - 1}&size=${
           pageable.size
         }&sort=${pageable.sort}`,
-        JSON.stringify(request.fitToFormat())
+        { params: request.fitToFormat() }
       )
       .then((response) => {
         return response.data.data;
