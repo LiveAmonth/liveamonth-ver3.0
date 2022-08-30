@@ -8,6 +8,13 @@ const props = defineProps({
   },
 });
 const iconClass = ref<string>(props.icon);
+const changeColor = () => {
+  if (iconClass.value.includes("-fill")) {
+    emptyColor();
+  } else {
+    fillColor();
+  }
+};
 
 const fillColor = () => {
   iconClass.value = iconClass.value.concat("-fill");
@@ -20,8 +27,8 @@ const emptyColor = () => {
 <template>
   <i
     :class="`bi ${iconClass}`"
-    @mouseenter="fillColor"
-    @mouseleave="emptyColor"
+    @mouseenter="changeColor"
+    @mouseleave="changeColor"
     style="cursor: pointer; color: #535252"
   />
 </template>

@@ -9,6 +9,7 @@ import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ScheduleCommentReactRepository extends JpaRepository<ScheduleCommentReact, Long> {
@@ -18,22 +19,30 @@ public interface ScheduleCommentReactRepository extends JpaRepository<ScheduleCo
             "insert into schedule_comment_react (from_member_id, to_schedule_comment_id, type) " +
             "values(:#{#request.from}, :#{#request.to}, :type);"
             , nativeQuery = true)
-    void react(@Param("request") InteractionRequest request, @Param("type") ReactType type);
+    void react(@Param("request") InteractionRequest request, @Param("type") String type);
 
     @Modifying
     @Transactional
     @Query(value = "" +
-            "delete from schedule_comment_react " +
-            "where from_member_id = :#{#request.from} " +
-            "and to_schedule_comment_id = :#{#request.to} " +
-            "and type = :type;"
+            "delete from schedule_comment_react scr " +
+            "where scr.from_member_id = :#{#request.from} " +
+            "and scr.to_schedule_comment_id = :#{#request.to} " +
+            "and scr.type = :type"
             , nativeQuery = true)
     void cancelReact(@Param("request") InteractionRequest request, @Param("type") ReactType type);
 
     @Query(value = "" +
-            "select type from schedule_comment_react " +
-            "where from_member_id = :#{#request.from} " +
-            "and to_schedule_comment_id = :#{#request.to};"
+            "select type from schedule_comment_react scr " +
+            "where scr.from_member_id = :#{#request.from} " +
+            "and scr.to_schedule_comment_id = :#{#request.to}"
             , nativeQuery = true)
     Optional<ReactType> existsReact(@Param("request") InteractionRequest request);
+
+    @Query(value = "" +
+            "select * from schedule_comment_react scr " +
+            "where scr.from_member_id = :memberId " +
+            "and scr.to_schedule_comment_id in :ids"
+            , nativeQuery = true)
+    List<ScheduleCommentReact> getReactedComments(@Param("memberId")Long memberId, @Param("ids") List<Long> ids);
+
 }

@@ -9,6 +9,7 @@ import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ReviewCommentReactRepository extends JpaRepository<ReviewCommentReact, Long> {
@@ -23,17 +24,24 @@ public interface ReviewCommentReactRepository extends JpaRepository<ReviewCommen
     @Modifying
     @Transactional
     @Query(value = "" +
-            "delete from review_comment_react " +
-            "where from_member_id = :#{#request.from} " +
-            "and to_review_comment_id = :#{#request.to} " +
-            "and type = :type;"
+            "delete from review_comment_react rcr " +
+            "where rcr.from_member_id = :#{#request.from} " +
+            "and rcr.to_review_comment_id = :#{#request.to} " +
+            "and rcr.type = :type;"
             , nativeQuery = true)
     void cancelLike(@Param("request") InteractionRequest request, @Param("type") ReactType type);
 
     @Query(value = "" +
-            "select type from review_comment_react " +
-            "where from_member_id = :#{#request.from} " +
-            "and to_review_comment_id = :#{#request.to};"
+            "select rcr.type from review_comment_react rcr " +
+            "where rcr.from_member_id = :#{#request.from} " +
+            "and rcr.to_review_comment_id = :#{#request.to};"
             , nativeQuery = true)
     Optional<ReactType> existsReact(@Param("request") InteractionRequest request);
+
+    @Query(value = "" +
+            "select * from review_comment_react rcr " +
+            "where rcr.from_member_id = :memberId " +
+            "and rcr.to_review_comment_id in :ids"
+            , nativeQuery = true)
+    List<ReviewCommentReact> getReactedComments(@Param("memberId")Long memberId, @Param("ids") List<Long> ids);
 }

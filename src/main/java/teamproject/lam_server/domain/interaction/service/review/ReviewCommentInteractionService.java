@@ -6,10 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
+import teamproject.lam_server.domain.interaction.dto.ReactedCommentResponse;
 import teamproject.lam_server.domain.interaction.repository.review.ReviewCommentReactRepository;
 import teamproject.lam_server.domain.interaction.service.CommentInteractionService;
 import teamproject.lam_server.exception.badrequest.AlreadyDislikeComment;
 import teamproject.lam_server.exception.badrequest.AlreadyLikeComment;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static teamproject.lam_server.domain.interaction.constants.ReactType.LIKE;
 
@@ -37,6 +41,13 @@ public class ReviewCommentInteractionService implements CommentInteractionServic
     @Transactional
     public void cancelReact(InteractionRequest request, ReactType type) {
         reactRepository.cancelLike(request, type);
+    }
+
+    @Override
+    public List<ReactedCommentResponse> getReactedComments(Long memberId, List<Long> ids) {
+        return reactRepository.getReactedComments(memberId, ids).stream()
+                .map(ReactedCommentResponse::of)
+                .collect(Collectors.toList());
     }
 
 

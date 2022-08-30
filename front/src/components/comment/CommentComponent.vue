@@ -11,6 +11,7 @@ import { useCommentStore } from "@/stores/comment";
 import { useAuth } from "@/composables/auth";
 import type { CommentFormType } from "@/modules/types/form/FormType";
 import { useMessageBox } from "@/composables/messageBox";
+import { useInteraction } from "@/composables/interaction";
 
 const props = defineProps({
   id: {
@@ -26,16 +27,29 @@ const props = defineProps({
   },
 });
 const store = useCommentStore();
-const { isPending, comments, commentsCount, getComments, writeComment } =
-  useComment();
+const {
+  isPending,
+  comments,
+  commentsCount,
+  getComments,
+  writeComment,
+  extractIds,
+} = useComment();
+const { reactedComments, getMemberReactedComment, reactComment } =
+  useInteraction();
 const { isLoggedIn } = useAuth();
 const { pageable, mappingPagination, movePage } = usePagination();
-const { openMessageBox, requireLoginMessageBox } = useMessageBox();
+const { requireLoginMessageBox } = useMessageBox();
 
 onMounted(async () => {
-  await getComments(props.type, Number(props.id), pageable.value).then(() => {
-    mappingPagination(store.pageableComments);
-  });
+  await getComments(props.type, Number(props.id), pageable.value).then(
+    async () => {
+      mappingPagination(store.pageableComments);
+      if (isLoggedIn.value) {
+        await getMemberReactedComment(props.type, extractIds(comments.value));
+      }
+    }
+  );
 });
 
 const pageClick = async (page: number) => {
@@ -53,12 +67,20 @@ const submitForm = async (form: CommentFormType, commentId = 0) => {
   });
 };
 
-const reactComment = (option: boolean) => {
+const react = async (
+  commentId: number,
+  option: boolean,
+  isReacted: boolean
+) => {
   if (isLoggedIn.value) {
-    console.log(option);
+    await reactComment(props.type, option, commentId, isReacted);
   } else {
     requireLoginMessageBox();
   }
+};
+
+const getReacted = (id: number) => {
+  return reactedComments.value.find((value) => value.id === id);
 };
 </script>
 
@@ -71,9 +93,11 @@ const reactComment = (option: boolean) => {
   <ul>
     <li v-for="comment in comments" :key="comment.commentId">
       <CommentSlot
+        :id="comment.commentId"
         :avatar-url="'/src/assets/image/default.jpg'"
         :is-reply="false"
-        @react-comment="reactComment"
+        :is-reacted="getReacted(comment.commentId)"
+        @react-comment="react"
       >
         <template v-slot:writer>{{ comment.profile.nickname }}</template>
         <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
@@ -88,9 +112,11 @@ const reactComment = (option: boolean) => {
           <ul class="reply">
             <li v-for="reply in comment.commentReplies" :key="reply.commentId">
               <CommentSlot
+                :id="reply.commentId"
                 :avatar-url="'/src/assets/image/default.jpg'"
                 :is-reply="true"
-                @react-comment="reactComment"
+                :is-reacted="getReacted(reply.commentId)"
+                @react-comment="react"
               >
                 <template v-slot:writer>{{ reply.profile.nickname }}</template>
                 <template v-slot:elapsedTime>{{ reply.elapsedTime }}</template>

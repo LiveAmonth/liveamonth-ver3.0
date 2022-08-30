@@ -28,6 +28,7 @@
     "normalize.css": "^8.0.1",
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^2.1.1",
+    "query-string": "^7.1.1",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.2.37",
     "vue-i18n": "^9.2.0-beta.36",
