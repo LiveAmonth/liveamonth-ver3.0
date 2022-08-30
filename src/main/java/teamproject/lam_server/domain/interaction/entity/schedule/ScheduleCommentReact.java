@@ -1,11 +1,10 @@
 package teamproject.lam_server.domain.interaction.entity.schedule;
 
 import lombok.AccessLevel;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
-import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.persistence.*;
@@ -14,6 +13,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ScheduleCommentReact extends ReactEntity{
 
@@ -29,22 +29,4 @@ public class ScheduleCommentReact extends ReactEntity{
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "to_schedule_comment_id")
     private ScheduleComment to;
-
-    @Builder
-    public ScheduleCommentReact(Member from, ScheduleComment to, ReactType type) {
-        this.from = from;
-        this.to = to;
-        super.type = type;
-        like();
-    }
-
-    private void like() {
-        from.getScheduleCommentReacts().add(this);
-        to.getReacts().add(this);
-    }
-
-    public void cancelLike() {
-        from.getScheduleCommentReacts().remove(this);
-        to.getReacts().remove(this);
-    }
 }

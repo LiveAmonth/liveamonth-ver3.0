@@ -61,6 +61,13 @@ public abstract class ResponseMessage {
     public static final String DELETE_COMMENT = "댓글 삭제 성공";
     public static final String READ_COMMENT = "댓글 조회 성공";
 
+    /**
+     * Domain: Interaction
+     */
+    public static final String CREATE_INTERACTION = "좋아요 저장 성공";
+    public static final String UPDATE_INTERACTION = "좋아요 변경 성공";
+    public static final String DELETE_INTERACTION = "좋아요 삭제 성공";
+    public static final String READ_INTERACTION = "좋아요 조회 성공";
 
     /**
      * Category

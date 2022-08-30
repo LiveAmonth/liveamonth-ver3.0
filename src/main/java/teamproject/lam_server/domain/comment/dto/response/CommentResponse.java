@@ -19,7 +19,6 @@ public class CommentResponse {
     private int likes;
     private int dislikes;
 
-
     public static CommentResponse.CommentResponseBuilder of(ScheduleComment comment) {
         return CommentResponse.builder()
                 .commentId(comment.getId())

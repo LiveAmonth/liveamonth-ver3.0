@@ -1,5 +1,6 @@
 import type { AxiosInstance } from "axios";
 import axios from "axios";
+import qs from "query-string";
 import { useAuthStore } from "@/stores/auth";
 import { useMessageBox } from "@/composables/messageBox";
 import i18n from "@/i18n";
@@ -9,6 +10,9 @@ const apiClient: AxiosInstance = axios.create({
   baseURL: "http://localhost:8080/api/v1",
   headers: {
     "Content-type": "application/json;charset=utf-8",
+  },
+  paramsSerializer: (params) => {
+    return qs.stringify(params, { arrayFormat: "comma" });
   },
 });
 

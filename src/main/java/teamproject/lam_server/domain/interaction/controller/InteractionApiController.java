@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
+import teamproject.lam_server.domain.interaction.dto.ReactedCommentResponse;
 import teamproject.lam_server.domain.interaction.service.InteractionServiceFinder;
 import teamproject.lam_server.global.dto.CustomResponse;
 
 import javax.validation.Valid;
+import java.util.List;
+
+import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +27,7 @@ public class InteractionApiController {
             @RequestParam InteractionType type,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.find(type).like(request);
-        return CustomResponse.success();
+        return CustomResponse.success(CREATE_INTERACTION);
     }
 
     @PostMapping("/like/cancel")
@@ -31,7 +35,7 @@ public class InteractionApiController {
             @RequestParam InteractionType type,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.find(type).cancelLike(request);
-        return CustomResponse.success();
+        return CustomResponse.success(DELETE_INTERACTION);
     }
 
     @PostMapping("/comments/react")
@@ -40,7 +44,7 @@ public class InteractionApiController {
             @RequestParam(name = "react_type") ReactType reactType,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.findComment(commentType).react(request, reactType);
-        return CustomResponse.success();
+        return CustomResponse.success(CREATE_INTERACTION);
     }
 
     @PostMapping("/comments/react/cancel")
@@ -49,18 +53,21 @@ public class InteractionApiController {
             @RequestParam(name = "react_type") ReactType reactType,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.findComment(commentType).cancelReact(request, reactType);
-        return CustomResponse.success();
+        return CustomResponse.success(DELETE_INTERACTION);
     }
 
-    @GetMapping("/member/likes")
-    public ResponseEntity<?> isMemberLikeContent(@RequestParam InteractionType type, InteractionRequest request) {
+    @GetMapping("/member/liked")
+    public ResponseEntity<?> isMemberLikedContent(@RequestParam InteractionType type, InteractionRequest request) {
         boolean result = interactionServiceFinder.find(type).isLike(request);
-        return CustomResponse.success(result);
+        return CustomResponse.success(READ_INTERACTION, result);
     }
 
-    @GetMapping("/member/like-comments")
-    public ResponseEntity<?> getMemberLikeComments(@RequestParam InteractionType type, InteractionRequest request) {
-        boolean result = interactionServiceFinder.find(type).isLike(request);
-        return CustomResponse.success(result);
+    @GetMapping("/member/{memberId}/reacted-comments")
+    public ResponseEntity<?> getMemberReactedComments(
+            @PathVariable Long memberId,
+            @RequestParam InteractionType type,
+            @RequestParam List<Long> ids) {
+        List<ReactedCommentResponse> result = interactionServiceFinder.findComment(type).getReactedComments(memberId, ids);
+        return CustomResponse.success(READ_INTERACTION, result);
     }
 }

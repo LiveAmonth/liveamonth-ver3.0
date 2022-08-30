@@ -1,7 +1,13 @@
 <script lang="ts" setup>
+import type { PropType } from "vue";
 import BootstrapIcon from "@/components/common/BootstrapIcon.vue";
+import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
 
-defineProps({
+const props = defineProps({
+  id: {
+    type: Number,
+    required: true,
+  },
   avatarUrl: {
     type: String,
     required: true,
@@ -10,10 +16,28 @@ defineProps({
     type: Boolean,
     required: true,
   },
+  isReacted: {
+    type: Object as PropType<ReactedCommentType>,
+    required: false,
+    default: null,
+  },
 });
 const emit = defineEmits(["reactComment"]);
 const reactComment = (option: boolean) => {
-  emit("reactComment", option);
+  emit("reactComment", props.id, option, props.isReacted);
+};
+const setIconClass = (option: boolean) => {
+  const thumbsUp = "bi-hand-thumbs-up";
+  const thumbsDown = "bi-hand-thumbs-down";
+  const fillSuffix = "-fill";
+  if (props.isReacted && option) {
+    // react가 있거나 추천 옵션인 경우
+    return props.isReacted.type === "LIKE"
+      ? thumbsUp + fillSuffix
+      : thumbsDown + fillSuffix;
+  } else {
+    return option ? thumbsUp : thumbsDown;
+  }
 };
 </script>
 <template>
@@ -37,7 +61,7 @@ const reactComment = (option: boolean) => {
           placement="top"
         >
           <BootstrapIcon
-            :icon="'bi-hand-thumbs-up'"
+            :icon="setIconClass(true)"
             class="me-1"
             @click="reactComment(true)"
           />
@@ -52,7 +76,7 @@ const reactComment = (option: boolean) => {
           placement="top"
         >
           <BootstrapIcon
-            :icon="'bi-hand-thumbs-down'"
+            :icon="setIconClass(false)"
             class="me-1"
             @click="reactComment(false)"
           />

@@ -13,6 +13,15 @@ export const useComment = () => {
     (): number => store.pageableComments.totalElements
   );
 
+  const extractIds = (arrays: CommentType[]) => {
+    const ids: number[] = [];
+    arrays.forEach((value) => ids.push(value.commentId));
+    arrays.map((value) =>
+      value.commentReplies.forEach((value1) => ids.push(value1.commentId))
+    );
+    return ids;
+  };
+
   const getComments = async (
     type: string,
     contentId: number,
@@ -50,6 +59,7 @@ export const useComment = () => {
     isPending,
     comments,
     commentsCount,
+    extractIds,
     getComments,
     writeComment,
   };
