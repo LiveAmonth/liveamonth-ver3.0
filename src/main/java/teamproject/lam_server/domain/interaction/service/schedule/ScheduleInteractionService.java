@@ -38,6 +38,6 @@ public class ScheduleInteractionService implements InteractionService {
 
     @Override
     public boolean isLike(InteractionRequest request) {
-        return interactionRepository.existsMemberScheduleLike(request);
+        return interactionRepository.isMemberLikeSchedule(request);
     }
 }
