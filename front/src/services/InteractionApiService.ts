@@ -17,16 +17,17 @@ class InteractionApiService {
   }
   async reactComment(
     commentType: string,
-    reactType: string,
+    option: string,
     request: InteractionType,
     isReacted: boolean
   ): Promise<void> {
     return await http
       .post(
         `interactions/comments/react${
-          isReacted ? "/cancel" : ""
-        }?comment_type=${commentType}&react_type=${reactType}`,
-        JSON.stringify(request)
+          isReacted ? "/cancel" : `?react_type=${option}`
+        }`,
+        JSON.stringify(request),
+        { params: { comment_type: commentType } }
       )
       .then((response) => {
         return response.data.data;

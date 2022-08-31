@@ -53,6 +53,7 @@ public class InteractionRepository {
                 ).fetchFirst() != null;
     }
 
+
     private BooleanExpression memberIdEq(Long memberId) {
         return memberId != null ? member.id.eq(memberId) : null;
     }

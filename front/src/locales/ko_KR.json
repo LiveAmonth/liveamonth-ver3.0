@@ -260,5 +260,9 @@
       "like": "추천",
       "dislike": "비추천"
     }
+  },
+  "interaction": {
+    "alreadyLikeComment": "이미 추천한 댓글입니다.",
+    "alreadyDislikeComment": "이미 비추천한 댓글입니다."
   }
 }

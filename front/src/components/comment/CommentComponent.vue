@@ -4,14 +4,15 @@ import TitleSlot from "@/components/common/TitleSlot.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentInput from "@/components/form/CommentInput.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
+import router from "@/router";
 import { onMounted } from "vue";
 import { usePagination } from "@/composables/pagination";
 import { useComment } from "@/composables/comment";
 import { useCommentStore } from "@/stores/comment";
 import { useAuth } from "@/composables/auth";
-import type { CommentFormType } from "@/modules/types/form/FormType";
 import { useMessageBox } from "@/composables/messageBox";
 import { useInteraction } from "@/composables/interaction";
+import type { CommentFormType } from "@/modules/types/form/FormType";
 
 const props = defineProps({
   id: {
@@ -35,21 +36,18 @@ const {
   writeComment,
   extractIds,
 } = useComment();
-const { reactedComments, getMemberReactedComment, reactComment } =
-  useInteraction();
+const { getMemberReactedComment, reactComment } = useInteraction();
 const { isLoggedIn } = useAuth();
 const { pageable, mappingPagination, movePage } = usePagination();
 const { requireLoginMessageBox } = useMessageBox();
 
 onMounted(async () => {
-  await getComments(props.type, Number(props.id), pageable.value).then(
-    async () => {
-      mappingPagination(store.pageableComments);
-      if (isLoggedIn.value) {
-        await getMemberReactedComment(props.type, extractIds(comments.value));
-      }
-    }
-  );
+  await getComments(props.type, Number(props.id), pageable.value).then(() => {
+    mappingPagination(store.pageableComments);
+  });
+  if (isLoggedIn.value) {
+    await getMemberReactedComment(props.type, extractIds(comments.value));
+  }
 });
 
 const pageClick = async (page: number) => {
@@ -73,14 +71,11 @@ const react = async (
   isReacted: boolean
 ) => {
   if (isLoggedIn.value) {
-    await reactComment(props.type, option, commentId, isReacted);
+    await reactComment(props.type, commentId, option, isReacted);
+    router.go(0);
   } else {
-    requireLoginMessageBox();
+    await requireLoginMessageBox();
   }
-};
-
-const getReacted = (id: number) => {
-  return reactedComments.value.find((value) => value.id === id);
 };
 </script>
 
@@ -96,7 +91,6 @@ const getReacted = (id: number) => {
         :id="comment.commentId"
         :avatar-url="'/src/assets/image/default.jpg'"
         :is-reply="false"
-        :is-reacted="getReacted(comment.commentId)"
         @react-comment="react"
       >
         <template v-slot:writer>{{ comment.profile.nickname }}</template>
@@ -115,7 +109,6 @@ const getReacted = (id: number) => {
                 :id="reply.commentId"
                 :avatar-url="'/src/assets/image/default.jpg'"
                 :is-reply="true"
-                :is-reacted="getReacted(reply.commentId)"
                 @react-comment="react"
               >
                 <template v-slot:writer>{{ reply.profile.nickname }}</template>

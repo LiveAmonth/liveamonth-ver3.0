@@ -14,7 +14,7 @@ public class ReactedCommentResponse {
 
     public static ReactedCommentResponse of(ReactEntity react) {
         return ReactedCommentResponse.builder()
-                .id(react.getId())
+                .id(react.getCommentId())
                 .type(react.getType())
                 .build();
     }

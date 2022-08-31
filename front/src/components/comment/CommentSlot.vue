@@ -1,6 +1,9 @@
 <script lang="ts" setup>
-import type { PropType } from "vue";
 import BootstrapIcon from "@/components/common/BootstrapIcon.vue";
+import { ref, watch } from "vue";
+import { useInteraction } from "@/composables/interaction";
+import { useMessageBox } from "@/composables/messageBox";
+import type { Ref, UnwrapRef } from "vue";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
 
 const props = defineProps({
@@ -16,29 +19,42 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  isReacted: {
-    type: Object as PropType<ReactedCommentType>,
-    required: false,
-    default: null,
-  },
 });
 const emit = defineEmits(["reactComment"]);
+const { reactedComments, getReactedComment, checkReacted } = useInteraction();
+const { openMessageBox } = useMessageBox();
+const thumbsUp = ref<string>("bi-hand-thumbs-up");
+const thumbsDown = ref<string>("bi-hand-thumbs-down");
+const fillSuffix = "-fill";
+const reactedComment = ref<ReactedCommentType>();
+const fillThumbs = (thumbs: Ref<UnwrapRef<string>>) => {
+  thumbs.value = thumbs.value.concat(fillSuffix);
+};
+
 const reactComment = (option: boolean) => {
-  emit("reactComment", props.id, option, props.isReacted);
+  checkReacted(option, reactedComment.value?.type)
+    .then(() => {
+      emit("reactComment", props.id, option, !!reactedComment.value);
+      option ? fillThumbs(thumbsUp) : fillThumbs(thumbsDown);
+    })
+    .catch((error) => {
+      openMessageBox(error);
+    });
 };
-const setIconClass = (option: boolean) => {
-  const thumbsUp = "bi-hand-thumbs-up";
-  const thumbsDown = "bi-hand-thumbs-down";
-  const fillSuffix = "-fill";
-  if (props.isReacted && option) {
-    // react가 있거나 추천 옵션인 경우
-    return props.isReacted.type === "LIKE"
-      ? thumbsUp + fillSuffix
-      : thumbsDown + fillSuffix;
-  } else {
-    return option ? thumbsUp : thumbsDown;
+
+watch(
+  () => reactedComments.value,
+  async () => {
+    await getReactedComment(props.id).then((response) => {
+      if (response) {
+        reactedComment.value = response;
+        reactedComment.value.type === "LIKE"
+          ? fillThumbs(thumbsUp)
+          : fillThumbs(thumbsDown);
+      }
+    });
   }
-};
+);
 </script>
 <template>
   <div class="sub d-flex justify-content-start">
@@ -61,7 +77,7 @@ const setIconClass = (option: boolean) => {
           placement="top"
         >
           <BootstrapIcon
-            :icon="setIconClass(true)"
+            :icon="thumbsUp"
             class="me-1"
             @click="reactComment(true)"
           />
@@ -76,7 +92,7 @@ const setIconClass = (option: boolean) => {
           placement="top"
         >
           <BootstrapIcon
-            :icon="setIconClass(false)"
+            :icon="thumbsDown"
             class="me-1"
             @click="reactComment(false)"
           />
