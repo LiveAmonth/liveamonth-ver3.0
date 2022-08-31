@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { PropType } from "vue";
 import ScheduleInfoSlot from "@/components/schedule/ScheduleInfoSlot.vue";
+import type { PropType } from "vue";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 defineProps({

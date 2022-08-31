@@ -1,6 +1,6 @@
+import ScheduleApiService from "@/services/ScheduleApiService";
 import { useScheduleStore } from "@/stores/schedule";
 import { computed, ref } from "vue";
-import ScheduleApiService from "@/services/ScheduleApiService";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
 import type {
   ScheduleCardType,
@@ -11,6 +11,8 @@ import type {
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
 
 export const useSchedule = () => {
+  const type = "SCHEDULE";
+
   const store = useScheduleStore();
   const contentStore = useScheduleContentStore();
 
@@ -98,6 +100,7 @@ export const useSchedule = () => {
   return {
     error,
     isPending,
+    type,
     request,
     otherSchedules,
     currScheduleContents,

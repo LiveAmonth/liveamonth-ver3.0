@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import ScheduleCalendar from "@/components/schedule/detail/ScheduleCalendar.vue";
-import ScheduleContentCollapse from "@/components/schedule/detail/ScheduleContentsCollapse.vue";
+import ScheduleDetail from "@/components/schedule/detail/ScheduleDetail.vue";
 import CommentComponent from "@/components/comment/CommentComponent.vue";
 import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
@@ -17,14 +17,7 @@ const props = defineProps({
 const { isPending, getOtherSchedule, getScheduleContents } = useSchedule();
 const { setContentCollapse } = useCalendarEvent();
 const scheduleCard = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
-// const authStore = useAuthStore();
-// const loggedIn = computed(() => authStore.loggedIn);
-// const isLoggedInMemberSchedule = () => {
-//   return (
-//     loggedIn.value &&
-//     memberStore.memberProfile.loginId === scheduleCard.value.profile.loginId
-//   );
-// };
+
 onMounted(async () => {
   await getScheduleContents(Number(props.id));
 });
@@ -47,7 +40,7 @@ const changeCollapse = (id: number) => {
           />
         </el-col>
         <el-col :span="6">
-          <ScheduleContentCollapse :id="id" />
+          <ScheduleDetail :id="id" />
         </el-col>
       </el-row>
     </el-col>
