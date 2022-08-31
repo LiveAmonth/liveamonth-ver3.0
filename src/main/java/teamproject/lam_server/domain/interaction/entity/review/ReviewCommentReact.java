@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
-import teamproject.lam_server.domain.interaction.entity.schedule.ReactEntity;
+import teamproject.lam_server.domain.interaction.entity.ReactEntity;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.persistence.*;
@@ -16,12 +16,8 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "review_comment_react_id"))
 public class ReviewCommentReact extends ReactEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_comment_like_id")
-    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_member_id")
@@ -36,3 +32,4 @@ public class ReviewCommentReact extends ReactEntity {
         return to.getId();
     }
 }
+

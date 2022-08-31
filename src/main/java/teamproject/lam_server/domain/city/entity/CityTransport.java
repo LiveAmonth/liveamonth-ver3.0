@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.constants.TransportCategory;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "city_transport_id"))
 public class CityTransport extends City {
 
     @Enumerated(EnumType.STRING)

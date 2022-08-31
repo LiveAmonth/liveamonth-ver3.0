@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.domain.interaction.entity.ReactEntity;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.persistence.*;
@@ -15,12 +16,8 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScheduleCommentReact extends ReactEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_comment_like_id")
-    private Long id;
+@AttributeOverride(name = "id", column = @Column(name = "schedule_comment_react_id"))
+public class ScheduleCommentReact extends ReactEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_member_id")

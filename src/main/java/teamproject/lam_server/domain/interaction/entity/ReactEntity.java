@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.interaction.entity.schedule;
+package teamproject.lam_server.domain.interaction.entity;
 
 import lombok.Getter;
 import teamproject.lam_server.domain.interaction.constants.ReactType;

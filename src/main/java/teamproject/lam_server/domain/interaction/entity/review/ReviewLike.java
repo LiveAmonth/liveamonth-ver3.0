@@ -15,12 +15,9 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "review_like_id"))
 public class ReviewLike extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_like_id")
-    private Long id;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_member_id")
     private Member from;

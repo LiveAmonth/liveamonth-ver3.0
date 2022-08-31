@@ -14,11 +14,8 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "followers_id"))
 public class Follower extends BaseTimeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "followers_id")
-    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_member_id")

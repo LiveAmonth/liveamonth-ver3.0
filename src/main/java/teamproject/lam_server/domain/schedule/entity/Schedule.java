@@ -21,22 +21,15 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@AttributeOverride(name = "id", column = @Column(name = "schedule_id"))
 public class Schedule extends BaseTimeEntity {
 
-    @ToString.Exclude
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private final List<ScheduleContent> scheduleContents = new ArrayList<>();
-    @ToString.Exclude
     @OneToMany(mappedBy = "schedule")
     private final List<ScheduleComment> scheduleComments = new ArrayList<>();
-    @ToString.Exclude
     @OneToMany(mappedBy = "to")
     private final Set<ScheduleLike> likes = new HashSet<>();
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_id")
-    private Long id;
     private String title;
     @Enumerated(EnumType.STRING)
     private CityName cityName;
