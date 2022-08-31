@@ -16,7 +16,7 @@ public interface ReviewCommentReactRepository extends JpaRepository<ReviewCommen
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into review_comment_react (created_date, last_modified_date, to_review_comment_id, type) " +
+            "insert into review_comment_react (created_date, last_modified_date, from_member_id, to_review_comment_id, type) " +
             "values(now(), now(), :#{#request.from}, :#{#request.to}, :type)"
             , nativeQuery = true)
     void react(@Param("request") InteractionRequest request, @Param("type") ReactType type);
