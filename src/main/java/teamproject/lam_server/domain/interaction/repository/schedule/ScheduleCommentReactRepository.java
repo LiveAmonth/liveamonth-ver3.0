@@ -16,8 +16,8 @@ public interface ScheduleCommentReactRepository extends JpaRepository<ScheduleCo
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into schedule_comment_react (from_member_id, to_schedule_comment_id, type) " +
-            "values(:#{#request.from}, :#{#request.to}, :type);"
+            "insert into schedule_comment_react (created_date, last_modified_date, from_member_id, to_schedule_comment_id, type) " +
+            "values(now(), now(), :#{#request.from}, :#{#request.to}, :type);"
             , nativeQuery = true)
     void react(@Param("request") InteractionRequest request, @Param("type") String type);
 
