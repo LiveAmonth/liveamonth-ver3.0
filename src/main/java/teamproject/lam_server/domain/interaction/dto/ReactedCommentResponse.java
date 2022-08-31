@@ -3,7 +3,7 @@ package teamproject.lam_server.domain.interaction.dto;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.interaction.constants.ReactType;
-import teamproject.lam_server.domain.interaction.entity.schedule.ReactEntity;
+import teamproject.lam_server.domain.interaction.entity.ReactEntity;
 
 @Getter
 @Builder
