@@ -28,49 +28,34 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@AttributeOverride(name = "id", column = @Column(name = "member_id"))
 public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "to")
-    @ToString.Exclude
     private final Set<Follower> followers = new HashSet<>();
     @OneToMany(mappedBy = "from")
-    @ToString.Exclude
     private final Set<Follower> following = new HashSet<>();
 
     // 스케줄
     @OneToMany(mappedBy = "member")
-    @ToString.Exclude
     private final List<Schedule> schedules = new ArrayList<>();
     @OneToMany(mappedBy = "member")
-    @ToString.Exclude
     private final List<ScheduleComment> scheduleComments = new ArrayList<>();
     @OneToMany(mappedBy = "from")
-    @ToString.Exclude
     private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
     @OneToMany(mappedBy = "from")
-    @ToString.Exclude
     private final Set<ScheduleCommentReact> scheduleCommentReacts = new HashSet<>();
 
     // 리뷰
     @OneToMany(mappedBy = "member")
-    @ToString.Exclude
     private final List<Review> reviews = new ArrayList<>();
     @OneToMany(mappedBy = "member")
-    @ToString.Exclude
     private final List<ReviewComment> reviewComments = new ArrayList<>();
     @OneToMany(mappedBy = "from")
-    @ToString.Exclude
     private final Set<ReviewLike> reviewLikes = new HashSet<>();
     @OneToMany(mappedBy = "from")
-    @ToString.Exclude
     private final Set<ReviewCommentReact> reviewCommentReacts = new HashSet<>();
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long id;
     @Column(unique = true, updatable = false)
     private String loginId;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

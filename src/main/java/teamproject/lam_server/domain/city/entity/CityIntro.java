@@ -7,14 +7,12 @@ import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "city_intro_id"))
 public class CityIntro extends City {
 
     @Enumerated(EnumType.STRING)

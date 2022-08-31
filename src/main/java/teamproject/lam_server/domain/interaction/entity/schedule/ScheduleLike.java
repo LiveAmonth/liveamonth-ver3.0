@@ -15,11 +15,8 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "schedule_like_id"))
 public class ScheduleLike extends BaseTimeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_like_id")
-    private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_member_id")

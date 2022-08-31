@@ -10,11 +10,6 @@ import javax.persistence.*;
 @Getter
 public abstract class City extends BaseTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "city_id")
-    private Long id;
-
     @Enumerated(EnumType.STRING)
     protected CityName name;
 }

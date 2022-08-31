@@ -7,13 +7,12 @@ import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.constants.MonthCategory;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "city_weather_id"))
 public class CityWeather extends City {
 
     @Enumerated(EnumType.STRING)

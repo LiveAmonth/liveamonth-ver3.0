@@ -18,28 +18,20 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@AttributeOverride(name = "id", column = @Column(name = "review_comment_id"))
 public class ReviewComment extends CommentEntity {
 
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
-    @ToString.Exclude
     private final List<ReviewComment> children = new ArrayList<>();
 
     @OneToMany(mappedBy = "to")
-    @ToString.Exclude
     private final Set<ReviewCommentReact> reacts = new HashSet<>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_comment_id")
-    private Long id;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "review_id")
-    @ToString.Exclude
     private Review review;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_comment_id")
-    @ToString.Exclude
     private ReviewComment parent;
 
     @Formula("(select count(rc.parent_comment_id) from review_comment rc where rc.parent_comment_id = review_comment_id)")

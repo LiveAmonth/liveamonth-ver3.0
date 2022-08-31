@@ -12,13 +12,8 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@AttributeOverride(name = "id", column = @Column(name = "schedule_content_id"))
 public class ScheduleContent extends BaseTimeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_content_id")
-    private Long id;
 
     private String title;
 

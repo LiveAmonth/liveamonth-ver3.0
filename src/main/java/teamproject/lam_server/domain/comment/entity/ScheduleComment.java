@@ -18,27 +18,19 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@AttributeOverride(name = "id", column = @Column(name = "schedule_comment_id"))
 public class ScheduleComment extends CommentEntity {
 
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
-    @ToString.Exclude
     private final List<ScheduleComment> children = new ArrayList<>();
     @OneToMany(mappedBy = "to")
-    @ToString.Exclude
     private final Set<ScheduleCommentReact> reacts = new HashSet<>();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_comment_id")
-    private Long id;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")
-    @ToString.Exclude
     private Schedule schedule;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_comment_id")
-    @ToString.Exclude
     private ScheduleComment parent;
 
     @Formula("(select count(sc.parent_comment_id) from schedule_comment sc where sc.parent_comment_id = schedule_comment_id)")

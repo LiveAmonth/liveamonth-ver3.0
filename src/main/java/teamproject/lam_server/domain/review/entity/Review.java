@@ -20,17 +20,13 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "id", column = @Column(name = "review_id"))
 public class Review extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "review")
     private final List<ReviewComment> reviewComments = new ArrayList<>();
     @OneToMany(mappedBy = "to")
-    @ToString.Exclude
     private final Set<ReviewLike> likes = new HashSet<>();
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "review_id")
-    private Long id;
     @Enumerated(EnumType.STRING)
     private ReviewCategory reviewCategory;
     private String title;
