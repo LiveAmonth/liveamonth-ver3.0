@@ -16,5 +16,5 @@ public abstract class ReactEntity extends BaseTimeEntity {
     @Enumerated(STRING)
     protected ReactType type;
 
-    public abstract Long getId();
+    public abstract Long getCommentId();
 }

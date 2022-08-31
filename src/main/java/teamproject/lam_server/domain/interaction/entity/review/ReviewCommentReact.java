@@ -30,4 +30,9 @@ public class ReviewCommentReact extends ReactEntity {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "to_review_comment_id")
     private ReviewComment to;
+
+    @Override
+    public Long getCommentId() {
+        return to.getId();
+    }
 }

@@ -26,10 +26,9 @@ public interface ScheduleCommentReactRepository extends JpaRepository<ScheduleCo
     @Query(value = "" +
             "delete from schedule_comment_react scr " +
             "where scr.from_member_id = :#{#request.from} " +
-            "and scr.to_schedule_comment_id = :#{#request.to} " +
-            "and scr.type = :type"
+            "and scr.to_schedule_comment_id = :#{#request.to}"
             , nativeQuery = true)
-    void cancelReact(@Param("request") InteractionRequest request, @Param("type") ReactType type);
+    void cancelReact(@Param("request") InteractionRequest request);
 
     @Query(value = "" +
             "select type from schedule_comment_react scr " +
@@ -40,6 +39,7 @@ public interface ScheduleCommentReactRepository extends JpaRepository<ScheduleCo
 
     @Query(value = "" +
             "select * from schedule_comment_react scr " +
+            "inner join schedule_comment sc on scr.to_schedule_comment_id = sc.schedule_comment_id " +
             "where scr.from_member_id = :memberId " +
             "and scr.to_schedule_comment_id in :ids"
             , nativeQuery = true)

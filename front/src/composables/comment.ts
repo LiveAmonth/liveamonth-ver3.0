@@ -12,7 +12,6 @@ export const useComment = () => {
   const commentsCount = computed(
     (): number => store.pageableComments.totalElements
   );
-
   const extractIds = (arrays: CommentType[]) => {
     const ids: number[] = [];
     arrays.forEach((value) => ids.push(value.commentId));

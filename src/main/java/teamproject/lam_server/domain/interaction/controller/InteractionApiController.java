@@ -50,9 +50,8 @@ public class InteractionApiController {
     @PostMapping("/comments/react/cancel")
     public ResponseEntity<?> cancelReactComment(
             @RequestParam(name = "comment_type") InteractionType commentType,
-            @RequestParam(name = "react_type") ReactType reactType,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.findComment(commentType).cancelReact(request, reactType);
+        interactionServiceFinder.findComment(commentType).cancelReact(request);
         return CustomResponse.success(DELETE_INTERACTION);
     }
 

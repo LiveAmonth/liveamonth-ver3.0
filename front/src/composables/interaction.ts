@@ -1,14 +1,33 @@
 import { useMember } from "@/composables/member";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import InteractionApiService from "@/services/InteractionApiService";
+import { useInteractionStore } from "@/stores/interaction";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
+import { useI18n } from "vue-i18n";
 
 export const useInteraction = () => {
   const error = ref();
   const isPending = ref(false);
+  const store = useInteractionStore();
+  const { t } = useI18n();
   const { simpleProfile } = useMember();
   const isLike = ref(false);
-  const reactedComments = ref<ReactedCommentType[]>([]);
+  const reactedComments = computed(() => store.reactedComments);
+  const getReactedComment = async (
+    id: number
+  ): Promise<ReactedCommentType | undefined> => {
+    return reactedComments.value.find((value) => value.id === id);
+  };
+
+  const checkReacted = async (option: boolean, type: string | undefined) => {
+    if (option && type && type === "DISLIKE") {
+      error.value = t("interaction.alreadyDislikeComment");
+      throw error.value;
+    } else if (!option && type && type === "LIKE") {
+      error.value = t("interaction.alreadyLikeComment");
+      throw error.value;
+    }
+  };
 
   const likeContent = async (type: string, contentId: number) => {
     await InteractionApiService.likeContent(type, {
@@ -50,28 +69,25 @@ export const useInteraction = () => {
   };
 
   const getMemberReactedComment = async (type: string, ids: number[]) => {
-    await InteractionApiService.getMemberReactedComment(
-      type,
-      simpleProfile.value.id,
-      ids
-    )
-      .then((response) => {
-        reactedComments.value = response;
-      })
-      .catch((err) => {
-        error.value = err;
-      });
+    try {
+      await store.getMemberReactedComment(type, simpleProfile.value.id, ids);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
   };
 
   const reactComment = async (
     commentType: string,
-    reactType: boolean,
     commentId: number,
+    option: boolean,
     isReacted: boolean
   ) => {
     await InteractionApiService.reactComment(
       commentType,
-      reactType ? "LIKE" : "DISLIKE",
+      option ? "LIKE" : "DISLIKE",
       {
         from: simpleProfile.value.id,
         to: commentId,
@@ -85,11 +101,14 @@ export const useInteraction = () => {
         error.value = err;
       });
   };
+
   return {
     error,
     isPending,
     isLike,
     reactedComments,
+    checkReacted,
+    getReactedComment,
     likeContent,
     reactComment,
     cancelLikeContent,

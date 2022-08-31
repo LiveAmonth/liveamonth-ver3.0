@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps({
   icon: {
@@ -22,6 +22,13 @@ const fillColor = () => {
 const emptyColor = () => {
   iconClass.value = iconClass.value.slice(0, iconClass.value.length - 5);
 };
+
+watch(
+  () => props.icon,
+  (newValue, oldValue) => {
+    iconClass.value = newValue;
+  }
+);
 </script>
 
 <template>

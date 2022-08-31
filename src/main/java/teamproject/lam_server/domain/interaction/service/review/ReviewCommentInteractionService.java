@@ -39,8 +39,8 @@ public class ReviewCommentInteractionService implements CommentInteractionServic
 
     @Override
     @Transactional
-    public void cancelReact(InteractionRequest request, ReactType type) {
-        reactRepository.cancelLike(request, type);
+    public void cancelReact(InteractionRequest request) {
+        reactRepository.cancelLike(request);
     }
 
     @Override

@@ -23,7 +23,6 @@ import static teamproject.lam_server.domain.interaction.constants.ReactType.LIKE
 public class ScheduleCommentInteractionService implements CommentInteractionService {
 
     private final ScheduleCommentReactRepository reactRepository;
-
     @Override
     public InteractionType getType() {
         return InteractionType.SCHEDULE;
@@ -38,8 +37,8 @@ public class ScheduleCommentInteractionService implements CommentInteractionServ
 
     @Override
     @Transactional
-    public void cancelReact(InteractionRequest request, ReactType type) {
-        reactRepository.cancelReact(request, type);
+    public void cancelReact(InteractionRequest request) {
+        reactRepository.cancelReact(request);
     }
 
     @Override

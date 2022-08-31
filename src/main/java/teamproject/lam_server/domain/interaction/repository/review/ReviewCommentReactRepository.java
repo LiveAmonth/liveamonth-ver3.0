@@ -26,10 +26,9 @@ public interface ReviewCommentReactRepository extends JpaRepository<ReviewCommen
     @Query(value = "" +
             "delete from review_comment_react rcr " +
             "where rcr.from_member_id = :#{#request.from} " +
-            "and rcr.to_review_comment_id = :#{#request.to} " +
-            "and rcr.type = :type;"
+            "and rcr.to_review_comment_id = :#{#request.to}"
             , nativeQuery = true)
-    void cancelLike(@Param("request") InteractionRequest request, @Param("type") ReactType type);
+    void cancelLike(@Param("request") InteractionRequest request);
 
     @Query(value = "" +
             "select rcr.type from review_comment_react rcr " +
@@ -40,6 +39,7 @@ public interface ReviewCommentReactRepository extends JpaRepository<ReviewCommen
 
     @Query(value = "" +
             "select * from review_comment_react rcr " +
+            "inner join review_comment rc on rcr.to_review_comment_id = rc.review_comment_id " +
             "where rcr.from_member_id = :memberId " +
             "and rcr.to_review_comment_id in :ids"
             , nativeQuery = true)

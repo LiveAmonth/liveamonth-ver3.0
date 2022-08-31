@@ -13,7 +13,7 @@ public interface CommentInteractionService {
 
     void react(InteractionRequest request, ReactType type);
 
-    void cancelReact(InteractionRequest request, ReactType type);
+    void cancelReact(InteractionRequest request);
 
     List<ReactedCommentResponse> getReactedComments(Long memberId, List<Long> request);
 }
