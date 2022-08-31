@@ -1,15 +1,14 @@
+import InteractionApiService from "@/services/InteractionApiService";
 import { defineStore } from "pinia";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
-import InteractionApiService from "@/services/InteractionApiService";
+import type { InteractionType } from "@/modules/types/interaction/InteractionType";
 
 export const useInteractionStore = defineStore("interaction", {
   state: () => ({
     reactedComments: [] as ReactedCommentType[],
+    isLikedContent: {} as boolean,
   }),
-  getters: {
-    getReacted: (state) => (id: number) =>
-      state.reactedComments.find((value) => value.id === id),
-  },
+  getters: {},
   actions: {
     async getMemberReactedComment(
       type: string,
@@ -19,6 +18,16 @@ export const useInteractionStore = defineStore("interaction", {
       await InteractionApiService.getMemberReactedComment(type, memberId, ids)
         .then((response) => {
           this.reactedComments = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    async isMemberLikedContent(type: string, request: InteractionType) {
+      await InteractionApiService.isMemberLikeContent(type, request)
+        .then((response) => {
+          this.isLikedContent = response;
         })
         .catch((error) => {
           throw error;

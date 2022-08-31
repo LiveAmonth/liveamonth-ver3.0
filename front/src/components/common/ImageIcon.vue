@@ -1,5 +1,7 @@
 <script setup lang="ts">
-defineProps({
+import { watch } from "vue";
+
+const props = defineProps({
   width: {
     type: Number,
     default: 25,
@@ -11,7 +13,7 @@ defineProps({
   url: {
     type: String,
     required: true,
-  },
+  }
 });
 </script>
 
@@ -22,4 +24,8 @@ defineProps({
   />
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-image {
+  cursor: pointer;
+}
+</style>

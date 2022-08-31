@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import SimpleScheduleCard from "@/components/schedule/SimpleScheduleCard.vue";
-import { useSchedule } from "@/composables/schedule";
-import { useScheduleContentStore } from "@/stores/scheduleContent";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
-import { onMounted, ref } from "vue";
-import { useAuth } from "@/composables/auth";
+import { useSchedule } from "@/composables/schedule";
+import { useScheduleContentStore } from "@/stores/scheduleContent";
+import { onMounted, ref, watch } from "vue";
 import { useInteraction } from "@/composables/interaction";
 
 const props = defineProps({
@@ -16,20 +15,27 @@ const props = defineProps({
 });
 
 const store = useScheduleContentStore();
-const { currScheduleContents } = useSchedule();
-const { getOtherSchedule } = useSchedule();
-const { isLike, isLoggedInMemberLikes, likeContent, cancelLikeContent } =
+const { type, currScheduleContents, getOtherSchedule } = useSchedule();
+const { isLiked, isLikedContent, likeContent, cancelLikeContent } =
   useInteraction();
 
 const schedule = ref(getOtherSchedule(Number(props.id)));
 
 onMounted(async () => {
-  await isLoggedInMemberLikes("SCHEDULE", Number(props.id));
+  await isLikedContent(type, Number(props.id));
 });
-const clickHeart = () => {
-  isLike
-    ? cancelLikeContent("SCHEDULE", Number(props.id))
-    : likeContent("SCHEDULE", Number(props.id));
+
+const clickHeart = async () => {
+  if (isLiked.value) {
+    await cancelLikeContent(type, Number(props.id)).then(() => {
+      schedule.value.likes--;
+    });
+  } else {
+    await likeContent(type, Number(props.id)).then(() => {
+      schedule.value.likes++;
+    });
+  }
+  await isLikedContent(type, Number(props.id));
 };
 </script>
 <template>
@@ -40,7 +46,8 @@ const clickHeart = () => {
       </SmallTitleSlot>
       <ImageIcon
         :height="30"
-        :url="`/src/assets/image/icon/love${isLike ? '-fill' : ''}.png`"
+        :is-liked="isLiked"
+        :url="`/src/assets/image/icon/love${isLiked ? '-fill' : ''}.png`"
         :width="30"
         class="ms-2"
         @click="clickHeart"
