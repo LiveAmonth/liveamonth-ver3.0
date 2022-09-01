@@ -5,9 +5,15 @@ import type {
 } from "@/modules/types/interaction/InteractionType";
 
 class InteractionApiService {
-  async likeContent(type: string, request: InteractionType): Promise<void> {
+  async reactContent(
+    type: string,
+    isLiked: boolean,
+    request: InteractionType
+  ): Promise<void> {
     return await http
-      .post(`interactions/like?type=${type}`, JSON.stringify(request))
+      .post("interactions/contents", JSON.stringify(request), {
+        params: { type: type, is_liked: isLiked },
+      })
       .then((response) => {
         return response.data.data;
       })
@@ -23,7 +29,7 @@ class InteractionApiService {
   ): Promise<void> {
     return await http
       .post(
-        `interactions/comments/react${
+        `interactions/comments${
           isReacted ? "/cancel" : `?react_type=${option}`
         }`,
         JSON.stringify(request),
@@ -57,20 +63,6 @@ class InteractionApiService {
   ): Promise<boolean> {
     return await http
       .get(`interactions/member/liked?type=${type}`, { params: request })
-      .then((response) => {
-        return response.data.data;
-      })
-      .catch((error) => {
-        throw error.response.data;
-      });
-  }
-
-  async isMemberLikeComment(
-    type: string,
-    request: InteractionType
-  ): Promise<boolean> {
-    return await http
-      .get(`interactions/member/like-comments?type=${type}`)
       .then((response) => {
         return response.data.data;
       })

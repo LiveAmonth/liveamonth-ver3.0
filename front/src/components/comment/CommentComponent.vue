@@ -45,7 +45,7 @@ onMounted(async () => {
   await getComments(props.type, Number(props.id), pageable.value).then(() => {
     mappingPagination(store.pageableComments);
   });
-  if (isLoggedIn.value) {
+  if (isLoggedIn.value && comments.value.length) {
     await getMemberReactedComment(props.type, extractIds(comments.value));
   }
 });

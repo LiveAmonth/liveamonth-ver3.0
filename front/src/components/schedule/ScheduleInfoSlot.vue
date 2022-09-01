@@ -11,6 +11,11 @@ defineProps({
     type: Number,
     required: true,
   },
+  showLikes: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const rowClass = "d-flex justify-content-start";
@@ -50,7 +55,7 @@ const rowClass = "d-flex justify-content-start";
           {{ schedule.hits }}
         </span>
       </div>
-      <div class="like">
+      <div class="view me-4" v-if="showLikes">
         <slot name="like-title"></slot>
         <span class="ms-2">
           {{ schedule.likes }}

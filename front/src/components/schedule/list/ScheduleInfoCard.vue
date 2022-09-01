@@ -44,7 +44,11 @@ const goToMemberSchedules = () => {
           {{ schedule.profile.nickname }}
         </div>
       </div>
-      <ScheduleInfoSlot :schedule="schedule" :font-size="0.9">
+      <ScheduleInfoSlot
+        :schedule="schedule"
+        :font-size="0.9"
+        :show-likes="true"
+      >
         <template v-slot:title>
           <SmallTitleSlot>
             <router-link

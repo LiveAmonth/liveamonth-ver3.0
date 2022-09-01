@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { watch } from "vue";
-
-const props = defineProps({
+defineProps({
   width: {
     type: Number,
     default: 25,
@@ -13,7 +11,7 @@ const props = defineProps({
   url: {
     type: String,
     required: true,
-  }
+  },
 });
 </script>
 

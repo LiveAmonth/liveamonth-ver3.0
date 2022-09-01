@@ -4,7 +4,7 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
 import { useSchedule } from "@/composables/schedule";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 import { useInteraction } from "@/composables/interaction";
 
 const props = defineProps({
@@ -16,7 +16,7 @@ const props = defineProps({
 
 const store = useScheduleContentStore();
 const { type, currScheduleContents, getOtherSchedule } = useSchedule();
-const { isLiked, isLikedContent, likeContent, cancelLikeContent } =
+const { isLiked, isLikedContent, reactContent, changeLikeState } =
   useInteraction();
 
 const schedule = ref(getOtherSchedule(Number(props.id)));
@@ -26,16 +26,14 @@ onMounted(async () => {
 });
 
 const clickHeart = async () => {
-  if (isLiked.value) {
-    await cancelLikeContent(type, Number(props.id)).then(() => {
-      schedule.value.likes--;
+  await reactContent(type, Number(props.id))
+    .then(() => {
+      isLiked.value ? schedule.value.likes-- : schedule.value.likes++;
+      changeLikeState();
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  } else {
-    await likeContent(type, Number(props.id)).then(() => {
-      schedule.value.likes++;
-    });
-  }
-  await isLikedContent(type, Number(props.id));
 };
 </script>
 <template>
@@ -45,9 +43,17 @@ const clickHeart = async () => {
         {{ $t("schedule.title.schedule") }}
       </SmallTitleSlot>
       <ImageIcon
+        v-if="!isLiked"
         :height="30"
-        :is-liked="isLiked"
-        :url="`/src/assets/image/icon/love${isLiked ? '-fill' : ''}.png`"
+        :url="`/src/assets/image/icon/love.png`"
+        :width="30"
+        class="ms-2"
+        @click="clickHeart"
+      />
+      <ImageIcon
+        v-else
+        :height="30"
+        :url="`/src/assets/image/icon/love-fill.png`"
         :width="30"
         class="ms-2"
         @click="clickHeart"
