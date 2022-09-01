@@ -27,7 +27,7 @@ public interface FollowRepository extends JpaRepository<Follower, Long> {
     @Query(value = "" +
             "delete from follower " +
             "where from_member_id = :#{#request.from} " +
-            "and to_member_id = :#{#request.to};"
+            "and to_member_id = :#{#request.to}"
             , nativeQuery = true)
     void unFollow(@Param("request") InteractionRequest request);
 }

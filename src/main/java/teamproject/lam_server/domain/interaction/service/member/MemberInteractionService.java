@@ -23,18 +23,13 @@ public class MemberInteractionService implements InteractionService {
 
     @Override
     @Transactional
-    public void like(InteractionRequest request) {
-        followRepository.follow(request);
+    public void react(Boolean likeStatus, InteractionRequest request) {
+        if (likeStatus) followRepository.follow(request);
+        else followRepository.unFollow(request);
     }
 
     @Override
-    @Transactional
-    public void cancelLike(InteractionRequest request) {
-        followRepository.unFollow(request);
-    }
-
-    @Override
-    public boolean isLike(InteractionRequest request) {
+    public boolean isLiked(InteractionRequest request) {
         return interactionRepository.isMemberFollow(request);
     }
 }

@@ -22,23 +22,16 @@ public class InteractionApiController {
 
     private final InteractionServiceFinder interactionServiceFinder;
 
-    @PostMapping("/like")
-    public ResponseEntity<?> likeContent(
+    @PostMapping("/contents")
+    public ResponseEntity<?> reactContent(
             @RequestParam InteractionType type,
+            @RequestParam("is_liked") Boolean isLiked,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.find(type).like(request);
+        interactionServiceFinder.find(type).react(isLiked, request);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/like/cancel")
-    public ResponseEntity<?> cancelLikeContent(
-            @RequestParam InteractionType type,
-            @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.find(type).cancelLike(request);
-        return CustomResponse.success(DELETE_INTERACTION);
-    }
-
-    @PostMapping("/comments/react")
+    @PostMapping("/comments")
     public ResponseEntity<?> reactComment(
             @RequestParam(name = "comment_type") InteractionType commentType,
             @RequestParam(name = "react_type") ReactType reactType,
@@ -47,7 +40,7 @@ public class InteractionApiController {
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/comments/react/cancel")
+    @PostMapping("/comments/cancel")
     public ResponseEntity<?> cancelReactComment(
             @RequestParam(name = "comment_type") InteractionType commentType,
             @RequestBody @Valid InteractionRequest request) {
@@ -57,7 +50,7 @@ public class InteractionApiController {
 
     @GetMapping("/member/liked")
     public ResponseEntity<?> isMemberLikedContent(@RequestParam InteractionType type, InteractionRequest request) {
-        boolean result = interactionServiceFinder.find(type).isLike(request);
+        boolean result = interactionServiceFinder.find(type).isLiked(request);
         return CustomResponse.success(READ_INTERACTION, result);
     }
 

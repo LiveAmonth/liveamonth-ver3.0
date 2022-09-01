@@ -22,7 +22,7 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
     @Query(value = "" +
             "delete from review_like " +
             "where from_member_id = :#{#request.from} " +
-            "and to_review_id = :#{#request.to};"
+            "and to_review_id = :#{#request.to}"
             , nativeQuery = true)
     void cancelLike(@Param("request") InteractionRequest request);
 

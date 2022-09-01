@@ -26,18 +26,14 @@ public class ScheduleInteractionService implements InteractionService {
 
     @Override
     @Transactional
-    public void like(InteractionRequest request) {
-        scheduleLikeRepository.like(request);
+    public void react(Boolean likeStatus, InteractionRequest request) {
+        if (likeStatus) scheduleLikeRepository.cancelLike(request);
+        else scheduleLikeRepository.like(request);
+
     }
 
     @Override
-    @Transactional
-    public void cancelLike(InteractionRequest request) {
-        scheduleLikeRepository.cancelLike(request);
-    }
-
-    @Override
-    public boolean isLike(InteractionRequest request) {
+    public boolean isLiked(InteractionRequest request) {
         return interactionRepository.isMemberLikeSchedule(request);
     }
 }
