@@ -20,9 +20,9 @@ public interface ScheduleLikeRepository extends JpaRepository<ScheduleLike, Long
     @Modifying
     @Transactional
     @Query(value = "" +
-            "delete from schedule_like " +
-            "where from_member_id = :#{#request.from} " +
-            "and to_schedule_id = :#{#request.to};"
+            "delete from schedule_like sl " +
+            "where sl.from_member_id = :#{#request.from} " +
+            "and sl.to_schedule_id = :#{#request.to}"
             , nativeQuery = true)
     void cancelLike(@Param("request") InteractionRequest request);
 }

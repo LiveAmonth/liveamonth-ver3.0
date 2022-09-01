@@ -16,6 +16,7 @@ public class ReviewInteractionService implements InteractionService {
 
     private final ReviewLikeRepository reviewLikeRepository;
     private final InteractionRepository interactionRepository;
+
     @Override
     public InteractionType getType() {
         return InteractionType.REVIEW;
@@ -23,18 +24,13 @@ public class ReviewInteractionService implements InteractionService {
 
     @Override
     @Transactional
-    public void like(InteractionRequest request) {
-        reviewLikeRepository.like(request);
+    public void react(Boolean likeStatus, InteractionRequest request) {
+        if (likeStatus) reviewLikeRepository.cancelLike(request);
+        else reviewLikeRepository.like(request);
     }
 
     @Override
-    @Transactional
-    public void cancelLike(InteractionRequest request) {
-        reviewLikeRepository.cancelLike(request);
-    }
-
-    @Override
-    public boolean isLike(InteractionRequest request) {
+    public boolean isLiked(InteractionRequest request) {
         return interactionRepository.isMemberLikeReview(request);
     }
 }
