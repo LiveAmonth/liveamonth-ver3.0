@@ -2,7 +2,10 @@ import { useMember } from "@/composables/member";
 import { computed, ref } from "vue";
 import InteractionApiService from "@/services/InteractionApiService";
 import { useInteractionStore } from "@/stores/interaction";
-import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
+import type {
+  InteractionType,
+  ReactedCommentType,
+} from "@/modules/types/interaction/InteractionType";
 import { useI18n } from "vue-i18n";
 
 export const useInteraction = () => {
@@ -16,11 +19,19 @@ export const useInteraction = () => {
   const isLiked = computed(() => store.isLikedContent);
   const reactedComments = computed(() => store.reactedComments);
 
-  const likeContent = async (type: string, contentId: number) => {
-    await InteractionApiService.likeContent(type, {
+  const getInteractionRequest = (id: number): InteractionType => {
+    return {
       from: simpleProfile.value.id,
-      to: contentId,
-    })
+      to: id,
+    };
+  };
+
+  const reactContent = async (type: string, contentId: number) => {
+    await InteractionApiService.reactContent(
+      type,
+      isLiked.value,
+      getInteractionRequest(contentId)
+    )
       .then(() => {
         console.log("like content");
       })
@@ -30,10 +41,10 @@ export const useInteraction = () => {
   };
 
   const cancelLikeContent = async (type: string, contentId: number) => {
-    await InteractionApiService.cancelLikeContent(type, {
-      from: simpleProfile.value.id,
-      to: contentId,
-    })
+    await InteractionApiService.cancelLikeContent(
+      type,
+      getInteractionRequest(contentId)
+    )
       .then(() => {
         console.log("cancel like content");
       })
@@ -44,10 +55,7 @@ export const useInteraction = () => {
 
   const isLikedContent = async (type: string, contentId: number) => {
     try {
-      await store.isMemberLikedContent(type, {
-        from: simpleProfile.value.id,
-        to: contentId,
-      });
+      await store.isMemberLikedContent(type, getInteractionRequest(contentId));
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -76,10 +84,7 @@ export const useInteraction = () => {
     await InteractionApiService.reactComment(
       commentType,
       option ? "LIKE" : "DISLIKE",
-      {
-        from: simpleProfile.value.id,
-        to: commentId,
-      },
+      getInteractionRequest(commentId),
       isReacted
     )
       .then(() => {
@@ -106,6 +111,9 @@ export const useInteraction = () => {
     }
   };
 
+  const changeLikeState = () => {
+    store.changeLikeState();
+  };
   return {
     error,
     isPending,
@@ -113,10 +121,11 @@ export const useInteraction = () => {
     reactedComments,
     checkReacted,
     getReactedComment,
-    likeContent,
+    reactContent,
     reactComment,
     cancelLikeContent,
     isLikedContent,
     getMemberReactedComment,
+    changeLikeState,
   };
 };

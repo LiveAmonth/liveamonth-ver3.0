@@ -33,5 +33,9 @@ export const useInteractionStore = defineStore("interaction", {
           throw error;
         });
     },
+
+    changeLikeState() {
+      this.isLikedContent = !this.isLikedContent;
+    },
   },
 });
