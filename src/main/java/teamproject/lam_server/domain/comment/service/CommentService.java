@@ -42,4 +42,6 @@ public abstract class CommentService {
     public abstract Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO);
 
     public abstract void writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request);
+
+    public abstract CommentResponse getBestComments(Long contentId);
 }

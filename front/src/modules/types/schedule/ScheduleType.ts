@@ -1,6 +1,7 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
 import type { SearchCondType } from "../common/SearchType";
+import type { CommentType } from "@/modules/types/comment/CommentTypes";
 
 export interface ScheduleDetailType {
   card: ScheduleCardType;
@@ -17,6 +18,7 @@ export interface ScheduleCardType {
   likes: number;
   comments: number;
   period: DatePeriodType;
+  comment: CommentType | null;
 }
 export interface ScheduleSimpleCardType {
   id: number;

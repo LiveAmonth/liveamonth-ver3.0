@@ -5,6 +5,8 @@ import { useInteraction } from "@/composables/interaction";
 import { useMessageBox } from "@/composables/messageBox";
 import type { Ref, UnwrapRef } from "vue";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
+import { useMember } from "@/composables/member";
+import { useComment } from "@/composables/comment";
 
 const props = defineProps({
   id: {
@@ -16,6 +18,15 @@ const props = defineProps({
     required: true,
   },
   isReply: {
+    type: Boolean,
+    required: true,
+  },
+  isBest: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  isWriter: {
     type: Boolean,
     required: true,
   },
@@ -69,8 +80,15 @@ watch(
       <slot name="elapsedTime"></slot>
     </div>
     <div class="like ms-2">
-      <span class="me-2">
+      <span class="icon">
+        <i
+          v-if="isBest"
+          class="me-1"
+          :class="`bi ${thumbsUp}`"
+          style="color: #535252"
+        />
         <el-tooltip
+          v-else
           class="box-item"
           effect="dark"
           :content="$t('comment.react.like')"
@@ -80,12 +98,20 @@ watch(
             :icon="thumbsUp"
             class="me-1"
             @click="reactComment(true)"
+            :class="{ active: !isBest }"
           />
         </el-tooltip>
         <slot name="likeCount"></slot>
       </span>
-      <span>
+      <span class="icon">
+        <i
+          v-if="isBest"
+          class="me-1"
+          :class="`bi ${thumbsDown}`"
+          style="color: #535252"
+        />
         <el-tooltip
+          v-else
           class="box-item"
           effect="dark"
           :content="$t('comment.react.dislike')"
@@ -100,6 +126,10 @@ watch(
         <slot name="dislikeCount"></slot>
       </span>
     </div>
+    <el-tag v-if="isWriter" size="small">
+      {{ $t("comment.writer") }}
+    </el-tag>
+    <el-badge v-if="isBest" value="Best" class="ms-1" />
   </div>
   <div class="content">
     <slot name="content"></slot>
@@ -129,9 +159,8 @@ watch(
   .like {
     font-size: 0.85rem;
 
-    .bi-hand-thumbs-up:hover,
-    .bi-hand-thumbs-down:hover {
-      cursor: pointer;
+    .icon {
+      margin-right: 5px;
     }
   }
 }

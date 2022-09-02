@@ -3,15 +3,18 @@ import { useCommentStore } from "@/stores/comment";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
 import type { CommentType } from "@/modules/types/comment/CommentTypes";
 import type { CommentFormType } from "@/modules/types/form/FormType";
+import { useMember } from "@/composables/member";
 
 export const useComment = () => {
   const store = useCommentStore();
   const error = ref();
   const isPending = ref<boolean>(false);
+
   const comments = computed((): CommentType[] => store.comments);
   const commentsCount = computed(
     (): number => store.pageableComments.totalElements
   );
+
   const extractIds = (arrays: CommentType[]) => {
     const ids: number[] = [];
     arrays.forEach((value) => ids.push(value.commentId));

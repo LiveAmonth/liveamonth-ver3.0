@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +22,6 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/schedules")
-@Slf4j
 public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
 
@@ -47,7 +45,6 @@ public class ScheduleApiController {
 
     @GetMapping("/search")
     public ResponseEntity<?> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
-        log.info("cond={}", cond.getMemberNickname());
         Page<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
@@ -57,4 +54,5 @@ public class ScheduleApiController {
         List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
+
 }

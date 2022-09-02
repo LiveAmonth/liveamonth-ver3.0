@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 
 import java.util.List;
+import java.util.Optional;
 
 import static teamproject.lam_server.domain.comment.entity.QScheduleComment.scheduleComment;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -20,18 +21,17 @@ import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class ScheduleCommentRepositoryImpl implements ScheduleCommentRepositoryCustom {
+public class ScheduleCommentRepositoryImpl implements CommentRepository<ScheduleComment> {
     private final JPAQueryFactory queryFactory;
 
-
     @Override
-    public Page<ScheduleComment> getScheduleComments(Long scheduleId, Pageable pageable) {
-        List<ScheduleComment> elements = getScheduleElementsQuery(scheduleId)
+    public Page<ScheduleComment> getComments(Long contentId, Pageable pageable) {
+        List<ScheduleComment> elements = getScheduleElementsQuery(contentId)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(scheduleComment.id.desc())
                 .fetch();
-        JPAQuery<Long> countQuery = getScheduleCountQuery(scheduleId);
+        JPAQuery<Long> countQuery = getScheduleCountQuery(contentId);
 
         return PageableExecutionUtils.getPage(
                 elements,
@@ -40,18 +40,33 @@ public class ScheduleCommentRepositoryImpl implements ScheduleCommentRepositoryC
     }
 
     @Override
-    public List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, Long from, Long to) {
+    public List<ScheduleComment> getCommentReplies(Long contentId, Long from, Long to) {
         return queryFactory.selectFrom(scheduleComment)
                 .leftJoin(scheduleComment.schedule, schedule).fetchJoin()
                 .leftJoin(scheduleComment.member, member).fetchJoin()
                 .leftJoin(scheduleComment.parent).fetchJoin()
                 .where(
-                        scheduleIdEq(scheduleId),
+                        scheduleIdEq(contentId),
                         parentIdNotNull(),
                         parentIdBetween(from, to)
                 )
                 .orderBy(scheduleComment.id.desc())
                 .fetch();
+    }
+
+    @Override
+    public Optional<ScheduleComment> getBestComment(Long contentId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(scheduleComment)
+                        .leftJoin(scheduleComment.schedule, schedule).fetchJoin()
+                        .leftJoin(scheduleComment.member, member).fetchJoin()
+                        .leftJoin(scheduleComment.parent).fetchJoin()
+                        .where(
+                                scheduleIdEq(contentId),
+                                parentIdNull()
+                        ).orderBy(scheduleComment.likeCount.desc())
+                        .fetchFirst()
+        );
     }
 
     private JPAQuery<ScheduleComment> getScheduleElementsQuery(Long scheduleId) {

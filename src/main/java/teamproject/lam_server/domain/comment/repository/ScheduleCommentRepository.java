@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 
-public interface ScheduleCommentRepository extends JpaRepository<ScheduleComment, Long>, ScheduleCommentRepositoryCustom {
+public interface ScheduleCommentRepository extends JpaRepository<ScheduleComment, Long>, CommentRepository<ScheduleComment> {
 
     @Modifying
     @Transactional

@@ -11,6 +11,8 @@ import type {
 } from "@/modules/types/common/PageableType";
 import type { SortType } from "@/modules/types/common/SortType";
 import ScheduleSearchCond from "@/modules/class/ScheduleCond";
+import PageableRequest from "@/modules/class/PageableRequest";
+import Pagination from "@/modules/class/Pagination";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({

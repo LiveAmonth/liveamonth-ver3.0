@@ -2,7 +2,7 @@ package teamproject.lam_server.domain.comment.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.domain.comment.entity.CommentEntity;
 import teamproject.lam_server.util.DateTimeUtil;
 
 @Getter
@@ -17,7 +17,7 @@ public class CommentReplyResponse {
     private int likes;
     private int dislikes;
 
-    public static CommentReplyResponse of(ScheduleComment comment) {
+    public static <T extends CommentEntity> CommentReplyResponse of(T comment) {
         return CommentReplyResponse.builder()
                 .commentId(comment.getId())
                 .parentId(comment.getParent().getId())

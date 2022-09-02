@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
+import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepositoryImpl;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
@@ -34,6 +36,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ScheduleContentRepository scheduleContentRepository;
     private final MemberRepository memberRepository;
+    private final ScheduleCommentRepositoryImpl commentRepository;
     private final DomainSpec<ScheduleSortType> spec = new DomainSpec<>(ScheduleSortType.class);
 
     @Transactional
@@ -56,7 +59,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
-        return scheduleRepository.search(cond, pageable).map(ScheduleCardResponse::of);
+        Page<Schedule> search = scheduleRepository.search(cond, pageable);
+        return search.map(schedule -> ScheduleCardResponse.of(
+                schedule,
+                CommentResponse.ofSingleEntity(
+                        commentRepository.getBestComment(schedule.getId()).orElse(null))
+        ));
     }
 
     @Transactional

@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { onMounted } from "vue";
 import SimpleCalendar from "@/components/schedule/list/SimpleCalendar.vue";
-import { useScheduleStore } from "@/stores/schedule";
 import CustomPagination from "@/components/common/CustomPagination.vue";
+import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
+import ScheduleInfoCard from "@/components/schedule/list/ScheduleInfoCard.vue";
+import CommentSlot from "@/components/comment/CommentSlot.vue";
+import { onMounted } from "vue";
+import { useScheduleStore } from "@/stores/schedule";
 import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
-import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
-import ScheduleInfoCard from "@/components/schedule/list/ScheduleInfoCard.vue";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 
 const store = useScheduleStore();
 const { isPending, request, otherSchedules, getOtherSchedules } = useSchedule();
@@ -59,7 +61,39 @@ const applyOptions = async (data: SearchSortFormType) => {
                         :index="i"
                         @go-to-member-schedules="applyOptions"
                       />
-                      <el-card class="reply"> 댓글 내용 들어가야함.</el-card>
+                      <el-card v-if="schedule.comment" class="reply">
+                        <SmallTitleSlot class="mb-3">
+                          {{ $t("comment.best") }}
+                        </SmallTitleSlot>
+                        <CommentSlot
+                          :id="schedule.comment.commentId"
+                          :avatar-url="'/src/assets/image/default.jpg'"
+                          :is-reply="false"
+                          :is-writer="
+                            schedule.profile.nickname ===
+                            schedule.comment.profile.nickname
+                          "
+                        >
+                          <template v-slot:writer>
+                            {{ schedule.comment.profile.nickname }}
+                          </template>
+                          <template v-slot:elapsedTime>
+                            {{ schedule.comment.elapsedTime }}
+                          </template>
+                          <template v-slot:content>
+                            {{ schedule.comment.content }}
+                          </template>
+                          <template v-slot:likeCount>
+                            {{ schedule.comment.likes }}
+                          </template>
+                          <template v-slot:dislikeCount>
+                            {{ schedule.comment.dislikes }}
+                          </template>
+                        </CommentSlot>
+                      </el-card>
+                      <el-card v-else class="reply">
+                        {{ $t("comment.no-comment") }}
+                      </el-card>
                     </el-col>
                   </el-row>
                 </li>
@@ -109,5 +143,7 @@ const applyOptions = async (data: SearchSortFormType) => {
 
 .reply {
   margin-top: 1.3rem;
+  text-align: left;
+  padding-bottom: 5px;
 }
 </style>

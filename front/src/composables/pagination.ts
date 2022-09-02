@@ -3,7 +3,7 @@ import type {
   CustomPaginationType,
   PageableResponseType,
 } from "@/modules/types/common/PageableType";
-import { usePageableStore } from "@/stores/pageable";
+import { usePageableStore } from "@/stores/pagination";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
 import PageableRequest from "@/modules/class/PageableRequest";
 
@@ -24,11 +24,16 @@ export const usePagination = () => {
     store.changeSortType(sortType);
   };
 
+  const setSize = (limit: number) => {
+    store.setContentLimit(limit);
+  };
+
   return {
     pageable,
     pagination,
     mappingPagination,
     movePage,
     setSort,
+    setSize,
   };
 };

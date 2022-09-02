@@ -9,6 +9,7 @@ import teamproject.lam_server.global.entity.BaseTimeEntity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -26,5 +27,12 @@ public abstract class CommentEntity extends BaseTimeEntity {
     protected String content;
 
     protected abstract void setUpWriter(Member member);
+
+    public abstract CommentEntity getParent();
+
+    public abstract int getLikeCount();
+    public abstract int getDislikeCount();
+
+    public abstract List<? extends CommentEntity> getChildren();
 
 }
