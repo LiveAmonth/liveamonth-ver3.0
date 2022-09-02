@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import ScheduleContentDetail from "@/modules/class/ScheduleContentDetail";
+import ScheduleContentDetail from "@/modules/class/schedule/ScheduleContentDetail";
 import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 import { ref } from "vue";
 import type {

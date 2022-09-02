@@ -11,9 +11,11 @@ import { usePagination } from "@/composables/pagination";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 
+const paginationType = "SCHEDULE";
 const store = useScheduleStore();
 const { isPending, request, otherSchedules, getOtherSchedules } = useSchedule();
-const { pageable, mappingPagination, movePage, setSort } = usePagination();
+const { pageable, mappingPagination, movePage, setSort } =
+  usePagination(paginationType);
 
 onMounted(async () => {
   await getOtherSchedules(pageable.value).then(() => {
@@ -27,6 +29,7 @@ const pageClick = async (page: number) => {
     mappingPagination(store.pageableSchedules);
   });
 };
+
 const applyOptions = async (data: SearchSortFormType) => {
   request.value.setAttr(data);
   setSort(String(data.sortType));
@@ -61,13 +64,14 @@ const applyOptions = async (data: SearchSortFormType) => {
                         :index="i"
                         @go-to-member-schedules="applyOptions"
                       />
-                      <el-card v-if="schedule.comment" class="reply">
+                      <el-card v-if="schedule.comment" class="reply mb-2">
                         <SmallTitleSlot class="mb-3">
                           {{ $t("comment.best") }}
                         </SmallTitleSlot>
                         <CommentSlot
                           :id="schedule.comment.commentId"
                           :avatar-url="'/src/assets/image/default.jpg'"
+                          :is-best="true"
                           :is-reply="false"
                           :is-writer="
                             schedule.profile.nickname ===
@@ -91,7 +95,7 @@ const applyOptions = async (data: SearchSortFormType) => {
                           </template>
                         </CommentSlot>
                       </el-card>
-                      <el-card v-else class="reply">
+                      <el-card v-else class="reply mb-0">
                         {{ $t("comment.no-comment") }}
                       </el-card>
                     </el-col>
@@ -104,7 +108,7 @@ const applyOptions = async (data: SearchSortFormType) => {
       </div>
     </el-col>
   </el-row>
-  <CustomPagination @click="pageClick" />
+  <CustomPagination :pagination-type="paginationType" @click="pageClick" />
 </template>
 
 <style lang="scss" scoped>
@@ -144,6 +148,5 @@ const applyOptions = async (data: SearchSortFormType) => {
 .reply {
   margin-top: 1.3rem;
   text-align: left;
-  padding-bottom: 5px;
 }
 </style>

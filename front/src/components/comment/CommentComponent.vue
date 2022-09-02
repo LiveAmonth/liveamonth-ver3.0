@@ -31,6 +31,7 @@ const props = defineProps({
     required: true,
   },
 });
+const category = "COMMENT";
 const store = useCommentStore();
 const {
   isPending,
@@ -42,7 +43,8 @@ const {
 } = useComment();
 const { getMemberReactedComment, reactComment } = useInteraction();
 const { isLoggedIn } = useAuth();
-const { pageable, mappingPagination, movePage, setSize } = usePagination();
+const { pageable, mappingPagination, movePage, setSize } =
+  usePagination(category);
 const { requireLoginMessageBox } = useMessageBox();
 
 onMounted(async () => {
@@ -138,7 +140,7 @@ const react = async (
       </el-collapse>
     </li>
   </ul>
-  <CustomPagination @click="pageClick" />
+  <CustomPagination :pagination-type="category" @click="pageClick" />
 </template>
 
 <style lang="scss" scoped>
