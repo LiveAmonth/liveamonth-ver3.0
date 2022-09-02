@@ -33,20 +33,7 @@ export const useInteraction = () => {
       getInteractionRequest(contentId)
     )
       .then(() => {
-        console.log("like content");
-      })
-      .catch((err) => {
-        error.value = err;
-      });
-  };
-
-  const cancelLikeContent = async (type: string, contentId: number) => {
-    await InteractionApiService.cancelLikeContent(
-      type,
-      getInteractionRequest(contentId)
-    )
-      .then(() => {
-        console.log("cancel like content");
+        console.log("react content");
       })
       .catch((err) => {
         error.value = err;
@@ -123,7 +110,6 @@ export const useInteraction = () => {
     getReactedComment,
     reactContent,
     reactComment,
-    cancelLikeContent,
     isLikedContent,
     getMemberReactedComment,
     changeLikeState,

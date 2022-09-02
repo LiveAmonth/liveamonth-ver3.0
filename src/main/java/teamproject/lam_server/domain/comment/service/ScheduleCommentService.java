@@ -13,7 +13,7 @@ import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.exception.notfound.CommentNotFound;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.Collections;
@@ -23,15 +23,12 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class ScheduleCommentService extends CommentService {
     private final ScheduleCommentRepository scheduleCommentRepository;
-    private final ScheduleRepository scheduleRepository;
 
     public ScheduleCommentService(MemberRepository memberRepository,
                                   JwtTokenProvider jwtTokenProvider,
-                                  ScheduleCommentRepository scheduleCommentRepository,
-                                  ScheduleRepository scheduleRepository) {
+                                  ScheduleCommentRepository scheduleCommentRepository) {
         super(memberRepository, jwtTokenProvider);
         this.scheduleCommentRepository = scheduleCommentRepository;
-        this.scheduleRepository = scheduleRepository;
     }
 
     @Override
@@ -45,33 +42,37 @@ public class ScheduleCommentService extends CommentService {
         // access token 으로 작성자 검색
         Member member = getMemberFromAuthentication(accessToken);
 
-        // 댓글을 작성한 게시물 확인
-//        Schedule schedule = scheduleRepository.findById(contentId).orElseThrow(ScheduleNotFound::new);
-//
-//        ScheduleComment comment = request.toScheduleEntity(member)
-//                .schedule(schedule)
-//                .parent(scheduleCommentRepository.findById(commentId).orElse(null))
-//                .build();
-//        return scheduleCommentRepository.save(comment).getId();
         scheduleCommentRepository.write(request, member.getId(), contentId, commentId);
     }
 
     @Override
     public Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
+        // 페이지 정보
         Pageable pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
-        Page<ScheduleComment> scheduleComments = scheduleCommentRepository.getScheduleComments(contentId, pageable);
+
+        // 스케줄 댓글
+        Page<ScheduleComment> scheduleComments = scheduleCommentRepository.getComments(contentId, pageable);
+
+        // 스케줄 대댓글
         List<ScheduleComment> scheduleCommentReplies = scheduleComments.getNumberOfElements() != 0
-                ? getScheduleCommentReplies(contentId, scheduleComments)
+                ? getScheduleCommentReplies(contentId, scheduleComments.getContent())
                 : Collections.emptyList();
+
         return scheduleComments.map(comment -> mapToCommentResponse(
                 CommentResponse.of(comment),
                 comment.getId(),
                 scheduleCommentReplies));
     }
 
-    private List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, Page<ScheduleComment> comments) {
-        Long from = comments.getContent().get(comments.getNumberOfElements() - 1).getId();
-        Long to = comments.getContent().get(0).getId();
-        return scheduleCommentRepository.getScheduleCommentReplies(scheduleId, from, to);
+    @Override
+    public CommentResponse getBestComments(Long contentId) {
+        ScheduleComment scheduleComment = scheduleCommentRepository.getBestComment(contentId).orElseThrow(CommentNotFound::new);
+        List<ScheduleComment> commentReplies = getScheduleCommentReplies(contentId, List.of(scheduleComment));
+        return mapToCommentResponse(CommentResponse.of(scheduleComment), scheduleComment.getId(), commentReplies);
+    }
+    private List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, List<ScheduleComment> comments) {
+        Long from = comments.get(comments.size() - 1).getId();
+        Long to = comments.get(0).getId();
+        return scheduleCommentRepository.getCommentReplies(scheduleId, from, to);
     }
 }

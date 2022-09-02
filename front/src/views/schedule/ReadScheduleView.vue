@@ -16,7 +16,7 @@ const props = defineProps({
 });
 const { isPending, getOtherSchedule, getScheduleContents } = useSchedule();
 const { setContentCollapse } = useCalendarEvent();
-const scheduleCard = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
+const schedule = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
 
 onMounted(async () => {
   await getScheduleContents(Number(props.id));
@@ -30,7 +30,7 @@ const changeCollapse = (id: number) => {
 <template>
   <el-row v-if="!isPending" class="mb-5">
     <el-col>
-      <TitleSlot>{{ scheduleCard.title }}</TitleSlot>
+      <TitleSlot>{{ schedule.title }}</TitleSlot>
       <el-row :gutter="10">
         <el-col :span="18">
           <ScheduleCalendar
@@ -48,7 +48,11 @@ const changeCollapse = (id: number) => {
   <el-divider />
   <el-row>
     <el-col>
-      <CommentComponent :id="id" :type="'SCHEDULE'" />
+      <CommentComponent
+        :writer="schedule.profile.nickname"
+        :id="id"
+        :type="'SCHEDULE'"
+      />
     </el-col>
   </el-row>
 </template>

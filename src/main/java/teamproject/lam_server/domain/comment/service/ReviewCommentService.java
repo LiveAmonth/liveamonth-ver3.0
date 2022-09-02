@@ -52,6 +52,11 @@ public class ReviewCommentService extends CommentService {
     }
 
     @Override
+    public CommentResponse getBestComments(Long contentId) {
+        return null;
+    }
+
+    @Override
     public Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
         return null;
     }

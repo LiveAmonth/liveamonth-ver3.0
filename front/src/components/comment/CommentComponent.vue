@@ -26,6 +26,10 @@ const props = defineProps({
       return value === "SCHEDULE" || value === "REVIEW";
     },
   },
+  writer: {
+    type: String,
+    required: true,
+  },
 });
 const store = useCommentStore();
 const {
@@ -38,10 +42,11 @@ const {
 } = useComment();
 const { getMemberReactedComment, reactComment } = useInteraction();
 const { isLoggedIn } = useAuth();
-const { pageable, mappingPagination, movePage } = usePagination();
+const { pageable, mappingPagination, movePage, setSize } = usePagination();
 const { requireLoginMessageBox } = useMessageBox();
 
 onMounted(async () => {
+  setSize(5);
   await getComments(props.type, Number(props.id), pageable.value).then(() => {
     mappingPagination(store.pageableComments);
   });
@@ -91,6 +96,7 @@ const react = async (
         :id="comment.commentId"
         :avatar-url="'/src/assets/image/default.jpg'"
         :is-reply="false"
+        :is-writer="writer === comment.profile.nickname"
         @react-comment="react"
       >
         <template v-slot:writer>{{ comment.profile.nickname }}</template>
@@ -109,6 +115,7 @@ const react = async (
                 :id="reply.commentId"
                 :avatar-url="'/src/assets/image/default.jpg'"
                 :is-reply="true"
+                :is-writer="writer === reply.profile.nickname"
                 @react-comment="react"
               >
                 <template v-slot:writer>{{ reply.profile.nickname }}</template>

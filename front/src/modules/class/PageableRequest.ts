@@ -1,9 +1,9 @@
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
 
-export class PageableRequest implements PageableRequestType {
-  private _page: number;
-  private _size: number;
-  private _sort: string;
+export abstract class PageableRequest implements PageableRequestType {
+  protected _page: number;
+  protected _size: number;
+  protected _sort: string;
 
   get page(): number {
     return this._page;
@@ -24,15 +24,17 @@ export class PageableRequest implements PageableRequestType {
   get sort(): string {
     return this._sort;
   }
+
   set sort(value: string) {
     this._sort = value;
   }
 
-  constructor(page = 1, size: number, sorts = "id,desc") {
+  protected constructor(page = 1, size: number, sorts = "id,desc") {
     this._page = page;
     this._size = size;
     this._sort = sorts;
   }
-}
 
+  abstract getType(): string;
+}
 export default PageableRequest;

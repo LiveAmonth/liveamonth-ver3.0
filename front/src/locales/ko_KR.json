@@ -259,7 +259,10 @@
     "react": {
       "like": "추천",
       "dislike": "비추천"
-    }
+    },
+    "best": "베스트 댓글",
+    "writer" : "작성자 댓글",
+    "no-comment": "작성된 댓글이 없습니다."
   },
   "interaction": {
     "alreadyLikeComment": "이미 추천한 댓글입니다.",

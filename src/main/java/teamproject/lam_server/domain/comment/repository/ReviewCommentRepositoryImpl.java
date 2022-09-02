@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 
 import java.util.List;
+import java.util.Optional;
 
 import static teamproject.lam_server.domain.comment.entity.QReviewComment.reviewComment;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -20,17 +21,17 @@ import static teamproject.lam_server.domain.review.entity.QReview.review;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class ReviewCommentRepositoryImpl implements ReviewCommentRepositoryCustom {
+public class ReviewCommentRepositoryImpl implements CommentRepository<ReviewComment> {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<ReviewComment> getReviewComments(Long scheduleId, Pageable pageable) {
-        List<ReviewComment> elements = getScheduleElementsQuery(scheduleId)
+    public Page<ReviewComment> getComments(Long contentId, Pageable pageable) {
+        List<ReviewComment> elements = getScheduleElementsQuery(contentId)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(reviewComment.id.desc())
                 .fetch();
-        JPAQuery<Long> countQuery = getScheduleCountQuery(scheduleId);
+        JPAQuery<Long> countQuery = getScheduleCountQuery(contentId);
 
         return PageableExecutionUtils.getPage(
                 elements,
@@ -39,7 +40,7 @@ public class ReviewCommentRepositoryImpl implements ReviewCommentRepositoryCusto
     }
 
     @Override
-    public List<ReviewComment> getReviewCommentReplies(Long scheduleId, Long from, Long to) {
+    public List<ReviewComment> getCommentReplies(Long scheduleId, Long from, Long to) {
         return queryFactory.selectFrom(reviewComment)
                 .leftJoin(reviewComment.review, review).fetchJoin()
                 .leftJoin(reviewComment.member, member).fetchJoin()
@@ -51,6 +52,11 @@ public class ReviewCommentRepositoryImpl implements ReviewCommentRepositoryCusto
                 )
                 .orderBy(reviewComment.id.desc())
                 .fetch();
+    }
+
+    @Override
+    public Optional<ReviewComment> getBestComment(Long contentId) {
+        return Optional.empty();
     }
 
     private JPAQuery<ReviewComment> getScheduleElementsQuery(Long scheduleId) {
