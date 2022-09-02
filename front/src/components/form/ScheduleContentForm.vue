@@ -1,24 +1,13 @@
 <script lang="ts" setup>
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { reactive, ref } from "vue";
 import type { FormInstance, FormRules } from "element-plus";
-import type {
-  SignUpType,
-  SignUpCheckType,
-  ScheduleContentFormType,
-} from "@/modules/types/form/FormType";
 import { useFormValidate } from "@/composables/formValidate";
-import { useMember } from "@/composables/member";
-import { useMemberStore } from "@/stores/member";
 import { useI18n } from "vue-i18n";
 import { useMessageBox } from "@/composables/messageBox";
-import { useRouter } from "vue-router";
-import { ScheduleContentDetail } from "@/modules/class/ScheduleContentDetail";
 import { useCalendarEvent } from "@/composables/calendarEvent";
 
-const store = useMemberStore();
-const router = useRouter();
 const { t } = useI18n();
-const { openMessageBox, openConfirmMessageBox } = useMessageBox();
+const { openMessageBox } = useMessageBox();
 const { validateRequire } = useFormValidate();
 const { scheduleContentDetail, resetContent } = useCalendarEvent();
 const ruleFormRef = ref<FormInstance>();
@@ -51,7 +40,7 @@ const resetField = async () => {
     label-width="120px"
     status-icon
   >
-    <span size="small" class="resetBtn" @click="resetField"
+    <span class="resetBtn" size="small" @click="resetField"
       ><el-icon><Refresh /></el-icon>{{ $t("form.reset") }}
     </span>
     <el-form-item :label="$t('schedule.form.content.title')" prop="title">
@@ -74,17 +63,17 @@ const resetField = async () => {
       prop="start"
     >
       <v-date-picker
+        v-model="scheduleContentDetail.start"
         class
         mode="time"
-        v-model="scheduleContentDetail.start"
         timezone="Asia/Seoul"
       />
     </el-form-item>
     <el-form-item :label="$t('schedule.form.content.period.end')" prop="end">
       <v-date-picker
-        readonly
-        mode="time"
         v-model="scheduleContentDetail.end"
+        mode="time"
+        readonly
         timezone="Asia/Seoul"
       />
     </el-form-item>
@@ -99,7 +88,7 @@ const resetField = async () => {
     </el-form-item>
   </el-form>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .resetBtn {
   float: right;
 

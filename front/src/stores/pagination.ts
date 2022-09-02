@@ -1,45 +1,98 @@
 import { defineStore } from "pinia";
-import PageableRequest from "@/modules/class/PageableRequest";
+import PageableRequest from "@/modules/class/pageables/PageableRequest";
+import Pagination from "@/modules/class/paginations/Pagination";
 import type { PageableResponseType } from "@/modules/types/common/PageableType";
-import Pagination from "@/modules/class/Pagination";
-import SchedulePageableRequest from "@/modules/class/SchedulePageableRequest";
-import CommentPageableRequest from "@/modules/class/CommentPageableRequest";
-import type { PageableRequestType } from "@/modules/types/common/PageableType";
 
 export const usePageableStore = defineStore("pageable", {
   state: () => ({
-    request: new SchedulePageableRequest(),
-    pagination: new Pagination(2, 5, 1, true, false, 0, 0),
-    requests: [new SchedulePageableRequest(), new CommentPageableRequest()],
+    requests: [
+      new PageableRequest(1, 3, "id,desc", "SCHEDULE"),
+      new PageableRequest(1, 5, "id,desc", "COMMENT"),
+    ] as PageableRequest[],
+    paginations: [
+      new Pagination(3, 5, 1, true, false, 0, 0, "SCHEDULE"),
+      new Pagination(5, 5, 1, true, false, 0, 0, "COMMENT"),
+    ] as Pagination[],
   }),
-  getters: {
-    getPagination: (state) => state.pagination,
-    getRequest: (state) => state.request,
-  },
+  getters: {},
   actions: {
     findPageableRequest(type: string): PageableRequest {
-      return <PageableRequest>(
-        this.requests.find((value) => value.getType() === type)
+      return this.requests.find(
+        (value) => value.category === type
+      ) as PageableRequest;
+    },
+
+    findPagination(type: string): Pagination {
+      return this.paginations.find(
+        (value) => value.category === type
+      ) as Pagination;
+    },
+
+    setContentLimit(type: string, limit: number) {
+      this.findPageableRequest(type).size = limit;
+      this.findPagination(type).contentLimit = limit;
+    },
+
+    movePage(type: string, page: number) {
+      (this.findPagination(type) as Pagination).currentPage = page;
+      this.findPageableRequest(type).page = page;
+    },
+
+    changeSortType(type: string, sortType: string) {
+      this.findPageableRequest(type).sort = sortType;
+    },
+
+    currentPageGroup(type: string): number {
+      const pagination = this.findPagination(type);
+      return Math.ceil(pagination.currentPage / pagination.pageLimit) - 1;
+    },
+
+    numberOfPageGroup(type: string): number {
+      const pagination = this.findPagination(type);
+      return Math.ceil(pagination.numberOfPages / pagination.pageLimit);
+    },
+
+    getCurrentPageGroupPages(type: string): number {
+      const pagination = this.findPagination(type);
+      if (pagination.numberOfPages < pagination.pageLimit) {
+        return pagination.numberOfPages;
+      } else if (
+        this.currentPageGroup(type) ===
+        this.numberOfPageGroup(type) - 1
+      ) {
+        return (
+          pagination.numberOfPages -
+          pagination.pageLimit * this.currentPageGroup(type)
+        );
+      } else {
+        return pagination.pageLimit;
+      }
+    },
+
+    isCurrentPage(type: string, index: number): boolean {
+      const pagination = this.findPagination(type);
+      return (
+        this.currentPageGroup(type) * pagination.pageLimit + index ===
+        pagination.currentPage
       );
     },
 
-    setContentLimit(limit: number) {
-      this.findPageableRequest("schedule").size = limit;
-      this.pagination.contentLimit = limit;
-      // this.request.size = limit;
+    getCurrentPageNumber(type: string, index: number): number {
+      return (
+        index +
+        this.currentPageGroup(type) * this.findPagination(type).pageLimit
+      );
     },
 
-    movePage(page: number) {
-      this.pagination.currentPage = page;
-      this.request.page = page;
+    mappingPagination(type: string, data: PageableResponseType): void {
+      const pagination = this.findPagination(type);
+      pagination.numberOfContents = data.totalElements;
+      pagination.numberOfPages = data.totalPages;
+      pagination.isFirst = data.first;
+      pagination.isLast = data.last;
     },
-
-    changeSortType(sortType: string) {
-      this.request.sort = sortType;
-    },
-
-    mappingPagination(data: PageableResponseType) {
-      this.pagination.mappingPagination(data);
-    },
+  },
+  persist: {
+    storage: sessionStorage,
   },
 });

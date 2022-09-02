@@ -1,9 +1,8 @@
-import type { Ref } from "vue";
-
 export interface PageableRequestType {
   page: number;
   size: number;
   sort: string;
+  category: string;
 }
 
 export interface PageableResponseType {
@@ -43,21 +42,5 @@ export interface CustomPaginationType {
   currentPage: number;
   isFirst: boolean;
   isLast: boolean;
-  currentPageGroup(): void;
-  numberOfPageGroup(): number;
-  getCurrentPageGroupPages(): number;
-  isCurrentPage(index: number): boolean;
-  getCurrentPageNumber(index: number): number;
-  mappingPagination(data: PageableResponseType): void;
+  category: string;
 }
-// export interface CustomPaginationType {
-//   numberOfPages: Ref<number>;
-//   numberOfContents: Ref<number>;
-//   contentLimit: number;
-//   pageLimit: number;
-//   pageGroup: Ref<number>;
-//   currentPage: Ref<number>;
-//   numberOfPageGroup: Ref<number>;
-//   isFirst: Ref<boolean>;
-//   isLast: Ref<boolean>;
-// }
