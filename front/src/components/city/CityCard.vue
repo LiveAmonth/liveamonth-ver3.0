@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { useCityStore } from "@/stores/city";
-import { computed, ref } from "vue";
-import type { CityCardType } from "@/modules/types/city/CityType";
+import { ref } from "vue";
+import { useCity } from "@/composables/city";
 
 const props = defineProps({
   index: {
@@ -9,11 +8,9 @@ const props = defineProps({
     required: true,
   },
 });
-const store = useCityStore();
-const cityGridInfo = computed((): CityCardType => store.gridInfo[props.index]);
-const score = ref(
-  Math.round((cityGridInfo.value.transportScore / 6) * 10) / 10
-);
+const { cityGridInfos, calcTransportScore } = useCity();
+const cityGridInfo = cityGridInfos.value[props.index];
+const score = ref(calcTransportScore(cityGridInfo.transportScore));
 </script>
 <template>
   <div class="flip-card">

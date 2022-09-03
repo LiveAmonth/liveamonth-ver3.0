@@ -1,15 +1,8 @@
 <script lang="ts" setup>
-import { ref } from "vue";
 import CityIntroDetail from "@/components/city/CityIntroDetail.vue";
 import CityTransportTable from "@/components/city/CityTransportTable.vue";
 import CityWeatherTable from "@/components/city/CityWeatherTable.vue";
-
-const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-});
+import { ref } from "vue";
 
 const activeName = ref<string>("intro");
 </script>
@@ -18,13 +11,13 @@ const activeName = ref<string>("intro");
   <el-card>
     <el-tabs v-model="activeName" class="city-detail-tabs" tab-position="left">
       <el-tab-pane :label="$t('city.tab.category.intro')" name="intro">
-        <CityIntroDetail :name="props.name" class="tab-detail" />
+        <CityIntroDetail class="tab-detail" />
       </el-tab-pane>
       <el-tab-pane :label="$t('city.tab.category.transport')" name="transport">
-        <CityTransportTable :name="props.name" class="tab-detail" />
+        <CityTransportTable class="tab-detail" />
       </el-tab-pane>
       <el-tab-pane :label="$t('city.tab.category.weather')" name="weather">
-        <CityWeatherTable :name="props.name" class="tab-detail" />
+        <CityWeatherTable class="tab-detail" />
       </el-tab-pane>
     </el-tabs>
   </el-card>

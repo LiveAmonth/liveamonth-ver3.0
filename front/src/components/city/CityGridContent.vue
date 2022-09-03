@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import CityCard from "@/components/city/CityCard.vue";
 import { onMounted, ref } from "vue";
-import { useCityStore } from "@/stores/city";
 import { useCity } from "@/composables/city";
 
-const store = useCityStore();
-const { getCityGridInfo } = useCity();
+const { hasCityGridInfos, getCityGridInfo } = useCity();
 const loading = ref<boolean>(true);
 
 onMounted(async () => {
-  if (!store.cityGridInfo.state) {
+  if (!hasCityGridInfos.value) {
     await getCityGridInfo();
   }
   loading.value = false;

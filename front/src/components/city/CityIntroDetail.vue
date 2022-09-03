@@ -1,16 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useCityStore } from "@/stores/city";
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
-const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-});
-const store = useCityStore();
-
-const cityIntroDetail = computed((): ImageContentType[] => store.introDetail);
+import { useCity } from "@/composables/city";
+const { cityIntroDetail } = useCity();
 </script>
 
 <template>

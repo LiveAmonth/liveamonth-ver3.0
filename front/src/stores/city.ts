@@ -48,6 +48,7 @@ export const useCityStore = defineStore("city", {
     cityExtraInfo: initCityExtraInfo as initDataType,
   }),
   getters: {
+    cityNameList: (state): EnumType[] => state.cityNames.data as EnumType[],
     gridInfo: (state): CityCardType[] =>
       state.cityGridInfo.data as CityCardType[],
     introDetail: (state): ImageContentType[] =>

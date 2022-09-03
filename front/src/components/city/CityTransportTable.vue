@@ -1,16 +1,6 @@
 <script lang="ts" setup>
-import { computed } from "vue";
-import { useCityStore } from "@/stores/city";
-import type { CityTransportType } from "@/modules/types/city/CityType";
-const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-});
-const store = useCityStore();
-
-const cityTransport = computed((): CityTransportType[] => store.transports);
+import { useCity } from "@/composables/city";
+const { cityTransport } = useCity();
 </script>
 
 <template>
