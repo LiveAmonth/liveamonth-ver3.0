@@ -14,6 +14,7 @@ import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleEditRequest;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
@@ -79,6 +80,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleRepository.getScheduleByMember(loginId).stream()
                 .map(ScheduleSimpleCardResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void editSchedule(String loginId, Long scheduleId, ScheduleEditRequest request) {
+        Contexth
     }
 
 }

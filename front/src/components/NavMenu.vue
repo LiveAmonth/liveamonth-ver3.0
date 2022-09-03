@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { useAuth } from "@/composables/auth";
+import { useMember } from "@/composables/member";
+
+const { isLoggedIn } = useAuth();
+const { simpleProfile } = useMember();
+</script>
 <template>
   <el-menu
     active-text-color="#004A55"
@@ -12,7 +19,8 @@
       <el-menu-item index="/schedule"
         >{{ $t("menu.otherSchedule") }}
       </el-menu-item>
-      <el-menu-item index="/schedule"
+      <el-menu-item
+        :index="isLoggedIn ? `/my-schedule/${simpleProfile.loginId}` : '/login'"
         >{{ $t("menu.mySchedule") }}
       </el-menu-item>
     </el-sub-menu>
@@ -20,6 +28,5 @@
     <el-menu-item index="/my-page">{{ $t("menu.myPage") }}</el-menu-item>
   </el-menu>
 </template>
-<script lang="ts" setup></script>
 
 <style scoped></style>

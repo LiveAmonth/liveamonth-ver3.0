@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ScheduleContentForm from "@/components/form/ScheduleContentForm.vue";
-import ScheduleForm from "@/components/schedule/ScheduleForm.vue";
+import ScheduleForm from "@/components/schedule/ScheduleContentForm.vue";
 
 defineProps({
   loginId: {

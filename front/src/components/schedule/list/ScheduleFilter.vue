@@ -1,20 +1,23 @@
 <script lang="ts" setup>
-import { useScheduleStore } from "@/stores/schedule";
 import { onMounted, reactive, ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
 import { Search } from "@element-plus/icons-vue";
-import { useCityStore } from "@/stores/city";
-import type { EnumType } from "@/modules/types/common/EnumType";
-import type { SearchSortFormType } from "@/modules/types/common/SearchType";
-import type { SortType } from "@/modules/types/common/SortType";
 import { useDate } from "@/composables/date";
-import { useI18n } from "vue-i18n";
+import { useCity } from "@/composables/city";
+import { Filter, Sort } from "@element-plus/icons-vue";
+import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const emit = defineEmits(["applyOption"]);
-const store = useScheduleStore();
-const cityStore = useCityStore();
-const { getSearchTypes, getFilterTypes, getSortTypes } = useSchedule();
+const {
+  searchTypes,
+  sortTypes,
+  filterTypes,
+  getSearchTypes,
+  getFilterTypes,
+  getSortTypes,
+} = useSchedule();
 const { convertDateToString } = useDate();
+const { cityNames } = useCity();
 const scheduleSearchForm: SearchSortFormType = reactive({
   searchType: null,
   searchInput: null,
@@ -23,25 +26,18 @@ const scheduleSearchForm: SearchSortFormType = reactive({
   sortType: null,
 });
 
-const sortTypes = ref<SortType[]>();
-const searchTypes = ref<EnumType[]>();
-const filterTypes = ref<EnumType[]>();
 const searchCollapse = ref(0);
 const filterCollapse = ref(0);
 const sortCollapse = ref(0);
-const cityNames = ref<EnumType[]>(cityStore.cityNames.data as EnumType[]);
 
 onMounted(async () => {
   await getSearchTypes().then(() => {
-    searchTypes.value = store.searchTypes;
     scheduleSearchForm.searchType = searchTypes.value[0].code;
   });
   await getFilterTypes().then(() => {
-    filterTypes.value = store.filterTypes;
     scheduleSearchForm.filterType = filterTypes.value[0].code;
   });
   await getSortTypes().then(() => {
-    sortTypes.value = store.sortTypes;
     scheduleSearchForm.sortType = sortTypes.value[0].title;
   });
 });

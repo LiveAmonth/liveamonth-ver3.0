@@ -4,6 +4,7 @@ import { defineStore } from "pinia";
 import type {
   ScheduleCardType,
   ScheduleSearchType,
+  ScheduleSimpleCardType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
@@ -11,6 +12,8 @@ import type {
   PageableResponseType,
 } from "@/modules/types/common/PageableType";
 import type { SortType } from "@/modules/types/common/SortType";
+import scheduleApiService from "@/services/ScheduleApiService";
+import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
@@ -19,6 +22,7 @@ export const useScheduleStore = defineStore("schedule", {
     filterTypes: [] as EnumType[],
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
+    mySchedules: [] as ScheduleCardType[],
   }),
   getters: {
     otherScheduleCards: (state): ScheduleCardType[] =>
@@ -61,6 +65,23 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
+
+    async getMySchedules(loginId: string) {
+      await ScheduleApiService.getMySchedules(loginId)
+        .then((response: ScheduleCardType[]) => {
+          this.mySchedules = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+    async editSchedule(form: ScheduleEditor) {
+      await ScheduleApiService.editSchedule(form).then((response: string) => {
+        console.log(response);
+      }).catch((error) => {
+        throw error;
+      })
+    }
   },
   persist: {
     // paths: ["sortTypes", "searchTypes", "filterTypes", "searchCond"],

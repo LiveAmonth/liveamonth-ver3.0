@@ -51,13 +51,13 @@ const rowClass = "d-flex justify-content-start";
     <el-row :class="rowClass">
       <div class="view me-4">
         <slot name="view-title"></slot>
-        <span class="ms-2">
+        <span class="ms-1`">
           {{ schedule.hits }}
         </span>
       </div>
       <div class="view me-4" v-if="showLikes">
         <slot name="like-title"></slot>
-        <span class="ms-2">
+        <span class="ms-1">
           {{ schedule.likes }}
         </span>
       </div>

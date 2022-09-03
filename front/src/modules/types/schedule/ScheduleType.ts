@@ -19,11 +19,11 @@ export interface ScheduleCardType {
   comments: number;
   period: DatePeriodType;
   comment: CommentType | null;
+  publicFlag: boolean;
 }
 export interface ScheduleSimpleCardType {
   id: number;
   title: string;
-  profile: SimpleProfileType;
   cost: number;
   city: EnumType;
   hits: number;

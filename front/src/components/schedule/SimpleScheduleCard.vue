@@ -8,12 +8,21 @@ defineProps({
     type: Object as PropType<ScheduleCardType>,
     required: true,
   },
+  showLikes: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 </script>
 
 <template>
   <div>
-    <ScheduleInfoSlot :schedule="schedule" :font-size="0.85">
+    <ScheduleInfoSlot
+      :schedule="schedule"
+      :font-size="0.85"
+      :show-likes="showLikes"
+    >
       <template v-slot:period-title>
         <span>
           <el-icon><Calendar /></el-icon> 기간:
@@ -33,6 +42,9 @@ defineProps({
         <span>
           <el-icon><View /></el-icon> 조회수:
         </span>
+      </template>
+      <template v-if="showLikes" v-slot:like-title>
+        <span> <i class="bi bi-hand-thumbs-up"></i> 좋아요: </span>
       </template>
     </ScheduleInfoSlot>
   </div>

@@ -1,4 +1,3 @@
-import ScheduleApiService from "@/services/ScheduleApiService";
 import { useScheduleStore } from "@/stores/schedule";
 import { computed, ref } from "vue";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
@@ -6,28 +5,32 @@ import type {
   ScheduleCardType,
   ScheduleContentType,
   ScheduleSearchType,
-  ScheduleSimpleCardType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type { EnumType } from "@/modules/types/common/EnumType";
+import type { SortType } from "@/modules/types/common/SortType";
+import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 
 export const useSchedule = () => {
-  const type = "SCHEDULE";
-
   const store = useScheduleStore();
   const contentStore = useScheduleContentStore();
 
   const error = ref();
   const isPending = ref<boolean>(false);
+  const type = "SCHEDULE";
+
+  const searchTypes = computed((): EnumType[] => store.searchTypes);
+  const sortTypes = computed((): SortType[] => store.sortTypes);
+  const filterTypes = computed((): EnumType[] => store.filterTypes);
 
   const request = computed((): ScheduleSearchType => store.searchCond);
-
   const otherSchedules = computed(
     (): ScheduleCardType[] => store.otherScheduleCards
   );
-
   const currScheduleContents = computed(
     (): ScheduleContentType[] => contentStore.scheduleContents
   );
+  const mySchedules = computed((): ScheduleCardType[] => store.mySchedules);
 
   const getSearchTypes = async () => {
     error.value = null;
@@ -56,6 +59,7 @@ export const useSchedule = () => {
       error.value = err;
     }
   };
+
   const getOtherSchedules = async (pageable: PageableRequestType) => {
     error.value = null;
     isPending.value = true;
@@ -88,29 +92,49 @@ export const useSchedule = () => {
     }
   };
 
-  const getMemberScheduleList = async (
-    loginId: string
-  ): Promise<ScheduleSimpleCardType[]> => {
-    return await ScheduleApiService.getMemberScheduleList(loginId).then(
-      (response) => {
-        return response;
-      }
-    );
+  const getMySchedules = async (loginId: string) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getMySchedules(loginId);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
   };
 
+  const editSchedule = async (form: ScheduleEditor) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.editSchedule(form);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  }
   return {
     error,
     isPending,
     type,
+    searchTypes,
+    sortTypes,
+    filterTypes,
     request,
     otherSchedules,
     currScheduleContents,
-    getOtherSchedule,
+    mySchedules,
     getSortTypes,
     getSearchTypes,
     getFilterTypes,
+    getOtherSchedule,
     getOtherSchedules,
     getScheduleContents,
-    getMemberScheduleList,
+    getMySchedules,
+    editSchedule,
   };
 };

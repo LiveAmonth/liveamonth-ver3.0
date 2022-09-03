@@ -6,10 +6,9 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import koLocale from "@fullcalendar/core/locales/ko";
 import listPlugin from "@fullcalendar/list";
-import { useScheduleStore } from "@/stores/schedule";
-import { computed, reactive, ref, watch } from "vue";
-import type { CalendarOptions } from "@fullcalendar/core";
+import { reactive, watch } from "vue";
 import { useCalendarEvent } from "@/composables/calendarEvent";
+import type { CalendarOptions } from "@fullcalendar/core";
 
 const props = defineProps({
   manageState: {
@@ -20,13 +19,19 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  initDate: {
+    type: String,
+    required: false,
+  },
 });
+console.log(props.initDate);
 const emit = defineEmits(["selectContent"]);
 const { setContent, getEvents, createEvents } = useCalendarEvent();
 const options: CalendarOptions = reactive({
   locale: koLocale,
   plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
   initialView: "dayGridMonth",
+  initialDate: props.initDate,
   headerToolbar: {
     left: "prev,next today",
     center: "title",
@@ -35,8 +40,7 @@ const options: CalendarOptions = reactive({
   editable: props.editable,
   selectable: true,
   weekends: true,
-  select: (arg) => {
-  },
+  select: (arg) => {},
   dayMaxEvents: true,
   eventClick: (arg) => {
     props.manageState

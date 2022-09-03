@@ -11,7 +11,10 @@
     "please-input": "{field}을 입력해주세요.",
     "pick-day": "날짜를 선택해주세요",
     "before-input": "{field}을 작성하려면 로그인 해주세요.",
-    "submit": "작성"
+    "submit": "작성",
+    "title": "제목",
+    "open": "공개",
+    "hide": "숨김"
   },
   "menu": {
     "city": "도시 소개",
@@ -60,6 +63,7 @@
     "imageChange": "이미지 변경"
   },
   "city": {
+    "title": "도시",
     "name": {
       "SE": "서울",
       "GN": "강릉",
@@ -235,8 +239,8 @@
         "content": "내용",
         "cost": "비용",
         "period": {
-          "start": "시작 시간",
-          "end": "종료 시간"
+          "start": "시작",
+          "end": "종료"
         },
         "add": "컨텐츠 추가"
       }

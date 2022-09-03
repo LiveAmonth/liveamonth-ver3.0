@@ -5,8 +5,6 @@ import { useInteraction } from "@/composables/interaction";
 import { useMessageBox } from "@/composables/messageBox";
 import type { Ref, UnwrapRef } from "vue";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
-import { useMember } from "@/composables/member";
-import { useComment } from "@/composables/comment";
 
 const props = defineProps({
   id: {

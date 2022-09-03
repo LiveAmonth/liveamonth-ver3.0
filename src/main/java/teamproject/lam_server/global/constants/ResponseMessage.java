@@ -32,6 +32,7 @@ public abstract class ResponseMessage {
     public static final String READ_SCHEDULE = "스케줄 조회 성공";
     public static final String CREATE_SCHEDULE = "스케줄 저장 성공";
     public static final String DELETE_SCHEDULE = "스케줄 삭제 성공";
+    public static final String UPDATE_SCHEDULE = "스케줄 업데이트 성공";
     public static final String READ_SCHEDULE_CONTENT = "스케줄 컨텐츠 조회 성공";
     public static final String CREATE_SCHEDULE_CONTENT = "스케줄 컨텐츠 저장 성공";
     public static final String DELETE_SCHEDULE_CONTENT = "스케줄 컨텐츠 삭제 성공";
