@@ -15,18 +15,17 @@ const props = defineProps({
 });
 const emit = defineEmits(["goToMemberSchedules"]);
 
-const store = useScheduleStore();
-const { otherSchedules } = useSchedule();
+const { searchTypes, sortTypes, otherSchedules } = useSchedule();
 
 const schedule = ref(otherSchedules.value[props.index]);
 
 const goToMemberSchedules = () => {
   const request: SearchSortFormType = {
-    searchType: store.searchTypes[0].code,
+    searchType: searchTypes.value[0].code,
     searchInput: schedule.value.profile.nickname,
     filterType: null,
     filterInput: null,
-    sortType: store.sortTypes[0].title,
+    sortType: sortTypes.value[0].title,
   };
   emit("goToMemberSchedules", request);
 };

@@ -85,7 +85,7 @@ const router = createRouter({
       ],
     },
     {
-      path: "/my-schedule/:scheduleId",
+      path: "/my-schedule/:loginId",
       name: "my-schedule",
       component: MyScheduleView,
       props: true,

@@ -1,4 +1,7 @@
-import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
+import type {
+  DatePeriodType,
+  ScheduleCardType,
+} from "@/modules/types/schedule/ScheduleType";
 
 export interface LoginType {
   loginId: string;
@@ -64,7 +67,8 @@ export interface ScheduleFormType {
   title: string;
   publicFlag: boolean;
   city: string;
-  range: DatePeriodType;
+  period: DatePeriodType;
+  setForm(data: ScheduleCardType): void;
 }
 
 export interface CommentFormType {

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleEditRequest;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
@@ -53,6 +54,13 @@ public class ScheduleApiController {
     public ResponseEntity<?> getScheduleByMember(@PathVariable String loginId) {
         List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
+    }
+
+    @PatchMapping("/{loginId}/edit/{scheduleId}")
+    public ResponseEntity<?> editSchedule(@PathVariable String loginId, @PathVariable Long scheduleId,
+                                          @RequestBody @Valid ScheduleEditRequest request) {
+        scheduleApiService.editSchedule(loginId, scheduleId, request);
+        return CustomResponse.success(UPDATE_SCHEDULE);
     }
 
 }

@@ -4,6 +4,7 @@ import http, {
   getFilterTypes,
 } from "@/http-common";
 import type {
+  ScheduleCardType,
   ScheduleContentType,
   ScheduleSearchType,
   ScheduleSimpleCardType,
@@ -12,6 +13,7 @@ import type {
   PageableResponseType,
   PageableRequestType,
 } from "@/modules/types/common/PageableType";
+import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 
 class ScheduleApiService {
   async getSearchTypes() {
@@ -73,9 +75,7 @@ class ScheduleApiService {
       });
   }
 
-  async getMemberScheduleList(
-    loginId: string
-  ): Promise<ScheduleSimpleCardType[]> {
+  async getMySchedules(loginId: string): Promise<ScheduleCardType[]> {
     return await http
       .get(`/schedules/${loginId}/list`)
       .then((response) => {
@@ -84,6 +84,11 @@ class ScheduleApiService {
       .catch((error) => {
         throw error.response.data;
       });
+  }
+
+  editSchedule(form: ScheduleEditor) {
+    return await http
+      .patch(`/schedules/edit`)
   }
 }
 

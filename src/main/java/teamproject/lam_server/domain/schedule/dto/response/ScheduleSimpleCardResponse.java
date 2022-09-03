@@ -18,6 +18,7 @@ public class ScheduleSimpleCardResponse {
     private int likes;
     private int comments;
     private Period period;
+    private boolean publicFlag;
 
     public static ScheduleSimpleCardResponse of(Schedule schedule) {
         return ScheduleSimpleCardResponse.builder()
@@ -29,6 +30,7 @@ public class ScheduleSimpleCardResponse {
                 .likes(schedule.getLikeCount())
                 .comments(schedule.getCommentCount())
                 .period(schedule.getPeriod())
+                .publicFlag(schedule.getPublicFlag())
                 .build();
     }
 }
