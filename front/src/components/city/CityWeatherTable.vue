@@ -1,16 +1,6 @@
 <script lang="ts" setup>
-import { computed } from "vue";
-import { useCityStore } from "@/stores/city";
-import type { CityWeatherType } from "@/modules/types/city/CityType";
-const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-});
-const store = useCityStore();
-
-const cityWeather = computed((): CityWeatherType[] => store.weathers);
+import { useCity } from "@/composables/city";
+const { cityWeather } = useCity();
 </script>
 
 <template>

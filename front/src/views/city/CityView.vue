@@ -1,25 +1,25 @@
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { useCity } from "@/composables/city";
-import { useCityStore } from "@/stores/city";
 import CardModeCarousel from "@/components/CardModeCarousel.vue";
-import type { EnumType } from "@/modules/types/common/EnumType";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
+import { onMounted, ref } from "vue";
+import { useCity } from "@/composables/city";
 
-const store = useCityStore();
+const {
+  cityNames,
+  hasCityNames,
+  getCityNames,
+  getCityIntro,
+  getExtraCityInfo,
+} = useCity();
 
-const { getCityNames, getCityIntro, getExtraCityInfo } = useCity();
-
-const cityNames = ref<EnumType[]>();
 const activeName = ref<string>();
 const loading = ref<boolean>(true);
 
 onMounted(async () => {
-  if (!store.cityNames.state) {
+  if (!hasCityNames.value) {
     await getCityNames();
   }
-  cityNames.value = store.cityNames.data as EnumType[];
   activeName.value = cityNames.value[0]?.code;
   await getCityIntro(activeName.value);
   await getExtraCityInfo(activeName.value);
@@ -50,7 +50,7 @@ const cityChange = async () => {
           </el-radio-group>
         </div>
         <div class="mt-3 px-0">
-          <CityIntroTab :name="activeName" />
+          <CityIntroTab />
           <div class="mt-5">
             <el-row v-for="cat in ['food', 'view']" :key="cat">
               <el-col>
