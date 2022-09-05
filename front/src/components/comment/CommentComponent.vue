@@ -13,6 +13,7 @@ import { useAuth } from "@/composables/auth";
 import { useMessageBox } from "@/composables/messageBox";
 import { useInteraction } from "@/composables/interaction";
 import type { CommentFormType } from "@/modules/types/form/FormType";
+import type { WriteCommentType } from "@/modules/types/comment/CommentTypes";
 
 const props = defineProps({
   id: {
@@ -23,7 +24,7 @@ const props = defineProps({
     type: String,
     required: true,
     validator(value: string): boolean {
-      return value === "SCHEDULE" || value === "REVIEW";
+      return value === "schedule" || value === "review";
     },
   },
   writer: {
@@ -65,7 +66,12 @@ const pageClick = async (page: number) => {
 };
 
 const submitForm = async (form: CommentFormType, commentId = 0) => {
-  await writeComment(props.type, Number(props.id), commentId, form).then(() => {
+  const request: WriteCommentType = {
+    comment: form.comment,
+    commentId: commentId,
+    contentId: Number(props.id),
+  };
+  await writeComment(props.type, props.writer, request).then(() => {
     getComments(props.type, Number(props.id), pageable.value).then(() => {
       mappingPagination(store.pageableComments);
     });

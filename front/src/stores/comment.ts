@@ -32,11 +32,10 @@ export const useCommentStore = defineStore("comment", {
 
     async writeComment(
       type: string,
-      contentId: number,
-      commentId: number,
+      loginId: string,
       request: CommentFormType
     ) {
-      await CommentApiService.writeComment(type, contentId, commentId, request)
+      await CommentApiService.writeComment(type, loginId, request)
         .then((response) => {
           this.pageableComments = response;
         })

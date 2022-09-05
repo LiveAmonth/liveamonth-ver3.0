@@ -49,9 +49,9 @@ const changeCollapse = (id: number) => {
   <el-row>
     <el-col>
       <CommentComponent
-        :writer="schedule.profile.nickname"
         :id="id"
-        :type="'SCHEDULE'"
+        :type="'schedule'"
+        :writer="schedule.profile.nickname"
       />
     </el-col>
   </el-row>

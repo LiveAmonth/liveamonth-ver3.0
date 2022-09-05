@@ -11,30 +11,9 @@ class InteractionApiService {
     request: InteractionType
   ): Promise<void> {
     return await http
-      .post("interactions/contents", JSON.stringify(request), {
-        params: { type: type, is_liked: isLiked },
+      .post(`interactions/contents/${type}`, JSON.stringify(request), {
+        params: { is_liked: isLiked },
       })
-      .then((response) => {
-        return response.data.data;
-      })
-      .catch((error) => {
-        throw error.response.data;
-      });
-  }
-  async reactComment(
-    commentType: string,
-    option: string,
-    request: InteractionType,
-    isReacted: boolean
-  ): Promise<void> {
-    return await http
-      .post(
-        `interactions/comments${
-          isReacted ? "/cancel" : `?react_type=${option}`
-        }`,
-        JSON.stringify(request),
-        { params: { comment_type: commentType } }
-      )
       .then((response) => {
         return response.data.data;
       })
@@ -43,12 +22,19 @@ class InteractionApiService {
       });
   }
 
-  async cancelLikeContent(
-    type: string,
-    request: InteractionType
+  async reactComment(
+    commentType: string,
+    option: string,
+    request: InteractionType,
+    isReacted: boolean
   ): Promise<void> {
     return await http
-      .post(`interactions/like/cancel?type=${type}`, JSON.stringify(request))
+      .post(
+        `interactions/comments/${commentType}/${
+          isReacted ? "/cancel" : `?react_type=${option}`
+        }`,
+        JSON.stringify(request)
+      )
       .then((response) => {
         return response.data.data;
       })
@@ -62,7 +48,7 @@ class InteractionApiService {
     request: InteractionType
   ): Promise<boolean> {
     return await http
-      .get(`interactions/member/liked?type=${type}`, { params: request })
+      .get(`interactions/member/${type}/liked`, { params: request })
       .then((response) => {
         return response.data.data;
       })
@@ -77,7 +63,7 @@ class InteractionApiService {
     request: number[]
   ): Promise<ReactedCommentType[]> {
     return await http
-      .get(`interactions/member/${memberId}/reacted-comments?type=${type}`, {
+      .get(`interactions/member/${memberId}/reacted-comments/${type}`, {
         params: { ids: request },
       })
       .then((response) => {

@@ -3,7 +3,6 @@ package teamproject.lam_server.domain.interaction.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.dto.ReactedCommentResponse;
@@ -22,42 +21,44 @@ public class InteractionApiController {
 
     private final InteractionServiceFinder interactionServiceFinder;
 
-    @PostMapping("/contents")
+    @PostMapping("/contents/{type}")
     public ResponseEntity<?> reactContent(
-            @RequestParam InteractionType type,
+            @PathVariable String type,
             @RequestParam("is_liked") Boolean isLiked,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.find(type).react(isLiked, request);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/comments")
+    @PostMapping("/comments/{commentType}")
     public ResponseEntity<?> reactComment(
-            @RequestParam(name = "comment_type") InteractionType commentType,
+            @PathVariable String commentType,
             @RequestParam(name = "react_type") ReactType reactType,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.findComment(commentType).react(request, reactType);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/comments/cancel")
+    @PostMapping("/comments/{type}/cancel")
     public ResponseEntity<?> cancelReactComment(
-            @RequestParam(name = "comment_type") InteractionType commentType,
+            @PathVariable String type,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.findComment(commentType).cancelReact(request);
+        interactionServiceFinder.findComment(type).cancelReact(request);
         return CustomResponse.success(DELETE_INTERACTION);
     }
 
-    @GetMapping("/member/liked")
-    public ResponseEntity<?> isMemberLikedContent(@RequestParam InteractionType type, InteractionRequest request) {
+    @GetMapping("/member/{type}/liked")
+    public ResponseEntity<?> isMemberLikedContent(
+            @PathVariable String type,
+            InteractionRequest request) {
         boolean result = interactionServiceFinder.find(type).isLiked(request);
         return CustomResponse.success(READ_INTERACTION, result);
     }
 
-    @GetMapping("/member/{memberId}/reacted-comments")
+    @GetMapping("/member/{memberId}/reacted-comments/{type}")
     public ResponseEntity<?> getMemberReactedComments(
             @PathVariable Long memberId,
-            @RequestParam InteractionType type,
+            @PathVariable String type,
             @RequestParam List<Long> ids) {
         List<ReactedCommentResponse> result = interactionServiceFinder.findComment(type).getReactedComments(memberId, ids);
         return CustomResponse.success(READ_INTERACTION, result);
