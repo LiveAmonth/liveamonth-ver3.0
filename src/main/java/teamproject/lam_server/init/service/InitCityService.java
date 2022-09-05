@@ -1,4 +1,4 @@
-package teamproject.lam_server.init;
+package teamproject.lam_server.init.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

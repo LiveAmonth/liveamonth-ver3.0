@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.schedule.dto.request;
+package teamproject.lam_server.init.dto;
 
 import lombok.Getter;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
@@ -8,7 +8,7 @@ import teamproject.lam_server.global.entity.TimePeriod;
 import javax.validation.constraints.NotNull;
 
 @Getter
-public class CreateScheduleContentRequest {
+public class InitScheduleContentRequest {
 
     @NotNull
     private Long scheduleId;
@@ -24,7 +24,7 @@ public class CreateScheduleContentRequest {
 
     private int cost;
 
-    public ScheduleContent toEntity(Schedule schedule){
+    public ScheduleContent toEntity(Schedule schedule) {
         return ScheduleContent.builder()
                 .title(title)
                 .content(content)
