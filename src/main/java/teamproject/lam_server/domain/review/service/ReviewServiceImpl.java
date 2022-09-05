@@ -15,6 +15,7 @@ import teamproject.lam_server.domain.review.dto.reqeust.ReviewEdit;
 import teamproject.lam_server.domain.review.dto.response.ReviewDetailResponse;
 import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
 import teamproject.lam_server.domain.review.entity.Review;
+import teamproject.lam_server.domain.review.entity.editor.ReviewEditor;
 import teamproject.lam_server.domain.review.repository.ReviewRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
@@ -61,13 +62,13 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(ReviewNotFound::new);
 
-//        ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
-//
-//        ReviewEditor reviewEditor = editorBuilder.title(reviewEdit.getTitle())
-//                .reviewCategory(reviewEdit.getReviewCategory())
-//                .content(reviewEdit.getContent())
-//                .build();
-//        review.edit(reviewEditor);
+        ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
+
+        ReviewEditor reviewEditor = editorBuilder.title(reviewEdit.getTitle())
+                .reviewCategory(reviewEdit.getReviewCategory())
+                .content(reviewEdit.getContent())
+                .build();
+        review.edit(reviewEditor);
     }
 
     @Override

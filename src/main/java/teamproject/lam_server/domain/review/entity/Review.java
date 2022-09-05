@@ -1,6 +1,9 @@
 package teamproject.lam_server.domain.review.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
@@ -55,13 +58,13 @@ public class Review extends BaseTimeEntity {
         this.member = member;
         member.getReviews().add(this);
     }
-//
-//    public ReviewEditor.ReviewEditorBuilder toEditor(){
-//        return ReviewEditor.builder()
-//                .title(title)
-//                .content(content)
-//                .reviewCategory(reviewCategory);
-//    }
+
+    public ReviewEditor.ReviewEditorBuilder toEditor() {
+        return ReviewEditor.builder()
+                .title(title)
+                .content(content)
+                .reviewCategory(reviewCategory);
+    }
 
     public void edit(ReviewEditor reviewEditor) {
         this.title = reviewEditor.getTitle();
