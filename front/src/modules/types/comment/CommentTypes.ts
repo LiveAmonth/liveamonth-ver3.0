@@ -24,5 +24,7 @@ export interface CommentReplyType {
 }
 
 export interface WriteCommentType {
+  commentId: number;
+  contentId: number;
   comment: string;
 }

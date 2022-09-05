@@ -3,7 +3,6 @@ package teamproject.lam_server.domain.comment.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
 import teamproject.lam_server.domain.comment.dto.response.CommentReplyResponse;
@@ -14,6 +13,7 @@ import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.paging.PageableDTO;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,13 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public abstract class CommentService {
     private final MemberRepository memberRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-
-    protected Member getMemberFromAuthentication(String accessToken) {
-        return memberRepository.findByLoginId(
-                        jwtTokenProvider.getAuthentication(accessToken).getName())
-                .orElseThrow(MemberNotFound::new);
-    }
 
     protected CommentResponse mapToCommentResponse(CommentResponse.CommentResponseBuilder builder, Long parentId, List<ScheduleComment> children) {
         return builder.commentReplies(
@@ -37,11 +30,15 @@ public abstract class CommentService {
         ).build();
     }
 
+    protected Member findMemberByLoginId(String loginId) {
+        return memberRepository.findByLoginId(loginId).orElseThrow(MemberNotFound::new);
+    }
+
     abstract CommentType getType();
 
     public abstract Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO);
 
-    public abstract void writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request);
+    public abstract void writeComment(String loginId, @Valid WriteCommentRequest request);
 
     public abstract CommentResponse getBestComments(Long contentId);
 }

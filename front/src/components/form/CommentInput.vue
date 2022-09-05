@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useCommentStore } from "@/stores/comment";
 import { useAuth } from "@/composables/auth";
 import { useComment } from "@/composables/comment";
 import { useFormValidate } from "@/composables/formValidate";

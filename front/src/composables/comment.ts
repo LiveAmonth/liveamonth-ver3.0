@@ -1,9 +1,10 @@
 import { computed, ref } from "vue";
 import { useCommentStore } from "@/stores/comment";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
-import type { CommentType } from "@/modules/types/comment/CommentTypes";
-import type { CommentFormType } from "@/modules/types/form/FormType";
-import { useMember } from "@/composables/member";
+import type {
+  CommentType,
+  WriteCommentType,
+} from "@/modules/types/comment/CommentTypes";
 
 export const useComment = () => {
   const store = useCommentStore();
@@ -43,12 +44,11 @@ export const useComment = () => {
 
   const writeComment = async (
     type: string,
-    contentId: number,
-    commentId: number,
-    request: CommentFormType
+    loginId: string,
+    request: WriteCommentType
   ) => {
     try {
-      await store.writeComment(type, contentId, commentId, request);
+      await store.writeComment(type, loginId, request);
       error.value = null;
     } catch (err) {
       error.value = err;

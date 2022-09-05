@@ -68,6 +68,7 @@ export interface ScheduleFormType {
   publicFlag: boolean;
   city: string;
   period: DatePeriodType;
+
   setForm(data: ScheduleCardType): void;
 }
 

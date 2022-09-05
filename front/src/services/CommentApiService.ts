@@ -3,17 +3,11 @@ import type { PageableRequestType } from "@/modules/types/common/PageableType";
 import type { CommentFormType } from "@/modules/types/form/FormType";
 
 class CommentApiService {
-  async writeComment(
-    type: string,
-    contentId: number,
-    commentId: number,
-    request: CommentFormType
-  ) {
+  async writeComment(type: string, loginId: string, request: CommentFormType) {
     return await http
-      .post(
-        `/comments/${contentId}?type=${type}&comment_id=${commentId}`,
-        JSON.stringify(request)
-      )
+      .post(`/comments/${type}`, JSON.stringify(request), {
+        params: { login_id: loginId },
+      })
       .then((response) => {
         return response.data.data;
       })
@@ -28,11 +22,12 @@ class CommentApiService {
     pageable: PageableRequestType
   ) {
     return await http
-      .get(
-        `/comments/${contentId}?type=${type}&page=${pageable.page - 1}&size=${
-          pageable.size
-        }`
-      )
+      .get(`/comments/${type}/${contentId}`, {
+        params: {
+          page: pageable.page - 1,
+          size: pageable.size,
+        },
+      })
       .then((response) => {
         return response.data.data;
       })
