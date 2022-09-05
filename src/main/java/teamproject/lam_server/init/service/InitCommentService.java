@@ -1,4 +1,4 @@
-package teamproject.lam_server.init;
+package teamproject.lam_server.init.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -8,10 +8,10 @@ import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.init.dto.InitScheduleContentRequest;
 import teamproject.lam_server.util.JsonUtil;
 
 import java.util.stream.Collectors;
@@ -35,6 +35,7 @@ public class InitCommentService {
                         .collect(Collectors.toList())
         );
     }
+
     @Transactional
     public void initScheduleReplyCommentData() {
         scheduleCommentRepository.saveAll(
@@ -50,6 +51,7 @@ public class InitCommentService {
         Schedule schedule = scheduleRepository.findAll().stream().findAny().get();
         return request.toScheduleEntity(member).schedule(schedule).build();
     }
+
     private ScheduleComment mapToScheduleReplyComment(WriteCommentRequest request) {
         int parentCommentSize = (int) scheduleCommentRepository.count();
         Member member = memberRepository.findAll().get(1);
@@ -60,7 +62,7 @@ public class InitCommentService {
         return request.toScheduleEntity(member).schedule(schedule).parent(comment).build();
     }
 
-    private ScheduleContent mapToScheduleContent(CreateScheduleContentRequest request) {
+    private ScheduleContent mapToScheduleContent(InitScheduleContentRequest request) {
         Schedule schedule = scheduleRepository.findAll().get((int) (request.getScheduleId() - 1));
         return request.toEntity(schedule);
     }
