@@ -31,6 +31,7 @@ public enum ErrorCode {
      */
     PERMISSION_NOT_ACCESSIBLE(400, "해당 리소스에 대한 권한이 없습니다."),
     INVALID_REFRESH_TOKEN(400, "리프레시 토큰이 유효하지 않습니다."),
+    NOT_CORRESPOND_MEMBER(400, "회원 정보가 일치하지 않습니다"),
     ALREADY_USED_TOKEN(400, "이미 사용 후 반납된 토큰입니다."),
     ALREADY_DROP_MEMBER(400, "이미 탈퇴한 회원입니다."),
     ALREADY_FOLLOW_MEMBER(400, "이미 '팔로우'한 회원입니다."),
