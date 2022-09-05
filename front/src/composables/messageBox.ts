@@ -1,9 +1,15 @@
 import { ElMessageBox } from "element-plus/es";
+import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 
 export const useMessageBox = () => {
   const router = useRouter();
-
+  const openMessage = (message: string) => {
+    ElMessage({
+      message: message,
+      type: "success",
+    });
+  };
   const openMessageBox = async (message: string) => {
     await ElMessageBox.alert(message);
   };
@@ -32,6 +38,7 @@ export const useMessageBox = () => {
   };
 
   return {
+    openMessage,
     openMessageBox,
     openConfirmMessageBox,
     requireLoginMessageBox,

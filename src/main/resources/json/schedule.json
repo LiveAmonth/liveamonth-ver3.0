@@ -3,7 +3,7 @@
     "memberId": 1,
     "title": "서울 한 달 살기",
     "publicFlag": true,
-    "cityName": "SE",
+    "city": "SE",
     "period": {
       "startDate": "2022-08-01",
       "endDate": "2022-08-31"
@@ -13,7 +13,7 @@
     "memberId": 1,
     "title": "강릉 한 달 살기",
     "publicFlag": true,
-    "cityName": "GN",
+    "city": "GN",
     "period": {
       "startDate": "2022-07-31",
       "endDate": "2022-08-24"
@@ -23,7 +23,7 @@
     "memberId": 2,
     "title": "경주 한 달 살기",
     "publicFlag": true,
-    "cityName": "GJ",
+    "city": "GJ",
     "period": {
       "startDate": "2022-08-01",
       "endDate": "2022-09-02"
@@ -33,7 +33,7 @@
     "memberId": 1,
     "title": "부산 한 달 살기",
     "publicFlag": true,
-    "cityName": "BS",
+    "city": "BS",
     "period": {
       "startDate": "2022-08-06",
       "endDate": "2022-09-10"
@@ -43,7 +43,7 @@
     "memberId": 1,
     "title": "여수 한 달 살기",
     "publicFlag": true,
-    "cityName": "YS",
+    "city": "YS",
     "period": {
       "startDate": "2022-08-03",
       "endDate": "2022-08-25"
@@ -53,7 +53,7 @@
     "memberId": 2,
     "title": "제주 한 달 살기",
     "publicFlag": true,
-    "cityName": "JJ",
+    "city": "JJ",
     "period": {
       "startDate": "2022-08-11",
       "endDate": "2022-09-10"
@@ -63,7 +63,7 @@
     "memberId": 1,
     "title": "서울 한 달 살기 2",
     "publicFlag": true,
-    "cityName": "SE",
+    "city": "SE",
     "period": {
       "startDate": "2022-08-01",
       "endDate": "2022-09-10"
@@ -73,7 +73,7 @@
     "memberId": 2,
     "title": "강릉 한 달 살기 2",
     "publicFlag": true,
-    "cityName": "GN",
+    "city": "GN",
     "period": {
       "startDate": "2022-07-01",
       "endDate": "2022-07-10"
@@ -83,7 +83,7 @@
     "memberId": 1,
     "title": "경주 한 달 살기 2",
     "publicFlag": true,
-    "cityName": "GJ",
+    "city": "GJ",
     "period": {
       "startDate": "2022-07-01",
       "endDate": "2022-08-05"
@@ -93,7 +93,7 @@
     "memberId": 2,
     "title": "부산 한 달 살기 2",
     "publicFlag": true,
-    "cityName": "BS",
+    "city": "BS",
     "period": {
       "startDate": "2022-08-03",
       "endDate": "2022-08-30"
@@ -103,7 +103,7 @@
     "memberId": 1,
     "title": "여수 한 달 살기 2",
     "publicFlag": true,
-    "cityName": "YS",
+    "city": "YS",
     "period": {
       "startDate": "2022-08-01",
       "endDate": "2022-08-31"
@@ -113,7 +113,7 @@
     "memberId": 2,
     "title": "제주 한 달 살기 2",
     "publicFlag": true,
-    "cityName": "JJ",
+    "city": "JJ",
     "period": {
       "startDate": "2022-08-02",
       "endDate": "2022-08-26"

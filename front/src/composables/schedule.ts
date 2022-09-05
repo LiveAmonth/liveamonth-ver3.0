@@ -9,7 +9,7 @@ import type {
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SortType } from "@/modules/types/common/SortType";
-import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
+import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 
 export const useSchedule = () => {
   const store = useScheduleStore();
@@ -17,7 +17,7 @@ export const useSchedule = () => {
 
   const error = ref();
   const isPending = ref<boolean>(false);
-  const type = "SCHEDULE";
+  const type = "schedule";
 
   const searchTypes = computed((): EnumType[] => store.searchTypes);
   const sortTypes = computed((): SortType[] => store.sortTypes);
@@ -105,18 +105,18 @@ export const useSchedule = () => {
     }
   };
 
-  const editSchedule = async (form: ScheduleEditor) => {
+  const editSchedule = async (scheduleId: number, form: ScheduleEditor) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.editSchedule(form);
+      await store.editSchedule(scheduleId, form);
       error.value = null;
     } catch (err) {
       error.value = err;
     } finally {
       isPending.value = false;
     }
-  }
+  };
   return {
     error,
     isPending,

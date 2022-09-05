@@ -1,11 +1,15 @@
 package teamproject.lam_server.domain.schedule.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleLike;
 import teamproject.lam_server.domain.member.entity.Member;
+import teamproject.lam_server.domain.schedule.dto.editor.ScheduleEditor;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 import teamproject.lam_server.global.entity.Period;
 
@@ -64,19 +68,21 @@ public class Schedule extends BaseTimeEntity {
         member.getSchedules().add(this);
     }
 
-    public void makePrivate() {
-        this.publicFlag = false;
+    /**
+     * Editor
+     */
+    public ScheduleEditor.ScheduleEditorBuilder toEditor() {
+        return ScheduleEditor.builder()
+                .title(title)
+                .city(cityName)
+                .publicFlag(publicFlag)
+                .period(period);
     }
 
-    public void makePublic() {
-        this.publicFlag = true;
-    }
-
-    public void increaseTotalCost(int cost) {
-        this.totalCost += cost;
-    }
-
-    public void decreaseTotalCost(int cost) {
-        this.totalCost -= cost;
+    public void edit(ScheduleEditor editor) {
+        title = editor.getTitle();
+        cityName = editor.getCity();
+        publicFlag = editor.isPublicFlag();
+        period = editor.getPeriod();
     }
 }

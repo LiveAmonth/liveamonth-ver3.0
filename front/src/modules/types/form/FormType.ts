@@ -1,5 +1,6 @@
 import type {
   DatePeriodType,
+  DateTimePeriodType,
   ScheduleCardType,
 } from "@/modules/types/schedule/ScheduleType";
 
@@ -55,12 +56,9 @@ export interface ScheduleContentFormType {
   title: string;
   content: string;
   cost: number;
-  start: string | Date;
-  end: string | Date;
+  timePeriod: DateTimePeriodType;
 
   setAttr(event: any): void;
-
-  resetAttr(): void;
 }
 
 export interface ScheduleFormType {

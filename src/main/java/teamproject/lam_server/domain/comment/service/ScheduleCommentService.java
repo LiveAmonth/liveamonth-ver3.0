@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
@@ -25,9 +24,8 @@ public class ScheduleCommentService extends CommentService {
     private final ScheduleCommentRepository scheduleCommentRepository;
 
     public ScheduleCommentService(MemberRepository memberRepository,
-                                  JwtTokenProvider jwtTokenProvider,
                                   ScheduleCommentRepository scheduleCommentRepository) {
-        super(memberRepository, jwtTokenProvider);
+        super(memberRepository);
         this.scheduleCommentRepository = scheduleCommentRepository;
     }
 
@@ -38,11 +36,9 @@ public class ScheduleCommentService extends CommentService {
 
     @Override
     @Transactional
-    public void writeComment(String accessToken, Long contentId, Long commentId, WriteCommentRequest request) {
-        // access token 으로 작성자 검색
-        Member member = getMemberFromAuthentication(accessToken);
-
-        scheduleCommentRepository.write(request, member.getId(), contentId, commentId);
+    public void writeComment(String loginId, WriteCommentRequest request) {
+        Member member = super.findMemberByLoginId(loginId);
+        scheduleCommentRepository.write(member.getId(), request);
     }
 
     @Override
@@ -70,6 +66,7 @@ public class ScheduleCommentService extends CommentService {
         List<ScheduleComment> commentReplies = getScheduleCommentReplies(contentId, List.of(scheduleComment));
         return mapToCommentResponse(CommentResponse.of(scheduleComment), scheduleComment.getId(), commentReplies);
     }
+
     private List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, List<ScheduleComment> comments) {
         Long from = comments.get(comments.size() - 1).getId();
         Long to = comments.get(0).getId();

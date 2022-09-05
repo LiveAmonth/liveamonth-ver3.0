@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import ScheduleCalendar from "@/components/schedule/detail/ScheduleCalendar.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
@@ -49,9 +49,9 @@ const changeSchedule = async () => {
         <el-col :span="18">
           <ScheduleCalendar
             v-if="initDate"
-            :editable="true"
-            :manage-state="true"
+            :editable="false"
             :init-date="initDate"
+            :manage-state="false"
             @select-content="console.log('선택..')"
           />
         </el-col>
@@ -68,9 +68,9 @@ const changeSchedule = async () => {
                 </template>
               </el-select>
               <el-button
-                class="ms-2"
                 :icon="Search"
                 circle
+                class="ms-2"
                 @click="changeSchedule"
               />
             </div>
@@ -82,7 +82,7 @@ const changeSchedule = async () => {
   </el-row>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .layout-container-demo .el-header {
   position: relative;
 }
