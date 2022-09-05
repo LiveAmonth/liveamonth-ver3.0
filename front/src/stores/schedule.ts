@@ -4,7 +4,6 @@ import { defineStore } from "pinia";
 import type {
   ScheduleCardType,
   ScheduleSearchType,
-  ScheduleSimpleCardType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
@@ -12,8 +11,7 @@ import type {
   PageableResponseType,
 } from "@/modules/types/common/PageableType";
 import type { SortType } from "@/modules/types/common/SortType";
-import scheduleApiService from "@/services/ScheduleApiService";
-import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
+import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
@@ -75,13 +73,16 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-    async editSchedule(form: ScheduleEditor) {
-      await ScheduleApiService.editSchedule(form).then((response: string) => {
-        console.log(response);
-      }).catch((error) => {
-        throw error;
-      })
-    }
+
+    async editSchedule(scheduleId: number, form: ScheduleEditor) {
+      await ScheduleApiService.editSchedule(scheduleId, form)
+        .then((response: string) => {
+          return response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
   },
   persist: {
     // paths: ["sortTypes", "searchTypes", "filterTypes", "searchCond"],

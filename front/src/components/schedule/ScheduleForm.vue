@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { reactive, ref, watch } from "vue";
 import { useCity } from "@/composables/city";
@@ -8,6 +8,7 @@ import type { FormRules, FormInstance } from "element-plus/es";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import { useSchedule } from "@/composables/schedule";
+import { useMessageBox } from "@/composables/messageBox";
 
 const props = defineProps({
   schedule: {
@@ -15,9 +16,10 @@ const props = defineProps({
     required: true,
   },
 });
-const {} = useSchedule();
+const { editSchedule } = useSchedule();
 const { validateRequire } = useFormValidate();
 const { cityNames } = useCity();
+const { openMessage } = useMessageBox();
 
 const isEdit = ref<boolean>(false);
 const ruleFormRef = ref<FormInstance>();
@@ -36,12 +38,21 @@ watch(
   }
 );
 
-const updateSchedule = () => {
-  console.log("업데이트!!!");
-};
 const cancelEdit = () => {
   scheduleForm.setForm(props.schedule);
   isEdit.value = false;
+};
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate(async (valid) => {
+    if (valid) {
+      await editSchedule(props.schedule.id, scheduleForm).then(() => {
+        isEdit.value = false;
+        openMessage("스케줄 정보가 업데이트 되었습니다.");
+      });
+    }
+  });
 };
 </script>
 
@@ -49,25 +60,25 @@ const cancelEdit = () => {
   <el-card>
     <el-form
       ref="ruleFormRef"
+      :disabled="!isEdit"
       :model="scheduleForm"
       :rules="rules"
       status-icon
-      :disabled="!isEdit"
     >
       <div class="d-flex justify-content-between">
         <SmallTitleSlot>스케줄 정보</SmallTitleSlot>
         <el-form-item>
           <el-switch
             v-model="scheduleForm.publicFlag"
+            :active-text="$t('common.open')"
+            :inactive-text="$t('common.hide')"
             class="ml-2"
-            size="large"
             inline-prompt
+            size="large"
             style="
               --el-switch-on-color: #016d7d;
               --el-switch-off-color: #535252;
             "
-            :active-text="$t('common.open')"
-            :inactive-text="$t('common.hide')"
           />
         </el-form-item>
       </div>
@@ -100,6 +111,7 @@ const cancelEdit = () => {
           :placeholder="$t('common.pick-day')"
           style="width: 200px"
           type="date"
+          value-format="YYYY-MM-DD"
         />
       </el-form-item>
       <el-form-item :label="$t('schedule.form.content.period.end')">
@@ -108,17 +120,18 @@ const cancelEdit = () => {
           :placeholder="$t('common.pick-day')"
           style="width: 200px"
           type="date"
+          value-format="YYYY-MM-DD"
         />
       </el-form-item>
     </el-form>
     <div class="d-flex justify-content-end">
       <el-button v-if="!isEdit" @click="isEdit = true"> 스케줄 수정</el-button>
       <template v-else>
-        <el-button @click="updateSchedule"> 업데이트</el-button>
+        <el-button @click="submitForm(ruleFormRef)"> 업데이트</el-button>
         <el-button @click="cancelEdit"> 취소</el-button>
       </template>
     </div>
   </el-card>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

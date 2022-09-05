@@ -3,7 +3,9 @@ import type {
   DatePeriodType,
   ScheduleCardType,
 } from "@/modules/types/schedule/ScheduleType";
+import { useDate } from "@/composables/date";
 
+const { convertDateToString } = useDate();
 export default class ScheduleEditor implements ScheduleFormType {
   city: string;
   period: DatePeriodType;

@@ -5,7 +5,6 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -27,8 +26,7 @@ import static teamproject.lam_server.domain.schedule.entity.QScheduleContent.sch
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j
-public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleRepositoryCustom {
+public class ScheduleQueryRepository extends BasicRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -46,20 +44,18 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
                 countQuery::fetchOne);
     }
 
-    @Override
-    public Optional<Schedule> getScheduleAndContents(Long id) {
+    public Optional<Schedule> findByIdAndMember(Long id, String loginId) {
         return Optional.ofNullable(
                 queryFactory.selectFrom(schedule)
-                        .leftJoin(schedule.scheduleContents, scheduleContent).fetchJoin()
                         .leftJoin(schedule.member, member).fetchJoin()
                         .where(
-                                scheduleIdEq(id)
+                                scheduleIdEq(id),
+                                memberLoginIdEq(loginId)
                         )
                         .fetchOne()
         );
     }
 
-    @Override
     public List<ScheduleContent> getScheduleContents(Long scheduleId) {
         queryFactory.update(schedule)
                 .set(schedule.viewCount, schedule.viewCount.add(1))
@@ -75,7 +71,6 @@ public class ScheduleRepositoryImpl extends BasicRepository implements ScheduleR
                 .fetch();
     }
 
-    @Override
     public List<Schedule> getScheduleByMember(String loginId) {
         return queryFactory.selectFrom(schedule)
                 .leftJoin(schedule.member, member).fetchJoin()

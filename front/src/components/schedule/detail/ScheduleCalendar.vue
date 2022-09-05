@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import "@fullcalendar/core/vdom"; // solves problem with Vite
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -24,7 +24,6 @@ const props = defineProps({
     required: false,
   },
 });
-console.log(props.initDate);
 const emit = defineEmits(["selectContent"]);
 const { setContent, getEvents, createEvents } = useCalendarEvent();
 const options: CalendarOptions = reactive({
@@ -70,7 +69,7 @@ watch(getEvents, () => {
   </el-card>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .fc .fc-daygrid-body-balanced .fc-daygrid-day-events:hover {
   cursor: pointer !important;
 }

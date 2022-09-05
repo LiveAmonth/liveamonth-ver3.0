@@ -9,7 +9,7 @@ import { useCalendarEvent } from "@/composables/calendarEvent";
 const { t } = useI18n();
 const { openMessageBox } = useMessageBox();
 const { validateRequire } = useFormValidate();
-const { scheduleContentDetail, resetContent } = useCalendarEvent();
+const { scheduleContentDetail } = useCalendarEvent();
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive<FormRules>({
   loginId: [validateRequire("member.loginId")],
@@ -24,10 +24,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       openMessageBox("정보를 제대로 입력해주세요.");
     }
   });
-};
-
-const resetField = async () => {
-  await resetContent();
 };
 </script>
 

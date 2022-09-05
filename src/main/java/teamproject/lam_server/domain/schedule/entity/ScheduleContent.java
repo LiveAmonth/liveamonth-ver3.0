@@ -1,7 +1,10 @@
 package teamproject.lam_server.domain.schedule.entity;
 
-
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import teamproject.lam_server.domain.schedule.dto.editor.ScheduleContentEditor;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 import teamproject.lam_server.global.entity.TimePeriod;
 
@@ -17,7 +20,6 @@ public class ScheduleContent extends BaseTimeEntity {
 
     private String title;
 
-    @Lob
     private String content;
 
     @Embedded
@@ -38,8 +40,29 @@ public class ScheduleContent extends BaseTimeEntity {
         setUpSchedule(schedule);
     }
 
-    public void setUpSchedule(Schedule schedule) {
+    /**
+     * 연관관계 매핑
+     */
+    private void setUpSchedule(Schedule schedule) {
         this.schedule = schedule;
         schedule.getScheduleContents().add(this);
+    }
+
+    /**
+     * Editor
+     */
+    public ScheduleContentEditor.ScheduleContentEditorBuilder toEditor() {
+        return ScheduleContentEditor.builder()
+                .title(title)
+                .content(content)
+                .timePeriod(timePeriod)
+                .cost(cost);
+    }
+
+    public void toEdit(ScheduleContentEditor editor) {
+        title = editor.getTitle();
+        content = editor.getContent();
+        timePeriod = editor.getTimePeriod();
+        cost = editor.getCost();
     }
 }

@@ -5,11 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
-import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleContentRequest;
-import teamproject.lam_server.domain.schedule.dto.request.CreateScheduleRequest;
-import teamproject.lam_server.domain.schedule.dto.request.ScheduleEditRequest;
+import teamproject.lam_server.domain.schedule.dto.editor.ScheduleEditor;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
 import teamproject.lam_server.global.dto.CustomResponse;
@@ -26,22 +23,26 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
 
-    @PostMapping
-    public ResponseEntity<?> addSchedule(@RequestBody @Valid CreateScheduleRequest request) {
-        scheduleApiService.addSchedule(request);
+    @PostMapping("/{memberId}")
+    public ResponseEntity<?> addSchedule(
+            @PathVariable Long memberId,
+            @RequestBody @Valid ScheduleEditor request) {
+        scheduleApiService.addSchedule(memberId, request);
         return CustomResponse.success(CREATE_SCHEDULE);
     }
 
-    @PostMapping("/contents")
-    public ResponseEntity<?> addScheduleContent(@RequestBody @Valid CreateScheduleContentRequest request) {
-        scheduleApiService.addScheduleContent(request);
-        return CustomResponse.success(CREATE_SCHEDULE_CONTENT);
+    @PatchMapping("/{scheduleId}")
+    public ResponseEntity<?> editSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody @Valid ScheduleEditor request) {
+        scheduleApiService.editSchedule(scheduleId, request);
+        return CustomResponse.success(UPDATE_SCHEDULE);
     }
 
-    @GetMapping("/{id}/contents")
-    public ResponseEntity<?> getScheduleContents(@PathVariable Long id) {
-        List<ScheduleContentResponse> result = scheduleApiService.getScheduleContents(id);
-        return CustomResponse.success(READ_SCHEDULE_CONTENT, result);
+    @DeleteMapping("/{scheduleId}")
+    public ResponseEntity<?> deleteSchedule(@PathVariable Long scheduleId) {
+        scheduleApiService.deleteSchedule(scheduleId);
+        return CustomResponse.success(DELETE_SCHEDULE);
     }
 
     @GetMapping("/search")
@@ -50,17 +51,10 @@ public class ScheduleApiController {
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/{loginId}/list")
-    public ResponseEntity<?> getScheduleByMember(@PathVariable String loginId) {
+    @GetMapping("/list")
+    public ResponseEntity<?> getScheduleByMember(
+            @RequestParam("login_id") String loginId) {
         List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
-
-    @PatchMapping("/{loginId}/edit/{scheduleId}")
-    public ResponseEntity<?> editSchedule(@PathVariable String loginId, @PathVariable Long scheduleId,
-                                          @RequestBody @Valid ScheduleEditRequest request) {
-        scheduleApiService.editSchedule(loginId, scheduleId, request);
-        return CustomResponse.success(UPDATE_SCHEDULE);
-    }
-
 }

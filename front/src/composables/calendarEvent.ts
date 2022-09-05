@@ -1,4 +1,4 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
 import CalendarService from "@/services/CalendarService";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
@@ -21,10 +21,6 @@ export const useCalendarEvent = () => {
 
   const setContent = async (event: any) => {
     await contentStore.setContent(event);
-  };
-
-  const resetContent = async () => {
-    await contentStore.resetContent();
   };
 
   const setEvents = async () => {
@@ -57,7 +53,6 @@ export const useCalendarEvent = () => {
     contentCollapse,
     setContent,
     setContentCollapse,
-    resetContent,
     setEvents,
     createEvents,
     // updateEvents,
