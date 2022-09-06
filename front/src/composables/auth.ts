@@ -1,7 +1,6 @@
 import { computed, ref } from "vue";
 import type { LoginType } from "@/modules/types/form/FormType";
 import { useAuthStore } from "@/stores/auth";
-import type { TokenType } from "@/modules/types/auth/AuthType";
 
 export const useAuth = () => {
   const store = useAuthStore();
@@ -36,6 +35,18 @@ export const useAuth = () => {
       isPending.value = false;
     }
   };
+  const reissue = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.reissue();
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
 
   return {
     error,
@@ -44,5 +55,6 @@ export const useAuth = () => {
     bearerToken,
     login,
     logout,
+    reissue,
   };
 };

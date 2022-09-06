@@ -1,10 +1,8 @@
-import type { AxiosInstance } from "axios";
 import axios from "axios";
 import qs from "query-string";
-import { useAuthStore } from "@/stores/auth";
 import { useMessageBox } from "@/composables/messageBox";
-import i18n from "@/i18n";
 import { useAuth } from "@/composables/auth";
+import type { AxiosInstance } from "axios";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: "http://localhost:8080/api/v1",
@@ -36,30 +34,29 @@ apiClient.interceptors.request.use(
 );
 apiClient.interceptors.response.use(
   function (response) {
-    // 응답 데이터로 처리
     return response;
   },
   async function (error) {
-    // 응답 오류에 대한 처리
-    const store = useAuthStore();
-    const { openMessageBox } = useMessageBox();
+    const { bearerToken, isLoggedIn, reissue, logout } = useAuth();
+    const { openMessageByCode } = useMessageBox();
     if (error.response) {
       console.log(error.response.data);
       if (
         error.response.data.status == 403 &&
         error.response.data.error == "EXPIRED_JWT"
       ) {
-        if (store.loggedIn) {
+        if (isLoggedIn) {
           const axiosRequest = error.config;
           try {
-            await store.reissue();
-            axiosRequest.headers[
-              "Authorization"
-            ] = `${store.grantTye} ${store.accessToken}`;
+            await reissue();
+            axiosRequest.headers["Authorization"] = `${bearerToken}`;
+            console.log("access token을 재발급합니다.");
             return axios(axiosRequest);
           } catch (err) {
-            await openMessageBox(i18n.global.tc("auth.reissue.login"));
-            await store.logout();
+            console.log(err);
+            console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
+            openMessageByCode("auth.reissue.login");
+            await logout();
           }
         }
       }
