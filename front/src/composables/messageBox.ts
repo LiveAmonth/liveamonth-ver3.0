@@ -1,12 +1,20 @@
 import { ElMessageBox } from "element-plus/es";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 export const useMessageBox = () => {
   const router = useRouter();
+  const { t } = useI18n();
   const openMessage = (message: string) => {
     ElMessage({
       message: message,
+      type: "success",
+    });
+  };
+  const openMessageByCode = (key: string) => {
+    ElMessage({
+      message: t("key"),
       type: "success",
     });
   };
@@ -21,14 +29,10 @@ export const useMessageBox = () => {
     });
   };
   const requireLoginMessageBox = () => {
-    return ElMessageBox.confirm(
-      "로그인 하시겠습니까? 확인을 누르시면 로그인 페이지로 이동합니다.",
-      "로그인",
-      {
-        confirmButtonText: "OK",
-        cancelButtonText: "Cancel",
-      }
-    )
+    return ElMessageBox.confirm(t("form.message.login"), t("member.login"), {
+      confirmButtonText: "OK",
+      cancelButtonText: "Cancel",
+    })
       .then(async () => {
         await router.push({ name: "login" });
       })
@@ -39,6 +43,7 @@ export const useMessageBox = () => {
 
   return {
     openMessage,
+    openMessageByCode,
     openMessageBox,
     openConfirmMessageBox,
     requireLoginMessageBox,

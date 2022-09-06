@@ -4,14 +4,14 @@ import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
   DuplicationCheckType,
   FindIdType,
+  FindPwType,
 } from "@/modules/types/form/FormType";
 import type {
   FoundIdType,
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
-import type { TokenType } from "@/modules/types/auth/AuthType";
-import InteractionApiService from "@/services/InteractionApiService";
+import type { SignUpType } from "@/modules/types/form/FormType";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
@@ -25,6 +25,16 @@ export const useMemberStore = defineStore("member", {
     isAvailable: (state): boolean => state.duplicationCheck.isAvailable,
   },
   actions: {
+    async signUp(request: SignUpType) {
+      await MemberApiService.signUp(request)
+        .then((response: string) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     async getGenderType() {
       await MemberApiService.getGenderTypes()
         .then((response: EnumType[]) => {
@@ -44,6 +54,17 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
+
+    async findPw(param: FindPwType) {
+      await MemberApiService.findPw(param)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     async duplicateCheck(field: string, param: string) {
       await MemberApiService.duplicateCheck(field, param)
         .then((response: DuplicationCheckType) => {

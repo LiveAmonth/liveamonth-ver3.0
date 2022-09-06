@@ -1,9 +1,13 @@
 import { useI18n } from "vue-i18n";
 import dayjs from "dayjs";
 import type { FormInstance, FormItemRule } from "element-plus/es";
-import type { SignUpType } from "@/modules/types/form/FormType";
+import type { ScheduleFormType, SignUpType } from "@/modules/types/form/FormType";
 import { ref } from "vue";
 import { useMemberStore } from "@/stores/member";
+import type {
+  DatePeriodType,
+  DateTimePeriodType,
+} from "@/modules/types/schedule/ScheduleType";
 
 export const useFormValidate = () => {
   const { t } = useI18n();
@@ -70,6 +74,32 @@ export const useFormValidate = () => {
       trigger: "select",
     };
   };
+
+  const validateDatePeriod = (form: ScheduleFormType): FormItemRule => {
+    return {
+      validator: (rule, value, callback) => {
+        if (dayjs(form.period.startDate).isAfter(dayjs(form.period.endDate))) {
+          callback(new Error(t("validation.period.date")));
+        } else {
+          callback();
+        }
+      },
+      trigger: "select",
+    };
+  };
+
+  const validateDateTimePeriod = (period: DateTimePeriodType): FormItemRule => {
+    return {
+      validator: (rule, value, callback) => {
+        if (dayjs(period.startDateTime).isAfter(dayjs(period.endDateTime))) {
+          callback(new Error(t("validation.period.time")));
+        } else {
+          callback();
+        }
+      },
+      trigger: "select",
+    };
+  };
   const checkedField = (form: SignUpType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
@@ -100,6 +130,8 @@ export const useFormValidate = () => {
     validateRange,
     validatePassword,
     validateBirth,
+    validateDatePeriod,
+    validateDateTimePeriod,
     checkedField,
     duplicateCheck,
   };

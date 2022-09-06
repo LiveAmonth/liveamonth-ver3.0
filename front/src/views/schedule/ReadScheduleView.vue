@@ -35,6 +35,7 @@ const changeCollapse = (id: number) => {
         <el-col :span="18">
           <ScheduleCalendar
             :editable="false"
+            :init-date="String(schedule.period.startDate)"
             :manage-state="false"
             @select-content="changeCollapse"
           />

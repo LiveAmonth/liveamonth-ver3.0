@@ -74,8 +74,28 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
+    async addSchedule(memberId: number, form: ScheduleEditor) {
+      await ScheduleApiService.addSchedule(memberId, form)
+        .then((response: string) => {
+          return response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     async editSchedule(scheduleId: number, form: ScheduleEditor) {
       await ScheduleApiService.editSchedule(scheduleId, form)
+        .then((response: string) => {
+          return response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    async deleteSchedule(scheduleId: number) {
+      await ScheduleApiService.deleteSchedule(scheduleId)
         .then((response: string) => {
           return response;
         })

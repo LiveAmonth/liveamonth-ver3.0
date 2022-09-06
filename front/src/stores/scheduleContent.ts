@@ -24,7 +24,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
         });
     },
 
-    async setScheduleEvent() {
+    async setScheduleEvents() {
       const data: any = ref([]);
       this.scheduleContents.forEach((value: ScheduleContentType) => {
         data.value.push({
@@ -40,6 +40,10 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
         });
       });
       return data;
+    },
+
+    async setContent(event: any) {
+      console.log(event);
     },
 
     async setContentCollapse(id: number) {
