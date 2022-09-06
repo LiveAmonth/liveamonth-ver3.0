@@ -140,16 +140,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       signUp(signUpForm);
       if (!error) {
-        openMessageBox("회원가입이 완료되었습니다. 로그인해주세요").finally(
-          () => {
-            router.replace({ name: "login" });
-          }
-        );
+        openMessageBox(t("form.message.signUp.result")).finally(() => {
+          router.replace({ name: "login" });
+        });
       } else {
-        openMessageBox("알 수 없는 오류가 발생했습니다.");
+        openMessageBox(t("form.message.unknown"));
       }
     } else {
-      openMessageBox("정보를 제대로 입력해주세요.");
+      openMessageBox(t("form.message.reWrite"));
     }
   });
 };

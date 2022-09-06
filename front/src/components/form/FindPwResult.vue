@@ -1,8 +1,4 @@
-<script lang="ts" setup>
-import { useMemberStore } from "@/stores/member";
-
-const store = useMemberStore();
-</script>
+<script lang="ts" setup></script>
 <template>
   <div class="result-content mb-4">
     <div class="result-box p-2">

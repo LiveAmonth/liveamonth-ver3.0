@@ -90,10 +90,10 @@ export const useInteraction = () => {
 
   const checkReacted = async (option: boolean, type: string | undefined) => {
     if (option && type && type === "DISLIKE") {
-      error.value = t("interaction.alreadyDislikeComment");
+      error.value = t("validation.interaction.alreadyDislikeComment");
       throw error.value;
     } else if (!option && type && type === "LIKE") {
-      error.value = t("interaction.alreadyLikeComment");
+      error.value = t("validation.interaction.alreadyLikeComment");
       throw error.value;
     }
   };

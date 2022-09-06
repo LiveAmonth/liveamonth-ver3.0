@@ -23,7 +23,7 @@ const emit = defineEmits(["submitForm"]);
 const { isLoggedIn } = useAuth();
 const { isPending } = useComment();
 const { validateRequire, validateRange } = useFormValidate();
-const { openMessageBox, requireLoginMessageBox } = useMessageBox();
+const { openMessageBox } = useMessageBox();
 
 const { t } = useI18n();
 

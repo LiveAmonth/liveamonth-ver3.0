@@ -21,7 +21,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       console.log("추가");
     } else {
-      openMessageBox("정보를 제대로 입력해주세요.");
+      openMessageBox(t("form.message.reWrite"));
     }
   });
 };
