@@ -3,20 +3,18 @@ import type {
   DatePeriodType,
   ScheduleCardType,
 } from "@/modules/types/schedule/ScheduleType";
-import { useDate } from "@/composables/date";
 
-const { convertDateToString } = useDate();
 export default class ScheduleEditor implements ScheduleFormType {
+  title: string;
   city: string;
   period: DatePeriodType;
   publicFlag: boolean;
-  title: string;
 
-  constructor(scheduleCard: ScheduleCardType) {
-    this.title = scheduleCard.title;
-    this.city = scheduleCard.city.code;
-    this.period = scheduleCard.period;
-    this.publicFlag = scheduleCard.publicFlag;
+  constructor() {
+    this.title = "";
+    this.publicFlag = false;
+    this.city = "";
+    this.period = { startDate: "", endDate: "" };
   }
 
   setForm(data: ScheduleCardType) {
@@ -25,5 +23,23 @@ export default class ScheduleEditor implements ScheduleFormType {
     this.city = data.city.code;
     this.period.startDate = data.period.startDate;
     this.period.endDate = data.period.endDate;
+  }
+
+  clear(): void {
+    this.title = "";
+    this.publicFlag = false;
+    this.city = "";
+    this.period.startDate = "";
+    this.period.endDate = "";
+  }
+
+  getObject() {
+    return {
+      title: this.title,
+      city: this.city,
+      publicFlag: this.publicFlag,
+      startDate: this.period.startDate,
+      endDate: this.period.endDate,
+    };
   }
 }

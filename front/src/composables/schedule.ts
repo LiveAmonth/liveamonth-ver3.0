@@ -105,6 +105,19 @@ export const useSchedule = () => {
     }
   };
 
+  const addSchedule = async (memberId: number, form: ScheduleEditor) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.addSchedule(memberId, form);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   const editSchedule = async (scheduleId: number, form: ScheduleEditor) => {
     error.value = null;
     isPending.value = true;
@@ -117,6 +130,20 @@ export const useSchedule = () => {
       isPending.value = false;
     }
   };
+
+  const deleteSchedule = async (scheduleId: number) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.deleteSchedule(scheduleId);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   return {
     error,
     isPending,
@@ -135,6 +162,8 @@ export const useSchedule = () => {
     getOtherSchedules,
     getScheduleContents,
     getMySchedules,
+    addSchedule,
     editSchedule,
+    deleteSchedule,
   };
 };

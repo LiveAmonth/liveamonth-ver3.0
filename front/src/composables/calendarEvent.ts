@@ -5,26 +5,20 @@ import { useScheduleContentStore } from "@/stores/scheduleContent";
 import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 
 export const useCalendarEvent = () => {
-  const getEvents = ref([]);
-  const contentStore = useScheduleContentStore();
-  const contentCollapse = computed(() => contentStore.contentCollapse);
+  const store = useScheduleContentStore();
+  const contentCollapse = computed(() => store.contentCollapse);
 
-  const scheduleContentDetail = computed(
-    (): ScheduleContentFormType => contentStore.contentForm
-  );
-
-  const setContentCollapse = async (
-    id = contentStore.scheduleContents[0]?.id
-  ) => {
-    await contentStore.setContentCollapse(id);
+  const scheduleContents = computed(() => store.scheduleContents);
+  const setContentCollapse = async (id = store.scheduleContents[0]?.id) => {
+    await store.setContentCollapse(id);
   };
 
   const setContent = async (event: any) => {
-    await contentStore.setContent(event);
+    await store.setContent(event);
   };
 
   const setEvents = async () => {
-    getEvents.value = await contentStore.setScheduleEvent();
+    return await store.setScheduleEvents();
   };
 
   const createEvents = async (event: any) => {
@@ -45,11 +39,8 @@ export const useCalendarEvent = () => {
   // const deleteEvents = async () => {
   // };
 
-  onMounted(setEvents);
-
   return {
-    scheduleContentDetail,
-    getEvents,
+    scheduleContents,
     contentCollapse,
     setContent,
     setContentCollapse,

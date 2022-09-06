@@ -38,11 +38,11 @@ class MemberApiService {
       });
   }
 
-  async signUp(request: SignUpType) {
+  async signUp(request: SignUpType): Promise<string> {
     return await http
       .post("/members/sign-up", JSON.stringify(request))
       .then((response) => {
-        return response.data.data;
+        return response.data;
       })
       .catch((error) => {
         throw error.response.data;
@@ -90,11 +90,11 @@ class MemberApiService {
       });
   }
 
-  async findPw(request: FindPwType): Promise<void> {
+  async findPw(request: FindPwType) {
     await http
       .post("/members/find-pw", JSON.stringify(request))
       .then((response) => {
-        return response.data.data;
+        return response.data;
       })
       .catch((error) => {
         throw error.response.data;

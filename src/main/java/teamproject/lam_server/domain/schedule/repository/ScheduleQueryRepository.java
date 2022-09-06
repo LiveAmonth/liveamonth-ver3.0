@@ -77,6 +77,7 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .where(
                         memberLoginIdEq(loginId)
                 )
+                .orderBy(schedule.id.desc())
                 .fetch();
     }
 

@@ -38,7 +38,6 @@ apiClient.interceptors.response.use(
   },
   async function (error) {
     const { bearerToken, isLoggedIn, reissue, logout } = useAuth();
-    const { openMessageByCode } = useMessageBox();
     if (error.response) {
       console.log(error.response.data);
       if (
@@ -55,7 +54,6 @@ apiClient.interceptors.response.use(
           } catch (err) {
             console.log(err);
             console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
-            openMessageByCode("auth.reissue.login");
             await logout();
           }
         }

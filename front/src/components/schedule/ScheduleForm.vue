@@ -1,16 +1,17 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
+import { ArrowUp, ArrowDown } from "@element-plus/icons-vue";
 import { onMounted, reactive, ref, watch } from "vue";
 import { useCity } from "@/composables/city";
 import { useFormValidate } from "@/composables/formValidate";
-import type { PropType } from "vue";
-import type { FormRules, FormInstance } from "element-plus/es";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
-import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import { useSchedule } from "@/composables/schedule";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import { useMember } from "@/composables/member";
+import type { PropType } from "vue";
+import type { FormRules, FormInstance } from "element-plus/es";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
   schedule: {
@@ -19,6 +20,8 @@ const props = defineProps({
     default: null,
   },
 });
+
+const emits = defineEmits(["submit", "deleteSchedule"]);
 const { addSchedule, editSchedule } = useSchedule();
 const { validateRequire, validateSelection, validateDatePeriod } =
   useFormValidate();
@@ -61,10 +64,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         await editSchedule(props.schedule.id, scheduleForm).then(() => {
           isEdit.value = false;
           openMessage(t("form.message.schedule.update"));
+          emits("submit", true);
         });
       } else {
         await addSchedule(simpleProfile.value.id, scheduleForm).then(() => {
           openMessage(t("form.message.schedule.add"));
+          emits("submit");
         });
       }
     } else {
@@ -126,7 +131,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         </el-select>
       </el-form-item>
       <el-form-item
-        :label="$t('schedule.form.content.period.start')"
+        :label="$t('schedule.form.main.period.start')"
         prop="period"
         class="period-item"
       >
@@ -139,7 +144,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         />
       </el-form-item>
       <el-form-item
-        :label="$t('schedule.form.content.period.end')"
+        :label="$t('schedule.form.main.period.end')"
         prop="period"
         class="period-item"
       >
@@ -153,7 +158,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       </el-form-item>
     </el-form>
     <div v-if="schedule" class="d-flex justify-content-end">
-      <el-button v-if="!isEdit" @click="isEdit = true"> 스케줄 수정</el-button>
+      <el-button v-if="!isEdit" @click="isEdit = true"> 수정</el-button>
+      <el-button v-if="!isEdit" @click="emits('deleteSchedule')">
+        삭제
+      </el-button>
       <template v-else>
         <el-button @click="submitForm(ruleFormRef)"> 업데이트</el-button>
         <el-button @click="cancelEdit"> 취소</el-button>
@@ -169,5 +177,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 <style lang="scss" scoped>
 .period-item {
   margin-left: 10px;
+}
+
+.el-collapse {
+  border: none;
 }
 </style>

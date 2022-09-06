@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepositoryImpl;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.editor.ScheduleEditor;
@@ -31,7 +30,6 @@ import java.util.stream.Collectors;
 public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final ScheduleQueryRepository scheduleQueryRepository;
-    private final MemberRepository memberRepository;
     private final ScheduleCommentRepositoryImpl commentRepository;
     private final DomainSpec<ScheduleSortType> spec = new DomainSpec<>(ScheduleSortType.class);
 
@@ -57,6 +55,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    @Transactional
     public void deleteSchedule(Long scheduleId) {
         scheduleRepository.deleteSchedule(scheduleId);
     }

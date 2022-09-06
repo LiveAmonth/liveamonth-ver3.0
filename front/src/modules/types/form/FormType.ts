@@ -68,6 +68,8 @@ export interface ScheduleFormType {
   period: DatePeriodType;
 
   setForm(data: ScheduleCardType): void;
+  clear(): void;
+  getObject(): any;
 }
 
 export interface CommentFormType {

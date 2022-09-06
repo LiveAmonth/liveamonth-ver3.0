@@ -1,12 +1,11 @@
 import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member";
-import MemberApiService from "@/services/MemberApiService";
+import { useAuth } from "@/composables/auth";
 import type {
   FindIdType,
   FindPwType,
   SignUpType,
 } from "@/modules/types/form/FormType";
-import { useAuth } from "@/composables/auth";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
 
 export const useMember = () => {
@@ -34,7 +33,7 @@ export const useMember = () => {
     error.value = null;
     isPending.value = true;
     try {
-      await MemberApiService.signUp(request);
+      await store.signUp(request);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -58,7 +57,7 @@ export const useMember = () => {
     error.value = null;
     isPending.value = true;
     try {
-      await MemberApiService.findPw(request);
+      await store.findPw(request);
       error.value = null;
     } catch (err) {
       error.value = err;
