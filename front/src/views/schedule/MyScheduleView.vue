@@ -9,6 +9,8 @@ import { useSchedule } from "@/composables/schedule";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
+import { useCalendarEvent } from "@/composables/calendarEvent";
+import ScheduleContentForm from "@/components/schedule/ScheduleContentForm.vue";
 
 const props = defineProps({
   loginId: {
@@ -22,6 +24,7 @@ const props = defineProps({
 });
 const { mySchedules, getMySchedules, getScheduleContents, deleteSchedule } =
   useSchedule();
+const { selectedContent, resetContent } = useCalendarEvent();
 const { openConfirmMessageBox, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 const selectedId = ref<number>();
@@ -47,11 +50,12 @@ const changeSchedule = async () => {
     await getScheduleContents(selectedId.value).then(() => {
       initDate.value = String(currSchedule.value?.period.startDate);
       calendarKey.value += 1;
+      resetContent();
     });
   }
 };
 
-const submitForm = async (isEdit = false) => {
+const submitScheduleForm = async (isEdit = false) => {
   await getMySchedules(props.loginId).then(() => {
     if (!isEdit) {
       selectedId.value = mySchedules.value[0].id;
@@ -61,7 +65,7 @@ const submitForm = async (isEdit = false) => {
   });
 };
 
-const deleteBtn = async () => {
+const deleteScheduleBtn = async () => {
   await openConfirmMessageBox(
     t("form.message.schedule.delete.title"),
     t("form.message.schedule.delete.message")
@@ -78,6 +82,14 @@ const deleteBtn = async () => {
     }
   });
 };
+
+const submitContentForm = async (isEdit = false) => {
+  console.log(isEdit);
+};
+
+const deleteContentBtn = async () => {
+  console.log("삭제");
+};
 </script>
 
 <template>
@@ -91,12 +103,12 @@ const deleteBtn = async () => {
               <el-select
                 v-model="selectedId"
                 :placeholder="$t('common.select')"
+                @change="changeSchedule"
               >
                 <template v-for="val in mySchedules" :key="val.id">
                   <el-option :label="val.title" :value="val.id" />
                 </template>
               </el-select>
-              <el-button class="ms-2" @click="changeSchedule">이동</el-button>
             </div>
           </div>
           <ScheduleCalendar
@@ -104,37 +116,60 @@ const deleteBtn = async () => {
             v-if="initDate"
             :editable="false"
             :init-date="initDate"
-            :manage-state="false"
-            @select-content="console.log('선택..')"
+            :manage-state="true"
           />
         </el-col>
-        <el-col :span="6">
-          <div class="d-flex justify-content-end mt-3 mb-4">
+        <el-col :span="6" class="mt-4">
+          <div class="d-flex justify-content-end mt-3">
             <el-button
               class="d-flex justify-content-between"
               @click="modal = true"
               size="large"
               text
             >
-              <el-icon class="me-1"><Plus /></el-icon>
+              <el-icon class="me-1">
+                <Plus />
+              </el-icon>
               {{ $t("schedule.form.main.add") }}
             </el-button>
           </div>
           <ScheduleForm
             :schedule="currSchedule"
-            @submit="submitForm"
-            @delete-schedule="deleteBtn"
+            @submit="submitScheduleForm"
+            @delete-schedule="deleteScheduleBtn"
           >
             <template v-slot:title>
               {{ $t("schedule.title.schedule") }}
             </template>
           </ScheduleForm>
+          <div class="d-flex justify-content-end mt-3">
+            <el-button
+              class="d-flex justify-content-between"
+              @click="modal = true"
+              size="large"
+              text
+            >
+              <el-icon class="me-1">
+                <Plus />
+              </el-icon>
+              {{ $t("schedule.form.content.add") }}
+            </el-button>
+          </div>
+          <ScheduleContentForm
+            :content="selectedContent"
+            @submit="submitContentForm"
+            @delete-content="deleteContentBtn"
+          >
+            <template v-slot:title>
+              {{ $t("schedule.title.content") }}
+            </template>
+          </ScheduleContentForm>
         </el-col>
       </el-row>
     </el-col>
   </el-row>
   <OpenModal @close="modal = false" v-if="modal">
-    <ScheduleForm @submit="submitForm">
+    <ScheduleForm @submit="submitScheduleForm">
       <template v-slot:title>
         {{ $t("schedule.form.main.add") }}
       </template>

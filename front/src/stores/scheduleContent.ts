@@ -5,10 +5,14 @@ import type {
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
 import ScheduleApiService from "@/services/ScheduleApiService";
+import { useDate } from "@/composables/date";
+import type { EventApi } from "@fullcalendar/common";
 
 const collapseArr: number[] = [];
+const { convertDateTime } = useDate();
 export const useScheduleContentStore = defineStore("scheduleContent", {
   state: () => ({
+    selectContent: {} as ScheduleContentType,
     scheduleContents: [] as ScheduleContentType[],
     contentCollapse: collapseArr,
   }),
@@ -42,8 +46,30 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
       return data;
     },
 
-    async setContent(event: any) {
-      console.log(event);
+    setContent(event: EventApi) {
+      this.selectContent = {
+        id: Number(event.id),
+        title: event.title,
+        content: event.extendedProps.content,
+        cost: event.extendedProps.cost,
+        timePeriod: {
+          startDateTime: convertDateTime(event.start),
+          endDateTime: convertDateTime(event.end),
+        },
+      };
+    },
+
+    resetContent() {
+      this.selectContent = {
+        id: 0,
+        title: "",
+        content: "",
+        cost: 0,
+        timePeriod: {
+          startDateTime: "",
+          endDateTime: "",
+        },
+      };
     },
 
     async setContentCollapse(id: number) {

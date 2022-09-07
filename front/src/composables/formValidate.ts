@@ -1,7 +1,10 @@
 import { useI18n } from "vue-i18n";
 import dayjs from "dayjs";
 import type { FormInstance, FormItemRule } from "element-plus/es";
-import type { ScheduleFormType, SignUpType } from "@/modules/types/form/FormType";
+import type {
+  ScheduleFormType,
+  SignUpType,
+} from "@/modules/types/form/FormType";
 import { ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 import type {
@@ -21,6 +24,7 @@ export const useFormValidate = () => {
       trigger: "blur",
     };
   };
+
   const validateSelection = (field: string): FormItemRule => {
     return {
       required: true,
@@ -28,6 +32,7 @@ export const useFormValidate = () => {
       trigger: "change",
     };
   };
+
   const validatePattern = (
     pattern: RegExp | string,
     message: string
@@ -35,6 +40,14 @@ export const useFormValidate = () => {
     return {
       pattern: pattern,
       message: t(message),
+      trigger: "blur",
+    };
+  };
+
+  const validateNumber = (): FormItemRule => {
+    return {
+      type: "number",
+      message: t("validation.number"),
       trigger: "blur",
     };
   };
@@ -47,6 +60,14 @@ export const useFormValidate = () => {
       min: min,
       max: max,
       message: t("validation.range", { field: t(field), min: min, max: max }),
+      trigger: "blur",
+    };
+  };
+
+  const validateMin = (field: string, min: number): FormItemRule => {
+    return {
+      min: min,
+      message: t("validation.min", { field: t(field), min: min }),
       trigger: "blur",
     };
   };
@@ -75,10 +96,10 @@ export const useFormValidate = () => {
     };
   };
 
-  const validateDatePeriod = (form: ScheduleFormType): FormItemRule => {
+  const validateDatePeriod = (period: DatePeriodType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (dayjs(form.period.startDate).isAfter(dayjs(form.period.endDate))) {
+        if (dayjs(period.startDate).isAfter(dayjs(period.endDate))) {
           callback(new Error(t("validation.period.date")));
         } else {
           callback();
@@ -127,6 +148,8 @@ export const useFormValidate = () => {
     validateRequire,
     validateSelection,
     validatePattern,
+    validateNumber,
+    validateMin,
     validateRange,
     validatePassword,
     validateBirth,

@@ -177,7 +177,8 @@
       "nickname": "닉네임은 20자 이내 이빈다..",
       "email": "이메일 양식에 맞지 않습니다."
     },
-    "range": "{field}은(는) {min}~{max}자여야 합니다.",
+    "range": "{field}은(는) {min}~{max} 이내여야 합니다.",
+    "min": "{field}은(는) {min} 이상이어야 합니다.",
     "password": {
       "recheck": "비밀번호가 일치하지 않습니다."
     },
@@ -186,6 +187,7 @@
       "date": "시작 날짜가 종료 날짜보다 뒤에 올수 없습니다.",
       "time": "시작 시간이 종료 시간보다 뒤에 올수 없습니다."
     },
+    "number": "숫자만 입력 가능합니다.",
     "interaction": {
       "alreadyLikeComment": "이미 추천한 댓글입니다.",
       "alreadyDislikeComment": "이미 비추천한 댓글입니다."
@@ -229,7 +231,7 @@
   "schedule": {
     "title": {
       "schedule": "스케줄 정보",
-      "content": "컨텐츠 목록"
+      "content": "컨텐츠 정보"
     },
     "tooltip": {
       "date": "한 달 살기 기간",
@@ -273,7 +275,7 @@
           "start": "시작 시간",
           "end": "종료 시간"
         },
-        "add": "컨텐츠 추가"
+        "add": "새 컨텐츠 추가"
       },
       "delete": "삭제"
     },
