@@ -1,16 +1,15 @@
+import dayjs from "dayjs";
+
 export const useDate = () => {
-  const leftPad = (value: number): string => {
-    return value >= 10 ? String(value) : `0${value}`;
+  const convertDateTime = (value: Date) => {
+    return dayjs(value).format("YYYY-MM-DD HH:mm:ss");
+  };
+  const convertDate = (value: Date) => {
+    return dayjs(value).format("YYYY-MM-DD");
   };
 
-  const convertDateToString = (value: any, delimiter = "-") => {
-    return [
-      value.getFullYear(),
-      leftPad(value.getMonth() + 1),
-      leftPad(value.getDate()),
-    ].join(delimiter);
-  };
   return {
-    convertDateToString,
+    convertDateTime,
+    convertDate,
   };
 };
