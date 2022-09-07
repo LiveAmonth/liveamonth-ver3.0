@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
-import { ArrowUp, ArrowDown } from "@element-plus/icons-vue";
 import { onMounted, reactive, ref, watch } from "vue";
 import { useCity } from "@/composables/city";
 import { useFormValidate } from "@/composables/formValidate";
@@ -29,13 +28,14 @@ const { cityNames } = useCity();
 const { openMessage, openMessageBox } = useMessageBox();
 const { simpleProfile } = useMember();
 const { t } = useI18n();
+
 const isEdit = ref<boolean>(!props.schedule);
 const scheduleForm = reactive<ScheduleEditor>(new ScheduleEditor());
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive<FormRules>({
   title: [validateRequire("common.title")],
   city: [validateSelection("city.title")],
-  period: [validateDatePeriod(scheduleForm)],
+  period: [validateDatePeriod(scheduleForm.period)],
 });
 
 onMounted(() => {

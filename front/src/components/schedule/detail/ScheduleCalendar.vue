@@ -6,7 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import koLocale from "@fullcalendar/core/locales/ko";
 import listPlugin from "@fullcalendar/list";
-import { nextTick, onMounted, reactive, ref, watch } from "vue";
+import { onMounted, reactive, watch } from "vue";
 import { useCalendarEvent } from "@/composables/calendarEvent";
 import type { CalendarOptions } from "@fullcalendar/core";
 

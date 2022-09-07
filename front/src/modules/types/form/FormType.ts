@@ -2,7 +2,9 @@ import type {
   DatePeriodType,
   DateTimePeriodType,
   ScheduleCardType,
+  ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
+import type { EventApi } from "@fullcalendar/common";
 
 export interface LoginType {
   loginId: string;
@@ -58,7 +60,9 @@ export interface ScheduleContentFormType {
   cost: number;
   timePeriod: DateTimePeriodType;
 
-  setAttr(event: any): void;
+  setAttr(event: EventApi): void;
+  setForm(data: ScheduleContentType): void;
+  clear(): void;
 }
 
 export interface ScheduleFormType {

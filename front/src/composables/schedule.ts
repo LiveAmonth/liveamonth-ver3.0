@@ -41,6 +41,7 @@ export const useSchedule = () => {
       error.value = err;
     }
   };
+
   const getFilterTypes = async () => {
     error.value = null;
     try {
@@ -50,6 +51,7 @@ export const useSchedule = () => {
       error.value = err;
     }
   };
+
   const getSortTypes = async () => {
     error.value = null;
     try {
