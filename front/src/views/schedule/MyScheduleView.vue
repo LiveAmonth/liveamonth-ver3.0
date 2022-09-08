@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
-import ScheduleCalendar from "@/components/schedule/detail/ScheduleCalendar.vue";
-import ScheduleForm from "@/components/schedule/ScheduleForm.vue";
-import OpenModal from "@/components/schedule/member/OpenModal.vue";
+import ScheduleCalendar from "@/components/schedule/calendar/ScheduleCalendar.vue";
+import ScheduleForm from "@/components/schedule/form/ScheduleForm.vue";
+import OpenModal from "@/components/common/OpenModal.vue";
 import { Plus } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
@@ -10,7 +10,7 @@ import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 import { useCalendarEvent } from "@/composables/calendarEvent";
-import ScheduleContentForm from "@/components/schedule/ScheduleContentForm.vue";
+import ScheduleContentForm from "@/components/schedule/form/ScheduleContentForm.vue";
 
 const props = defineProps({
   loginId: {
@@ -168,6 +168,13 @@ const deleteContentBtn = async () => {
       </el-row>
     </el-col>
   </el-row>
+  <OpenModal @close="modal = false" v-if="modal">
+    <ScheduleForm @submit="submitScheduleForm">
+      <template v-slot:title>
+        {{ $t("schedule.form.main.add") }}
+      </template>
+    </ScheduleForm>
+  </OpenModal>
   <OpenModal @close="modal = false" v-if="modal">
     <ScheduleForm @submit="submitScheduleForm">
       <template v-slot:title>

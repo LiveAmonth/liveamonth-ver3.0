@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
-import ScheduleCalendar from "@/components/schedule/detail/ScheduleCalendar.vue";
+import ScheduleCalendar from "@/components/schedule/calendar/ScheduleCalendar.vue";
 import ScheduleDetail from "@/components/schedule/detail/ScheduleDetail.vue";
 import CommentComponent from "@/components/comment/CommentComponent.vue";
 import { onMounted, ref } from "vue";

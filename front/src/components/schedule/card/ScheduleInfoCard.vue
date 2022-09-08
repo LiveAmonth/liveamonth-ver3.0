@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import type { SearchSortFormType } from "@/modules/types/common/SearchType";
-import { useSchedule } from "@/composables/schedule";
 import PopoverProfileSlot from "@/components/common/PopoverProfileSlot.vue";
-import ScheduleInfoSlot from "@/components/schedule/ScheduleInfoSlot.vue";
-import { useScheduleStore } from "@/stores/schedule";
+import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
+import { Location, Money, View } from "@element-plus/icons-vue";
+import { ref } from "vue";
+import { useSchedule } from "@/composables/schedule";
+import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const props = defineProps({
   index: {
