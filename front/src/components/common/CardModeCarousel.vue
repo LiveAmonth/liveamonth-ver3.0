@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import { useCityStore } from "@/stores/city";
 
@@ -33,6 +33,7 @@ const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
                 carouselData[calcIdx(idx, col)].image
               }`"
               class="image"
+              alt="card-image"
             />
             <div class="content mt-3">
               <span>{{ carouselData[calcIdx(idx, col)].content }}</span>

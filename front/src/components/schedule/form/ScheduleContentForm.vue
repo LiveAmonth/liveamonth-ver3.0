@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useFormValidate } from "@/composables/formValidate";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
 import type { FormInstance, FormRules } from "element-plus/es";
 import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
-import { useCalendarEvent } from "@/composables/calendarEvent";
 
 const props = defineProps({
   isAddition: {
