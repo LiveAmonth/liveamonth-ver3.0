@@ -10,7 +10,7 @@ export const useInteractionStore = defineStore("interaction", {
   }),
   getters: {},
   actions: {
-    async getMemberReactedComment(
+    getMemberReactedComment: async function (
       type: string,
       memberId: number,
       ids: number[]
@@ -24,7 +24,10 @@ export const useInteractionStore = defineStore("interaction", {
         });
     },
 
-    async isMemberLikedContent(type: string, request: InteractionType) {
+    isMemberLikedContent: async function (
+      type: string,
+      request: InteractionType
+    ) {
       await InteractionApiService.isMemberLikeContent(type, request)
         .then((response) => {
           this.isLikedContent = response;
@@ -34,7 +37,7 @@ export const useInteractionStore = defineStore("interaction", {
         });
     },
 
-    changeLikeState() {
+    changeLikeState: function () {
       this.isLikedContent = !this.isLikedContent;
     },
   },

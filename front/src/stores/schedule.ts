@@ -27,7 +27,7 @@ export const useScheduleStore = defineStore("schedule", {
       state.pageableSchedules.content as ScheduleCardType[],
   },
   actions: {
-    async getSearchTypes() {
+    getSearchTypes: async function () {
       await ScheduleApiService.getSearchTypes()
         .then((response: EnumType[]) => {
           this.searchTypes = response;
@@ -36,7 +36,8 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-    async getFilterTypes() {
+
+    getFilterTypes: async function () {
       await ScheduleApiService.getFilterTypes()
         .then((response: EnumType[]) => {
           this.filterTypes = response;
@@ -45,7 +46,8 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-    async getSortTypes() {
+
+    getSortTypes: async function () {
       await ScheduleApiService.getSortTypes()
         .then((response: SortType[]) => {
           this.sortTypes = response;
@@ -54,7 +56,8 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-    async getOtherSchedules(pageable: PageableRequestType) {
+
+    getOtherSchedules: async function (pageable: PageableRequestType) {
       await ScheduleApiService.getOtherSchedules(this.searchCond, pageable)
         .then((response: PageableResponseType) => {
           this.pageableSchedules = response;
@@ -64,7 +67,7 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    async getMySchedules(loginId: string) {
+    getMySchedules: async function (loginId: string) {
       await ScheduleApiService.getMySchedules(loginId)
         .then((response: ScheduleCardType[]) => {
           this.mySchedules = response;
@@ -74,7 +77,7 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    async addSchedule(memberId: number, form: ScheduleEditor) {
+    addSchedule: async function (memberId: number, form: ScheduleEditor) {
       await ScheduleApiService.addSchedule(memberId, form)
         .then((response: string) => {
           return response;
@@ -84,7 +87,7 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    async editSchedule(scheduleId: number, form: ScheduleEditor) {
+    editSchedule: async function (scheduleId: number, form: ScheduleEditor) {
       await ScheduleApiService.editSchedule(scheduleId, form)
         .then((response: string) => {
           return response;
@@ -94,7 +97,7 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    async deleteSchedule(scheduleId: number) {
+    deleteSchedule: async function (scheduleId: number) {
       await ScheduleApiService.deleteSchedule(scheduleId)
         .then((response: string) => {
           return response;

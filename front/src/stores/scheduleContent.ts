@@ -7,6 +7,8 @@ import type {
 import ScheduleApiService from "@/services/ScheduleApiService";
 import { useDate } from "@/composables/date";
 import type { EventApi } from "@fullcalendar/common";
+import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
+import scheduleApiService from "@/services/ScheduleApiService";
 
 const collapseArr: number[] = [];
 const { convertDateTime } = useDate();
@@ -18,8 +20,46 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
   }),
   getters: {},
   actions: {
-    async getScheduleContents(id: number) {
-      await ScheduleApiService.getScheduleContents(id)
+    addContent: async function (
+      scheduleId: number,
+      form: ScheduleContentEditor
+    ) {
+      await ScheduleApiService.addScheduleContent(scheduleId, form)
+        .then((response: string) => {
+          return response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    editContent: async function (
+      contentId: number,
+      form: ScheduleContentEditor
+    ) {
+      await scheduleApiService
+        .editScheduleContent(contentId, form)
+        .then((response: string) => {
+          return response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    deleteContent: async function (contentId: number) {
+      await scheduleApiService
+        .deleteScheduleContent(contentId)
+        .then((response: string) => {
+          return response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getScheduleContents: async function (scheduleId: number) {
+      await ScheduleApiService.getScheduleContents(scheduleId)
         .then((response: ScheduleContentType[]) => {
           this.scheduleContents = response;
         })
@@ -28,8 +68,8 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
         });
     },
 
-    async setScheduleEvents() {
-      const data: any = ref([]);
+    setScheduleEvents: function () {
+      const data = ref<unknown[]>([]);
       this.scheduleContents.forEach((value: ScheduleContentType) => {
         data.value.push({
           id: value.id,
@@ -46,7 +86,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
       return data;
     },
 
-    setContent(event: EventApi) {
+    setContent: function (event: EventApi) {
       this.selectContent = {
         id: Number(event.id),
         title: event.title,
@@ -59,7 +99,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
       };
     },
 
-    resetContent() {
+    resetContent: function () {
       this.selectContent = {
         id: 0,
         title: "",
@@ -72,7 +112,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
       };
     },
 
-    async setContentCollapse(id: number) {
+    setContentCollapse: function (id: number) {
       this.contentCollapse.push(id);
     },
   },

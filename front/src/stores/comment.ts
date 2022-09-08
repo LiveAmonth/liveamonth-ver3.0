@@ -16,7 +16,7 @@ export const useCommentStore = defineStore("comment", {
       state.pageableComments.content as CommentType[],
   },
   actions: {
-    async getComments(
+    getComments: async function (
       type: string,
       contentId: number,
       pageable: PageableRequestType
@@ -30,7 +30,7 @@ export const useCommentStore = defineStore("comment", {
         });
     },
 
-    async writeComment(
+    writeComment: async function (
       type: string,
       loginId: string,
       request: CommentFormType
