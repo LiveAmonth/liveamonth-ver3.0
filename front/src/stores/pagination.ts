@@ -16,43 +16,43 @@ export const usePageableStore = defineStore("pageable", {
   }),
   getters: {},
   actions: {
-    findPageableRequest(type: string): PageableRequest {
+    findPageableRequest: function (type: string): PageableRequest {
       return this.requests.find(
         (value) => value.category === type
       ) as PageableRequest;
     },
 
-    findPagination(type: string): Pagination {
+    findPagination: function (type: string): Pagination {
       return this.paginations.find(
         (value) => value.category === type
       ) as Pagination;
     },
 
-    setContentLimit(type: string, limit: number) {
+    setContentLimit: function (type: string, limit: number) {
       this.findPageableRequest(type).size = limit;
       this.findPagination(type).contentLimit = limit;
     },
 
-    movePage(type: string, page: number) {
+    movePage: function (type: string, page: number) {
       (this.findPagination(type) as Pagination).currentPage = page;
       this.findPageableRequest(type).page = page;
     },
 
-    changeSortType(type: string, sortType: string) {
+    changeSortType: function (type: string, sortType: string) {
       this.findPageableRequest(type).sort = sortType;
     },
 
-    currentPageGroup(type: string): number {
+    currentPageGroup: function (type: string): number {
       const pagination = this.findPagination(type);
       return Math.ceil(pagination.currentPage / pagination.pageLimit) - 1;
     },
 
-    numberOfPageGroup(type: string): number {
+    numberOfPageGroup: function (type: string): number {
       const pagination = this.findPagination(type);
       return Math.ceil(pagination.numberOfPages / pagination.pageLimit);
     },
 
-    getCurrentPageGroupPages(type: string): number {
+    getCurrentPageGroupPages: function (type: string): number {
       const pagination = this.findPagination(type);
       if (pagination.numberOfPages < pagination.pageLimit) {
         return pagination.numberOfPages;
@@ -69,7 +69,7 @@ export const usePageableStore = defineStore("pageable", {
       }
     },
 
-    isCurrentPage(type: string, index: number): boolean {
+    isCurrentPage: function (type: string, index: number): boolean {
       const pagination = this.findPagination(type);
       return (
         this.currentPageGroup(type) * pagination.pageLimit + index ===
@@ -77,14 +77,17 @@ export const usePageableStore = defineStore("pageable", {
       );
     },
 
-    getCurrentPageNumber(type: string, index: number): number {
+    getCurrentPageNumber: function (type: string, index: number): number {
       return (
         index +
         this.currentPageGroup(type) * this.findPagination(type).pageLimit
       );
     },
 
-    mappingPagination(type: string, data: PageableResponseType): void {
+    mappingPagination: function (
+      type: string,
+      data: PageableResponseType
+    ): void {
       const pagination = this.findPagination(type);
       pagination.numberOfContents = data.totalElements;
       pagination.numberOfPages = data.totalPages;

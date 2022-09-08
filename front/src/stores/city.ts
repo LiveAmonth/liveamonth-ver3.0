@@ -64,7 +64,7 @@ export const useCityStore = defineStore("city", {
       (state.cityExtraInfo.data as CityExtraType).weathers as CityWeatherType[],
   },
   actions: {
-    async getCityNames() {
+    getCityNames: async function () {
       try {
         const response = await CityApiService.getCityNames();
         localStorage.setItem("city-names", JSON.stringify(response));
@@ -74,7 +74,8 @@ export const useCityStore = defineStore("city", {
         console.log(error);
       }
     },
-    async getCityIntro(cityName: string) {
+
+    getCityIntro: async function (cityName: string) {
       try {
         const response = await CityApiService.getCityIntro(cityName);
         localStorage.setItem("intro", JSON.stringify(response));
@@ -84,7 +85,8 @@ export const useCityStore = defineStore("city", {
         console.log(error);
       }
     },
-    async getExtraCityInfo(cityName: string) {
+
+    getExtraCityInfo: async function (cityName: string) {
       try {
         const response = await CityApiService.getExtraCityInfo(cityName);
         localStorage.setItem("extra-info", JSON.stringify(response));
@@ -94,7 +96,8 @@ export const useCityStore = defineStore("city", {
         console.log(error);
       }
     },
-    async getCityGridInfo() {
+
+    getCityGridInfo: async function () {
       try {
         const response = await CityApiService.getCityGridInfo();
         localStorage.setItem("city-grid-info", JSON.stringify(response));

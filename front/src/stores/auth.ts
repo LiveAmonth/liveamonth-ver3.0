@@ -32,7 +32,7 @@ export const useAuthStore = defineStore("auth", {
     loggedIn: (state): boolean => state.tokenInfo.state,
   },
   actions: {
-    async login(data: LoginType) {
+    login: async function (data: LoginType) {
       await AuthApiService.login(data)
         .then((response: TokenType) => {
           localStorage.setItem("token-info", JSON.stringify(response));
@@ -43,7 +43,8 @@ export const useAuthStore = defineStore("auth", {
           throw error;
         });
     },
-    async logout() {
+
+    logout: async function () {
       const tokenInfo = this.tokenInfo.data as TokenType;
       await AuthApiService.logout(tokenInfo.grantType, tokenInfo.accessToken)
         .then(() => {
@@ -55,7 +56,8 @@ export const useAuthStore = defineStore("auth", {
           throw error;
         });
     },
-    async reissue() {
+
+    reissue: async function () {
       const tokenInfo = this.tokenInfo.data as TokenType;
       await AuthApiService.reissue(tokenInfo.grantType, tokenInfo.accessToken)
         .then((response: TokenType) => {

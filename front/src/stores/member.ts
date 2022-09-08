@@ -25,7 +25,7 @@ export const useMemberStore = defineStore("member", {
     isAvailable: (state): boolean => state.duplicationCheck.isAvailable,
   },
   actions: {
-    async signUp(request: SignUpType) {
+    signUp: async function (request: SignUpType) {
       await MemberApiService.signUp(request)
         .then((response: string) => {
           console.log(response);
@@ -35,7 +35,7 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
-    async getGenderType() {
+    getGenderType: async function () {
       await MemberApiService.getGenderTypes()
         .then((response: EnumType[]) => {
           this.genderType = response;
@@ -45,7 +45,7 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
-    async findId(param: FindIdType) {
+    findId: async function (param: FindIdType) {
       await MemberApiService.findId(param)
         .then((response: FoundIdType) => {
           this.foundId = response;
@@ -55,7 +55,7 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
-    async findPw(param: FindPwType) {
+    findPw: async function (param: FindPwType) {
       await MemberApiService.findPw(param)
         .then((response) => {
           console.log(response);
@@ -65,7 +65,7 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
-    async duplicateCheck(field: string, param: string) {
+    duplicateCheck: async function (field: string, param: string) {
       await MemberApiService.duplicateCheck(field, param)
         .then((response: DuplicationCheckType) => {
           this.duplicationCheck = response;
@@ -74,7 +74,8 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
-    async getMember(param: string) {
+
+    getMember: async function (param: string) {
       await MemberApiService.getMember(param)
         .then((response: ProfileType) => {
           this.memberProfile = response;
@@ -83,7 +84,8 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
-    async getSimpleProfile(param: string) {
+
+    getSimpleProfile: async function (param: string) {
       await MemberApiService.getSimpleProfile(param)
         .then((response: SimpleProfileType) => {
           this.simpleProfile = response;
