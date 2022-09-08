@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 
-const props = defineProps({
+defineProps({
   data: {
     type: Object as () => ImageContentType,
     required: true,
@@ -11,7 +11,11 @@ const props = defineProps({
 
 <template>
   <el-card :body-style="{ padding: '0px' }">
-    <img :src="`/src/assets/image/intro/${props.image}`" class="image" />
+    <img
+      :src="`/src/assets/image/intro/${data.image}`"
+      class="image"
+      alt="image"
+    />
     <div style="padding: 14px">
       <span>${props.content}</span>
     </div>
