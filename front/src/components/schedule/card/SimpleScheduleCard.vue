@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import ScheduleInfoSlot from "@/components/schedule/ScheduleInfoSlot.vue";
+import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
+import { Location, Money, View } from "@element-plus/icons-vue";
 import type { PropType } from "vue";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 

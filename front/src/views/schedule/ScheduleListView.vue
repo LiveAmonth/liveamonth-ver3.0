@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import SimpleCalendar from "@/components/schedule/list/SimpleCalendar.vue";
+import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
-import ScheduleInfoCard from "@/components/schedule/list/ScheduleInfoCard.vue";
+import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { onMounted } from "vue";
 import { useScheduleStore } from "@/stores/schedule";

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import SimpleScheduleCard from "@/components/schedule/SimpleScheduleCard.vue";
+import SimpleScheduleCard from "@/components/schedule/card/SimpleScheduleCard.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
+import { Reading, Paperclip, Money, Clock } from "@element-plus/icons-vue";
 import { useSchedule } from "@/composables/schedule";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
 import { onMounted, ref } from "vue";

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import CardModeCarousel from "@/components/CardModeCarousel.vue";
+import CardModeCarousel from "@/components/common/CardModeCarousel.vue";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import { onMounted, ref } from "vue";
