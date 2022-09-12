@@ -22,11 +22,11 @@ const props = defineProps({
 
 const emits = defineEmits(["submit", "deleteSchedule"]);
 const { addSchedule, editSchedule } = useSchedule();
+const { cityNames } = useCity();
+const { simpleProfile } = useMember();
 const { validateRequire, validateSelection, validateDatePeriod } =
   useFormValidate();
-const { cityNames } = useCity();
 const { openMessage, openMessageBox } = useMessageBox();
-const { simpleProfile } = useMember();
 const { t } = useI18n();
 
 const isEdit = ref<boolean>(!props.schedule);
@@ -86,6 +86,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       :disabled="!isEdit"
       :model="scheduleForm"
       :rules="rules"
+      label-width="75px"
       status-icon
     >
       <div class="d-flex justify-content-between align-items-center mb-2">
@@ -175,10 +176,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </template>
 
 <style lang="scss" scoped>
-.period-item {
-  margin-left: 10px;
-}
-
 .el-collapse {
   border: none;
 }

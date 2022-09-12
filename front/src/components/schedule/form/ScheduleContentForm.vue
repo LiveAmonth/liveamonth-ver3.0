@@ -2,14 +2,26 @@
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import { reactive, ref, watch } from "vue";
+import { useSchedule } from "@/composables/schedule";
 import { useFormValidate } from "@/composables/formValidate";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
 import type { FormInstance, FormRules } from "element-plus/es";
 import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
+import { useDate } from "@/composables/date";
+import { useCalendarEvent } from "@/composables/calendarEvent";
 
 const props = defineProps({
+  scheduleId: {
+    type: Number,
+    required: true,
+  },
+  period: {
+    type: Object as PropType<DatePeriodType>,
+    required: true,
+  },
   isAddition: {
     type: Boolean,
     required: false,
@@ -22,21 +34,31 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["submit", "deleteContent"]);
-const { validateRequire, validateDateTimePeriod, validateMin, validateNumber } =
-  useFormValidate();
+const { addContent, editContent } = useSchedule();
+const {} = useCalendarEvent();
+const {
+  validateRequire,
+  validateDateTimePeriod,
+  validateCost,
+  validateNumber,
+  validatePeriodRange,
+} = useFormValidate();
 const { openMessage, openMessageBox } = useMessageBox();
+const { translateDateRange } = useDate();
 const { t } = useI18n();
-
-const isEdit = ref<boolean>(false);
+const isEdit = ref<boolean>(!props.content);
 const contentForm = reactive<ScheduleContentEditor>(
-  new ScheduleContentEditor()
+  new ScheduleContentEditor(props.period)
 );
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive<FormRules>({
   title: [validateRequire("common.title")],
   content: [validateRequire("schedule.form.content.content")],
-  cost: [validateMin("schedule.form.content.cost", 0), validateNumber()],
-  period: [validateDateTimePeriod(contentForm.timePeriod)],
+  cost: [validateCost(contentForm, 0), validateNumber()],
+  period: [
+    validateDateTimePeriod(contentForm.timePeriod),
+    validatePeriodRange(contentForm.timePeriod, props.period),
+  ],
 });
 
 watch(
@@ -56,16 +78,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid) => {
     if (valid) {
       if (props.isAddition) {
-        // await editContent(props.schedule.id, scheduleForm).then(() => {
-        //   isEdit.value = false;
-        //   openMessage(t("form.message.schedule.update"));
-        //   emits("submit", true);
-        // });
+        await addContent(props.scheduleId, contentForm).then(() => {
+          openMessage(t("form.message.content.add"));
+          emits("submit");
+        });
       } else {
-        // await addSchedule(simpleProfile.value.id, scheduleForm).then(() => {
-        //   openMessage(t("form.message.schedule.add"));
-        //   emits("submit");
-        // });
+        await editContent(props.content.id, contentForm).then(() => {
+          isEdit.value = false;
+          openMessage(t("form.message.content.update"));
+          emits("submit", true);
+        });
       }
     } else {
       await openMessageBox(t("form.message.reWrite"));
@@ -80,6 +102,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       :disabled="!isEdit"
       :model="contentForm"
       :rules="rules"
+      label-width="75px"
       status-icon
     >
       <div class="d-flex justify-content-between align-items-center mb-2">
@@ -111,8 +134,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         />
       </el-form-item>
       <el-form-item :label="$t('schedule.form.content.cost')" prop="cost">
-        <el-input
+        <el-input-number
           v-model="contentForm.cost"
+          :min="0"
           :placeholder="
             $t('common.please-input', {
               field: $t('schedule.form.content.cost'),
@@ -120,17 +144,17 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           "
           style="width: 200px"
         >
-          <template #append>원</template>
-        </el-input>
+        </el-input-number>
       </el-form-item>
       <el-form-item
         :label="$t('schedule.form.content.period.start')"
         prop="period"
         class="period-item"
       >
-        <el-time-picker
+        <el-date-picker
           v-model="contentForm.timePeriod.startDateTime"
           :placeholder="$t('common.pick-day')"
+          :default-time="translateDateRange(period)"
           style="width: 200px"
           type="datetime"
           value-format="YYYY-MM-DD HH:mm:ss"
@@ -141,7 +165,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         prop="period"
         class="period-item"
       >
-        <el-time-picker
+        <el-date-picker
           v-model="contentForm.timePeriod.endDateTime"
           :placeholder="$t('common.pick-day')"
           style="width: 200px"
@@ -164,7 +188,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     </div>
     <div v-else class="d-flex justify-content-end">
       <el-button @click="submitForm(ruleFormRef)"> 추가</el-button>
-      <el-button @click="contentForm.clear()"> 초기화</el-button>
+      <el-button @click="contentForm.clear(period)"> 초기화</el-button>
     </div>
   </el-card>
 </template>

@@ -62,7 +62,7 @@ export interface ScheduleContentFormType {
 
   setAttr(event: EventApi): void;
   setForm(data: ScheduleContentType): void;
-  clear(): void;
+  clear(period: DatePeriodType): void;
 }
 
 export interface ScheduleFormType {

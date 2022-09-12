@@ -10,6 +10,7 @@ import type { PageableRequestType } from "@/modules/types/common/PageableType";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SortType } from "@/modules/types/common/SortType";
 import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
+import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 
 export const useSchedule = () => {
   const store = useScheduleStore();
@@ -146,6 +147,51 @@ export const useSchedule = () => {
     }
   };
 
+  const addContent = async (
+    scheduleId: number,
+    form: ScheduleContentEditor
+  ) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await contentStore.addContent(scheduleId, form);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const editContent = async (
+    contentId: number,
+    form: ScheduleContentEditor
+  ) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await contentStore.editContent(contentId, form);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const deleteContent = async (contentId: number) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await contentStore.deleteContent(contentId);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   return {
     error,
     isPending,
@@ -167,5 +213,8 @@ export const useSchedule = () => {
     addSchedule,
     editSchedule,
     deleteSchedule,
+    addContent,
+    editContent,
+    deleteContent,
   };
 };
