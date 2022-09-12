@@ -2,15 +2,15 @@ import CalendarService from "@/services/CalendarService";
 import { computed } from "vue";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
 import type { EventApi } from "@fullcalendar/common";
-import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 import { useDate } from "@/composables/date";
+import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 
 export const useCalendarEvent = () => {
   const store = useScheduleContentStore();
   const contentCollapse = computed(() => store.contentCollapse);
   const scheduleContents = computed(() => store.scheduleContents);
   const selectedContent = computed(() => store.selectContent);
-  const { convertDateTime } = useDate();
+  const { getDateTime } = useDate();
   const setContentCollapse = async (id = store.scheduleContents[0]?.id) => {
     await store.setContentCollapse(id);
   };
@@ -20,8 +20,8 @@ export const useCalendarEvent = () => {
   const resetContent = () => {
     store.resetContent();
   };
-  const setEvents = async () => {
-    return await store.setScheduleEvents();
+  const getEvents = () => {
+    return store.getScheduleEvents();
   };
 
   const createEvents = async (event: EventApi) => {
@@ -30,16 +30,20 @@ export const useCalendarEvent = () => {
       content: event.extendedProps.content,
       cost: event.extendedProps.cost,
       timePeriod: {
-        startDateTime: convertDateTime(event.start),
-        endDateTime: convertDateTime(event.end),
+        startDateTime: getDateTime(event.start),
+        endDateTime: getDateTime(event.end),
       },
     };
     await CalendarService.storeEvent(request);
   };
-  // const updateEvents = async () => {
-  // };
-  // const deleteEvents = async () => {
-  // };
+
+  const updateEvents = async (
+    contentId: number,
+    form: ScheduleContentEditor
+  ) => {
+  };
+
+  const deleteEvents = async () => {};
 
   return {
     scheduleContents,
@@ -48,9 +52,9 @@ export const useCalendarEvent = () => {
     setContent,
     resetContent,
     setContentCollapse,
-    setEvents,
+    getEvents,
     createEvents,
-    // updateEvents,
+    updateEvents,
     // deleteEvents,
   };
 };

@@ -1,12 +1,13 @@
 import { useDate } from "@/composables/date";
 import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 import type {
+  DatePeriodType,
   DateTimePeriodType,
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { EventApi } from "@fullcalendar/common";
 
-const { convertDateTime } = useDate();
+const { getDateTime } = useDate();
 
 export class ScheduleContentEditor implements ScheduleContentFormType {
   content: string;
@@ -14,19 +15,22 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
   title: string;
   timePeriod: DateTimePeriodType;
 
-  constructor() {
+  constructor(period: DatePeriodType) {
     this.title = "";
     this.content = "";
     this.cost = 0;
-    this.timePeriod = { startDateTime: "", endDateTime: "" };
+    this.timePeriod = {
+      startDateTime: getDateTime(period.startDate),
+      endDateTime: getDateTime(period.startDate),
+    };
   }
 
   setAttr(event: EventApi) {
     this.title = event.title;
     this.content = event.extendedProps.content;
     this.cost = event.extendedProps.cost;
-    this.timePeriod.startDateTime = convertDateTime(event.start);
-    this.timePeriod.endDateTime = convertDateTime(event.end);
+    this.timePeriod.startDateTime = getDateTime(event.start as Date);
+    this.timePeriod.endDateTime = getDateTime(event.end as Date);
   }
 
   setForm(data: ScheduleContentType) {
@@ -36,12 +40,12 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     this.timePeriod = data.timePeriod;
   }
 
-  clear(): void {
+  clear(period: DatePeriodType): void {
     this.title = "";
     this.content = "";
     this.cost = 0;
-    this.timePeriod.startDateTime = "";
-    this.timePeriod.endDateTime = "";
+    this.timePeriod.startDateTime = getDateTime(period.startDate);
+    this.timePeriod.endDateTime = getDateTime(period.startDate);
   }
 }
 

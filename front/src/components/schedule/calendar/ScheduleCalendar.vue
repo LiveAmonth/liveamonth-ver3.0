@@ -25,7 +25,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["selectContent"]);
-const { scheduleContents, setContent, setEvents, createEvents } =
+const { scheduleContents, setContent, getEvents, createEvents } =
   useCalendarEvent();
 
 const options: CalendarOptions = reactive({
@@ -48,23 +48,18 @@ const options: CalendarOptions = reactive({
       : emit("selectContent", Number(arg.event.id));
   },
   eventAdd: (arg) => {
-    createEvents({
-      title: arg.event.title,
-      start: arg.event.start,
-      cost: arg.event.extendedProps.cost,
-      content: arg.event.extendedProps.content,
-    });
+    createEvents(arg.event);
   },
   events: [],
 });
-onMounted(async () => {
-  options.events = await setEvents();
+onMounted(() => {
+  options.events = getEvents();
 });
 
 watch(
   () => scheduleContents.value,
-  async () => {
-    options.events = await setEvents();
+  () => {
+    options.events = getEvents();
   }
 );
 </script>

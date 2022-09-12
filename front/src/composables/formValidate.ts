@@ -1,8 +1,8 @@
 import { useI18n } from "vue-i18n";
 import dayjs from "dayjs";
-import type { FormInstance, FormItemRule } from "element-plus/es";
+import type { FormItemRule } from "element-plus/es";
 import type {
-  ScheduleFormType,
+  ScheduleContentFormType,
   SignUpType,
 } from "@/modules/types/form/FormType";
 import { ref } from "vue";
@@ -11,9 +11,11 @@ import type {
   DatePeriodType,
   DateTimePeriodType,
 } from "@/modules/types/schedule/ScheduleType";
+import { useDate } from "@/composables/date";
 
 export const useFormValidate = () => {
   const { t } = useI18n();
+  const { isBetween, isAfter } = useDate();
   const store = useMemberStore();
   const isPending = ref(false);
 
@@ -64,10 +66,25 @@ export const useFormValidate = () => {
     };
   };
 
-  const validateMin = (field: string, min: number): FormItemRule => {
+  const validateCost = (
+    form: ScheduleContentFormType,
+    min: number
+  ): FormItemRule => {
     return {
-      min: min,
-      message: t("validation.min", { field: t(field), min: min }),
+      validator: (rule, value, callback) => {
+        if (min >= form.cost) {
+          callback(
+            new Error(
+              t("validation.min", {
+                field: t("schedule.form.content.cost"),
+                min: min,
+              })
+            )
+          );
+        } else {
+          callback();
+        }
+      },
       trigger: "blur",
     };
   };
@@ -86,7 +103,7 @@ export const useFormValidate = () => {
   const validateBirth = (form: SignUpType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (dayjs(form.birth).isAfter(dayjs())) {
+        if (isAfter(form.birth, new Date())) {
           callback(new Error(t("validation.birth")));
         } else {
           callback();
@@ -99,7 +116,7 @@ export const useFormValidate = () => {
   const validateDatePeriod = (period: DatePeriodType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (dayjs(period.startDate).isAfter(dayjs(period.endDate))) {
+        if (isAfter(period.startDate, period.endDate)) {
           callback(new Error(t("validation.period.date")));
         } else {
           callback();
@@ -112,7 +129,7 @@ export const useFormValidate = () => {
   const validateDateTimePeriod = (period: DateTimePeriodType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (dayjs(period.startDateTime).isAfter(dayjs(period.endDateTime))) {
+        if (isAfter(period.startDateTime, period.endDateTime)) {
           callback(new Error(t("validation.period.time")));
         } else {
           callback();
@@ -121,6 +138,26 @@ export const useFormValidate = () => {
       trigger: "select",
     };
   };
+
+  const validatePeriodRange = (
+    period: DateTimePeriodType,
+    range: DatePeriodType
+  ): FormItemRule => {
+    return {
+      validator: (rule, value, callback) => {
+        if (
+          isBetween(period.startDateTime, range) &&
+          isBetween(period.endDateTime, range)
+        ) {
+          callback();
+        } else {
+          callback(new Error(t("validation.period.range")));
+        }
+      },
+      trigger: "select",
+    };
+  };
+
   const checkedField = (form: SignUpType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
@@ -133,6 +170,7 @@ export const useFormValidate = () => {
       trigger: "blur",
     };
   };
+
   const duplicateCheck = async (field: string, param: string) => {
     isPending.value = true;
     try {
@@ -149,12 +187,13 @@ export const useFormValidate = () => {
     validateSelection,
     validatePattern,
     validateNumber,
-    validateMin,
+    validateCost,
     validateRange,
     validatePassword,
     validateBirth,
     validateDatePeriod,
     validateDateTimePeriod,
+    validatePeriodRange,
     checkedField,
     duplicateCheck,
   };

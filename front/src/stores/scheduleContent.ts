@@ -11,7 +11,7 @@ import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContent
 import scheduleApiService from "@/services/ScheduleApiService";
 
 const collapseArr: number[] = [];
-const { convertDateTime } = useDate();
+const { getDateTime } = useDate();
 export const useScheduleContentStore = defineStore("scheduleContent", {
   state: () => ({
     selectContent: {} as ScheduleContentType,
@@ -68,8 +68,8 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
         });
     },
 
-    setScheduleEvents: function () {
-      const data = ref<unknown[]>([]);
+    getScheduleEvents: function () {
+      const data: any = ref([]);
       this.scheduleContents.forEach((value: ScheduleContentType) => {
         data.value.push({
           id: value.id,
@@ -93,8 +93,8 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
         content: event.extendedProps.content,
         cost: event.extendedProps.cost,
         timePeriod: {
-          startDateTime: convertDateTime(event.start),
-          endDateTime: convertDateTime(event.end),
+          startDateTime: getDateTime(event.start),
+          endDateTime: getDateTime(event.end),
         },
       };
     },
