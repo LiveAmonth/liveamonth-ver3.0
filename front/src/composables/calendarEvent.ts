@@ -1,9 +1,8 @@
-import CalendarService from "@/services/CalendarService";
 import { computed } from "vue";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
-import type { EventApi } from "@fullcalendar/common";
 import { useDate } from "@/composables/date";
-import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
+import type { EventApi } from "@fullcalendar/common";
+import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 
 export const useCalendarEvent = () => {
   const store = useScheduleContentStore();
@@ -24,7 +23,7 @@ export const useCalendarEvent = () => {
     return store.getScheduleEvents();
   };
 
-  const createEvents = async (event: EventApi) => {
+  const updateEvent = async (event: EventApi) => {
     const request = {
       title: event.title,
       content: event.extendedProps.content,
@@ -33,17 +32,9 @@ export const useCalendarEvent = () => {
         startDateTime: getDateTime(event.start),
         endDateTime: getDateTime(event.end),
       },
-    };
-    await CalendarService.storeEvent(request);
+    } as ScheduleContentFormType;
+    await store.editContent(Number(event.id), request);
   };
-
-  const updateEvents = async (
-    contentId: number,
-    form: ScheduleContentEditor
-  ) => {
-  };
-
-  const deleteEvents = async () => {};
 
   return {
     scheduleContents,
@@ -53,8 +44,6 @@ export const useCalendarEvent = () => {
     resetContent,
     setContentCollapse,
     getEvents,
-    createEvents,
-    updateEvents,
-    // deleteEvents,
+    updateEvent,
   };
 };

@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 import "dayjs/locale/ko";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
@@ -8,12 +10,15 @@ import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 dayjs.locale("ko");
 
 export const useDate = () => {
   const getDateTime = (value: Date | string | null) => {
     return dayjs(value).format("YYYY-MM-DD HH:mm:ss");
   };
+
   const getDate = (value: Date | string | null) => {
     return dayjs(value).format("YYYY-MM-DD");
   };
@@ -27,31 +32,31 @@ export const useDate = () => {
     );
   };
 
-  const isAfter = (compA: Date | string, compB: Date | string) => {
-    return dayjs(compA).isAfter(compB);
+  const isSameDate = (compA: Date | string, compB: Date | string) => {
+    return dayjs(compA).isSame(dayjs(compB), "date");
   };
 
-  const isBefore = (compA: Date | string, compB: Date | string) => {
-    return dayjs(compA).isBefore(compB);
+  const isAfter = (compA: string, compB: string) => {
+    return dayjs(compA).isAfter(dayjs(compB));
   };
 
-  const isSameAfter = (compA: Date | string, compB: Date | string) => {
-    return dayjs(compA).isSameOrAfter(compB);
+  const isBefore = (compA: string, compB: string) => {
+    return dayjs(compA).isBefore(dayjs(compB));
   };
 
-  const isSameBefore = (compA: Date | string, compB: Date | string) => {
-    return dayjs(compA).isSameOrBefore(compB);
+  const isSameAfter = (compA: string, compB: string) => {
+    return dayjs(compA).isSameOrAfter(dayjs(compB));
   };
 
-  const translateDateRange = (period: DatePeriodType) => {
-    return [new Date(2000, 1, 1, 12, 0, 0)];
+  const isSameBefore = (compA: string, compB: string) => {
+    return dayjs(compA).isSameOrBefore(dayjs(compB));
   };
 
   return {
     getDate,
     getDateTime,
-    translateDateRange,
     isBetween,
+    isSameDate,
     isAfter,
     isSameAfter,
     isBefore,

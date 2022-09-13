@@ -1,6 +1,5 @@
 import axios from "axios";
 import qs from "query-string";
-import { useMessageBox } from "@/composables/messageBox";
 import { useAuth } from "@/composables/auth";
 import type { AxiosInstance } from "axios";
 
@@ -37,9 +36,9 @@ apiClient.interceptors.response.use(
     return response;
   },
   async function (error) {
-    const { bearerToken, isLoggedIn, reissue, logout } = useAuth();
+    const { bearerToken, isLoggedIn, reissue } = useAuth();
     if (error.response) {
-      console.log(error.response.data);
+      console.log(error.response);
       if (
         error.response.data.status == 403 &&
         error.response.data.error == "EXPIRED_JWT"
@@ -52,9 +51,8 @@ apiClient.interceptors.response.use(
             console.log("access token을 재발급합니다.");
             return axios(axiosRequest);
           } catch (err) {
-            console.log(err);
             console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
-            await logout();
+            localStorage.removeItem("token-info");
           }
         }
       }

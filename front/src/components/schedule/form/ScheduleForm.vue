@@ -159,10 +159,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       </el-form-item>
     </el-form>
     <div v-if="schedule" class="d-flex justify-content-end">
-      <el-button v-if="!isEdit" @click="isEdit = true"> 수정</el-button>
-      <el-button v-if="!isEdit" @click="emits('deleteSchedule')">
-        삭제
-      </el-button>
+      <template v-if="!isEdit">
+        <el-button @click="isEdit = true"> 수정</el-button>
+        <el-button @click="emits('deleteSchedule')"> 삭제 </el-button>
+      </template>
       <template v-else>
         <el-button @click="submitForm(ruleFormRef)"> 업데이트</el-button>
         <el-button @click="cancelEdit"> 취소</el-button>
