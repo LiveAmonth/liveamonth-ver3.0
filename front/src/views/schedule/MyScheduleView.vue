@@ -34,7 +34,6 @@ const initDate = ref<string>("");
 const calendarKey = ref(0);
 const scheduleModal = ref<boolean>(false);
 const contentModal = ref<boolean>(false);
-
 onMounted(async () => {
   await getMySchedules(props.loginId).then(async () => {
     selectedId.value = mySchedules.value[0].id;
@@ -130,7 +129,8 @@ const deleteContentBtn = async () => {
           <ScheduleCalendar
             :key="calendarKey"
             v-if="initDate"
-            :editable="false"
+            :schedule-id="selectedId"
+            :editable="true"
             :init-date="initDate"
             :manage-state="true"
           />

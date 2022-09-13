@@ -1,7 +1,6 @@
 import { useDate } from "@/composables/date";
 import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 import type {
-  DatePeriodType,
   DateTimePeriodType,
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
@@ -15,13 +14,13 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
   title: string;
   timePeriod: DateTimePeriodType;
 
-  constructor(period: DatePeriodType) {
+  constructor(date: string) {
     this.title = "";
     this.content = "";
     this.cost = 0;
     this.timePeriod = {
-      startDateTime: getDateTime(period.startDate),
-      endDateTime: getDateTime(period.startDate),
+      startDateTime: date,
+      endDateTime: date,
     };
   }
 
@@ -37,15 +36,16 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     this.title = data.title;
     this.content = data.content;
     this.cost = data.cost;
-    this.timePeriod = data.timePeriod;
+    this.timePeriod.startDateTime = data.timePeriod.startDateTime;
+    this.timePeriod.endDateTime = data.timePeriod.endDateTime;
   }
 
-  clear(period: DatePeriodType): void {
+  clear(date: string): void {
     this.title = "";
     this.content = "";
     this.cost = 0;
-    this.timePeriod.startDateTime = getDateTime(period.startDate);
-    this.timePeriod.endDateTime = getDateTime(period.startDate);
+    this.timePeriod.startDateTime = date;
+    this.timePeriod.endDateTime = date;
   }
 }
 

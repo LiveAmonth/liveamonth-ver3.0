@@ -9,6 +9,7 @@ import listPlugin from "@fullcalendar/list";
 import { onMounted, reactive, watch } from "vue";
 import { useCalendarEvent } from "@/composables/calendarEvent";
 import type { CalendarOptions } from "@fullcalendar/core";
+import { useDate } from "@/composables/date";
 
 const props = defineProps({
   manageState: {
@@ -23,11 +24,15 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  scheduleId: {
+    type: Number,
+    required: true,
+  },
 });
 const emit = defineEmits(["selectContent"]);
-const { scheduleContents, setContent, getEvents, createEvents } =
+const { scheduleContents, setContent, getEvents, updateEvent } =
   useCalendarEvent();
-
+const { isSameDate } = useDate();
 const options: CalendarOptions = reactive({
   locale: koLocale,
   plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
@@ -42,16 +47,28 @@ const options: CalendarOptions = reactive({
   selectable: true,
   weekends: true,
   dayMaxEvents: true,
+  select: (arg) => {
+    let hasEvents = false;
+    arg.view.calendar.getEvents().forEach((value) => {
+      if (value.start && isSameDate(arg.start, value.start)) {
+        hasEvents = true;
+      }
+    });
+    if (!hasEvents) {
+      console.log("컨텐츠 추가 메시지 후 모달창");
+    }
+  },
   eventClick: (arg) => {
     props.manageState
       ? setContent(arg.event)
       : emit("selectContent", Number(arg.event.id));
   },
-  eventAdd: (arg) => {
-    createEvents(arg.event);
+  eventChange: (arg) => {
+    updateEvent(arg.event);
   },
   events: [],
 });
+
 onMounted(() => {
   options.events = getEvents();
 });

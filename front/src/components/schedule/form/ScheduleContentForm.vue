@@ -10,8 +10,6 @@ import type { PropType } from "vue";
 import type { FormInstance, FormRules } from "element-plus/es";
 import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
-import { useDate } from "@/composables/date";
-import { useCalendarEvent } from "@/composables/calendarEvent";
 
 const props = defineProps({
   scheduleId: {
@@ -35,29 +33,28 @@ const props = defineProps({
 });
 const emits = defineEmits(["submit", "deleteContent"]);
 const { addContent, editContent } = useSchedule();
-const {} = useCalendarEvent();
 const {
   validateRequire,
   validateDateTimePeriod,
   validateCost,
-  validateNumber,
   validatePeriodRange,
+  validateSameDate,
 } = useFormValidate();
 const { openMessage, openMessageBox } = useMessageBox();
-const { translateDateRange } = useDate();
 const { t } = useI18n();
 const isEdit = ref<boolean>(!props.content);
 const contentForm = reactive<ScheduleContentEditor>(
-  new ScheduleContentEditor(props.period)
+  new ScheduleContentEditor(props.period.startDate)
 );
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive<FormRules>({
   title: [validateRequire("common.title")],
   content: [validateRequire("schedule.form.content.content")],
-  cost: [validateCost(contentForm, 0), validateNumber()],
+  cost: [validateCost(contentForm, 0)],
   period: [
-    validateDateTimePeriod(contentForm.timePeriod),
+    validateSameDate(contentForm.timePeriod),
     validatePeriodRange(contentForm.timePeriod, props.period),
+    validateDateTimePeriod(contentForm.timePeriod),
   ],
 });
 
@@ -74,6 +71,7 @@ const cancelEdit = () => {
 };
 
 const submitForm = async (formEl: FormInstance | undefined) => {
+  console.log("제출???");
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
@@ -134,17 +132,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         />
       </el-form-item>
       <el-form-item :label="$t('schedule.form.content.cost')" prop="cost">
-        <el-input-number
+        <el-input
           v-model="contentForm.cost"
-          :min="0"
           :placeholder="
             $t('common.please-input', {
               field: $t('schedule.form.content.cost'),
             })
           "
+          type="number"
           style="width: 200px"
         >
-        </el-input-number>
+          <template #append> 원 </template>
+        </el-input>
       </el-form-item>
       <el-form-item
         :label="$t('schedule.form.content.period.start')"
@@ -154,9 +153,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         <el-date-picker
           v-model="contentForm.timePeriod.startDateTime"
           :placeholder="$t('common.pick-day')"
-          :default-time="translateDateRange(period)"
           style="width: 200px"
           type="datetime"
+          format="MM-DD HH:mm"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
@@ -170,16 +169,17 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           :placeholder="$t('common.pick-day')"
           style="width: 200px"
           type="datetime"
+          format="MM-DD HH:mm"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
     </el-form>
     <div v-if="!isAddition" class="d-flex justify-content-end">
       <template v-if="contentForm.title">
-        <el-button v-if="!isEdit" @click="isEdit = true"> 수정</el-button>
-        <el-button v-if="!isEdit" @click="emits('deleteContent')">
-          삭제
-        </el-button>
+        <template v-if="!isEdit">
+          <el-button @click="isEdit = true"> 수정</el-button>
+          <el-button @click="emits('deleteContent')"> 삭제 </el-button>
+        </template>
         <template v-else>
           <el-button @click="submitForm(ruleFormRef)"> 업데이트</el-button>
           <el-button @click="cancelEdit"> 취소</el-button>
@@ -188,7 +188,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     </div>
     <div v-else class="d-flex justify-content-end">
       <el-button @click="submitForm(ruleFormRef)"> 추가</el-button>
-      <el-button @click="contentForm.clear(period)"> 초기화</el-button>
+      <el-button @click="contentForm.clear(period.startDate)">
+        초기화</el-button
+      >
     </div>
   </el-card>
 </template>

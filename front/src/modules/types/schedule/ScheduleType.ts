@@ -41,12 +41,12 @@ export interface ScheduleContentType {
 }
 
 export interface DatePeriodType {
-  startDate: string | Date;
-  endDate: string | Date;
+  startDate: string;
+  endDate: string;
 }
 export interface DateTimePeriodType {
-  startDateTime: string | Date;
-  endDateTime: string | Date;
+  startDateTime: string;
+  endDateTime: string;
 }
 
 export interface ScheduleSearchType extends SearchCondType {

@@ -1,5 +1,4 @@
 import { useI18n } from "vue-i18n";
-import dayjs from "dayjs";
 import type { FormItemRule } from "element-plus/es";
 import type {
   ScheduleContentFormType,
@@ -15,7 +14,7 @@ import { useDate } from "@/composables/date";
 
 export const useFormValidate = () => {
   const { t } = useI18n();
-  const { isBetween, isAfter } = useDate();
+  const { getDate, isBetween, isSameAfter, isSameDate } = useDate();
   const store = useMemberStore();
   const isPending = ref(false);
 
@@ -88,6 +87,7 @@ export const useFormValidate = () => {
       trigger: "blur",
     };
   };
+
   const validatePassword = (form: SignUpType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
@@ -100,10 +100,11 @@ export const useFormValidate = () => {
       trigger: "blur",
     };
   };
+
   const validateBirth = (form: SignUpType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (isAfter(form.birth, new Date())) {
+        if (isSameAfter(form.birth, getDate(new Date()))) {
           callback(new Error(t("validation.birth")));
         } else {
           callback();
@@ -116,7 +117,7 @@ export const useFormValidate = () => {
   const validateDatePeriod = (period: DatePeriodType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (isAfter(period.startDate, period.endDate)) {
+        if (isSameAfter(period.startDate, period.endDate)) {
           callback(new Error(t("validation.period.date")));
         } else {
           callback();
@@ -129,8 +130,21 @@ export const useFormValidate = () => {
   const validateDateTimePeriod = (period: DateTimePeriodType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (isAfter(period.startDateTime, period.endDateTime)) {
+        if (isSameAfter(period.startDateTime, period.endDateTime)) {
           callback(new Error(t("validation.period.time")));
+        } else {
+          callback();
+        }
+      },
+      trigger: "select",
+    };
+  };
+
+  const validateSameDate = (period: DateTimePeriodType): FormItemRule => {
+    return {
+      validator: (rule, value, callback) => {
+        if (!isSameDate(period.startDateTime, period.endDateTime)) {
+          callback(new Error(t("validation.period.sameDate")));
         } else {
           callback();
         }
@@ -194,6 +208,7 @@ export const useFormValidate = () => {
     validateDatePeriod,
     validateDateTimePeriod,
     validatePeriodRange,
+    validateSameDate,
     checkedField,
     duplicateCheck,
   };
