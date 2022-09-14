@@ -22,8 +22,8 @@ public interface ScheduleContentRepository extends JpaRepository<ScheduleContent
     @Transactional
     @Query(value = "" +
             "delete from schedule_content sc " +
-            "where sc.schedule_id = :scheduleId"
+            "where sc.schedule_content_id = :contentId"
             , nativeQuery = true)
-    void deleteContent(@Param("scheduleId") Long scheduleId);
+    void deleteContent(@Param("contentId") Long contentId);
 
 }

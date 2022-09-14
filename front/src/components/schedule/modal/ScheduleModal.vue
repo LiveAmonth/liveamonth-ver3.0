@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import OpenModal from "@/components/common/OpenModal.vue";
 import ScheduleForm from "@/components/schedule/form/ScheduleForm.vue";
-import ScheduleContentForm from "@/components/schedule/form/ScheduleContentForm.vue";
+import AddContentForm from "@/components/schedule/form/AddContentForm.vue";
 import type { PropType } from "vue";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
@@ -11,6 +11,10 @@ defineProps({
   contentModal: Boolean,
   period: {
     type: Object as PropType<DatePeriodType>,
+    required: true,
+  },
+  startDate: {
+    type: String,
     required: true,
   },
 });
@@ -42,16 +46,12 @@ const addContent = () => {
     </ScheduleForm>
   </OpenModal>
   <OpenModal @close="$emit('update:contentModal', false)" v-if="contentModal">
-    <ScheduleContentForm
+    <AddContentForm
       :schedule-id="scheduleId"
       :period="period"
-      :is-addition="true"
+      :start-date="period.startDate"
       @submit="addContent"
-    >
-      <template v-slot:title>
-        {{ $t("schedule.form.content.add") }}
-      </template>
-    </ScheduleContentForm>
+    />
   </OpenModal>
 </template>
 

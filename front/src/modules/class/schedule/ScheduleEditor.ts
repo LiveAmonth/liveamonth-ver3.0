@@ -1,8 +1,11 @@
+import { reactive } from "vue";
+import { useFormValidate } from "@/composables/formValidate";
 import type { ScheduleFormType } from "@/modules/types/form/FormType";
 import type {
   DatePeriodType,
   ScheduleCardType,
 } from "@/modules/types/schedule/ScheduleType";
+import type { FormRules } from "element-plus/es";
 
 export default class ScheduleEditor implements ScheduleFormType {
   title: string;
@@ -33,13 +36,14 @@ export default class ScheduleEditor implements ScheduleFormType {
     this.period.endDate = "";
   }
 
-  getObject() {
-    return {
-      title: this.title,
-      city: this.city,
-      publicFlag: this.publicFlag,
-      startDate: this.period.startDate,
-      endDate: this.period.endDate,
-    };
+  getRules(): FormRules {
+    const { validateRequire, validateSelection, validateDatePeriod } =
+      useFormValidate();
+
+    return reactive<FormRules>({
+      title: [validateRequire("common.title")],
+      city: [validateSelection("city.title")],
+      period: [validateDatePeriod(this.period)],
+    });
   }
 }

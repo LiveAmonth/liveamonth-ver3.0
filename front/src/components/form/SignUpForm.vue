@@ -11,6 +11,7 @@ import { useMemberStore } from "@/stores/member";
 import { useI18n } from "vue-i18n";
 import { useMessageBox } from "@/composables/messageBox";
 import { useRouter } from "vue-router";
+import { useType } from "@/composables/type";
 
 const store = useMemberStore();
 const router = useRouter();
@@ -25,10 +26,13 @@ const {
   validateBirth,
   duplicateCheck,
 } = useFormValidate();
-const { getGenderType, signUp, isPending, error } = useMember();
+const { error, isPending, signUp } = useMember();
+const { getGenderType, genderType } = useType();
 
 onMounted(async () => {
-  await getGenderType();
+  if (!genderType) {
+    await getGenderType();
+  }
 });
 
 const signUpForm = reactive<SignUpType>({
@@ -139,11 +143,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       signUp(signUpForm);
-      if (!error) {
-        openMessageBox(t("form.message.signUp.result")).finally(() => {
+      if (!error.value) {
+        openMessageBox(t("form.message.signUp.result")).then(() => {
           router.replace({ name: "login" });
         });
       } else {
+        console.log(error.value);
         openMessageBox(t("form.message.unknown"));
       }
     } else {
@@ -236,8 +241,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     </el-form-item>
     <el-form-item :label="$t('member.gender.title')" prop="gender">
       <el-radio-group v-model="signUpForm.gender">
-        <template v-for="type in store.genderType" :key="type.code">
-          <el-radio :label="$t(`member.gender.${type.code}`)">
+        <template v-for="type in genderType" :key="type.code">
+          <el-radio :label="type.code">
             {{ $t(`member.gender.${type.code}`) }}
           </el-radio>
         </template>

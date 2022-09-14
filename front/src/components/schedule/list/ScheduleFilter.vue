@@ -16,7 +16,7 @@ const {
   getFilterTypes,
   getSortTypes,
 } = useSchedule();
-const { convertDate } = useDate();
+const { getDate } = useDate();
 const { cityNames } = useCity();
 const scheduleSearchForm: SearchSortFormType = reactive({
   searchType: null,
@@ -56,7 +56,7 @@ const applyOption = () => {
   if (scheduleSearchForm.filterType === "START_DATE") {
     if (scheduleSearchForm.filterInput instanceof Date) {
       const date: Date = scheduleSearchForm.filterInput as Date;
-      scheduleSearchForm.filterInput = convertDate(date);
+      scheduleSearchForm.filterInput = getDate(date);
     }
   }
   searchCollapse.value = 0;
@@ -117,7 +117,8 @@ const disabledDate = (time: Date) => {
                 </div>
               </el-collapse-item>
             </el-collapse>
-
+          </div>
+          <div class="filter-collapse me-3">
             <el-collapse v-model="filterCollapse" class="filter">
               <el-collapse-item name="1">
                 <template #title>

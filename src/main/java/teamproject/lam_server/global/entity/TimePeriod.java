@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Embeddable
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 @ToString
 public class TimePeriod {
 
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime startDateTime;
@@ -29,5 +31,6 @@ public class TimePeriod {
         this.startDateTime = start;
         this.endDateTime = end;
     }
+
 
 }

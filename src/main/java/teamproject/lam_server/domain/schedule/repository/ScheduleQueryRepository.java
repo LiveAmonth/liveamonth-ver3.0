@@ -100,7 +100,8 @@ public class ScheduleQueryRepository extends BasicRepository {
                 memberNicknameEq(cond.getMemberNickname()),
                 cityNameEq(cond.getCityName()),
                 startDateGoe(cond.getStartDate()),
-                titleContain(cond.getTitle())
+                titleContain(cond.getTitle()),
+                publicFlag()
         };
     }
 
@@ -130,5 +131,9 @@ public class ScheduleQueryRepository extends BasicRepository {
 
     private BooleanExpression startDateGoe(LocalDate start) {
         return start != null ? schedule.period.startDate.goe(start) : null;
+    }
+
+    private BooleanExpression publicFlag() {
+        return schedule.publicFlag.eq(true);
     }
 }

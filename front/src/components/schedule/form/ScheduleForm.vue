@@ -3,13 +3,12 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import { onMounted, reactive, ref, watch } from "vue";
 import { useCity } from "@/composables/city";
-import { useFormValidate } from "@/composables/formValidate";
 import { useSchedule } from "@/composables/schedule";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import { useMember } from "@/composables/member";
 import type { PropType } from "vue";
-import type { FormRules, FormInstance } from "element-plus/es";
+import type { FormInstance } from "element-plus/es";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
@@ -24,19 +23,12 @@ const emits = defineEmits(["submit", "deleteSchedule"]);
 const { addSchedule, editSchedule } = useSchedule();
 const { cityNames } = useCity();
 const { simpleProfile } = useMember();
-const { validateRequire, validateSelection, validateDatePeriod } =
-  useFormValidate();
 const { openMessage, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
 const isEdit = ref<boolean>(!props.schedule);
 const scheduleForm = reactive<ScheduleEditor>(new ScheduleEditor());
 const ruleFormRef = ref<FormInstance>();
-const rules = reactive<FormRules>({
-  title: [validateRequire("common.title")],
-  city: [validateSelection("city.title")],
-  period: [validateDatePeriod(scheduleForm.period)],
-});
 
 onMounted(() => {
   if (props.schedule) {
@@ -80,12 +72,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </script>
 
 <template>
-  <el-card>
+  <el-card v-if="props.schedule">
     <el-form
       ref="ruleFormRef"
       :disabled="!isEdit"
       :model="scheduleForm"
-      :rules="rules"
+      :rules="scheduleForm.getRules()"
       label-width="75px"
       status-icon
     >
@@ -173,6 +165,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <el-button @click="scheduleForm.clear()"> 초기화</el-button>
     </div>
   </el-card>
+  <el-card v-else> 등록된 스케줄이 없습니다. </el-card>
 </template>
 
 <style lang="scss" scoped>

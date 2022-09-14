@@ -14,6 +14,7 @@ import type {
 } from "@/modules/types/common/PageableType";
 import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
+import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 
 class ScheduleApiService {
   async getSearchTypes() {
@@ -64,7 +65,6 @@ class ScheduleApiService {
     scheduleId: number,
     form: ScheduleEditor
   ): Promise<string> {
-    console.log(form);
     return await http
       .patch(`/schedules/${scheduleId}`, JSON.stringify(form))
       .then((response) => {
@@ -134,7 +134,7 @@ class ScheduleApiService {
 
   async editScheduleContent(
     contentId: number,
-    request: ScheduleContentEditor
+    request: ScheduleContentFormType
   ): Promise<string> {
     return await http
       .patch(`/schedules/contents/${contentId}`, JSON.stringify(request))

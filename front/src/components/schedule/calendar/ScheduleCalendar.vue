@@ -8,8 +8,11 @@ import koLocale from "@fullcalendar/core/locales/ko";
 import listPlugin from "@fullcalendar/list";
 import { onMounted, reactive, watch } from "vue";
 import { useCalendarEvent } from "@/composables/calendarEvent";
-import type { CalendarOptions } from "@fullcalendar/core";
 import { useDate } from "@/composables/date";
+import { useMessageBox } from "@/composables/messageBox";
+import { useI18n } from "vue-i18n";
+import type { CalendarOptions } from "@fullcalendar/core";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
   manageState: {
@@ -29,10 +32,16 @@ const props = defineProps({
     required: true,
   },
 });
-const emit = defineEmits(["selectContent"]);
+const emits = defineEmits([
+  "selectContent",
+  "update:contentModal",
+  "update:defaultDate",
+]);
 const { scheduleContents, setContent, getEvents, updateEvent } =
   useCalendarEvent();
 const { isSameDate } = useDate();
+const { openConfirmMessageBox } = useMessageBox();
+const { t } = useI18n();
 const options: CalendarOptions = reactive({
   locale: koLocale,
   plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
@@ -47,7 +56,7 @@ const options: CalendarOptions = reactive({
   selectable: true,
   weekends: true,
   dayMaxEvents: true,
-  select: (arg) => {
+  select: async (arg) => {
     let hasEvents = false;
     arg.view.calendar.getEvents().forEach((value) => {
       if (value.start && isSameDate(arg.start, value.start)) {
@@ -55,13 +64,22 @@ const options: CalendarOptions = reactive({
       }
     });
     if (!hasEvents) {
-      console.log("컨텐츠 추가 메시지 후 모달창");
+      await openConfirmMessageBox(
+        t("form.message.content.new.title"),
+        t("form.message.content.new.message")
+      ).then(() => {
+        emits("update:defaultDate", {
+          startDate: arg.startStr,
+          endDate: arg.endStr,
+        } as DatePeriodType);
+        emits("update:contentModal", true);
+      });
     }
   },
   eventClick: (arg) => {
     props.manageState
       ? setContent(arg.event)
-      : emit("selectContent", Number(arg.event.id));
+      : emits("selectContent", Number(arg.event.id));
   },
   eventChange: (arg) => {
     updateEvent(arg.event);
