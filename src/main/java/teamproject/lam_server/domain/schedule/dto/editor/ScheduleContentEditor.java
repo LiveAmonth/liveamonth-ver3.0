@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.global.entity.TimePeriod;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,6 +26,11 @@ public class ScheduleContentEditor {
 
     @Min(0)
     private int cost;
+
+    @AssertTrue
+    public boolean isValidTimePeriod() {
+        return getTimePeriod().getStartDateTime().isBefore(getTimePeriod().getEndDateTime());
+    }
 
     @Builder
     public ScheduleContentEditor(String title, String content, TimePeriod timePeriod, int cost) {

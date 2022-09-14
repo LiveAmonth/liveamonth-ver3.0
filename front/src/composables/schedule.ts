@@ -28,6 +28,7 @@ export const useSchedule = () => {
   const otherSchedules = computed(
     (): ScheduleCardType[] => store.otherScheduleCards
   );
+  const currSchedule = computed((): ScheduleCardType => store.currSchedule);
   const currScheduleContents = computed(
     (): ScheduleContentType[] => contentStore.scheduleContents
   );
@@ -192,6 +193,10 @@ export const useSchedule = () => {
     }
   };
 
+  const setSchedule = async (selectedId: number) => {
+    await store.setSchedule(selectedId);
+  };
+
   return {
     error,
     isPending,
@@ -203,6 +208,7 @@ export const useSchedule = () => {
     otherSchedules,
     currScheduleContents,
     mySchedules,
+    currSchedule,
     getSortTypes,
     getSearchTypes,
     getFilterTypes,
@@ -216,5 +222,6 @@ export const useSchedule = () => {
     addContent,
     editContent,
     deleteContent,
+    setSchedule,
   };
 };

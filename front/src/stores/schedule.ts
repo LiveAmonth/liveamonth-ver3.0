@@ -21,6 +21,7 @@ export const useScheduleStore = defineStore("schedule", {
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
     mySchedules: [] as ScheduleCardType[],
+    currSchedule: {} as ScheduleCardType,
   }),
   getters: {
     otherScheduleCards: (state): ScheduleCardType[] =>
@@ -106,9 +107,23 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
+
+    setSchedule: async function (selectedId: number) {
+      const data = this.mySchedules.find((value) => value.id === selectedId);
+      if (data) {
+        this.currSchedule = data;
+      }
+    },
   },
   persist: {
-    // paths: ["sortTypes", "searchTypes", "filterTypes", "searchCond"],
+    paths: [
+      "sortTypes",
+      "searchTypes",
+      "filterTypes",
+      "searchCond",
+      "pageableSchedules",
+      "currSchedule",
+    ],
     storage: sessionStorage,
   },
 });

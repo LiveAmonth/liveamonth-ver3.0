@@ -1,27 +1,33 @@
+import { reactive } from "vue";
 import { useDate } from "@/composables/date";
+import { useFormValidate } from "@/composables/formValidate";
 import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 import type {
   DateTimePeriodType,
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { EventApi } from "@fullcalendar/common";
+import type { FormRules } from "element-plus/es";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
 const { getDateTime } = useDate();
 
-export class ScheduleContentEditor implements ScheduleContentFormType {
+export default class ScheduleContentEditor implements ScheduleContentFormType {
   content: string;
   cost: number;
   title: string;
   timePeriod: DateTimePeriodType;
+  schedulePeriod: DatePeriodType;
 
-  constructor(date: string) {
+  constructor(period: DatePeriodType) {
     this.title = "";
     this.content = "";
     this.cost = 0;
     this.timePeriod = {
-      startDateTime: date,
-      endDateTime: date,
+      startDateTime: getDateTime(period.startDate),
+      endDateTime: getDateTime(period.startDate),
     };
+    this.schedulePeriod = period;
   }
 
   setAttr(event: EventApi) {
@@ -32,6 +38,11 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     this.timePeriod.endDateTime = getDateTime(event.end as Date);
   }
 
+  setDefaultDate(date: string): void {
+    this.timePeriod.startDateTime = getDateTime(date);
+    this.timePeriod.endDateTime = getDateTime(date);
+  }
+
   setForm(data: ScheduleContentType) {
     this.title = data.title;
     this.content = data.content;
@@ -40,13 +51,32 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     this.timePeriod.endDateTime = data.timePeriod.endDateTime;
   }
 
-  clear(date: string): void {
+  clear(): void {
     this.title = "";
     this.content = "";
     this.cost = 0;
-    this.timePeriod.startDateTime = date;
-    this.timePeriod.endDateTime = date;
+    this.timePeriod.startDateTime = getDateTime(this.schedulePeriod.startDate);
+    this.timePeriod.endDateTime = getDateTime(this.schedulePeriod.startDate);
+  }
+
+  getRules(): FormRules {
+    const {
+      validateRequire,
+      validateDateTimePeriod,
+      validateCost,
+      validatePeriodRange,
+      validateSameDate,
+    } = useFormValidate();
+
+    return reactive<FormRules>({
+      title: [validateRequire("common.title")],
+      content: [validateRequire("schedule.form.content.content")],
+      cost: [validateCost(this, 0)],
+      period: [
+        validateSameDate(this.timePeriod),
+        validatePeriodRange(this.timePeriod, this.schedulePeriod),
+        validateDateTimePeriod(this.timePeriod),
+      ],
+    });
   }
 }
-
-export default ScheduleContentEditor;
