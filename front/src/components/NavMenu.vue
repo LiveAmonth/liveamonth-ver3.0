@@ -14,9 +14,9 @@ const { simpleProfile } = useMember();
     text-color="#004A55"
   >
     <el-menu-item index="/city">{{ $t("menu.city") }}</el-menu-item>
-    <el-sub-menu index="/schedule">
+    <el-sub-menu index="/schedules">
       <template #title>{{ $t("menu.schedule") }}</template>
-      <el-menu-item index="/schedule"
+      <el-menu-item index="/schedules"
         >{{ $t("menu.otherSchedule") }}
       </el-menu-item>
       <el-menu-item

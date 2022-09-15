@@ -1,5 +1,11 @@
 <script lang="ts" setup>
 import { usePagination } from "@/composables/pagination";
+import {
+  DArrowLeft,
+  ArrowLeft,
+  DArrowRight,
+  ArrowRight,
+} from "@element-plus/icons-vue";
 
 const props = defineProps({
   paginationType: {
@@ -7,12 +13,14 @@ const props = defineProps({
     required: true,
   },
 });
+
 const {
   pagination,
   getCurrentPageGroupPages,
   isCurrentPage,
   getCurrentPageNumber,
 } = usePagination(props.paginationType);
+
 const emit = defineEmits(["click"]);
 const onClick = (page: number) => {
   emit("click", page);

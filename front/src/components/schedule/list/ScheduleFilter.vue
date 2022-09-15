@@ -1,22 +1,21 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import { Search } from "@element-plus/icons-vue";
+import { Search, Filter, Sort } from "@element-plus/icons-vue";
 import { useDate } from "@/composables/date";
 import { useCity } from "@/composables/city";
-import { Filter, Sort } from "@element-plus/icons-vue";
+import { useType } from "@/composables/type";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const emit = defineEmits(["applyOption"]);
-const {
-  searchTypes,
-  sortTypes,
-  filterTypes,
-  getSearchTypes,
-  getFilterTypes,
-  getSortTypes,
-} = useSchedule();
 const { getDate } = useDate();
+const {
+  scheduleSearchType,
+  scheduleFilterType,
+  scheduleSortType,
+  getScheduleSearchType,
+  getScheduleFilterType,
+  getScheduleSortType,
+} = useType();
 const { cityNames } = useCity();
 const scheduleSearchForm: SearchSortFormType = reactive({
   searchType: null,
@@ -31,14 +30,16 @@ const filterCollapse = ref(0);
 const sortCollapse = ref(0);
 
 onMounted(async () => {
-  await getSearchTypes().then(() => {
-    scheduleSearchForm.searchType = searchTypes.value[0].code;
+  await getScheduleSearchType().then(() => {
+    scheduleSearchForm.searchType = scheduleSearchType.value[0].code;
   });
-  await getFilterTypes().then(() => {
-    scheduleSearchForm.filterType = filterTypes.value[0].code;
+
+  await getScheduleFilterType().then(() => {
+    scheduleSearchForm.filterType = scheduleFilterType.value[0].code;
   });
-  await getSortTypes().then(() => {
-    scheduleSearchForm.sortType = sortTypes.value[0].title;
+
+  await getScheduleSortType().then(() => {
+    scheduleSearchForm.sortType = scheduleSortType.value[0].title;
   });
 });
 
@@ -52,6 +53,7 @@ const selectFilterType = () => {
       ? cityNames.value[0].code
       : null;
 };
+
 const applyOption = () => {
   if (scheduleSearchForm.filterType === "START_DATE") {
     if (scheduleSearchForm.filterInput instanceof Date) {
@@ -92,7 +94,10 @@ const disabledDate = (time: Date) => {
                       style="width: 115px"
                       @change="selectSearchType"
                     >
-                      <template v-for="val in searchTypes" :key="val.code">
+                      <template
+                        v-for="val in scheduleSearchType"
+                        :key="val.code"
+                      >
                         <el-option
                           :label="
                             $t(`schedule.search.${val.code.toLowerCase()}`)
@@ -136,7 +141,10 @@ const disabledDate = (time: Date) => {
                       style="width: 115px"
                       @change="selectFilterType"
                     >
-                      <template v-for="val in filterTypes" :key="val.code">
+                      <template
+                        v-for="val in scheduleFilterType"
+                        :key="val.code"
+                      >
                         <el-option
                           :label="
                             $t(`schedule.search.${val.code.toLowerCase()}`)
@@ -193,7 +201,7 @@ const disabledDate = (time: Date) => {
                     class="me-2"
                     style="width: 115px"
                   >
-                    <template v-for="val in sortTypes" :key="val.code">
+                    <template v-for="val in scheduleSortType" :key="val.code">
                       <el-option
                         :label="$t(`schedule.sort.${val.code.toLowerCase()}`)"
                         :value="val.title"
@@ -206,8 +214,8 @@ const disabledDate = (time: Date) => {
           </div>
           <div class="btn-wrapper ms-2 pt-1">
             <el-form-item>
-              <el-button size="large" @click="applyOption"
-                >{{ $t("common.application") }}
+              <el-button size="large" @click="applyOption">
+                {{ $t("common.application") }}
               </el-button>
             </el-form-item>
           </div>

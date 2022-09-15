@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import MemberApiService from "@/services/MemberApiService";
-import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
   DuplicationCheckType,
   FindIdType,
@@ -15,7 +14,6 @@ import type { SignUpType } from "@/modules/types/form/FormType";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
-    genderType: {} as EnumType[],
     duplicationCheck: {} as DuplicationCheckType,
     simpleProfile: {} as SimpleProfileType,
     memberProfile: {} as ProfileType,
@@ -29,16 +27,6 @@ export const useMemberStore = defineStore("member", {
       await MemberApiService.signUp(request)
         .then((response: string) => {
           console.log(response);
-        })
-        .catch((error) => {
-          throw error;
-        });
-    },
-
-    getGenderType: async function () {
-      await MemberApiService.getGenderTypes()
-        .then((response: EnumType[]) => {
-          this.genderType = response;
         })
         .catch((error) => {
           throw error;

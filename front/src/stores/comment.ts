@@ -3,6 +3,7 @@ import type { CommentType } from "@/modules/types/comment/CommentTypes";
 import type {
   PageableRequestType,
   PageableResponseType,
+  PageableType,
 } from "@/modules/types/common/PageableType";
 import type { CommentFormType } from "@/modules/types/form/FormType";
 import CommentApiService from "@/services/CommentApiService";
@@ -14,6 +15,7 @@ export const useCommentStore = defineStore("comment", {
   getters: {
     comments: (state): CommentType[] =>
       state.pageableComments.content as CommentType[],
+    commentPage: (state): PageableType => state.pageableComments.pageable,
   },
   actions: {
     getComments: async function (

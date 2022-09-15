@@ -5,19 +5,15 @@ import type {
   ScheduleCardType,
   ScheduleSearchType,
 } from "@/modules/types/schedule/ScheduleType";
-import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
   PageableRequestType,
   PageableResponseType,
+  PageableType,
 } from "@/modules/types/common/PageableType";
-import type { SortType } from "@/modules/types/common/SortType";
 import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
-    sortTypes: [] as SortType[],
-    searchTypes: [] as EnumType[],
-    filterTypes: [] as EnumType[],
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
     mySchedules: [] as ScheduleCardType[],
@@ -26,38 +22,9 @@ export const useScheduleStore = defineStore("schedule", {
   getters: {
     otherScheduleCards: (state): ScheduleCardType[] =>
       state.pageableSchedules.content as ScheduleCardType[],
+    schedulePage: (state): PageableType => state.pageableSchedules.pageable,
   },
   actions: {
-    getSearchTypes: async function () {
-      await ScheduleApiService.getSearchTypes()
-        .then((response: EnumType[]) => {
-          this.searchTypes = response;
-        })
-        .catch((error) => {
-          throw error;
-        });
-    },
-
-    getFilterTypes: async function () {
-      await ScheduleApiService.getFilterTypes()
-        .then((response: EnumType[]) => {
-          this.filterTypes = response;
-        })
-        .catch((error) => {
-          throw error;
-        });
-    },
-
-    getSortTypes: async function () {
-      await ScheduleApiService.getSortTypes()
-        .then((response: SortType[]) => {
-          this.sortTypes = response;
-        })
-        .catch((error) => {
-          throw error;
-        });
-    },
-
     getOtherSchedules: async function (pageable: PageableRequestType) {
       await ScheduleApiService.getOtherSchedules(this.searchCond, pageable)
         .then((response: PageableResponseType) => {
@@ -115,15 +82,8 @@ export const useScheduleStore = defineStore("schedule", {
       }
     },
   },
-  persist: {
-    paths: [
-      "sortTypes",
-      "searchTypes",
-      "filterTypes",
-      "searchCond",
-      "pageableSchedules",
-      "currSchedule",
-    ],
-    storage: sessionStorage,
-  },
+  // persist: {
+  //   paths: ["currSchedule"],
+  //   storage: sessionStorage,
+  // },
 });

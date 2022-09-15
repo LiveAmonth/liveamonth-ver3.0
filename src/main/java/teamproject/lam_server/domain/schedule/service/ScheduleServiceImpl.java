@@ -17,6 +17,7 @@ import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleQueryRepository;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
+import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -61,14 +62,16 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
+    public CustomPage<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
-        Page<Schedule> search = scheduleQueryRepository.search(cond, pageable);
-        return search.map(schedule -> ScheduleCardResponse.of(
+        Page<ScheduleCardResponse> page = scheduleQueryRepository.search(cond, pageable).map(schedule -> ScheduleCardResponse.of(
                 schedule,
                 CommentResponse.ofSingleEntity(
                         commentRepository.getBestComment(schedule.getId()).orElse(null))
         ));
+        return CustomPage.<ScheduleCardResponse>builder()
+                .page(page)
+                .build();
     }
 
     @Override

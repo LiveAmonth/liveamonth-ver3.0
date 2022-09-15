@@ -15,21 +15,19 @@ import type { CalendarOptions } from "@fullcalendar/core";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
-  manageState: {
-    type: Boolean,
-    required: true,
-  },
   editable: {
     type: Boolean,
-    required: true,
+    required: false,
+    default: false,
   },
   initDate: {
     type: String,
-    required: false,
-  },
-  scheduleId: {
-    type: Number,
     required: true,
+  },
+  isBasic: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 });
 const emits = defineEmits([
@@ -39,21 +37,22 @@ const emits = defineEmits([
 ]);
 const { scheduleContents, setContent, getEvents, updateEvent } =
   useCalendarEvent();
-const { isSameDate } = useDate();
+const { now, isSameDate } = useDate();
 const { openConfirmMessageBox } = useMessageBox();
 const { t } = useI18n();
+
 const options: CalendarOptions = reactive({
   locale: koLocale,
   plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
   initialView: "dayGridMonth",
-  initialDate: props.initDate,
+  initialDate: !props.isBasic ? props.initDate : now(),
   headerToolbar: {
     left: "prev,next today",
     center: "title",
     right: "dayGridMonth,listYear",
   },
-  editable: props.editable,
-  selectable: true,
+  editable: !props.isBasic ? props.editable : false,
+  selectable: !props.isBasic ? props.editable : false,
   weekends: true,
   dayMaxEvents: true,
   select: async (arg) => {
@@ -77,7 +76,7 @@ const options: CalendarOptions = reactive({
     }
   },
   eventClick: (arg) => {
-    props.manageState
+    props.editable
       ? setContent(arg.event)
       : emits("selectContent", Number(arg.event.id));
   },

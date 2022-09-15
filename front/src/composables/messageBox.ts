@@ -21,6 +21,7 @@ export const useMessageBox = () => {
   const openMessageBox = async (message: string) => {
     await ElMessageBox.alert(message);
   };
+
   const openConfirmMessageBox = async (title: string, message: string) => {
     return await ElMessageBox.confirm(message, title, {
       confirmButtonText: "OK",
@@ -28,6 +29,7 @@ export const useMessageBox = () => {
       type: "info",
     });
   };
+
   const requireLoginMessageBox = () => {
     return ElMessageBox.confirm(t("form.message.login"), t("member.login"), {
       confirmButtonText: "OK",

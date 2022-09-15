@@ -11,6 +11,7 @@ import { useSchedule } from "@/composables/schedule";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import { useCalendarEvent } from "@/composables/calendarEvent";
+import { useDate } from "@/composables/date";
 
 const props = defineProps({
   loginId: {
@@ -31,11 +32,8 @@ const { selectedContent, resetContent } = useCalendarEvent();
 const { openConfirmMessageBox, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
-const selectedId = ref<number>(
-  currSchedule.value.id && currSchedule.value.profile.loginId === props.loginId
-    ? currSchedule.value.id
-    : mySchedules.value[0].id
-);
+const isPending = ref<boolean>(true);
+const selectedId = ref<string | number>("");
 const initDate = ref<string>("");
 const calendarKey = ref(0);
 const scheduleModal = ref<boolean>(false);
@@ -43,18 +41,28 @@ const contentModal = ref<boolean>(false);
 const defaultContentDate = ref<string>("");
 
 onMounted(async () => {
-  await getMySchedules(props.loginId);
-  await changeSchedule();
+  await getMySchedules(props.loginId).then(() => {
+    if (mySchedules.value.length) {
+      selectedId.value = currSchedule.value.id
+        ? currSchedule.value.id
+        : mySchedules.value[0].id;
+    }
+  });
+  await changeSchedule().then(() => {
+    isPending.value = false;
+  });
 });
 
 const changeSchedule = async () => {
-  await setSchedule(selectedId.value);
-  await getScheduleContents(selectedId.value).then(() => {
-    initDate.value = String(currSchedule.value?.period.startDate);
-    calendarKey.value += 1;
-    resetContent();
-  });
-  defaultContentDate.value = currSchedule.value.period.startDate;
+  if (selectedId.value) {
+    await setSchedule(Number(selectedId.value));
+    await getScheduleContents(Number(selectedId.value)).then(() => {
+      initDate.value = currSchedule.value.period.startDate;
+      calendarKey.value += 1;
+      resetContent();
+    });
+    defaultContentDate.value = currSchedule.value.period.startDate;
+  }
 };
 
 const submitScheduleForm = async (isEdit = false) => {
@@ -71,12 +79,11 @@ const deleteScheduleBtn = async () => {
     t("form.message.schedule.delete.title"),
     t("form.message.schedule.delete.message")
   ).then(async () => {
-    if (selectedId.value != null) {
-      deleteSchedule(selectedId.value).then(() => {
-        getMySchedules(props.loginId).then(() => {
-          selectedId.value = mySchedules.value[0].id;
-          changeSchedule();
-        });
+    if (currSchedule.value.id != null) {
+      await deleteSchedule(currSchedule.value.id);
+      await getMySchedules(props.loginId).then(() => {
+        selectedId.value = mySchedules.value[0].id;
+        changeSchedule();
       });
     } else {
       await openMessageBox(t("form.message.schedule.delete.exception"));
@@ -90,7 +97,7 @@ const openContentModal = () => {
 };
 
 const submitContentForm = async (isEdit = false) => {
-  await getScheduleContents(selectedId.value).then(() => {
+  await getScheduleContents(currSchedule.value.id).then(() => {
     calendarKey.value += 1;
     if (!isEdit) {
       resetContent();
@@ -103,118 +110,113 @@ const deleteContentBtn = async (contentId: number) => {
     t("form.message.content.delete.title"),
     t("form.message.content.delete.message")
   ).then(async () => {
-    if (selectedId.value != null) {
-      await deleteContent(contentId).then(async () => {
-        await getScheduleContents(selectedId.value).then(() => {
-          calendarKey.value += 1;
-          resetContent();
-        });
+    await deleteContent(contentId).then(async () => {
+      await getScheduleContents(currSchedule.value.id).then(() => {
+        calendarKey.value += 1;
+        resetContent();
       });
-    } else {
-      await openMessageBox(t("form.message.content.delete.exception"));
-    }
+    });
   });
 };
 </script>
 
 <template>
-  <div v-if="currSchedule">
-    <el-row class="mb-5">
-      <el-col>
-        <el-row :gutter="10">
-          <el-col :span="18">
-            <div class="d-flex justify-content-between mt-3 mb-3">
-              <TitleSlot>내 스케줄 관리</TitleSlot>
-              <div class="select-content d-flex justify-content-end">
-                <el-select
-                  v-model="selectedId"
-                  :placeholder="$t('common.select')"
-                  @change="changeSchedule"
-                >
-                  <template v-for="val in mySchedules" :key="val.id">
-                    <el-option :label="val.title" :value="val.id" />
-                  </template>
-                </el-select>
-              </div>
-            </div>
-            <ScheduleCalendar
-              :key="calendarKey"
-              v-if="initDate"
-              :schedule-id="selectedId"
-              :editable="true"
-              :init-date="initDate"
-              :manage-state="true"
-              v-model:content-modal="contentModal"
-              v-model:default-date="defaultContentDate"
-            />
-          </el-col>
-          <el-col :span="6" class="mt-4">
-            <div class="schedule-form">
-              <div class="d-flex justify-content-end mt-3">
-                <el-button
-                  class="d-flex justify-content-between"
-                  @click="scheduleModal = true"
-                  size="large"
-                  text
-                >
-                  <el-icon class="me-1">
-                    <Plus />
-                  </el-icon>
-                  {{ $t("schedule.form.main.add") }}
-                </el-button>
-              </div>
-              <ScheduleForm
-                :schedule="currSchedule"
-                @submit="submitScheduleForm"
-                @delete-schedule="deleteScheduleBtn"
+  <el-row class="mb-5">
+    <el-col>
+      <el-row v-if="!isPending" :gutter="10">
+        <el-col :span="18">
+          <div class="d-flex justify-content-between mt-3 mb-3">
+            <TitleSlot>내 스케줄 관리</TitleSlot>
+            <div class="select-content d-flex justify-content-end">
+              <el-select
+                v-model="selectedId"
+                :placeholder="$t('common.select')"
+                @change="changeSchedule"
               >
-                <template v-slot:title>
-                  {{ $t("schedule.title.schedule") }}
-                </template>
-              </ScheduleForm>
+                <el-option
+                  v-for="val in mySchedules"
+                  :key="val.id"
+                  :label="val.title"
+                  :value="val.id"
+                />
+              </el-select>
             </div>
-            <div class="content-form">
-              <div class="d-flex justify-content-end mt-3">
-                <el-button
-                  class="d-flex justify-content-between"
-                  @click="openContentModal"
-                  size="large"
-                  text
-                >
-                  <el-icon class="me-1">
-                    <Plus />
-                  </el-icon>
-                  {{ $t("schedule.form.content.add") }}
-                </el-button>
-              </div>
-              <EditContentForm
-                :schedule-id="selectedId"
-                :content="selectedContent"
-                :period="currSchedule.period"
-                @submit="submitContentForm"
-                @delete-content="deleteContentBtn"
-              />
+          </div>
+          <ScheduleCalendar
+            :key="calendarKey"
+            :editable="true"
+            :init-date="initDate"
+            :is-basic="!selectedId"
+            v-model:content-modal="contentModal"
+            v-model:default-date="defaultContentDate"
+          />
+        </el-col>
+        <el-col :span="6" class="mt-4">
+          <div class="schedule-form">
+            <div class="d-flex justify-content-end mt-3">
+              <el-button
+                class="d-flex justify-content-between"
+                @click="scheduleModal = true"
+                size="large"
+                text
+              >
+                <el-icon class="me-1">
+                  <Plus />
+                </el-icon>
+                {{ $t("schedule.form.main.add") }}
+              </el-button>
             </div>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
-    <OpenModal @close="scheduleModal = false" v-if="scheduleModal">
-      <ScheduleForm @submit="submitScheduleForm">
-        <template v-slot:title>
-          {{ $t("schedule.form.main.add") }}
-        </template>
-      </ScheduleForm>
-    </OpenModal>
-    <OpenModal @close="contentModal = false" v-if="contentModal">
-      <AddContentForm
-        :schedule-id="selectedId"
-        :period="currSchedule.period"
-        :default-date="defaultContentDate"
-        @submit="submitContentForm"
-      />
-    </OpenModal>
-  </div>
+            <ScheduleForm
+              :schedule="currSchedule"
+              @submit="submitScheduleForm"
+              @delete-schedule="deleteScheduleBtn"
+            >
+              <template v-slot:title>
+                {{ $t("schedule.title.schedule") }}
+              </template>
+            </ScheduleForm>
+          </div>
+          <div v-if="currSchedule.id" class="content-form">
+            <div class="d-flex justify-content-end mt-3">
+              <el-button
+                class="d-flex justify-content-between"
+                @click="openContentModal"
+                size="large"
+                text
+              >
+                <el-icon class="me-1">
+                  <Plus />
+                </el-icon>
+                {{ $t("schedule.form.content.add") }}
+              </el-button>
+            </div>
+            <EditContentForm
+              :schedule-id="Number(selectedId)"
+              :content="selectedContent"
+              :period="currSchedule.period"
+              @submit="submitContentForm"
+              @delete-content="deleteContentBtn"
+            />
+          </div>
+        </el-col>
+      </el-row>
+    </el-col>
+  </el-row>
+  <OpenModal @close="scheduleModal = false" v-if="scheduleModal">
+    <ScheduleForm @submit="submitScheduleForm">
+      <template v-slot:title>
+        {{ $t("schedule.form.main.add") }}
+      </template>
+    </ScheduleForm>
+  </OpenModal>
+  <OpenModal @close="contentModal = false" v-if="contentModal">
+    <AddContentForm
+      :schedule-id="Number(selectedId)"
+      :period="currSchedule.period"
+      :default-date="defaultContentDate"
+      @submit="submitContentForm"
+    />
+  </OpenModal>
 </template>
 
 <style lang="scss" scoped>
