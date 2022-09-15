@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.schedule.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
@@ -10,6 +9,7 @@ import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
 import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 import javax.validation.Valid;
@@ -47,7 +47,7 @@ public class ScheduleApiController {
 
     @GetMapping("/search")
     public ResponseEntity<?> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
-        Page<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
+        CustomPage<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
