@@ -6,9 +6,10 @@ import type {
   ScheduleContentType,
   ScheduleSearchType,
 } from "@/modules/types/schedule/ScheduleType";
-import type { PageableRequestType } from "@/modules/types/common/PageableType";
-import type { EnumType } from "@/modules/types/common/EnumType";
-import type { SortType } from "@/modules/types/common/SortType";
+import type {
+  PageableRequestType,
+  PageableType,
+} from "@/modules/types/common/PageableType";
 import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 
@@ -20,49 +21,16 @@ export const useSchedule = () => {
   const isPending = ref<boolean>(false);
   const type = "schedule";
 
-  const searchTypes = computed((): EnumType[] => store.searchTypes);
-  const sortTypes = computed((): SortType[] => store.sortTypes);
-  const filterTypes = computed((): EnumType[] => store.filterTypes);
-
   const request = computed((): ScheduleSearchType => store.searchCond);
   const otherSchedules = computed(
     (): ScheduleCardType[] => store.otherScheduleCards
   );
+  const schedulePage = computed((): PageableType => store.schedulePage);
   const currSchedule = computed((): ScheduleCardType => store.currSchedule);
   const currScheduleContents = computed(
     (): ScheduleContentType[] => contentStore.scheduleContents
   );
   const mySchedules = computed((): ScheduleCardType[] => store.mySchedules);
-
-  const getSearchTypes = async () => {
-    error.value = null;
-    try {
-      await store.getSearchTypes();
-      error.value = null;
-    } catch (err) {
-      error.value = err;
-    }
-  };
-
-  const getFilterTypes = async () => {
-    error.value = null;
-    try {
-      await store.getFilterTypes();
-      error.value = null;
-    } catch (err) {
-      error.value = err;
-    }
-  };
-
-  const getSortTypes = async () => {
-    error.value = null;
-    try {
-      await store.getSortTypes();
-      error.value = null;
-    } catch (err) {
-      error.value = err;
-    }
-  };
 
   const getOtherSchedules = async (pageable: PageableRequestType) => {
     error.value = null;
@@ -201,17 +169,12 @@ export const useSchedule = () => {
     error,
     isPending,
     type,
-    searchTypes,
-    sortTypes,
-    filterTypes,
     request,
+    schedulePage,
     otherSchedules,
     currScheduleContents,
     mySchedules,
     currSchedule,
-    getSortTypes,
-    getSearchTypes,
-    getFilterTypes,
     getOtherSchedule,
     getOtherSchedules,
     getScheduleContents,

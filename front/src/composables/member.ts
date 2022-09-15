@@ -16,19 +16,6 @@ export const useMember = () => {
 
   const simpleProfile = computed((): SimpleProfileType => store.simpleProfile);
 
-  const getGenderType = async () => {
-    error.value = null;
-    isPending.value = true;
-    try {
-      await store.getGenderType();
-      error.value = null;
-    } catch (err) {
-      error.value = err;
-    } finally {
-      isPending.value = false;
-    }
-  };
-
   const signUp = async (request: SignUpType) => {
     error.value = null;
     isPending.value = true;
@@ -97,7 +84,6 @@ export const useMember = () => {
     signUp,
     findId,
     findPw,
-    getGenderType,
     getMember,
     getSimpleProfile,
   };

@@ -8,7 +8,6 @@ import router from "@/router";
 import { onMounted } from "vue";
 import { usePagination } from "@/composables/pagination";
 import { useComment } from "@/composables/comment";
-import { useCommentStore } from "@/stores/comment";
 import { useAuth } from "@/composables/auth";
 import { useMessageBox } from "@/composables/messageBox";
 import { useInteraction } from "@/composables/interaction";
@@ -32,12 +31,12 @@ const props = defineProps({
     required: true,
   },
 });
+
 const category = "COMMENT";
-const store = useCommentStore();
 const {
   isPending,
+  commentPageable,
   comments,
-  commentsCount,
   getComments,
   writeComment,
   extractIds,
@@ -51,7 +50,7 @@ const { requireLoginMessageBox } = useMessageBox();
 onMounted(async () => {
   setSize(5);
   await getComments(props.type, Number(props.id), pageable.value).then(() => {
-    mappingPagination(store.pageableComments);
+    mappingPagination(commentPageable.value);
   });
   if (isLoggedIn.value && comments.value.length) {
     await getMemberReactedComment(props.type, extractIds(comments.value));
@@ -61,7 +60,7 @@ onMounted(async () => {
 const pageClick = async (page: number) => {
   movePage(page);
   await getComments(props.type, Number(props.id), pageable.value).then(() => {
-    mappingPagination(store.pageableComments);
+    mappingPagination(commentPageable.value);
   });
 };
 
@@ -73,7 +72,7 @@ const submitForm = async (form: CommentFormType, commentId = 0) => {
   };
   await writeComment(props.type, props.writer, request).then(() => {
     getComments(props.type, Number(props.id), pageable.value).then(() => {
-      mappingPagination(store.pageableComments);
+      mappingPagination(commentPageable.value);
     });
   });
 };
@@ -93,7 +92,11 @@ const react = async (
 </script>
 
 <template>
-  <TitleSlot>{{ $t("comment.title") }}({{ commentsCount }})</TitleSlot>
+  <TitleSlot
+    >{{ $t("comment.title") }}({{
+      commentPageable ? commentPageable.totalElements : "0"
+    }})</TitleSlot
+  >
   <el-card>
     <SmallTitleSlot>{{ $t("comment.write") }}</SmallTitleSlot>
     <CommentInput :is-pending="isPending" @submit-form="submitForm" />

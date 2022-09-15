@@ -1,6 +1,9 @@
 import { computed, ref } from "vue";
 import { useCommentStore } from "@/stores/comment";
-import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type {
+  PageableRequestType,
+  PageableType,
+} from "@/modules/types/common/PageableType";
 import type {
   CommentType,
   WriteCommentType,
@@ -12,9 +15,7 @@ export const useComment = () => {
   const isPending = ref<boolean>(false);
 
   const comments = computed((): CommentType[] => store.comments);
-  const commentsCount = computed(
-    (): number => store.pageableComments.totalElements
-  );
+  const commentPageable = computed((): PageableType => store.commentPage);
 
   const extractIds = (arrays: CommentType[]) => {
     const ids: number[] = [];
@@ -60,7 +61,7 @@ export const useComment = () => {
     error,
     isPending,
     comments,
-    commentsCount,
+    commentPageable,
     extractIds,
     getComments,
     writeComment,

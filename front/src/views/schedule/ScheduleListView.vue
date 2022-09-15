@@ -5,42 +5,44 @@ import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
 import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { onMounted } from "vue";
-import { useScheduleStore } from "@/stores/schedule";
 import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import TitleSlot from "@/components/common/TitleSlot.vue";
 
-const paginationType = "SCHEDULE";
-const store = useScheduleStore();
-const { isPending, request, otherSchedules, getOtherSchedules } = useSchedule();
+const category = "SCHEDULE";
+const { isPending, request, schedulePage, otherSchedules, getOtherSchedules } =
+  useSchedule();
 const { pageable, mappingPagination, movePage, setSort } =
-  usePagination(paginationType);
+  usePagination(category);
 
 onMounted(async () => {
   await getOtherSchedules(pageable.value).then(() => {
-    mappingPagination(store.pageableSchedules);
+    mappingPagination(schedulePage.value);
   });
 });
 
 const pageClick = async (page: number) => {
   movePage(page);
   await getOtherSchedules(pageable.value).then(() => {
-    mappingPagination(store.pageableSchedules);
+    mappingPagination(schedulePage.value);
   });
 };
 
 const applyOptions = async (data: SearchSortFormType) => {
+  console.log(data);
   request.value.setAttr(data);
-  setSort(String(data.sortType));
+  await setSort(String(data.sortType));
   await getOtherSchedules(pageable.value).then(() => {
-    mappingPagination(store.pageableSchedules);
+    mappingPagination(schedulePage.value);
   });
 };
 </script>
 
 <template>
   <el-row>
+    <TitleSlot>다른 사람 스케줄</TitleSlot>
     <el-col class="align-content-center">
       <div class="search-filter">
         <ScheduleFilter @apply-option="applyOptions" />
@@ -108,7 +110,7 @@ const applyOptions = async (data: SearchSortFormType) => {
       </div>
     </el-col>
   </el-row>
-  <CustomPagination :pagination-type="paginationType" @click="pageClick" />
+  <CustomPagination :pagination-type="category" @click="pageClick" />
 </template>
 
 <style lang="scss" scoped>

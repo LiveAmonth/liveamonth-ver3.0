@@ -31,7 +31,7 @@ const scheduleForm = reactive<ScheduleEditor>(new ScheduleEditor());
 const ruleFormRef = ref<FormInstance>();
 
 onMounted(() => {
-  if (props.schedule) {
+  if (props.schedule.id) {
     scheduleForm.setForm(props.schedule);
   }
 });
@@ -72,7 +72,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </script>
 
 <template>
-  <el-card v-if="props.schedule">
+  <el-card v-if="schedule.id">
     <el-form
       ref="ruleFormRef"
       :disabled="!isEdit"

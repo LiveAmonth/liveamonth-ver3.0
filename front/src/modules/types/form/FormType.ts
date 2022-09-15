@@ -5,6 +5,7 @@ import type {
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { EventApi } from "@fullcalendar/common";
+import type { FormRules } from "element-plus/es";
 
 export interface LoginType {
   loginId: string;
@@ -54,26 +55,27 @@ export interface DuplicationCheckType {
   message: string;
 }
 
-export interface ScheduleContentFormType {
+export interface ScheduleContentFormType extends FormType<ScheduleContentType> {
   title: string;
   content: string;
   cost: number;
   timePeriod: DateTimePeriodType;
 
+  setDefaultDate(date: string): void;
   setAttr(event: EventApi): void;
-  setForm(data: ScheduleContentType): void;
-  clear(date: string): void;
 }
 
-export interface ScheduleFormType {
+export interface ScheduleFormType extends FormType<ScheduleCardType> {
   title: string;
   publicFlag: boolean;
   city: string;
   period: DatePeriodType;
+}
 
-  setForm(data: ScheduleCardType): void;
+export interface FormType<T> {
+  setForm(data: T): void;
+  getRules(): FormRules;
   clear(): void;
-  getObject(): any;
 }
 
 export interface CommentFormType {

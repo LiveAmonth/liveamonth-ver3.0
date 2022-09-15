@@ -1,7 +1,7 @@
-import type { CustomPaginationType } from "@/modules/types/common/PageableType";
+import type { CustomPageType } from "@/modules/types/common/PageableType";
 
-export default class Pagination implements CustomPaginationType {
-  contentLimit: number;
+export default class Pagination implements CustomPageType {
+  size: number;
   pageLimit: number;
   currentPage: number;
   isFirst: boolean;
@@ -9,24 +9,17 @@ export default class Pagination implements CustomPaginationType {
   numberOfContents: number;
   numberOfPages: number;
   category: string;
+  sort: string;
 
-  constructor(
-    contentLimit = 2,
-    pageLimit = 5,
-    currentPage = 1,
-    isFirst = true,
-    isLast = false,
-    numberOfContents = 0,
-    numberOfPages = 0,
-    category: string
-  ) {
-    this.contentLimit = contentLimit;
-    this.pageLimit = pageLimit;
-    this.currentPage = currentPage;
-    this.isFirst = isFirst;
-    this.isLast = isLast;
-    this.numberOfContents = numberOfContents;
-    this.numberOfPages = numberOfPages;
+  constructor(size = 2, category: string) {
+    this.size = size;
+    this.pageLimit = 5;
+    this.currentPage = 1;
+    this.isFirst = true;
+    this.isLast = false;
+    this.numberOfContents = 0;
+    this.numberOfPages = 0;
+    this.sort = "id,desc";
     this.category = category;
   }
 }

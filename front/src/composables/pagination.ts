@@ -1,15 +1,16 @@
 import { computed } from "vue";
 import { usePageableStore } from "@/stores/pagination";
-import type { PageableResponseType } from "@/modules/types/common/PageableType";
+import type {
+  PageableType,
+  PageableRequestType,
+} from "@/modules/types/common/PageableType";
 import type Pagination from "@/modules/class/paginations/Pagination";
-import type PageableRequest from "@/modules/class/pageables/PageableRequest";
 
 export const usePagination = (type: string) => {
   const store = usePageableStore();
-  const pageable = computed(
-    (): PageableRequest => store.findPageableRequest(type)
-  );
-  const pagination = computed((): Pagination => store.findPagination(type));
+
+  const pageable = computed((): PageableRequestType => store.getRequest(type));
+  const pagination = computed((): Pagination => store.findPage(type));
 
   const movePage = (page: number): void => {
     store.movePage(type, page);
@@ -20,7 +21,7 @@ export const usePagination = (type: string) => {
   };
 
   const setSize = (limit: number): void => {
-    store.setContentLimit(type, limit);
+    store.setSize(type, limit);
   };
 
   const getCurrentPageGroupPages = (): number => {
@@ -35,7 +36,7 @@ export const usePagination = (type: string) => {
     return store.getCurrentPageNumber(type, index);
   };
 
-  const mappingPagination = (data: PageableResponseType): void => {
+  const mappingPagination = (data: PageableType): void => {
     store.mappingPagination(type, data);
   };
 
