@@ -13,6 +13,7 @@ import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepositor
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.notfound.CommentNotFound;
+import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.Collections;
@@ -42,7 +43,7 @@ public class ScheduleCommentService extends CommentService {
     }
 
     @Override
-    public Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
+    public CustomPage<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
         // 페이지 정보
         Pageable pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
 
@@ -54,10 +55,14 @@ public class ScheduleCommentService extends CommentService {
                 ? getScheduleCommentReplies(contentId, scheduleComments.getContent())
                 : Collections.emptyList();
 
-        return scheduleComments.map(comment -> mapToCommentResponse(
+        Page<CommentResponse> page = scheduleComments.map(comment -> mapToCommentResponse(
                 CommentResponse.of(comment),
                 comment.getId(),
                 scheduleCommentReplies));
+
+        return CustomPage.<CommentResponse>builder()
+                .page(page)
+                .build();
     }
 
     @Override

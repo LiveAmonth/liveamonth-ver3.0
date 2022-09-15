@@ -1,6 +1,5 @@
 package teamproject.lam_server.domain.comment.service;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.constants.CommentType;
@@ -9,6 +8,7 @@ import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentRepository;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 @Service
@@ -40,7 +40,7 @@ public class ReviewCommentService extends CommentService {
     }
 
     @Override
-    public Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
+    public CustomPage<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
         return null;
     }
 }

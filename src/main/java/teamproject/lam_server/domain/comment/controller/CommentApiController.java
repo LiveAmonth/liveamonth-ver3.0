@@ -2,13 +2,13 @@ package teamproject.lam_server.domain.comment.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.service.CommentServiceFinder;
 import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 import javax.validation.Valid;
@@ -40,7 +40,7 @@ public class CommentApiController {
             @PathVariable String type,
             PageableDTO pageableDTO) {
 
-        Page<CommentResponse> result =
+        CustomPage<CommentResponse> result =
                 commentServiceFinder.find(type).getComments(contentId, pageableDTO);
 
         return CustomResponse.success(READ_COMMENT, result);

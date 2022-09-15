@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.comment.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
@@ -11,9 +10,9 @@ import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
+import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,9 +35,9 @@ public abstract class CommentService {
 
     abstract CommentType getType();
 
-    public abstract Page<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO);
+    public abstract CustomPage<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO);
 
-    public abstract void writeComment(String loginId, @Valid WriteCommentRequest request);
+    public abstract void writeComment(String loginId, WriteCommentRequest request);
 
     public abstract CommentResponse getBestComments(Long contentId);
 }
