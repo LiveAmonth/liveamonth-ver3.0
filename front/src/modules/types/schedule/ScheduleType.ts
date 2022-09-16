@@ -19,17 +19,18 @@ export interface ScheduleCardType {
   comments: number;
   period: DatePeriodType;
   comment: CommentType | null;
-  publicFlag: boolean;
 }
-export interface ScheduleSimpleCardType {
+
+export interface MyScheduleCardType {
   id: number;
+  memberId: number;
   title: string;
-  cost: number;
   city: EnumType;
+  cost: number;
   hits: number;
   likes: number;
-  comments: number;
   period: DatePeriodType;
+  publicFlag: boolean;
 }
 
 export interface ScheduleContentType {

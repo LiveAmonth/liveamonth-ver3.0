@@ -5,6 +5,7 @@ import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
 import { Location, Money, View } from "@element-plus/icons-vue";
 import { ref } from "vue";
 import { useSchedule } from "@/composables/schedule";
+import { useType } from "@/composables/type";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const props = defineProps({
@@ -15,17 +16,18 @@ const props = defineProps({
 });
 const emit = defineEmits(["goToMemberSchedules"]);
 
-const { searchTypes, sortTypes, otherSchedules } = useSchedule();
+const { otherSchedules } = useSchedule();
+const { scheduleSearchType, scheduleSortType } = useType();
 
 const schedule = ref(otherSchedules.value[props.index]);
 
 const goToMemberSchedules = () => {
   const request: SearchSortFormType = {
-    searchType: searchTypes.value[0].code,
+    searchType: scheduleSearchType.value[0].code,
     searchInput: schedule.value.profile.nickname,
     filterType: null,
     filterInput: null,
-    sortType: sortTypes.value[0].title,
+    sortType: scheduleSortType.value[0].title,
   };
   emit("goToMemberSchedules", request);
 };
@@ -91,7 +93,7 @@ const goToMemberSchedules = () => {
             :content="$t('schedule.tooltip.view')"
             placement="bottom-end"
           >
-            <el-icon><View /></el-icon>
+            <el-icon class="me-2"><View /></el-icon>
           </el-tooltip>
         </template>
         <template v-slot:like-title>
@@ -109,5 +111,8 @@ const goToMemberSchedules = () => {
 }
 span {
   font-size: 0.78rem;
+}
+.el-icon {
+  padding-bottom: 0.1rem;
 }
 </style>

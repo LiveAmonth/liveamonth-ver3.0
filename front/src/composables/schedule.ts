@@ -12,11 +12,13 @@ import type {
 } from "@/modules/types/common/PageableType";
 import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
+import type { MyScheduleCardType } from "@/modules/types/schedule/ScheduleType";
+import { useMember } from "@/composables/member";
 
 export const useSchedule = () => {
   const store = useScheduleStore();
   const contentStore = useScheduleContentStore();
-
+  const { simpleProfile } = useMember();
   const error = ref();
   const isPending = ref<boolean>(false);
   const type = "schedule";
@@ -26,12 +28,29 @@ export const useSchedule = () => {
     (): ScheduleCardType[] => store.otherScheduleCards
   );
   const schedulePage = computed((): PageableType => store.schedulePage);
-  const currSchedule = computed((): ScheduleCardType => store.currSchedule);
+  const editedSchedule = computed(
+    (): MyScheduleCardType => store.editedSchedule
+  );
   const currScheduleContents = computed(
     (): ScheduleContentType[] => contentStore.scheduleContents
   );
-  const mySchedules = computed((): ScheduleCardType[] => store.mySchedules);
+  const mySchedules = computed((): MyScheduleCardType[] => store.mySchedules);
 
+  // Schedule Global
+  const getScheduleContents = async (id: number) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await contentStore.getScheduleContents(id);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  // Other Schedule View
   const getOtherSchedules = async (pageable: PageableRequestType) => {
     error.value = null;
     isPending.value = true;
@@ -51,19 +70,7 @@ export const useSchedule = () => {
     ) as ScheduleCardType;
   };
 
-  const getScheduleContents = async (id: number) => {
-    error.value = null;
-    isPending.value = true;
-    try {
-      await contentStore.getScheduleContents(id);
-      error.value = null;
-    } catch (err) {
-      error.value = err;
-    } finally {
-      isPending.value = false;
-    }
-  };
-
+  // My Schedule View
   const getMySchedules = async (loginId: string) => {
     error.value = null;
     isPending.value = true;
@@ -165,6 +172,20 @@ export const useSchedule = () => {
     await store.setSchedule(selectedId);
   };
 
+  const isScheduleEmpty = () => {
+    return !mySchedules.value.length;
+  };
+
+  const isMemberEq = () => {
+    return editedSchedule.value.memberId === simpleProfile.value.id;
+  };
+
+  const getInitialSelectedId = () => {
+    if (isScheduleEmpty()) return "";
+    if (!editedSchedule.value.id) return mySchedules.value[0].id;
+    return isMemberEq() ? editedSchedule.value.id : mySchedules.value[0].id;
+  };
+
   return {
     error,
     isPending,
@@ -174,7 +195,7 @@ export const useSchedule = () => {
     otherSchedules,
     currScheduleContents,
     mySchedules,
-    currSchedule,
+    editedSchedule,
     getOtherSchedule,
     getOtherSchedules,
     getScheduleContents,
@@ -186,5 +207,6 @@ export const useSchedule = () => {
     editContent,
     deleteContent,
     setSchedule,
+    getInitialSelectedId,
   };
 };

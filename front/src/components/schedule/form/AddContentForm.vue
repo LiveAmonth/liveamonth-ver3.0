@@ -50,7 +50,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 watch(
   () => props.defaultDate,
   () => {
-    contentForm.clear(props.defaultDate);
+    contentForm.clear();
   }
 );
 </script>
@@ -102,7 +102,9 @@ watch(
           type="number"
           style="width: 200px"
         >
-          <template #append> 원</template>
+          <template #append>
+            {{ $t("schedule.form.content.won") }}
+          </template>
         </el-input>
       </el-form-item>
       <el-form-item
@@ -135,9 +137,11 @@ watch(
       </el-form-item>
     </el-form>
     <div class="d-flex justify-content-end">
-      <el-button @click="submitForm(ruleFormRef)"> 추가</el-button>
+      <el-button @click="submitForm(ruleFormRef)">
+        {{ $t("common.button.add") }}
+      </el-button>
       <el-button @click="contentForm.clear(period.startDate)">
-        초기화
+        {{ $t("common.button.clear") }}
       </el-button>
     </div>
   </el-card>

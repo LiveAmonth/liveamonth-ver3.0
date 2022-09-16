@@ -7,44 +7,47 @@ import { useSchedule } from "@/composables/schedule";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import { useMember } from "@/composables/member";
-import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
-  schedule: {
-    type: Object as PropType<ScheduleCardType> | null,
+  selectedId: {
+    type: Number,
     required: false,
-    default: null,
+    default: 0,
+  },
+  isAddForm: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 });
 
 const emits = defineEmits(["submit", "deleteSchedule"]);
-const { addSchedule, editSchedule } = useSchedule();
+const { editedSchedule, addSchedule, editSchedule } = useSchedule();
 const { cityNames } = useCity();
 const { simpleProfile } = useMember();
 const { openMessage, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
-const isEdit = ref<boolean>(!props.schedule);
+const isEdit = ref<boolean>(!props.selectedId);
 const scheduleForm = reactive<ScheduleEditor>(new ScheduleEditor());
 const ruleFormRef = ref<FormInstance>();
 
 onMounted(() => {
-  if (props.schedule.id) {
-    scheduleForm.setForm(props.schedule);
+  if (props.selectedId) {
+    scheduleForm.setForm(editedSchedule.value);
   }
 });
 
 watch(
-  () => props.schedule,
+  () => editedSchedule.value,
   () => {
-    scheduleForm.setForm(props.schedule);
+    scheduleForm.setForm(editedSchedule.value);
   }
 );
 
 const cancelEdit = () => {
-  scheduleForm.setForm(props.schedule);
+  scheduleForm.setForm(editedSchedule.value);
   isEdit.value = false;
 };
 
@@ -52,8 +55,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      if (props.schedule) {
-        await editSchedule(props.schedule.id, scheduleForm).then(() => {
+      if (props.selectedId) {
+        await editSchedule(props.selectedId, scheduleForm).then(() => {
           isEdit.value = false;
           openMessage(t("form.message.schedule.update"));
           emits("submit", true);
@@ -72,7 +75,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 </script>
 
 <template>
-  <el-card v-if="schedule.id">
+  <el-card v-if="selectedId || (!selectedId && isAddForm)">
     <el-form
       ref="ruleFormRef"
       :disabled="!isEdit"
@@ -150,22 +153,36 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         />
       </el-form-item>
     </el-form>
-    <div v-if="schedule" class="d-flex justify-content-end">
+    <div v-if="selectedId" class="d-flex justify-content-end">
       <template v-if="!isEdit">
-        <el-button @click="isEdit = true"> 수정</el-button>
-        <el-button @click="emits('deleteSchedule')"> 삭제 </el-button>
+        <el-button @click="isEdit = true">
+          {{ $t("common.button.edit") }}
+        </el-button>
+        <el-button @click="emits('deleteSchedule')">
+          {{ $t("common.button.delete") }}
+        </el-button>
       </template>
       <template v-else>
-        <el-button @click="submitForm(ruleFormRef)"> 업데이트</el-button>
-        <el-button @click="cancelEdit"> 취소</el-button>
+        <el-button @click="submitForm(ruleFormRef)">
+          {{ $t("common.button.update") }}
+        </el-button>
+        <el-button @click="cancelEdit">
+          {{ $t("common.button.cancel") }}
+        </el-button>
       </template>
     </div>
     <div v-else class="d-flex justify-content-end">
-      <el-button @click="submitForm(ruleFormRef)"> 추가</el-button>
-      <el-button @click="scheduleForm.clear()"> 초기화</el-button>
+      <el-button @click="submitForm(ruleFormRef)">
+        {{ $t("common.button.add") }}
+      </el-button>
+      <el-button @click="scheduleForm.clear()">
+        {{ $t("common.button.clear") }}
+      </el-button>
     </div>
   </el-card>
-  <el-card v-else> 등록된 스케줄이 없습니다. </el-card>
+  <el-card v-else-if="!isAddForm">
+    {{ $t("schedule.form.empty.schedule") }}
+  </el-card>
 </template>
 
 <style lang="scss" scoped>

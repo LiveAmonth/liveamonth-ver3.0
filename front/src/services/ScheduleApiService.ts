@@ -4,7 +4,7 @@ import http, {
   getSortTypes,
 } from "@/http-common";
 import type {
-  ScheduleCardType,
+  MyScheduleCardType,
   ScheduleContentType,
   ScheduleSearchType,
 } from "@/modules/types/schedule/ScheduleType";
@@ -107,7 +107,7 @@ class ScheduleApiService {
       });
   }
 
-  async getMySchedules(loginId: string): Promise<ScheduleCardType[]> {
+  async getMySchedules(loginId: string): Promise<MyScheduleCardType[]> {
     return await http
       .get(`/schedules/list`, { params: { login_id: loginId } })
       .then((response) => {

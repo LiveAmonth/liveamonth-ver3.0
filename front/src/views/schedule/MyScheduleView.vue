@@ -11,7 +11,6 @@ import { useSchedule } from "@/composables/schedule";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import { useCalendarEvent } from "@/composables/calendarEvent";
-import { useDate } from "@/composables/date";
 
 const props = defineProps({
   loginId: {
@@ -21,14 +20,15 @@ const props = defineProps({
 });
 const {
   mySchedules,
-  currSchedule,
+  editedSchedule,
   getMySchedules,
   getScheduleContents,
   deleteSchedule,
   deleteContent,
+  getInitialSelectedId,
   setSchedule,
 } = useSchedule();
-const { selectedContent, resetContent } = useCalendarEvent();
+const { resetContent } = useCalendarEvent();
 const { openConfirmMessageBox, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
@@ -42,11 +42,7 @@ const defaultContentDate = ref<string>("");
 
 onMounted(async () => {
   await getMySchedules(props.loginId).then(() => {
-    if (mySchedules.value.length) {
-      selectedId.value = currSchedule.value.id
-        ? currSchedule.value.id
-        : mySchedules.value[0].id;
-    }
+    selectedId.value = getInitialSelectedId();
   });
   await changeSchedule().then(() => {
     isPending.value = false;
@@ -57,11 +53,11 @@ const changeSchedule = async () => {
   if (selectedId.value) {
     await setSchedule(Number(selectedId.value));
     await getScheduleContents(Number(selectedId.value)).then(() => {
-      initDate.value = currSchedule.value.period.startDate;
+      initDate.value = editedSchedule.value.period.startDate;
       calendarKey.value += 1;
-      resetContent();
     });
-    defaultContentDate.value = currSchedule.value.period.startDate;
+    await resetContent();
+    defaultContentDate.value = editedSchedule.value.period.startDate;
   }
 };
 
@@ -69,8 +65,10 @@ const submitScheduleForm = async (isEdit = false) => {
   await getMySchedules(props.loginId).then(() => {
     if (!isEdit) {
       selectedId.value = mySchedules.value[0].id;
-      changeSchedule();
     }
+  });
+  await changeSchedule().then(() => {
+    scheduleModal.value = false;
   });
 };
 
@@ -79,10 +77,10 @@ const deleteScheduleBtn = async () => {
     t("form.message.schedule.delete.title"),
     t("form.message.schedule.delete.message")
   ).then(async () => {
-    if (currSchedule.value.id != null) {
-      await deleteSchedule(currSchedule.value.id);
+    if (editedSchedule.value.id != null) {
+      await deleteSchedule(editedSchedule.value.id);
       await getMySchedules(props.loginId).then(() => {
-        selectedId.value = mySchedules.value[0].id;
+        selectedId.value = getInitialSelectedId();
         changeSchedule();
       });
     } else {
@@ -92,17 +90,18 @@ const deleteScheduleBtn = async () => {
 };
 
 const openContentModal = () => {
-  defaultContentDate.value = currSchedule.value.period.startDate;
+  defaultContentDate.value = editedSchedule.value.period.startDate;
   contentModal.value = true;
 };
 
 const submitContentForm = async (isEdit = false) => {
-  await getScheduleContents(currSchedule.value.id).then(() => {
+  await getScheduleContents(editedSchedule.value.id).then(() => {
     calendarKey.value += 1;
     if (!isEdit) {
       resetContent();
     }
   });
+  contentModal.value = false;
 };
 
 const deleteContentBtn = async (contentId: number) => {
@@ -111,7 +110,7 @@ const deleteContentBtn = async (contentId: number) => {
     t("form.message.content.delete.message")
   ).then(async () => {
     await deleteContent(contentId).then(async () => {
-      await getScheduleContents(currSchedule.value.id).then(() => {
+      await getScheduleContents(editedSchedule.value.id).then(() => {
         calendarKey.value += 1;
         resetContent();
       });
@@ -126,7 +125,7 @@ const deleteContentBtn = async (contentId: number) => {
       <el-row v-if="!isPending" :gutter="10">
         <el-col :span="18">
           <div class="d-flex justify-content-between mt-3 mb-3">
-            <TitleSlot>내 스케줄 관리</TitleSlot>
+            <TitleSlot>{{ $t("schedule.title.manage") }}</TitleSlot>
             <div class="select-content d-flex justify-content-end">
               <el-select
                 v-model="selectedId"
@@ -167,7 +166,7 @@ const deleteContentBtn = async (contentId: number) => {
               </el-button>
             </div>
             <ScheduleForm
-              :schedule="currSchedule"
+              :selected-id="Number(selectedId)"
               @submit="submitScheduleForm"
               @delete-schedule="deleteScheduleBtn"
             >
@@ -176,7 +175,7 @@ const deleteContentBtn = async (contentId: number) => {
               </template>
             </ScheduleForm>
           </div>
-          <div v-if="currSchedule.id" class="content-form">
+          <div v-if="editedSchedule.id" class="content-form">
             <div class="d-flex justify-content-end mt-3">
               <el-button
                 class="d-flex justify-content-between"
@@ -192,8 +191,7 @@ const deleteContentBtn = async (contentId: number) => {
             </div>
             <EditContentForm
               :schedule-id="Number(selectedId)"
-              :content="selectedContent"
-              :period="currSchedule.period"
+              :period="editedSchedule.period"
               @submit="submitContentForm"
               @delete-content="deleteContentBtn"
             />
@@ -203,7 +201,7 @@ const deleteContentBtn = async (contentId: number) => {
     </el-col>
   </el-row>
   <OpenModal @close="scheduleModal = false" v-if="scheduleModal">
-    <ScheduleForm @submit="submitScheduleForm">
+    <ScheduleForm :is-add-form="true" @submit="submitScheduleForm">
       <template v-slot:title>
         {{ $t("schedule.form.main.add") }}
       </template>
@@ -212,7 +210,7 @@ const deleteContentBtn = async (contentId: number) => {
   <OpenModal @close="contentModal = false" v-if="contentModal">
     <AddContentForm
       :schedule-id="Number(selectedId)"
-      :period="currSchedule.period"
+      :period="editedSchedule.period"
       :default-date="defaultContentDate"
       @submit="submitContentForm"
     />

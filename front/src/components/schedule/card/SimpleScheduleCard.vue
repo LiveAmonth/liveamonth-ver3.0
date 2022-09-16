@@ -55,4 +55,7 @@ defineProps({
 .el-row {
   margin-bottom: 10px;
 }
+.el-icon {
+  padding-bottom: 0.09rem;
+}
 </style>
