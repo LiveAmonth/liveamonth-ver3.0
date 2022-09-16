@@ -3,11 +3,11 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import { reactive, ref, watch } from "vue";
 import { useSchedule } from "@/composables/schedule";
+import { useCalendarEvent } from "@/composables/calendarEvent";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";
-import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
@@ -19,18 +19,14 @@ const props = defineProps({
     type: Object as PropType<DatePeriodType>,
     required: true,
   },
-  content: {
-    type: Object as PropType<ScheduleContentType> | null,
-    required: false,
-    default: null,
-  },
 });
 const emits = defineEmits(["submit", "deleteContent"]);
 const { editContent } = useSchedule();
+const { selectedContent } = useCalendarEvent();
 const { openMessage, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
-const isEdit = ref<boolean>(!props.content);
+const isEdit = ref<boolean>(!selectedContent.value);
 const contentForm = reactive<ScheduleContentEditor>(
   new ScheduleContentEditor(props.period)
 );
@@ -40,7 +36,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      await editContent(props.content.id, contentForm).then(() => {
+      await editContent(selectedContent.value.id, contentForm).then(() => {
         isEdit.value = false;
         openMessage(t("form.message.content.update"));
         emits("submit", true);
@@ -52,14 +48,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 
 const cancelEdit = () => {
-  contentForm.setForm(props.content);
+  contentForm.setForm(selectedContent.value);
   isEdit.value = false;
 };
 
 watch(
-  () => props.content,
+  () => selectedContent.value,
   () => {
-    contentForm.setForm(props.content);
+    if (selectedContent.value.title) {
+      contentForm.setForm(selectedContent.value);
+    }
   }
 );
 </script>
@@ -70,7 +68,7 @@ watch(
         {{ $t("schedule.title.content") }}
       </SmallTitleSlot>
     </div>
-    <template v-if="contentForm.title">
+    <template v-if="scheduleId && selectedContent.title">
       <el-form
         ref="ruleFormRef"
         :disabled="!isEdit"
@@ -116,7 +114,9 @@ watch(
             type="number"
             style="width: 200px"
           >
-            <template #append> 원</template>
+            <template #append>
+              {{ $t("schedule.form.content.won") }}
+            </template>
           </el-input>
         </el-form-item>
         <el-form-item
@@ -149,21 +149,29 @@ watch(
         </el-form-item>
       </el-form>
       <div class="d-flex justify-content-end">
-        <template v-if="content">
+        <template v-if="selectedContent">
           <template v-if="!isEdit">
-            <el-button @click="isEdit = true"> 수정</el-button>
-            <el-button @click="emits('deleteContent', content.id)">
-              삭제</el-button
-            >
+            <el-button @click="isEdit = true">
+              {{ $t("common.button.edit") }}
+            </el-button>
+            <el-button @click="emits('deleteContent', selectedContent.id)">
+              {{ $t("common.button.delete") }}
+            </el-button>
           </template>
           <template v-else>
-            <el-button @click="submitForm(ruleFormRef)"> 업데이트</el-button>
-            <el-button @click="cancelEdit"> 취소</el-button>
+            <el-button @click="submitForm(ruleFormRef)">
+              {{ $t("common.button.update") }}
+            </el-button>
+            <el-button @click="cancelEdit">
+              {{ $t("common.button.cancel") }}
+            </el-button>
           </template>
         </template>
       </div>
     </template>
-    <template v-else> 스케줄표에서 컨텐츠를 선택해주세요. </template>
+    <template v-else>
+      {{ $t("schedule.form.empty.content") }}
+    </template>
   </el-card>
 </template>
 <style lang="scss" scoped></style>

@@ -12,7 +12,6 @@ import { useDate } from "@/composables/date";
 import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import type { CalendarOptions } from "@fullcalendar/core";
-import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
   editable: {
@@ -67,10 +66,7 @@ const options: CalendarOptions = reactive({
         t("form.message.content.new.title"),
         t("form.message.content.new.message")
       ).then(() => {
-        emits("update:defaultDate", {
-          startDate: arg.startStr,
-          endDate: arg.endStr,
-        } as DatePeriodType);
+        emits("update:defaultDate", arg.startStr);
         emits("update:contentModal", true);
       });
     }

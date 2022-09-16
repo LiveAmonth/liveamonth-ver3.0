@@ -14,7 +14,15 @@
     "submit": "작성",
     "title": "제목",
     "open": "공개",
-    "hide": "숨김"
+    "hide": "숨김",
+    "button": {
+      "add": "추가",
+      "edit": "수정",
+      "delete": "삭제",
+      "update": "업데이트",
+      "clear": "초기화",
+      "cancel": "취소"
+    }
   },
   "menu": {
     "city": "도시 소개",
@@ -232,7 +240,7 @@
         },
         "new": {
           "title": "새 컨텐츠 추가",
-          "message":"등록된 컨텐츠가 없습니다. 추가하시겠습니까?"
+          "message": "등록된 컨텐츠가 없습니다. 추가하시겠습니까?"
         }
       }
     },
@@ -246,7 +254,8 @@
   "schedule": {
     "title": {
       "schedule": "스케줄 정보",
-      "content": "컨텐츠 정보"
+      "content": "컨텐츠 정보",
+      "manage": "내 스케줄 관리"
     },
     "tooltip": {
       "date": "한 달 살기 기간",
@@ -290,9 +299,14 @@
           "start": "시작 시간",
           "end": "종료 시간"
         },
-        "add": "새 컨텐츠 추가"
+        "add": "새 컨텐츠 추가",
+        "won": "원"
       },
-      "delete": "삭제"
+      "delete": "삭제",
+      "empty": {
+        "schedule": "등록된 스케줄이 없습니다.",
+        "content": "스케줄표에서 컨텐츠를 선택해주세요."
+      }
     },
     "collapse": {
       "member": {

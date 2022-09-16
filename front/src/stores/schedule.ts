@@ -2,6 +2,7 @@ import ScheduleSearchCond from "@/modules/class/schedule/ScheduleCond";
 import ScheduleApiService from "@/services/ScheduleApiService";
 import { defineStore } from "pinia";
 import type {
+  MyScheduleCardType,
   ScheduleCardType,
   ScheduleSearchType,
 } from "@/modules/types/schedule/ScheduleType";
@@ -16,8 +17,8 @@ export const useScheduleStore = defineStore("schedule", {
   state: () => ({
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
-    mySchedules: [] as ScheduleCardType[],
-    currSchedule: {} as ScheduleCardType,
+    mySchedules: [] as MyScheduleCardType[],
+    editedSchedule: {} as MyScheduleCardType,
   }),
   getters: {
     otherScheduleCards: (state): ScheduleCardType[] =>
@@ -37,7 +38,7 @@ export const useScheduleStore = defineStore("schedule", {
 
     getMySchedules: async function (loginId: string) {
       await ScheduleApiService.getMySchedules(loginId)
-        .then((response: ScheduleCardType[]) => {
+        .then((response: MyScheduleCardType[]) => {
           this.mySchedules = response;
         })
         .catch((error) => {
@@ -78,12 +79,12 @@ export const useScheduleStore = defineStore("schedule", {
     setSchedule: async function (selectedId: number) {
       const data = this.mySchedules.find((value) => value.id === selectedId);
       if (data) {
-        this.currSchedule = data;
+        this.editedSchedule = data;
       }
     },
   },
-  // persist: {
-  //   paths: ["currSchedule"],
-  //   storage: sessionStorage,
-  // },
+  persist: {
+    paths: ["pageableSchedules"],
+    storage: sessionStorage,
+  },
 });

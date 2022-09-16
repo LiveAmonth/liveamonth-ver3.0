@@ -3,7 +3,7 @@ import { useFormValidate } from "@/composables/formValidate";
 import type { ScheduleFormType } from "@/modules/types/form/FormType";
 import type {
   DatePeriodType,
-  ScheduleCardType,
+  MyScheduleCardType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { FormRules } from "element-plus/es";
 
@@ -20,7 +20,7 @@ export default class ScheduleEditor implements ScheduleFormType {
     this.period = { startDate: "", endDate: "" };
   }
 
-  setForm(data: ScheduleCardType) {
+  setForm(data: MyScheduleCardType) {
     this.title = data.title;
     this.publicFlag = data.publicFlag;
     this.city = data.city.code;

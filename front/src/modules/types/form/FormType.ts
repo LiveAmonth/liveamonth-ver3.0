@@ -1,7 +1,7 @@
 import type {
   DatePeriodType,
   DateTimePeriodType,
-  ScheduleCardType,
+  MyScheduleCardType,
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
 import type { EventApi } from "@fullcalendar/common";
@@ -65,7 +65,7 @@ export interface ScheduleContentFormType extends FormType<ScheduleContentType> {
   setAttr(event: EventApi): void;
 }
 
-export interface ScheduleFormType extends FormType<ScheduleCardType> {
+export interface ScheduleFormType extends FormType<MyScheduleCardType> {
   title: string;
   publicFlag: boolean;
   city: string;

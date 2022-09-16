@@ -11,24 +11,24 @@ import teamproject.lam_server.global.entity.Period;
 public class ScheduleSimpleCardResponse {
 
     private Long id;
+    private Long memberId;
     private String title;
     private CityName city;
     private int cost;
     private int hits;
     private int likes;
-    private int comments;
     private Period period;
     private boolean publicFlag;
 
     public static ScheduleSimpleCardResponse of(Schedule schedule) {
         return ScheduleSimpleCardResponse.builder()
                 .id(schedule.getId())
+                .memberId(schedule.getMember().getId())
                 .title(schedule.getTitle())
                 .cost(schedule.getTotalCost())
                 .city(schedule.getCityName())
                 .hits(schedule.getViewCount())
                 .likes(schedule.getLikeCount())
-                .comments(schedule.getCommentCount())
                 .period(schedule.getPeriod())
                 .publicFlag(schedule.getPublicFlag())
                 .build();
