@@ -41,9 +41,9 @@ const applyOptions = async (data: SearchSortFormType) => {
 </script>
 
 <template>
+  <TitleSlot class="ms-5">{{ $t("schedule.title.other") }}</TitleSlot>
   <el-row>
-    <TitleSlot>다른 사람 스케줄</TitleSlot>
-    <el-col class="align-content-center">
+    <el-col>
       <div class="search-filter">
         <ScheduleFilter @apply-option="applyOptions" />
       </div>
@@ -55,9 +55,9 @@ const applyOptions = async (data: SearchSortFormType) => {
                 <li
                   v-for="(schedule, i) in otherSchedules"
                   :key="schedule.id"
-                  class="list-item p-4"
+                  class="list-item py-4"
                 >
-                  <el-row :gutter="5">
+                  <el-row :gutter="5" class="d-flex justify-content-center">
                     <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
                       <SimpleCalendar :index="i" />
                     </el-col>
@@ -115,20 +115,20 @@ const applyOptions = async (data: SearchSortFormType) => {
 
 <style lang="scss" scoped>
 .search-filter {
-  padding-left: 100px;
+  display: flex;
+  justify-content: center;
   margin-top: 30px;
+  margin-left: 10px;
 }
 
 @media (max-width: 1600px) {
   .search-filter {
-    padding-left: 40px;
     margin-top: 30px;
   }
 }
 
 @media (max-width: 1024px) {
   .search-filter {
-    padding-left: 40px;
     margin-top: 30px;
   }
 }
