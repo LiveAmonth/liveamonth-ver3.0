@@ -8,6 +8,7 @@
 
 <style lang="scss" scoped>
 .content {
+  background-color: #fafafa;
   height: fit-content;
 
   &::-webkit-scrollbar {
@@ -17,7 +18,7 @@
 
 @media screen and (min-width: 1200px) {
   .content {
-    margin: 0 15%;
+    margin: 0 20%;
   }
 }
 </style>

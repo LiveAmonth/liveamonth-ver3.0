@@ -29,9 +29,9 @@ const logoutBtn = async () => {
       router
       text-color="#004A55"
     >
-      <el-menu-item class="p-0 m-0" index="/">
-        <LogoIcon />
-      </el-menu-item>
+      <router-link :to="{ name: 'home' }">
+        <LogoIcon class="logo" />
+      </router-link>
       <div class="flex-grow" />
       <template v-if="loggedIn">
         <el-menu-item index="#" @click="logoutBtn"
@@ -56,8 +56,13 @@ const logoutBtn = async () => {
   @media screen and (min-width: 1200px) {
     .header-content {
       display: flex;
-      padding: 0 15%;
+      padding: 0 20%;
     }
+  }
+
+  .logo {
+    padding-top: 5px;
+    cursor: pointer;
   }
 }
 
@@ -67,7 +72,7 @@ const logoutBtn = async () => {
   @media screen and (min-width: 1200px) {
     .header-content {
       display: flex;
-      padding: 0 15%;
+      padding: 0 20%;
     }
   }
 }
