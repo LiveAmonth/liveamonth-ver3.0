@@ -32,10 +32,15 @@ export interface FoundIdType {
 }
 
 export interface ManagementMenuCatType {
-  cat: string;
+  name: string;
   icon: string;
 }
 export interface ManagementMenuType {
   category: ManagementMenuCatType;
+  menus: MenuType[];
+}
+
+export interface MenuType {
   value: string;
+  component: object;
 }
