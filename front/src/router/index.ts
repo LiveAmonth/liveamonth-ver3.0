@@ -97,9 +97,10 @@ const router = createRouter({
           component: loadView("profile", "member", "Profile"),
         },
         {
-          path: "/setting",
+          path: "/setting/:menu",
           name: "management",
           component: loadView("management", "member", "Management"),
+          props: true,
         },
       ],
     },

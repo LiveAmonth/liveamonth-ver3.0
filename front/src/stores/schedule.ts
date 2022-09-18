@@ -56,7 +56,6 @@ export const useScheduleStore = defineStore("schedule", {
           lastId
             ? response.forEach((value) => this.mySchedules.push(value))
             : (this.mySchedules = response);
-          this.mySchedules.forEach((value) => console.log(value.id));
         })
         .catch((error) => {
           throw error;

@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { useMember } from "@/composables/member";
-import { Setting } from "@element-plus/icons-vue";
 import MemberScheduleList from "@/components/member/MemberScheduleList.vue";
-import { onMounted, ref } from "vue";
-import { useSchedule } from "@/composables/schedule";
+import ManagementMenu from "@/components/member/MenagementMenu.vue";
 
+import { Setting } from "@element-plus/icons-vue";
+import { onMounted, ref } from "vue";
+import { useMember } from "@/composables/member";
+import { useSchedule } from "@/composables/schedule";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const { memberProfile } = useMember();
 const { mySchedules, getAdditionalMySchedules } = useSchedule();
 
@@ -19,6 +23,8 @@ onMounted(async () => {
     null
   );
 });
+
+const dialogVisible = ref<boolean>(false);
 </script>
 <template>
   <div class="container">
@@ -34,8 +40,17 @@ onMounted(async () => {
       <el-col :span="12" class="info">
         <div class="nickname">
           <span>{{ memberProfile.nickname }}</span>
-          <el-button> 프로필 편집</el-button>
-          <el-icon>
+          <el-button
+            @click="
+              router.push({
+                name: 'management',
+                params: { menu: 'editProfile' },
+              })
+            "
+          >
+            프로필 편집
+          </el-button>
+          <el-icon @click="dialogVisible = true">
             <Setting />
           </el-icon>
         </div>
@@ -72,7 +87,7 @@ onMounted(async () => {
     <el-row class="posts">
       <el-col>
         <el-tabs v-model="activeName" class="demo-tabs">
-          <el-tab-pane label="내 스케줄" name="schedule">
+          <el-tab-pane :label="$t('schedule.title.own')" name="schedule">
             <MemberScheduleList
               v-if="mySchedules"
               :key="listKey"
@@ -85,6 +100,10 @@ onMounted(async () => {
       </el-col>
     </el-row>
   </div>
+
+  <el-dialog v-model="dialogVisible" :title="$t('myPage.menu')" width="300px">
+    <ManagementMenu />
+  </el-dialog>
 </template>
 <style scoped lang="scss">
 .container {
@@ -166,6 +185,12 @@ onMounted(async () => {
     .el-tabs {
       margin-left: 100px;
     }
+  }
+}
+
+.el-dialog {
+  .el-menu {
+    border: none;
   }
 }
 </style>
