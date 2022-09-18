@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { User, Notebook } from "@element-plus/icons-vue";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 import type { PropType } from "vue";
 
@@ -41,7 +42,7 @@ defineProps({
                 <User />
               </el-icon>
             </h6>
-            <p>{{ schedule.profile.numOfFollowers }}</p>
+            <p>{{ schedule.profile.numberOfFollowers }}</p>
           </div>
           <div class="ds schedules">
             <h6>
@@ -50,7 +51,7 @@ defineProps({
                 <Calendar />
               </el-icon>
             </h6>
-            <p>{{ schedule.profile.numOfSchedules }}</p>
+            <p>{{ schedule.profile.numberOfSchedules }}</p>
           </div>
           <div class="ds reviews">
             <h6>
@@ -59,7 +60,7 @@ defineProps({
                 <Notebook />
               </el-icon>
             </h6>
-            <p>{{ schedule.profile.numOfReviews }}</p>
+            <p>{{ schedule.profile.numberOfReviews }}</p>
           </div>
         </div>
       </div>

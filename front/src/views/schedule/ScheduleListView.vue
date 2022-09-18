@@ -4,12 +4,12 @@ import CustomPagination from "@/components/common/CustomPagination.vue";
 import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
 import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import TitleSlot from "@/components/common/TitleSlot.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
-import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import TitleSlot from "@/components/common/TitleSlot.vue";
 
 const category = "SCHEDULE";
 const { isPending, request, schedulePage, otherSchedules, getOtherSchedules } =
@@ -53,17 +53,17 @@ const applyOptions = async (data: SearchSortFormType) => {
             <div class="schedule-list">
               <ul class="list">
                 <li
-                  v-for="(schedule, i) in otherSchedules"
+                  v-for="schedule in otherSchedules"
                   :key="schedule.id"
                   class="list-item py-4"
                 >
                   <el-row :gutter="5" class="d-flex justify-content-center">
                     <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
-                      <SimpleCalendar :index="i" />
+                      <SimpleCalendar :period="schedule.period" />
                     </el-col>
                     <el-col :lg="14" :md="14" :sm="14" :xl="16" :xs="14">
                       <ScheduleInfoCard
-                        :index="i"
+                        :schedule="schedule"
                         @go-to-member-schedules="applyOptions"
                       />
                       <el-card v-if="schedule.comment" class="reply mb-2">

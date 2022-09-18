@@ -1,10 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import CityView from "../views/city/CityView.vue";
-import LoginView from "../views/login/LoginView.vue";
-import SignUpView from "../views/login/SignUpView.vue";
-import FindPwView from "../views/login/FindPwView.vue";
-import FindIdView from "../views/login/FindIdView.vue";
 import WriteView from "../views/review/WriteView.vue";
 import ReadView from "../views/review/ReadView.vue";
 import EditView from "../views/review/EditView.vue";
@@ -13,6 +8,7 @@ import ReadScheduleView from "../views/schedule/ReadScheduleView.vue";
 import ScheduleListView from "../views/schedule/ScheduleListView.vue";
 import MyScheduleView from "../views/schedule/MyScheduleView.vue";
 import MyPageView from "../views/member/MyPageView.vue";
+
 import { useAuthStore } from "@/stores/auth";
 
 const loadView = (name: string, dir: string, view: string) => {
@@ -94,6 +90,18 @@ const router = createRouter({
       path: "/my-page",
       name: "my-page",
       component: MyPageView,
+      children: [
+        {
+          path: "",
+          name: "profile",
+          component: loadView("profile", "member", "Profile"),
+        },
+        {
+          path: "/setting",
+          name: "management",
+          component: loadView("management", "member", "Management"),
+        },
+      ],
     },
   ],
 });

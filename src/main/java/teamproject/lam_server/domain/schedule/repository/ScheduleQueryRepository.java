@@ -17,7 +17,6 @@ import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static org.springframework.util.StringUtils.hasText;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -44,18 +43,6 @@ public class ScheduleQueryRepository extends BasicRepository {
                 countQuery::fetchOne);
     }
 
-    public Optional<Schedule> findByIdAndMember(Long id, String loginId) {
-        return Optional.ofNullable(
-                queryFactory.selectFrom(schedule)
-                        .leftJoin(schedule.member, member).fetchJoin()
-                        .where(
-                                scheduleIdEq(id),
-                                memberLoginIdEq(loginId)
-                        )
-                        .fetchOne()
-        );
-    }
-
     public List<ScheduleContent> getScheduleContents(Long scheduleId) {
         queryFactory.update(schedule)
                 .set(schedule.viewCount, schedule.viewCount.add(1))
@@ -71,14 +58,17 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .fetch();
     }
 
-    public List<Schedule> getScheduleByMember(String loginId) {
-        return queryFactory.selectFrom(schedule)
+    public List<Schedule> getScheduleByMember(String loginId, Integer size, Long lastId) {
+        JPAQuery<Schedule> query = queryFactory.selectFrom(schedule)
                 .leftJoin(schedule.member, member).fetchJoin()
                 .where(
-                        memberLoginIdEq(loginId)
+                        memberLoginIdEq(loginId),
+                        scheduleIdLt(lastId)
                 )
-                .orderBy(schedule.id.desc())
-                .fetch();
+                .orderBy(schedule.id.desc());
+        return size != null
+                ? query.limit(size).fetch()
+                : query.fetch();
     }
 
     private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {
@@ -103,10 +93,6 @@ public class ScheduleQueryRepository extends BasicRepository {
                 titleContain(cond.getTitle()),
                 publicFlag()
         };
-    }
-
-    private BooleanExpression scheduleTitleEq(String title) {
-        return hasText(title) ? schedule.title.eq(title) : null;
     }
 
     private BooleanExpression scheduleIdEq(Long id) {
@@ -136,4 +122,9 @@ public class ScheduleQueryRepository extends BasicRepository {
     private BooleanExpression publicFlag() {
         return schedule.publicFlag.eq(true);
     }
+
+    private BooleanExpression scheduleIdLt(Long lastId) {
+        return lastId != null ? schedule.id.lt(lastId) : null;
+    }
+
 }

@@ -107,9 +107,17 @@ class ScheduleApiService {
       });
   }
 
-  async getMySchedules(loginId: string): Promise<MyScheduleCardType[]> {
+  async getMySchedules(
+    loginId: string,
+    size: number | null = null,
+    lastId: number | null = null
+  ): Promise<MyScheduleCardType[]> {
     return await http
-      .get(`/schedules/list`, { params: { login_id: loginId } })
+      .get(
+        `/schedules/list?login_id=${loginId}` +
+          `${size != null ? `&size=${size}` : ""}` +
+          `${lastId != null ? `&last_id=${lastId}` : ""}`
+      )
       .then((response) => {
         return response.data.data;
       })

@@ -1,5 +1,6 @@
-import { useScheduleStore } from "@/stores/schedule";
 import { computed, ref } from "vue";
+import { useMember } from "@/composables/member";
+import { useScheduleStore } from "@/stores/schedule";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
 import type {
   ScheduleCardType,
@@ -13,7 +14,6 @@ import type {
 import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import type { MyScheduleCardType } from "@/modules/types/schedule/ScheduleType";
-import { useMember } from "@/composables/member";
 
 export const useSchedule = () => {
   const store = useScheduleStore();
@@ -76,6 +76,23 @@ export const useSchedule = () => {
     isPending.value = true;
     try {
       await store.getMySchedules(loginId);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const getAdditionalMySchedules = async (
+    loginId: string,
+    size: number,
+    lastId: number | null
+  ) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getAdditionalMySchedules(loginId, size, lastId);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -200,6 +217,7 @@ export const useSchedule = () => {
     getOtherSchedules,
     getScheduleContents,
     getMySchedules,
+    getAdditionalMySchedules,
     addSchedule,
     editSchedule,
     deleteSchedule,

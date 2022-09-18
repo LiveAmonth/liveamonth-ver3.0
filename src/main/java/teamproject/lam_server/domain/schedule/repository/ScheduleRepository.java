@@ -26,5 +26,4 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "where s.schedule_id = :id"
             , nativeQuery = true)
     void deleteSchedule(@Param("id") Long id);
-
 }

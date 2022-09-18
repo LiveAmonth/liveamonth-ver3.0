@@ -75,8 +75,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId) {
-        return scheduleQueryRepository.getScheduleByMember(loginId).stream()
+    public List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId, Integer size, Long lastId) {
+        return scheduleQueryRepository.getScheduleByMember(loginId, size, lastId).stream()
                 .map(ScheduleSimpleCardResponse::of)
                 .collect(Collectors.toList());
     }

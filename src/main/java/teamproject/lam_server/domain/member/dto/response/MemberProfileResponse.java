@@ -18,9 +18,10 @@ public class MemberProfileResponse {
     private String email;
     private GenderType gender;
     private LocalDate birth;
-    private int numberOfReview;
-    private int numberOfSchedule;
-    private int numberOfFollower;
+    private int numberOfReviews;
+    private int numberOfSchedules;
+    private int numberOfFollowers;
+    private int numberOfFollows;
 
 
     public static MemberProfileResponse of(Member member) {
@@ -33,9 +34,10 @@ public class MemberProfileResponse {
                 .email(member.getEmail())
                 .gender(member.getGender())
                 .birth(member.getBirth())
-                .numberOfReview(member.getReviews().size())
-                .numberOfSchedule(member.getSchedules().size())
-                .numberOfFollower(member.getFollowers().size())
+                .numberOfReviews(member.getNumberOfReviews())
+                .numberOfSchedules(member.getNumberOfSchedules())
+                .numberOfFollowers(member.getNumberOfFollowers())
+                .numberOfFollows(member.getNumberOfFollows())
                 .build();
     }
 }

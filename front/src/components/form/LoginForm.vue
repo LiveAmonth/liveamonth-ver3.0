@@ -2,18 +2,18 @@
 import { reactive, ref } from "vue";
 import { useFormValidate } from "@/composables/formValidate";
 import { useAuth } from "@/composables/auth";
-import type { FormRules, FormInstance } from "element-plus/es";
-import type { LoginType } from "@/modules/types/form/FormType";
 import { useMessageBox } from "@/composables/messageBox";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "@/stores/auth";
 import { useI18n } from "vue-i18n";
+import { useMember } from "@/composables/member";
+import type { FormRules, FormInstance } from "element-plus/es";
+import type { LoginType } from "@/modules/types/form/FormType";
 
 const router = useRouter();
-const store = useAuthStore();
 const { t } = useI18n();
+const { error, isPending, login, isLoggedIn } = useAuth();
+const { getSimpleProfile } = useMember();
 const { openMessageBox } = useMessageBox();
-const { error, isPending, login } = useAuth();
 const { validateRequire } = useFormValidate();
 
 const ruleFormRef = ref<FormInstance>();
@@ -37,7 +37,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         for (const key in loginForm) {
           loginForm[key] = "";
         }
-      } else if (store.loggedIn) {
+      } else if (isLoggedIn.value) {
+        await getSimpleProfile();
         await router.push({ name: "home" });
       }
     } else {

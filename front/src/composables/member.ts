@@ -6,7 +6,10 @@ import type {
   FindPwType,
   SignUpType,
 } from "@/modules/types/form/FormType";
-import type { SimpleProfileType } from "@/modules/types/member/MemberType";
+import type {
+  ProfileType,
+  SimpleProfileType,
+} from "@/modules/types/member/MemberType";
 
 export const useMember = () => {
   const store = useMemberStore();
@@ -15,6 +18,7 @@ export const useMember = () => {
   const { bearerToken } = useAuth();
 
   const simpleProfile = computed((): SimpleProfileType => store.simpleProfile);
+  const memberProfile = computed((): ProfileType => store.memberProfile);
 
   const signUp = async (request: SignUpType) => {
     error.value = null;
@@ -28,6 +32,7 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
+
   const findId = async (request: FindIdType) => {
     error.value = null;
     isPending.value = true;
@@ -40,6 +45,7 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
+
   const findPw = async (request: FindPwType) => {
     error.value = null;
     isPending.value = true;
@@ -52,6 +58,7 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
+
   const getMember = async () => {
     error.value = null;
     isPending.value = true;
@@ -64,6 +71,7 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
+
   const getSimpleProfile = async () => {
     error.value = null;
     isPending.value = true;
@@ -81,6 +89,7 @@ export const useMember = () => {
     error,
     isPending,
     simpleProfile,
+    memberProfile,
     signUp,
     findId,
     findPw,

@@ -1,31 +1,24 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
 import { useAuth } from "@/composables/auth";
 import { useRouter } from "vue-router";
-import { useMemberStore } from "@/stores/member";
 import { useMember } from "@/composables/member";
-import type { SimpleProfileType } from "@/modules/types/member/MemberType";
+import {
+  Avatar,
+  Unlock,
+  User,
+  UserFilled,
+  Lock,
+  Notebook,
+} from "@element-plus/icons-vue";
 
 const router = useRouter();
-const store = useMemberStore();
 const { isLoggedIn, logout } = useAuth();
-const { simpleProfile, getSimpleProfile } = useMember();
-
-onMounted(async () => {
-  if (isLoggedIn.value) {
-    await getSimpleProfile();
-  }
-});
+const { simpleProfile } = useMember();
 
 const logoutBtn = async () => {
   await logout();
   if (!isLoggedIn.value) {
     await router.push({ name: "login" });
-  }
-};
-const myPageBtn = async () => {
-  if (!isLoggedIn.value) {
-    await router.push({ name: "home" });
   }
 };
 </script>
@@ -67,7 +60,7 @@ const myPageBtn = async () => {
               <User />
             </el-icon>
           </h6>
-          <p>{{ simpleProfile.numOfFollowers }}</p>
+          <p>{{ simpleProfile.numberOfFollowers }}</p>
         </div>
         <div class="ds schedules">
           <h6>
@@ -76,7 +69,7 @@ const myPageBtn = async () => {
               <Calendar />
             </el-icon>
           </h6>
-          <p>{{ simpleProfile.numOfSchedules }}</p>
+          <p>{{ simpleProfile.numberOfSchedules }}</p>
         </div>
         <div class="ds reviews">
           <h6>
@@ -85,7 +78,7 @@ const myPageBtn = async () => {
               <Notebook />
             </el-icon>
           </h6>
-          <p>{{ simpleProfile.numOfReviews }}</p>
+          <p>{{ simpleProfile.numberOfReviews }}</p>
         </div>
       </div>
     </template>
