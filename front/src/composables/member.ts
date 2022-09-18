@@ -7,6 +7,8 @@ import type {
   SignUpType,
 } from "@/modules/types/form/FormType";
 import type {
+  ManagementMenuCatType,
+  ManagementMenuType,
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
@@ -19,7 +21,32 @@ export const useMember = () => {
 
   const simpleProfile = computed((): SimpleProfileType => store.simpleProfile);
   const memberProfile = computed((): ProfileType => store.memberProfile);
-
+  const accountCat: ManagementMenuCatType = { cat: "account", icon: "User" };
+  const inquiryCat: ManagementMenuCatType = { cat: "inquiry", icon: "Headset" };
+  const accountMenu: ManagementMenuType[] = [
+    {
+      category: accountCat,
+      value: "editProfile",
+    },
+    {
+      category: accountCat,
+      value: "editPassword",
+    },
+    {
+      category: accountCat,
+      value: "dropMember",
+    },
+  ];
+  const inquiryMenu: ManagementMenuType[] = [
+    {
+      category: inquiryCat,
+      value: "write",
+    },
+    {
+      category: inquiryCat,
+      value: "answer",
+    },
+  ];
   const signUp = async (request: SignUpType) => {
     error.value = null;
     isPending.value = true;
@@ -90,6 +117,7 @@ export const useMember = () => {
     isPending,
     simpleProfile,
     memberProfile,
+    managementMenu: [accountMenu, inquiryMenu],
     signUp,
     findId,
     findPw,

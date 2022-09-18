@@ -132,20 +132,17 @@
     }
   },
   "myPage": {
+    "menu": "마이페이지 메뉴",
     "account": {
       "title": "계정",
-      "modify": "회원정보 수정",
-      "drop": "회원 탈퇴"
-    },
-    "community": {
-      "title": "커뮤니티",
-      "review": "게시글 관리",
-      "schedule": "스케줄 관리"
+      "editProfile": "프로필 편집",
+      "editPassword": "비밀번호 변경",
+      "dropMember": "회원 탈퇴"
     },
     "inquiry": {
-      "title": "1:1 문의",
-      "writeInquiry": "문의 하기",
-      "inquiryAnswer": "문의 답변"
+      "title": "문의",
+      "write": "문의 하기",
+      "answer": "문의 내용"
     }
   },
   "customerCenter": {
@@ -253,6 +250,7 @@
   },
   "schedule": {
     "title": {
+      "own": "내 스케줄",
       "other": "다른 사람 스케줄",
       "schedule": "스케줄 정보",
       "content": "컨텐츠 정보",

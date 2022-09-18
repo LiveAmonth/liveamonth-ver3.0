@@ -30,3 +30,12 @@ export interface FoundIdType {
   loginId: string;
   created: string;
 }
+
+export interface ManagementMenuCatType {
+  cat: string;
+  icon: string;
+}
+export interface ManagementMenuType {
+  category: ManagementMenuCatType;
+  value: string;
+}
