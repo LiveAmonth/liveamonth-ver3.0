@@ -36,10 +36,27 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    getMySchedules: async function (loginId: string) {
-      await ScheduleApiService.getMySchedules(loginId)
+    getMySchedules: async function (loginId: string, size = null) {
+      await ScheduleApiService.getMySchedules(loginId, size)
         .then((response: MyScheduleCardType[]) => {
           this.mySchedules = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getAdditionalMySchedules: async function (
+      loginId: string,
+      size: number,
+      lastId: number | null
+    ) {
+      await ScheduleApiService.getMySchedules(loginId, size, lastId)
+        .then((response: MyScheduleCardType[]) => {
+          lastId
+            ? response.forEach((value) => this.mySchedules.push(value))
+            : (this.mySchedules = response);
+          this.mySchedules.forEach((value) => console.log(value.id));
         })
         .catch((error) => {
           throw error;

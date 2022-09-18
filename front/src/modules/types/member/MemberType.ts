@@ -9,9 +9,10 @@ export interface ProfileType {
   email: string;
   gender: EnumType;
   birth: string;
-  numberOfReview: string;
-  numberOfSchedule: string;
-  numberOfFollower: string;
+  numberOfReviews: number;
+  numberOfSchedules: number;
+  numberOfFollowers: number;
+  numberOfFollows: number;
 }
 
 export interface SimpleProfileType {
@@ -19,9 +20,10 @@ export interface SimpleProfileType {
   loginId: string;
   nickname: string;
   image: string;
-  numOfReviews: number;
-  numOfSchedules: number;
-  numOfFollowers: number;
+  numberOfReviews: number;
+  numberOfSchedules: number;
+  numberOfFollowers: number;
+  numberOfFollows: number;
 }
 
 export interface FoundIdType {

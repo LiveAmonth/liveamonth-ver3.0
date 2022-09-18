@@ -53,8 +53,10 @@ public class ScheduleApiController {
 
     @GetMapping("/list")
     public ResponseEntity<?> getScheduleByMember(
-            @RequestParam("login_id") String loginId) {
-        List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId);
+            @RequestParam("login_id") String loginId,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(name = "last_id", required = false) Long lastId) {
+        List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId, size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 }

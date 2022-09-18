@@ -39,21 +39,19 @@ apiClient.interceptors.response.use(
     const { bearerToken, isLoggedIn, reissue } = useAuth();
     if (error.response) {
       console.log(error.response);
-      if (
-        error.response.data.status == 403 &&
-        error.response.data.error == "EXPIRED_JWT"
-      ) {
-        if (isLoggedIn) {
-          const axiosRequest = error.config;
-          try {
-            await reissue();
+      const status = error.response.data.status;
+      const code = error.response.data.error;
+      if (isLoggedIn) {
+        const axiosRequest = error.config;
+        if (status == 403 && code == "EXPIRED_JWT") {
+          console.log("access token을 재발급합니다.");
+          await reissue().then(() => {
             axiosRequest.headers["Authorization"] = `${bearerToken}`;
-            console.log("access token을 재발급합니다.");
             return axios(axiosRequest);
-          } catch (err) {
-            console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
-            localStorage.removeItem("token-info");
-          }
+          });
+        } else if (status == 400 && code == "INVALID_REFRESH_TOKEN") {
+          console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
+          localStorage.removeItem("token-info");
         }
       }
     }

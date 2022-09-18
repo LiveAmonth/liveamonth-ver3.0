@@ -85,6 +85,6 @@ export const useMemberStore = defineStore("member", {
   },
   persist: {
     storage: sessionStorage,
-    paths: ["simpleProfile"],
+    paths: ["simpleProfile", "memberProfile"],
   },
 });

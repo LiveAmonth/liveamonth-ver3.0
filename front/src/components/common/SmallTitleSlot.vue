@@ -1,7 +1,18 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+defineProps({
+  titleLine: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
+});
+</script>
 
 <template>
-  <div class="title">
+  <div
+    class="title"
+    :style="{ '--bgColor': titleLine ? '#004a55' : '#ffffff' }"
+  >
     <span><slot></slot></span>
   </div>
 </template>
@@ -19,13 +30,13 @@
     padding-left: 10px;
 
     &:after {
-      background-color: #004a55;
+      background-color: var(--bgColor);
       content: "";
       position: absolute;
       left: 0;
-      top: 3px;
+      top: 6px;
       width: 4px;
-      height: 25px;
+      height: 27px;
     }
   }
 }

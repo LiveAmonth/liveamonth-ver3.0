@@ -11,9 +11,10 @@ public class SimpleProfileResponse {
     private String loginId;
     private String nickname;
     private String image;
-    private int numOfReviews;
-    private int numOfSchedules;
-    private int numOfFollowers;
+    private int numberOfReviews;
+    private int numberOfSchedules;
+    private int numberOfFollowers;
+    private int numberOfFollows;
 
     public static SimpleProfileResponse of(Member member) {
         return SimpleProfileResponse.builder()
@@ -21,9 +22,10 @@ public class SimpleProfileResponse {
                 .loginId(member.getLoginId())
                 .nickname(member.getNickname())
                 .image(member.getImage())
-                .numOfReviews(member.getReviewCount())
-                .numOfSchedules(member.getScheduleCount())
-                .numOfFollowers(member.getFollowersCount())
+                .numberOfReviews(member.getNumberOfReviews())
+                .numberOfSchedules(member.getNumberOfSchedules())
+                .numberOfFollowers(member.getNumberOfFollowers())
+                .numberOfFollows(member.getNumberOfFollows())
                 .build();
     }
 }

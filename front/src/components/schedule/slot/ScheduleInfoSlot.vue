@@ -1,10 +1,13 @@
 <script lang="ts" setup>
 import type { PropType } from "vue";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
+import type {
+  MyScheduleCardType,
+  ScheduleCardType,
+} from "@/modules/types/schedule/ScheduleType";
 
 defineProps({
   schedule: {
-    type: Object as PropType<ScheduleCardType>,
+    type: Object as PropType<ScheduleCardType | MyScheduleCardType>,
     required: true,
   },
   fontSize: {
@@ -16,6 +19,11 @@ defineProps({
     required: false,
     default: false,
   },
+  isMyPage: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
 const rowClass = "d-flex justify-content-start";
@@ -23,10 +31,10 @@ const rowClass = "d-flex justify-content-start";
 
 <template>
   <div :style="{ fontSize: fontSize + 'rem' }" class="title-info">
-    <el-row>
+    <el-row :class="isMyPage ? 'mb-2' : 'mb-1'">
       <slot name="title"></slot>
     </el-row>
-    <el-row class="mb-2">
+    <el-row :class="isMyPage ? 'mb-3' : 'mb-2'">
       <div :class="rowClass">
         <slot name="period-title"></slot>
         <span class="value">
@@ -34,13 +42,13 @@ const rowClass = "d-flex justify-content-start";
         </span>
       </div>
     </el-row>
-    <el-row class="mb-2">
+    <el-row :class="isMyPage ? 'mb-3' : 'mb-2'">
       <el-row :class="rowClass">
         <slot name="cost-title"></slot>
         <span class="value"> {{ $filters.makeComma(schedule.cost) }}원 </span>
       </el-row>
     </el-row>
-    <el-row class="mb-2">
+    <el-row :class="isMyPage ? 'mb-3' : 'mb-2'">
       <div :class="rowClass">
         <slot name="location-title"></slot>
         <span class="value">
@@ -68,7 +76,7 @@ const rowClass = "d-flex justify-content-start";
 <style lang="scss" scoped>
 .information {
   .title-info {
-    width: 100%;
+    width: 82%;
     margin-left: 25px;
 
     .el-icon {

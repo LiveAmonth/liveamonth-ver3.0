@@ -75,13 +75,13 @@ public class Member extends BaseTimeEntity {
     private AccountState status;
 
     @Formula("(select count(1) from follower f where f.to_member_id = member_id)")
-    private int followersCount;
+    private int numberOfFollowers;
     @Formula("(select count(1) from follower f where f.from_member_id = member_id)")
-    private int followingCount;
+    private int numberOfFollows;
     @Formula("(select count(1) from review r where r.member_id = member_id)")
-    private int reviewCount;
+    private int numberOfReviews;
     @Formula("(select count(1) from schedule s where s.member_id = member_id)")
-    private int scheduleCount;
+    private int numberOfSchedules;
 
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")
@@ -108,10 +108,7 @@ public class Member extends BaseTimeEntity {
 
     // => 비즈니스 로직
     public int calcAge() {
-        Calendar current = Calendar.getInstance();
-        int currentYear = current.get(Calendar.YEAR);
-        int age = currentYear - this.birth.getYear() + 1;
-        return age;
+        return Calendar.getInstance().get(Calendar.YEAR) - this.birth.getYear() + 1;
     }
 
     public String getProfileImgPath() {
