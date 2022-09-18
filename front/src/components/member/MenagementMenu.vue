@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useRouter } from "vue-router";
-import { useMember } from "@/composables/member";
+import { useMyPage } from "@/composables/mypage";
+import type { ManagementMenuType } from "@/modules/types/member/MemberType";
 
 defineProps({
   initialMenu: {
@@ -10,11 +11,15 @@ defineProps({
     default: "editProfile",
   },
 });
-
 const router = useRouter();
-const { managementMenu } = useMember();
+const { managementMenu } = useMyPage();
 const select = (key: string) => {
-  router.push({ name: "management", params: { menu: key } });
+  console.log(key);
+  const object = JSON.parse(key);
+  router.push({
+    name: "management",
+    params: { category: object.category, menu: object.menu },
+  });
 };
 </script>
 
@@ -28,16 +33,22 @@ const select = (key: string) => {
     @select="select"
   >
     <template v-for="(cat, index) in managementMenu" :key="cat">
-      <div :class="cat[0].category">
+      <div :class="cat.category.name">
         <SmallTitleSlot :class="`${index ? 'mt-4' : ''}`" :title-line="false">
           <el-icon class="pb-1 me-1">
-            <component :is="cat[0].category.icon" />
+            <component :is="cat.category.icon" />
           </el-icon>
-          {{ $t(`myPage.${cat[0].category.cat}.title`) }}
+          {{ $t(`myPage.${cat.category.name}.title`) }}
         </SmallTitleSlot>
-        <el-menu-item v-for="menu in cat" :index="menu.value" :key="menu.value">
+        <el-menu-item
+          v-for="menu in cat.menus"
+          :index="
+            JSON.stringify({ category: cat.category.name, menu: menu.value })
+          "
+          :key="menu.value"
+        >
           <span class="ms-2">
-            {{ $t(`myPage.${menu.category.cat}.${menu.value}`) }}
+            {{ $t(`myPage.${cat.category.name}.${menu.value}`) }}
           </span>
         </el-menu-item>
       </div>
