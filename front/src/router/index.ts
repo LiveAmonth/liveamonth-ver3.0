@@ -92,12 +92,13 @@ const router = createRouter({
       component: MyPageView,
       children: [
         {
-          path: "",
+          path: "/my-page/:post",
           name: "profile",
           component: loadView("profile", "member", "Profile"),
+          props: true,
         },
         {
-          path: "/setting/:category/:menu",
+          path: "/my-page/setting/:category/:menu",
           name: "management",
           component: loadView("management", "member", "Management"),
           props: true,

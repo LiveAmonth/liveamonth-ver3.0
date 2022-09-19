@@ -66,8 +66,8 @@
     },
     "birth": "생년월일",
     "follower": "팔로워",
-    "schedule": "내 스케줄",
-    "review": "내 후기",
+    "schedule": "스케줄",
+    "review": "후기글",
     "imageChange": "이미지 변경"
   },
   "city": {
@@ -143,6 +143,11 @@
       "title": "문의",
       "write": "문의 하기",
       "answer": "문의 내용"
+    },
+    "posts": {
+      "followed": "팔로우",
+      "schedule": "내 스케줄",
+      "review": "내 후기글"
     }
   },
   "customerCenter": {

@@ -15,10 +15,6 @@ body {
   background-color: #fafafa;
 }
 
-.el-icon {
-  vertical-align: middle;
-}
-
 a {
   text-decoration: none;
   color: inherit;

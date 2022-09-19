@@ -1,13 +1,15 @@
 import EditProfile from "@/components/member/EditProfile.vue";
 import EditPassword from "@/components/member/EditPassword.vue";
 import type {
-  ManagementMenuCatType,
+  NameIconType,
   ManagementMenuType,
+  SimpleProfileType,
+  ProfileType,
 } from "@/modules/types/member/MemberType";
 
 export const useMyPage = () => {
-  const accountCat: ManagementMenuCatType = { name: "account", icon: "User" };
-  const inquiryCat: ManagementMenuCatType = {
+  const accountCat: NameIconType = { name: "account", icon: "User" };
+  const inquiryCat: NameIconType = {
     name: "inquiry",
     icon: "Headset",
   };
@@ -42,11 +44,31 @@ export const useMyPage = () => {
     ],
   };
 
-  const findComponent = (category: string) => {
+  const profileTabs: NameIconType[] = [
+    { name: "follower", icon: "User" },
+    { name: "schedule", icon: "Calendar" },
+    { name: "review", icon: "Notebook" },
+  ];
 
+  const myPagePostsTabs: NameIconType[] = [
+    { name: "followed", icon: "User" },
+    { name: "schedule", icon: "Calendar" },
+    { name: "review", icon: "Notebook" },
+  ];
+
+  const getPostCount = (
+    post: string,
+    profile: SimpleProfileType | ProfileType
+  ) => {
+    if (post === "follower") return profile.numberOfFollowers;
+    if (post === "schedule") return profile.numberOfSchedules;
+    if (post === "review") return profile.numberOfReviews;
+    return null;
   };
-
   return {
+    profileTabs,
+    myPagePostsTabs,
+    getPostCount,
     managementMenu: [accountMenu, inquiryMenu],
   };
 };

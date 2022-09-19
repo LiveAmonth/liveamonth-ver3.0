@@ -59,4 +59,12 @@ public class ScheduleApiController {
         List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId, size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
+
+    @GetMapping("/search/followed")
+    public ResponseEntity<?> searchFollowedSchedule(
+            @RequestParam("login_id") String loginId,
+            PageableDTO pageableDTO) {
+        CustomPage<ScheduleCardResponse> result = scheduleApiService.searchFollowedSchedule(loginId, pageableDTO);
+        return CustomResponse.success(READ_SCHEDULE, result);
+    }
 }
