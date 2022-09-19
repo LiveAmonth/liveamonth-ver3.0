@@ -19,5 +19,7 @@ public interface ScheduleService {
 
     CustomPage<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO);
 
+    CustomPage<ScheduleCardResponse> searchFollowedSchedule(String loginId, PageableDTO pageableDTO);
+
     List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId, Integer size, Long lastId);
 }

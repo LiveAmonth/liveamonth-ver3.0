@@ -1,19 +1,15 @@
 <script lang="ts" setup>
-import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
-import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
-import CommentSlot from "@/components/comment/CommentSlot.vue";
-import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
+import ScheduleList from "@/components/schedule/list/ScheduleList.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const category = "SCHEDULE";
-const { isPending, request, schedulePage, otherSchedules, getOtherSchedules } =
-  useSchedule();
+const { isPending, request, schedulePage, getOtherSchedules } = useSchedule();
 const { pageable, mappingPagination, movePage, setSort } =
   usePagination(category);
 
@@ -31,7 +27,6 @@ const pageClick = async (page: number) => {
 };
 
 const applyOptions = async (data: SearchSortFormType) => {
-  console.log(data);
   request.value.setAttr(data);
   await setSort(String(data.sortType));
   await getOtherSchedules(pageable.value).then(() => {
@@ -50,61 +45,7 @@ const applyOptions = async (data: SearchSortFormType) => {
       <div class="schedule-list-container">
         <el-row>
           <el-col v-loading="isPending">
-            <div class="schedule-list">
-              <ul class="list">
-                <li
-                  v-for="schedule in otherSchedules"
-                  :key="schedule.id"
-                  class="list-item py-4"
-                >
-                  <el-row :gutter="5" class="d-flex justify-content-center">
-                    <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
-                      <SimpleCalendar :period="schedule.period" />
-                    </el-col>
-                    <el-col :lg="14" :md="14" :sm="14" :xl="16" :xs="14">
-                      <ScheduleInfoCard
-                        :schedule="schedule"
-                        @go-to-member-schedules="applyOptions"
-                      />
-                      <el-card v-if="schedule.comment" class="reply mb-2">
-                        <SmallTitleSlot class="mb-3">
-                          {{ $t("comment.best") }}
-                        </SmallTitleSlot>
-                        <CommentSlot
-                          :id="schedule.comment.commentId"
-                          :avatar-url="'/src/assets/image/default.jpg'"
-                          :is-best="true"
-                          :is-reply="false"
-                          :is-writer="
-                            schedule.profile.nickname ===
-                            schedule.comment.profile.nickname
-                          "
-                        >
-                          <template v-slot:writer>
-                            {{ schedule.comment.profile.nickname }}
-                          </template>
-                          <template v-slot:elapsedTime>
-                            {{ schedule.comment.elapsedTime }}
-                          </template>
-                          <template v-slot:content>
-                            {{ schedule.comment.content }}
-                          </template>
-                          <template v-slot:likeCount>
-                            {{ schedule.comment.likes }}
-                          </template>
-                          <template v-slot:dislikeCount>
-                            {{ schedule.comment.dislikes }}
-                          </template>
-                        </CommentSlot>
-                      </el-card>
-                      <el-card v-else class="reply mb-0">
-                        {{ $t("comment.no-comment") }}
-                      </el-card>
-                    </el-col>
-                  </el-row>
-                </li>
-              </ul>
-            </div>
+            <ScheduleList @apply-option="applyOptions" />
           </el-col>
         </el-row>
       </div>
@@ -131,24 +72,5 @@ const applyOptions = async (data: SearchSortFormType) => {
   .search-filter {
     margin-top: 30px;
   }
-}
-
-.schedule-list {
-  text-align: center;
-
-  .list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .list-item + .list-item {
-    margin-top: 10px;
-  }
-}
-
-.reply {
-  margin-top: 1.3rem;
-  text-align: left;
 }
 </style>

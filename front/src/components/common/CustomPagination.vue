@@ -29,7 +29,7 @@ const onClick = (page: number) => {
 
 <template>
   <div class="paging">
-    <ul class="paging_point">
+    <ul class="paging-point">
       <template v-if="!pagination.isFirst">
         <li class="paging-side">
           <button class="btn-paging prev" type="button" @click="onClick(1)">
@@ -51,17 +51,20 @@ const onClick = (page: number) => {
         </li>
       </template>
       <li
+        class="paging-num"
         v-for="page in getCurrentPageGroupPages()"
         :key="page"
         :class="isCurrentPage(page) ? 'on' : ''"
       >
-        <a
-          :title="getCurrentPageNumber(page) + '페이지 선택'"
-          style="cursor: pointer"
-          @click="onClick(getCurrentPageNumber(page))"
-        >
-          {{ getCurrentPageNumber(page) }}</a
-        >
+        <span class="num-box">
+          <a
+            :title="getCurrentPageNumber(page) + '페이지 선택'"
+            style="cursor: pointer"
+            @click="onClick(getCurrentPageNumber(page))"
+          >
+            {{ getCurrentPageNumber(page) }}
+          </a>
+        </span>
       </li>
       <template v-if="!pagination.isLast">
         <li class="paging-side">
@@ -92,61 +95,60 @@ const onClick = (page: number) => {
 </template>
 
 <style lang="scss" scoped>
-/* Paging Button */
-.btn-paging {
-  display: inline-block;
-  padding: 0;
-  min-width: 20px;
-  min-height: 20px;
-  background-color: white;
-  border: none;
-
-  .el-icon {
-    font-size: 20px;
-  }
-
-  &:hover,
-  &:active {
-    cursor: pointer;
-
-    .el-icon {
-      color: teal;
-      font-size: 25px;
-    }
-  }
-}
-
-/* =============================
- Paging Style
-============================= */
 .paging {
   text-align: center;
-  margin-top: 25px;
-
-  > ul {
-    display: inline-block;
-    vertical-align: top;
+  li {
+    list-style: none;
   }
 
-  li {
-    display: inline-block;
-    padding: 0 8px;
-    font-family: Verdana, Geneva, sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    color: #000;
-    line-height: 40px;
+  .paging-point {
+    display: flex;
+    justify-content: center;
 
-    &.on,
-    a:hover,
-    a:focus {
-      color: teal;
-      font-size: 19px;
+    .paging-num {
+      display: flex;
+      padding: 0 8px;
+      font-family: Verdana, Geneva, sans-serif;
+      font-weight: 400;
+      font-size: 16px;
+      color: #000;
+      line-height: 40px;
+
+      .num-box {
+        width: 20px;
+        height: 20px;
+      }
+
+      &.on,
+      a:hover,
+      a:focus {
+        color: teal;
+        font-size: 19px;
+      }
     }
 
-    &.paging-side {
-      padding: 0;
-      vertical-align: top;
+    .paging-side {
+      .btn-paging {
+        width: 25px;
+        height: 40px;
+        margin-top: 2px;
+        background-color: white;
+        border: none;
+
+        .el-icon {
+          font-size: 20px;
+        }
+
+        &:hover,
+        &:active {
+          cursor: pointer;
+
+          .el-icon {
+            color: teal;
+            font-size: 25px;
+          }
+        }
+      }
     }
   }
 }

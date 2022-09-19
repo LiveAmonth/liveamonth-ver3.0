@@ -7,8 +7,6 @@ import type {
   SignUpType,
 } from "@/modules/types/form/FormType";
 import type {
-  ManagementMenuCatType,
-  ManagementMenuType,
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";

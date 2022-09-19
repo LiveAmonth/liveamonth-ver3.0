@@ -25,9 +25,6 @@ const noMore = computed(
 const disabled = computed(() => loading.value || noMore.value);
 
 const load = async () => {
-  console.log("load");
-  console.log("마지막 스케줄 인덱스", count.value - 1);
-  console.log("마지막 스케줄 ID", mySchedules.value[count.value - 1].id);
   loading.value = true;
   await getAdditionalMySchedules(
     memberProfile.value.loginId,

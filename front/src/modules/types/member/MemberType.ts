@@ -31,12 +31,12 @@ export interface FoundIdType {
   created: string;
 }
 
-export interface ManagementMenuCatType {
+export interface NameIconType {
   name: string;
   icon: string;
 }
 export interface ManagementMenuType {
-  category: ManagementMenuCatType;
+  category: NameIconType;
   menus: MenuType[];
 }
 

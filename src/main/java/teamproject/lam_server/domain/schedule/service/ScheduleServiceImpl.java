@@ -3,7 +3,6 @@ package teamproject.lam_server.domain.schedule.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
@@ -63,15 +62,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public CustomPage<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
-        Pageable pageable = spec.getPageable(pageableDTO);
-        Page<ScheduleCardResponse> page = scheduleQueryRepository.search(cond, pageable).map(schedule -> ScheduleCardResponse.of(
-                schedule,
-                CommentResponse.ofSingleEntity(
-                        commentRepository.getBestComment(schedule.getId()).orElse(null))
-        ));
-        return CustomPage.<ScheduleCardResponse>builder()
-                .page(page)
-                .build();
+        return mapToCustomPage(scheduleQueryRepository.search(cond, spec.getPageable(pageableDTO)));
     }
 
     @Override
@@ -79,5 +70,21 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleQueryRepository.getScheduleByMember(loginId, size, lastId).stream()
                 .map(ScheduleSimpleCardResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public CustomPage<ScheduleCardResponse> searchFollowedSchedule(String loginId, PageableDTO pageableDTO) {
+        return mapToCustomPage(scheduleQueryRepository.searchFollowedSchedule(loginId, spec.getPageable(pageableDTO)));
+    }
+
+    private CustomPage<ScheduleCardResponse> mapToCustomPage(Page<Schedule> result) {
+        Page<ScheduleCardResponse> page = result.map(schedule -> ScheduleCardResponse.of(
+                schedule,
+                CommentResponse.ofSingleEntity(
+                        commentRepository.getBestComment(schedule.getId()).orElse(null))
+        ));
+        return CustomPage.<ScheduleCardResponse>builder()
+                .page(page)
+                .build();
     }
 }

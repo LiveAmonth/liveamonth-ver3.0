@@ -2,24 +2,23 @@
 import { useAuth } from "@/composables/auth";
 import { useRouter } from "vue-router";
 import { useMember } from "@/composables/member";
-import {
-  Avatar,
-  Unlock,
-  User,
-  UserFilled,
-  Lock,
-  Notebook,
-} from "@element-plus/icons-vue";
+import { Avatar, Unlock, UserFilled, Lock } from "@element-plus/icons-vue";
+import { useMyPage } from "@/composables/mypage";
 
 const router = useRouter();
 const { isLoggedIn, logout } = useAuth();
 const { simpleProfile } = useMember();
+const { profileTabs, getPostCount } = useMyPage();
 
 const logoutBtn = async () => {
   await logout();
   if (!isLoggedIn.value) {
     await router.push({ name: "login" });
   }
+};
+
+const goProfile = (post: string) => {
+  router.push({ name: "profile", params: { post: post } });
 };
 </script>
 
@@ -34,8 +33,8 @@ const logoutBtn = async () => {
         </div>
       </div>
       <div class="name">
-        <router-link :to="{ path: '/my-schedule/2' }" target="_blank"
-          >{{ simpleProfile.nickname }}
+        <router-link :to="{ path: '/my-schedule/2' }" target="_blank">
+          {{ simpleProfile.nickname }}
         </router-link>
       </div>
       <div class="button d-flex justify-content-center">
@@ -45,40 +44,29 @@ const logoutBtn = async () => {
             <Avatar />
           </el-icon>
         </router-link>
-        <a href="#" @click="logoutBtn"
-          >{{ $t("member.logout") }}
+        <a href="#" @click="logoutBtn">
+          {{ $t("member.logout") }}
           <el-icon>
             <Unlock />
           </el-icon>
         </a>
       </div>
       <div class="ds-info d-flex justify-content-between">
-        <div class="ds follower">
+        <div
+          v-for="tab in profileTabs"
+          :key="tab.name"
+          class="ds"
+          :class="tab.name"
+        >
           <h6>
-            {{ $t("member.follower") }}
+            {{ $t(`member.${tab.name}`) }}
             <el-icon>
-              <User />
+              <component :is="tab.icon" />
             </el-icon>
           </h6>
-          <p>{{ simpleProfile.numberOfFollowers }}</p>
-        </div>
-        <div class="ds schedules">
-          <h6>
-            {{ $t("member.schedule") }}
-            <el-icon>
-              <Calendar />
-            </el-icon>
-          </h6>
-          <p>{{ simpleProfile.numberOfSchedules }}</p>
-        </div>
-        <div class="ds reviews">
-          <h6>
-            {{ $t("member.review") }}
-            <el-icon>
-              <Notebook />
-            </el-icon>
-          </h6>
-          <p>{{ simpleProfile.numberOfReviews }}</p>
+          <p @click="goProfile(tab.name)">
+            {{ getPostCount(tab.name, simpleProfile) }}
+          </p>
         </div>
       </div>
     </template>
@@ -249,7 +237,7 @@ const logoutBtn = async () => {
     bottom: 0;
     left: 0;
     width: inherit;
-    height: 20px;
+    height: 25px;
     text-align: center;
     animation: fadeIn 2s ease-in;
     outline: none;
@@ -267,7 +255,8 @@ const logoutBtn = async () => {
 
       &:hover {
         color: white;
-        background: #004a55;
+        font-weight: lighter;
+        background-color: rgba(112, 161, 170, 0.8);
       }
     }
   }
@@ -283,8 +272,8 @@ const logoutBtn = async () => {
     height: 40px;
 
     .follower,
-    .schedules,
-    .reviews {
+    .schedule,
+    .review {
       position: relative;
       width: 33%;
       text-align: center;
@@ -293,15 +282,25 @@ const logoutBtn = async () => {
       animation-fill-mode: forwards;
 
       h6 {
-        padding-top: 0.1rem;
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
         margin-bottom: 10px;
         text-transform: uppercase;
+        font-weight: 500;
+        font-size: 0.75rem;
         color: #004a55;
+
+        .el-icon {
+          margin-left: 3px;
+        }
       }
 
       p {
         margin: 0;
-        font-size: 12px;
+        font-weight: bold;
+        font-size: 13px;
+        cursor: pointer;
       }
     }
 

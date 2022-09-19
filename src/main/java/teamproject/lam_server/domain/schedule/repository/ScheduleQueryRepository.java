@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.hasText;
+import static teamproject.lam_server.domain.interaction.entity.member.QFollower.follower;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 import static teamproject.lam_server.domain.schedule.entity.QScheduleContent.scheduleContent;
@@ -36,6 +37,21 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
                 .fetch();
         JPAQuery<Long> countQuery = getSearchCountQuery(cond);
+
+        return PageableExecutionUtils.getPage(
+                elements,
+                pageable,
+                countQuery::fetchOne);
+    }
+
+    public Page<Schedule> searchFollowedSchedule(String loginId, Pageable pageable) {
+        List<Schedule> elements = getSearchFollowedElementsQuery(loginId)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
+                .fetch();
+
+        JPAQuery<Long> countQuery = getSearchFollowedCountQuery(loginId);
 
         return PageableExecutionUtils.getPage(
                 elements,
@@ -77,12 +93,28 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .where(getSearchPredicts(cond));
     }
 
-
     private JPAQuery<Long> getSearchCountQuery(ScheduleSearchCond cond) {
         return queryFactory.select(schedule.count())
                 .from(schedule)
                 .leftJoin(schedule.member, member)
                 .where(getSearchPredicts(cond));
+    }
+
+    private JPAQuery<Schedule> getSearchFollowedElementsQuery(String loginId) {
+        return queryFactory.selectFrom(schedule)
+                .join(schedule.member, member).fetchJoin()
+                .join(follower.from, member).fetchJoin()
+                .where(
+                        followedMemberLoginIdEq(loginId)
+                );
+    }
+
+    private JPAQuery<Long> getSearchFollowedCountQuery(String loginId) {
+        return queryFactory.select(schedule.count())
+                .from(schedule)
+                .join(schedule.member, member).fetchJoin()
+                .join(follower.from, member).fetchJoin()
+                .where(followedMemberLoginIdEq(loginId));
     }
 
     private Predicate[] getSearchPredicts(ScheduleSearchCond cond) {
@@ -98,13 +130,16 @@ public class ScheduleQueryRepository extends BasicRepository {
     private BooleanExpression scheduleIdEq(Long id) {
         return id != null ? schedule.id.eq(id) : null;
     }
-
     private BooleanExpression memberNicknameEq(String nickname) {
         return hasText(nickname) ? member.nickname.eq(nickname) : null;
     }
 
     private BooleanExpression memberLoginIdEq(String loginId) {
         return hasText(loginId) ? member.loginId.eq(loginId) : null;
+    }
+
+    private BooleanExpression followedMemberLoginIdEq(String loginId) {
+        return hasText(loginId) ? follower.from.loginId.eq(loginId) : null;
     }
 
     private BooleanExpression titleContain(String title) {
