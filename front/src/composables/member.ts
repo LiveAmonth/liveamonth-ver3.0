@@ -7,6 +7,7 @@ import type {
   SignUpType,
 } from "@/modules/types/form/FormType";
 import type {
+  FoundIdType,
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
@@ -19,6 +20,8 @@ export const useMember = () => {
 
   const simpleProfile = computed((): SimpleProfileType => store.simpleProfile);
   const memberProfile = computed((): ProfileType => store.memberProfile);
+
+  const foundId = computed((): FoundIdType => store.foundId);
 
   const signUp = async (request: SignUpType) => {
     error.value = null;
@@ -90,6 +93,7 @@ export const useMember = () => {
     isPending,
     simpleProfile,
     memberProfile,
+    foundId,
     signUp,
     findId,
     findPw,
