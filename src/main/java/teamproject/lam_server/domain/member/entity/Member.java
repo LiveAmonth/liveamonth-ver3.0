@@ -76,7 +76,7 @@ public class Member extends BaseTimeEntity {
 
     @Formula("(select count(1) from follower f where f.to_member_id = member_id)")
     private int numberOfFollowers;
-    @Formula("(select count(1) from follower f where f.from_member_id = member_id)")
+    @Formula("(select count(1) from schedule s join follower f on s.member_id = f.to_member_id where f.from_member_id = member_id)")
     private int numberOfFollows;
     @Formula("(select count(1) from review r where r.member_id = member_id)")
     private int numberOfReviews;

@@ -18,6 +18,7 @@ import teamproject.lam_server.global.repository.BasicRepository;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.querydsl.jpa.JPAExpressions.select;
 import static org.springframework.util.StringUtils.hasText;
 import static teamproject.lam_server.domain.interaction.entity.member.QFollower.follower;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -87,6 +88,25 @@ public class ScheduleQueryRepository extends BasicRepository {
                 : query.fetch();
     }
 
+    public List<Schedule> getFollowedSchedules(String loginId, Integer size, Long lastId) {
+        JPAQuery<Schedule> query = queryFactory.selectFrom(schedule)
+                .join(schedule.member, member).fetchJoin()
+                .where(
+                        schedule.member.in(
+                                select(follower.to)
+                                        .from(follower)
+                                        .leftJoin(follower.from, member)
+                                        .where(followedMemberLoginIdEq(loginId))
+                        ),
+                        scheduleIdLt(lastId)
+                )
+                .orderBy(schedule.id.desc());
+
+        return size != null
+                ? query.limit(size).fetch()
+                : query.fetch();
+    }
+
     private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {
         return queryFactory.selectFrom(schedule)
                 .join(schedule.member, member).fetchJoin()
@@ -103,7 +123,7 @@ public class ScheduleQueryRepository extends BasicRepository {
     private JPAQuery<Schedule> getSearchFollowedElementsQuery(String loginId) {
         return queryFactory.selectFrom(schedule)
                 .join(schedule.member, member).fetchJoin()
-                .join(follower.from, member).fetchJoin()
+                .leftJoin(follower.from, member)
                 .where(
                         followedMemberLoginIdEq(loginId)
                 );
@@ -130,6 +150,7 @@ public class ScheduleQueryRepository extends BasicRepository {
     private BooleanExpression scheduleIdEq(Long id) {
         return id != null ? schedule.id.eq(id) : null;
     }
+
     private BooleanExpression memberNicknameEq(String nickname) {
         return hasText(nickname) ? member.nickname.eq(nickname) : null;
     }
@@ -161,5 +182,4 @@ public class ScheduleQueryRepository extends BasicRepository {
     private BooleanExpression scheduleIdLt(Long lastId) {
         return lastId != null ? schedule.id.lt(lastId) : null;
     }
-
 }

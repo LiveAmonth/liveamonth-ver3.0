@@ -1,5 +1,6 @@
 import EditProfile from "@/components/member/EditProfile.vue";
 import EditPassword from "@/components/member/EditPassword.vue";
+import { tabs } from "@/composables/tabs";
 import type {
   NameIconType,
   ManagementMenuType,
@@ -8,13 +9,9 @@ import type {
 } from "@/modules/types/member/MemberType";
 
 export const useMyPage = () => {
-  const accountCat: NameIconType = { name: "account", icon: "User" };
-  const inquiryCat: NameIconType = {
-    name: "inquiry",
-    icon: "Headset",
-  };
+  const { getTabsItem, getMyPageMenuCategory } = tabs();
   const accountMenu: ManagementMenuType = {
-    category: accountCat,
+    category: getMyPageMenuCategory("account", "User"),
     menus: [
       {
         value: "editProfile",
@@ -31,7 +28,7 @@ export const useMyPage = () => {
     ],
   };
   const inquiryMenu: ManagementMenuType = {
-    category: inquiryCat,
+    category: getMyPageMenuCategory("inquiry", "Headset"),
     menus: [
       {
         value: "write",
@@ -43,17 +40,14 @@ export const useMyPage = () => {
       },
     ],
   };
-
   const profileTabs: NameIconType[] = [
-    { name: "follower", icon: "User" },
-    { name: "schedule", icon: "Calendar" },
-    { name: "review", icon: "Notebook" },
+    getTabsItem("profile", "follower", "User"),
+    getTabsItem("profile", "schedule", "Calendar"),
+    getTabsItem("profile", "review", "Notebook"),
   ];
-
   const myPagePostsTabs: NameIconType[] = [
-    { name: "followed", icon: "User" },
-    { name: "schedule", icon: "Calendar" },
-    { name: "review", icon: "Notebook" },
+    getTabsItem("myPage", "schedule", "Calendar"),
+    getTabsItem("myPage", "review", "Notebook"),
   ];
 
   const getPostCount = (
@@ -65,6 +59,7 @@ export const useMyPage = () => {
     if (post === "review") return profile.numberOfReviews;
     return null;
   };
+
   return {
     profileTabs,
     myPagePostsTabs,

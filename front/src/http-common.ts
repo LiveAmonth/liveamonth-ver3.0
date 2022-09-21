@@ -36,23 +36,28 @@ apiClient.interceptors.response.use(
     return response;
   },
   async function (error) {
-    const { bearerToken, isLoggedIn, reissue } = useAuth();
+    const { bearerToken, reissue } = useAuth();
     if (error.response) {
-      console.log(error.response);
       const status = error.response.data.status;
       const code = error.response.data.error;
-      if (isLoggedIn) {
-        const axiosRequest = error.config;
-        if (status == 403 && code == "EXPIRED_JWT") {
+      const axiosRequest = error.config;
+      if (status == 403 && code == "EXPIRED_JWT") {
+        try {
           console.log("access token을 재발급합니다.");
           await reissue().then(() => {
             axiosRequest.headers["Authorization"] = `${bearerToken}`;
-            return axios(axiosRequest);
+            console.log("재발급 된 토큰 ", bearerToken);
+            return apiClient.request(axiosRequest);
           });
-        } else if (status == 400 && code == "INVALID_REFRESH_TOKEN") {
-          console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
+        } catch (error) {
           localStorage.removeItem("token-info");
         }
+        return Promise.reject(error);
+      }
+      if (status == 400 && code == "INVALID_REFRESH_TOKEN") {
+        console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
+        localStorage.removeItem("token-info");
+        return Promise.reject(error);
       }
     }
     return Promise.reject(error);

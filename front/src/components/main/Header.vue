@@ -1,18 +1,14 @@
 <script lang="ts" setup>
-import NavMenu from "@/components/NavMenu.vue";
-import LogoIcon from "../components/image/LogoIcon.vue";
-import { useAuthStore } from "@/stores/auth";
+import NavMenu from "@/components/main/NavMenu.vue";
+import LogoIcon from "@/components/image/LogoIcon.vue";
 import { useAuth } from "@/composables/auth";
 import { useRouter } from "vue-router";
-import { computed } from "vue";
 
 const router = useRouter();
-const store = useAuthStore();
-const { error, isPending, logout } = useAuth();
-const loggedIn = computed((): boolean => store.loggedIn);
+const { isLoggedIn, logout } = useAuth();
 const logoutBtn = async () => {
   await logout();
-  if (!store.loggedIn) {
+  if (!isLoggedIn) {
     await router.push({ name: "login" });
   }
 };
@@ -33,11 +29,9 @@ const logoutBtn = async () => {
         <LogoIcon class="logo" />
       </router-link>
       <div class="flex-grow" />
-      <template v-if="loggedIn">
-        <el-menu-item index="#" @click="logoutBtn"
-          >{{ $t("member.logout") }}
-        </el-menu-item>
-      </template>
+      <el-menu-item v-if="isLoggedIn" index="#" @click="logoutBtn">
+        {{ $t("member.logout") }}
+      </el-menu-item>
       <template v-else>
         <el-menu-item index="/login">{{ $t("member.login") }}</el-menu-item>
         <el-menu-item index="/sign-up">{{ $t("member.signUp") }}</el-menu-item>

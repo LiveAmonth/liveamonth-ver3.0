@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import MemberScheduleList from "@/components/member/MemberScheduleList.vue";
+import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
-
+import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import { Setting } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
 import { useMember } from "@/composables/member";
@@ -18,24 +18,25 @@ const props = defineProps({
 
 const router = useRouter();
 const { memberProfile } = useMember();
-const { mySchedules, getAdditionalMySchedules } = useSchedule();
+const { mySchedules, getInfiniteSchedules } = useSchedule();
 const { myPagePostsTabs, profileTabs, getPostCount } = useMyPage();
 const listKey = ref<number>(0);
 const activeName = ref<string>(props.post);
-const initialCount = ref<number>(3);
+const initialSize = ref<number>(3);
 
 onMounted(async () => {
-  await getAdditionalMySchedules(
+  await getInfiniteSchedules(
     memberProfile.value.loginId,
-    initialCount.value,
-    null
+    initialSize.value,
+    null,
+    true
   );
 });
 
 const dialogVisible = ref<boolean>(false);
 
 const clickTab = (tab: string) => {
-  activeName.value = tab !== profileTabs[0].name ? tab : activeName.value;
+  activeName.value = tab !== profileTabs[0].code ? tab : activeName.value;
 };
 </script>
 <template>
@@ -67,10 +68,10 @@ const clickTab = (tab: string) => {
           </el-icon>
         </div>
         <div class="interactions">
-          <div v-for="tab in profileTabs" :key="tab.name" :class="tab.name">
-            <span class="name"> {{ $t(`member.${tab.name}`) }} </span>
-            <span class="count" @click="clickTab(tab.name)">
-              {{ getPostCount(tab.name, memberProfile) }}
+          <div v-for="tab in profileTabs" :key="tab.code" :class="tab.code">
+            <span class="name"> {{ tab.value }} </span>
+            <span class="count" @click="clickTab(tab.code)">
+              {{ getPostCount(tab.code, memberProfile) }}
             </span>
           </div>
         </div>
@@ -84,47 +85,35 @@ const clickTab = (tab: string) => {
         </div>
       </el-col>
     </el-row>
-    <div class="posts">
-      <div class="posts-header">
-        <div class="tabs">
-          <template v-for="(tab, index) in myPagePostsTabs" :key="tab.name">
-            <input
-              type="radio"
-              :id="`radio-${index + 1}`"
-              name="tabs"
-              :checked="index === 1"
-              :value="tab.name"
-              v-model="activeName"
-            />
-            <label class="tab" :for="`radio-${index + 1}`">
-              <el-icon class="me-1">
-                <component :is="tab.icon" />
-              </el-icon>
-              {{ $t(`myPage.posts.${tab.name}`) }}
-            </label>
-          </template>
-          <span class="glider"></span>
+    <ContentTabsSlot
+      class="content-tab"
+      v-model:active-name="activeName"
+      :tabs="myPagePostsTabs"
+    >
+      <template v-slot:tab-1>
+        <ScheduleInfiniteList
+          v-if="activeName === myPagePostsTabs[0].code && mySchedules.length"
+          :key="listKey"
+          :login-id="memberProfile.loginId"
+          :max-count="memberProfile.numberOfSchedules"
+          :initial-count="initialSize"
+          :is-my-page="true"
+          @refresh="listKey++"
+        />
+      </template>
+      <template v-slot:tab-2>
+        <div v-if="activeName === myPagePostsTabs[1].code">
+          내 후기글 리스트@@
         </div>
-      </div>
-      <el-row class="posts-content">
-        <el-col>
-          <div v-if="activeName === 'followed'">팔로우한 스케줄 리스트@@</div>
-          <MemberScheduleList
-            v-else-if="activeName === 'schedule' && mySchedules"
-            :key="listKey"
-            :initial-count="initialCount"
-            @refresh="listKey++"
-          />
-          <div v-else-if="activeName === 'review'">내 후기글 리스트@@</div>
-        </el-col>
-      </el-row>
-    </div>
+      </template>
+    </ContentTabsSlot>
   </div>
 
   <el-dialog v-model="dialogVisible" :title="$t('myPage.menu')" width="300px">
     <ManagementMenu />
   </el-dialog>
 </template>
+
 <style scoped lang="scss">
 .container {
   display: flex;
@@ -209,104 +198,9 @@ const clickTab = (tab: string) => {
     }
   }
 
-  .posts {
+  .content-tab {
     margin-top: 80px;
     margin-left: 50px;
-
-    .posts-header {
-      border-top: #bab7b7 0.5px solid;
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-
-      .tabs {
-        display: flex;
-        position: relative;
-
-        * {
-          z-index: 2;
-        }
-
-        input[type="radio"] {
-          display: none;
-        }
-
-        .tab {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 40px;
-          width: 100px;
-          color: #646363;
-          font-size: 1rem;
-          cursor: pointer;
-          transition: color 0.15s ease-in;
-        }
-
-        input[type="radio"] {
-          &:checked {
-            & + label {
-              color: rgb(1, 109, 125);
-              font-weight: 600;
-            }
-          }
-        }
-
-        input[id="radio-1"] {
-          &:checked {
-            & ~ .glider {
-              transform: translateX(0);
-            }
-          }
-        }
-
-        input[id="radio-2"] {
-          &:checked {
-            & ~ .glider {
-              transform: translateX(100%);
-            }
-          }
-        }
-
-        input[id="radio-3"] {
-          &:checked {
-            & ~ .glider {
-              transform: translateX(200%);
-            }
-          }
-        }
-
-        .glider {
-          position: absolute;
-          display: flex;
-          height: 40px;
-          width: 100px;
-          z-index: 1;
-          border-top: #016d7d 0.2rem solid; // just a high number to create pill effect
-          transition: 0.25s ease-out;
-        }
-      }
-    }
-
-    .posts-buttons {
-      position: relative;
-      top: 0;
-      display: flex;
-      justify-content: center;
-
-      .el-button {
-        padding: 0;
-        margin: 0;
-
-        &:first-child {
-          margin-right: 45px;
-        }
-
-        &:last-child {
-          margin-left: 45px;
-        }
-      }
-    }
   }
 }
 

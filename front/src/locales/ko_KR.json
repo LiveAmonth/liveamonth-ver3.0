@@ -24,6 +24,32 @@
       "cancel": "취소"
     }
   },
+  "title": {
+    "home": {
+      "posts": "인기 게시물"
+    }
+  },
+  "tabs": {
+    "profile": {
+      "follower": "팔로워",
+      "schedule": "스케줄",
+      "review": "후기글"
+    },
+    "myPage": {
+      "schedule": "내 스케줄",
+      "review": "내 후기글"
+    },
+    "home": {
+      "followed": "팔로우 스케줄",
+      "schedule": "인기 스케줄",
+      "review": "인기 후기글"
+    },
+    "city": {
+      "intro": "도시 소개",
+      "transport": "교통 정보",
+      "weather": "전년도 기온 정보"
+    }
+  },
   "menu": {
     "city": "도시 소개",
     "schedule": "스케줄",
@@ -32,13 +58,6 @@
     "review": "후기",
     "myPage": "내 정보",
     "customerCenter": "고객 센터"
-  },
-  "home": {
-    "popularContent": "인기 게시물",
-    "moreSchedule": "해당 스케줄 더보기",
-    "moreReview": "해당 게시글 더보기",
-    "title": "제목",
-    "profile": "프로필"
   },
   "member": {
     "signUp": "회원가입",
@@ -65,9 +84,6 @@
       "end": "세"
     },
     "birth": "생년월일",
-    "follower": "팔로워",
-    "schedule": "스케줄",
-    "review": "후기글",
     "imageChange": "이미지 변경"
   },
   "city": {
@@ -79,13 +95,6 @@
       "BS": "부산",
       "YS": "여수",
       "JJ": "제주"
-    },
-    "tab": {
-      "category": {
-        "intro": "도시 소개",
-        "transport": "교통 정보",
-        "weather": "전년도 기온 정보"
-      }
     },
     "intro": {
       "title": "'한 달 살기' 추천 도시",
@@ -143,11 +152,6 @@
       "title": "문의",
       "write": "문의 하기",
       "answer": "문의 내용"
-    },
-    "posts": {
-      "followed": "팔로우",
-      "schedule": "내 스케줄",
-      "review": "내 후기글"
     }
   },
   "customerCenter": {
@@ -175,7 +179,6 @@
       "duplicated": "{value}는 이미 존재하는 {field}입니다.",
       "confirm": "해당 {field}를 사용하시겠습니까?"
     },
-    "reset": "초기화",
     "require": {
       "text": "{field}을(를) 입력해주세요.",
       "select": "{field}을(를) 선택해주세요."
@@ -206,6 +209,14 @@
     }
   },
   "form": {
+    "button": {
+      "reset": "초기화"
+    },
+    "label": {
+      "findId": {
+        "created": "가입"
+      }
+    },
     "message": {
       "reWrite": "다시 입력해주세요",
       "noMember": "일치하는 회원 정보가 없습니다.",
@@ -213,15 +224,14 @@
       "unknown": "알 수 없는 오류가 발생했습니다.",
       "login": "로그인 하시겠습니까? 확인을 누르시면 로그인 페이지로 이동합니다",
       "findId": {
-        "title": "고객님의 정보와 일치하는 아이디입니다.",
-        "created": "가입"
+        "title": "고객님의 정보와 일치하는 아이디입니다."
       },
       "findPw": {
         "title": "고객님의 이메일로 임시 비밀번호가 발급되었습니다.",
         "content": "메일 확인 후 비밀번호를 재설정 해주시기 바랍니다."
       },
       "signUp": {
-        "result": "회원가입이 완료되었습니다. 로그인 해주세요."
+        "title": "회원가입이 완료되었습니다. 로그인 해주세요."
       },
       "schedule": {
         "add": "새 스케줄이 추가되었습니다.",
@@ -245,8 +255,7 @@
           "message": "등록된 컨텐츠가 없습니다. 추가하시겠습니까?"
         }
       }
-    },
-    "reset": "초기화"
+    }
   },
   "auth": {
     "reissue": {

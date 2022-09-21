@@ -8,7 +8,7 @@ const store = useMemberStore();
     <div class="result-box d-flex justify-content-between p-2">
       <p class="result-id">{{ store.foundId.loginId }}</p>
       <p class="created-date">
-        {{ $t("form.message.findId.created") }} : {{ store.foundId.created }}
+        {{ $t("form.label.findId.created") }} : {{ store.foundId.created }}
       </p>
     </div>
   </div>

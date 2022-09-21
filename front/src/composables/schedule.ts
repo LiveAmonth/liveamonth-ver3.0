@@ -35,6 +35,13 @@ export const useSchedule = () => {
     (): ScheduleContentType[] => contentStore.scheduleContents
   );
   const mySchedules = computed((): MyScheduleCardType[] => store.mySchedules);
+  const followedSchedules = computed(
+    (): ScheduleCardType[] => store.follwedSchedules
+  );
+
+  const infiniteSchedules = (isMyPage: boolean) => {
+    return isMyPage ? mySchedules.value : followedSchedules.value;
+  };
 
   // Schedule Global
   const getScheduleContents = async (id: number) => {
@@ -84,15 +91,20 @@ export const useSchedule = () => {
     }
   };
 
-  const getAdditionalMySchedules = async (
+  const getInfiniteSchedules = async (
     loginId: string,
     size: number,
-    lastId: number | null
+    lastId: number | null,
+    isMyPage = false
   ) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getAdditionalMySchedules(loginId, size, lastId);
+      if (isMyPage) {
+        await store.getInfiniteSchedules(loginId, size, lastId);
+      } else {
+        await store.getAdditionalFollowedSchedules(loginId, size, lastId);
+      }
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -212,12 +224,14 @@ export const useSchedule = () => {
     otherSchedules,
     currScheduleContents,
     mySchedules,
+    followedSchedules,
+    infiniteSchedules,
     editedSchedule,
     getOtherSchedule,
     getOtherSchedules,
     getScheduleContents,
     getMySchedules,
-    getAdditionalMySchedules,
+    getInfiniteSchedules,
     addSchedule,
     editSchedule,
     deleteSchedule,

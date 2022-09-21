@@ -6,7 +6,7 @@ import LinkSlot from "@/components/common/LinkSlot.vue";
 
 <template>
   <div class="login-content d-flex justify-content-center mt-5">
-    <el-col :lg="10" :md="10" :sm="12" :xl="8" :xs="14">
+    <el-col :lg="10" :md="8" :sm="12" :xl="8" :xs="12">
       <el-space
         :fill="true"
         direction="vertical"

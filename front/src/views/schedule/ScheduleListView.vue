@@ -2,7 +2,7 @@
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
-import ScheduleList from "@/components/schedule/list/ScheduleList.vue";
+import SchedulePageList from "@/components/schedule/list/SchedulePageList.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
@@ -45,7 +45,7 @@ const applyOptions = async (data: SearchSortFormType) => {
       <div class="schedule-list-container">
         <el-row>
           <el-col v-loading="isPending">
-            <ScheduleList @apply-option="applyOptions" />
+            <SchedulePageList @apply-option="applyOptions" />
           </el-col>
         </el-row>
       </div>

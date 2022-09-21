@@ -32,7 +32,8 @@ export interface FoundIdType {
 }
 
 export interface NameIconType {
-  name: string;
+  code: string;
+  value: string;
   icon: string;
 }
 export interface ManagementMenuType {

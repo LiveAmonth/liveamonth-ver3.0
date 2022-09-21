@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import Content from "@/components/Content.vue";
-import Header from "@/components/Header.vue";
+import Content from "@/components/main/Content.vue";
+import Header from "@/components/main/Header.vue";
 </script>
 
 <template>

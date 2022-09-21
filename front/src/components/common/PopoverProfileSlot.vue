@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { User, Notebook } from "@element-plus/icons-vue";
+import { useMyPage } from "@/composables/mypage";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 import type { PropType } from "vue";
 
@@ -9,6 +9,7 @@ defineProps({
     required: true,
   },
 });
+const { profileTabs, getPostCount } = useMyPage();
 </script>
 
 <template>
@@ -35,32 +36,21 @@ defineProps({
         <slot></slot>
 
         <div class="ds-info d-flex justify-content-center m-1">
-          <div class="ds follower">
+          <div
+            v-for="tab in profileTabs"
+            :key="tab.code"
+            class="ds"
+            :class="tab.code"
+          >
             <h6>
-              {{ $t("member.follower") }}
+              {{ tab.value }}
               <el-icon>
-                <User />
+                <component :is="tab.icon" />
               </el-icon>
             </h6>
-            <p>{{ schedule.profile.numberOfFollowers }}</p>
-          </div>
-          <div class="ds schedules">
-            <h6>
-              {{ $t("menu.schedule") }}
-              <el-icon>
-                <Calendar />
-              </el-icon>
-            </h6>
-            <p>{{ schedule.profile.numberOfSchedules }}</p>
-          </div>
-          <div class="ds reviews">
-            <h6>
-              {{ $t("menu.review") }}
-              <el-icon>
-                <Notebook />
-              </el-icon>
-            </h6>
-            <p>{{ schedule.profile.numberOfReviews }}</p>
+            <p>
+              {{ getPostCount(tab.code, schedule.profile) }}
+            </p>
           </div>
         </div>
       </div>
@@ -99,8 +89,8 @@ defineProps({
     display: flex;
 
     .follower,
-    .schedules,
-    .reviews {
+    .schedule,
+    .review {
       position: relative;
       left: -300px;
       width: 33%;

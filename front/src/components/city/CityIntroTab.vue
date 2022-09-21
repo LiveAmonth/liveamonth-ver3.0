@@ -10,13 +10,13 @@ const activeName = ref<string>("intro");
 <template>
   <el-card>
     <el-tabs v-model="activeName" class="city-detail-tabs" tab-position="left">
-      <el-tab-pane :label="$t('city.tab.category.intro')" name="intro">
+      <el-tab-pane :label="$t('tabs.city.intro')" name="intro">
         <CityIntroDetail class="tab-detail" />
       </el-tab-pane>
-      <el-tab-pane :label="$t('city.tab.category.transport')" name="transport">
+      <el-tab-pane :label="$t('tabs.city.transport')" name="transport">
         <CityTransportTable class="tab-detail" />
       </el-tab-pane>
-      <el-tab-pane :label="$t('city.tab.category.weather')" name="weather">
+      <el-tab-pane :label="$t('tabs.city.weather')" name="weather">
         <CityWeatherTable class="tab-detail" />
       </el-tab-pane>
     </el-tabs>
