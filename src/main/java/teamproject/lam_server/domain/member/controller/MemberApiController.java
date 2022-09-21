@@ -60,7 +60,7 @@ public class MemberApiController {
      * presentation layer::my page
      * -> modify user information
      */
-    @PostMapping("/modify/{id}")
+    @PatchMapping("/modify/{id}")
     public ResponseEntity<?> modifyUser(@PathVariable Long id, @Valid @RequestBody ModifyMemberRequest request) {
         memberService.modify(id, request);
         return CustomResponse.success(UPDATE_MEMBER);

@@ -47,7 +47,7 @@ apiClient.interceptors.response.use(
           await reissue().then(() => {
             axiosRequest.headers["Authorization"] = `${bearerToken}`;
             console.log("재발급 된 토큰 ", bearerToken);
-            return apiClient.request(axiosRequest);
+            return apiClient(axiosRequest);
           });
         } catch (error) {
           localStorage.removeItem("token-info");

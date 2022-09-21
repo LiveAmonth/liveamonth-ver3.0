@@ -4,7 +4,7 @@ import type {
   ScheduleContentFormType,
   SignUpType,
 } from "@/modules/types/form/FormType";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member";
 import type {
   DatePeriodType,
@@ -17,7 +17,7 @@ export const useFormValidate = () => {
   const { getDate, isBetween, isSameDate, isBefore } = useDate();
   const store = useMemberStore();
   const isPending = ref(false);
-
+  const isAvailable = computed(() => store.isAvailable);
   const validateRequire = (field: string): FormItemRule => {
     return {
       required: true,
@@ -187,6 +187,7 @@ export const useFormValidate = () => {
 
   return {
     isPending,
+    isAvailable,
     validateRequire,
     validateSelection,
     validatePattern,

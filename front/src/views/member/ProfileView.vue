@@ -19,7 +19,8 @@ const props = defineProps({
 const router = useRouter();
 const { memberProfile } = useMember();
 const { mySchedules, getInfiniteSchedules } = useSchedule();
-const { myPagePostsTabs, profileTabs, getPostCount } = useMyPage();
+const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =
+  useMyPage();
 const listKey = ref<number>(0);
 const activeName = ref<string>(props.post);
 const initialSize = ref<number>(3);
@@ -55,10 +56,9 @@ const clickTab = (tab: string) => {
           <span>{{ memberProfile.nickname }}</span>
           <el-button
             @click="
-              router.push({
-                name: 'management',
-                params: { menu: 'editProfile' },
-              })
+              goManagement(
+                JSON.stringify({ category: 'account', menu: 'editProfile' })
+              )
             "
           >
             {{ $t("myPage.account.editProfile") }}
@@ -110,7 +110,7 @@ const clickTab = (tab: string) => {
   </div>
 
   <el-dialog v-model="dialogVisible" :title="$t('myPage.menu')" width="300px">
-    <ManagementMenu />
+    <ManagementMenu @select-menu="goManagement" />
   </el-dialog>
 </template>
 

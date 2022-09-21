@@ -1,21 +1,16 @@
 <script setup lang="ts">
 import { useMember } from "@/composables/member";
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 
-const { getMember, memberProfile, simpleProfile } = useMember();
-const loading = ref<boolean>(false);
+const { isPending, getMember } = useMember();
 
 onMounted(async () => {
-  loading.value = false;
-  if (memberProfile.value.id !== simpleProfile.value.id) {
-    await getMember();
-  }
-  loading.value = true;
+  await getMember();
 });
 </script>
 
 <template>
-  <router-view v-if="loading"></router-view>
+  <router-view v-if="!isPending"></router-view>
 </template>
 
 <style scoped lang="scss"></style>

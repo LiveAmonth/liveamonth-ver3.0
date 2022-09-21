@@ -1,5 +1,6 @@
 import EditProfile from "@/components/member/EditProfile.vue";
 import EditPassword from "@/components/member/EditPassword.vue";
+import { useRouter } from "vue-router";
 import { tabs } from "@/composables/tabs";
 import type {
   NameIconType,
@@ -9,6 +10,7 @@ import type {
 } from "@/modules/types/member/MemberType";
 
 export const useMyPage = () => {
+  const router = useRouter();
   const { getTabsItem, getMyPageMenuCategory } = tabs();
   const accountMenu: ManagementMenuType = {
     category: getMyPageMenuCategory("account", "User"),
@@ -60,10 +62,19 @@ export const useMyPage = () => {
     return null;
   };
 
+  const goManagement = (key: string) => {
+    const object = JSON.parse(key);
+    router.push({
+      name: "management",
+      params: { category: object.category, menu: object.menu },
+    });
+  };
+
   return {
     profileTabs,
     myPagePostsTabs,
-    getPostCount,
     managementMenu: [accountMenu, inquiryMenu],
+    getPostCount,
+    goManagement,
   };
 };
