@@ -3,6 +3,14 @@ import CityGridContent from "@/components/city/CityGridContent.vue";
 import MyProfileCard from "@/components/member/MyProfileCard.vue";
 import HomePostsTab from "@/components/main/HomePostsTab.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
+import { useMember } from "@/composables/member";
+import { onMounted } from "vue";
+
+const { getSimpleProfile } = useMember();
+
+onMounted(async () => {
+  await getSimpleProfile();
+});
 </script>
 
 <template>

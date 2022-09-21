@@ -11,6 +11,7 @@ import type {
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
 import type { SignUpType } from "@/modules/types/form/FormType";
+import type ProfileEditor from "@/modules/class/member/ProfileEditor";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
@@ -25,6 +26,16 @@ export const useMemberStore = defineStore("member", {
   actions: {
     signUp: async function (request: SignUpType) {
       await MemberApiService.signUp(request)
+        .then((response: string) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    editProfile: async function (request: ProfileEditor) {
+      await MemberApiService.edit(request)
         .then((response: string) => {
           console.log(response);
         })

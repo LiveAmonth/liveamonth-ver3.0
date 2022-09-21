@@ -1,141 +1,28 @@
 <script lang="ts" setup>
+import MemberEditor from "@/modules/class/member/MemberEditor";
 import { onMounted, reactive, ref } from "vue";
-import type { FormInstance, FormRules } from "element-plus";
-import type {
-  SignUpType,
-  SignUpCheckType,
-} from "@/modules/types/form/FormType";
-import { useFormValidate } from "@/composables/formValidate";
 import { useMember } from "@/composables/member";
-import { useMemberStore } from "@/stores/member";
 import { useI18n } from "vue-i18n";
 import { useMessageBox } from "@/composables/messageBox";
 import { useRouter } from "vue-router";
 import { useType } from "@/composables/type";
+import type { FormInstance, FormRules } from "element-plus";
+import type { SignUpCheckType } from "@/modules/types/form/FormType";
 
-const store = useMemberStore();
 const router = useRouter();
 const { t } = useI18n();
-const { openMessageBox, openConfirmMessageBox } = useMessageBox();
-const {
-  validateRequire,
-  validateSelection,
-  validatePattern,
-  validateRange,
-  validatePassword,
-  validateBirth,
-  duplicateCheck,
-} = useFormValidate();
-const { error, isPending, signUp } = useMember();
+const { openMessageBox } = useMessageBox();
+const { error, isPending, signUp, checkField, resetField } = useMember();
 const { getGenderType, genderType } = useType();
 
 onMounted(async () => {
   await getGenderType();
 });
 
-const signUpForm = reactive<SignUpType>({
-  loginId: "",
-  password: "",
-  passwordCheck: "",
-  name: "",
-  nickname: "",
-  email: "",
-  birth: "",
-  gender: "",
-});
-
-const signUpCheckForm = reactive<SignUpCheckType>({
-  loginId: false,
-  nickname: false,
-  email: false,
-});
-
+const signUpForm = reactive<MemberEditor>(new MemberEditor());
+const signUpCheckForm = reactive<SignUpCheckType>(signUpForm.checkForm);
 const ruleFormRef = ref<FormInstance>();
-const rules = reactive<FormRules>({
-  loginId: [
-    validateRequire("member.loginId"),
-    validatePattern("[a-zA-Z0-9]{3,20}", "validation.pattern.loginId"),
-  ],
-  password: [
-    validateRequire("member.password"),
-    validatePattern(
-      "(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,20}",
-      "validation.pattern.password"
-    ),
-  ],
-  passwordCheck: [
-    validateRequire("member.passwordCheck"),
-    validatePassword(signUpForm),
-  ],
-  name: [
-    validateRequire("member.name"),
-    validatePattern("[a-zA-Z가-힣]{2,20}", "validation.pattern.name"),
-  ],
-  nickname: [
-    validateRequire("member.nickname"),
-    validateRange("member.nickname", 1, 20),
-  ],
-  email: [
-    validateRequire("member.email"),
-    validatePattern(
-      "[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}",
-      "validation.pattern.email"
-    ),
-  ],
-  birth: [validateSelection("member.birth"), validateBirth(signUpForm)],
-  gender: [validateSelection("member.gender.title")],
-});
-const checkField = async (formEl: FormInstance, field: string) => {
-  const value = signUpForm[field];
-  if (value.length === 0) {
-    await openMessageBox(
-      t("validation.require.text", { field: t(`member.${field}`) })
-    );
-  } else if (!(await isValidate(formEl, field))) {
-    await openMessageBox(t(`validation.pattern.${field}`));
-  } else {
-    await duplicateCheck(field, value);
-    if (!store.isAvailable) {
-      await openMessageBox(
-        t("validation.duplication.duplicated", {
-          value: value,
-          field: t(`member.${field}`),
-        })
-      );
-      signUpForm[field] = "";
-    } else {
-      await openConfirmMessageBox(
-        t("validation.duplication.button"),
-        t("validation.duplication.confirm", {
-          field: t(`member.${field}`),
-        })
-      )
-        .then(() => {
-          signUpCheckForm[field] = true;
-        })
-        .catch(() => {
-          signUpForm[field] = "";
-        });
-    }
-  }
-};
-const resetField = async (field: string) => {
-  signUpCheckForm[field] = !signUpCheckForm[field];
-  signUpForm[field] = "";
-};
-const isValidate = async (
-  formEl: FormInstance,
-  field: string
-): Promise<boolean> => {
-  return await formEl
-    .validateField(field)
-    .then(() => {
-      return true;
-    })
-    .catch(() => {
-      return false;
-    });
-};
+
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
@@ -160,7 +47,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   <el-form
     ref="ruleFormRef"
     :model="signUpForm"
-    :rules="rules"
+    :rules="signUpForm.getRules()"
     label-position="top"
     label-width="120px"
     status-icon
@@ -173,10 +60,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         <template #append>
           <el-button
             v-if="!signUpCheckForm.loginId"
-            @click="checkField(ruleFormRef, 'loginId')"
+            @click="checkField(ruleFormRef, signUpForm, 'loginId')"
             >{{ $t("validation.duplication.button") }}
           </el-button>
-          <el-button v-else color="#004A55" @click="resetField('loginId')"
+          <el-button
+            v-else
+            color="#004A55"
+            @click="resetField(signUpForm, 'loginId')"
             >{{ $t("form.button.reset") }}
           </el-button>
         </template>
@@ -203,10 +93,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         <template #append>
           <el-button
             v-if="!signUpCheckForm.nickname"
-            @click="checkField(ruleFormRef, 'nickname')"
+            @click="checkField(ruleFormRef, signUpForm, 'nickname')"
             >{{ $t("validation.duplication.button") }}
           </el-button>
-          <el-button v-else color="#004A55" @click="resetField('nickname')"
+          <el-button
+            v-else
+            color="#004A55"
+            @click="resetField(signUpForm, 'nickname')"
             >{{ $t("form.button.reset") }}
           </el-button>
         </template>
@@ -217,10 +110,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         <template #append>
           <el-button
             v-if="!signUpCheckForm.email"
-            @click="checkField(ruleFormRef, 'email')"
+            @click="checkField(ruleFormRef, signUpForm, 'email')"
             >{{ $t("validation.duplication.button") }}
           </el-button>
-          <el-button v-else color="#004A55" @click="resetField('email')"
+          <el-button
+            v-else
+            color="#004A55"
+            @click="resetField(signUpForm, 'email')"
             >{{ $t("form.button.reset") }}
           </el-button>
         </template>

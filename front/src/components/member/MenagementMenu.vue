@@ -10,15 +10,10 @@ defineProps({
     default: "editProfile",
   },
 });
-const router = useRouter();
+const emits = defineEmits(["selectMenu"]);
 const { managementMenu } = useMyPage();
 const select = (key: string) => {
-  console.log(key);
-  const object = JSON.parse(key);
-  router.push({
-    name: "management",
-    params: { category: object.category, menu: object.menu },
-  });
+  emits("selectMenu", key);
 };
 </script>
 
@@ -26,20 +21,25 @@ const select = (key: string) => {
   <el-menu
     active-text-color="#016D7D"
     background-color="#ffffff"
-    class="el-menu-vertical-demo"
+    class="management-menu"
     :default-active="initialMenu"
     text-color="#111111"
     @select="select"
   >
     <template v-for="(cat, index) in managementMenu" :key="cat">
       <div :class="cat.category.code">
-        <SmallTitleSlot :class="`${index ? 'mt-4' : ''}`" :title-line="false">
+        <SmallTitleSlot
+          class="ps-2"
+          :class="`${index ? 'mt-4' : ''}`"
+          :title-line="false"
+        >
           <el-icon class="pb-1 me-1">
             <component :is="cat.category.icon" />
           </el-icon>
           {{ $t(`myPage.${cat.category.code}.title`) }}
         </SmallTitleSlot>
         <el-menu-item
+          class="menu-item"
           v-for="menu in cat.menus"
           :index="
             JSON.stringify({ category: cat.category.code, menu: menu.value })
@@ -56,16 +56,25 @@ const select = (key: string) => {
 </template>
 
 <style scoped lang="scss">
-.el-menu-item {
-  &:hover {
+.management-menu {
+  border: none;
+  .menu-item {
     font-size: 16px;
-    color: #fafafa;
-    background-color: rgba(108, 153, 163, 0.86);
-  }
 
-  &.is-active {
-    font-size: 17px;
-    font-weight: bold;
+    &:hover {
+      font-size: 18px;
+      color: #fafafa;
+      background-color: rgba(108, 153, 163, 0.86);
+    }
+
+    &.is-active {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    span {
+      padding-left: 20px;
+    }
   }
 }
 </style>

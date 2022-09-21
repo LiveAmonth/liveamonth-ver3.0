@@ -28,6 +28,14 @@ export interface FindPwType {
   [key: string]: string;
 }
 
+export interface SignUpCheckType {
+  loginId: boolean;
+  nickname: boolean;
+  email: boolean;
+
+  [key: string]: boolean;
+}
+
 export interface SignUpType {
   loginId: string;
   password: string;
@@ -37,16 +45,22 @@ export interface SignUpType {
   email: string;
   birth: string;
   gender: string;
+  checkForm: SignUpCheckType;
 
-  [key: string]: string;
+  [key: string]: any;
 }
 
-export interface SignUpCheckType {
-  loginId: boolean;
-  nickname: boolean;
-  email: boolean;
+export interface EditProfileType {
+  loginId: string;
+  name: string;
+  nickname: string;
+  email: string;
+  birth: string;
+  gender: string;
+  image: string;
+  checkForm: SignUpCheckType;
 
-  [key: string]: boolean;
+  [key: string]: any;
 }
 
 export interface DuplicationCheckType {
@@ -62,6 +76,7 @@ export interface ScheduleContentFormType extends FormType<ScheduleContentType> {
   timePeriod: DateTimePeriodType;
 
   setDefaultDate(date: string): void;
+
   setAttr(event: EventApi): void;
 }
 
@@ -74,7 +89,9 @@ export interface ScheduleFormType extends FormType<MyScheduleCardType> {
 
 export interface FormType<T> {
   setForm(data: T): void;
+
   getRules(): FormRules;
+
   clear(): void;
 }
 

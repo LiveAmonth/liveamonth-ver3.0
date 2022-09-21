@@ -18,7 +18,7 @@ const props = defineProps({
   },
 });
 
-const { managementMenu } = useMyPage();
+const { managementMenu, goManagement } = useMyPage();
 
 const findComponent = (): object | undefined => {
   const menus: ManagementMenuType | undefined = managementMenu.find(
@@ -33,23 +33,24 @@ const findComponent = (): object | undefined => {
 <template>
   <TitleSlot class="mb-3"> 내 정보</TitleSlot>
   <el-card :body-style="{ padding: 0 }">
-    <el-row :gutter="5">
-      <el-col :span="4">
+    <el-row class="d-flex justify-content-around">
+      <el-col :span="6" class="menu">
         <ManagementMenu
           class="pt-3"
           :initial-menu="JSON.stringify({ category: category, menu: menu })"
+          @select-menu="goManagement"
         />
       </el-col>
-      <el-col :span="20" class="content">
+      <el-col :span="2"></el-col>
+      <el-col :span="14" class="content">
         <component :is="findComponent()"></component>
       </el-col>
+      <el-col :span="2"></el-col>
     </el-row>
   </el-card>
 </template>
 <style scoped lang="scss">
-.el-menu-item {
-  &:hover {
-    background-color: #6c99a3d3;
-  }
+.menu {
+  border-right: rgba(194, 192, 192, 0.95) 0.08rem solid;
 }
 </style>

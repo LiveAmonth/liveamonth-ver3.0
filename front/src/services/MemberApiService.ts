@@ -2,6 +2,7 @@ import http from "@/http-common";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
   DuplicationCheckType,
+  EditProfileType,
   FindIdType,
   FindPwType,
   SignUpType,
@@ -11,6 +12,7 @@ import type {
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
+import type ProfileEditor from "@/modules/class/member/ProfileEditor";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
@@ -41,6 +43,20 @@ class MemberApiService {
   async signUp(request: SignUpType): Promise<string> {
     return await http
       .post("/members/sign-up", JSON.stringify(request))
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async edit(request: ProfileEditor): Promise<string> {
+    return await http
+      .patch(
+        `/members/modify/${request.memberId}`,
+        JSON.stringify(request.getRequest())
+      )
       .then((response) => {
         return response.data;
       })

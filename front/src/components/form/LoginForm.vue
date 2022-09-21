@@ -4,11 +4,9 @@ import { useAuth } from "@/composables/auth";
 import { useMessageBox } from "@/composables/messageBox";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { useMember } from "@/composables/member";
 import type { LoginType } from "@/modules/types/form/FormType";
 
 const router = useRouter();
-const { getSimpleProfile } = useMember();
 const { error, isPending, login, isLoggedIn } = useAuth();
 const { openMessageBox } = useMessageBox();
 const { t } = useI18n();
@@ -21,7 +19,6 @@ const loginForm = reactive<LoginType>({
 const submitForm = async () => {
   await login(loginForm);
   if (isLoggedIn.value) {
-    await getSimpleProfile();
     await router.push({ name: "home" });
   }
   if (error.value) {
