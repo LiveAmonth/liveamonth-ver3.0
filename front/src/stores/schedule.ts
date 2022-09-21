@@ -18,6 +18,7 @@ export const useScheduleStore = defineStore("schedule", {
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
     mySchedules: [] as MyScheduleCardType[],
+    follwedSchedules: [] as ScheduleCardType[],
     editedSchedule: {} as MyScheduleCardType,
   }),
   getters: {
@@ -46,7 +47,7 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    getAdditionalMySchedules: async function (
+    getInfiniteSchedules: async function (
       loginId: string,
       size: number,
       lastId: number | null
@@ -56,6 +57,22 @@ export const useScheduleStore = defineStore("schedule", {
           lastId
             ? response.forEach((value) => this.mySchedules.push(value))
             : (this.mySchedules = response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getAdditionalFollowedSchedules: async function (
+      loginId: string,
+      size: number,
+      lastId: number | null
+    ) {
+      await ScheduleApiService.getFollowedSchedules(loginId, size, lastId)
+        .then((response: ScheduleCardType[]) => {
+          lastId
+            ? response.forEach((value) => this.follwedSchedules.push(value))
+            : (this.follwedSchedules = response);
         })
         .catch((error) => {
           throw error;

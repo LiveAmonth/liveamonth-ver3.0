@@ -2,7 +2,6 @@
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useRouter } from "vue-router";
 import { useMyPage } from "@/composables/mypage";
-import type { ManagementMenuType } from "@/modules/types/member/MemberType";
 
 defineProps({
   initialMenu: {
@@ -33,22 +32,22 @@ const select = (key: string) => {
     @select="select"
   >
     <template v-for="(cat, index) in managementMenu" :key="cat">
-      <div :class="cat.category.name">
+      <div :class="cat.category.code">
         <SmallTitleSlot :class="`${index ? 'mt-4' : ''}`" :title-line="false">
           <el-icon class="pb-1 me-1">
             <component :is="cat.category.icon" />
           </el-icon>
-          {{ $t(`myPage.${cat.category.name}.title`) }}
+          {{ $t(`myPage.${cat.category.code}.title`) }}
         </SmallTitleSlot>
         <el-menu-item
           v-for="menu in cat.menus"
           :index="
-            JSON.stringify({ category: cat.category.name, menu: menu.value })
+            JSON.stringify({ category: cat.category.code, menu: menu.value })
           "
           :key="menu.value"
         >
           <span class="ms-2">
-            {{ $t(`myPage.${cat.category.name}.${menu.value}`) }}
+            {{ $t(`myPage.${cat.category.code}.${menu.value}`) }}
           </span>
         </el-menu-item>
       </div>

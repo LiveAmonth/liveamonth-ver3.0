@@ -22,7 +22,7 @@ const { managementMenu } = useMyPage();
 
 const findComponent = (): object | undefined => {
   const menus: ManagementMenuType | undefined = managementMenu.find(
-    (value) => value.category.name === props.category
+    (value) => value.category.code === props.category
   );
   const find: MenuType | undefined = menus?.menus.find(
     (value1) => value1.value === props.menu

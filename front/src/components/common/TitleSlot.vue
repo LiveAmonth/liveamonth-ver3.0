@@ -23,9 +23,9 @@
       content: "";
       position: absolute;
       left: 0;
-      top: 5px;
+      top: 9px;
       width: 4px;
-      height: 30px;
+      height: 32px;
     }
   }
 }

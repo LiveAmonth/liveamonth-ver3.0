@@ -37,7 +37,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     status-icon
   >
     <span class="resetBtn" size="small" @click="resetField"
-      ><el-icon><Refresh /></el-icon>{{ $t("form.reset") }}
+      ><el-icon><Refresh /></el-icon>{{ $t("form.button.reset") }}
     </span>
     <el-form-item :label="$t('schedule.form.content.title')" prop="title">
       <el-input v-model="scheduleContentDetail.title" />

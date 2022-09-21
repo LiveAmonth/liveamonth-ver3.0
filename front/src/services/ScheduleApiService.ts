@@ -5,6 +5,7 @@ import http, {
 } from "@/http-common";
 import type {
   MyScheduleCardType,
+  ScheduleCardType,
   ScheduleContentType,
   ScheduleSearchType,
 } from "@/modules/types/schedule/ScheduleType";
@@ -115,6 +116,25 @@ class ScheduleApiService {
     return await http
       .get(
         `/schedules/list?login_id=${loginId}` +
+          `${size != null ? `&size=${size}` : ""}` +
+          `${lastId != null ? `&last_id=${lastId}` : ""}`
+      )
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async getFollowedSchedules(
+    loginId: string,
+    size: number | null = null,
+    lastId: number | null = null
+  ): Promise<ScheduleCardType[]> {
+    return await http
+      .get(
+        `/schedules/list/followed?login_id=${loginId}` +
           `${size != null ? `&size=${size}` : ""}` +
           `${lastId != null ? `&last_id=${lastId}` : ""}`
       )

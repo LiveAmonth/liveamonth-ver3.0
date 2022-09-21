@@ -54,18 +54,18 @@ const goProfile = (post: string) => {
       <div class="ds-info d-flex justify-content-between">
         <div
           v-for="tab in profileTabs"
-          :key="tab.name"
+          :key="tab.code"
           class="ds"
-          :class="tab.name"
+          :class="tab.code"
         >
           <h6>
-            {{ $t(`member.${tab.name}`) }}
+            {{ tab.value }}
             <el-icon>
               <component :is="tab.icon" />
             </el-icon>
           </h6>
-          <p @click="goProfile(tab.name)">
-            {{ getPostCount(tab.name, simpleProfile) }}
+          <p @click="goProfile(tab.code)">
+            {{ getPostCount(tab.code, simpleProfile) }}
           </p>
         </div>
       </div>

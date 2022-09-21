@@ -3,10 +3,7 @@ package teamproject.lam_server.init;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.init.service.InitCityService;
-import teamproject.lam_server.init.service.InitCommentService;
-import teamproject.lam_server.init.service.InitMemberService;
-import teamproject.lam_server.init.service.InitScheduleService;
+import teamproject.lam_server.init.service.*;
 
 import javax.annotation.PostConstruct;
 
@@ -18,8 +15,8 @@ public class InitDb {
     private final InitCityService initCityService;
     private final InitMemberService initMemberService;
     private final InitScheduleService initScheduleService;
-
     private final InitCommentService initCommentService;
+    private final InitInteractionService initInteractionService;
 
     @PostConstruct
     public void init() {
@@ -31,6 +28,6 @@ public class InitDb {
         initScheduleService.initScheduleContentData();
         initCommentService.initScheduleCommentData();
         initCommentService.initScheduleReplyCommentData();
-
+        initInteractionService.initInteractionData();
     }
 }
