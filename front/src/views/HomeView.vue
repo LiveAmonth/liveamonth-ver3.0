@@ -23,9 +23,4 @@ import TitleSlot from "@/components/common/TitleSlot.vue";
   display: flex;
   justify-content: space-between;
 }
-
-.posts-content {
-  height: fit-content;
-  width: 100%;
-}
 </style>

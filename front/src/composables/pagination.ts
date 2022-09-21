@@ -16,6 +16,10 @@ export const usePagination = (type: string) => {
     store.movePage(type, page);
   };
 
+  const clear = (): void => {
+    store.clear(type);
+  };
+
   const setSort = (sortType: string): void => {
     store.changeSortType(type, sortType);
   };
@@ -44,6 +48,7 @@ export const usePagination = (type: string) => {
     pageable,
     pagination,
     movePage,
+    clear,
     setSort,
     setSize,
     mappingPagination,

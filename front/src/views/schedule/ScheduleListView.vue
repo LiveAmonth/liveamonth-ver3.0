@@ -8,12 +8,25 @@ import { useSchedule } from "@/composables/schedule";
 import { usePagination } from "@/composables/pagination";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
+const props = defineProps({
+  isMain: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
+
 const category = "SCHEDULE";
 const { isPending, request, schedulePage, getOtherSchedules } = useSchedule();
-const { pageable, mappingPagination, movePage, setSort } =
+const { pageable, mappingPagination, movePage, setSort, clear } =
   usePagination(category);
 
 onMounted(async () => {
+  if (props.isMain) {
+    await setSort("like,desc");
+  } else {
+    await clear();
+  }
   await getOtherSchedules(pageable.value).then(() => {
     mappingPagination(schedulePage.value);
   });
@@ -36,10 +49,12 @@ const applyOptions = async (data: SearchSortFormType) => {
 </script>
 
 <template>
-  <TitleSlot class="ms-5">{{ $t("schedule.title.other") }}</TitleSlot>
+  <TitleSlot v-if="!isMain" class="ms-5">
+    {{ $t("schedule.title.other") }}
+  </TitleSlot>
   <el-row>
     <el-col>
-      <div class="search-filter">
+      <div v-if="!isMain" class="search-filter">
         <ScheduleFilter @apply-option="applyOptions" />
       </div>
       <div class="schedule-list-container">
@@ -51,7 +66,11 @@ const applyOptions = async (data: SearchSortFormType) => {
       </div>
     </el-col>
   </el-row>
-  <CustomPagination :pagination-type="category" @click="pageClick" />
+  <CustomPagination
+    v-if="!isMain"
+    :pagination-type="category"
+    @click="pageClick"
+  />
 </template>
 
 <style lang="scss" scoped>

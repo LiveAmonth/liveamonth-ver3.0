@@ -37,6 +37,7 @@ const headerBorderStyle = ref(
           "0 0 1px 0 rgba(0, 109, 125, 0.16), 0 6px 12px 0 rgba(0, 109, 125, 0.16)",
       }
 );
+
 const gliderStyle = ref(
   props.borderPosition === "top"
     ? { borderTop: "#016d7d 0.2rem solid", width: props.headerWidth }
@@ -48,8 +49,15 @@ const gliderStyle = ref(
 );
 
 const contentStyle = ref(
-  props.borderPosition !== "top" ? { marginTop: "-30px" } : {}
+  props.borderPosition !== "top" ? { marginTop: "-20px" } : {}
 );
+
+const initialTabIdx = () => {
+  const findIndex = props.tabs.findIndex(
+    (value) => value.code === props.activeName
+  );
+  return findIndex ? findIndex : 0;
+};
 </script>
 
 <template>
@@ -61,7 +69,7 @@ const contentStyle = ref(
             type="radio"
             :id="`radio-${index + 1}`"
             name="tabs"
-            :checked="index === 0"
+            :checked="index === initialTabIdx()"
             :value="tab.code"
             @click="emits('update:activeName', tab.code)"
           />
@@ -162,9 +170,6 @@ const contentStyle = ref(
         transition: 0.25s ease-out;
       }
     }
-  }
-  .posts-content {
-    border: #02aa92 1px solid;
   }
 }
 </style>

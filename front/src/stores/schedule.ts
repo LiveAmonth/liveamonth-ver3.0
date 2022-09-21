@@ -18,7 +18,7 @@ export const useScheduleStore = defineStore("schedule", {
     searchCond: new ScheduleSearchCond() as ScheduleSearchType,
     pageableSchedules: {} as PageableResponseType,
     mySchedules: [] as MyScheduleCardType[],
-    follwedSchedules: [] as ScheduleCardType[],
+    followedSchedules: [] as ScheduleCardType[],
     editedSchedule: {} as MyScheduleCardType,
   }),
   getters: {
@@ -71,8 +71,8 @@ export const useScheduleStore = defineStore("schedule", {
       await ScheduleApiService.getFollowedSchedules(loginId, size, lastId)
         .then((response: ScheduleCardType[]) => {
           lastId
-            ? response.forEach((value) => this.follwedSchedules.push(value))
-            : (this.follwedSchedules = response);
+            ? response.forEach((value) => this.followedSchedules.push(value))
+            : (this.followedSchedules = response);
         })
         .catch((error) => {
           throw error;
@@ -115,9 +115,5 @@ export const useScheduleStore = defineStore("schedule", {
         this.editedSchedule = data;
       }
     },
-  },
-  persist: {
-    paths: ["pageableSchedules"],
-    storage: sessionStorage,
   },
 });
