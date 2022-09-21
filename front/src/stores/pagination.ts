@@ -29,6 +29,19 @@ export const usePageableStore = defineStore("pageable", {
       };
     },
 
+    clear: function (type: string) {
+      const pagination = this.findPage(type);
+      pagination.size = 3;
+      pagination.pageLimit = 5;
+      pagination.currentPage = 1;
+      pagination.isFirst = true;
+      pagination.isLast = false;
+      pagination.numberOfContents = 0;
+      pagination.numberOfPages = 0;
+      pagination.sort = "id,desc";
+      pagination.category = type;
+    },
+
     setSize: function (type: string, size: number) {
       this.findPage(type).size = size;
     },

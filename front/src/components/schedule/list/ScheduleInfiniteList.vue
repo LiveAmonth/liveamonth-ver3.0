@@ -144,25 +144,18 @@ const deleteScheduleBtn = async (scheduleId: number) => {
 .infinite-list-wrapper {
   height: 800px;
   text-align: center;
-  width: fit-content;
 
   .list {
     padding: 0;
     margin: 0;
     list-style: none;
-    width: fit-content;
   }
 
   .list-item {
     align-items: center;
     height: 270px;
-    width: fit-content;
     & + & {
       margin-top: 10px;
-    }
-
-    .item {
-      width: 900px;
     }
 
     .reply {

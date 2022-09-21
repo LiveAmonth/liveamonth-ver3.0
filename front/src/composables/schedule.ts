@@ -36,7 +36,7 @@ export const useSchedule = () => {
   );
   const mySchedules = computed((): MyScheduleCardType[] => store.mySchedules);
   const followedSchedules = computed(
-    (): ScheduleCardType[] => store.follwedSchedules
+    (): ScheduleCardType[] => store.followedSchedules
   );
 
   const infiniteSchedules = (isMyPage: boolean) => {

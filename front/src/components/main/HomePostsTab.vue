@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
+import ScheduleListView from "@/views/schedule/ScheduleListView.vue";
 import { onMounted, ref } from "vue";
 import { useAuth } from "@/composables/auth";
 import { useHome } from "@/composables/home";
@@ -46,7 +47,10 @@ onMounted(async () => {
       <div v-else-if="!followedSchedules.length">로딩중 ..</div>
     </template>
     <template v-slot:tab-2>
-      <div v-if="activeName === homePostsTabs[1].code">{{ activeName }}</div>
+      <ScheduleListView
+        v-if="activeName === homePostsTabs[1].code"
+        :is-main="true"
+      />
     </template>
     <template v-slot:tab-3>
       <div v-if="activeName === homePostsTabs[2].code">{{ activeName }}</div>

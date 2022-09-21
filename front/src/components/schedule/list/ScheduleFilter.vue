@@ -32,6 +32,7 @@ const sortCollapse = ref(0);
 const justifyClass = (collapse: number): string => {
   return collapse ? "d-flex justify-content-center" : "";
 };
+
 onMounted(async () => {
   await getScheduleSearchType().then(() => {
     scheduleSearchForm.searchType = scheduleSearchType.value[0].code;
