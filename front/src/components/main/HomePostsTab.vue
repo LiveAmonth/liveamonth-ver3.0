@@ -16,11 +16,13 @@ const activeName = ref(isLoggedIn ? "followed" : "schedule");
 const initialSize = ref<number>(3);
 
 onMounted(async () => {
-  await getInfiniteSchedules(
-    simpleProfile.value.loginId,
-    initialSize.value,
-    null
-  );
+  if (isLoggedIn.value) {
+    await getInfiniteSchedules(
+      simpleProfile.value.loginId,
+      initialSize.value,
+      null
+    );
+  }
 });
 </script>
 

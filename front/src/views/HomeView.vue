@@ -11,7 +11,7 @@ const { isLoggedIn } = useAuth();
 const { getSimpleProfile } = useMember();
 
 onMounted(async () => {
-  if (isLoggedIn) {
+  if (isLoggedIn.value) {
     await getSimpleProfile();
   }
 });

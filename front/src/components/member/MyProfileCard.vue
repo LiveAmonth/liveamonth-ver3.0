@@ -10,13 +10,6 @@ const { isLoggedIn, logout } = useAuth();
 const { simpleProfile } = useMember();
 const { profileTabs, getPostCount } = useMyPage();
 
-const logoutBtn = async () => {
-  await logout();
-  if (!isLoggedIn.value) {
-    await router.push({ name: "login" });
-  }
-};
-
 const goProfile = (post: string) => {
   router.push({ name: "profile", params: { post: post } });
 };
@@ -44,7 +37,7 @@ const goProfile = (post: string) => {
             <Avatar />
           </el-icon>
         </router-link>
-        <a href="#" @click="logoutBtn">
+        <a href="#" @click="logout">
           {{ $t("member.logout") }}
           <el-icon>
             <Unlock />

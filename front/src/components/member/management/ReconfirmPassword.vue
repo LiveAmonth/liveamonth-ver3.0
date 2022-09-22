@@ -10,8 +10,14 @@ const emits = defineEmits(["update:reChecked"]);
 
 const { isPending, reconfirm } = useMember();
 const { isAvailable } = useFormValidate();
-const { openMessageBox, buttonMsg, labelMsg, resultMsg, titleMsg } =
-  useMessageBox();
+const {
+  openMessage,
+  openMessageBox,
+  buttonMsg,
+  labelMsg,
+  resultMsg,
+  titleMsg,
+} = useMessageBox();
 const reCheckForm = reactive<ReconfirmType>({
   password: "",
 });
@@ -19,7 +25,7 @@ const reCheckForm = reactive<ReconfirmType>({
 const submitForm = async () => {
   await reconfirm(reCheckForm).then(() => {
     if (isAvailable.value) {
-      openMessageBox(resultMsg("reconfirm.success"));
+      openMessage(resultMsg("reconfirm.success"));
       emits("update:reChecked", true);
     } else {
       openMessageBox(resultMsg("wrongPw"));
