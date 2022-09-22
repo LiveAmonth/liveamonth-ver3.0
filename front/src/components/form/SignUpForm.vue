@@ -17,15 +17,15 @@ onMounted(async () => {
   await getGenderType();
 });
 
-const signUpForm = reactive<MemberEditor>(new MemberEditor());
-const signUpCheckForm = reactive<SignUpCheckType>(signUpForm.checkForm);
+const form = reactive<MemberEditor>(new MemberEditor());
+const checkForm = reactive<SignUpCheckType>(form.checkForm);
 const ruleFormRef = ref<FormInstance>();
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
+  await formEl.validate((valid) => {
     if (valid) {
-      signUp(signUpForm);
+      signUp(form);
       if (!error.value) {
         openMessageBox(resultMsg("signUp.result")).then(() => {
           router.replace({ name: "login" });
@@ -44,80 +44,64 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 <template>
   <el-form
     ref="ruleFormRef"
-    :model="signUpForm"
-    :rules="signUpForm.getRules()"
+    :model="form"
+    :rules="form.getRules()"
     label-position="top"
     label-width="120px"
     status-icon
   >
     <el-form-item :label="labelMsg('member.loginId')" prop="loginId">
-      <el-input
-        v-model="signUpForm.loginId"
-        :disabled="signUpCheckForm.loginId"
-      >
+      <el-input v-model="form.loginId" :disabled="checkForm.loginId">
         <template #append>
           <el-button
-            v-if="!signUpCheckForm.loginId"
-            @click="checkField(ruleFormRef, signUpForm, 'loginId')"
+            v-if="!checkForm.loginId"
+            @click="checkField(ruleFormRef, form, 'loginId')"
             >{{ buttonMsg("member.duplication") }}
           </el-button>
-          <el-button
-            v-else
-            color="#004A55"
-            @click="resetField(signUpForm, 'loginId')"
+          <el-button v-else color="#004A55" @click="resetField(form, 'loginId')"
             >{{ buttonMsg("reset") }}
           </el-button>
         </template>
       </el-input>
     </el-form-item>
     <el-form-item :label="labelMsg('member.password')" prop="password">
-      <el-input v-model="signUpForm.password" show-password type="password" />
+      <el-input v-model="form.password" show-password type="password" />
     </el-form-item>
     <el-form-item
       :label="labelMsg('member.passwordCheck')"
       prop="passwordCheck"
     >
-      <el-input
-        v-model="signUpForm.passwordCheck"
-        show-password
-        type="password"
-      />
+      <el-input v-model="form.passwordCheck" show-password type="password" />
     </el-form-item>
     <el-form-item :label="labelMsg('member.name')" prop="name">
-      <el-input v-model="signUpForm.name" />
+      <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item :label="labelMsg('member.nickname')" prop="nickname">
-      <el-input
-        v-model="signUpForm.nickname"
-        :disabled="signUpCheckForm.nickname"
-      >
+      <el-input v-model="form.nickname" :disabled="checkForm.nickname">
         <template #append>
           <el-button
-            v-if="!signUpCheckForm.nickname"
-            @click="checkField(ruleFormRef, signUpForm, 'nickname')"
+            v-if="!checkForm.nickname"
+            @click="checkField(ruleFormRef, form, 'nickname')"
             >{{ $t("validation.duplication.button") }}
           </el-button>
           <el-button
             v-else
             color="#004A55"
-            @click="resetField(signUpForm, 'nickname')"
+            @click="resetField(form, 'nickname')"
             >{{ $t("form.button.reset") }}
           </el-button>
         </template>
       </el-input>
     </el-form-item>
     <el-form-item :label="labelMsg('member.email')" prop="email">
-      <el-input v-model="signUpForm.email" :disabled="signUpCheckForm.email">
+      <el-input v-model="form.email" :disabled="checkForm.email">
         <template #append>
           <el-button
-            v-if="!signUpCheckForm.email"
-            @click="checkField(ruleFormRef, signUpForm, 'email')"
+            v-if="!checkForm.email"
+            @click="checkField(ruleFormRef, form, 'email')"
             >{{ buttonMsg("member.duplication") }}
           </el-button>
-          <el-button
-            v-else
-            color="#004A55"
-            @click="resetField(signUpForm, 'email')"
+          <el-button v-else color="#004A55" @click="resetField(form, 'email')"
             >{{ buttonMsg("reset") }}
           </el-button>
         </template>
@@ -126,7 +110,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     <el-form-item :label="labelMsg('member.birth')" required>
       <el-form-item prop="birth">
         <el-date-picker
-          v-model="signUpForm.birth"
+          v-model="form.birth"
           label="Pick a date"
           placeholder="Pick a date"
           style="width: 100%"
@@ -135,7 +119,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       </el-form-item>
     </el-form-item>
     <el-form-item :label="labelMsg('member.gender.title')" prop="gender">
-      <el-radio-group v-model="signUpForm.gender">
+      <el-radio-group v-model="form.gender">
         <template v-for="type in genderType" :key="type.code">
           <el-radio :label="type.code">
             {{ labelMsg(`member.gender.${type.code}`) }}

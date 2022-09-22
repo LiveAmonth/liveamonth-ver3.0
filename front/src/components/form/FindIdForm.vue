@@ -9,37 +9,32 @@ const emit = defineEmits(["findId"]);
 const { error, isPending, foundId, findId } = useMember();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
-const findIdForm = reactive<FindIdType>({
+const form = reactive<FindIdType>({
   name: "",
   email: "",
 });
 
 const submitForm = async () => {
-  await findId(findIdForm);
+  await findId(form);
   if (foundId.value) {
     emit("findId");
   }
   if (error.value) {
     await openMessageBox(resultMsg("noMember"));
-    for (const key in findIdForm) {
-      findIdForm[key] = "";
+    for (const key in form) {
+      form[key] = "";
     }
   }
 };
 </script>
 
 <template>
-  <el-form
-    ref="ruleFormRef"
-    :model="findIdForm"
-    label-position="top"
-    status-icon
-  >
+  <el-form ref="ruleFormRef" :model="form" label-position="top" status-icon>
     <el-form-item :label="labelMsg('member.name')" prop="name">
-      <el-input v-model="findIdForm.name" />
+      <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item :label="labelMsg('member.email')" prop="email">
-      <el-input v-model="findIdForm.email" />
+      <el-input v-model="form.email" />
     </el-form-item>
     <el-form-item>
       <el-button

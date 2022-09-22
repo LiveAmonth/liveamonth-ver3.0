@@ -22,15 +22,15 @@ const { isLoggedIn } = useAuth();
 const { isPending } = useComment();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
-const commentForm = reactive<CommentEditor>(new CommentEditor());
+const form = reactive<CommentEditor>(new CommentEditor());
 const ruleFormRef = ref<FormInstance>();
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      await emit("submitForm", commentForm, props.commentId);
-      commentForm.comment = "";
+      await emit("submitForm", form, props.commentId);
+      form.comment = "";
     } else {
       await openMessageBox(resultMsg("reWrite"));
     }
@@ -38,16 +38,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 </script>
 <template>
-  <el-form
-    ref="ruleFormRef"
-    :model="commentForm"
-    :rules="commentForm.getRules()"
-  >
+  <el-form ref="ruleFormRef" :model="form" :rules="form.getRules()">
     <el-row :gutter="5">
       <el-col :span="22">
         <el-form-item>
           <el-input
-            v-model="commentForm.comment"
+            v-model="form.comment"
             :disabled="!isLoggedIn"
             :placeholder="
               isLoggedIn
