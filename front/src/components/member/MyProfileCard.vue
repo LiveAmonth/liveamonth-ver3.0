@@ -38,7 +38,7 @@ const goProfile = (post: string) => {
         </router-link>
       </div>
       <div class="button d-flex justify-content-center">
-        <router-link to="/my-page">
+        <router-link to="/my-page/schedule">
           {{ $t("menu.myPage") }}
           <el-icon>
             <Avatar />

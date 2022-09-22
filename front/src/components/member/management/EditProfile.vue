@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import TitleSlot from "@/components/common/TitleSlot.vue";
 import ProfileEditor from "@/modules/class/member/ProfileEditor";
+import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useI18n } from "vue-i18n";
 import { useMessageBox } from "@/composables/messageBox";
 import { useMember } from "@/composables/member";
@@ -9,8 +10,8 @@ import { reactive, ref } from "vue";
 import type { FormInstance } from "element-plus";
 import type { SignUpCheckType } from "@/modules/types/form/FormType";
 
-const { t } = useI18n();
-const { openMessageBox } = useMessageBox();
+const { openMessageBox, labelMsg, buttonMsg, titleMsg, resultMsg } =
+  useMessageBox();
 const {
   isPending,
   memberProfile,
@@ -21,89 +22,83 @@ const {
 } = useMember();
 const { genderType } = useType();
 
-const editProfileForm = reactive<ProfileEditor>(
-  new ProfileEditor(memberProfile.value)
-);
-const signUpCheckForm = reactive<SignUpCheckType>(editProfileForm.checkForm);
+const form = reactive<ProfileEditor>(new ProfileEditor(memberProfile.value));
+const checkForm = reactive<SignUpCheckType>(form.checkForm);
 const ruleFormRef = ref<FormInstance>();
+const reChecked = ref(false);
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate(async (valid, fields) => {
+  await formEl.validate(async (valid) => {
     if (valid) {
-      await editProfile(editProfileForm).then(async () => {
+      await editProfile(form).then(async () => {
         await getMember();
-        await openMessageBox(t("form.message.edit"));
+        await openMessageBox(resultMsg("edit"));
       });
     } else {
-      await openMessageBox(t("form.message.reWrite"));
+      await openMessageBox(resultMsg("reWrite"));
     }
   });
 };
 </script>
 
 <template>
-  <div class="mt-3">
-    <TitleSlot> 프로필 편집</TitleSlot>
+  <Reconfirm v-if="!reChecked" v-model:re-checked="reChecked" />
+  <div v-else class="mt-3">
+    <SmallTitleSlot>{{ titleMsg("member.editProfile") }}</SmallTitleSlot>
     <el-row class="d-flex justify-content-center">
       <el-col>
         <el-form
           ref="ruleFormRef"
-          :model="editProfileForm"
-          :rules="editProfileForm.getRules()"
+          :model="form"
+          :rules="form.getRules()"
           label-position="top"
           label-width="120px"
           status-icon
         >
-          <el-form-item :label="$t('member.loginId')" prop="loginId">
-            <el-input v-model="editProfileForm.loginId" disabled />
+          <el-form-item :label="labelMsg('member.loginId')" prop="loginId">
+            <el-input v-model="form.loginId" disabled />
           </el-form-item>
-          <el-form-item :label="$t('member.name')" prop="name">
-            <el-input v-model="editProfileForm.name" disabled />
+          <el-form-item :label="labelMsg('member.name')" prop="name">
+            <el-input v-model="form.name" disabled />
           </el-form-item>
-          <el-form-item :label="$t('member.nickname')" prop="nickname">
-            <el-input
-              v-model="editProfileForm.nickname"
-              :disabled="signUpCheckForm.nickname"
-            >
+          <el-form-item :label="labelMsg('member.nickname')" prop="nickname">
+            <el-input v-model="form.nickname" :disabled="checkForm.nickname">
               <template #append>
                 <el-button
-                  v-if="!signUpCheckForm.nickname"
-                  @click="checkField(ruleFormRef, editProfileForm, 'nickname')"
+                  v-if="!checkForm.nickname"
+                  @click="checkField(ruleFormRef, form, 'nickname')"
                   >{{ $t("validation.duplication.button") }}
                 </el-button>
                 <el-button
                   v-else
                   color="#004A55"
-                  @click="resetField(editProfileForm, 'nickname')"
+                  @click="resetField(form, 'nickname')"
                   >{{ $t("form.button.edit") }}
                 </el-button>
               </template>
             </el-input>
           </el-form-item>
-          <el-form-item :label="$t('member.email')" prop="email">
-            <el-input
-              v-model="editProfileForm.email"
-              :disabled="signUpCheckForm.email"
-            >
+          <el-form-item :label="labelMsg('member.email')" prop="email">
+            <el-input v-model="form.email" :disabled="checkForm.email">
               <template #append>
                 <el-button
-                  v-if="!signUpCheckForm.email"
-                  @click="checkField(ruleFormRef, editProfileForm, 'email')"
+                  v-if="!checkForm.email"
+                  @click="checkField(ruleFormRef, form, 'email')"
                   >{{ $t("validation.duplication.button") }}
                 </el-button>
                 <el-button
                   v-else
                   color="#004A55"
-                  @click="resetField(editProfileForm, 'email')"
+                  @click="resetField(form, 'email')"
                   >{{ $t("form.button.edit") }}
                 </el-button>
               </template>
             </el-input>
           </el-form-item>
-          <el-form-item :label="$t('member.birth')" prop="birth">
+          <el-form-item :label="labelMsg('member.birth')" prop="birth">
             <el-date-picker
-              v-model="editProfileForm.birth"
+              v-model="form.birth"
               label="Pick a date"
               placeholder="Pick a date"
               style="width: 100%"
@@ -111,11 +106,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               disabled
             />
           </el-form-item>
-          <el-form-item :label="$t('member.gender.title')" prop="gender">
-            <el-radio-group v-model="editProfileForm.gender" disabled>
+          <el-form-item :label="labelMsg('member.gender.title')" prop="gender">
+            <el-radio-group v-model="form.gender" disabled>
               <template v-for="type in genderType" :key="type.code">
                 <el-radio :label="type.code">
-                  {{ $t(`member.gender.${type.code}`) }}
+                  {{ labelMsg(`member.gender.${type.code}`) }}
                 </el-radio>
               </template>
             </el-radio-group>
@@ -127,7 +122,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               size="large"
               style="width: 100%"
               @click="submitForm(ruleFormRef)"
-              >{{ $t("member.edit") }}
+              >{{ buttonMsg("member.edit") }}
             </el-button>
           </el-form-item>
         </el-form>

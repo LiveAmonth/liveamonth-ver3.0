@@ -88,10 +88,10 @@ export const useFormValidate = () => {
     };
   };
 
-  const validatePassword = (form: SignUpType): FormItemRule => {
+  const validatePassword = (password: string): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        value === form.password
+        value === password
           ? callback()
           : callback(new Error(t("validation.password.recheck")));
       },

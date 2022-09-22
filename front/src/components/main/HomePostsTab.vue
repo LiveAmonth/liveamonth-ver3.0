@@ -32,28 +32,24 @@ onMounted(async () => {
     :border-position="'bottom'"
   >
     <template v-slot:tab-1>
+      <ScheduleListView
+        v-if="activeName === homePostsTabs[0].code"
+        :is-main="true"
+      />
+    </template>
+    <template v-slot:tab-2>
+      <div v-if="activeName === homePostsTabs[1].code">
+        {{ activeName }}
+      </div>
+    </template>
+    <template v-if="isLoggedIn" v-slot:tab-3>
       <ScheduleInfiniteList
-        v-if="
-          isLoggedIn &&
-          activeName === homePostsTabs[0].code &&
-          followedSchedules.length
-        "
+        v-if="activeName === homePostsTabs[2].code && followedSchedules.length"
         :login-id="simpleProfile.loginId"
         :max-count="simpleProfile.numberOfFollows"
         :initial-count="initialSize"
         :is-my-page="false"
       />
-      <div v-else-if="!isLoggedIn">로그인을 해주세요</div>
-      <div v-else-if="!followedSchedules.length">로딩중 ..</div>
-    </template>
-    <template v-slot:tab-2>
-      <ScheduleListView
-        v-if="activeName === homePostsTabs[1].code"
-        :is-main="true"
-      />
-    </template>
-    <template v-slot:tab-3>
-      <div v-if="activeName === homePostsTabs[2].code">{{ activeName }}</div>
     </template>
   </ContentTabsSlot>
 </template>

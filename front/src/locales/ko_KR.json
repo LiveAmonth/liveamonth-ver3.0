@@ -27,6 +27,12 @@
   "title": {
     "home": {
       "posts": "인기 게시물"
+    },
+    "member": {
+      "reconfirm": "비밀번호 재확인",
+      "editProfile": "프로필 편집",
+      "changePassword": "비밀번호 변경",
+      "dropMember": "회원 탈퇴"
     }
   },
   "tabs": {
@@ -48,6 +54,119 @@
       "intro": "도시 소개",
       "transport": "교통 정보",
       "weather": "전년도 기온 정보"
+    }
+  },
+  "form": {
+    "button": {
+      "reset": "초기화",
+      "edit": "변경하기",
+      "write": "작성하기",
+      "member": {
+        "login": "로그인",
+        "reconfirm": "비밀번호 재확인",
+        "findId": "아이디 찾기",
+        "findPw": "비밀번호 찾기",
+        "duplication": "중복 확인",
+        "edit": "프로필 변경하기",
+        "changePassword": "비밀번호 변경하기"
+      },
+      "schedule": {
+        "add": "새 스케줄 추가",
+        "edit": "스케줄 수정",
+        "select": "스케줄 선택",
+        "content": {
+          "add": "새 컨텐츠 추가"
+        }
+      }
+    },
+    "label": {
+      "title": "제목",
+      "member": {
+        "name": "이름",
+        "loginId": "아이디",
+        "password": "비밀번호",
+        "passwordCheck": "비밀번호 확인",
+        "nickname": "닉네임",
+        "email": "이메일",
+        "gender": {
+          "title": "성별",
+          "MALE": "남성",
+          "FEMALE": "여성"
+        },
+        "age": {
+          "start": "나이",
+          "end": "세"
+        },
+        "birth": "생년월일",
+        "imageChange": "이미지 변경"
+      },
+      "findId": {
+        "created": "가입"
+      },
+      "schedule": {
+        "title": "제목",
+        "cost": "총 비용",
+        "won": "원",
+        "start": "시작 날짜",
+        "end": "종료 날짜",
+
+        "content": {
+          "title": "컨텐츠 제목",
+          "content": "내용",
+          "cost": "비용",
+          "start": "시작 시간",
+          "end": "종료 시간"
+        }
+      }
+    },
+    "message": {
+      "reWrite": "다시 입력해주세요",
+      "noMember": "일치하는 회원 정보가 없습니다.",
+      "wrongIdPw": "아이디 혹은 비밀번호가 틀렸습니다.",
+      "wrongPw": "비밀번호가 일치하지 않습니다.",
+      "unknown": "알 수 없는 오류가 발생했습니다.",
+      "login": "로그인 하시겠습니까? 확인을 누르시면 로그인 페이지로 이동합니다",
+      "findId": {
+        "title": "고객님의 정보와 일치하는 아이디입니다."
+      },
+      "reconfirm": {
+        "success": "비밀번호 재확인 되었습니다.",
+        "announce": "본인 확인을 위해 비밀번호를 다시 입력해주세요."
+      },
+      "edit": "회원정보가 수정되었습니다.",
+      "changePassword":{
+        "success": "비밀번호가 변경되었습니다. 다시 로그인 해주세요.",
+        "announce": "변경할 비밀번호를 입력해주세요."
+      },
+      "findPw": {
+        "title": "고객님의 이메일로 임시 비밀번호가 발급되었습니다.",
+        "content": "메일 확인 후 비밀번호를 재설정 해주시기 바랍니다."
+      },
+      "signUp": {
+        "title": "회원가입이 완료되었습니다. 로그인 해주세요."
+      },
+      "schedule": {
+        "add": "새 스케줄이 추가되었습니다.",
+        "update": "스케줄 정보가 업데이트 되었습니다.",
+        "delete": {
+          "title": "스케줄 삭제",
+          "message": "해당 스케줄을 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다.",
+          "exception": "선택된 스케줄이 없습니다."
+        }
+      },
+      "content": {
+        "add": "새 컨텐츠가 추가되었습니다.",
+        "update": "컨텐츠 정보가 업데이트 되었습니다.",
+        "delete": {
+          "title": "컨텐츠 삭제",
+          "message": "해당 컨텐츠를 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다.",
+          "exception": "선택된 컨텐츠가 없습니다."
+        },
+        "new": {
+          "title": "새 컨텐츠 추가",
+          "message": "등록된 컨텐츠가 없습니다. 추가하시겠습니까?"
+        }
+      }
     }
   },
   "menu": {
@@ -209,109 +328,7 @@
       "alreadyDislikeComment": "이미 비추천한 댓글입니다."
     }
   },
-  "form": {
-    "button": {
-      "reset": "초기화",
-      "edit": "변경하기",
-      "write": "작성하기",
-      "member": {
-        "login": "로그인",
-        "reconfirm": "비밀번호 재확인",
-        "findId": "아이디 찾기",
-        "findPw": "비밀번호 찾기",
-        "duplication": "중복확인"
-      },
-      "schedule": {
-        "add": "새 스케줄 추가",
-        "edit": "스케줄 수정",
-        "select": "스케줄 선택",
-        "content": {
-          "add": "새 컨텐츠 추가"
-        }
-      }
-    },
-    "label": {
-      "title": "제목",
-      "member": {
-        "name": "이름",
-        "password": "비밀번호",
-        "passwordCheck": "비밀번호 확인",
-        "nickname": "닉네임",
-        "email": "이메일",
-        "gender": {
-          "title": "성별",
-          "MALE": "남성",
-          "FEMALE": "여성"
-        },
-        "age": {
-          "start": "나이",
-          "end": "세"
-        },
-        "birth": "생년월일",
-        "imageChange": "이미지 변경"
-      },
-      "findId": {
-        "created": "가입"
-      },
-      "schedule": {
-        "title": "제목",
-        "cost": "총 비용",
-        "won": "원",
-        "start": "시작 날짜",
-        "end": "종료 날짜",
 
-        "content": {
-          "title": "컨텐츠 제목",
-          "content": "내용",
-          "cost": "비용",
-          "start": "시작 시간",
-          "end": "종료 시간"
-        }
-      }
-    },
-    "message": {
-      "reWrite": "다시 입력해주세요",
-      "noMember": "일치하는 회원 정보가 없습니다.",
-      "wrongIdPw": "아이디 혹은 비밀번호가 틀렸습니다.",
-      "wrongPw": "비밀번호가 일치하지 않습니다.",
-      "unknown": "알 수 없는 오류가 발생했습니다.",
-      "login": "로그인 하시겠습니까? 확인을 누르시면 로그인 페이지로 이동합니다",
-      "findId": {
-        "title": "고객님의 정보와 일치하는 아이디입니다."
-      },
-      "reconfirm": "비밀번호 재확인 되었습니다.",
-      "edit": "회원정보가 수정되었습니다.",
-      "findPw": {
-        "title": "고객님의 이메일로 임시 비밀번호가 발급되었습니다.",
-        "content": "메일 확인 후 비밀번호를 재설정 해주시기 바랍니다."
-      },
-      "signUp": {
-        "title": "회원가입이 완료되었습니다. 로그인 해주세요."
-      },
-      "schedule": {
-        "add": "새 스케줄이 추가되었습니다.",
-        "update": "스케줄 정보가 업데이트 되었습니다.",
-        "delete": {
-          "title": "스케줄 삭제",
-          "message": "해당 스케줄을 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다.",
-          "exception": "선택된 스케줄이 없습니다."
-        }
-      },
-      "content": {
-        "add": "새 컨텐츠가 추가되었습니다.",
-        "update": "컨텐츠 정보가 업데이트 되었습니다.",
-        "delete": {
-          "title": "컨텐츠 삭제",
-          "message": "해당 컨텐츠를 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다.",
-          "exception": "선택된 컨텐츠가 없습니다."
-        },
-        "new": {
-          "title": "새 컨텐츠 추가",
-          "message": "등록된 컨텐츠가 없습니다. 추가하시겠습니까?"
-        }
-      }
-    }
-  },
   "auth": {
     "reissue": {
       "login": "다시 로그인 해주시기 바랍니다."

@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import MemberApiService from "@/services/MemberApiService";
 import type {
-  DuplicationCheckType,
+  ConfirmFormType,
   FindIdType,
   FindPwType,
+  ReconfirmType,
 } from "@/modules/types/form/FormType";
 import type {
   FoundIdType,
@@ -12,16 +13,17 @@ import type {
 } from "@/modules/types/member/MemberType";
 import type { SignUpType } from "@/modules/types/form/FormType";
 import type ProfileEditor from "@/modules/class/member/ProfileEditor";
+import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
-    duplicationCheck: {} as DuplicationCheckType,
+    confirmForm: {} as ConfirmFormType,
     simpleProfile: {} as SimpleProfileType,
     memberProfile: {} as ProfileType,
     foundId: {} as FoundIdType,
   }),
   getters: {
-    isAvailable: (state): boolean => state.duplicationCheck.isAvailable,
+    isAvailable: (state): boolean => state.confirmForm.isAvailable,
   },
   actions: {
     signUp: async function (request: SignUpType) {
@@ -34,8 +36,28 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
+    reconfirm: async function (request: ReconfirmType) {
+      await MemberApiService.reconfirm(request)
+        .then((response: ConfirmFormType) => {
+          this.confirmForm = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     editProfile: async function (request: ProfileEditor) {
       await MemberApiService.edit(request)
+        .then((response: string) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    changePassword: async function (request: ChangePasswordEditor) {
+      await MemberApiService.changePassword(request)
         .then((response: string) => {
           console.log(response);
         })
@@ -66,8 +88,8 @@ export const useMemberStore = defineStore("member", {
 
     duplicateCheck: async function (field: string, param: string) {
       await MemberApiService.duplicateCheck(field, param)
-        .then((response: DuplicationCheckType) => {
-          this.duplicationCheck = response;
+        .then((response: ConfirmFormType) => {
+          this.confirmForm = response;
         })
         .catch((error) => {
           throw error;

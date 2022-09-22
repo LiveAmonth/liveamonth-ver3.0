@@ -1,10 +1,10 @@
 import http from "@/http-common";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type {
-  DuplicationCheckType,
-  EditProfileType,
+  ConfirmFormType,
   FindIdType,
   FindPwType,
+  ReconfirmType,
   SignUpType,
 } from "@/modules/types/form/FormType";
 import type {
@@ -13,6 +13,7 @@ import type {
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
 import type ProfileEditor from "@/modules/class/member/ProfileEditor";
+import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
@@ -26,12 +27,20 @@ class MemberApiService {
       });
   }
 
-  async duplicateCheck(
-    field: string,
-    param: string
-  ): Promise<DuplicationCheckType> {
+  async duplicateCheck(field: string, param: string): Promise<ConfirmFormType> {
     return await http
       .get(`/members/exists/${field}/${param}`)
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async reconfirm(request: ReconfirmType): Promise<ConfirmFormType> {
+    return await http
+      .post("/members/reconfirm", JSON.stringify(request))
       .then((response) => {
         return response.data.data;
       })
@@ -53,10 +62,29 @@ class MemberApiService {
 
   async edit(request: ProfileEditor): Promise<string> {
     return await http
-      .patch(
-        `/members/modify/${request.memberId}`,
-        JSON.stringify(request.getRequest())
-      )
+      .patch(`/members/profile`, JSON.stringify(request.getRequest()))
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async changePassword(request: ChangePasswordEditor): Promise<string> {
+    return await http
+      .patch(`/members/password`, JSON.stringify(request.getRequest()))
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async dropMember(): Promise<string> {
+    return await http
+      .post(`/members/drop`, {})
       .then((response) => {
         return response.data;
       })

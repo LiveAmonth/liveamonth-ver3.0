@@ -45,8 +45,7 @@ export const useAuthStore = defineStore("auth", {
     },
 
     logout: async function () {
-      const tokenInfo = this.tokenInfo.data as TokenType;
-      await AuthApiService.logout(tokenInfo.grantType, tokenInfo.accessToken)
+      await AuthApiService.logout()
         .then(() => {
           localStorage.removeItem("token-info");
           this.tokenInfo.state = false;
@@ -58,8 +57,7 @@ export const useAuthStore = defineStore("auth", {
     },
 
     reissue: async function () {
-      const tokenInfo = this.tokenInfo.data as TokenType;
-      await AuthApiService.reissue(tokenInfo.grantType, tokenInfo.accessToken)
+      await AuthApiService.reissue()
         .then((response: TokenType) => {
           localStorage.setItem("token-info", JSON.stringify(response));
           this.tokenInfo.state = true;
