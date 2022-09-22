@@ -3,6 +3,8 @@ package teamproject.lam_server.domain.member.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
+import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
@@ -34,7 +36,9 @@ public class MemberApiController {
     }
 
     @PostMapping("/reconfirm")
-    public ResponseEntity<?> reconfirm(@Valid @RequestBody ReconfirmRequest request,  @RequestHeader(value = "Authorization") String accessTokenRequest) {
+    public ResponseEntity<?> reconfirm(
+            @Valid @RequestBody ReconfirmRequest request,
+            @RequestHeader(value = "Authorization") String accessTokenRequest) {
         FormCheckResponse result = memberService.reconfirm(extractAccessToken(accessTokenRequest), request);
         return CustomResponse.success(RECONFIRM, result);
     }
@@ -63,9 +67,19 @@ public class MemberApiController {
      * presentation layer::my page
      * -> modify user information
      */
-    @PatchMapping("/modify/{id}")
-    public ResponseEntity<?> modifyUser(@PathVariable Long id, @Valid @RequestBody ModifyMemberRequest request) {
-        memberService.modify(id, request);
+    @PatchMapping("/profile")
+    public ResponseEntity<?> editProfile(
+            @RequestHeader(value = "Authorization") String accessTokenRequest,
+            @Valid @RequestBody ProfileEditor request) {
+        memberService.editProfile(extractAccessToken(accessTokenRequest), request);
+        return CustomResponse.success(UPDATE_MEMBER);
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<?> changePassword(
+            @RequestHeader(value = "Authorization") String accessTokenRequest,
+            @Valid @RequestBody PasswordEditor request) {
+        memberService.changePassword(extractAccessToken(accessTokenRequest), request);
         return CustomResponse.success(UPDATE_MEMBER);
     }
 
@@ -73,9 +87,9 @@ public class MemberApiController {
      * presentation layer::my page
      * -> drop user(customer)
      */
-    @PostMapping("/drop/{id}")
-    public ResponseEntity<?> dropUser(@PathVariable Long id) {
-        memberService.dropUser(id);
+    @PostMapping("/drop")
+    public ResponseEntity<?> dropUser(@RequestHeader(value = "Authorization") String accessTokenRequest) {
+        memberService.dropUser(extractAccessToken(accessTokenRequest));
         return CustomResponse.success(DROP_MEMBER);
     }
 

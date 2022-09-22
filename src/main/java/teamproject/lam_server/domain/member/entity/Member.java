@@ -16,6 +16,9 @@ import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.constants.SocialType;
+import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
+import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
+import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEditor;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.exception.badrequest.AlreadyDropMember;
@@ -117,35 +120,45 @@ public class Member extends BaseTimeEntity {
         else return S3_BUCKET_PATH + PROFILE_IMAGE_DIR + this.image;
     }
 
-    public void registerBasicInfo(String password, String nickname, LocalDate birth, GenderType gender) {
-        updatePassword(password);
-        updateNickname(nickname);
-        updateBirth(birth);
-        updateGender(gender);
-        conferRole(Role.USER);
-    }
-
     /**
      * Update logic
      */
-    public void updatePassword(String password) {
-        this.password = password;
+    public void editProfile(ProfileEditor editor) {
+        nickname = editor.getNickname();
+        email = editor.getEmail();
+        image = editor.getImage();
     }
 
-    private void updateBirth(LocalDate birth) {
-        this.birth = birth;
+    public void registerBasicInfo(OAuth2RegisterEditor editor) {
+        nickname = editor.getNickname();
+        password = editor.getPassword();
+        birth = editor.getBirth();
+        gender = editor.getGender();
+        conferRole(Role.USER);
     }
 
-    public void updateNickname(String nickname) {
-        this.nickname = nickname;
+    public void changePassword(PasswordEditor editor) {
+        password = editor.getPassword();
     }
 
-    public void updateGender(GenderType gender) {
-        this.gender = gender;
+    public ProfileEditor.ProfileEditorBuilder toProfileEditor() {
+        return ProfileEditor.builder()
+                .nickname(nickname)
+                .email(email)
+                .image(image);
     }
 
-    public void updateImage(String image) {
-        if (image != null) this.image = image;
+    public OAuth2RegisterEditor.OAuth2RegisterEditorBuilder toOAuth2Editor() {
+        return OAuth2RegisterEditor.builder()
+                .nickname(nickname)
+                .password(password)
+                .birth(birth)
+                .gender(gender);
+    }
+
+    public PasswordEditor.PasswordEditorBuilder toPasswordEditor() {
+        return PasswordEditor.builder()
+                .password(password);
     }
 
     public void drop() {
@@ -153,11 +166,6 @@ public class Member extends BaseTimeEntity {
             throw new AlreadyDropMember();
         }
         this.status = AccountState.DROP;
-    }
-
-    public void modifyMemberInfo(String nickname, String image) {
-        updateNickname(nickname);
-        updateImage(image);
     }
 
     public void connectSocial(SocialType socialType) {

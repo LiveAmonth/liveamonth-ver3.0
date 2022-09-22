@@ -1,5 +1,8 @@
 package teamproject.lam_server.domain.member.service;
 
+import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
+import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.*;
 import teamproject.lam_server.global.dto.PostIdResponse;
@@ -44,12 +47,15 @@ public interface MemberService {
     /**
      * 회원 정보  수정
      */
-    void modify(Long id, ModifyMemberRequest request);
+    void editProfile(String token, ProfileEditor request);
+
+    @Transactional
+    void changePassword(String token, PasswordEditor request);
 
     /**
      * 회원 탈퇴
      */
-    void dropUser(Long id);
+    void dropUser(String token);
 
     /**
      * 회원 DB 삭제

@@ -1,8 +1,5 @@
 package teamproject.lam_server.util;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import teamproject.lam_server.exception.badrequest.NotCorrespondMember;
-
 import javax.servlet.http.HttpServletRequest;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -37,16 +34,6 @@ public abstract class JwtUtil {
      */
     private static boolean hasBearerToken(String bearerToken) {
         return hasText(bearerToken) && bearerToken.startsWith(BEARER_TYPE);
-    }
-
-    public static String getLoggedInMemberLoginId() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
-    public static void checkCorrespondMember(String loginId) {
-        if (!SecurityContextHolder.getContext().getAuthentication().getName().equals(loginId)) {
-            throw new NotCorrespondMember();
-        }
     }
 
     public static String createRandomPassword() {
