@@ -1,14 +1,17 @@
 <script setup lang="ts">
-import { useMemberStore } from "@/stores/member";
-const store = useMemberStore();
+import { useMember } from "@/composables/member";
+import { useMessageBox } from "@/composables/messageBox";
+
+const { labelMsg, resultMsg } = useMessageBox();
+const { foundId } = useMember();
 </script>
 <template>
   <div class="result-content mb-4">
-    <p class="result-info">{{ $t("form.message.findId.title") }}</p>
+    <p class="result-info">{{ resultMsg("findId.title") }}</p>
     <div class="result-box d-flex justify-content-between p-2">
-      <p class="result-id">{{ store.foundId.loginId }}</p>
+      <p class="result-id">{{ foundId.loginId }}</p>
       <p class="created-date">
-        {{ $t("form.label.findId.created") }} : {{ store.foundId.created }}
+        {{ labelMsg("findId.created") }} : {{ foundId.created }}
       </p>
     </div>
   </div>

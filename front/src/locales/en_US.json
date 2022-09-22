@@ -33,7 +33,7 @@
     "logout": "LOGOUT",
     "notMember": "Aren't you a member yet?",
     "askLogin": "Enjoy the various services of 'LiveAmonth'!!",
-    "reCheck": "RECHECK PW",
+    "reconfirm": "RECHECK PW",
     "findId": "Find ID",
     "findPw": "Find PW",
     "loginId": "ID",
