@@ -1,9 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useMessageBox } from "@/composables/messageBox";
+
+const { resultMsg } = useMessageBox();
+</script>
 <template>
   <div class="result-content mb-4">
     <div class="result-box p-2">
-      <p class="result-content">{{ $t("form.message.findPw.title") }}</p>
-      <p class="result-content">{{ $t("form.message.findPw.content") }}</p>
+      <p class="result-content">{{ resultMsg("findPw.title") }}</p>
+      <p class="result-content">{{ resultMsg("findPw.content") }}</p>
     </div>
   </div>
 </template>

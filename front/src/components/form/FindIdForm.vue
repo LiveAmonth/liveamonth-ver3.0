@@ -2,14 +2,12 @@
 import { reactive } from "vue";
 import { useMessageBox } from "@/composables/messageBox";
 import { useMember } from "@/composables/member";
-import { useI18n } from "vue-i18n";
 import type { FindIdType } from "@/modules/types/form/FormType";
 
 const emit = defineEmits(["findId"]);
 
 const { error, isPending, foundId, findId } = useMember();
-const { openMessageBox } = useMessageBox();
-const { t } = useI18n();
+const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
 const findIdForm = reactive<FindIdType>({
   name: "",
@@ -22,7 +20,7 @@ const submitForm = async () => {
     emit("findId");
   }
   if (error.value) {
-    await openMessageBox(t("form.message.noMember"));
+    await openMessageBox(resultMsg("noMember"));
     for (const key in findIdForm) {
       findIdForm[key] = "";
     }
@@ -37,10 +35,10 @@ const submitForm = async () => {
     label-position="top"
     status-icon
   >
-    <el-form-item :label="$t('member.name')" prop="name">
+    <el-form-item :label="labelMsg('member.name')" prop="name">
       <el-input v-model="findIdForm.name" />
     </el-form-item>
-    <el-form-item :label="$t('member.email')" prop="email">
+    <el-form-item :label="labelMsg('member.email')" prop="email">
       <el-input v-model="findIdForm.email" />
     </el-form-item>
     <el-form-item>
@@ -50,7 +48,7 @@ const submitForm = async () => {
         size="large"
         style="width: 100%"
         @click="submitForm"
-        >{{ $t("member.findId") }}
+        >{{ buttonMsg("member.findId") }}
       </el-button>
     </el-form-item>
   </el-form>

@@ -14,7 +14,7 @@ export const useMessageBox = () => {
   };
   const openMessageByCode = (key: string) => {
     ElMessage({
-      message: t("key"),
+      message: t(key),
       type: "success",
     });
   };
@@ -43,11 +43,26 @@ export const useMessageBox = () => {
       });
   };
 
+  const getFormLabelMsg = (field: string): string => {
+    return t(`form.label.${field}`);
+  };
+
+  const getFormButtonMsg = (field: string): string => {
+    return t(`form.button.${field}`);
+  };
+
+  const getResultMessage = (field: string): string => {
+    return t(`form.message.${field}`);
+  };
+
   return {
     openMessage,
     openMessageByCode,
     openMessageBox,
     openConfirmMessageBox,
     requireLoginMessageBox,
+    labelMsg: getFormLabelMsg,
+    buttonMsg: getFormButtonMsg,
+    resultMsg: getResultMessage,
   };
 };
