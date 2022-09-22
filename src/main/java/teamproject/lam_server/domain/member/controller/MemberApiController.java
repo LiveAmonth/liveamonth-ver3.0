@@ -3,11 +3,8 @@ package teamproject.lam_server.domain.member.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
-import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
-import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
-import teamproject.lam_server.domain.member.dto.response.DuplicateCheckResponse;
+import teamproject.lam_server.domain.member.dto.request.*;
+import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
@@ -34,6 +31,12 @@ public class MemberApiController {
     public ResponseEntity<?> joinUser(@Valid @RequestBody SignUpRequest request) {
         PostIdResponse result = memberService.signUp(request);
         return CustomResponse.success(CREATED_MEMBER, result);
+    }
+
+    @PostMapping("/reconfirm")
+    public ResponseEntity<?> reconfirm(@Valid @RequestBody ReconfirmRequest request,  @RequestHeader(value = "Authorization") String accessTokenRequest) {
+        FormCheckResponse result = memberService.reconfirm(extractAccessToken(accessTokenRequest), request);
+        return CustomResponse.success(RECONFIRM, result);
     }
 
     /**
@@ -82,7 +85,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/loginId/{loginId}")
     public ResponseEntity<?> duplicateCheckLoginId(@PathVariable String loginId) {
-        DuplicateCheckResponse result = memberService.checkDuplicateLoginId(loginId);
+        FormCheckResponse result = memberService.checkDuplicateLoginId(loginId);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
@@ -92,7 +95,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/email/{email}")
     public ResponseEntity<?> duplicateCheckEmail(@PathVariable String email) {
-        DuplicateCheckResponse result = memberService.checkDuplicateEmail(email);
+        FormCheckResponse result = memberService.checkDuplicateEmail(email);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
@@ -102,7 +105,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/nickname/{nickname}")
     public ResponseEntity<?> duplicateCheckNickname(@PathVariable String nickname) {
-        DuplicateCheckResponse result = memberService.checkDuplicateNickname(nickname);
+        FormCheckResponse result = memberService.checkDuplicateNickname(nickname);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 

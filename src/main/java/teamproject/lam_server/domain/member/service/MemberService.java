@@ -1,9 +1,6 @@
 package teamproject.lam_server.domain.member.service;
 
-import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
-import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
-import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.*;
 import teamproject.lam_server.global.dto.PostIdResponse;
 
@@ -17,17 +14,17 @@ public interface MemberService {
     /**
      * 이메일 중복 체크
      */
-    DuplicateCheckResponse checkDuplicateEmail(String email);
+    FormCheckResponse checkDuplicateEmail(String email);
 
     /**
      * 회원 아이디 중복 체크
      */
-    DuplicateCheckResponse checkDuplicateLoginId(String LoginId);
+    FormCheckResponse checkDuplicateLoginId(String LoginId);
 
     /**
      * 닉네임 중복 체크
      */
-    DuplicateCheckResponse checkDuplicateNickname(String nickname);
+    FormCheckResponse checkDuplicateNickname(String nickname);
 
     /**
      * 회원 아이디 찾기
@@ -38,6 +35,11 @@ public interface MemberService {
      * 회원 비밀번호 찾기
      */
     void findPassword(FindPasswordRequest request);
+
+    /**
+     * 비밀번호 재확인
+     */
+    FormCheckResponse reconfirm(String token, ReconfirmRequest request);
 
     /**
      * 회원 정보  수정

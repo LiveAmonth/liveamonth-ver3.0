@@ -1,7 +1,9 @@
 package teamproject.lam_server.domain.member.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
@@ -58,7 +60,6 @@ public class Member extends BaseTimeEntity {
 
     @Column(unique = true, updatable = false)
     private String loginId;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     private String name;
     private String nickname;

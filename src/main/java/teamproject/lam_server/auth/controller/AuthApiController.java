@@ -44,7 +44,7 @@ public class AuthApiController {
         return CustomResponse.success(REISSUE_TOKEN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public ResponseEntity<?> logout(
             @RequestHeader(value = "Authorization") String accessTokenRequest,
             HttpServletResponse response) {
