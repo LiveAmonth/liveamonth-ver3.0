@@ -1,12 +1,10 @@
 <script lang="ts" setup>
+import { reactive, ref } from "vue";
 import { useAuth } from "@/composables/auth";
 import { useComment } from "@/composables/comment";
-import { useFormValidate } from "@/composables/formValidate";
 import { useMessageBox } from "@/composables/messageBox";
-import { useI18n } from "vue-i18n";
-import { reactive, ref } from "vue";
-import type { FormInstance, FormRules } from "element-plus/es";
-import type { CommentFormType } from "@/modules/types/form/FormType";
+import { CommentEditor } from "@/modules/class/comment/CommentEditor";
+import type { FormInstance } from "element-plus/es";
 
 const props = defineProps({
   commentId: {
@@ -22,21 +20,10 @@ const emit = defineEmits(["submitForm"]);
 
 const { isLoggedIn } = useAuth();
 const { isPending } = useComment();
-const { validateRequire, validateRange } = useFormValidate();
-const { openMessageBox } = useMessageBox();
+const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
-const { t } = useI18n();
-
+const commentForm = reactive<CommentEditor>(new CommentEditor());
 const ruleFormRef = ref<FormInstance>();
-const rules = reactive<FormRules>({
-  comment: [
-    validateRequire("comment.title"),
-    validateRange("comment.title", 0, 1000),
-  ],
-});
-const commentForm = reactive<CommentFormType>({
-  comment: "",
-});
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -45,13 +32,17 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       await emit("submitForm", commentForm, props.commentId);
       commentForm.comment = "";
     } else {
-      await openMessageBox(t("form.message.reWrite"));
+      await openMessageBox(resultMsg("reWrite"));
     }
   });
 };
 </script>
 <template>
-  <el-form ref="ruleFormRef" :model="commentForm" :rules="rules">
+  <el-form
+    ref="ruleFormRef"
+    :model="commentForm"
+    :rules="commentForm.getRules()"
+  >
     <el-row :gutter="5">
       <el-col :span="22">
         <el-form-item>
@@ -61,10 +52,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             :placeholder="
               isLoggedIn
                 ? $t('common.please-input', {
-                    field: $t('comment.title'),
+                    field: labelMsg('title'),
                   })
                 : $t('common.before-input', {
-                    field: $t('comment.title'),
+                    field: labelMsg('title'),
                   })
             "
             :rows="3"
@@ -81,7 +72,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             color="#004A55"
             size="large"
             @click="submitForm(ruleFormRef)"
-            >{{ $t("common.submit") }}
+            >{{ buttonMsg("write") }}
           </el-button>
         </el-form-item>
       </el-col>

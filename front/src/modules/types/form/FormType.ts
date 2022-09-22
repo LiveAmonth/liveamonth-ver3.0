@@ -14,6 +14,10 @@ export interface LoginType {
   [key: string]: string;
 }
 
+export interface ReconfirmType {
+  password: string;
+}
+
 export interface FindIdType {
   name: string;
   email: string;
@@ -63,7 +67,7 @@ export interface EditProfileType {
   [key: string]: any;
 }
 
-export interface DuplicationCheckType {
+export interface ConfirmFormType {
   isAvailable: boolean;
   value: string;
   message: string;
