@@ -55,6 +55,8 @@ public enum ErrorCode {
     UNSUPPORTED_TOKEN(403, "지원하지 않는 토큰 유형입니다."),
     EMPTY_TOKEN(403, "토큰 정보가 비어있습니다."),
 
+    DROP_MEMBER(403, "탈퇴한 회원입니다"),
+
     /**
      * <p>
      * Status: 404 NOT_FOUND

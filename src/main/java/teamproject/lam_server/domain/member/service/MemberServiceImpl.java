@@ -6,6 +6,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
+import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
+import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.*;
 import teamproject.lam_server.domain.member.entity.Member;
@@ -37,14 +39,99 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public FormCheckResponse reconfirm(String token, ReconfirmRequest request) {
-        String loginId = jwtTokenProvider.getAuthentication(token).getName();
-        Member member = memberRepository.findByLoginId(loginId).orElseThrow(MemberNotFound::new);
-        return passwordEncoder.matches(member.getPassword(), request.getPassword())
-                ? FormCheckResponse.of(false, "", FAIL_RECONFIRM)
-                : FormCheckResponse.of(true, "", RECONFIRM);
+    public MemberProfileResponse getMember(String accessToken) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        return MemberProfileResponse.of(
+                memberRepository.findByLoginId(authentication.getName())
+                        .orElseThrow(MemberNotFound::new)
+        );
     }
 
+    @Override
+    public SimpleProfileResponse getSimpleProfile(String accessToken) {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        return SimpleProfileResponse.of(
+                memberRepository.findByLoginId(authentication.getName())
+                        .orElseThrow(MemberNotFound::new)
+        );
+    }
+
+    @Override
+    public FormCheckResponse reconfirm(String token, ReconfirmRequest request) {
+        return passwordEncoder.matches(request.getPassword(), getMemberByToken(token).getPassword())
+                ? FormCheckResponse.of(true, "", SUCCESS_RECONFIRM)
+                : FormCheckResponse.of(false, "", FAIL_RECONFIRM);
+    }
+
+    @Override
+    @Transactional
+    public void editProfile(String token, ProfileEditor request) {
+        Member member = getMemberByToken(token);
+
+        ProfileEditor editor = member.toProfileEditor()
+                .nickname(request.getNickname())
+                .email(request.getEmail())
+                .image(request.getImage())
+                .build();
+
+        member.editProfile(editor);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(String token, PasswordEditor request) {
+        Member member = getMemberByToken(token);
+
+        PasswordEditor editor = member.toPasswordEditor()
+                .password(passwordEncoder.encode(request.getPassword()))
+                .build();
+
+        member.changePassword(editor);
+    }
+
+    @Override
+    @Transactional
+    public void dropUser(String token) {
+        Member member = getMemberByToken(token);
+
+        member.drop();
+    }
+
+    @Override
+    public FindIdResponse findLoginId(FindIdRequest request) {
+        Member findMember = memberRepository.findByNameAndEmail(
+                        request.getName(), request.getEmail())
+                .orElseThrow(MemberNotFound::new);
+        return FindIdResponse.of(findMember);
+    }
+
+    @Override
+    @Transactional
+    public void findPassword(FindPasswordRequest request) {
+        // find user with request
+        Member member = memberRepository.findByLoginIdAndEmail(request.getLoginId(), request.getEmail())
+                .orElseThrow(MemberNotFound::new);
+
+        // create random password
+        String tempPassword = JwtUtil.createRandomPassword();
+
+        // update password (temporary password)
+        PasswordEditor editor = member.toPasswordEditor()
+                .password(passwordEncoder.encode(tempPassword))
+                .build();
+
+        member.changePassword(editor);
+
+        // mail send
+        mailService.sendMail(TempPasswordSendMailInfo.of(member));
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        Long queryCount = memberRepository.cleanDeleteById(id);
+        if (queryCount == 0) throw new NotDropMember();
+    }
 
     @Override
     public FormCheckResponse checkDuplicateEmail(String email) {
@@ -70,67 +157,11 @@ public class MemberServiceImpl implements MemberService {
                 : FormCheckResponse.of(true, nickname, AVAILABLE_NICKNAME);
     }
 
-    @Override
-    public FindIdResponse findLoginId(FindIdRequest request) {
-        Member findMember = memberRepository.findByNameAndEmail(
-                        request.getName(), request.getEmail())
+
+    private Member getMemberByToken(String token) {
+        return memberRepository.findByLoginId(
+                        jwtTokenProvider.getAuthentication(token).getName()
+                )
                 .orElseThrow(MemberNotFound::new);
-        return FindIdResponse.of(findMember);
-    }
-
-    @Override
-    @Transactional
-    public void findPassword(FindPasswordRequest request) {
-        // find user with request
-        Member findMember = memberRepository.findByLoginIdAndEmail(request.getLoginId(), request.getEmail())
-                .orElseThrow(MemberNotFound::new);
-
-        // create random password
-        String tempPassword = JwtUtil.createRandomPassword();
-        // update password (temporary password)
-        findMember.updatePassword(passwordEncoder.encode(tempPassword));
-
-        // mail send
-        mailService.sendMail(TempPasswordSendMailInfo.of(findMember));
-    }
-
-
-    @Override
-    @Transactional
-    public void modify(Long id, ModifyMemberRequest request) {
-        Member member = memberRepository.getById(id);
-        member.modifyMemberInfo(request.getNickname(), request.getImage());
-    }
-
-    @Override
-    @Transactional
-    public void dropUser(Long id) {
-        Member dropMember = memberRepository.getById(id);
-        dropMember.drop();
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        Long queryCount = memberRepository.cleanDeleteById(id);
-        if (queryCount == 0) throw new NotDropMember();
-    }
-
-    @Override
-    public MemberProfileResponse getMember(String accessToken) {
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-        return MemberProfileResponse.of(
-                memberRepository.findByLoginId(authentication.getName())
-                        .orElseThrow(MemberNotFound::new)
-        );
-    }
-
-    @Override
-    public SimpleProfileResponse getSimpleProfile(String accessToken) {
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-        return SimpleProfileResponse.of(
-                memberRepository.findByLoginId(authentication.getName())
-                        .orElseThrow(MemberNotFound::new)
-        );
     }
 }

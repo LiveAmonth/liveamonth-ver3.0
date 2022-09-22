@@ -1,16 +1,18 @@
 package teamproject.lam_server.domain.member.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.member.constants.GenderType;
-import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-@Data
-public class OAuth2RegisterRequest {
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class OAuth2RegisterEditor {
 
     @NotBlank
     @Pattern(regexp = "(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@$!%*#?&])[A-Za-z[0-9]$@$!%*#?&]{8,20}")
@@ -28,8 +30,11 @@ public class OAuth2RegisterRequest {
     @NotNull
     private GenderType gender;
 
-    public Member toEntity(Member member, PasswordEncoder passwordEncoder) {
-        member.registerBasicInfo(passwordEncoder.encode(password), nickname, birth, gender);
-        return member;
+    @Builder
+    public OAuth2RegisterEditor(String password, String nickname, LocalDate birth, GenderType gender) {
+        this.password = password;
+        this.nickname = nickname;
+        this.birth = birth;
+        this.gender = gender;
     }
 }

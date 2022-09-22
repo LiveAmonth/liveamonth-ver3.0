@@ -11,12 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
+import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.dto.request.LoginRequest;
-import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
+import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEditor;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
 import teamproject.lam_server.exception.badrequest.InvalidRefreshToken;
+import teamproject.lam_server.exception.forbidden.DroppedMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.redis.RedisRepository;
 
@@ -35,9 +37,12 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
 
     public TokenResponse login(LoginRequest request) {
-        // request로 온 email을 가지고 해당 회원이 있는지 확인
-        if (!memberRepository.existsByLoginId(request.getLoginId()))
-            throw new MemberNotFound();
+        // request로 온 loginId를 가지고 해당 회원이 있는지 확인
+        if (memberRepository.findByLoginId(request.getLoginId())
+                .orElseThrow(MemberNotFound::new).getStatus() == AccountState.DROP) {
+            throw new DroppedMember();
+        }
+
 
         // email, pw 로 Authentication 객체 생성 -> email password // request
         UsernamePasswordAuthenticationToken authenticationToken = request.toAuthentication();
@@ -113,12 +118,20 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public TokenResponse socialRegister(OAuth2RegisterRequest request) {
+    @Transactional
+    public TokenResponse socialRegister(OAuth2RegisterEditor request) {
         PrincipalDetails oAuth2User = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication();
 
-        Member member = request.toEntity(oAuth2User.getMember(), passwordEncoder);
+        Member member = oAuth2User.getMember();
 
-        memberRepository.save(member);
+        OAuth2RegisterEditor editor = member.toOAuth2Editor()
+                .password(passwordEncoder.encode(request.getPassword()))
+                .nickname(request.getNickname())
+                .birth(request.getBirth())
+                .gender(request.getGender())
+                .build();
+
+        member.registerBasicInfo(editor);
 
         // 인증 정보를 기반으로 토큰(access, refresh, expiration) 생성
         TokenResponse tokenResponse = jwtTokenProvider.generateToken((Authentication) oAuth2User);
