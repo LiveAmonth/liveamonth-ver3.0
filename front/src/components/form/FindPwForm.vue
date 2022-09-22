@@ -9,37 +9,32 @@ const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
 const emit = defineEmits(["findPw"]);
 
-const findPwForm = reactive<FindPwType>({
+const form = reactive<FindPwType>({
   loginId: "",
   email: "",
 });
 
 const submitForm = async () => {
-  await findPw(findPwForm);
+  await findPw(form);
   if (foundId.value) {
     emit("findPw");
   }
   if (error.value) {
     await openMessageBox(resultMsg("noMember"));
-    for (const key in findPwForm) {
-      findPwForm[key] = "";
+    for (const key in form) {
+      form[key] = "";
     }
   }
 };
 </script>
 
 <template>
-  <el-form
-    ref="ruleFormRef"
-    :model="findPwForm"
-    label-position="top"
-    status-icon
-  >
+  <el-form ref="ruleFormRef" :model="form" label-position="top" status-icon>
     <el-form-item :label="labelMsg('member.loginId')" prop="loginId">
-      <el-input v-model="findPwForm.loginId" />
+      <el-input v-model="form.loginId" />
     </el-form-item>
     <el-form-item :label="labelMsg('member.email')" prop="email">
-      <el-input v-model="findPwForm.email" />
+      <el-input v-model="form.email" />
     </el-form-item>
     <el-form-item>
       <el-button
