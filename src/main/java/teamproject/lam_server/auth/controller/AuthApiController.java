@@ -8,7 +8,7 @@ import teamproject.lam_server.auth.dto.AccessTokenResponse;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.auth.service.AuthService;
 import teamproject.lam_server.domain.member.dto.request.LoginRequest;
-import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterRequest;
+import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEditor;
 import teamproject.lam_server.global.dto.CustomResponse;
 
 import javax.servlet.http.HttpServletResponse;
@@ -54,7 +54,7 @@ public class AuthApiController {
     }
 
     @PostMapping("/login/register")
-    public ResponseEntity<?> registerBasicProfile(@Valid @RequestBody OAuth2RegisterRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> registerBasicProfile(@Valid @RequestBody OAuth2RegisterEditor request, HttpServletResponse response) {
         TokenResponse result = authService.socialRegister(request);
         return CustomResponse.success(LOGIN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));
     }
