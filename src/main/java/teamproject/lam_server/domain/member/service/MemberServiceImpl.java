@@ -6,10 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
-import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
-import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
-import teamproject.lam_server.domain.member.dto.request.ModifyMemberRequest;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.*;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
@@ -40,27 +37,37 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public DuplicateCheckResponse checkDuplicateEmail(String email) {
+    public FormCheckResponse reconfirm(String token, ReconfirmRequest request) {
+        String loginId = jwtTokenProvider.getAuthentication(token).getName();
+        Member member = memberRepository.findByLoginId(loginId).orElseThrow(MemberNotFound::new);
+        return passwordEncoder.matches(member.getPassword(), request.getPassword())
+                ? FormCheckResponse.of(false, "", FAIL_RECONFIRM)
+                : FormCheckResponse.of(true, "", RECONFIRM);
+    }
+
+
+    @Override
+    public FormCheckResponse checkDuplicateEmail(String email) {
         Boolean isDuplicated = memberRepository.existsByEmail(email);
         return isDuplicated
-                ? DuplicateCheckResponse.of(false, email, DUPLICATE_EMAIL)
-                : DuplicateCheckResponse.of(true, email, AVAILABLE_EMAIL);
+                ? FormCheckResponse.of(false, email, DUPLICATE_EMAIL)
+                : FormCheckResponse.of(true, email, AVAILABLE_EMAIL);
     }
 
     @Override
-    public DuplicateCheckResponse checkDuplicateLoginId(String LoginId) {
+    public FormCheckResponse checkDuplicateLoginId(String LoginId) {
         Boolean isDuplicated = memberRepository.existsByLoginId(LoginId);
         return isDuplicated
-                ? DuplicateCheckResponse.of(false, LoginId, DUPLICATE_LOGIN_ID)
-                : DuplicateCheckResponse.of(true, LoginId, AVAILABLE_LOGIN_ID);
+                ? FormCheckResponse.of(false, LoginId, DUPLICATE_LOGIN_ID)
+                : FormCheckResponse.of(true, LoginId, AVAILABLE_LOGIN_ID);
     }
 
     @Override
-    public DuplicateCheckResponse checkDuplicateNickname(String nickname) {
+    public FormCheckResponse checkDuplicateNickname(String nickname) {
         Boolean isDuplicated = memberRepository.existsByNickname(nickname);
         return isDuplicated
-                ? DuplicateCheckResponse.of(false, nickname, DUPLICATE_NICKNAME)
-                : DuplicateCheckResponse.of(true, nickname, AVAILABLE_NICKNAME);
+                ? FormCheckResponse.of(false, nickname, DUPLICATE_NICKNAME)
+                : FormCheckResponse.of(true, nickname, AVAILABLE_NICKNAME);
     }
 
     @Override
@@ -86,6 +93,7 @@ public class MemberServiceImpl implements MemberService {
         // mail send
         mailService.sendMail(TempPasswordSendMailInfo.of(findMember));
     }
+
 
     @Override
     @Transactional

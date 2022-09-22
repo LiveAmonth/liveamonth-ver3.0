@@ -15,11 +15,13 @@ public abstract class ResponseMessage {
     public static final String FIND_MEMBER_LOGIN_ID = "회원 아이디 찾기 성공";
     public static final String FIND_MEMBER_PASSWORD = "회원 비밀번호 재발급 성공";
     public static final String CREATED_MEMBER = "회원 가입 성공";
-    public static final String CREATED_ADMIN = "관리자 계정 생성 성송";
+    public static final String CREATED_ADMIN = "관리자 계정 생성 성공";
     public static final String UPDATE_MEMBER = "회원 정보 수정 성공";
     public static final String DROP_MEMBER = "회원 탈퇴 성공";
     public static final String DELETE_MEMBER = "회원 데이터 삭제 성공";
     public static final String DUPLICATE_CHECK = "회원 정보 중복 확인";
+    public static final String RECONFIRM = "비밀번호 재확인 성공";
+    public static final String FAIL_RECONFIRM = "비밀번호 재확인 성공";
     public static final String DUPLICATE_EMAIL = "이미 사용중인 이메일 입니다.";
     public static final String AVAILABLE_EMAIL = "사용 가능한 이메일 입니다.";
     public static final String DUPLICATE_LOGIN_ID = "이미 사용중인 아이디 입니다.";
