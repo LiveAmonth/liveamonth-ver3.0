@@ -5,11 +5,15 @@ import HomePostsTab from "@/components/main/HomePostsTab.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import { useMember } from "@/composables/member";
 import { onMounted } from "vue";
+import { useAuth } from "@/composables/auth";
 
+const { isLoggedIn } = useAuth();
 const { getSimpleProfile } = useMember();
 
 onMounted(async () => {
-  await getSimpleProfile();
+  if (isLoggedIn) {
+    await getSimpleProfile();
+  }
 });
 </script>
 

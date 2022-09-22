@@ -5,6 +5,7 @@ import type {
   EditProfileType,
   FindIdType,
   FindPwType,
+  ReconfirmType,
   SignUpType,
 } from "@/modules/types/form/FormType";
 import type {
@@ -18,6 +19,7 @@ import { useMessageBox } from "@/composables/messageBox";
 import { useI18n } from "vue-i18n";
 import type ProfileEditor from "@/modules/class/member/ProfileEditor";
 import type MemberEditor from "@/modules/class/member/MemberEditor";
+import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
 
 export const useMember = () => {
   const store = useMemberStore();
@@ -120,11 +122,38 @@ export const useMember = () => {
       isPending.value = false;
     }
   };
+
   const findId = async (request: FindIdType) => {
     error.value = null;
     isPending.value = true;
     try {
       await store.findId(request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const reconfirm = async (request: ReconfirmType) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.reconfirm(request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const changePassword = async (request: ChangePasswordEditor) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.changePassword(request);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -179,6 +208,8 @@ export const useMember = () => {
     memberProfile,
     foundId,
     signUp,
+    reconfirm,
+    changePassword,
     checkField,
     resetField,
     editProfile,

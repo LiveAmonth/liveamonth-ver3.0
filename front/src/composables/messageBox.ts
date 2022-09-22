@@ -43,6 +43,9 @@ export const useMessageBox = () => {
       });
   };
 
+  const getTitleMsg = (field: string): string => {
+    return t(`title.${field}`);
+  };
   const getFormLabelMsg = (field: string): string => {
     return t(`form.label.${field}`);
   };
@@ -64,5 +67,6 @@ export const useMessageBox = () => {
     labelMsg: getFormLabelMsg,
     buttonMsg: getFormButtonMsg,
     resultMsg: getResultMessage,
+    titleMsg: getTitleMsg,
   };
 };

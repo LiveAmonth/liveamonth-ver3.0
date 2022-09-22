@@ -1,5 +1,8 @@
-import EditProfile from "@/components/member/EditProfile.vue";
-import EditPassword from "@/components/member/EditPassword.vue";
+import EditProfile from "@/components/member/management/EditProfile.vue";
+import ChangePassword from "@/components/member/management/ChangePassword.vue";
+import DropMember from "@/components/member/management/DropMember.vue";
+import WriteInquiry from "@/components/member/management/WriteInquiry.vue";
+import InquiryAnswer from "@/components/member/management/InquiryAnswer.vue";
 import { useRouter } from "vue-router";
 import { tabs } from "@/composables/tabs";
 import type {
@@ -20,12 +23,12 @@ export const useMyPage = () => {
         component: EditProfile,
       },
       {
-        value: "editPassword",
-        component: EditPassword,
+        value: "changePassword",
+        component: ChangePassword,
       },
       {
         value: "dropMember",
-        component: EditProfile,
+        component: DropMember,
       },
     ],
   };
@@ -34,11 +37,11 @@ export const useMyPage = () => {
     menus: [
       {
         value: "write",
-        component: EditProfile,
+        component: WriteInquiry,
       },
       {
         value: "answer",
-        component: EditProfile,
+        component: InquiryAnswer,
       },
     ],
   };

@@ -18,6 +18,11 @@ export interface ReconfirmType {
   password: string;
 }
 
+export interface ChangePasswordType {
+  password: string;
+  passwordCheck: string;
+}
+
 export interface FindIdType {
   name: string;
   email: string;

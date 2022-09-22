@@ -6,7 +6,6 @@ import { Setting } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
 import { useMember } from "@/composables/member";
 import { useSchedule } from "@/composables/schedule";
-import { useRouter } from "vue-router";
 import { useMyPage } from "@/composables/mypage";
 
 const props = defineProps({
@@ -16,7 +15,6 @@ const props = defineProps({
   },
 });
 
-const router = useRouter();
 const { memberProfile } = useMember();
 const { mySchedules, getInfiniteSchedules } = useSchedule();
 const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =

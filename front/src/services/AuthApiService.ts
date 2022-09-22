@@ -16,16 +16,13 @@ class AuthApiService {
       });
   }
 
-  async reissue(grantType: string, token: string): Promise<TokenType> {
+  async reissue(): Promise<TokenType> {
     return await http
       .post(
         "/auth/reissue",
         {},
         {
           withCredentials: true,
-          headers: {
-            Authorization: `${grantType} ${token}`,
-          },
         }
       )
       .then((response) => {
@@ -36,18 +33,11 @@ class AuthApiService {
       });
   }
 
-  async logout(grantType: string, token: string): Promise<void> {
+  async logout(): Promise<void> {
     await http
-      .post(
-        "/auth/logout",
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `${grantType} ${token}`,
-          },
-        }
-      )
+      .get("/auth/logout", {
+        withCredentials: true,
+      })
       .catch((error) => {
         throw error.response.data;
       });

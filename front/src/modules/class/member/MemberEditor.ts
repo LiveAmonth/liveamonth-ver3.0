@@ -70,7 +70,7 @@ export default class MemberEditor implements FormType<SignUpType> {
       ],
       passwordCheck: [
         validateRequire("member.passwordCheck"),
-        validatePassword(this),
+        validatePassword(this.password),
       ],
       name: [
         validateRequire("member.name"),
