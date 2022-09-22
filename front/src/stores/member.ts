@@ -66,6 +66,16 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
+    dropMember: async function () {
+      await MemberApiService.dropMember()
+        .then((response: string) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     findId: async function (param: FindIdType) {
       await MemberApiService.findId(param)
         .then((response: FoundIdType) => {

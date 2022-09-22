@@ -6,10 +6,8 @@ import { reactive, ref } from "vue";
 import { useMessageBox } from "@/composables/messageBox";
 import { useMember } from "@/composables/member";
 import { useAuth } from "@/composables/auth";
-import { useRouter } from "vue-router";
 import type { FormInstance } from "element-plus";
 
-const router = useRouter();
 const { logout } = useAuth();
 const { isPending, changePassword } = useMember();
 const { openMessageBox, labelMsg, buttonMsg, titleMsg, resultMsg } =
@@ -24,9 +22,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       await changePassword(form);
       await openMessageBox(resultMsg("changePassword.success"));
-      await logout().then(() => {
-        router.push({ name: "home" });
-      });
+      await logout();
     } else {
       await openMessageBox(resultMsg("reWrite"));
     }

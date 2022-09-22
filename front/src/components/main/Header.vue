@@ -2,16 +2,8 @@
 import NavMenu from "@/components/main/NavMenu.vue";
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import { useAuth } from "@/composables/auth";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
 const { isLoggedIn, logout } = useAuth();
-const logoutBtn = async () => {
-  await logout();
-  if (!isLoggedIn) {
-    await router.push({ name: "login" });
-  }
-};
 </script>
 
 <template>
@@ -29,7 +21,7 @@ const logoutBtn = async () => {
         <LogoIcon class="logo" />
       </router-link>
       <div class="flex-grow" />
-      <el-menu-item v-if="isLoggedIn" index="#" @click="logoutBtn">
+      <el-menu-item v-if="isLoggedIn" index="#" @click="logout">
         {{ $t("member.logout") }}
       </el-menu-item>
       <template v-else>

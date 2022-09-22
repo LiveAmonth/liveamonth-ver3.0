@@ -162,6 +162,19 @@ export const useMember = () => {
     }
   };
 
+  const dropMember = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.dropMember();
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   const findPw = async (request: FindPwType) => {
     error.value = null;
     isPending.value = true;
@@ -210,6 +223,7 @@ export const useMember = () => {
     signUp,
     reconfirm,
     changePassword,
+    dropMember,
     checkField,
     resetField,
     editProfile,
