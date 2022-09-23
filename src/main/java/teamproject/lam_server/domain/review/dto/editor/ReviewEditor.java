@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.review.entity.editor;
+package teamproject.lam_server.domain.review.dto.editor;
 
 import lombok.Builder;
 import lombok.Getter;
