@@ -90,7 +90,7 @@ public class Member extends BaseTimeEntity {
     @Formula("(select count(1) from schedule s where s.member_id = member_id)")
     private int numberOfSchedules;
     @Formula("(select count(1) from inquiry i where i.member_id = member_id)")
-    private int numberOfInquiries;
+    private Long numberOfInquiries;
 
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")

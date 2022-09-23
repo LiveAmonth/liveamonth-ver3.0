@@ -1,6 +1,9 @@
 package teamproject.lam_server.domain.inqiury.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
@@ -18,6 +21,9 @@ public class InquiryResponse {
     private String content;
     private InquiryCategory category;
     private boolean isAnswered;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDateTime lastModified;
     private InquiryAnswerResponse answer;
 

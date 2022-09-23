@@ -40,7 +40,7 @@ public class EnumController {
     /**
      * 문의 카테고리
      */
-    @GetMapping("/inquiry-category")
+    @GetMapping("/inquiry")
     public ResponseEntity<?> getInquiryCategory(){
         return getCategories(INQUIRY_CATEGORY);
     }

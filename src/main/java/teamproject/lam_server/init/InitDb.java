@@ -17,6 +17,7 @@ public class InitDb {
     private final InitScheduleService initScheduleService;
     private final InitCommentService initCommentService;
     private final InitInteractionService initInteractionService;
+    private final InitInquiryService initInquiryService;
 
     @PostConstruct
     public void init() {
@@ -29,5 +30,6 @@ public class InitDb {
         initCommentService.initScheduleCommentData();
         initCommentService.initScheduleReplyCommentData();
         initInteractionService.initInteractionData();
+        initInquiryService.initInquiryData();
     }
 }
