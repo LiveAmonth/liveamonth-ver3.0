@@ -1,5 +1,8 @@
 package teamproject.lam_server.domain.inqiury.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
@@ -16,7 +19,9 @@ public class InquiryListResponse {
     private String writer;
     private InquiryCategory category;
     private boolean isAnswered;
-    private LocalDateTime lastModified;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDateTime lastModifiedDate;
 
     public static InquiryListResponse of(Inquiry inquiry) {
         return InquiryListResponse.builder()
@@ -25,7 +30,7 @@ public class InquiryListResponse {
                 .writer(inquiry.getMember().getNickname())
                 .category(inquiry.getCategory())
                 .isAnswered(inquiry.isAnswered())
-                .lastModified(inquiry.getLastModifiedDate())
+                .lastModifiedDate(inquiry.getLastModifiedDate())
                 .build();
     }
 }

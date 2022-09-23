@@ -17,7 +17,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 
 @RestController
-@RequestMapping("/api/v1/inquiry")
+@RequestMapping("/api/v1/inquiries")
 @RequiredArgsConstructor
 public class InquiryApiController {
 
@@ -31,7 +31,7 @@ public class InquiryApiController {
         return CustomResponse.success(CREATE_INQUIRY);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<?> getInquiries(
             @RequestHeader(value = "Authorization") String accessTokenRequest,
             PageableDTO pageableDTO) {
@@ -40,7 +40,7 @@ public class InquiryApiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getInquiries(
+    public ResponseEntity<?> getInquiry(
             @PathVariable Long id) {
         InquiryResponse result = inquiryService.getInquiry(id);
         return CustomResponse.success(READ_INQUIRY, result);

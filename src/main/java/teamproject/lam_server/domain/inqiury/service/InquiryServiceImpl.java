@@ -33,14 +33,7 @@ public class InquiryServiceImpl extends BasicMemberService implements InquirySer
     @Override
     @Transactional
     public void write(String token, InquiryEditor request) {
-        Inquiry inquiry = Inquiry.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .category(request.getCategory())
-                .member(getMemberByToken(token))
-                .build();
-
-        inquiryRepository.save(inquiry);
+        inquiryRepository.save(request.toEntity(getMemberByToken(token)));
     }
 
     @Override
