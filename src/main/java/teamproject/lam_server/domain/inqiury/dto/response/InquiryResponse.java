@@ -35,7 +35,7 @@ public class InquiryResponse {
                 .category(inquiry.getCategory())
                 .isAnswered(inquiry.isAnswered())
                 .lastModified(inquiry.getLastModifiedDate())
-                .answer(InquiryAnswerResponse.of(inquiry.getAnswer()))
+                .answer(inquiry.isAnswered() ? InquiryAnswerResponse.of(inquiry.getAnswer()): null)
                 .build();
     }
 }
