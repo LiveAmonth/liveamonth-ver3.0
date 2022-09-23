@@ -115,7 +115,7 @@ const onClick = (page: number) => {
       line-height: 40px;
 
       .num-box {
-        width: 20px;
+        width: 15px;
         height: 20px;
       }
 
@@ -129,7 +129,7 @@ const onClick = (page: number) => {
 
     .paging-side {
       .btn-paging {
-        width: 25px;
+        width: 20px;
         height: 40px;
         margin-top: 2px;
         background-color: white;
