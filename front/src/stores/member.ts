@@ -11,9 +11,9 @@ import type {
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
-import type { SignUpType } from "@/modules/types/form/FormType";
 import type ProfileEditor from "@/modules/class/member/ProfileEditor";
 import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
+import type MemberEditor from "@/modules/class/member/MemberEditor";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
@@ -26,7 +26,7 @@ export const useMemberStore = defineStore("member", {
     isAvailable: (state): boolean => state.confirmForm.isAvailable,
   },
   actions: {
-    signUp: async function (request: SignUpType) {
+    signUp: async function (request: MemberEditor) {
       await MemberApiService.signUp(request)
         .then((response: string) => {
           console.log(response);

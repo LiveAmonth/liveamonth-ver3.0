@@ -32,7 +32,11 @@
       "reconfirm": "비밀번호 재확인",
       "editProfile": "프로필 편집",
       "changePassword": "비밀번호 변경",
-      "dropMember": "회원 탈퇴"
+      "dropMember": "회원 탈퇴",
+      "inquiry": {
+        "write": "1:1 문의 하기",
+        "answer": "1:1 문의 목록"
+      }
     }
   },
   "tabs": {
@@ -104,13 +108,22 @@
       "findId": {
         "created": "가입"
       },
+      "inquiry": {
+        "writer": "작성자",
+        "title": "제목",
+        "content": "문의 내용",
+        "category": "카테고리",
+        "date": "문의 날짜",
+        "state": "상태",
+        "standBy": "답변 대기",
+        "complete": "답변 완료"
+      },
       "schedule": {
         "title": "제목",
         "cost": "총 비용",
         "won": "원",
         "start": "시작 날짜",
         "end": "종료 날짜",
-
         "content": {
           "title": "컨텐츠 제목",
           "content": "내용",
@@ -135,7 +148,7 @@
         "announce": "본인 확인을 위해 비밀번호를 다시 입력해주세요."
       },
       "edit": "회원정보가 수정되었습니다.",
-      "changePassword":{
+      "changePassword": {
         "success": "비밀번호가 변경되었습니다. 다시 로그인 해주세요.",
         "announce": "변경할 비밀번호를 입력해주세요."
       },
@@ -149,6 +162,9 @@
       },
       "signUp": {
         "title": "회원가입이 완료되었습니다. 로그인 해주세요."
+      },
+      "inquiry": {
+        "success": "1:1 문의가 접수 되었습니다. 빠른 시일 내에 답변 드리겠습니다."
       },
       "schedule": {
         "add": "새 스케줄이 추가되었습니다.",
@@ -276,7 +292,7 @@
     "inquiry": {
       "title": "문의",
       "write": "문의 하기",
-      "answer": "문의 내용"
+      "answer": "문의 목록"
     }
   },
   "customerCenter": {
@@ -333,7 +349,6 @@
       "alreadyDislikeComment": "이미 비추천한 댓글입니다."
     }
   },
-
   "auth": {
     "reissue": {
       "login": "다시 로그인 해주시기 바랍니다."
