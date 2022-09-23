@@ -1,11 +1,9 @@
 import { computed, ref } from "vue";
 import type { LoginType } from "@/modules/types/form/FormType";
 import { useAuthStore } from "@/stores/auth";
-import { useRouter } from "vue-router";
 
 export const useAuth = () => {
   const store = useAuthStore();
-  const router = useRouter();
   const error = ref();
   const isPending = ref(false);
   const isLoggedIn = computed(() => store.loggedIn);
@@ -35,9 +33,6 @@ export const useAuth = () => {
       error.value = err;
     } finally {
       isPending.value = false;
-      if (!isLoggedIn.value) {
-        await router.push({ name: "home" });
-      }
     }
   };
   const reissue = async () => {

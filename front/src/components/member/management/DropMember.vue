@@ -5,8 +5,10 @@ import { ref } from "vue";
 import { useMessageBox } from "@/composables/messageBox";
 import { useMember } from "@/composables/member";
 import { useAuth } from "@/composables/auth";
+import { useRouter } from "vue-router";
 
-const { logout } = useAuth();
+const router = useRouter();
+const { isLoggedIn, logout } = useAuth();
 const { dropMember } = useMember();
 const { openConfirmMessageBox, buttonMsg, titleMsg, resultMsg } =
   useMessageBox();
@@ -18,7 +20,11 @@ const btnClick = async () => {
     resultMsg("dropMember.success")
   ).then(async () => {
     await dropMember();
-    await logout();
+    await logout().then(() => {
+      if (!isLoggedIn.value) {
+        router.push({ name: "home" });
+      }
+    });
   });
 };
 </script>
