@@ -8,17 +8,20 @@ import { onMounted, ref } from "vue";
 import type { InquiryTableType } from "@/modules/types/common/TableType";
 
 const type = "INQUIRY";
-const { isPending, inquiryPage, inquiries, getInquires } = useInquiry();
+const { inquiryPage, inquiries, currInquiry, getInquires, getInquiry } =
+  useInquiry();
 const { pageable, mappingPagination, movePage } = usePagination(type);
-
 const { titleMsg, labelMsg } = useMessageBox();
 const tableData = ref<InquiryTableType[]>([]);
+const isDetail = ref<boolean>(false);
+
 onMounted(async () => {
   await getInquires(pageable.value).then(() => {
     mappingPagination(inquiryPage.value);
     tableData.value = setTableData();
   });
 });
+
 const setTableData = (): InquiryTableType[] => {
   const data: InquiryTableType[] = [];
   inquiries.value.forEach((value) => {
@@ -44,13 +47,15 @@ const pageClick = async (page: number) => {
   });
 };
 
-const select = (cell?: InquiryTableType) => {
-  console.log(cell);
+const select = async (cell?: InquiryTableType) => {
+  await getInquiry(Number(cell?.id)).then(() => {
+    isDetail.value = true;
+  });
 };
 </script>
 
 <template>
-  <div class="my-4" v-if="!isPending">
+  <div class="my-4" v-if="!isDetail">
     <SmallTitleSlot>
       {{ titleMsg("member.inquiry.answer") }}
     </SmallTitleSlot>
@@ -85,6 +90,7 @@ const select = (cell?: InquiryTableType) => {
     </div>
     <CustomPagination class="me-3" :pagination-type="type" @click="pageClick" />
   </div>
+  <div v-else>{{ currInquiry }}</div>
 </template>
 
 <style lang="scss">
