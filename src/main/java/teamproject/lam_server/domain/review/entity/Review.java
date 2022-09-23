@@ -9,7 +9,7 @@ import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
-import teamproject.lam_server.domain.review.entity.editor.ReviewEditor;
+import teamproject.lam_server.domain.review.dto.editor.ReviewEditor;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
