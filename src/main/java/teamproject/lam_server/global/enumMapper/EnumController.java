@@ -38,6 +38,14 @@ public class EnumController {
     }
 
     /**
+     * 문의 카테고리
+     */
+    @GetMapping("/inquiry-category")
+    public ResponseEntity<?> getInquiryCategory(){
+        return getCategories(INQUIRY_CATEGORY);
+    }
+
+    /**
      * 도시 이름
      */
     @GetMapping("/city/names")
@@ -120,7 +128,6 @@ public class EnumController {
     /**
      * EnumClassConst 에 있는 카테고리 조회
      *
-     * @param category
      */
     private ResponseEntity<?> getCategories(EnumClassConst category) {
         return CustomResponse.success(category.getValue() + READ_CATEGORY, enumMapper.get(category.getClassName()));

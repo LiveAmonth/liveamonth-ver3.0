@@ -2,7 +2,6 @@
 import ProfileEditor from "@/modules/class/member/ProfileEditor";
 import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import { useI18n } from "vue-i18n";
 import { useMessageBox } from "@/composables/messageBox";
 import { useMember } from "@/composables/member";
 import { useType } from "@/composables/type";

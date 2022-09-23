@@ -29,6 +29,16 @@ public abstract class ResponseMessage {
     public static final String AVAILABLE_LOGIN_ID = "사용 가능한 아이디 입니다.";
     public static final String DUPLICATE_NICKNAME = "이미 사용중인 닉네임 입니다.";
     public static final String AVAILABLE_NICKNAME = "사용 가능한 닉네임 입니다.";
+
+    /**
+     * Domain: Inquiry
+     */
+    public static final String READ_INQUIRY = "1:1 문의 조회 성공";
+    public static final String CREATE_INQUIRY = "1:1 문의 저장 성공";
+    public static final String DELETE_INQUIRY = "1:1 문의 삭제 성공";
+    public static final String UPDATE_INQUIRY = "1:1 문의 업데이트 성공";
+
+
     /**
      * Domain: Schedule
      */

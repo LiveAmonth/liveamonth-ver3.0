@@ -7,7 +7,7 @@ import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.*;
 import teamproject.lam_server.global.dto.PostIdResponse;
 
-public interface MemberService {
+public interface MemberService{
 
     /**
      * 회원 가입

@@ -64,11 +64,13 @@ public enum ErrorCode {
      * Detail: Resource 를 찾을 수 없음
      */
     MEMBER_NOT_FOUND(404, "해당 사용자를 찾을 수 없습니다."),
+    INQUIRY_NOT_FOUND(404, "해당 문의를 찾을 수 없습니다."),
     FOLLOW_NOT_FOUND(404, "팔로우 정보를 찾을 수 없습니다."),
     COMMENT_NOT_FOUND(404, "댓글 정보를 찾을 수 없습니다."),
     CITY_NOT_FOUND(404, "해당 도시 정보를 찾을 수 없습니다."),
     SCHEDULE_NOT_FOUND(404, "해당 스케줄를 찾을 수 없습니다."),
     REVIEW_NOT_FOUND(404, "해당 리뷰를 찾을 수 없습니다."),
+
 
     SERVICE_NOT_FOUND(404, "해당 타입에 맞는 서비스를 찾을 수 없습니다."),
 
