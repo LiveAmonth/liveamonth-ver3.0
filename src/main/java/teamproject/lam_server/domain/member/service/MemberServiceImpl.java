@@ -1,6 +1,5 @@
 package teamproject.lam_server.domain.member.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -8,13 +7,20 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
 import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
-import teamproject.lam_server.domain.member.dto.request.*;
-import teamproject.lam_server.domain.member.dto.response.*;
+import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
+import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
+import teamproject.lam_server.domain.member.dto.request.ReconfirmRequest;
+import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
+import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
+import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
+import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.NotDropMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.global.dto.PostIdResponse;
+import teamproject.lam_server.global.service.BasicMemberService;
 import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
 import teamproject.lam_server.mail.service.MailService;
 import teamproject.lam_server.util.JwtUtil;
@@ -22,14 +28,17 @@ import teamproject.lam_server.util.JwtUtil;
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl extends BasicMemberService implements MemberService{
 
-    private final MemberRepository memberRepository;
     private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider jwtTokenProvider;
+
+    public MemberServiceImpl(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider, MailService mailService, PasswordEncoder passwordEncoder) {
+        super(memberRepository, jwtTokenProvider);
+        this.mailService = mailService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
@@ -155,13 +164,5 @@ public class MemberServiceImpl implements MemberService {
         return isDuplicated
                 ? FormCheckResponse.of(false, nickname, DUPLICATE_NICKNAME)
                 : FormCheckResponse.of(true, nickname, AVAILABLE_NICKNAME);
-    }
-
-
-    private Member getMemberByToken(String token) {
-        return memberRepository.findByLoginId(
-                        jwtTokenProvider.getAuthentication(token).getName()
-                )
-                .orElseThrow(MemberNotFound::new);
     }
 }

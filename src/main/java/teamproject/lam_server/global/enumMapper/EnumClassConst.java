@@ -10,9 +10,8 @@ import lombok.Getter;
 public enum EnumClassConst implements EnumMapperType {
     // Member
     GENDER_TYPE("GenderType", "성별"),
-    MY_PAGE_MENU("MyPageMenu", "내 정보"),
-    MY_PAGE_SUB_CATEGORY("MyPageSubCategory", "내 정보 세부"),
     ACCOUNT_STATE("AccountState", "계정 상태"),
+    INQUIRY_CATEGORY("InquiryCategory", "문의 카테고리"),
 
     // City
     CITY_INTRO_CATEGORY("CityIntroCategory","도시 정보"),

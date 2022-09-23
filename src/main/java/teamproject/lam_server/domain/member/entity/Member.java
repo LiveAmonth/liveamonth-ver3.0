@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.interaction.entity.member.Follower;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
@@ -50,6 +51,8 @@ public class Member extends BaseTimeEntity {
     private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
     @OneToMany(mappedBy = "from")
     private final Set<ScheduleCommentReact> scheduleCommentReacts = new HashSet<>();
+    @OneToMany(mappedBy = "member")
+    private final List<Inquiry> inquiries = new ArrayList<>();
 
     // 리뷰
     @OneToMany(mappedBy = "member")
@@ -86,6 +89,8 @@ public class Member extends BaseTimeEntity {
     private int numberOfReviews;
     @Formula("(select count(1) from schedule s where s.member_id = member_id)")
     private int numberOfSchedules;
+    @Formula("(select count(1) from inquiry i where i.member_id = member_id)")
+    private int numberOfInquiries;
 
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")

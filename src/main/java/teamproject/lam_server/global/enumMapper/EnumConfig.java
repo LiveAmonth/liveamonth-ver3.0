@@ -4,10 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import teamproject.lam_server.domain.city.constants.*;
 import teamproject.lam_server.domain.customercenter.constants.CustomerCenterMenu;
+import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
-import teamproject.lam_server.domain.member.constants.MyPageMenu;
-import teamproject.lam_server.domain.member.constants.MyPageSubCategory;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.schedule.constants.ScheduleFilterType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSearchType;
@@ -24,9 +23,8 @@ public class EnumConfig {
 
         // Member
         enumMapper.put(GENDER_TYPE, GenderType.class);
-        enumMapper.put(MY_PAGE_MENU, MyPageMenu.class);
-        enumMapper.put(MY_PAGE_SUB_CATEGORY, MyPageSubCategory.class);
         enumMapper.put(ACCOUNT_STATE, AccountState.class);
+        enumMapper.put(INQUIRY_CATEGORY, InquiryCategory.class);
 
         // City
         enumMapper.put(CITY_INTRO_CATEGORY, CityIntroCategory.class);
