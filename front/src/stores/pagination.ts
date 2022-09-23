@@ -10,6 +10,8 @@ export const usePageableStore = defineStore("pageable", {
     pagination: [
       new Pagination(3, "SCHEDULE"),
       new Pagination(5, "COMMENT"),
+      new Pagination(10, "INQUIRY"),
+      new Pagination(10, "REVIEW"),
     ] as Pagination[],
   }),
   getters: {},

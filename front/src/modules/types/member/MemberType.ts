@@ -45,3 +45,29 @@ export interface MenuType {
   value: string;
   component: object;
 }
+
+export interface InquiryListType {
+  id: number;
+  title: string;
+  writer: string;
+  category: EnumType;
+  isAnswered: boolean;
+  lastModifiedDate: string;
+}
+
+export interface InquiryType {
+  title: string;
+  writer: string;
+  content: string;
+  category: string;
+  isAnswered: boolean;
+  lastModifiedDate: string;
+  answer: InquiryAnswerType;
+}
+
+export interface InquiryAnswerType {
+  title: string;
+  writer: string;
+  content: string;
+  lastModifiedDate: string;
+}

@@ -6,6 +6,15 @@ import type {
 } from "@/modules/types/schedule/ScheduleType";
 import type { EventApi } from "@fullcalendar/common";
 import type { FormRules } from "element-plus/es";
+import type { InquiryType } from "@/modules/types/member/MemberType";
+
+export interface FormType<T> {
+  setForm(data: T): void;
+
+  getRules(): FormRules;
+
+  clear(): void;
+}
 
 export interface LoginType {
   loginId: string;
@@ -96,14 +105,13 @@ export interface ScheduleFormType extends FormType<MyScheduleCardType> {
   period: DatePeriodType;
 }
 
-export interface FormType<T> {
-  setForm(data: T): void;
-
-  getRules(): FormRules;
-
-  clear(): void;
-}
-
 export interface CommentFormType {
   comment: string;
+}
+
+export interface WriteInquiryFormType extends FormType<InquiryType> {
+  title: string;
+  category: string;
+  content: string;
+  writer: string;
 }

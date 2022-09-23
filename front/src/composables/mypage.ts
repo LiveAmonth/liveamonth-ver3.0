@@ -2,7 +2,7 @@ import EditProfile from "@/components/member/management/EditProfile.vue";
 import ChangePassword from "@/components/member/management/ChangePassword.vue";
 import DropMember from "@/components/member/management/DropMember.vue";
 import WriteInquiry from "@/components/member/management/WriteInquiry.vue";
-import InquiryAnswer from "@/components/member/management/InquiryAnswer.vue";
+import InquiryList from "@/components/member/management/InquiryList.vue";
 import { useRouter } from "vue-router";
 import { tabs } from "@/composables/tabs";
 import type {
@@ -41,7 +41,7 @@ export const useMyPage = () => {
       },
       {
         value: "answer",
-        component: InquiryAnswer,
+        component: InquiryList,
       },
     ],
   };

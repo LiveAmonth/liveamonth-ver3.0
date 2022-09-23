@@ -5,7 +5,6 @@ import type {
   FindIdType,
   FindPwType,
   ReconfirmType,
-  SignUpType,
 } from "@/modules/types/form/FormType";
 import type {
   FoundIdType,
@@ -14,6 +13,7 @@ import type {
 } from "@/modules/types/member/MemberType";
 import type ProfileEditor from "@/modules/class/member/ProfileEditor";
 import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
+import type MemberEditor from "@/modules/class/member/MemberEditor";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
@@ -49,7 +49,7 @@ class MemberApiService {
       });
   }
 
-  async signUp(request: SignUpType): Promise<string> {
+  async signUp(request: MemberEditor): Promise<string> {
     return await http
       .post("/members/sign-up", JSON.stringify(request))
       .then((response) => {

@@ -97,7 +97,7 @@ export const useMember = () => {
       });
   };
 
-  const signUp = async (request: SignUpType) => {
+  const signUp = async (request: MemberEditor) => {
     error.value = null;
     isPending.value = true;
     try {
