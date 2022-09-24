@@ -77,19 +77,7 @@ const applyOptions = async (data: SearchSortFormType) => {
 .search-filter {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 20px;
   margin-left: 10px;
-}
-
-@media (max-width: 1600px) {
-  .search-filter {
-    margin-top: 30px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .search-filter {
-    margin-top: 30px;
-  }
 }
 </style>
