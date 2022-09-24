@@ -10,12 +10,12 @@ const { isLoggedIn, logout } = useAuth();
   <el-header class="header" height="auto">
     <el-menu
       :ellipsis="false"
-      active-text-color="#004A55"
+      active-text-color="#0f6778"
       background-color="#F6F6F6"
       class="header-content"
       mode="horizontal"
       router
-      text-color="#004A55"
+      text-color="#0f6778"
     >
       <router-link :to="{ name: 'home' }">
         <LogoIcon class="logo" />

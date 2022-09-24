@@ -65,7 +65,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           <el-button
             :disabled="!isLoggedIn"
             :loading="isPending"
-            color="#004A55"
+            color="#0f6778"
             size="large"
             @click="submitForm(ruleFormRef)"
             >{{ buttonMsg("write") }}

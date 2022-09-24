@@ -32,7 +32,7 @@ const findComponent = (): object | undefined => {
 </script>
 <template>
   <TitleSlot class="mb-3"> 내 정보</TitleSlot>
-  <el-card :body-style="{ padding: 0 }">
+  <el-card :body-style="{ padding: 0, minHeight: '600px' }">
     <el-row class="d-flex justify-content-around">
       <el-col :span="6" class="menu">
         <ManagementMenu

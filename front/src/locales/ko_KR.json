@@ -35,7 +35,9 @@
       "dropMember": "회원 탈퇴",
       "inquiry": {
         "write": "1:1 문의 하기",
-        "answer": "1:1 문의 목록"
+        "list": "1:1 문의 목록",
+        "answer": "답변",
+        "detail": "문의 내용"
       }
     }
   },
@@ -63,8 +65,11 @@
   "form": {
     "button": {
       "reset": "초기화",
-      "edit": "변경하기",
-      "write": "작성하기",
+      "modify": "변경",
+      "edit": "수정",
+      "write": "작성",
+      "delete": "삭제",
+      "back": "목록으로 돌아가기",
       "member": {
         "login": "로그인",
         "reconfirm": "비밀번호 재확인",
@@ -115,8 +120,8 @@
         "category": "카테고리",
         "date": "문의 날짜",
         "state": "상태",
-        "standBy": "답변 대기",
-        "complete": "답변 완료"
+        "standBy": "대기",
+        "complete": "완료"
       },
       "schedule": {
         "title": "제목",
@@ -164,7 +169,14 @@
         "title": "회원가입이 완료되었습니다. 로그인 해주세요."
       },
       "inquiry": {
-        "success": "1:1 문의가 접수 되었습니다. 빠른 시일 내에 답변 드리겠습니다."
+        "success": "1:1 문의가 접수되었습니다. 빠른 시일 내에 답변드리겠습니다.",
+        "noAnswer": "등록된 답변이 없습니다.",
+        "edit": "문의 글이 수정되었습니다.",
+        "delete": {
+          "title": "1:1 문의 삭제",
+          "content": "1:1 문의를 삭제하시겠습니까?",
+          "success": "문의 글이 삭제되었습니다."
+        }
       },
       "schedule": {
         "add": "새 스케줄이 추가되었습니다.",
@@ -315,7 +327,6 @@
   },
   "validation": {
     "duplication": {
-      "button": "중복 확인",
       "check": "중복 확인을 해주세요.",
       "duplicated": "{value}는 이미 존재하는 {field}입니다.",
       "confirm": "해당 {field}를 사용하시겠습니까?"

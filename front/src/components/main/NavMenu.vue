@@ -7,11 +7,11 @@ const { simpleProfile } = useMember();
 </script>
 <template>
   <el-menu
-    active-text-color="#004A55"
+    active-text-color="#0f6778"
     class="header-content"
     mode="horizontal"
     router
-    text-color="#004A55"
+    text-color="#0f6778"
   >
     <el-menu-item index="/city">{{ $t("menu.city") }}</el-menu-item>
     <el-sub-menu index="/schedules">

@@ -52,9 +52,9 @@ public class InquiryApiController {
         return CustomResponse.success(UPDATE_INQUIRY);
     }
 
-    @PatchMapping("/{id}/remove")
-    public ResponseEntity<?> removeInquiry(@PathVariable Long id) {
-        inquiryService.remove(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteInquiry(@PathVariable Long id) {
+        inquiryService.delete(id);
         return CustomResponse.success(DELETE_INQUIRY);
     }
 }
