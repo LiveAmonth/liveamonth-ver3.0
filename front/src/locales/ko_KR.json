@@ -28,6 +28,9 @@
     "home": {
       "posts": "인기 게시물"
     },
+    "review": {
+      "main": "후기 게시판"
+    },
     "member": {
       "reconfirm": "비밀번호 재확인",
       "editProfile": "프로필 편집",

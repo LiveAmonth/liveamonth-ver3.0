@@ -24,7 +24,7 @@ const { simpleProfile } = useMember();
         >{{ $t("menu.mySchedule") }}
       </el-menu-item>
     </el-sub-menu>
-    <el-menu-item index="/review">
+    <el-menu-item index="/reviews/list">
       {{ $t("menu.review") }}
     </el-menu-item>
     <el-menu-item index="/my-page/schedule">

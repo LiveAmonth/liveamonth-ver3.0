@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import WriteView from "../views/review/WriteView.vue";
-import ReadView from "../views/review/ReadView.vue";
-import EditView from "../views/review/EditView.vue";
+import WriteReviewView from "../views/review/WriteReviewView.vue";
+import ReadReviewView from "../views/review/ReadReviewView.vue";
+import EditReviewView from "../views/review/EditReviewView.vue";
 import ReviewView from "../views/review/ReviewView.vue";
+import ReviewListView from "../views/review/ReviewListView.vue";
 import ReadScheduleView from "../views/schedule/ReadScheduleView.vue";
 import ScheduleListView from "../views/schedule/ScheduleListView.vue";
 import MyScheduleView from "../views/schedule/MyScheduleView.vue";
@@ -52,26 +53,33 @@ const router = createRouter({
       component: loadView("find-pw", "login", "FindPw"),
     },
     {
-      path: "/review",
+      path: "/reviews",
       name: "review",
       component: ReviewView,
-    },
-    {
-      path: "/write",
-      name: "write",
-      component: WriteView,
-    },
-    {
-      path: "/read/:reviewId",
-      name: "read",
-      component: ReadView,
-      props: true,
-    },
-    {
-      path: "/edit/:reviewId",
-      name: "edit",
-      component: EditView,
-      props: true,
+      children: [
+        {
+          path: "list",
+          name: "review-list",
+          component: ReviewListView,
+        },
+        {
+          path: "write",
+          name: "write-review",
+          component: WriteReviewView,
+        },
+        {
+          path: ":id/read",
+          name: "read-review",
+          component: ReadReviewView,
+          props: true,
+        },
+        {
+          path: ":id/edit",
+          name: "edit-review",
+          component: EditReviewView,
+          props: true,
+        },
+      ],
     },
     { path: "/schedules", name: "schedule-list", component: ScheduleListView },
     {
