@@ -76,180 +76,184 @@ const disabledDate = (time: Date) => {
 };
 </script>
 <template>
-  <el-card>
-    <el-form :model="scheduleSearchForm">
-      <div class="d-flex justify-content-start flex-wrap filter-search">
-        <div class="filter-collapse me-3">
-          <el-collapse
-            v-model="searchCollapse"
-            class="search"
-            :class="justifyClass(searchCollapse)"
-            accordion
-          >
-            <el-collapse-item :name="1">
-              <template #title>
-                <el-icon class="me-1">
-                  <Search />
-                </el-icon>
-                {{ $t("common.search") }}
-              </template>
-              <div class="d-flex justify-content-start">
-                <el-form-item>
-                  <el-select
-                    v-model="scheduleSearchForm.searchType"
-                    :placeholder="$t('common.select')"
-                    class="me-2"
-                    style="width: 115px"
-                    @change="selectSearchType"
-                  >
-                    <template v-for="val in scheduleSearchType" :key="val.code">
-                      <el-option
-                        :label="$t(`schedule.search.${val.code.toLowerCase()}`)"
-                        :value="val.code"
-                      />
-                    </template>
-                  </el-select>
-                </el-form-item>
-                <el-form-item>
-                  <el-input
-                    v-model="scheduleSearchForm.searchInput"
-                    :placeholder="
-                      $t('common.please-input', {
-                        field: $t('member.nickname'),
-                      })
-                    "
-                    style="width: 200px"
-                  >
-                  </el-input>
-                </el-form-item>
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-        <div class="filter-collapse me-3">
-          <el-collapse
-            v-model="filterCollapse"
-            class="filter"
-            :class="justifyClass(filterCollapse)"
-            accordion
-          >
-            <el-collapse-item name="1">
-              <template #title>
-                <el-icon class="me-1">
-                  <Filter />
-                </el-icon>
-                {{ $t("common.filter") }}
-              </template>
-              <div class="d-flex justify-content-between pt-2">
-                <el-form-item>
-                  <el-select
-                    v-model="scheduleSearchForm.filterType"
-                    :placeholder="$t('common.filter')"
-                    class="me-2"
-                    style="width: 115px"
-                    @change="selectFilterType"
-                  >
-                    <template v-for="val in scheduleFilterType" :key="val.code">
-                      <el-option
-                        :label="$t(`schedule.search.${val.code.toLowerCase()}`)"
-                        :value="val.code"
-                      />
-                    </template>
-                  </el-select>
-                </el-form-item>
-                <el-form-item
-                  v-if="scheduleSearchForm.filterType === 'CITY_NAME'"
-                >
-                  <el-select
-                    v-model="scheduleSearchForm.filterInput"
-                    :placeholder="$t('common.select')"
-                    style="width: 200px"
-                  >
-                    <template v-for="val in cityNames" :key="val.code">
-                      <el-option
-                        :label="$t(`city.name.${val.code}`)"
-                        :value="val.code"
-                      />
-                    </template>
-                  </el-select>
-                </el-form-item>
-                <el-form-item
-                  v-else-if="scheduleSearchForm.filterType === 'START_DATE'"
-                >
-                  <el-date-picker
-                    v-model="scheduleSearchForm.filterInput"
-                    :disabled-date="disabledDate"
-                    :placeholder="$t('common.pick-day')"
-                    style="width: 200px"
-                    type="date"
+  <el-card class="schedule-list-card" :body-style="{ paddingBottom: '6px' }">
+    <el-form :model="scheduleSearchForm" class="d-flex justify-content-center">
+      <el-collapse
+        v-model="searchCollapse"
+        class="search me-3"
+        :class="justifyClass(searchCollapse)"
+        accordion
+      >
+        <el-collapse-item class="" :name="1">
+          <template #title>
+            <el-icon class="me-1">
+              <Search />
+            </el-icon>
+            {{ $t("common.search") }}
+          </template>
+          <div class="d-flex justify-content-between pt-1">
+            <el-form-item>
+              <el-select
+                v-model="scheduleSearchForm.searchType"
+                :placeholder="$t('common.select')"
+                class="me-2"
+                style="width: 115px"
+                @change="selectSearchType"
+              >
+                <template v-for="val in scheduleSearchType" :key="val.code">
+                  <el-option
+                    :label="$t(`schedule.search.${val.code.toLowerCase()}`)"
+                    :value="val.code"
                   />
-                </el-form-item>
-              </div>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-        <div class="filter-collapse me-3">
-          <el-collapse
-            v-model="sortCollapse"
-            class="sort"
-            :class="justifyClass(sortCollapse)"
-            accordion
-          >
-            <el-collapse-item name="1">
-              <template #title>
-                <el-icon class="me-1">
-                  <Sort />
-                </el-icon>
-                {{ $t("common.sort") }}
-              </template>
-              <el-form-item>
-                <el-select
-                  v-model="scheduleSearchForm.sortType"
-                  :placeholder="$t('common.sort')"
-                  class="me-2"
-                  style="width: 115px"
-                >
-                  <template v-for="val in scheduleSortType" :key="val.code">
-                    <el-option
-                      :label="$t(`schedule.sort.${val.code.toLowerCase()}`)"
-                      :value="val.title"
-                    />
-                  </template>
-                </el-select>
-              </el-form-item>
-            </el-collapse-item>
-          </el-collapse>
-        </div>
-        <div class="btn-wrapper ms-2 pt-1">
-          <el-form-item>
-            <el-button size="large" @click="applyOption">
-              {{ $t("common.application") }}
-            </el-button>
-          </el-form-item>
-        </div>
+                </template>
+              </el-select>
+            </el-form-item>
+            <el-form-item>
+              <el-input
+                v-model="scheduleSearchForm.searchInput"
+                :placeholder="
+                  $t('common.please-input', {
+                    field: $t('member.nickname'),
+                  })
+                "
+                style="width: 200px"
+              >
+              </el-input>
+            </el-form-item>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+      <el-collapse
+        v-model="filterCollapse"
+        class="filter me-3"
+        :class="justifyClass(filterCollapse)"
+        accordion
+      >
+        <el-collapse-item name="1">
+          <template #title>
+            <el-icon class="me-1">
+              <Filter />
+            </el-icon>
+            {{ $t("common.filter") }}
+          </template>
+          <div class="d-flex justify-content-between pt-1">
+            <el-form-item>
+              <el-select
+                v-model="scheduleSearchForm.filterType"
+                :placeholder="$t('common.filter')"
+                class="me-2"
+                style="width: 115px"
+                @change="selectFilterType"
+              >
+                <template v-for="val in scheduleFilterType" :key="val.code">
+                  <el-option
+                    :label="$t(`schedule.search.${val.code.toLowerCase()}`)"
+                    :value="val.code"
+                  />
+                </template>
+              </el-select>
+            </el-form-item>
+            <el-form-item v-if="scheduleSearchForm.filterType === 'CITY_NAME'">
+              <el-select
+                v-model="scheduleSearchForm.filterInput"
+                :placeholder="$t('common.select')"
+                style="width: 200px"
+              >
+                <template v-for="val in cityNames" :key="val.code">
+                  <el-option
+                    :label="$t(`city.name.${val.code}`)"
+                    :value="val.code"
+                  />
+                </template>
+              </el-select>
+            </el-form-item>
+            <el-form-item
+              v-else-if="scheduleSearchForm.filterType === 'START_DATE'"
+            >
+              <el-date-picker
+                v-model="scheduleSearchForm.filterInput"
+                :disabled-date="disabledDate"
+                :placeholder="$t('common.pick-day')"
+                style="width: 200px"
+                type="date"
+              />
+            </el-form-item>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+      <el-collapse
+        v-model="sortCollapse"
+        class="sort me-3"
+        :class="justifyClass(sortCollapse)"
+        accordion
+      >
+        <el-collapse-item name="1">
+          <template #title>
+            <el-icon class="me-1">
+              <Sort />
+            </el-icon>
+            {{ $t("common.sort") }}
+          </template>
+          <div class="d-flex justify-content-between pt-1">
+            <el-form-item>
+              <el-select
+                v-model="scheduleSearchForm.sortType"
+                :placeholder="$t('common.sort')"
+                class="me-2"
+                style="width: 115px"
+              >
+                <template v-for="val in scheduleSortType" :key="val.code">
+                  <el-option
+                    :label="$t(`schedule.sort.${val.code.toLowerCase()}`)"
+                    :value="val.title"
+                  />
+                </template>
+              </el-select>
+            </el-form-item>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+      <div class="btn-wrapper ms-2 pt-1">
+        <el-form-item>
+          <el-button size="large" @click="applyOption">
+            {{ $t("common.application") }}
+          </el-button>
+        </el-form-item>
       </div>
     </el-form>
   </el-card>
 </template>
 
-<style lang="scss" scoped>
-.el-card {
+<style lang="scss">
+.schedule-list-card {
   width: fit-content;
-}
-.el-collapse {
-  &.search {
-    width: 323px;
+
+  .el-collapse {
+    border: none;
+
+    &.search {
+      width: 323px;
+    }
+
+    &.filter {
+      width: 323px;
+    }
+
+    &.sort {
+      width: 123px;
+    }
   }
 
-  &.filter {
-    width: 323px;
+  .el-collapse-item__header {
+    border: none;
   }
 
-  &.sort {
-    width: 123px;
+  .el-collapse-item__wrap {
+    border-bottom: none;
+
+    .el-collapse-item__content {
+      padding-bottom: 0;
+    }
   }
-}
-.el-collapse-item .el-collapse-item__wrap .el-collapse-item__content {
-  padding-bottom: 0;
 }
 </style>
