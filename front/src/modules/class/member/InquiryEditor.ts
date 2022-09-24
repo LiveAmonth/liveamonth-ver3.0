@@ -33,7 +33,7 @@ export default class InquiryEditor implements WriteInquiryFormType {
 
   setForm(data: InquiryType): void {
     this.title = data.title;
-    this.category = data.category;
+    this.category = data.category.code;
     this.content = data.content;
     this.writer = data.writer;
   }

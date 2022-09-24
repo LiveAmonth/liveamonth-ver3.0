@@ -58,7 +58,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             @click="checkField(ruleFormRef, form, 'loginId')"
             >{{ buttonMsg("member.duplication") }}
           </el-button>
-          <el-button v-else color="#004A55" @click="resetField(form, 'loginId')"
+          <el-button v-else color="#0f6778" @click="resetField(form, 'loginId')"
             >{{ buttonMsg("reset") }}
           </el-button>
         </template>
@@ -82,13 +82,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           <el-button
             v-if="!checkForm.nickname"
             @click="checkField(ruleFormRef, form, 'nickname')"
-            >{{ $t("validation.duplication.button") }}
+            >{{ ButtonMsg("member.duplication") }}
           </el-button>
           <el-button
             v-else
-            color="#004A55"
+            color="#0f6778"
             @click="resetField(form, 'nickname')"
-            >{{ $t("form.button.reset") }}
+            >{{ ButtonMsg("reset") }}
           </el-button>
         </template>
       </el-input>
@@ -101,7 +101,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             @click="checkField(ruleFormRef, form, 'email')"
             >{{ buttonMsg("member.duplication") }}
           </el-button>
-          <el-button v-else color="#004A55" @click="resetField(form, 'email')"
+          <el-button v-else color="#0f6778" @click="resetField(form, 'email')"
             >{{ buttonMsg("reset") }}
           </el-button>
         </template>
@@ -130,7 +130,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     <el-form-item>
       <el-button
         :loading="isPending"
-        color="#004A55"
+        color="#0f6778"
         size="large"
         style="width: 100%"
         @click="submitForm(ruleFormRef)"

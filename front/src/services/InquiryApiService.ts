@@ -65,7 +65,7 @@ class InquiryApiService {
 
   async deleteInquiry(id: number): Promise<string> {
     return await http
-      .patch(`/inquiries/remove/${id}`)
+      .delete(`/inquiries/${id}`)
       .then((response) => {
         return response.data;
       })

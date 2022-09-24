@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import { useRouter } from "vue-router";
 import { useMyPage } from "@/composables/mypage";
 
 defineProps({
@@ -58,6 +57,8 @@ const select = (key: string) => {
 <style scoped lang="scss">
 .management-menu {
   border: none;
+  min-height: 600px;
+
   .menu-item {
     font-size: 16px;
 

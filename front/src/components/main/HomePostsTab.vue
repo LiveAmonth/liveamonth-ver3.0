@@ -2,7 +2,7 @@
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
 import ScheduleListView from "@/views/schedule/ScheduleListView.vue";
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useAuth } from "@/composables/auth";
 import { useHome } from "@/composables/home";
 import { useSchedule } from "@/composables/schedule";
@@ -11,19 +11,9 @@ import { useMember } from "@/composables/member";
 const { isLoggedIn } = useAuth();
 const { simpleProfile } = useMember();
 const { homePostsTabs } = useHome();
-const { followedSchedules, getInfiniteSchedules } = useSchedule();
+const { followedSchedules } = useSchedule();
 const activeName = ref(isLoggedIn ? "followed" : "schedule");
 const initialSize = ref<number>(3);
-
-onMounted(async () => {
-  if (isLoggedIn.value) {
-    await getInfiniteSchedules(
-      simpleProfile.value.loginId,
-      initialSize.value,
-      null
-    );
-  }
-});
 </script>
 
 <template>

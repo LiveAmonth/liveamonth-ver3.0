@@ -16,6 +16,6 @@ public interface InquiryService {
 
     void edit(Long id, InquiryEditor editor);
 
-    void remove(Long id);
+    void delete(Long id);
 
 }

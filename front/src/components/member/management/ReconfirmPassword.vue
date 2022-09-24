@@ -60,7 +60,7 @@ const submitForm = async () => {
         <el-form-item>
           <el-button
             :loading="isPending"
-            color="#004A55"
+            color="#0f6778"
             size="large"
             style="width: 100%"
             @click="submitForm"

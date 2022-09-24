@@ -71,10 +71,7 @@ public class InquiryServiceImpl extends BasicMemberService implements InquirySer
 
     @Override
     @Transactional
-    public void remove(Long id) {
-        Inquiry inquiry = inquiryRepository.findById(id)
-                .orElseThrow(InquiryNotFound::new);
-
-        inquiry.remove();
+    public void delete(Long id) {
+        inquiryRepository.deleteById(id);
     }
 }

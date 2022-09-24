@@ -52,16 +52,17 @@ export interface InquiryListType {
   writer: string;
   category: EnumType;
   isAnswered: boolean;
-  lastModifiedDate: string;
+  date: string;
 }
 
 export interface InquiryType {
+  id: number;
   title: string;
   writer: string;
   content: string;
-  category: string;
+  category: EnumType;
   isAnswered: boolean;
-  lastModifiedDate: string;
+  dateTime: string;
   answer: InquiryAnswerType;
 }
 
@@ -69,5 +70,5 @@ export interface InquiryAnswerType {
   title: string;
   writer: string;
   content: string;
-  lastModifiedDate: string;
+  dateTime: string;
 }

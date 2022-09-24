@@ -21,7 +21,7 @@ public class InquiryListResponse {
     private boolean isAnswered;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime date;
 
     public static InquiryListResponse of(Inquiry inquiry) {
         return InquiryListResponse.builder()
@@ -30,7 +30,7 @@ public class InquiryListResponse {
                 .writer(inquiry.getMember().getNickname())
                 .category(inquiry.getCategory())
                 .isAnswered(inquiry.isAnswered())
-                .lastModifiedDate(inquiry.getLastModifiedDate())
+                .date(inquiry.getLastModifiedDate())
                 .build();
     }
 }
