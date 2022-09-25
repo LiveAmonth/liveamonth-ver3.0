@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 import NavMenu from "@/components/main/NavMenu.vue";
 import LogoIcon from "@/components/image/LogoIcon.vue";
+import HeaderBanner from "@/components/main/HeaderBanner.vue";
 import { useAuth } from "@/composables/auth";
+import { ref } from "vue";
 
 const { isLoggedIn, logout } = useAuth();
+const pageName = ref();
+const menuClick = (name: string) => {
+  pageName.value = name;
+};
 </script>
 
 <template>
@@ -31,8 +37,9 @@ const { isLoggedIn, logout } = useAuth();
     </el-menu>
   </el-header>
   <el-header class="nav-header">
-    <NavMenu />
+    <NavMenu @menu-click="menuClick" />
   </el-header>
+  <HeaderBanner :name="pageName" />
 </template>
 
 <style lang="scss" scoped>

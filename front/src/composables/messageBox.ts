@@ -58,6 +58,10 @@ export const useMessageBox = () => {
     return t(`form.message.${field}`);
   };
 
+  const getMenuName = (field: string): string => {
+    return t(`menu.${field}`);
+  };
+
   return {
     openMessage,
     openMessageByCode,
@@ -68,5 +72,6 @@ export const useMessageBox = () => {
     buttonMsg: getFormButtonMsg,
     resultMsg: getResultMessage,
     titleMsg: getTitleMsg,
+    menuMsg: getMenuName,
   };
 };
