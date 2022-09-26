@@ -8,7 +8,7 @@ import type {
 export const usePageableStore = defineStore("pageable", {
   state: () => ({
     pagination: [
-      new Pagination(3, "SCHEDULE"),
+      new Pagination(5, "SCHEDULE"),
       new Pagination(5, "COMMENT"),
       new Pagination(10, "INQUIRY"),
       new Pagination(10, "REVIEW"),
@@ -33,7 +33,6 @@ export const usePageableStore = defineStore("pageable", {
 
     clear: function (type: string) {
       const pagination = this.findPage(type);
-      pagination.size = 3;
       pagination.pageLimit = 5;
       pagination.currentPage = 1;
       pagination.isFirst = true;

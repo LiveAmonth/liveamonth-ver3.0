@@ -11,7 +11,7 @@ export default class Pagination implements CustomPageType {
   category: string;
   sort: string;
 
-  constructor(size = 2, category: string) {
+  constructor(size: number, category: string) {
     this.size = size;
     this.pageLimit = 5;
     this.currentPage = 1;
