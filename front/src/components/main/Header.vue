@@ -46,6 +46,7 @@ const menuClick = (name: string) => {
 .header {
   padding: 0;
   height: 60px;
+
   @media screen and (min-width: 1200px) {
     .header-content {
       display: flex;
@@ -62,6 +63,7 @@ const menuClick = (name: string) => {
 .nav-header {
   padding: 0;
   height: 60px;
+
   @media screen and (min-width: 1200px) {
     .header-content {
       display: flex;

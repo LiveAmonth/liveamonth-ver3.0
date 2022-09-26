@@ -2,6 +2,7 @@
 import CityBanner from "@/assets/image/banner/city_banner.jpg";
 import ScheduleBanner from "@/components/banner/ScheduleBanner.vue";
 import { useRoute } from "vue-router";
+import ReviewBanner from "@/components/banner/ReviewBanner.vue";
 
 const route = useRoute();
 </script>
@@ -13,8 +14,9 @@ const route = useRoute();
     fit="fill"
     style="width: 100%; height: 250px"
   />
-  <ScheduleBanner v-if="route.name === 'my-schedule'" />
-  <ScheduleBanner v-if="route.name === 'schedule-list'" />
+  <ScheduleBanner v-if="route.name === 'my-schedule'" :name="'my'" />
+  <ScheduleBanner v-if="route.name === 'schedule-list'" :name="'other'" />
+  <ReviewBanner v-if="route.name === 'review-list'" />
 </template>
 
 <style lang="scss" scoped>
