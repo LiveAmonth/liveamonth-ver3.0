@@ -6,10 +6,10 @@ import InquiryList from "@/components/member/management/InquiryList.vue";
 import { useRouter } from "vue-router";
 import { tabs } from "@/composables/tabs";
 import type {
-  NameIconType,
   ManagementMenuType,
-  SimpleProfileType,
+  NameIconType,
   ProfileType,
+  SimpleProfileType,
 } from "@/modules/types/member/MemberType";
 
 export const useMyPage = () => {
@@ -65,9 +65,9 @@ export const useMyPage = () => {
     return null;
   };
 
-  const goManagement = (key: string) => {
+  const goManagement = async (key: string) => {
     const object = JSON.parse(key);
-    router.push({
+    await router.push({
       name: "management",
       params: { category: object.category, menu: object.menu },
     });

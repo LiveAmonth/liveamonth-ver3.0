@@ -39,7 +39,7 @@ const menuClick = (name: string) => {
   <el-header class="nav-header">
     <NavMenu @menu-click="menuClick" />
   </el-header>
-  <HeaderBanner :name="pageName" />
+  <HeaderBanner />
 </template>
 
 <style lang="scss" scoped>

@@ -51,10 +51,10 @@ const onClick = (page: number) => {
         </li>
       </template>
       <li
-        class="paging-num"
         v-for="page in getCurrentPageGroupPages()"
         :key="page"
         :class="isCurrentPage(page) ? 'on' : ''"
+        class="paging-num"
       >
         <span class="num-box">
           <a
@@ -97,6 +97,7 @@ const onClick = (page: number) => {
 <style lang="scss" scoped>
 .paging {
   text-align: center;
+
   li {
     list-style: none;
   }
@@ -132,8 +133,8 @@ const onClick = (page: number) => {
         width: 20px;
         height: 40px;
         margin-top: 2px;
-        background-color: white;
         border: none;
+        background-color: inherit;
 
         .el-icon {
           font-size: 20px;

@@ -36,12 +36,13 @@ export interface NameIconType {
   value: string;
   icon: string;
 }
+
 export interface ManagementMenuType {
   category: NameIconType;
-  menus: MenuType[];
+  menus: MyPageMenuType[];
 }
 
-export interface MenuType {
+export interface MyPageMenuType {
   value: string;
   component: object;
 }
