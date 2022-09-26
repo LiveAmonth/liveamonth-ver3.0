@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
-import { useHeaderMenu } from "@/composables/menu";
-import { useMessageBox } from "@/composables/messageBox";
+import { useHome } from "@/composables/home/home";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const emits = defineEmits(["menuClick"]);
 const router = useRouter();
 
-const { mainMenus } = useHeaderMenu();
+const { mainMenus } = useHome();
 const { menuMsg } = useMessageBox();
 
 const handleSelect = (key: string, keyPath: string[]) => {

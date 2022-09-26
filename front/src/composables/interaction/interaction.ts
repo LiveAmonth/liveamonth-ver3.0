@@ -1,4 +1,4 @@
-import { useMember } from "@/composables/member";
+import { useMember } from "@/composables/member/member";
 import { computed, ref } from "vue";
 import InteractionApiService from "@/services/InteractionApiService";
 import { useInteractionStore } from "@/stores/interaction";

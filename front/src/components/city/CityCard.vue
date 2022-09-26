@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useCity } from "@/composables/city";
+import { useCity } from "@/composables/city/city";
 
 const props = defineProps({
   index: {

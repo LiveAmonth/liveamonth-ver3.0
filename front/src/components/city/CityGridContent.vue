@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import CityCard from "@/components/city/CityCard.vue";
 import { onMounted, ref } from "vue";
-import { useCity } from "@/composables/city";
+import { useCity } from "@/composables/city/city";
 
 const { hasCityGridInfos, getCityGridInfo } = useCity();
 const loading = ref<boolean>(true);

@@ -1,6 +1,6 @@
 import { computed } from "vue";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
-import { useDate } from "@/composables/date";
+import { useDate } from "@/composables/common/date";
 import type { EventApi } from "@fullcalendar/common";
 import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 import type { ScheduleContentType } from "@/modules/types/schedule/ScheduleType";

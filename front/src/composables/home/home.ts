@@ -1,11 +1,24 @@
-import { useMember } from "@/composables/member";
-import { useAuth } from "@/composables/auth";
+import { useMember } from "@/composables/member/member";
+import { computed } from "vue";
+import { useTab } from "@/composables/common/tabs";
+import { useAuth } from "@/composables/member/auth";
 import type { MenuType } from "@/modules/types/common/MenuType";
+import type { NameIconType } from "@/modules/types/member/MemberType";
 
-export const useHeaderMenu = () => {
+export const useHome = () => {
   const { isLoggedIn } = useAuth();
   const { simpleProfile } = useMember();
+  const { getTabsItem } = useTab();
 
+  const loggedPostsTabs: NameIconType[] = [
+    getTabsItem("home", "schedule", "Calendar"),
+    getTabsItem("home", "review", "Notebook"),
+    getTabsItem("home", "followed", "User"),
+  ];
+  const homePostsTabs: NameIconType[] = [
+    getTabsItem("home", "schedule", "Calendar"),
+    getTabsItem("home", "review", "Notebook"),
+  ];
   const mainMenus: MenuType[] = [
     { name: "city", route: { name: "city" }, sub: [] },
     {
@@ -37,5 +50,8 @@ export const useHeaderMenu = () => {
 
   return {
     mainMenus,
+    homePostsTabs: computed(() =>
+      isLoggedIn.value ? loggedPostsTabs : homePostsTabs
+    ),
   };
 };

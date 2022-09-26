@@ -6,11 +6,11 @@ import CommentInput from "@/components/form/CommentInput.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import router from "@/router";
 import { onMounted } from "vue";
-import { usePagination } from "@/composables/pagination";
-import { useComment } from "@/composables/comment";
-import { useAuth } from "@/composables/auth";
-import { useMessageBox } from "@/composables/messageBox";
-import { useInteraction } from "@/composables/interaction";
+import { usePagination } from "@/composables/common/pagination";
+import { useComment } from "@/composables/common/comment";
+import { useAuth } from "@/composables/member/auth";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useInteraction } from "@/composables/interaction/interaction";
 import type { CommentFormType } from "@/modules/types/form/FormType";
 import type { WriteCommentType } from "@/modules/types/comment/CommentTypes";
 
@@ -95,8 +95,8 @@ const react = async (
   <TitleSlot
     >{{ $t("comment.title") }}({{
       commentPageable ? commentPageable.totalElements : "0"
-    }})</TitleSlot
-  >
+    }})
+  </TitleSlot>
   <el-card>
     <SmallTitleSlot>{{ $t("comment.write") }}</SmallTitleSlot>
     <CommentInput :is-pending="isPending" @submit-form="submitForm" />

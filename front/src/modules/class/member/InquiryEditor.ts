@@ -1,4 +1,4 @@
-import { useFormValidate } from "@/composables/formValidate";
+import { useFormValidate } from "@/composables/common/formValidate";
 import type { WriteInquiryFormType } from "@/modules/types/form/FormType";
 import type { FormRules } from "element-plus/es";
 import type { InquiryType } from "@/modules/types/member/MemberType";

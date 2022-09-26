@@ -4,7 +4,7 @@ import DropMember from "@/components/member/management/DropMember.vue";
 import WriteInquiry from "@/components/member/management/WriteInquiry.vue";
 import InquiryList from "@/components/member/management/InquiryList.vue";
 import { useRouter } from "vue-router";
-import { tabs } from "@/composables/tabs";
+import { useTab } from "@/composables/common/tabs";
 import type {
   ManagementMenuType,
   NameIconType,
@@ -14,7 +14,7 @@ import type {
 
 export const useMyPage = () => {
   const router = useRouter();
-  const { getTabsItem, getMyPageMenuCategory } = tabs();
+  const { getTabsItem, getMyPageMenuCategory } = useTab();
   const accountMenu: ManagementMenuType = {
     category: getMyPageMenuCategory("account", "User"),
     menus: [

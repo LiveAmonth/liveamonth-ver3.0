@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
-import { useAuth } from "@/composables/auth";
-import { useComment } from "@/composables/comment";
-import { useMessageBox } from "@/composables/messageBox";
+import { useAuth } from "@/composables/member/auth";
+import { useComment } from "@/composables/common/comment";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { CommentEditor } from "@/modules/class/comment/CommentEditor";
 import type { FormInstance } from "element-plus/es";
 

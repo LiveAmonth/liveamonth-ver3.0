@@ -1,6 +1,6 @@
 import type { CommentFormType, FormType } from "@/modules/types/form/FormType";
 import type { FormRules } from "element-plus/es";
-import { useFormValidate } from "@/composables/formValidate";
+import { useFormValidate } from "@/composables/common/formValidate";
 
 export class CommentEditor implements FormType<CommentFormType> {
   comment: string;

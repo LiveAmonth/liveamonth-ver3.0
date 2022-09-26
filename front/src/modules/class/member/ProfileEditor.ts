@@ -1,8 +1,11 @@
-import type { EditProfileType, FormType } from "@/modules/types/form/FormType";
+import type {
+  EditProfileType,
+  FormType,
+  SignUpCheckType,
+} from "@/modules/types/form/FormType";
 import type { ProfileType } from "@/modules/types/member/MemberType";
-import type { SignUpCheckType } from "@/modules/types/form/FormType";
 import type { FormRules } from "element-plus/es";
-import { useFormValidate } from "@/composables/formValidate";
+import { useFormValidate } from "@/composables/common/formValidate";
 
 export default class ProfileEditor implements FormType<EditProfileType> {
   memberId: number;

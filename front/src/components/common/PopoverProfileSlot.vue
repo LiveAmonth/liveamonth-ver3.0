@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { useMyPage } from "@/composables/mypage";
+<script lang="ts" setup>
+import { useMyPage } from "@/composables/member/mypage";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 import type { PropType } from "vue";
 
@@ -39,8 +39,8 @@ const { profileTabs, getPostCount } = useMyPage();
           <div
             v-for="tab in profileTabs"
             :key="tab.code"
-            class="ds"
             :class="tab.code"
+            class="ds"
           >
             <h6>
               {{ tab.value }}
@@ -58,7 +58,7 @@ const { profileTabs, getPostCount } = useMyPage();
   </el-popover>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .popover-content {
   overflow: hidden;
 

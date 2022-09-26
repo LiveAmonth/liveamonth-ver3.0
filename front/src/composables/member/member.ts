@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member";
-import { useAuth } from "@/composables/auth";
+import { useAuth } from "@/composables/member/auth";
 import type {
   EditProfileType,
   FindIdType,
@@ -14,8 +14,8 @@ import type {
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
 import type { FormInstance } from "element-plus";
-import { useFormValidate } from "@/composables/formValidate";
-import { useMessageBox } from "@/composables/messageBox";
+import { useFormValidate } from "@/composables/common/formValidate";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type ProfileEditor from "@/modules/class/member/ProfileEditor";
 import type MemberEditor from "@/modules/class/member/MemberEditor";

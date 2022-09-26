@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import { useInquiry } from "@/composables/inquiry";
-import { useMessageBox } from "@/composables/messageBox";
+import { useInquiry } from "@/composables/member/inquiry";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 defineProps({
   inquiryType: String,
@@ -103,7 +103,7 @@ const deleteBtn = async () => {
   </el-row>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .inquiry {
   .title-content {
     .title {

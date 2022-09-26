@@ -2,8 +2,8 @@
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import { reactive, ref, watch } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import { useMessageBox } from "@/composables/messageBox";
+import { useSchedule } from "@/composables/schedule/schedule";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";
@@ -99,8 +99,8 @@ watch(
               field: $t('schedule.form.content.cost'),
             })
           "
-          type="number"
           style="width: 200px"
+          type="number"
         >
           <template #append>
             {{ $t("schedule.form.content.won") }}
@@ -109,29 +109,29 @@ watch(
       </el-form-item>
       <el-form-item
         :label="$t('schedule.form.content.period.start')"
-        prop="period"
         class="period-item"
+        prop="period"
       >
         <el-date-picker
           v-model="contentForm.timePeriod.startDateTime"
           :placeholder="$t('common.pick-day')"
+          format="MM-DD HH:mm"
           style="width: 200px"
           type="datetime"
-          format="MM-DD HH:mm"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>
       <el-form-item
         :label="$t('schedule.form.content.period.end')"
-        prop="period"
         class="period-item"
+        prop="period"
       >
         <el-date-picker
           v-model="contentForm.timePeriod.endDateTime"
           :placeholder="$t('common.pick-day')"
+          format="MM-DD HH:mm"
           style="width: 200px"
           type="datetime"
-          format="MM-DD HH:mm"
           value-format="YYYY-MM-DD HH:mm:ss"
         />
       </el-form-item>

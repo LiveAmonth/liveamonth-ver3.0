@@ -1,12 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import InquiryEditor from "@/modules/class/member/InquiryEditor";
 import { onMounted, reactive, ref } from "vue";
-import { useMember } from "@/composables/member";
-import { useInquiry } from "@/composables/inquiry";
-import { useMessageBox } from "@/composables/messageBox";
+import { useMember } from "@/composables/member/member";
+import { useInquiry } from "@/composables/member/inquiry";
+import { useMessageBox } from "@/composables/common/messageBox";
 import type { FormInstance } from "element-plus";
-import { useMyPage } from "@/composables/mypage";
+import { useMyPage } from "@/composables/member/mypage";
 
 const { memberProfile } = useMember();
 const { isPending, category, currInquiry, writeInquiry, getCategory } =
@@ -89,9 +89,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       </el-form-item>
       <el-form-item :label="labelMsg('inquiry.content')" prop="content">
         <el-input
-          type="textarea"
-          :autosize="{ minRows: 6 }"
           v-model="form.content"
+          :autosize="{ minRows: 6 }"
+          type="textarea"
         />
       </el-form-item>
       <el-row v-if="!isEdit">
@@ -114,8 +114,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           <div class="d-flex justify-content-end">
             <el-form-item>
               <el-button
-                class="me-2"
                 :loading="isPending"
+                class="me-2"
                 color="#0f6778"
                 @click="submitForm(ruleFormRef)"
               >
@@ -132,4 +132,4 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import { useMyPage } from "@/composables/mypage";
+import { useMyPage } from "@/composables/member/mypage";
 
 defineProps({
   initialMenu: {

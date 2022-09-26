@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useMessageBox } from "@/composables/messageBox";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const { resultMsg } = useMessageBox();
 </script>

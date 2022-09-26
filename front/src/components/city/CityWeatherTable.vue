@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { useCity } from "@/composables/city";
+import { useCity } from "@/composables/city/city";
+
 const { cityWeather } = useCity();
 </script>
 

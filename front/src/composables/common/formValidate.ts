@@ -10,7 +10,7 @@ import type {
   DatePeriodType,
   DateTimePeriodType,
 } from "@/modules/types/schedule/ScheduleType";
-import { useDate } from "@/composables/date";
+import { useDate } from "@/composables/common/date";
 
 export const useFormValidate = () => {
   const { t } = useI18n();

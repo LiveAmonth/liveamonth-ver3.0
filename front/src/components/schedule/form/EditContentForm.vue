@@ -2,9 +2,9 @@
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import { reactive, ref, watch } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import { useCalendarEvent } from "@/composables/calendarEvent";
-import { useMessageBox } from "@/composables/messageBox";
+import { useSchedule } from "@/composables/schedule/schedule";
+import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";

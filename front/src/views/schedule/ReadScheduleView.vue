@@ -4,8 +4,8 @@ import ScheduleCalendar from "@/components/schedule/calendar/ScheduleCalendar.vu
 import ScheduleDetail from "@/components/schedule/detail/ScheduleDetail.vue";
 import CommentComponent from "@/components/comment/CommentComponent.vue";
 import { onMounted, ref } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import { useCalendarEvent } from "@/composables/calendarEvent";
+import { useSchedule } from "@/composables/schedule/schedule";
+import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({

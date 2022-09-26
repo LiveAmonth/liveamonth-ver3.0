@@ -1,5 +1,6 @@
-<script setup lang="ts">
-import { useCity } from "@/composables/city";
+<script lang="ts" setup>
+import { useCity } from "@/composables/city/city";
+
 const { cityIntroDetail } = useCity();
 </script>
 
@@ -8,9 +9,9 @@ const { cityIntroDetail } = useCity();
     <template v-for="introDetail in cityIntroDetail" :key="introDetail">
       <el-col :span="6">
         <el-image
-          style="width: auto; height: auto; box-shadow: var(--el-box-shadow)"
           :src="`/src/assets/image/intro/${introDetail.image}`"
           fit="cover"
+          style="width: auto; height: auto; box-shadow: var(--el-box-shadow)"
         />
       </el-col>
       <el-col :span="18">
@@ -22,7 +23,7 @@ const { cityIntroDetail } = useCity();
   </el-row>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .content {
   font-size: 0.95rem;
   margin-left: 10px;
