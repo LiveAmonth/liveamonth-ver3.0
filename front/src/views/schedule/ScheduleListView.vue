@@ -3,8 +3,8 @@ import CustomPagination from "@/components/common/CustomPagination.vue";
 import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
 import SchedulePageList from "@/components/schedule/list/SchedulePageList.vue";
 import { onMounted } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import { usePagination } from "@/composables/pagination";
+import { useSchedule } from "@/composables/schedule/schedule";
+import { usePagination } from "@/composables/common/pagination";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const props = defineProps({

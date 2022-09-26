@@ -3,7 +3,7 @@ import type {
   FormType,
 } from "@/modules/types/form/FormType";
 import type { FormRules } from "element-plus/es";
-import { useFormValidate } from "@/composables/formValidate";
+import { useFormValidate } from "@/composables/common/formValidate";
 
 export default class ChangePasswordEditor
   implements FormType<ChangePasswordType>

@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
 import { reactive, ref } from "vue";
-import { useMessageBox } from "@/composables/messageBox";
-import { useMember } from "@/composables/member";
-import { useAuth } from "@/composables/auth";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useMember } from "@/composables/member/member";
+import { useAuth } from "@/composables/member/auth";
 import type { FormInstance } from "element-plus";
 import { useRouter } from "vue-router";
 
@@ -46,8 +46,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           ref="ruleFormRef"
           :model="form"
           :rules="form.getRules()"
-          status-icon
           label-position="top"
+          status-icon
         >
           <p class="info mb-4">
             {{ resultMsg("changePassword.announce") }}
@@ -82,7 +82,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .container {
   display: flex;
   justify-content: center;

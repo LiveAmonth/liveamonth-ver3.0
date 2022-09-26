@@ -3,7 +3,7 @@ import CardModeCarousel from "@/components/common/CardModeCarousel.vue";
 import CityIntroTab from "@/components/city/CityIntroTab.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import { onMounted, ref } from "vue";
-import { useCity } from "@/composables/city";
+import { useCity } from "@/composables/city/city";
 
 const {
   cityNames,

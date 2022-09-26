@@ -2,7 +2,7 @@
 import NavMenu from "@/components/main/NavMenu.vue";
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import HeaderBanner from "@/components/main/HeaderBanner.vue";
-import { useAuth } from "@/composables/auth";
+import { useAuth } from "@/composables/member/auth";
 import { ref } from "vue";
 
 const { isLoggedIn, logout } = useAuth();

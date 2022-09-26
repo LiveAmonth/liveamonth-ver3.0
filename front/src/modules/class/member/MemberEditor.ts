@@ -1,4 +1,4 @@
-import { useFormValidate } from "@/composables/formValidate";
+import { useFormValidate } from "@/composables/common/formValidate";
 import type {
   FormType,
   SignUpCheckType,

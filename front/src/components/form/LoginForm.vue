@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { useAuth } from "@/composables/auth";
-import { useMessageBox } from "@/composables/messageBox";
+import { useAuth } from "@/composables/member/auth";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useRouter } from "vue-router";
 import type { LoginType } from "@/modules/types/form/FormType";
 
@@ -29,12 +29,12 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <el-form ref="ruleFormRef" :model="form" status-icon label-position="top">
+  <el-form ref="ruleFormRef" :model="form" label-position="top" status-icon>
     <el-form-item :label="labelMsg('member.loginId')" prop="loginId">
       <el-input v-model="form.loginId" />
     </el-form-item>
     <el-form-item :label="labelMsg('member.password')" prop="password">
-      <el-input v-model="form.password" type="password" show-password />
+      <el-input v-model="form.password" show-password type="password" />
     </el-form-item>
     <el-form-item>
       <el-button

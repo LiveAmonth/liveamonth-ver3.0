@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
-import { useMyPage } from "@/composables/mypage";
+import { useMyPage } from "@/composables/member/mypage";
 import type {
   ManagementMenuType,
   MyPageMenuType,

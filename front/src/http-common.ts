@@ -1,7 +1,7 @@
+import type { AxiosInstance } from "axios";
 import axios from "axios";
 import qs from "query-string";
-import { useAuth } from "@/composables/auth";
-import type { AxiosInstance } from "axios";
+import { useAuth } from "@/composables/member/auth";
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: "http://localhost:8080/api/v1",

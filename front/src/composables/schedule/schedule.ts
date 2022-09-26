@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import { useMember } from "@/composables/member";
+import { useMember } from "@/composables/member/member";
 import { useScheduleStore } from "@/stores/schedule";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
 import type {

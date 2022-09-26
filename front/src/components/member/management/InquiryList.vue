@@ -1,12 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import ReadInquiry from "@/components/member/management/ReadInquiry.vue";
 import WriteInquiry from "@/components/member/management/WriteInquiry.vue";
 import { onMounted, ref } from "vue";
-import { useInquiry } from "@/composables/inquiry";
-import { usePagination } from "@/composables/pagination";
-import { useMessageBox } from "@/composables/messageBox";
+import { useInquiry } from "@/composables/member/inquiry";
+import { usePagination } from "@/composables/common/pagination";
+import { useMessageBox } from "@/composables/common/messageBox";
 import type InquiryEditor from "@/modules/class/member/InquiryEditor";
 import type { InquiryTableType } from "@/modules/types/common/TableType";
 
@@ -91,58 +91,58 @@ const goBackBtn = () => {
       @edit="editBtn"
       @go-back="goBackBtn"
     />
-    <div class="list-container" v-else-if="inquiryType === 'list'">
+    <div v-else-if="inquiryType === 'list'" class="list-container">
       <SmallTitleSlot>
         {{ titleMsg("member.inquiry.list") }}
       </SmallTitleSlot>
       <div class="inquiry-list">
         <el-table
+          :cell-style="{ cursor: 'pointer' }"
           :data="tableData"
+          selectable
           style="width: 100%"
           @cell-click="select"
-          :cell-style="{ cursor: 'pointer' }"
-          selectable
         >
           <el-table-column
-            prop="category"
-            align="center"
             :label="labelMsg('inquiry.category')"
+            align="center"
+            prop="category"
             width="80"
           />
           <el-table-column
-            prop="title"
+            :label="labelMsg('inquiry.title')"
             align="left"
             header-align="center"
-            :label="labelMsg('inquiry.title')"
+            prop="title"
             width="280"
           />
           <el-table-column
-            prop="writer"
-            align="center"
             :label="labelMsg('inquiry.writer')"
+            align="center"
+            prop="writer"
             width="100"
           />
           <el-table-column
-            prop="date"
-            align="center"
             :label="labelMsg('inquiry.date')"
+            align="center"
+            prop="date"
             width="110"
           />
           <el-table-column
-            prop="state"
-            align="center"
             :label="labelMsg('inquiry.state')"
+            align="center"
+            prop="state"
             width="75"
           />
         </el-table>
       </div>
       <CustomPagination
-        class="me-3"
         :pagination-type="type"
+        class="me-3"
         @click="pageClick"
       />
     </div>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

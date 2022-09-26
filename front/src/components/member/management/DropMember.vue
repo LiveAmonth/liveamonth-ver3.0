@@ -2,9 +2,9 @@
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import { ref } from "vue";
-import { useMessageBox } from "@/composables/messageBox";
-import { useMember } from "@/composables/member";
-import { useAuth } from "@/composables/auth";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useMember } from "@/composables/member/member";
+import { useAuth } from "@/composables/member/auth";
 import { useRouter } from "vue-router";
 
 const router = useRouter();

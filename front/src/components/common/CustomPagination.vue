@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { usePagination } from "@/composables/pagination";
+import { usePagination } from "@/composables/common/pagination";
 import {
   DArrowLeft,
   ArrowLeft,

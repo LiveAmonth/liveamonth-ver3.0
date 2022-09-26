@@ -2,9 +2,9 @@
 import ProfileEditor from "@/modules/class/member/ProfileEditor";
 import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import { useMessageBox } from "@/composables/messageBox";
-import { useMember } from "@/composables/member";
-import { useType } from "@/composables/type";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useMember } from "@/composables/member/member";
+import { useType } from "@/composables/common/type";
 import { reactive, ref } from "vue";
 import type { FormInstance } from "element-plus";
 import type { SignUpCheckType } from "@/modules/types/form/FormType";

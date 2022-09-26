@@ -1,6 +1,6 @@
-<script setup lang="ts">
-import { useMember } from "@/composables/member";
-import { useMessageBox } from "@/composables/messageBox";
+<script lang="ts" setup>
+import { useMember } from "@/composables/member/member";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const { labelMsg, resultMsg } = useMessageBox();
 const { foundId } = useMember();
@@ -16,7 +16,7 @@ const { foundId } = useMember();
     </div>
   </div>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .result-content {
   .result-info {
     font-size: 0.8rem;
@@ -25,9 +25,11 @@ const { foundId } = useMember();
   .result-box {
     border: 0.12rem solid #bbbbbb;
     align-content: center;
+
     .result-id {
       font-weight: bold;
     }
+
     .created-date {
       padding-top: 0.5rem;
       font-size: 0.75rem;

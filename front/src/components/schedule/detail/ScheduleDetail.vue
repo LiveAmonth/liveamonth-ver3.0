@@ -3,10 +3,10 @@ import SimpleScheduleCard from "@/components/schedule/card/SimpleScheduleCard.vu
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
 import { Reading, Paperclip, Money, Clock } from "@element-plus/icons-vue";
-import { useSchedule } from "@/composables/schedule";
+import { useSchedule } from "@/composables/schedule/schedule";
 import { useScheduleContentStore } from "@/stores/scheduleContent";
 import { onMounted, ref } from "vue";
-import { useInteraction } from "@/composables/interaction";
+import { useInteraction } from "@/composables/interaction/interaction";
 
 const props = defineProps({
   id: {

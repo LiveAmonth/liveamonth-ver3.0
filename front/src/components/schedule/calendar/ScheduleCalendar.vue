@@ -7,9 +7,9 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import koLocale from "@fullcalendar/core/locales/ko";
 import listPlugin from "@fullcalendar/list";
 import { onMounted, reactive, watch } from "vue";
-import { useCalendarEvent } from "@/composables/calendarEvent";
-import { useDate } from "@/composables/date";
-import { useMessageBox } from "@/composables/messageBox";
+import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
+import { useDate } from "@/composables/common/date";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { CalendarOptions } from "@fullcalendar/core";
 

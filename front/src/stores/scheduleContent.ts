@@ -5,7 +5,7 @@ import type {
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
 import ScheduleApiService from "@/services/ScheduleApiService";
-import { useDate } from "@/composables/date";
+import { useDate } from "@/composables/common/date";
 import type { EventApi } from "@fullcalendar/common";
 import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import scheduleApiService from "@/services/ScheduleApiService";

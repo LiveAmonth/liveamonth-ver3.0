@@ -1,7 +1,7 @@
 import type { NameIconType } from "@/modules/types/member/MemberType";
 import { useI18n } from "vue-i18n";
 
-export const tabs = () => {
+export const useTab = () => {
   const { t } = useI18n();
 
   const getTabsItem = (

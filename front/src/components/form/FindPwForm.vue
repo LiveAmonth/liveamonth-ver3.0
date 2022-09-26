@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { useMessageBox } from "@/composables/messageBox";
-import { useMember } from "@/composables/member";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useMember } from "@/composables/member/member";
 import type { FindPwType } from "@/modules/types/form/FormType";
 
 const { error, isPending, foundId, findPw } = useMember();

@@ -3,10 +3,10 @@ import CityGridContent from "@/components/city/CityGridContent.vue";
 import MyProfileCard from "@/components/member/MyProfileCard.vue";
 import HomePostsTab from "@/components/main/HomePostsTab.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
-import { useMember } from "@/composables/member";
+import { useMember } from "@/composables/member/member";
 import { onMounted } from "vue";
-import { useAuth } from "@/composables/auth";
-import { useSchedule } from "@/composables/schedule";
+import { useAuth } from "@/composables/member/auth";
+import { useSchedule } from "@/composables/schedule/schedule";
 
 const { isLoggedIn } = useAuth();
 const { simpleProfile, getSimpleProfile } = useMember();

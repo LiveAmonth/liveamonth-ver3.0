@@ -7,10 +7,10 @@ import ScheduleForm from "@/components/schedule/form/ScheduleForm.vue";
 import AddContentForm from "@/components/schedule/form/AddContentForm.vue";
 import { Plus } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import { useMessageBox } from "@/composables/messageBox";
+import { useSchedule } from "@/composables/schedule/schedule";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
-import { useCalendarEvent } from "@/composables/calendarEvent";
+import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 
 const props = defineProps({
   loginId: {

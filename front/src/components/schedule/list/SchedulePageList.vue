@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
-import { useSchedule } from "@/composables/schedule";
+import { useSchedule } from "@/composables/schedule/schedule";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const emits = defineEmits(["applyOption"]);
@@ -73,7 +73,7 @@ const goSchedule = (data: SearchSortFormType) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .schedule-list {
   text-align: center;
 

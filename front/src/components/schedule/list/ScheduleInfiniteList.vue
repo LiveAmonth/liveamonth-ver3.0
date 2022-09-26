@@ -1,11 +1,11 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { computed, ref } from "vue";
-import { useSchedule } from "@/composables/schedule";
-import { useMember } from "@/composables/member";
+import { useSchedule } from "@/composables/schedule/schedule";
+import { useMember } from "@/composables/member/member";
 import type {
   MyScheduleCardType,
   ScheduleCardType,
@@ -76,23 +76,23 @@ const deleteScheduleBtn = async (scheduleId: number) => {
   <div class="infinite-list-wrapper" style="overflow: auto">
     <ul
       v-infinite-scroll="load"
-      class="list"
       :infinite-scroll-disabled="disabled"
+      class="list"
     >
       <li
         v-for="schedule in schedules"
         :key="schedule.id"
         class="list-item py-4"
       >
-        <el-row class="item d-flex justify-content-center" v-if="schedule">
-          <el-col class="me-3" :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
+        <el-row v-if="schedule" class="item d-flex justify-content-center">
+          <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8" class="me-3">
             <SimpleCalendar :period="schedule.period" />
           </el-col>
           <el-col :lg="14" :md="14" :sm="14" :xl="16" :xs="14">
             <ScheduleInfoCard
+              :is-my-page="isMyPage"
               :login-id="memberProfile.loginId"
               :schedule="schedule"
-              :is-my-page="isMyPage"
               @delete-schedule="deleteScheduleBtn"
             />
             <template v-if="!isMyPage">
@@ -140,7 +140,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .infinite-list-wrapper {
   height: 800px;
   text-align: center;
@@ -154,6 +154,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
   .list-item {
     align-items: center;
     height: 270px;
+
     & + & {
       margin-top: 10px;
     }

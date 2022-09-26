@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import BootstrapIcon from "@/components/common/BootstrapIcon.vue";
 import { ref, watch } from "vue";
-import { useInteraction } from "@/composables/interaction";
-import { useMessageBox } from "@/composables/messageBox";
+import { useInteraction } from "@/composables/interaction/interaction";
+import { useMessageBox } from "@/composables/common/messageBox";
 import type { Ref, UnwrapRef } from "vue";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
 
@@ -81,22 +81,22 @@ watch(
       <span class="icon">
         <i
           v-if="isBest"
-          class="me-1"
           :class="`bi ${thumbsUp}`"
+          class="me-1"
           style="color: #535252"
         />
         <el-tooltip
           v-else
+          :content="$t('comment.react.like')"
           class="box-item"
           effect="dark"
-          :content="$t('comment.react.like')"
           placement="top"
         >
           <BootstrapIcon
+            :class="{ active: !isBest }"
             :icon="thumbsUp"
             class="me-1"
             @click="reactComment(true)"
-            :class="{ active: !isBest }"
           />
         </el-tooltip>
         <slot name="likeCount"></slot>
@@ -104,15 +104,15 @@ watch(
       <span class="icon">
         <i
           v-if="isBest"
-          class="me-1"
           :class="`bi ${thumbsDown}`"
+          class="me-1"
           style="color: #535252"
         />
         <el-tooltip
           v-else
+          :content="$t('comment.react.dislike')"
           class="box-item"
           effect="dark"
-          :content="$t('comment.react.dislike')"
           placement="top"
         >
           <BootstrapIcon
@@ -127,7 +127,7 @@ watch(
     <el-tag v-if="isWriter" size="small">
       {{ $t("comment.writer") }}
     </el-tag>
-    <el-badge v-if="isBest" value="Best" class="ms-1" />
+    <el-badge v-if="isBest" class="ms-1" value="Best" />
   </div>
   <div class="content">
     <slot name="content"></slot>

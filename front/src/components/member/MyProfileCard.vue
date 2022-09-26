@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { useAuth } from "@/composables/auth";
+import { useAuth } from "@/composables/member/auth";
 import { useRouter } from "vue-router";
-import { useMember } from "@/composables/member";
+import { useMember } from "@/composables/member/member";
 import { Avatar, Unlock, UserFilled, Lock } from "@element-plus/icons-vue";
-import { useMyPage } from "@/composables/mypage";
+import { useMyPage } from "@/composables/member/mypage";
 
 const router = useRouter();
 const { isLoggedIn, logout } = useAuth();

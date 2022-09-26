@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import { useFormValidate } from "@/composables/formValidate";
+import { useFormValidate } from "@/composables/common/formValidate";
 import type { ScheduleFormType } from "@/modules/types/form/FormType";
 import type {
   DatePeriodType,

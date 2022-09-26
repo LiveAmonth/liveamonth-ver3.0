@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive } from "vue";
-import { useMessageBox } from "@/composables/messageBox";
-import { useMember } from "@/composables/member";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useMember } from "@/composables/member/member";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import type { ReconfirmType } from "@/modules/types/form/FormType";
-import { useFormValidate } from "@/composables/formValidate";
+import { useFormValidate } from "@/composables/common/formValidate";
 
 const emits = defineEmits(["update:reChecked"]);
 
@@ -44,8 +44,8 @@ const submitForm = async () => {
       <el-form
         ref="ruleFormRef"
         :model="reCheckForm"
-        status-icon
         label-position="top"
+        status-icon
       >
         <p class="info mb-5">
           {{ resultMsg("reconfirm.announce") }}
@@ -53,8 +53,8 @@ const submitForm = async () => {
         <el-form-item :label="labelMsg('member.password')" prop="password">
           <el-input
             v-model="reCheckForm.password"
-            type="password"
             show-password
+            type="password"
           />
         </el-form-item>
         <el-form-item>
@@ -73,7 +73,7 @@ const submitForm = async () => {
   </div>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .container {
   display: flex;
   justify-content: center;

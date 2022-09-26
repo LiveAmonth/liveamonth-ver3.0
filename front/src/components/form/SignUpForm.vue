@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import MemberEditor from "@/modules/class/member/MemberEditor";
 import { onMounted, reactive, ref } from "vue";
-import { useMember } from "@/composables/member";
-import { useMessageBox } from "@/composables/messageBox";
+import { useMember } from "@/composables/member/member";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useRouter } from "vue-router";
-import { useType } from "@/composables/type";
+import { useType } from "@/composables/common/type";
 import type { FormInstance } from "element-plus";
 import type { SignUpCheckType } from "@/modules/types/form/FormType";
 

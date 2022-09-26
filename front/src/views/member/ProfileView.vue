@@ -1,12 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import { Setting } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
-import { useMember } from "@/composables/member";
-import { useSchedule } from "@/composables/schedule";
-import { useMyPage } from "@/composables/mypage";
+import { useMember } from "@/composables/member/member";
+import { useSchedule } from "@/composables/schedule/schedule";
+import { useMyPage } from "@/composables/member/mypage";
 
 const props = defineProps({
   post: {
@@ -44,9 +44,9 @@ const clickTab = (tab: string) => {
       <el-col :span="4"></el-col>
       <el-col :span="6" class="image">
         <el-avatar
-          fit="cover"
           :size="150"
           :src="`/src/assets/image/default.jpg`"
+          fit="cover"
         />
       </el-col>
       <el-col :span="12" class="info">
@@ -84,18 +84,18 @@ const clickTab = (tab: string) => {
       </el-col>
     </el-row>
     <ContentTabsSlot
-      class="content-tab"
       v-model:active-name="activeName"
       :tabs="myPagePostsTabs"
+      class="content-tab"
     >
       <template v-slot:tab-1>
         <ScheduleInfiniteList
           v-if="activeName === myPagePostsTabs[0].code && mySchedules.length"
           :key="listKey"
-          :login-id="memberProfile.loginId"
-          :max-count="memberProfile.numberOfSchedules"
           :initial-count="initialSize"
           :is-my-page="true"
+          :login-id="memberProfile.loginId"
+          :max-count="memberProfile.numberOfSchedules"
           @refresh="listKey++"
         />
       </template>
@@ -112,7 +112,7 @@ const clickTab = (tab: string) => {
   </el-dialog>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .container {
   display: flex;
   flex-flow: column nowrap;
