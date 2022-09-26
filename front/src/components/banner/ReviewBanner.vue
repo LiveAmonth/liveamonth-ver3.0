@@ -1,12 +1,6 @@
 <script lang="ts" setup>
 import { useMessageBox } from "@/composables/messageBox";
 
-defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-});
 const { bannerMsg } = useMessageBox();
 </script>
 
@@ -14,9 +8,9 @@ const { bannerMsg } = useMessageBox();
   <div class="banner">
     <div class="text-banner">
       <p class="title">
-        {{ bannerMsg(`schedule.${name}.title`) }}
+        {{ bannerMsg("review.title") }}
       </p>
-      <p class="content">{{ bannerMsg(`schedule.${name}.content`) }}</p>
+      <p class="content">{{ bannerMsg("review.content") }}</p>
     </div>
   </div>
 </template>
@@ -25,7 +19,7 @@ const { bannerMsg } = useMessageBox();
 .banner {
   padding-left: 1%;
   font-family: "Do Hyeon", sans-serif;
-  background-color: #6b778c;
+  background-color: #006778;
   color: white;
   margin-top: -1px;
 

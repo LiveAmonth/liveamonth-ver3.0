@@ -62,6 +62,10 @@ export const useMessageBox = () => {
     return t(`menu.${field}`);
   };
 
+  const getBannerMessage = (field: string): string => {
+    return t(`banner.${field}`);
+  };
+
   return {
     openMessage,
     openMessageByCode,
@@ -73,5 +77,6 @@ export const useMessageBox = () => {
     resultMsg: getResultMessage,
     titleMsg: getTitleMsg,
     menuMsg: getMenuName,
+    bannerMsg: getBannerMessage,
   };
 };

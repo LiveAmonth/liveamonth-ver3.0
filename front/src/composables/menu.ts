@@ -25,7 +25,7 @@ export const useHeaderMenu = () => {
         },
       ],
     },
-    { name: "review", sub: [], route: { name: "review" } },
+    { name: "review", sub: [], route: { name: "review-list" } },
     {
       name: "myPage",
       sub: [],

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
-import TitleSlot from "@/components/common/TitleSlot.vue";
 import SchedulePageList from "@/components/schedule/list/SchedulePageList.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule";
@@ -49,9 +48,6 @@ const applyOptions = async (data: SearchSortFormType) => {
 </script>
 
 <template>
-  <TitleSlot v-if="!isMain" class="ms-5">
-    {{ $t("schedule.title.other") }}
-  </TitleSlot>
   <el-row>
     <el-col>
       <div v-if="!isMain" class="search-filter">
@@ -79,5 +75,11 @@ const applyOptions = async (data: SearchSortFormType) => {
   justify-content: center;
   margin-top: 20px;
   margin-left: 10px;
+}
+
+@media screen and (max-width: 1200px) {
+  .schedule-list-container {
+    margin-right: 34px;
+  }
 }
 </style>
