@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useMessageBox } from "@/composables/common/messageBox";
+import ReviewMenu from "@/components/review/ReviewMenu.vue";
 
 const { titleMsg } = useMessageBox();
 </script>
@@ -8,20 +8,7 @@ const { titleMsg } = useMessageBox();
 <template>
   <el-row class="container">
     <el-col :span="4">
-      <el-menu
-        active-text-color="#016D7D"
-        background-color="#ffffff"
-        class="review-menu"
-        text-color="#111111"
-      >
-        <SmallTitleSlot :title-line="false" class="ps-2">
-          <el-icon class="pb-1 me-1">
-            <Place />
-            <!--            <component :is="cat.category.icon" />-->
-          </el-icon>
-          {{ $t(`myPage.${cat.category.code}.title`) }}
-        </SmallTitleSlot>
-      </el-menu>
+      <ReviewMenu />
     </el-col>
     <el-col :span="18" class="main-content">
       <el-row>
@@ -41,7 +28,7 @@ const { titleMsg } = useMessageBox();
 <style lang="scss" scoped>
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 
   .main-content {
     display: flex;
