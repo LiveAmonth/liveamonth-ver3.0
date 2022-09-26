@@ -10,8 +10,8 @@ defineProps({
 
 <template>
   <div
+    :style="{ '--bgColor': titleLine ? '#004a55' : 'inherit' }"
     class="title"
-    :style="{ '--bgColor': titleLine ? '#004a55' : '#ffffff' }"
   >
     <span><slot></slot></span>
   </div>
