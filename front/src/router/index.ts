@@ -8,7 +8,6 @@ import ReviewListView from "../views/review/ReviewListView.vue";
 import ReadScheduleView from "../views/schedule/ReadScheduleView.vue";
 import ScheduleListView from "../views/schedule/ScheduleListView.vue";
 import MyScheduleView from "../views/schedule/MyScheduleView.vue";
-import MyPageView from "../views/member/MyPageView.vue";
 
 import { useAuthStore } from "@/stores/auth";
 
@@ -95,23 +94,16 @@ const router = createRouter({
       props: true,
     },
     {
-      path: "/my-page",
-      name: "my-page",
-      component: MyPageView,
-      children: [
-        {
-          path: "/my-page/:post",
-          name: "profile",
-          component: loadView("profile", "member", "Profile"),
-          props: true,
-        },
-        {
-          path: "/my-page/setting/:category/:menu",
-          name: "management",
-          component: loadView("management", "member", "Management"),
-          props: true,
-        },
-      ],
+      path: "/my-page/:post",
+      name: "profile",
+      component: loadView("profile", "member", "Profile"),
+      props: true,
+    },
+    {
+      path: "/my-page/management/:category/:menu",
+      name: "management",
+      component: loadView("management", "member", "Management"),
+      props: true,
     },
   ],
 });

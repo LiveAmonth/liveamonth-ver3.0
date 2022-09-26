@@ -26,19 +26,22 @@ const goProfile = (post: string) => {
         </div>
       </div>
       <div class="name">
-        <router-link :to="{ path: '/my-schedule/2' }" target="_blank">
+        <router-link
+          :to="{ name: 'profile', params: { post: 'schedule' } }"
+          target="_blank"
+        >
           {{ simpleProfile.nickname }}
         </router-link>
       </div>
       <div class="button d-flex justify-content-center">
-        <router-link to="/my-page/schedule">
-          {{ $t("menu.myPage") }}
+        <router-link :to="{ name: 'profile', params: { post: 'schedule' } }">
+          <span>{{ $t("menu.myPage") }}</span>
           <el-icon>
             <Avatar />
           </el-icon>
         </router-link>
-        <a href="#" @click="logout">
-          {{ $t("member.logout") }}
+        <a @click="logout">
+          <span>{{ $t("member.logout") }}</span>
           <el-icon>
             <Unlock />
           </el-icon>
@@ -48,8 +51,8 @@ const goProfile = (post: string) => {
         <div
           v-for="tab in profileTabs"
           :key="tab.code"
-          class="ds"
           :class="tab.code"
+          class="ds"
         >
           <h6>
             {{ tab.value }}
@@ -236,6 +239,8 @@ const goProfile = (post: string) => {
     outline: none;
 
     a {
+      display: flex;
+      justify-content: center;
       width: 30%;
       border-radius: 10px;
       color: #004a55;
@@ -250,6 +255,10 @@ const goProfile = (post: string) => {
         color: white;
         font-weight: lighter;
         background-color: rgba(112, 161, 170, 0.8);
+      }
+
+      span {
+        margin-right: 2px;
       }
     }
   }

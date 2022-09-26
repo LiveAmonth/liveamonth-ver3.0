@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { useAuth } from "@/composables/auth";
-import { useMember } from "@/composables/member";
+import { useRouter } from "vue-router";
 import { useHeaderMenu } from "@/composables/menu";
 import { useMessageBox } from "@/composables/messageBox";
-import { useRouter } from "vue-router";
 
 const emits = defineEmits(["menuClick"]);
 const router = useRouter();
-const { headerMenus } = useHeaderMenu();
+
+const { mainMenus } = useHeaderMenu();
 const { menuMsg } = useMessageBox();
+
 const handleSelect = (key: string, keyPath: string[]) => {
-  const menu = headerMenus[Number(keyPath[0])];
+  const menu = mainMenus[Number(keyPath[0])];
   if (keyPath.length === 1) {
     emits("menuClick", menu.name);
     router.push(menu.route);
@@ -29,7 +29,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
     text-color="#0f6778"
     @select="handleSelect"
   >
-    <template v-for="(menu, idx) in headerMenus" :key="menu.name">
+    <template v-for="(menu, idx) in mainMenus" :key="menu.name">
       <el-sub-menu v-if="menu.sub.length" :index="String(idx)">
         <template #title>{{ menuMsg(menu.name) }}</template>
         <template v-for="(sub, sIdx) in menu.sub" :key="sub.name">

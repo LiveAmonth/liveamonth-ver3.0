@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
 import { useMyPage } from "@/composables/mypage";
 import type {
   ManagementMenuType,
-  MenuType,
+  MyPageMenuType,
 } from "@/modules/types/member/MemberType";
 
 const props = defineProps({
@@ -24,7 +24,7 @@ const findComponent = (): object | undefined => {
   const menus: ManagementMenuType | undefined = managementMenu.find(
     (value) => value.category.code === props.category
   );
-  const find: MenuType | undefined = menus?.menus.find(
+  const find: MyPageMenuType | undefined = menus?.menus.find(
     (value1) => value1.value === props.menu
   );
   return find?.component;
@@ -36,8 +36,8 @@ const findComponent = (): object | undefined => {
     <el-row class="d-flex justify-content-around">
       <el-col :span="6" class="menu">
         <ManagementMenu
-          class="pt-3"
           :initial-menu="JSON.stringify({ category: category, menu: menu })"
+          class="pt-3"
           @select-menu="goManagement"
         />
       </el-col>
@@ -49,7 +49,7 @@ const findComponent = (): object | undefined => {
     </el-row>
   </el-card>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .menu {
   border-right: rgba(194, 192, 192, 0.95) 0.08rem solid;
 }

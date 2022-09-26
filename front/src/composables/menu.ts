@@ -1,16 +1,12 @@
 import { useMember } from "@/composables/member";
 import { useAuth } from "@/composables/auth";
-import type { RouteLocationRaw } from "vue-router";
+import type { MenuType } from "@/modules/types/common/MenuType";
 
 export const useHeaderMenu = () => {
-  interface MainMenuType {
-    name: string;
-    route: RouteLocationRaw;
-    sub: MainMenuType[];
-  }
   const { isLoggedIn } = useAuth();
   const { simpleProfile } = useMember();
-  const headerMenus: MainMenuType[] = [
+
+  const mainMenus: MenuType[] = [
     { name: "city", route: { name: "city" }, sub: [] },
     {
       name: "schedule",
@@ -33,10 +29,13 @@ export const useHeaderMenu = () => {
     {
       name: "myPage",
       sub: [],
-      route: { name: "profile", params: { post: "schedule" } },
+      route: isLoggedIn.value
+        ? { name: "profile", params: { post: "schedule" } }
+        : { name: "login" },
     },
   ];
+
   return {
-    headerMenus,
+    mainMenus,
   };
 };
