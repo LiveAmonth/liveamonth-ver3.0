@@ -60,17 +60,16 @@ const select = (key: string) => {
   min-height: 600px;
 
   .menu-item {
-    font-size: 16px;
+    font-size: 1rem;
 
     &:hover {
-      font-size: 18px;
+      font-size: 1.4rem;
       color: #fafafa;
       background-color: rgba(108, 153, 163, 0.86);
     }
 
     &.is-active {
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 1.4rem;
     }
 
     span {

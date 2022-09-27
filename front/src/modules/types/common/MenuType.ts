@@ -5,3 +5,19 @@ export interface MenuType {
   route: RouteLocationRaw;
   sub: MenuType[];
 }
+
+export interface NameIconType {
+  code: string;
+  value: string;
+  icon: string;
+}
+
+export interface CategoryMenuType<T> {
+  category: NameIconType;
+  menus: T[];
+}
+
+export interface MyPageMenuType {
+  value: string;
+  component: object;
+}

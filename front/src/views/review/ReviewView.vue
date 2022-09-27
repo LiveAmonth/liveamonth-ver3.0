@@ -1,14 +1,18 @@
 <script lang="ts" setup>
-import { useMessageBox } from "@/composables/common/messageBox";
 import ReviewMenu from "@/components/review/ReviewMenu.vue";
 
-const { titleMsg } = useMessageBox();
+defineProps({
+  menu: {
+    type: String,
+    required: true,
+  },
+});
 </script>
 
 <template>
   <el-row class="container">
     <el-col :span="4">
-      <ReviewMenu />
+      <ReviewMenu :initial-menu="menu" />
     </el-col>
     <el-col :span="18" class="main-content">
       <el-row>

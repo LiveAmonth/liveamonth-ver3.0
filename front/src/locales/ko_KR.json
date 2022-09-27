@@ -1,6 +1,90 @@
 {
-  "hello": {
-    "name": "{user}님 안녕하세요!"
+  "auth": {
+    "reissue": {
+      "login": "다시 로그인 해주시기 바랍니다."
+    }
+  },
+  "banner": {
+    "schedule": {
+      "other": {
+        "title": "다른 사람 스케줄 보기",
+        "content": "많은 사람의 스케줄을 경험해 보아요."
+      },
+      "my": {
+        "title": "나만의 스케줄 만들기",
+        "content": "개성 넘치는 '한 달 살기' 스케줄표를 만들어 봐요."
+      }
+    },
+    "review": {
+      "title": "다양한 후기 공유",
+      "content": "많은 사람의 '한 달 살기' 후기를 살펴보아요. 회원님의 소중한 경험도 알려주세요!"
+    }
+  },
+  "city": {
+    "title": "도시",
+    "name": {
+      "SE": "서울",
+      "GN": "강릉",
+      "GJ": "경주",
+      "BS": "부산",
+      "YS": "여수",
+      "JJ": "제주"
+    },
+    "intro": {
+      "title": "'한 달 살기' 추천 도시",
+      "category": {
+        "INTRO": "소개",
+        "food": "먹거리",
+        "view": "볼거리"
+      }
+    },
+    "transport": {
+      "category": {
+        "T_SUBWAY": "지하철 역",
+        "T_BUS": "버스 정류장",
+        "T_BICYCLE": "공공 자전거",
+        "T_BUS_TERMINAL": "버스 터미널",
+        "T_TRAIN": "기차역",
+        "T_AIRPORT": "공항"
+      },
+      "kind": "종류",
+      "infoTitle": "정류장 및 노선 개수",
+      "score": "교통 점수",
+      "source": "출처 : 교통 정보"
+    },
+    "weather": {
+      "source": "출처 : 기상청 홈페이지",
+      "infoTitle": "월 평균 기온(작년)",
+      "high": "최고",
+      "avg": "평균",
+      "low": "최저",
+      "month": {
+        "JAN": "1월",
+        "FEB": "2월",
+        "MAR": "3월",
+        "APR": "4월",
+        "MAY": "5월",
+        "JUN": "6월",
+        "JUL": "7월",
+        "AUG": "8월",
+        "SEP": "9월",
+        "OCT": "10월",
+        "NOV": "11월",
+        "DEC": "12월"
+      }
+    }
+  },
+  "comment": {
+    "title": "댓글",
+    "write": "댓글 쓰기",
+    "reply": "댓글의 댓글",
+    "react": {
+      "like": "추천",
+      "dislike": "비추천"
+    },
+    "best": "베스트 댓글",
+    "writer": "작성자 댓글",
+    "no-comment": "작성된 댓글이 없습니다."
   },
   "common": {
     "search": "검색",
@@ -24,61 +108,22 @@
       "cancel": "취소"
     }
   },
-  "banner": {
-    "schedule": {
-      "other": {
-        "title": "다른 사람 스케줄 보기",
-        "content": "많은 사람의 스케줄을 경험해 보아요."
-      },
-      "my": {
-        "title": "나만의 스케줄 만들기",
-        "content": "개성 넘치는 '한 달 살기' 스케줄표를 만들어 봐요."
-      }
-    },
-    "review": {
-      "title": "다양한 후기 공유",
-      "content": "많은 사람의 '한 달 살기' 후기를 살펴보아요. 회원님의 소중한 경험도 알려주세요!"
-    }
+  "customerCenter": {
+    "faq": "자주 묻는 질문들",
+    "personalTerms": "개인정보 처리방침",
+    "termsAndConditions": "이용 약관",
+    "notice": "공지사항"
   },
-  "title": {
-    "home": {
-      "posts": "인기 게시물"
-    },
-    "review": {
-      "main": "후기 게시판"
-    },
-    "member": {
-      "reconfirm": "비밀번호 재확인",
-      "editProfile": "프로필 편집",
-      "changePassword": "비밀번호 변경",
-      "dropMember": "회원 탈퇴",
-      "inquiry": {
-        "write": "1:1 문의 하기",
-        "list": "1:1 문의 목록",
-        "answer": "답변",
-        "detail": "문의 내용"
+  "footer": {
+    "info": "'한달 살기'를 위한 정보를 공유하는 사이트입니다.",
+    "menu": {
+      "help": "고객 센터",
+      "link": "바로가기",
+      "news": {
+        "letter": "뉴스레터",
+        "info": "더 많은 한달살기 정보를 메일로 받아보세요~!",
+        "subscribe": "구독하기"
       }
-    }
-  },
-  "tabs": {
-    "profile": {
-      "follower": "팔로워",
-      "schedule": "스케줄",
-      "review": "후기글"
-    },
-    "myPage": {
-      "schedule": "내 스케줄",
-      "review": "내 후기글"
-    },
-    "home": {
-      "followed": "팔로우 스케줄",
-      "schedule": "인기 스케줄",
-      "review": "인기 후기글"
-    },
-    "city": {
-      "intro": "도시 소개",
-      "transport": "교통 정보",
-      "weather": "전년도 기온 정보"
     }
   },
   "form": {
@@ -221,14 +266,8 @@
       }
     }
   },
-  "menu": {
-    "city": "도시 소개",
-    "schedule": "스케줄",
-    "otherSchedule": "다른 사람 스케줄",
-    "mySchedule": "내 스케줄",
-    "review": "후기",
-    "myPage": "내 정보",
-    "customerCenter": "고객 센터"
+  "hello": {
+    "name": "{user}님 안녕하세요!"
   },
   "member": {
     "signUp": "회원가입",
@@ -258,58 +297,23 @@
     "birth": "생년월일",
     "imageChange": "이미지 변경"
   },
-  "city": {
-    "title": "도시",
-    "name": {
-      "SE": "서울",
-      "GN": "강릉",
-      "GJ": "경주",
-      "BS": "부산",
-      "YS": "여수",
-      "JJ": "제주"
-    },
-    "intro": {
-      "title": "'한 달 살기' 추천 도시",
-      "category": {
-        "INTRO": "소개",
-        "food": "먹거리",
-        "view": "볼거리"
-      }
-    },
-    "transport": {
-      "category": {
-        "T_SUBWAY": "지하철 역",
-        "T_BUS": "버스 정류장",
-        "T_BICYCLE": "공공 자전거",
-        "T_BUS_TERMINAL": "버스 터미널",
-        "T_TRAIN": "기차역",
-        "T_AIRPORT": "공항"
-      },
-      "kind": "종류",
-      "infoTitle": "정류장 및 노선 개수",
-      "score": "교통 점수",
-      "source": "출처 : 교통 정보"
-    },
-    "weather": {
-      "source": "출처 : 기상청 홈페이지",
-      "infoTitle": "월 평균 기온(작년)",
-      "high": "최고",
-      "avg": "평균",
-      "low": "최저",
-      "month": {
-        "JAN": "1월",
-        "FEB": "2월",
-        "MAR": "3월",
-        "APR": "4월",
-        "MAY": "5월",
-        "JUN": "6월",
-        "JUL": "7월",
-        "AUG": "8월",
-        "SEP": "9월",
-        "OCT": "10월",
-        "NOV": "11월",
-        "DEC": "12월"
-      }
+  "menu": {
+    "city": "도시 소개",
+    "schedule": "스케줄",
+    "otherSchedule": "다른 사람 스케줄",
+    "mySchedule": "내 스케줄",
+    "review": "후기",
+    "myPage": "내 정보",
+    "customerCenter": "고객 센터",
+    "board": {
+      "se": "서울",
+      "gn": "강릉",
+      "gj": "경주",
+      "bs": "부산",
+      "ys": "여수",
+      "jj": "제주",
+      "other": "다른 지역",
+      "etc": "자유 게시판"
     }
   },
   "myPage": {
@@ -326,62 +330,12 @@
       "answer": "문의 목록"
     }
   },
-  "customerCenter": {
-    "faq": "자주 묻는 질문들",
-    "personalTerms": "개인정보 처리방침",
-    "termsAndConditions": "이용 약관",
-    "notice": "공지사항"
-  },
-  "footer": {
-    "info": "'한달 살기'를 위한 정보를 공유하는 사이트입니다.",
-    "menu": {
-      "help": "고객 센터",
-      "link": "바로가기",
-      "news": {
-        "letter": "뉴스레터",
-        "info": "더 많은 한달살기 정보를 메일로 받아보세요~!",
-        "subscribe": "구독하기"
-      }
-    }
-  },
-  "validation": {
-    "duplication": {
-      "check": "중복 확인을 해주세요.",
-      "duplicated": "{value}는 이미 존재하는 {field}입니다.",
-      "confirm": "해당 {field}를 사용하시겠습니까?"
+  "review": {
+    "place": {
+      "title": "장소"
     },
-    "require": {
-      "text": "{field}을(를) 입력해주세요.",
-      "select": "{field}을(를) 선택해주세요."
-    },
-    "pattern": {
-      "loginId": "아이디는 영문 및 숫자 3~20자 입니다.",
-      "password": "비밀번호는 영문, 숫자, 특수 문자를 포함한 8~20자 입니다.",
-      "name": "이름은 2~20자여야 합니다.",
-      "nickname": "닉네임은 20자 이내 이빈다..",
-      "email": "이메일 양식에 맞지 않습니다."
-    },
-    "range": "{field}은(는) {min}~{max} 이내여야 합니다.",
-    "min": "{field}은(는) {min} 이상이어야 합니다.",
-    "password": {
-      "recheck": "비밀번호가 일치하지 않습니다."
-    },
-    "birth": "날짜를 다시 선택해 주세요.",
-    "period": {
-      "date": "시작 날짜가 종료 날짜와 같거나 늦을 수 없습니다.",
-      "time": "시작 시간이 종료 시간과 같거나 늦을 수 없습니다.",
-      "range": "컨텐츠 일정은 스케줄 기간 이내여야 합니다.",
-      "sameDate": "컨텐츠 시작 시간과 종료 시간의 날짜가 다릅니다."
-    },
-    "number": "숫자만 입력 가능합니다.",
-    "interaction": {
-      "alreadyLikeComment": "이미 추천한 댓글입니다.",
-      "alreadyDislikeComment": "이미 비추천한 댓글입니다."
-    }
-  },
-  "auth": {
-    "reissue": {
-      "login": "다시 로그인 해주시기 바랍니다."
+    "etc": {
+      "title": "기타"
     }
   },
   "schedule": {
@@ -454,16 +408,80 @@
       }
     }
   },
-  "comment": {
-    "title": "댓글",
-    "write": "댓글 쓰기",
-    "reply": "댓글의 댓글",
-    "react": {
-      "like": "추천",
-      "dislike": "비추천"
+  "tabs": {
+    "profile": {
+      "follower": "팔로워",
+      "schedule": "스케줄",
+      "review": "후기글"
     },
-    "best": "베스트 댓글",
-    "writer": "작성자 댓글",
-    "no-comment": "작성된 댓글이 없습니다."
+    "myPage": {
+      "schedule": "내 스케줄",
+      "review": "내 후기글"
+    },
+    "home": {
+      "followed": "팔로우 스케줄",
+      "schedule": "인기 스케줄",
+      "review": "인기 후기글"
+    },
+    "city": {
+      "intro": "도시 소개",
+      "transport": "교통 정보",
+      "weather": "전년도 기온 정보"
+    }
+  },
+  "title": {
+    "home": {
+      "posts": "인기 게시물"
+    },
+    "review": {
+      "main": "후기 게시판"
+    },
+    "member": {
+      "reconfirm": "비밀번호 재확인",
+      "editProfile": "프로필 편집",
+      "changePassword": "비밀번호 변경",
+      "dropMember": "회원 탈퇴",
+      "inquiry": {
+        "write": "1:1 문의 하기",
+        "list": "1:1 문의 목록",
+        "answer": "답변",
+        "detail": "문의 내용"
+      }
+    }
+  },
+  "validation": {
+    "duplication": {
+      "check": "중복 확인을 해주세요.",
+      "duplicated": "{value}는 이미 존재하는 {field}입니다.",
+      "confirm": "해당 {field}를 사용하시겠습니까?"
+    },
+    "require": {
+      "text": "{field}을(를) 입력해주세요.",
+      "select": "{field}을(를) 선택해주세요."
+    },
+    "pattern": {
+      "loginId": "아이디는 영문 및 숫자 3~20자 입니다.",
+      "password": "비밀번호는 영문, 숫자, 특수 문자를 포함한 8~20자 입니다.",
+      "name": "이름은 2~20자여야 합니다.",
+      "nickname": "닉네임은 20자 이내 이빈다..",
+      "email": "이메일 양식에 맞지 않습니다."
+    },
+    "range": "{field}은(는) {min}~{max} 이내여야 합니다.",
+    "min": "{field}은(는) {min} 이상이어야 합니다.",
+    "password": {
+      "recheck": "비밀번호가 일치하지 않습니다."
+    },
+    "birth": "날짜를 다시 선택해 주세요.",
+    "period": {
+      "date": "시작 날짜가 종료 날짜와 같거나 늦을 수 없습니다.",
+      "time": "시작 시간이 종료 시간과 같거나 늦을 수 없습니다.",
+      "range": "컨텐츠 일정은 스케줄 기간 이내여야 합니다.",
+      "sameDate": "컨텐츠 시작 시간과 종료 시간의 날짜가 다릅니다."
+    },
+    "number": "숫자만 입력 가능합니다.",
+    "interaction": {
+      "alreadyLikeComment": "이미 추천한 댓글입니다.",
+      "alreadyDislikeComment": "이미 비추천한 댓글입니다."
+    }
   }
 }

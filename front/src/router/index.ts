@@ -52,14 +52,16 @@ const router = createRouter({
       component: loadView("find-pw", "login", "FindPw"),
     },
     {
-      path: "/reviews",
+      path: "/reviews/:menu",
       name: "review",
       component: ReviewView,
+      props: true,
       children: [
         {
           path: "list",
           name: "review-list",
           component: ReviewListView,
+          props: true,
         },
         {
           path: "write",

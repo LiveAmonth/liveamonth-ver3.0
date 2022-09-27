@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import CityBanner from "@/assets/image/banner/city_banner.jpg";
 import ScheduleBanner from "@/components/banner/ScheduleBanner.vue";
-import { useRoute } from "vue-router";
 import ReviewBanner from "@/components/banner/ReviewBanner.vue";
+import { useRoute } from "vue-router";
 
 const route = useRoute();
 </script>

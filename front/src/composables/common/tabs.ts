@@ -1,7 +1,7 @@
-import type { NameIconType } from "@/modules/types/member/MemberType";
 import { useI18n } from "vue-i18n";
+import type { NameIconType } from "@/modules/types/common/MenuType";
 
-export const useTab = () => {
+export const useMenuTab = () => {
   const { t } = useI18n();
 
   const getTabsItem = (
@@ -16,16 +16,20 @@ export const useTab = () => {
     };
   };
 
-  const getMyPageMenuCategory = (code: string, icon: string): NameIconType => {
+  const getMenuCategory = (
+    dir: string,
+    code: string,
+    icon: string
+  ): NameIconType => {
     return {
       code: code,
-      value: t(`myPage.${code}.title`),
+      value: t(`${dir}.${code}.title`),
       icon: icon,
     };
   };
 
   return {
     getTabsItem,
-    getMyPageMenuCategory,
+    getMenuCategory,
   };
 };

@@ -31,22 +31,6 @@ export interface FoundIdType {
   created: string;
 }
 
-export interface NameIconType {
-  code: string;
-  value: string;
-  icon: string;
-}
-
-export interface ManagementMenuType {
-  category: NameIconType;
-  menus: MyPageMenuType[];
-}
-
-export interface MyPageMenuType {
-  value: string;
-  component: object;
-}
-
 export interface InquiryListType {
   id: number;
   title: string;
