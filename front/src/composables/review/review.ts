@@ -1,11 +1,15 @@
 import { useMenuTab } from "@/composables/common/tabs";
 import type {
   MenuType,
+  NameIconType,
   CategoryMenuType,
 } from "@/modules/types/common/MenuType";
+import { ref } from "vue";
 
 export const useReview = () => {
-  const { getMenuCategory } = useMenuTab();
+  const { getTabsItem, getMenuCategory } = useMenuTab();
+
+  const isPending = ref<boolean>(false);
   const placeCategoryMenu: CategoryMenuType<MenuType> = {
     category: getMenuCategory("review", "place", "Place"),
     menus: [
@@ -56,7 +60,15 @@ export const useReview = () => {
       },
     ],
   };
+  const reviewSearchTabs: NameIconType[] = [
+    getTabsItem("review", "total", ""),
+    getTabsItem("review", "review", ""),
+    getTabsItem("review", "question", ""),
+  ];
+
   return {
+    isPending,
     reviewMenus: <CategoryMenuType<MenuType>[]>[placeCategoryMenu, etcMenus],
+    reviewSearchTabs,
   };
 };

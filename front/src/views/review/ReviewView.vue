@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import ReviewMenu from "@/components/review/ReviewMenu.vue";
+import ReviewSearch from "@/components/review/ReviewSearch.vue";
 
 defineProps({
   menu: {
@@ -10,18 +11,18 @@ defineProps({
 </script>
 
 <template>
-  <el-row class="container">
+  <el-row :gutter="40" class="container">
     <el-col :span="4">
       <ReviewMenu :initial-menu="menu" />
     </el-col>
-    <el-col :span="18" class="main-content">
+    <el-col :span="16" class="main-content">
       <el-row>
-        <el-col>
-          <el-menu></el-menu>
+        <el-col :span="22">
+          <ReviewSearch />
         </el-col>
       </el-row>
       <el-row>
-        <el-col>
+        <el-col :span="22">
           <RouterView />
         </el-col>
       </el-row>
@@ -32,7 +33,7 @@ defineProps({
 <style lang="scss" scoped>
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
 
   .main-content {
     display: flex;
