@@ -4,19 +4,22 @@ import DropMember from "@/components/member/management/DropMember.vue";
 import WriteInquiry from "@/components/member/management/WriteInquiry.vue";
 import InquiryList from "@/components/member/management/InquiryList.vue";
 import { useRouter } from "vue-router";
-import { useTab } from "@/composables/common/tabs";
+import { useMenuTab } from "@/composables/common/tabs";
 import type {
-  ManagementMenuType,
-  NameIconType,
   ProfileType,
   SimpleProfileType,
 } from "@/modules/types/member/MemberType";
+import type {
+  CategoryMenuType,
+  MyPageMenuType,
+  NameIconType,
+} from "@/modules/types/common/MenuType";
 
 export const useMyPage = () => {
   const router = useRouter();
-  const { getTabsItem, getMyPageMenuCategory } = useTab();
-  const accountMenu: ManagementMenuType = {
-    category: getMyPageMenuCategory("account", "User"),
+  const { getTabsItem, getMenuCategory } = useMenuTab();
+  const accountMenu: CategoryMenuType<MyPageMenuType> = {
+    category: getMenuCategory("myPage", "account", "User"),
     menus: [
       {
         value: "editProfile",
@@ -32,8 +35,8 @@ export const useMyPage = () => {
       },
     ],
   };
-  const inquiryMenu: ManagementMenuType = {
-    category: getMyPageMenuCategory("inquiry", "Headset"),
+  const inquiryMenu: CategoryMenuType<MyPageMenuType> = {
+    category: getMenuCategory("myPage", "inquiry", "Headset"),
     menus: [
       {
         value: "write",
@@ -76,7 +79,10 @@ export const useMyPage = () => {
   return {
     profileTabs,
     myPagePostsTabs,
-    managementMenu: [accountMenu, inquiryMenu],
+    managementMenu: <CategoryMenuType<MyPageMenuType>[]>[
+      accountMenu,
+      inquiryMenu,
+    ],
     getPostCount,
     goManagement,
   };

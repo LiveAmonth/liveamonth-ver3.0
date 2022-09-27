@@ -1,14 +1,13 @@
 import { useMember } from "@/composables/member/member";
 import { computed } from "vue";
-import { useTab } from "@/composables/common/tabs";
+import { useMenuTab } from "@/composables/common/tabs";
 import { useAuth } from "@/composables/member/auth";
-import type { MenuType } from "@/modules/types/common/MenuType";
-import type { NameIconType } from "@/modules/types/member/MemberType";
+import type { MenuType, NameIconType } from "@/modules/types/common/MenuType";
 
 export const useHome = () => {
   const { isLoggedIn } = useAuth();
   const { simpleProfile } = useMember();
-  const { getTabsItem } = useTab();
+  const { getTabsItem } = useMenuTab();
 
   const loggedPostsTabs: NameIconType[] = [
     getTabsItem("home", "schedule", "Calendar"),
@@ -38,7 +37,11 @@ export const useHome = () => {
         },
       ],
     },
-    { name: "review", sub: [], route: { name: "review-list" } },
+    {
+      name: "review",
+      sub: [],
+      route: { name: "review-list", params: { menu: "se" } },
+    },
     {
       name: "myPage",
       sub: [],

@@ -5,8 +5,8 @@ import { onMounted, reactive, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useInquiry } from "@/composables/member/inquiry";
 import { useMessageBox } from "@/composables/common/messageBox";
-import type { FormInstance } from "element-plus";
 import { useMyPage } from "@/composables/member/mypage";
+import type { FormInstance } from "element-plus";
 
 const { memberProfile } = useMember();
 const { isPending, category, currInquiry, writeInquiry, getCategory } =

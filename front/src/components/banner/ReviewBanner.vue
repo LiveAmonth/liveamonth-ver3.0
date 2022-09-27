@@ -17,8 +17,8 @@ const { bannerMsg } = useMessageBox();
 
 <style lang="scss" scoped>
 .banner {
+  font-family: "Jua", sans-serif;
   padding-left: 1%;
-  font-family: "Do Hyeon", sans-serif;
   background-color: #006778;
   color: white;
   margin-top: -1px;

@@ -3,9 +3,9 @@ import TitleSlot from "@/components/common/TitleSlot.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
 import { useMyPage } from "@/composables/member/mypage";
 import type {
-  ManagementMenuType,
+  CategoryMenuType,
   MyPageMenuType,
-} from "@/modules/types/member/MemberType";
+} from "@/modules/types/common/MenuType";
 
 const props = defineProps({
   menu: {
@@ -21,9 +21,8 @@ const props = defineProps({
 const { managementMenu, goManagement } = useMyPage();
 
 const findComponent = (): object | undefined => {
-  const menus: ManagementMenuType | undefined = managementMenu.find(
-    (value) => value.category.code === props.category
-  );
+  const menus: CategoryMenuType<MyPageMenuType> | undefined =
+    managementMenu.find((value) => value.category.code === props.category);
   const find: MyPageMenuType | undefined = menus?.menus.find(
     (value1) => value1.value === props.menu
   );
