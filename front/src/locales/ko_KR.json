@@ -129,6 +129,8 @@
   "form": {
     "button": {
       "reset": "초기화",
+      "search": "검색",
+      "newTag": "+ 태그 추가",
       "modify": "변경",
       "edit": "수정",
       "write": "작성",
@@ -427,6 +429,11 @@
       "intro": "도시 소개",
       "transport": "교통 정보",
       "weather": "전년도 기온 정보"
+    },
+    "review": {
+      "total": "전체",
+      "review": "후기",
+      "question": "궁금한점"
     }
   },
   "title": {

@@ -21,7 +21,7 @@ const selectMenu = (key: string) => {
 
 <template>
   <el-menu
-    active-text-color="#016d7d"
+    active-text-color="#006778"
     background-color="#ffffff"
     class="review-menu"
     text-color="#111111"
