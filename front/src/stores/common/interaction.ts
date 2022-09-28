@@ -1,4 +1,4 @@
-import InteractionApiService from "@/services/InteractionApiService";
+import InteractionApiService from "@/services/common/InteractionApiService";
 import { defineStore } from "pinia";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
 import type { InteractionType } from "@/modules/types/interaction/InteractionType";

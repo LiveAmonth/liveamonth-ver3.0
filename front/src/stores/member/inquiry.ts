@@ -1,5 +1,5 @@
+import InquiryApiService from "@/services/member/InquiryApiService";
 import { defineStore } from "pinia";
-import InquiryApiService from "@/services/InquiryApiService";
 import type {
   InquiryAnswerType,
   InquiryListType,

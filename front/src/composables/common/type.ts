@@ -1,4 +1,4 @@
-import { useCategoryStore } from "@/stores/common/type";
+import { useCategoryStore } from "@/stores/common/category";
 import { computed } from "vue";
 
 export const useType = () => {

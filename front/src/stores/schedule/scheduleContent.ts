@@ -1,14 +1,13 @@
-import { defineStore } from "pinia";
+import ScheduleApiService from "@/services/schdule/ScheduleApiService";
 import { ref } from "vue";
+import { defineStore } from "pinia";
+import { useDate } from "@/composables/common/date";
 import type {
   CalendarExtendedType,
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
-import ScheduleApiService from "@/services/ScheduleApiService";
-import { useDate } from "@/composables/common/date";
 import type { EventApi } from "@fullcalendar/common";
 import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
-import scheduleApiService from "@/services/ScheduleApiService";
 import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 
 const collapseArr: number[] = [];
@@ -38,8 +37,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
       contentId: number,
       form: ScheduleContentFormType
     ) {
-      await scheduleApiService
-        .editScheduleContent(contentId, form)
+      await ScheduleApiService.editScheduleContent(contentId, form)
         .then((response: string) => {
           return response;
         })
@@ -49,8 +47,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
     },
 
     deleteContent: async function (contentId: number) {
-      await scheduleApiService
-        .deleteScheduleContent(contentId)
+      await ScheduleApiService.deleteScheduleContent(contentId)
         .then((response: string) => {
           return response;
         })
