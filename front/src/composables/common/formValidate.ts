@@ -5,7 +5,7 @@ import type {
   SignUpType,
 } from "@/modules/types/form/FormType";
 import { computed, ref } from "vue";
-import { useMemberStore } from "@/stores/member";
+import { useMemberStore } from "@/stores/member/member";
 import type {
   DatePeriodType,
   DateTimePeriodType,

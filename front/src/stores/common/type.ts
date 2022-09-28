@@ -1,15 +1,16 @@
 import { defineStore } from "pinia";
 import ScheduleApiService from "@/services/ScheduleApiService";
+import MemberApiService from "@/services/MemberApiService";
 import type { SortType } from "@/modules/types/common/SortType";
 import type { EnumType } from "@/modules/types/common/EnumType";
-import MemberApiService from "@/services/MemberApiService";
 
-export const useTypeStore = defineStore("type", {
+export const useCategoryStore = defineStore("category", {
   state: () => ({
     genderType: [] as EnumType[],
     scheduleSearchType: [] as EnumType[],
     scheduleFilterType: [] as EnumType[],
     scheduleSortType: [] as SortType[],
+    reviewSortType: [] as SortType[],
   }),
   actions: {
     getGenderType: async function () {
@@ -51,6 +52,16 @@ export const useTypeStore = defineStore("type", {
           throw error;
         });
     },
+
+    // getReviewSortType: async function () {
+    //   await ReviewApiService.getSortTypes()
+    //     .then((response: SortType[]) => {
+    //       this.reviewSortType = response;
+    //     })
+    //     .catch((error) => {
+    //       throw error;
+    //     });
+    // },
   },
   persist: {
     storage: localStorage,

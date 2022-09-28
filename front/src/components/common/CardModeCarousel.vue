@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { computed } from "vue";
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
-import { useCityStore } from "@/stores/city";
+import { useCity } from "@/composables/city/city";
 
 const props = defineProps({
   dir: {
@@ -13,11 +12,9 @@ const props = defineProps({
   },
 });
 
-const store = useCityStore();
-const carouselData = computed((): ImageContentType[] =>
-  props.dir === "food" ? store.foods : store.views
-);
-const dataSize = computed((): number => carouselData.value.length);
+const { carouselData } = useCity();
+const data = carouselData(props.dir);
+const dataSize = computed((): number => data.value.length);
 const carouselLen = computed<number>(() => Math.ceil(dataSize.value / 4));
 const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
 </script>
@@ -30,13 +27,13 @@ const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
           <el-card v-if="calcIdx(idx, col) < dataSize">
             <img
               :src="`/src/assets/image/${props.dir}/${
-                carouselData[calcIdx(idx, col)].image
+                data[calcIdx(idx, col)].image
               }`"
               class="image"
               alt="card-image"
             />
             <div class="content mt-3">
-              <span>{{ carouselData[calcIdx(idx, col)].content }}</span>
+              <span>{{ data[calcIdx(idx, col)].content }}</span>
             </div>
           </el-card>
         </el-col>

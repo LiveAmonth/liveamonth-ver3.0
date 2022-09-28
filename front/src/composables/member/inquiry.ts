@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import { useInquiryStore } from "@/stores/inquiry";
+import { useInquiryStore } from "@/stores/member/inquiry";
 import type InquiryEditor from "@/modules/class/member/InquiryEditor";
 import type {
   PageableRequestType,
