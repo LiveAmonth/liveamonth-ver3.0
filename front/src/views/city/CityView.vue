@@ -41,7 +41,7 @@ const cityChange = async () => {
       <el-col>
         <div class="d-flex justify-content-between">
           <TitleSlot>{{ $t("city.intro.title") }}</TitleSlot>
-          <el-radio-group v-model="activeName" fill="#004a55" size="large">
+          <el-radio-group v-model="activeName" :fill="'#0f6778'" size="large">
             <template v-for="name in cityNames" :key="name.code">
               <el-radio-button :label="name.code" @change="cityChange"
                 >{{ name.value }}

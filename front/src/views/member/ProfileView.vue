@@ -15,7 +15,7 @@ const props = defineProps({
   },
 });
 
-const { memberProfile } = useMember();
+const { memberProfile, getMember } = useMember();
 const { mySchedules, getInfiniteSchedules } = useSchedule();
 const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =
   useMyPage();
@@ -24,6 +24,7 @@ const activeName = ref<string>(props.post);
 const initialSize = ref<number>(3);
 
 onMounted(async () => {
+  await getMember();
   await getInfiniteSchedules(
     memberProfile.value.loginId,
     initialSize.value,

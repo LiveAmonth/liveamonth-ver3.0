@@ -23,8 +23,21 @@ const activeName = ref<string>("intro");
   </el-card>
 </template>
 
-<style scoped>
-.tab-detail {
-  margin: 0 20px;
+<style lang="scss">
+.city-detail-tabs {
+  .el-tabs__item {
+    &.is-active,
+    &:hover {
+      color: #006778 !important;
+    }
+  }
+
+  .el-tabs__active-bar {
+    background-color: #006778 !important;
+  }
+
+  .tab-detail {
+    margin: 0 20px;
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { PropType } from "vue";
-import type { NameIconType } from "@/modules/types/member/MemberType";
+import type { NameIconType } from "@/modules/types/common/MenuType";
 
 const props = defineProps({
   tabs: {
@@ -130,7 +130,7 @@ const initialTabIdx = () => {
       input[type="radio"] {
         &:checked {
           & + label {
-            color: rgb(2, 84, 94);
+            color: #0f6778;
             font-size: 1.05rem;
             font-weight: 600;
           }
