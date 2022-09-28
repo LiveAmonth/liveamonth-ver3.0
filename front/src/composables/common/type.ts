@@ -1,8 +1,8 @@
-import { useTypeStore } from "@/stores/type";
+import { useCategoryStore } from "@/stores/common/type";
 import { computed } from "vue";
 
 export const useType = () => {
-  const store = useTypeStore();
+  const store = useCategoryStore();
 
   const genderType = computed(() => store.genderType);
   const scheduleSearchType = computed(() => store.scheduleSearchType);

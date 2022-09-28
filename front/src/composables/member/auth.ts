@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import type { LoginType } from "@/modules/types/form/FormType";
-import { useAuthStore } from "@/stores/auth";
+import { useAuthStore } from "@/stores/member/auth";
 
 export const useAuth = () => {
   const store = useAuthStore();

@@ -1,7 +1,7 @@
 import { computed, ref } from "vue";
 import { useMember } from "@/composables/member/member";
-import { useScheduleStore } from "@/stores/schedule";
-import { useScheduleContentStore } from "@/stores/scheduleContent";
+import { useScheduleStore } from "@/stores/schedule/schedule";
+import { useScheduleContentStore } from "@/stores/schedule/scheduleContent";
 import type {
   ScheduleCardType,
   ScheduleContentType,
@@ -37,6 +37,9 @@ export const useSchedule = () => {
   const mySchedules = computed((): MyScheduleCardType[] => store.mySchedules);
   const followedSchedules = computed(
     (): ScheduleCardType[] => store.followedSchedules
+  );
+  const contentCollapse = computed(
+    (): number[] => contentStore.contentCollapse
   );
 
   const infiniteSchedules = (isMyPage: boolean) => {
@@ -223,10 +226,11 @@ export const useSchedule = () => {
     schedulePage,
     otherSchedules,
     currScheduleContents,
+    contentCollapse,
     mySchedules,
     followedSchedules,
-    infiniteSchedules,
     editedSchedule,
+    infiniteSchedules,
     getOtherSchedule,
     getOtherSchedules,
     getScheduleContents,

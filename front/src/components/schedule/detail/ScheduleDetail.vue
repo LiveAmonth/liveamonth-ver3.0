@@ -4,7 +4,6 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
 import { Reading, Paperclip, Money, Clock } from "@element-plus/icons-vue";
 import { useSchedule } from "@/composables/schedule/schedule";
-import { useScheduleContentStore } from "@/stores/scheduleContent";
 import { onMounted, ref } from "vue";
 import { useInteraction } from "@/composables/interaction/interaction";
 
@@ -15,8 +14,8 @@ const props = defineProps({
   },
 });
 
-const store = useScheduleContentStore();
-const { type, currScheduleContents, getOtherSchedule } = useSchedule();
+const { type, currScheduleContents, contentCollapse, getOtherSchedule } =
+  useSchedule();
 const { isLiked, isLikedContent, reactContent, changeLikeState } =
   useInteraction();
 
@@ -69,7 +68,7 @@ const clickHeart = async () => {
     <SmallTitleSlot class="mb-4"
       >{{ $t("schedule.title.content") }}
     </SmallTitleSlot>
-    <el-collapse v-model="store.contentCollapse" class="search">
+    <el-collapse v-model="contentCollapse" class="search">
       <template v-for="(content, idx) in currScheduleContents" :key="idx">
         <el-collapse-item :name="content.id">
           <template #title>

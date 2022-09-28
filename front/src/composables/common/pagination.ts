@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import { usePageableStore } from "@/stores/pagination";
+import { usePageableStore } from "@/stores/common/pagination";
 import type {
   PageableType,
   PageableRequestType,

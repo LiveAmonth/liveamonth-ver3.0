@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import { useCityStore } from "@/stores/city";
+import { useCityStore } from "@/stores/city/city";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { CityCardType } from "@/modules/types/city/CityType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
@@ -20,6 +20,12 @@ export const useCity = () => {
   const cityIntroDetail = computed((): ImageContentType[] => store.introDetail);
   const cityTransport = computed((): CityTransportType[] => store.transports);
   const cityWeather = computed((): CityWeatherType[] => store.weathers);
+
+  const carouselData = (dir: string) => {
+    return dir === "food"
+      ? computed((): ImageContentType[] => store.foods)
+      : computed((): ImageContentType[] => store.views);
+  };
 
   const getCityNames = async () => {
     error.value = null;
@@ -87,6 +93,7 @@ export const useCity = () => {
     cityIntroDetail,
     cityTransport,
     cityWeather,
+    carouselData,
     getCityNames,
     getCityGridInfo,
     getCityIntro,

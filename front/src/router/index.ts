@@ -9,7 +9,7 @@ import ReadScheduleView from "../views/schedule/ReadScheduleView.vue";
 import ScheduleListView from "../views/schedule/ScheduleListView.vue";
 import MyScheduleView from "../views/schedule/MyScheduleView.vue";
 
-import { useAuthStore } from "@/stores/auth";
+import { useAuthStore } from "@/stores/member/auth";
 
 const loadView = (name: string, dir: string, view: string) => {
   return () =>

@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import { useCommentStore } from "@/stores/comment";
+import { useCommentStore } from "@/stores/common/comment";
 import type {
   PageableRequestType,
   PageableType,

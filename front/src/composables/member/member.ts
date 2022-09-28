@@ -1,5 +1,5 @@
 import { computed, ref } from "vue";
-import { useMemberStore } from "@/stores/member";
+import { useMemberStore } from "@/stores/member/member";
 import { useAuth } from "@/composables/member/auth";
 import type {
   EditProfileType,
