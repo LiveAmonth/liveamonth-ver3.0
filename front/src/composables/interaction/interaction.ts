@@ -1,12 +1,12 @@
-import { useMember } from "@/composables/member/member";
+import InteractionApiService from "@/services/common/InteractionApiService";
 import { computed, ref } from "vue";
-import InteractionApiService from "@/services/InteractionApiService";
+import { useMember } from "@/composables/member/member";
 import { useInteractionStore } from "@/stores/common/interaction";
+import { useI18n } from "vue-i18n";
 import type {
   InteractionType,
   ReactedCommentType,
 } from "@/modules/types/interaction/InteractionType";
-import { useI18n } from "vue-i18n";
 
 export const useInteraction = () => {
   const store = useInteractionStore();

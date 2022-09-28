@@ -1,5 +1,5 @@
+import CityApiService from "@/services/city/CityApiService";
 import { defineStore } from "pinia";
-import CityApiService from "@/services/CityApiService";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import type {

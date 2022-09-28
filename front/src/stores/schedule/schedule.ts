@@ -1,5 +1,5 @@
+import ScheduleApiService from "@/services/schdule/ScheduleApiService";
 import ScheduleSearchCond from "@/modules/class/schedule/ScheduleCond";
-import ScheduleApiService from "@/services/ScheduleApiService";
 import { defineStore } from "pinia";
 import type {
   MyScheduleCardType,

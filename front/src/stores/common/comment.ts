@@ -1,3 +1,4 @@
+import CommentApiService from "@/services/common/CommentApiService";
 import { defineStore } from "pinia";
 import type { CommentType } from "@/modules/types/comment/CommentTypes";
 import type {
@@ -6,7 +7,6 @@ import type {
   PageableType,
 } from "@/modules/types/common/PageableType";
 import type { CommentFormType } from "@/modules/types/form/FormType";
-import CommentApiService from "@/services/CommentApiService";
 
 export const useCommentStore = defineStore("comment", {
   state: () => ({
