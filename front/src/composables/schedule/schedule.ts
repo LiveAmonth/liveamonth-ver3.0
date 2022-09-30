@@ -116,11 +116,11 @@ export const useSchedule = () => {
     }
   };
 
-  const addSchedule = async (memberId: number, form: ScheduleEditor) => {
+  const addSchedule = async (form: ScheduleEditor) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.addSchedule(memberId, form);
+      await store.addSchedule(form);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -214,7 +214,8 @@ export const useSchedule = () => {
 
   const getInitialSelectedId = () => {
     if (isScheduleEmpty()) return "";
-    if (!editedSchedule.value.id) return mySchedules.value[0].id;
+    if (!mySchedules.value.includes(editedSchedule.value))
+      return mySchedules.value[0].id;
     return isMemberEq() ? editedSchedule.value.id : mySchedules.value[0].id;
   };
 

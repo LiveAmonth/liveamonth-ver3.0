@@ -6,7 +6,6 @@ import { useCity } from "@/composables/city/city";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
-import { useMember } from "@/composables/member/member";
 import type { FormInstance } from "element-plus/es";
 
 const props = defineProps({
@@ -25,7 +24,6 @@ const props = defineProps({
 const emits = defineEmits(["submit", "deleteSchedule"]);
 const { editedSchedule, addSchedule, editSchedule } = useSchedule();
 const { cityNames } = useCity();
-const { simpleProfile } = useMember();
 const { openMessage, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
@@ -62,7 +60,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           emits("submit", true);
         });
       } else {
-        await addSchedule(simpleProfile.value.id, scheduleForm).then(() => {
+        await addSchedule(scheduleForm).then(() => {
           openMessage(t("form.message.schedule.add"));
           emits("submit");
         });
