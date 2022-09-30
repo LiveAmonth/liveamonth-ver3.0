@@ -9,8 +9,8 @@ import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
-import teamproject.lam_server.domain.review.dto.editor.ReviewEditor;
-import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.converter.StringArrayConverter;
+import teamproject.lam_server.global.entity.BaseEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,32 +24,36 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AttributeOverride(name = "id", column = @Column(name = "review_id"))
-public class Review extends BaseTimeEntity {
+public class Review extends BaseEntity {
 
     @OneToMany(mappedBy = "review")
     private final List<ReviewComment> reviewComments = new ArrayList<>();
     @OneToMany(mappedBy = "to")
     private final Set<ReviewLike> likes = new HashSet<>();
-    @Enumerated(EnumType.STRING)
-    private ReviewCategory reviewCategory;
     private String title;
-    @Lob
+
+    @Enumerated(EnumType.STRING)
+    private ReviewCategory category;
     private String content;
     private Long viewCount;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Convert(converter = StringArrayConverter.class)
+    private Set<String> tags = new HashSet<>();
+
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
     private int likeCount;
-
     @Formula("(select count(1) from review_comment rc where rc.review_id = review_id)")
     private int commentCount;
 
     @Builder
-    public Review(ReviewCategory reviewCategory, String title, String content, Member member) {
-        this.reviewCategory = reviewCategory;
+    public Review(ReviewCategory category, String title, String content, Member member, Set<String> tags) {
+        this.category = category;
         this.title = title;
         this.content = content;
+        this.tags = tags;
         this.viewCount = 0L;
         setUpMember(member);
     }
@@ -63,12 +67,12 @@ public class Review extends BaseTimeEntity {
         return ReviewEditor.builder()
                 .title(title)
                 .content(content)
-                .reviewCategory(reviewCategory);
+                .category(category);
     }
 
     public void edit(ReviewEditor reviewEditor) {
         this.title = reviewEditor.getTitle();
-        this.reviewCategory = reviewEditor.getReviewCategory();
+        this.category = reviewEditor.getCategory();
         this.content = reviewEditor.getContent();
     }
 }

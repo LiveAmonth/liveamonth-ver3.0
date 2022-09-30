@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import teamproject.lam_server.domain.review.constants.ReviewSearchType;
 import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.global.repository.BasicRepository;
@@ -30,6 +31,7 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .orderBy(mapToOrderSpec(pageable.getSort(), Review.class, review))
                 .fetch();
 
+
         JPAQuery<Long> countQuery = getSearchCountQuery(cond);
 
         return PageableExecutionUtils.getPage(
@@ -42,9 +44,8 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
         return queryFactory.selectFrom(review)
                 .join(review.member, member).fetchJoin()
                 .where(
-                        titleContains(cond.getTitle()),
-                        contentContains(cond.getContent()),
-                        memberNicknameEq(cond.getMember())
+                        reviewContain(cond.getSearchWord()),
+                        categoryIn(cond.getType())
                 );
     }
 
@@ -54,9 +55,8 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .from(review)
                 .join(review.member, member).fetchJoin()
                 .where(
-                        titleContains(cond.getTitle()),
-                        contentContains(cond.getContent()),
-                        memberNicknameEq(cond.getMember())
+                        reviewContain(cond.getSearchWord()),
+                        categoryIn(cond.getType())
                 );
     }
 
@@ -78,6 +78,14 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
 
     private BooleanExpression memberNicknameEq(String writer) {
         return hasText(writer) ? member.nickname.eq(writer) : null;
+    }
+
+    private BooleanExpression reviewContain(String word) {
+        return hasText(word) ? review.title.contains(word).or(review.content.contains(word)).or(member.nickname.eq(word)) : null;
+    }
+
+    private BooleanExpression categoryIn(ReviewSearchType type){
+        return type != null ? review.category.in(type.getSubs()) : null;
     }
 
 }

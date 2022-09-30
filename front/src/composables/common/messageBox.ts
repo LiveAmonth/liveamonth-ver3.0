@@ -6,6 +6,7 @@ import { useI18n } from "vue-i18n";
 export const useMessageBox = () => {
   const router = useRouter();
   const { t } = useI18n();
+
   const openMessage = (message: string) => {
     ElMessage({
       message: message,
@@ -21,7 +22,6 @@ export const useMessageBox = () => {
   const openMessageBox = async (message: string) => {
     await ElMessageBox.alert(message);
   };
-
   const openConfirmMessageBox = async (title: string, message: string) => {
     return await ElMessageBox.confirm(message, title, {
       confirmButtonText: "OK",
@@ -29,7 +29,6 @@ export const useMessageBox = () => {
       type: "info",
     });
   };
-
   const requireLoginMessageBox = () => {
     return ElMessageBox.confirm(t("form.message.login"), t("member.login"), {
       confirmButtonText: "OK",
@@ -49,21 +48,20 @@ export const useMessageBox = () => {
   const getFormLabelMsg = (field: string): string => {
     return t(`form.label.${field}`);
   };
-
   const getFormButtonMsg = (field: string): string => {
     return t(`form.button.${field}`);
   };
-
   const getResultMessage = (field: string): string => {
     return t(`form.message.${field}`);
   };
-
   const getMenuName = (field: string): string => {
     return t(`menu.${field}`);
   };
-
   const getBannerMessage = (field: string): string => {
     return t(`banner.${field}`);
+  };
+  const getTabMessage = (field: string): string => {
+    return t(`tabs.${field}`);
   };
 
   return {
@@ -78,5 +76,6 @@ export const useMessageBox = () => {
     titleMsg: getTitleMsg,
     menuMsg: getMenuName,
     bannerMsg: getBannerMessage,
+    tabMsg: getTabMessage,
   };
 };
