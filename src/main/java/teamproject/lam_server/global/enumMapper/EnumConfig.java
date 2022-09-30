@@ -8,6 +8,8 @@ import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
+import teamproject.lam_server.domain.review.constants.ReviewSortType;
+import teamproject.lam_server.domain.review.dto.condition.ReviewSearchType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleFilterType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSearchType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
@@ -40,6 +42,8 @@ public class EnumConfig {
 
         // Review
         enumMapper.put(REVIEW_CATEGORY, ReviewCategory.class);
+        enumMapper.put(REVIEW_SEARCH_TYPE, ReviewSearchType.class);
+        enumMapper.putMetaModelType(REVIEW_SORT_TYPE, ReviewSortType.class);
 
         // Customer Center
         enumMapper.put(CUSTOMER_CENTER_MENU, CustomerCenterMenu.class);

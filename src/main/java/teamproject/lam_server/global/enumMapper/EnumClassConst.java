@@ -25,8 +25,10 @@ public enum EnumClassConst implements EnumMapperType {
     SCHEDULE_FILTER_TYPE("ScheduleFilterType", "스케줄 필터 타입"),
     SCHEDULE_SORT_TYPE("ScheduleSortType", "스케줄 정렬 방식"),
 
-    // Review
-    REVIEW_CATEGORY("ReviewCategory","리뷰 게시판"),
+    // Review,
+    REVIEW_CATEGORY("ReviewCategory","후기글 카테고리"),
+    REVIEW_SEARCH_TYPE("ReviewSearchType", "후기글 검색 타입"),
+    REVIEW_SORT_TYPE("ReviewSortType", "후기글 정렬 방식"),
 
     // Customer Center
     CUSTOMER_CENTER_MENU("CustomerCenterCategory","고객 센터");
