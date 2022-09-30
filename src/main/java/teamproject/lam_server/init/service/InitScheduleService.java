@@ -5,10 +5,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.init.dto.InitScheduleContentRequest;
-import teamproject.lam_server.init.dto.InitScheduleRequest;
 import teamproject.lam_server.util.JsonUtil;
 
 import javax.persistence.EntityManager;
@@ -29,9 +29,9 @@ public class InitScheduleService {
         String query = "insert into schedule" +
                 " (created_date, last_modified_date, created_by, last_modified_by, city_name, end_date, start_date, public_flag, title, view_count, member_id) " +
                 "VALUES (now(), now(), :created_by, :last_modified_by, :city_name, :end_date, :start_date, :public_flag, :title, 0, :member_id)";
-        List<InitScheduleRequest> requests = JsonUtil.jsonArrayToList(SCHEDULE, InitScheduleRequest.class);
-        for (InitScheduleRequest request : requests) {
-            Member member = memberRepository.findAll().get((int) (request.getMemberId() - 1));
+        List<ScheduleCreate> requests = JsonUtil.jsonArrayToList(SCHEDULE, ScheduleCreate.class);
+        for (ScheduleCreate request : requests) {
+            Member member = memberRepository.findAll().get((int) (2 * Math.random()));
             em.createNativeQuery(query)
                     .setParameter("created_by", member.getLoginId())
                     .setParameter("last_modified_by", member.getLoginId())
