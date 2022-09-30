@@ -9,7 +9,6 @@ import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleLike;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.schedule.dto.editor.ScheduleEditor;
 import teamproject.lam_server.global.entity.BaseEntity;
 import teamproject.lam_server.global.entity.Period;
 

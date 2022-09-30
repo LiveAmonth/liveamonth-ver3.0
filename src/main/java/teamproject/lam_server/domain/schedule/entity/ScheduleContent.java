@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import teamproject.lam_server.domain.schedule.dto.editor.ScheduleContentEditor;
 import teamproject.lam_server.global.entity.BaseEntity;
 import teamproject.lam_server.global.entity.TimePeriod;
 

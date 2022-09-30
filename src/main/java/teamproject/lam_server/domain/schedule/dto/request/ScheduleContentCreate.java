@@ -1,9 +1,11 @@
-package teamproject.lam_server.domain.schedule.dto.editor;
+package teamproject.lam_server.domain.schedule.dto.request;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.global.entity.TimePeriod;
@@ -14,8 +16,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ScheduleContentEditor {
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ScheduleContentCreate {
 
     @NotBlank
     private String title;
@@ -32,14 +36,6 @@ public class ScheduleContentEditor {
     @AssertTrue
     public boolean isValidTimePeriod() {
         return getTimePeriod().getStartDateTime().isBefore(getTimePeriod().getEndDateTime());
-    }
-
-    @Builder
-    public ScheduleContentEditor(String title, String content, TimePeriod timePeriod, int cost) {
-        this.title = title;
-        this.content = content;
-        this.timePeriod = timePeriod;
-        this.cost = cost;
     }
 
     public ScheduleContent toEntity(Schedule schedule) {

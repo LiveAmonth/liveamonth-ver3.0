@@ -1,14 +1,15 @@
 package teamproject.lam_server.domain.schedule.service;
 
-import teamproject.lam_server.domain.schedule.dto.editor.ScheduleContentEditor;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentCreate;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 
 import java.util.List;
 
 public interface ScheduleContentService {
-    void addScheduleContent(Long scheduleId, ScheduleContentEditor request);
+    void addScheduleContent(Long scheduleId, ScheduleContentCreate request);
 
-    void editScheduleContent(Long id, ScheduleContentEditor request);
+    void editScheduleContent(Long id, ScheduleContentEdit request);
 
     void deleteScheduleContent(Long id);
 

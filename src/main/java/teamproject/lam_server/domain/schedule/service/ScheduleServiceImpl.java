@@ -8,7 +8,9 @@ import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepositoryImpl;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
-import teamproject.lam_server.domain.schedule.dto.editor.ScheduleEditor;
+import teamproject.lam_server.domain.schedule.entity.ScheduleEditor;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
@@ -36,13 +38,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public void addSchedule(ScheduleEditor request) {
+    public void addSchedule(ScheduleCreate request) {
         scheduleRepository.save(request.toEntity(finder.getLoggedInMember()));
     }
 
     @Override
     @Transactional
-    public void editSchedule(Long scheduleId, ScheduleEditor request) {
+    public void editSchedule(Long scheduleId, ScheduleEdit request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(ScheduleNotFound::new);
 
