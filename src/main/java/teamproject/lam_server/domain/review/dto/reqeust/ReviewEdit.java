@@ -1,30 +1,26 @@
 package teamproject.lam_server.domain.review.dto.reqeust;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
-@Setter
 @Getter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewEdit {
 
     @NotBlank
     private String title;
 
-    @NotNull
-    private ReviewCategory reviewCategory;
-
     @NotBlank
     private String content;
 
-    @Builder
-    public ReviewEdit(String title, ReviewCategory reviewCategory, String content) {
-        this.title = title;
-        this.reviewCategory = reviewCategory;
-        this.content = content;
-    }
+    @NotNull
+    private ReviewCategory category;
+
+    private Set<String> tags;
 }

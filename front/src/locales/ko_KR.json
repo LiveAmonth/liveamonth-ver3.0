@@ -133,7 +133,7 @@
       "newTag": "+ 태그 추가",
       "modify": "변경",
       "edit": "수정",
-      "write": "작성",
+      "write": "글쓰기",
       "delete": "삭제",
       "back": "목록으로 돌아가기",
       "member": {
@@ -304,18 +304,19 @@
     "schedule": "스케줄",
     "otherSchedule": "다른 사람 스케줄",
     "mySchedule": "내 스케줄",
-    "review": "후기",
+    "reviewBoard": "후기",
     "myPage": "내 정보",
     "customerCenter": "고객 센터",
-    "board": {
-      "se": "서울",
-      "gn": "강릉",
-      "gj": "경주",
-      "bs": "부산",
-      "ys": "여수",
-      "jj": "제주",
-      "other": "다른 지역",
-      "etc": "자유 게시판"
+    "review": {
+      "se_review": "서울 후기",
+      "gn_review": "강릉 후기",
+      "gj_review": "경주 후기",
+      "bs_review": "부산 후기",
+      "ys_review": "여수 후기",
+      "jj_review": "제주 후기",
+      "other_review": "다른 지역 후기",
+      "question": "질문 게시판",
+      "free": "자유 게시판"
     }
   },
   "myPage": {
@@ -432,8 +433,8 @@
     },
     "review": {
       "total": "전체",
-      "review": "후기",
-      "question": "궁금한점"
+      "review": "추천&후기",
+      "etc": "질문&자유"
     }
   },
   "title": {

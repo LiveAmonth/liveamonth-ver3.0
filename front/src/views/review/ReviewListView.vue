@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { usePagination } from "@/composables/common/pagination";
+import { useReview } from "@/composables/review/review";
+
+const category = "REVIEW";
+const { isPending, request, schedulePage, getOtherSchedules } = useReview();
+const { pageable, mappingPagination, movePage, setSort, clear } =
+  usePagination(category);
+
 
 const reviews = ref([
   {

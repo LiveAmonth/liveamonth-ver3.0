@@ -18,7 +18,7 @@ export const useHome = () => {
     getTabsItem("home", "schedule", "Calendar"),
     getTabsItem("home", "review", "Notebook"),
   ];
-  const mainMenus: MenuType[] = [
+  const mainMenus = computed((): MenuType[] => [
     { name: "city", route: { name: "city" }, sub: [] },
     {
       name: "schedule",
@@ -38,7 +38,7 @@ export const useHome = () => {
       ],
     },
     {
-      name: "review",
+      name: "reviewBoard",
       sub: [],
       route: { name: "review-list", params: { menu: "se" } },
     },
@@ -49,7 +49,7 @@ export const useHome = () => {
         ? { name: "profile", params: { post: "schedule" } }
         : { name: "login" },
     },
-  ];
+  ]);
 
   return {
     mainMenus,

@@ -6,8 +6,10 @@ import { useReview } from "@/composables/review/review";
 import { ElInput } from "element-plus";
 import { useSearch } from "@/composables/search/search";
 import { useMessageBox } from "@/composables/common/messageBox";
+import { useCategory } from "@/composables/common/category";
 
-const { isPending, reviewSearchTabs } = useReview();
+const { isPending } = useReview();
+const { reviewSearchType } = useCategory();
 const {
   dynamicTags,
   tagInput,
@@ -17,9 +19,9 @@ const {
   handleInputConfirm,
   clearTags,
 } = useSearch();
-const { buttonMsg } = useMessageBox();
+const { buttonMsg, tabMsg } = useMessageBox();
 
-const activeName = ref<string>(reviewSearchTabs[0].code);
+const activeName = ref<string>(reviewSearchType.value[0].code);
 const order = ref<string>("id,desc");
 const form = reactive<ReviewSearch>(new ReviewSearch(activeName.value));
 
@@ -32,15 +34,19 @@ const clear = () => {
   form.clear();
   clearTags();
 };
+
+const writeReview = () => {
+  console.log("글쓰기");
+};
 </script>
 
 <template>
   <el-form :model="form" class="mb-4">
     <el-tabs v-model="activeName" class="search-tabs" @tab-click="clear">
       <el-tab-pane
-        v-for="tab in reviewSearchTabs"
+        v-for="tab in reviewSearchType"
         :key="tab.code"
-        :label="tab.value"
+        :label="tabMsg(`review.${tab.code.toLowerCase()}`)"
         :name="tab.code"
       >
         <el-form-item class="form-item">
@@ -75,7 +81,7 @@ const clear = () => {
                 :disable-transitions="false"
                 @close="handleClose(tag)"
               >
-                {{ tag }}
+                {{ `#${tag}` }}
               </el-tag>
               <el-input
                 v-if="tagInputVisible"
@@ -108,17 +114,29 @@ const clear = () => {
     </el-tabs>
   </el-form>
 
-  <el-radio-group
-    class="order-radio"
-    v-model="order"
-    :text-color="'#0f6778'"
-    :fill="'#0f6778'"
-  >
-    <el-radio label="id,desc">최신순</el-radio>
-    <el-radio label="comment,desc">댓글많은순</el-radio>
-    <el-radio label="like,desc">좋아요순</el-radio>
-    <el-radio label="view,desc">조회순</el-radio>
-  </el-radio-group>
+  <div class="sort-write-content">
+    <el-radio-group
+      class="order-radio"
+      v-model="order"
+      :text-color="'#0f6778'"
+      :fill="'#0f6778'"
+    >
+      <el-radio label="id,desc">최신순</el-radio>
+      <el-radio label="comment,desc">댓글많은순</el-radio>
+      <el-radio label="like,desc">좋아요순</el-radio>
+      <el-radio label="view,desc">조회순</el-radio>
+    </el-radio-group>
+    <el-button
+      :loading="isPending"
+      class="write-btn"
+      color="#0f6778"
+      style="width: 80px"
+      @click="writeReview"
+    >
+      {{ buttonMsg("write") }}
+    </el-button>
+  </div>
+
   <el-divider class="mt-0 mb-2" />
 </template>
 
@@ -150,18 +168,48 @@ const clear = () => {
       margin-bottom: 5px;
     }
   }
+
+  .el-tag {
+    --el-tag-bg-color: rgba(16, 120, 118, 0.15);
+    --el-tag-border-color: rgba(101, 157, 168, 0.83);
+    --el-tag-hover-color: #0f6778;
+    --el-tag-text-color: #0f6778;
+    color: #0f6778;
+    background-color: rgba(16, 120, 118, 0.15);
+    border-color: rgba(101, 157, 168, 0.83);
+  }
+
+  .button-new-tag {
+    border: none;
+
+    &:focus,
+    &:hover {
+      color: #0f6778;
+      background-color: rgba(16, 120, 118, 0.15);
+    }
+  }
 }
 
-.order-radio {
-  .el-radio__input.is-checked {
-    & + .el-radio__label {
-      color: #006778;
-    }
+.sort-write-content {
+  display: flex;
+  justify-content: space-between;
 
-    & .el-radio__inner {
-      background-color: #006778;
-      border-color: #006778;
+  .order-radio {
+    .el-radio__input.is-checked {
+      & + .el-radio__label {
+        color: #006778;
+      }
+
+      & .el-radio__inner {
+        background-color: #006778;
+        border-color: #006778;
+      }
     }
+  }
+
+  .write-btn {
+    margin-bottom: 5px;
+    margin-right: 5px;
   }
 }
 </style>

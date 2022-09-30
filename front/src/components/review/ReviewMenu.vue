@@ -2,6 +2,7 @@
 import { useRouter } from "vue-router";
 import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
+import { useCategory } from "@/composables/common/category";
 
 defineProps({
   initialMenu: {
@@ -11,8 +12,9 @@ defineProps({
 });
 
 const router = useRouter();
-const { reviewMenus } = useReview();
-const { menuMsg } = useMessageBox();
+const { getReviewMenu } = useReview();
+const { reviewSearchType } = useCategory();
+const { menuMsg, tabMsg } = useMessageBox();
 
 const selectMenu = (key: string) => {
   router.push({ name: "review-list", params: { menu: key } });
@@ -28,15 +30,37 @@ const selectMenu = (key: string) => {
     :default-active="initialMenu"
     @select="selectMenu"
   >
-    <template v-for="cat in reviewMenus" :key="cat.category.code">
+    <template
+      v-for="major in getReviewMenu(reviewSearchType[1], 'Place')"
+      :key="major.category.code"
+    >
       <h5 class="menu-title mb-0 py-0 mt-3">
         <el-icon class="me-1">
-          <component :is="cat.category.icon" />
+          <component :is="major.category.icon" />
         </el-icon>
-        {{ cat.category.value }}
+        {{ tabMsg(`review.${major.category.code}`) }}
       </h5>
       <el-menu-item
-        v-for="menu in cat.menus"
+        v-for="menu in major.menus"
+        :key="menu.name"
+        :index="menu.name"
+        class="menu-item"
+      >
+        <span class="my-0">{{ menuMsg(`review.${menu.name}`) }}</span>
+      </el-menu-item>
+    </template>
+    <template
+      v-for="major in getReviewMenu(reviewSearchType[2], 'Paperclip')"
+      :key="major.category.code"
+    >
+      <h5 class="menu-title mb-0 py-0 mt-3">
+        <el-icon class="me-1">
+          <component :is="major.category.icon" />
+        </el-icon>
+        {{ major.category.value }}
+      </h5>
+      <el-menu-item
+        v-for="menu in major.menus"
         :key="menu.name"
         :index="menu.name"
         class="menu-item"

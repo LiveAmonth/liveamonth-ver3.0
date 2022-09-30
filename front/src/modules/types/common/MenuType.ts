@@ -14,7 +14,7 @@ export interface NameIconType {
 
 export interface CategoryMenuType<T> {
   category: NameIconType;
-  menus: T[];
+  menus: T[] | undefined;
 }
 
 export interface MyPageMenuType {

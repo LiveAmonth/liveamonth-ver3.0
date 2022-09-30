@@ -3,6 +3,7 @@ import MemberApiService from "@/services/member/MemberApiService";
 import { defineStore } from "pinia";
 import type { SortType } from "@/modules/types/common/SortType";
 import type { EnumType } from "@/modules/types/common/EnumType";
+import ReviewApiService from "@/services/review/ReviewApiService";
 
 export const useCategoryStore = defineStore("category", {
   state: () => ({
@@ -10,6 +11,8 @@ export const useCategoryStore = defineStore("category", {
     scheduleSearchType: [] as EnumType[],
     scheduleFilterType: [] as EnumType[],
     scheduleSortType: [] as SortType[],
+    reviewCategory: [] as EnumType[],
+    reviewSearchType: [] as EnumType[],
     reviewSortType: [] as SortType[],
   }),
   actions: {
@@ -53,15 +56,35 @@ export const useCategoryStore = defineStore("category", {
         });
     },
 
-    // getReviewSortType: async function () {
-    //   await ReviewApiService.getSortTypes()
-    //     .then((response: SortType[]) => {
-    //       this.reviewSortType = response;
-    //     })
-    //     .catch((error) => {
-    //       throw error;
-    //     });
-    // },
+    getReviewCategory: async function () {
+      await ReviewApiService.getReviewCategory()
+        .then((response: EnumType[]) => {
+          this.reviewCategory = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getReviewSearchType: async function () {
+      await ReviewApiService.getSearchTypes()
+        .then((response: EnumType[]) => {
+          this.reviewSearchType = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getReviewSortType: async function () {
+      await ReviewApiService.getSortTypes()
+        .then((response: SortType[]) => {
+          this.reviewSortType = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
   },
   persist: {
     storage: localStorage,

@@ -14,7 +14,7 @@ public class ReviewDetailResponse {
     private String writer;
     private String title;
     private String content;
-    private ReviewCategory reviewCategory;
+    private ReviewCategory category;
     private String elapsedTime;
     private Long viewCount;
     // 회원 프로필, 댓글 정보..
@@ -24,7 +24,7 @@ public class ReviewDetailResponse {
                 .id(review.getId())
                 .title(review.getTitle())
                 .content(review.getContent())
-                .reviewCategory(review.getReviewCategory())
+                .category(review.getCategory())
                 .writer(review.getMember().getNickname())
                 .elapsedTime(calcTimeBefore(review.getCreatedDate()))
                 .viewCount(review.getViewCount())
