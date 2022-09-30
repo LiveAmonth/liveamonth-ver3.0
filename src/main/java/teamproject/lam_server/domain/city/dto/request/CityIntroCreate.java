@@ -1,6 +1,6 @@
 package teamproject.lam_server.domain.city.dto.request;
 
-import lombok.Data;
+import lombok.*;
 import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.entity.CityIntro;
@@ -10,8 +10,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@Data
-public class CreateCityIntroRequest {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class CityIntroCreate {
     @NotNull
     private CityName name;
 

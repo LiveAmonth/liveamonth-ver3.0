@@ -1,13 +1,14 @@
 package teamproject.lam_server.domain.city.dto.request;
 
-import lombok.Data;
-import org.springframework.context.annotation.EnableLoadTimeWeaving;
+import lombok.*;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 
-@Data
-public class UpdateCityIntroRequest {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class CityIntroEdit {
     @Lob
     @NotBlank
     private String content;

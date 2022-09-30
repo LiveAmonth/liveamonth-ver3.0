@@ -1,6 +1,8 @@
 package teamproject.lam_server.domain.city.dto.request;
 
-import lombok.Data;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
 import org.hibernate.validator.constraints.Range;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.constants.TransportCategory;
@@ -9,8 +11,11 @@ import teamproject.lam_server.domain.city.entity.CityTransport;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
-@Data
-public class CreateCityTransportRequest {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class CityTransportCreate {
 
     @NotNull
     private CityName name;

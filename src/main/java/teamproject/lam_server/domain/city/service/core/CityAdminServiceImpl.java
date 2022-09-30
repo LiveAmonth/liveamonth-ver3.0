@@ -43,19 +43,19 @@ public class CityAdminServiceImpl implements CityAdminService {
     private final DomainSpec<CityWeatherSortType> weatherSpec = new DomainSpec<>(CityWeatherSortType.class);
 
     @Override
-    public PostIdResponse saveIntro(CreateCityIntroRequest request) {
+    public PostIdResponse saveIntro(CityIntroCreate request) {
         CityIntro save = cityIntroRepository.save(request.toEntity());
         return PostIdResponse.of(save.getId());
     }
 
     @Override
-    public PostIdResponse saveTransport(CreateCityTransportRequest request) {
+    public PostIdResponse saveTransport(CityTransportCreate request) {
         CityTransport save = cityTransportRepository.save(request.toEntity());
         return PostIdResponse.of(save.getId());
     }
 
     @Override
-    public PostIdResponse saveWeather(CreateCityWeatherRequest request) {
+    public PostIdResponse saveWeather(CityWeatherCreate request) {
         CityWeather save = cityWeatherRepository.save(request.toEntity());
         return PostIdResponse.of(save.getId());
     }
@@ -94,14 +94,14 @@ public class CityAdminServiceImpl implements CityAdminService {
 
     @Override
     @Transactional
-    public void updateIntro(Long id, UpdateCityIntroRequest request) {
+    public void updateIntro(Long id, CityIntroEdit request) {
         CityIntro cityIntro = cityIntroRepository.getById(id);
         cityIntro.updateContent(request.getContent());
     }
 
     @Override
     @Transactional
-    public void updateTransport(Long id, UpdateCityTransportRequest request) {
+    public void updateTransport(Long id, CityTransportEdit request) {
         CityTransport cityTransport = cityTransportRepository.getById(id);
         cityTransport.updateStationCount(request.getStationCount());
     }

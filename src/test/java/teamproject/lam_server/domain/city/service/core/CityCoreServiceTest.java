@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
-import teamproject.lam_server.domain.city.dto.request.CreateCityIntroRequest;
+import teamproject.lam_server.domain.city.dto.request.CityIntroCreate;
 import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.repository.core.CityIntroRepository;
 import teamproject.lam_server.domain.city.repository.core.CityTransportRepository;
@@ -28,15 +28,18 @@ class CityCoreServiceTest {
 
     @Mock
     CityIntroRepository cityIntroRepository;
-    @Mock CityTransportRepository cityTransportRepository;
-    @Mock CityWeatherRepository cityWeatherRepository;
-    @Mock CityQueryRepository cityQueryRepository;
+    @Mock
+    CityTransportRepository cityTransportRepository;
+    @Mock
+    CityWeatherRepository cityWeatherRepository;
+    @Mock
+    CityQueryRepository cityQueryRepository;
 
 
     @Test
-    public void 도시_저장() throws Exception{
+    public void 도시_저장() throws Exception {
         //given
-        CreateCityIntroRequest request = createCityInfo();
+        CityIntroCreate request = createCityInfo();
         CityIntro cityIntro = createCityInfoEntity(request);
 
         Long fakeCityInfoId = 1l;
@@ -58,15 +61,17 @@ class CityCoreServiceTest {
         assertEquals(cityIntro.getName(), findCityIntro.getName());
         assertEquals(cityIntro.getCityInfoCat(), findCityIntro.getCityInfoCat());
     }
-    private CityIntro createCityInfoEntity(CreateCityIntroRequest request){
+
+    private CityIntro createCityInfoEntity(CityIntroCreate request) {
         return request.toEntity();
     }
-    private CreateCityIntroRequest createCityInfo(){
-        CreateCityIntroRequest request = new CreateCityIntroRequest();
-        request.setName(SE);
-        request.setCategory(INTRO);
-        request.setContent("테스트 데이터");
-        request.setImage("test.jpg");
-        return request;
+
+    private CityIntroCreate createCityInfo() {
+        return CityIntroCreate.builder()
+                .name(SE)
+                .category(INTRO)
+                .content("테스트 데이터")
+                .image("test.jpg")
+                .build();
     }
 }

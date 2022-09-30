@@ -18,11 +18,11 @@ public interface CityAdminService {
     /**
      * CREATE
      */
-    PostIdResponse saveIntro(CreateCityIntroRequest request);
+    PostIdResponse saveIntro(CityIntroCreate request);
 
-    PostIdResponse saveTransport(CreateCityTransportRequest request);
+    PostIdResponse saveTransport(CityTransportCreate request);
 
-    PostIdResponse saveWeather(CreateCityWeatherRequest request);
+    PostIdResponse saveWeather(CityWeatherCreate request);
 
     /**
      * READ
@@ -39,9 +39,9 @@ public interface CityAdminService {
     /**
      * UPDATE
      */
-    void updateIntro(Long id, UpdateCityIntroRequest request);
+    void updateIntro(Long id, CityIntroEdit request);
 
-    void updateTransport(Long id, UpdateCityTransportRequest request);
+    void updateTransport(Long id, CityTransportEdit request);
 
 
     /**
