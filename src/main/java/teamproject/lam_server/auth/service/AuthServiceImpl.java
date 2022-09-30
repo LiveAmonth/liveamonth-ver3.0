@@ -20,6 +20,7 @@ import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
 import teamproject.lam_server.exception.badrequest.InvalidRefreshToken;
 import teamproject.lam_server.exception.forbidden.DroppedMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.redis.RedisRepository;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -30,11 +31,12 @@ import static org.springframework.util.StringUtils.hasText;
 public class AuthServiceImpl implements AuthService {
     private static final String BLACK_LIST_VALUE = "LOGOUT_TOKEN";
 
+    private final SecurityContextFinder securityContextFinder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final MemberRepository memberRepository;
     private final RedisRepository redisRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
 
     public TokenResponse login(LoginRequest request) {
         // request로 온 loginId를 가지고 해당 회원이 있는지 확인
@@ -94,15 +96,13 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
-    public void logout(String accessTokenRequest) {
+    public void logout(String accessToken) {
         // JwtAuthenticationFilter 에서 doFilter 메서드를 통해 securityContext 에 들어있는 Authentication 객체를 가져옴.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // 위의 정보(loginId)로 저장된 refresh token 이 redis 에 있을 경우 삭제
         String key = jwtTokenProvider.getRefreshTokenKey(authentication);
         if (redisRepository.hasKey(key)) redisRepository.delete(key);
-
-        String accessToken = accessTokenRequest.substring(7);
 
         // Access 토큰의 유효시간을 가져옴
         Long expiration = jwtTokenProvider.getExpiration(accessToken);
@@ -117,12 +117,16 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.clearContext();
     }
 
+    /**
+     * 소셜 로그인 가입 부분 수정 해야함... 이메일로 들어오는데 내 서비스는 아이디를 따로 만들어서 사용
+     * PrincipalDetail을 Authentication에서 가져올수 없음 로그인 아이디만 가져올수있음.
+     */
     @Override
     @Transactional
     public TokenResponse socialRegister(OAuth2RegisterEditor request) {
         PrincipalDetails oAuth2User = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication();
-
-        Member member = oAuth2User.getMember();
+        securityContextFinder.getLoggedInMember();
+        Member member = securityContextFinder.getLoggedInMember();
 
         OAuth2RegisterEditor editor = member.toOAuth2Editor()
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -132,7 +136,16 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         member.registerBasicInfo(editor);
+        UsernamePasswordAuthenticationToken authenticationToken = request.toAuthentication(member.getEmail());
 
+        /*
+          AuthenticationManagerBuilder 의 authenticate 메서드가 호출되면
+          CustomUserDetailService 에서 override 한 loadUserByUsername 이 호출됨.
+          loadUserByUsername 으로 가져온 UserDetails 객체를 가지고 password check 를 한다.
+          response -> Member(role...)
+         */
+        Authentication authentication = authenticationManagerBuilder.getObject()
+                .authenticate(authenticationToken);
         // 인증 정보를 기반으로 토큰(access, refresh, expiration) 생성
         TokenResponse tokenResponse = jwtTokenProvider.generateToken((Authentication) oAuth2User);
 
@@ -144,9 +157,6 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * 유효하지 않은 토큰인지 확인
-     *
-     * @param token
-     * @return
      */
     private boolean isInvalidationToken(String token) {
         return !jwtTokenProvider.validateToken(token);

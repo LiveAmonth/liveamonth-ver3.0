@@ -7,8 +7,8 @@ import java.util.Map;
 
 @Getter
 public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
-    private Map<String, Object> accounts;
-    private Map<String, Object> profile;
+    private final Map<String, Object> accounts;
+    private final Map<String, Object> profile;
 
     public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);

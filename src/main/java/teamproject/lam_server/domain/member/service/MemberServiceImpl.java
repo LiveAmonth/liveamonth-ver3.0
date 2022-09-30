@@ -1,10 +1,9 @@
 package teamproject.lam_server.domain.member.service;
 
-import org.springframework.security.core.Authentication;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
 import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
 import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
@@ -20,7 +19,7 @@ import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.NotDropMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.global.dto.PostIdResponse;
-import teamproject.lam_server.global.service.BasicMemberService;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
 import teamproject.lam_server.mail.service.MailService;
 import teamproject.lam_server.util.JwtUtil;
@@ -28,17 +27,14 @@ import teamproject.lam_server.util.JwtUtil;
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberServiceImpl extends BasicMemberService implements MemberService{
+public class MemberServiceImpl implements MemberService {
 
+    private final SecurityContextFinder finder;
     private final MailService mailService;
+    private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public MemberServiceImpl(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider, MailService mailService, PasswordEncoder passwordEncoder) {
-        super(memberRepository, jwtTokenProvider);
-        this.mailService = mailService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     @Transactional
@@ -48,34 +44,26 @@ public class MemberServiceImpl extends BasicMemberService implements MemberServi
     }
 
     @Override
-    public MemberProfileResponse getMember(String accessToken) {
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-        return MemberProfileResponse.of(
-                memberRepository.findByLoginId(authentication.getName())
-                        .orElseThrow(MemberNotFound::new)
-        );
+    public MemberProfileResponse getMember() {
+        return MemberProfileResponse.of(finder.getLoggedInMember());
     }
 
     @Override
-    public SimpleProfileResponse getSimpleProfile(String accessToken) {
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
-        return SimpleProfileResponse.of(
-                memberRepository.findByLoginId(authentication.getName())
-                        .orElseThrow(MemberNotFound::new)
-        );
+    public SimpleProfileResponse getSimpleProfile() {
+        return SimpleProfileResponse.of(finder.getLoggedInMember());
     }
 
     @Override
-    public FormCheckResponse reconfirm(String token, ReconfirmRequest request) {
-        return passwordEncoder.matches(request.getPassword(), getMemberByToken(token).getPassword())
+    public FormCheckResponse reconfirm(ReconfirmRequest request) {
+        return passwordEncoder.matches(request.getPassword(), finder.getLoggedInMember().getPassword())
                 ? FormCheckResponse.of(true, "", SUCCESS_RECONFIRM)
                 : FormCheckResponse.of(false, "", FAIL_RECONFIRM);
     }
 
     @Override
     @Transactional
-    public void editProfile(String token, ProfileEditor request) {
-        Member member = getMemberByToken(token);
+    public void editProfile(ProfileEditor request) {
+        Member member = finder.getLoggedInMember();
 
         ProfileEditor editor = member.toProfileEditor()
                 .nickname(request.getNickname())
@@ -88,8 +76,8 @@ public class MemberServiceImpl extends BasicMemberService implements MemberServi
 
     @Override
     @Transactional
-    public void changePassword(String token, PasswordEditor request) {
-        Member member = getMemberByToken(token);
+    public void changePassword(PasswordEditor request) {
+        Member member = finder.getLoggedInMember();
 
         PasswordEditor editor = member.toPasswordEditor()
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -100,10 +88,8 @@ public class MemberServiceImpl extends BasicMemberService implements MemberServi
 
     @Override
     @Transactional
-    public void dropUser(String token) {
-        Member member = getMemberByToken(token);
-
-        member.drop();
+    public void dropUser() {
+        finder.getLoggedInMember().drop();
     }
 
     @Override

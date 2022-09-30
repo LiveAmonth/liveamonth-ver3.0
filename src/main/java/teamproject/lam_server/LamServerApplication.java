@@ -11,11 +11,8 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import teamproject.lam_server.config.AppProperties;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -37,11 +34,5 @@ public class LamServerApplication {
         SessionLocaleResolver resolver = new SessionLocaleResolver();
         resolver.setDefaultLocale(Locale.KOREA);
         return resolver;
-    }
-
-    @PostConstruct
-    public void setTimeZone() {
-        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-        log.info("현재 시각={}", new Date());
     }
 }

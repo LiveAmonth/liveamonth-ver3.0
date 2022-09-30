@@ -14,7 +14,6 @@ import teamproject.lam_server.paging.PageableDTO;
 import javax.validation.Valid;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
-import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 
 @RestController
 @RequestMapping("/api/v1/inquiries")
@@ -24,24 +23,19 @@ public class InquiryApiController {
     private final InquiryService inquiryService;
 
     @PostMapping
-    public ResponseEntity<?> writeInquiry(
-            @RequestHeader(value = "Authorization") String accessTokenRequest,
-            @Valid @RequestBody InquiryEditor request) {
-        inquiryService.write(extractAccessToken(accessTokenRequest), request);
+    public ResponseEntity<?> writeInquiry(@Valid @RequestBody InquiryEditor request) {
+        inquiryService.write(request);
         return CustomResponse.success(CREATE_INQUIRY);
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getInquiries(
-            @RequestHeader(value = "Authorization") String accessTokenRequest,
-            PageableDTO pageableDTO) {
-        CustomPage<InquiryListResponse> result = inquiryService.getInquires(extractAccessToken(accessTokenRequest), pageableDTO);
+    public ResponseEntity<?> getInquiries(PageableDTO pageableDTO) {
+        CustomPage<InquiryListResponse> result = inquiryService.getInquires(pageableDTO);
         return CustomResponse.success(READ_INQUIRY, result);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getInquiry(
-            @PathVariable Long id) {
+    public ResponseEntity<?> getInquiry(@PathVariable Long id) {
         InquiryResponse result = inquiryService.getInquiry(id);
         return CustomResponse.success(READ_INQUIRY, result);
     }

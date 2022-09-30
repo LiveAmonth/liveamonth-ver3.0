@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.entity.BaseEntity;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @MappedSuperclass
-public abstract class CommentEntity extends BaseTimeEntity {
+public abstract class CommentEntity extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")

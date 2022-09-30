@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Getter
 public class PrincipalDetails implements UserDetails, OAuth2User {
-    private Member member;
+    private final Member member;
     private Map<String, Object> attributes;
 
     public PrincipalDetails(Member member) {

@@ -3,6 +3,7 @@ package teamproject.lam_server.domain.member.dto.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import teamproject.lam_server.domain.member.constants.GenderType;
 
 import javax.validation.constraints.*;
@@ -33,5 +34,11 @@ public class OAuth2RegisterEditor {
         this.nickname = nickname;
         this.birth = birth;
         this.gender = gender;
+    }
+
+    public UsernamePasswordAuthenticationToken toAuthentication(String loginId){
+        return new UsernamePasswordAuthenticationToken(
+                loginId, password
+        );
     }
 }

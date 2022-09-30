@@ -1,10 +1,15 @@
 package teamproject.lam_server.domain.member.service;
 
-import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
 import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
-import teamproject.lam_server.domain.member.dto.request.*;
-import teamproject.lam_server.domain.member.dto.response.*;
+import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
+import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
+import teamproject.lam_server.domain.member.dto.request.ReconfirmRequest;
+import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
+import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
+import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
+import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.global.dto.PostIdResponse;
 
 public interface MemberService{
@@ -42,20 +47,19 @@ public interface MemberService{
     /**
      * 비밀번호 재확인
      */
-    FormCheckResponse reconfirm(String token, ReconfirmRequest request);
+    FormCheckResponse reconfirm(ReconfirmRequest request);
 
     /**
      * 회원 정보  수정
      */
-    void editProfile(String token, ProfileEditor request);
+    void editProfile(ProfileEditor request);
 
-    @Transactional
-    void changePassword(String token, PasswordEditor request);
+    void changePassword(PasswordEditor request);
 
     /**
      * 회원 탈퇴
      */
-    void dropUser(String token);
+    void dropUser();
 
     /**
      * 회원 DB 삭제
@@ -65,10 +69,10 @@ public interface MemberService{
     /**
      * 회원 정보 조회
      */
-    MemberProfileResponse getMember(String accessToken);
+    MemberProfileResponse getMember();
 
     /**
      * 메인 화면 프로필
      */
-    SimpleProfileResponse getSimpleProfile(String accessToken);
+    SimpleProfileResponse getSimpleProfile();
 }

@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.schedule.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,7 @@ import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleQueryRepository;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
@@ -25,18 +25,19 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
-@Slf4j
+@Transactional(readOnly = true)
 public class ScheduleServiceImpl implements ScheduleService {
+    private final SecurityContextFinder finder;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleQueryRepository scheduleQueryRepository;
     private final ScheduleCommentRepositoryImpl commentRepository;
     private final DomainSpec<ScheduleSortType> spec = new DomainSpec<>(ScheduleSortType.class);
 
+    @Override
     @Transactional
-    public void addSchedule(Long memberId, ScheduleEditor request) {
-        scheduleRepository.addSchedule(memberId, request);
+    public void addSchedule(ScheduleEditor request) {
+        scheduleRepository.save(request.toEntity(finder.getLoggedInMember()));
     }
 
     @Override
@@ -44,6 +45,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void editSchedule(Long scheduleId, ScheduleEditor request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(ScheduleNotFound::new);
+
+        finder.checkLegalWriterOfPost(schedule);
 
         ScheduleEditor editor = schedule.toEditor()
                 .title(request.getTitle())
@@ -58,7 +61,11 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     @Transactional
     public void deleteSchedule(Long scheduleId) {
-        scheduleRepository.deleteSchedule(scheduleId);
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(ScheduleNotFound::new);
+        finder.checkLegalWriterOfPost(schedule);
+
+        scheduleRepository.delete(schedule);
     }
 
     @Override

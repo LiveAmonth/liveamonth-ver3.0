@@ -7,20 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.entity.member.Follower;
-import teamproject.lam_server.domain.member.entity.Member;
-
-import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<Follower, Long> {
-    Optional<Follower> findByFromAndTo(Member from, Member to);
-
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into follower (created_date, last_modified_date, from_member_id, to_member_id) " +
-            "values(now(), now(), :#{#request.from}, :#{#request.to})"
+            "insert into follower (created_date, last_modified_date, created_by, last_modified_by, from_member_id, to_member_id) " +
+            "values(now(), now(), :auditor, :auditor, :#{#request.from}, :#{#request.to})"
             , nativeQuery = true)
-    void follow(@Param("request") InteractionRequest request);
+    void follow(@Param("auditor") String auditor, @Param("request") InteractionRequest request);
 
     @Modifying
     @Transactional

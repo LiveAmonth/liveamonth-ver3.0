@@ -5,9 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
 import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
-import teamproject.lam_server.domain.member.dto.request.*;
-import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
+import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
+import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
+import teamproject.lam_server.domain.member.dto.request.ReconfirmRequest;
+import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
+import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.service.MemberService;
@@ -17,7 +20,6 @@ import teamproject.lam_server.global.dto.PostIdResponse;
 import javax.validation.Valid;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
-import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,10 +38,8 @@ public class MemberApiController {
     }
 
     @PostMapping("/reconfirm")
-    public ResponseEntity<?> reconfirm(
-            @Valid @RequestBody ReconfirmRequest request,
-            @RequestHeader(value = "Authorization") String accessTokenRequest) {
-        FormCheckResponse result = memberService.reconfirm(extractAccessToken(accessTokenRequest), request);
+    public ResponseEntity<?> reconfirm(@Valid @RequestBody ReconfirmRequest request) {
+        FormCheckResponse result = memberService.reconfirm(request);
         return CustomResponse.success(RECONFIRM, result);
     }
 
@@ -68,18 +68,14 @@ public class MemberApiController {
      * -> modify user information
      */
     @PatchMapping("/profile")
-    public ResponseEntity<?> editProfile(
-            @RequestHeader(value = "Authorization") String accessTokenRequest,
-            @Valid @RequestBody ProfileEditor request) {
-        memberService.editProfile(extractAccessToken(accessTokenRequest), request);
+    public ResponseEntity<?> editProfile(@Valid @RequestBody ProfileEditor request) {
+        memberService.editProfile(request);
         return CustomResponse.success(UPDATE_MEMBER);
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<?> changePassword(
-            @RequestHeader(value = "Authorization") String accessTokenRequest,
-            @Valid @RequestBody PasswordEditor request) {
-        memberService.changePassword(extractAccessToken(accessTokenRequest), request);
+    public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordEditor request) {
+        memberService.changePassword(request);
         return CustomResponse.success(UPDATE_MEMBER);
     }
 
@@ -88,8 +84,8 @@ public class MemberApiController {
      * -> drop user(customer)
      */
     @PostMapping("/drop")
-    public ResponseEntity<?> dropUser(@RequestHeader(value = "Authorization") String accessTokenRequest) {
-        memberService.dropUser(extractAccessToken(accessTokenRequest));
+    public ResponseEntity<?> dropUser() {
+        memberService.dropUser();
         return CustomResponse.success(DROP_MEMBER);
     }
 
@@ -124,14 +120,14 @@ public class MemberApiController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getMember(@RequestHeader("Authorization") String token) {
-        MemberProfileResponse result = memberService.getMember(extractAccessToken(token));
+    public ResponseEntity<?> getMember() {
+        MemberProfileResponse result = memberService.getMember();
         return CustomResponse.success(READ_MEMBER, result);
     }
 
     @GetMapping("/profile/simple")
-    public ResponseEntity<?> getSimpleProfile(@RequestHeader("Authorization") String token) {
-        SimpleProfileResponse result = memberService.getSimpleProfile(extractAccessToken(token));
+    public ResponseEntity<?> getSimpleProfile() {
+        SimpleProfileResponse result = memberService.getSimpleProfile();
         return CustomResponse.success(READ_MEMBER, result);
     }
 

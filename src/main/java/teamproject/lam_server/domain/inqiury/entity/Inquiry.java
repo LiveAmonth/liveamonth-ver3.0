@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
 import teamproject.lam_server.domain.inqiury.dto.editor.InquiryEditor;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.entity.BaseEntity;
 
 import javax.persistence.*;
 
-import static javax.persistence.EnumType.*;
-import static javax.persistence.FetchType.*;
+import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AttributeOverride(name = "id", column = @Column(name = "inquiry_id"))
-public class Inquiry extends BaseTimeEntity {
+public class Inquiry extends BaseEntity {
 
     private String title;
     private String content;

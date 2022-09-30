@@ -28,10 +28,8 @@ public interface AuthService {
      * 5. Refresh Token 과 request 의 refresh token 값 비교 <P>
      * 6. 새로운 token 정보 생성 <P>
      * 7. Redis 에 Refresh 토큰 업데이트
-     *
-     * @return
      */
-    TokenResponse reissue(String accessTokenRequest, String refreshTokenRequest);
+    TokenResponse reissue(String bearerToken, String refreshTokenRequest);
 
     /**
      * JwtAuthenticationFilter 에서 doFilter 메서드를 통해 securityContext 에 Authentication 객체가 이미 들어있음<p>
@@ -42,7 +40,7 @@ public interface AuthService {
      * 4. Redis 에 Acces Token을 키 값으로 가지는 블랙 리스트 추가
      * 5. SecurityContext 에 있는 authentication 객체를 삭제.
      */
-    void logout(String accessTokenRequest);
+    void logout(String bearerToken);
 
     TokenResponse socialRegister(OAuth2RegisterEditor request);
 }

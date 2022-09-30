@@ -44,6 +44,9 @@ public enum ErrorCode {
     INVALID_OAUTH2_PROVIDER(400, "제공자(소셜)가 올바르지 않습니다."),
     ILLEGAL_ARGUMENT(400, "적절하지 않은 인자입니다."),
 
+    ILLEGAL_OWNER_OF_POST(400, "해당 게시물의 작성자가 아닙니다."),
+    ILLEGAL_LOGGED_IN_MEMBER(400, "로그인 되어 있는 회원 정보와 일치하지 않습니다."),
+
     /**
      * <p>
      * Status: 403 FORBIDDEN
