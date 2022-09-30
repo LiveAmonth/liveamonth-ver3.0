@@ -1,13 +1,12 @@
 package teamproject.lam_server.auth.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.auth.dto.AccessTokenResponse;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.auth.service.AuthService;
-import teamproject.lam_server.domain.member.dto.request.LoginRequest;
+import teamproject.lam_server.domain.member.dto.request.MemberLogin;
 import teamproject.lam_server.global.dto.CustomResponse;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,13 +21,12 @@ import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-@Slf4j
 public class AuthApiController {
 
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> login(@Valid @RequestBody MemberLogin request, HttpServletResponse response) {
         TokenResponse result = authService.login(request);
         response.addCookie(addRefreshTokenCookie(result.getRefreshToken()));
         return CustomResponse.success(LOGIN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));
@@ -37,8 +35,8 @@ public class AuthApiController {
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(
             @RequestHeader(value = "Authorization") String bearerToken,
-            @CookieValue(value = "Refresh-Token") String refreshTokenRequest, HttpServletResponse response) {
-        TokenResponse result = authService.reissue(extractAccessToken(bearerToken), refreshTokenRequest);
+            @CookieValue(value = "Refresh-Token") String refreshToken, HttpServletResponse response) {
+        TokenResponse result = authService.reissue(extractAccessToken(bearerToken), refreshToken);
         response.addCookie(addRefreshTokenCookie(result.getRefreshToken()));
         return CustomResponse.success(REISSUE_TOKEN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));
     }
@@ -53,7 +51,7 @@ public class AuthApiController {
     }
 
 //    @PostMapping("/login/register")
-//    public ResponseEntity<?> registerBasicProfile(@Valid @RequestBody OAuth2RegisterEditor request, HttpServletResponse response) {
+//    public ResponseEntity<?> registerBasicProfile(@Valid @RequestBody OAuth2RegisterEdit request, HttpServletResponse response) {
 //        TokenResponse result = authService.socialRegister(request);
 //        return CustomResponse.success(LOGIN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));
 //    }

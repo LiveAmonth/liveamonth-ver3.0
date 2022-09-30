@@ -1,8 +1,10 @@
 package teamproject.lam_server.domain.member.dto.request;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.entity.Member;
@@ -10,8 +12,11 @@ import teamproject.lam_server.domain.member.entity.Member;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-@Data
-public class SignUpRequest {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class MemberCreate {
 
     @NotEmpty
     @Pattern(regexp = "[a-zA-Z\\d]{3,20}")

@@ -1,12 +1,17 @@
 package teamproject.lam_server.domain.member.dto.request;
 
-import lombok.Data;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@Data
-public class FindPasswordRequest {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class MemberFindPassword {
 
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9]{3,20}")

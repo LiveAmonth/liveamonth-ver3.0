@@ -1,13 +1,17 @@
 package teamproject.lam_server.domain.member.dto.request;
 
-import lombok.Data;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
-@Data
-public class LoginRequest {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class MemberLogin {
 
     @NotBlank
     private String loginId;
