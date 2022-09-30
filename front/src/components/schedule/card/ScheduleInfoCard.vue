@@ -3,7 +3,7 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import PopoverProfileSlot from "@/components/common/PopoverProfileSlot.vue";
 import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
 import { Location, Money, View, Right, Close } from "@element-plus/icons-vue";
-import { useType } from "@/composables/common/type";
+import { useCategory } from "@/composables/common/category";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSchedule } from "@/composables/schedule/schedule";
@@ -34,7 +34,7 @@ const props = defineProps({
 const emit = defineEmits(["goToMemberSchedules", "deleteSchedule"]);
 
 const router = useRouter();
-const { scheduleSearchType, scheduleSortType } = useType();
+const { scheduleSearchType, scheduleSortType } = useCategory();
 const { setSchedule } = useSchedule();
 const { openConfirmMessageBox } = useMessageBox();
 const { t } = useI18n();

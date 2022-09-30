@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import CustomPagination from "@/components/common/CustomPagination.vue";
-import ScheduleFilter from "@/components/schedule/list/ScheduleFilter.vue";
+import ScheduleSearchEngine from "@/components/schedule/list/ScheduleSearchEngine.vue";
 import SchedulePageList from "@/components/schedule/list/SchedulePageList.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
@@ -51,7 +51,7 @@ const applyOptions = async (data: SearchSortFormType) => {
   <el-row>
     <el-col>
       <div v-if="!isMain" class="search-filter">
-        <ScheduleFilter @apply-option="applyOptions" />
+        <ScheduleSearchEngine @apply-option="applyOptions" />
       </div>
       <div class="schedule-list-container">
         <el-row>

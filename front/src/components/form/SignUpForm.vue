@@ -4,14 +4,14 @@ import { onMounted, reactive, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useRouter } from "vue-router";
-import { useType } from "@/composables/common/type";
+import { useCategory } from "@/composables/common/category";
 import type { FormInstance } from "element-plus";
 import type { SignUpCheckType } from "@/modules/types/form/FormType";
 
 const router = useRouter();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 const { error, isPending, signUp, checkField, resetField } = useMember();
-const { getGenderType, genderType } = useType();
+const { getGenderType, genderType } = useCategory();
 
 onMounted(async () => {
   await getGenderType();
