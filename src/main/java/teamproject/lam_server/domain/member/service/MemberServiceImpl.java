@@ -15,7 +15,7 @@ import teamproject.lam_server.domain.member.entity.ProfileEditor;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.NotDropMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
-import teamproject.lam_server.global.dto.PostIdResponse;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
 import teamproject.lam_server.mail.service.MailService;

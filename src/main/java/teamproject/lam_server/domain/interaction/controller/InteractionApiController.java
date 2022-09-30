@@ -7,7 +7,7 @@ import teamproject.lam_server.domain.interaction.constants.ReactType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.dto.ReactedCommentResponse;
 import teamproject.lam_server.domain.interaction.service.InteractionServiceFinder;
-import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.global.dto.response.CustomResponse;
 
 import javax.validation.Valid;
 import java.util.List;

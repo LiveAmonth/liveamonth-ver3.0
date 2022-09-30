@@ -8,7 +8,7 @@ import teamproject.lam_server.domain.inqiury.dto.request.InquiryEdit;
 import teamproject.lam_server.domain.inqiury.dto.response.InquiryListResponse;
 import teamproject.lam_server.domain.inqiury.dto.response.InquiryResponse;
 import teamproject.lam_server.domain.inqiury.service.InquiryService;
-import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 

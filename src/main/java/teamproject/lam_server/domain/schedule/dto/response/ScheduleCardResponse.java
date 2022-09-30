@@ -9,7 +9,7 @@ import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.global.entity.Period;
+import teamproject.lam_server.global.dto.response.PeriodResponse;
 
 /**
  * for schedule list view
@@ -27,7 +27,7 @@ public class ScheduleCardResponse {
     private int hits;
     private int likes;
     private int comments;
-    private Period period;
+    private PeriodResponse period;
     private CommentResponse comment;
 
     public static ScheduleCardResponse of(Schedule schedule, @Nullable CommentResponse comment){
@@ -40,7 +40,7 @@ public class ScheduleCardResponse {
                 .hits(schedule.getViewCount())
                 .likes(schedule.getLikeCount())
                 .comments(schedule.getCommentCount())
-                .period(schedule.getPeriod())
+                .period(PeriodResponse.of(schedule.getPeriod()))
                 .comment(comment)
                 .build();
     }

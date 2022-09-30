@@ -3,7 +3,7 @@ package teamproject.lam_server.domain.review.dto.response;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.review.entity.Review;
-import teamproject.lam_server.global.dto.ProfileCardResponse;
+import teamproject.lam_server.global.dto.response.ProfileCardResponse;
 
 @Data
 @NoArgsConstructor

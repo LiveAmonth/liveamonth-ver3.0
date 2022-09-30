@@ -7,7 +7,7 @@ import teamproject.lam_server.auth.dto.response.AccessTokenResponse;
 import teamproject.lam_server.auth.dto.response.TokenResponse;
 import teamproject.lam_server.auth.service.AuthService;
 import teamproject.lam_server.domain.member.dto.request.MemberLogin;
-import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.global.dto.response.CustomResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

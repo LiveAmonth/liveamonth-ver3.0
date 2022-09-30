@@ -24,8 +24,8 @@ import teamproject.lam_server.domain.city.repository.core.CityTransportRepositor
 import teamproject.lam_server.domain.city.repository.core.CityWeatherRepository;
 import teamproject.lam_server.domain.city.repository.query.CityQueryRepository;
 import teamproject.lam_server.exception.notfound.CityNotFound;
-import teamproject.lam_server.global.dto.IdListRequest;
-import teamproject.lam_server.global.dto.PostIdResponse;
+import teamproject.lam_server.global.dto.request.IdListRequest;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 

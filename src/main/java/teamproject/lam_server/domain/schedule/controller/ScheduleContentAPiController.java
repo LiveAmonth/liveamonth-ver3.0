@@ -7,7 +7,7 @@ import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentCreate;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleContentService;
-import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.global.dto.response.CustomResponse;
 
 import javax.validation.Valid;
 import java.util.List;

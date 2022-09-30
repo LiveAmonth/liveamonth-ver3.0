@@ -2,41 +2,41 @@
   {
     "comment": "스케줄 댓글입니다. 1",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   },
   {
     "comment": "안녕하세요!!!!",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   },
   {
     "comment": "감사합니다@@@@@@@@@@@",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   },
   {
     "comment": "잘보고 갑니다@@@@@@@@@@@",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   },
   {
     "comment": "좋은 글이네요",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   },
   {
     "comment": "굿굿굿",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   },
   {
     "comment": "일정참고 할게요",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   },
   {
     "comment": "좋은 글 감사합니다.",
     "content_id": 1,
-    "comment_id": null
+    "parent_id": null
   }
 ]

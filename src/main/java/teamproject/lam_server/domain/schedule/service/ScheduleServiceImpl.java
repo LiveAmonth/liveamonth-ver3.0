@@ -52,7 +52,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         ScheduleEditor editor = schedule.toEditor()
                 .title(request.getTitle())
-                .period(request.getPeriod())
+                .period(request.getPeriod().toEntity())
                 .publicFlag(request.isPublicFlag())
                 .city(request.getCity())
                 .build();

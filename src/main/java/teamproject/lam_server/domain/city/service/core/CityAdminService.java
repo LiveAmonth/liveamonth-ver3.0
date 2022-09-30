@@ -9,8 +9,8 @@ import teamproject.lam_server.domain.city.dto.response.CityIntroResponse;
 import teamproject.lam_server.domain.city.dto.response.CityTransportResponse;
 import teamproject.lam_server.domain.city.dto.response.CityWeatherResponse;
 import teamproject.lam_server.domain.city.dto.response.SimpleCityInfoResponse;
-import teamproject.lam_server.global.dto.IdListRequest;
-import teamproject.lam_server.global.dto.PostIdResponse;
+import teamproject.lam_server.global.dto.request.IdListRequest;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.PageableDTO;
 
 public interface CityAdminService {

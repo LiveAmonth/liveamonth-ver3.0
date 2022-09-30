@@ -3,7 +3,7 @@ package teamproject.lam_server.domain.schedule.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
-import teamproject.lam_server.global.entity.TimePeriod;
+import teamproject.lam_server.global.dto.response.TimePeriodResponse;
 
 @Getter
 @Builder
@@ -13,7 +13,7 @@ public class ScheduleContentResponse {
     private String title;
     private String content;
     private int cost;
-    private TimePeriod timePeriod;
+    private TimePeriodResponse timePeriod;
 
     public static ScheduleContentResponse of(ScheduleContent schedulecontent) {
         return ScheduleContentResponse.builder()
@@ -21,7 +21,7 @@ public class ScheduleContentResponse {
                 .title(schedulecontent.getTitle())
                 .content(schedulecontent.getContent())
                 .cost(schedulecontent.getCost())
-                .timePeriod(schedulecontent.getTimePeriod())
+                .timePeriod(TimePeriodResponse.of(schedulecontent.getTimePeriod()))
                 .build();
     }
 

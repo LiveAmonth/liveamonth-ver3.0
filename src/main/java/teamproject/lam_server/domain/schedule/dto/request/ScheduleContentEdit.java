@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import teamproject.lam_server.global.entity.TimePeriod;
+import teamproject.lam_server.global.dto.request.TimePeriodRequest;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
@@ -26,7 +26,7 @@ public class ScheduleContentEdit {
     private String content;
 
     @NotNull
-    private TimePeriod timePeriod;
+    private TimePeriodRequest timePeriod;
 
     @Min(0)
     private int cost;
