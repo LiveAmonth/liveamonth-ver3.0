@@ -4,7 +4,7 @@ import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
-import { useType } from "@/composables/common/type";
+import { useCategory } from "@/composables/common/category";
 import { reactive, ref } from "vue";
 import type { FormInstance } from "element-plus";
 import type { SignUpCheckType } from "@/modules/types/form/FormType";
@@ -19,7 +19,7 @@ const {
   checkField,
   resetField,
 } = useMember();
-const { genderType } = useType();
+const { genderType } = useCategory();
 
 const form = reactive<ProfileEditor>(new ProfileEditor(memberProfile.value));
 const checkForm = reactive<SignUpCheckType>(form.checkForm);

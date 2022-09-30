@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from "vue";
 import { Search, Filter, Sort } from "@element-plus/icons-vue";
 import { useDate } from "@/composables/common/date";
 import { useCity } from "@/composables/city/city";
-import { useType } from "@/composables/common/type";
+import { useCategory } from "@/composables/common/category";
 import type { SearchSortFormType } from "@/modules/types/common/SearchType";
 
 const emit = defineEmits(["applyOption"]);
@@ -15,7 +15,8 @@ const {
   getScheduleSearchType,
   getScheduleFilterType,
   getScheduleSortType,
-} = useType();
+  hasScheduleCategories,
+} = useCategory();
 const { cityNames } = useCity();
 const scheduleSearchForm: SearchSortFormType = reactive({
   searchType: null,
@@ -34,18 +35,19 @@ const justifyClass = (collapse: number): string => {
 };
 
 onMounted(async () => {
-  await getScheduleSearchType().then(() => {
-    scheduleSearchForm.searchType = scheduleSearchType.value[0].code;
-  });
-
-  await getScheduleFilterType().then(() => {
-    scheduleSearchForm.filterType = scheduleFilterType.value[0].code;
-  });
-
-  await getScheduleSortType().then(() => {
-    scheduleSearchForm.sortType = scheduleSortType.value[0].title;
-  });
+  if (!hasScheduleCategories()) {
+    await getScheduleSearchType();
+    await getScheduleFilterType();
+    await getScheduleSortType();
+  }
+  setUpEngine();
 });
+
+const setUpEngine = () => {
+  scheduleSearchForm.searchType = scheduleSearchType.value[0].code;
+  scheduleSearchForm.filterType = scheduleFilterType.value[0].code;
+  scheduleSearchForm.sortType = scheduleSortType.value[0].title;
+};
 
 const selectSearchType = () => {
   scheduleSearchForm.searchInput = "";
