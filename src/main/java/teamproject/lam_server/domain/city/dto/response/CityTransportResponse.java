@@ -12,7 +12,7 @@ public class CityTransportResponse {
     private Long id;
     private CityName name;
     private TransportCategory category;
-    private int station_count;
+    private int stationCount;
     private int score;
 
     public static CityTransportResponse of(CityTransport cityTransport) {
@@ -20,7 +20,7 @@ public class CityTransportResponse {
                 .id(cityTransport.getId())
                 .name(cityTransport.getName())
                 .category(cityTransport.getCityTransportCat())
-                .station_count(cityTransport.getStationCount())
+                .stationCount(cityTransport.getStationCount())
                 .score(cityTransport.getScore())
                 .build();
     }
