@@ -35,10 +35,6 @@ public class CityApiServiceImpl implements CityApiService {
         return cityQueryRepository.findCityGridInfo(INTRO, getCurrentMonth());
     }
 
-    private MonthCategory getCurrentMonth() {
-        return MonthCategory.values()[LocalDateTime.now().getMonth().getValue() - 1];
-    }
-
     @Override
     public ExtraCityResponse searchTotalCityInfo(CityName cityName) {
         return ExtraCityResponse.of(
@@ -70,4 +66,7 @@ public class CityApiServiceImpl implements CityApiService {
         return introMap;
     }
 
+    private MonthCategory getCurrentMonth() {
+        return MonthCategory.values()[LocalDateTime.now().getMonth().getValue() - 1];
+    }
 }
