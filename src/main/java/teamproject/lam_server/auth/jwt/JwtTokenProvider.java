@@ -12,7 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.auth.dto.TokenResponse;
+import teamproject.lam_server.auth.dto.response.TokenResponse;
 import teamproject.lam_server.config.AppProperties;
 import teamproject.lam_server.exception.badrequest.PermissionNotAccessible;
 

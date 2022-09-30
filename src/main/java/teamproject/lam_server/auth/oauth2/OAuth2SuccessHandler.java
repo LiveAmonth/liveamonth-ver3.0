@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-import teamproject.lam_server.auth.dto.TokenResponse;
+import teamproject.lam_server.auth.dto.response.TokenResponse;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.redis.RedisRepository;
 import teamproject.lam_server.util.CookieUtil;
