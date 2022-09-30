@@ -6,29 +6,23 @@ import { useSchedule } from "@/composables/schedule/schedule";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
-import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";
-import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
 
-const props = defineProps({
+defineProps({
   scheduleId: {
     type: Number,
     required: true,
   },
-  period: {
-    type: Object as PropType<DatePeriodType>,
-    required: true,
-  },
 });
 const emits = defineEmits(["submit", "deleteContent"]);
-const { editContent } = useSchedule();
+const { editedSchedule, editContent } = useSchedule();
 const { selectedContent } = useCalendarEvent();
 const { openMessage, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
 const isEdit = ref<boolean>(!selectedContent.value);
 const contentForm = reactive<ScheduleContentEditor>(
-  new ScheduleContentEditor(props.period)
+  new ScheduleContentEditor(editedSchedule.value.period)
 );
 const ruleFormRef = ref<FormInstance>();
 
@@ -51,6 +45,13 @@ const cancelEdit = () => {
   contentForm.setForm(selectedContent.value);
   isEdit.value = false;
 };
+
+watch(
+  () => editedSchedule.value,
+  () => {
+    contentForm.schedulePeriod = editedSchedule.value.period;
+  }
+);
 
 watch(
   () => selectedContent.value,

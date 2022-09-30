@@ -191,7 +191,6 @@ const deleteContentBtn = async (contentId: number) => {
             </div>
             <EditContentForm
               :schedule-id="Number(selectedId)"
-              :period="editedSchedule.period"
               @submit="submitContentForm"
               @delete-content="deleteContentBtn"
             />
