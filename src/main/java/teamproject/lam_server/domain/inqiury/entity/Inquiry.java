@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
-import teamproject.lam_server.domain.inqiury.dto.editor.InquiryEditor;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.global.entity.BaseEntity;
 

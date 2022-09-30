@@ -1,27 +1,24 @@
-package teamproject.lam_server.domain.inqiury.dto.editor;
+package teamproject.lam_server.domain.inqiury.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
 import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.member.entity.Member;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class InquiryEditor {
+public class InquiryCreate {
 
+    @NotBlank
     private String title;
+    @NotBlank
     private String content;
+    @NotNull
     private InquiryCategory category;
-
-    @Builder
-    public InquiryEditor(String title, String content, InquiryCategory category) {
-        this.title = title;
-        this.content = content;
-        this.category = category;
-    }
 
     public Inquiry toEntity(Member member){
         return Inquiry.builder()
