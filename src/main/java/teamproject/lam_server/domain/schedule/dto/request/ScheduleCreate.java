@@ -1,25 +1,28 @@
-package teamproject.lam_server.domain.schedule.dto.editor;
+package teamproject.lam_server.domain.schedule.dto.request;
 
-import lombok.Builder;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.global.entity.Period;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
-@NoArgsConstructor
-public class ScheduleEditor {
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ScheduleCreate {
 
     @NotBlank
     private String title;
-
-    @NotNull
-    private boolean publicFlag;
 
     @NotNull
     private CityName city;
@@ -27,15 +30,14 @@ public class ScheduleEditor {
     @NotNull
     private Period period;
 
-    @Builder
-    public ScheduleEditor(String title, boolean publicFlag, CityName city, Period period) {
-        this.title = title;
-        this.publicFlag = publicFlag;
-        this.city = city;
-        this.period = period;
+    private boolean publicFlag;
+
+    @AssertTrue
+    public boolean isValidPeriod() {
+        return getPeriod().getStartDate().isBefore(getPeriod().getEndDate());
     }
 
-    public Schedule toEntity(Member member){
+    public Schedule toEntity(Member member) {
         return Schedule.builder()
                 .title(this.title)
                 .cityName(this.city)

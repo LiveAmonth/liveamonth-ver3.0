@@ -3,7 +3,9 @@ package teamproject.lam_server.domain.schedule.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.schedule.dto.editor.ScheduleContentEditor;
+import teamproject.lam_server.domain.schedule.entity.ScheduleContentEditor;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentCreate;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
@@ -26,7 +28,7 @@ public class ScheduleContentServiceImpl implements ScheduleContentService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public void addScheduleContent(Long scheduleId, ScheduleContentEditor request) {
+    public void addScheduleContent(Long scheduleId, ScheduleContentCreate request) {
         Schedule schedule = scheduleRepository
                 .findById(scheduleId)
                 .orElseThrow(ScheduleNotFound::new);
@@ -37,7 +39,7 @@ public class ScheduleContentServiceImpl implements ScheduleContentService {
 
     @Override
     @Transactional
-    public void editScheduleContent(Long contentId, ScheduleContentEditor request) {
+    public void editScheduleContent(Long contentId, ScheduleContentEdit request) {
         ScheduleContent scheduleContent = scheduleContentRepository.findById(contentId)
                 .orElseThrow(ScheduleNotFound::new);
         finder.checkLegalWriterOfPost(scheduleContent);

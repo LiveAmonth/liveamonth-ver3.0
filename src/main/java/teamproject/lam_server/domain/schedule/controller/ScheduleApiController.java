@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
-import teamproject.lam_server.domain.schedule.dto.editor.ScheduleEditor;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
@@ -24,7 +25,7 @@ public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
 
     @PostMapping
-    public ResponseEntity<?> addSchedule(@RequestBody @Valid ScheduleEditor request) {
+    public ResponseEntity<?> addSchedule(@RequestBody @Valid ScheduleCreate request) {
         scheduleApiService.addSchedule(request);
         return CustomResponse.success(CREATE_SCHEDULE);
     }
@@ -32,7 +33,7 @@ public class ScheduleApiController {
     @PatchMapping("/{scheduleId}")
     public ResponseEntity<?> editSchedule(
             @PathVariable Long scheduleId,
-            @RequestBody @Valid ScheduleEditor request) {
+            @RequestBody @Valid ScheduleEdit request) {
         scheduleApiService.editSchedule(scheduleId, request);
         return CustomResponse.success(UPDATE_SCHEDULE);
     }

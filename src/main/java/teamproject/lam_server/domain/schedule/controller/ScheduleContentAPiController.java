@@ -3,7 +3,8 @@ package teamproject.lam_server.domain.schedule.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.schedule.dto.editor.ScheduleContentEditor;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentCreate;
+import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleContentService;
 import teamproject.lam_server.global.dto.CustomResponse;
@@ -22,7 +23,7 @@ public class ScheduleContentAPiController {
     @PostMapping("/{scheduleId}/contents")
     public ResponseEntity<?> addScheduleContent(
             @PathVariable Long scheduleId,
-            @RequestBody @Valid ScheduleContentEditor request) {
+            @RequestBody @Valid ScheduleContentCreate request) {
         scheduleContentService.addScheduleContent(scheduleId, request);
         return CustomResponse.success(CREATE_SCHEDULE_CONTENT);
     }
@@ -31,7 +32,7 @@ public class ScheduleContentAPiController {
     @PatchMapping("/contents/{contentId}")
     public ResponseEntity<?> editScheduleContent(
             @PathVariable Long contentId,
-            @RequestBody @Valid ScheduleContentEditor request) {
+            @RequestBody @Valid ScheduleContentEdit request) {
         scheduleContentService.editScheduleContent(contentId, request);
         return CustomResponse.success(UPDATE_SCHEDULE);
     }
