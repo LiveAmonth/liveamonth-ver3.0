@@ -12,9 +12,10 @@ import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.auth.dto.TokenResponse;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.member.constants.AccountState;
-import teamproject.lam_server.domain.member.dto.request.LoginRequest;
-import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEditor;
+import teamproject.lam_server.domain.member.dto.request.MemberLogin;
+import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEdit;
 import teamproject.lam_server.domain.member.entity.Member;
+import teamproject.lam_server.domain.member.entity.OAuth2RegisterEditor;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
 import teamproject.lam_server.exception.badrequest.InvalidRefreshToken;
@@ -38,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
-    public TokenResponse login(LoginRequest request) {
+    public TokenResponse login(MemberLogin request) {
         // request로 온 loginId를 가지고 해당 회원이 있는지 확인
         if (memberRepository.findByLoginId(request.getLoginId())
                 .orElseThrow(MemberNotFound::new).getStatus() == AccountState.DROP) {
@@ -123,7 +124,7 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     @Transactional
-    public TokenResponse socialRegister(OAuth2RegisterEditor request) {
+    public TokenResponse socialRegister(OAuth2RegisterEdit request) {
         PrincipalDetails oAuth2User = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication();
         securityContextFinder.getLoggedInMember();
         Member member = securityContextFinder.getLoggedInMember();

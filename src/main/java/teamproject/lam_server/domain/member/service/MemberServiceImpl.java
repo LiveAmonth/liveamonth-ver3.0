@@ -4,17 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
-import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
-import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
-import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
-import teamproject.lam_server.domain.member.dto.request.ReconfirmRequest;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
+import teamproject.lam_server.domain.member.entity.PasswordEditor;
+import teamproject.lam_server.domain.member.entity.ProfileEditor;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.NotDropMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
@@ -38,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public PostIdResponse signUp(SignUpRequest request) {
+    public PostIdResponse signUp(MemberCreate request) {
         Member saveMember = memberRepository.save(request.toEntity(passwordEncoder));
         return PostIdResponse.of(saveMember.getId());
     }
@@ -54,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public FormCheckResponse reconfirm(ReconfirmRequest request) {
+    public FormCheckResponse reconfirm(MemberReconfirm request) {
         return passwordEncoder.matches(request.getPassword(), finder.getLoggedInMember().getPassword())
                 ? FormCheckResponse.of(true, "", SUCCESS_RECONFIRM)
                 : FormCheckResponse.of(false, "", FAIL_RECONFIRM);
@@ -62,7 +59,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void editProfile(ProfileEditor request) {
+    public void editProfile(ProfileEdit request) {
         Member member = finder.getLoggedInMember();
 
         ProfileEditor editor = member.toProfileEditor()
@@ -76,7 +73,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void changePassword(PasswordEditor request) {
+    public void changePassword(PasswordEdit request) {
         Member member = finder.getLoggedInMember();
 
         PasswordEditor editor = member.toPasswordEditor()
@@ -93,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public FindIdResponse findLoginId(FindIdRequest request) {
+    public FindIdResponse findLoginId(MemberFindId request) {
         Member findMember = memberRepository.findByNameAndEmail(
                         request.getName(), request.getEmail())
                 .orElseThrow(MemberNotFound::new);
@@ -102,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void findPassword(FindPasswordRequest request) {
+    public void findPassword(MemberFindPassword request) {
         // find user with request
         Member member = memberRepository.findByLoginIdAndEmail(request.getLoginId(), request.getEmail())
                 .orElseThrow(MemberNotFound::new);

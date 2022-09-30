@@ -1,8 +1,8 @@
 package teamproject.lam_server.auth.service;
 
 import teamproject.lam_server.auth.dto.TokenResponse;
-import teamproject.lam_server.domain.member.dto.request.LoginRequest;
-import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEditor;
+import teamproject.lam_server.domain.member.dto.request.MemberLogin;
+import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEdit;
 
 public interface AuthService {
 
@@ -17,7 +17,7 @@ public interface AuthService {
      * <p>
      * 3. 인증 정보를 기반으로 JWT토큰 생성
      */
-    TokenResponse login(LoginRequest request);
+    TokenResponse login(MemberLogin request);
 
     /**
      * Access 토큰이 만료되었을 때 갱신 <P>
@@ -42,5 +42,5 @@ public interface AuthService {
      */
     void logout(String bearerToken);
 
-    TokenResponse socialRegister(OAuth2RegisterEditor request);
+    TokenResponse socialRegister(OAuth2RegisterEdit request);
 }

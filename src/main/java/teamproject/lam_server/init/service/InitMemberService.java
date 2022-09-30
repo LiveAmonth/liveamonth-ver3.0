@@ -3,7 +3,7 @@ package teamproject.lam_server.init.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.util.JsonUtil;
 
@@ -18,8 +18,8 @@ public class InitMemberService {
 
     public void initMemberData() {
         memberRepository.saveAll(
-                JsonUtil.jsonArrayToList(MEMBER, SignUpRequest.class).stream()
-                        .map(signUpRequest -> signUpRequest.toEntity(passwordEncoder))
+                JsonUtil.jsonArrayToList(MEMBER, MemberCreate.class).stream()
+                        .map(memberCreate -> memberCreate.toEntity(passwordEncoder))
                         .collect(Collectors.toList()
                         )
         );

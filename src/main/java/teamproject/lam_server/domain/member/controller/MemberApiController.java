@@ -3,12 +3,7 @@ package teamproject.lam_server.domain.member.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
-import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
-import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
-import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
-import teamproject.lam_server.domain.member.dto.request.ReconfirmRequest;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
@@ -32,13 +27,13 @@ public class MemberApiController {
      * -> user sign up
      */
     @PostMapping("/sign-up")
-    public ResponseEntity<?> joinUser(@Valid @RequestBody SignUpRequest request) {
+    public ResponseEntity<?> joinUser(@Valid @RequestBody MemberCreate request) {
         PostIdResponse result = memberService.signUp(request);
         return CustomResponse.success(CREATED_MEMBER, result);
     }
 
     @PostMapping("/reconfirm")
-    public ResponseEntity<?> reconfirm(@Valid @RequestBody ReconfirmRequest request) {
+    public ResponseEntity<?> reconfirm(@Valid @RequestBody MemberReconfirm request) {
         FormCheckResponse result = memberService.reconfirm(request);
         return CustomResponse.success(RECONFIRM, result);
     }
@@ -48,7 +43,7 @@ public class MemberApiController {
      * -> find user login id
      */
     @PostMapping("/find-id")
-    public ResponseEntity<?> findLoginId(@Valid @RequestBody FindIdRequest request) {
+    public ResponseEntity<?> findLoginId(@Valid @RequestBody MemberFindId request) {
         FindIdResponse result = memberService.findLoginId(request);
         return CustomResponse.success(FIND_MEMBER_LOGIN_ID, result);
     }
@@ -58,7 +53,7 @@ public class MemberApiController {
      * -> find user password
      */
     @PostMapping("/find-pw")
-    public ResponseEntity<?> findPassword(@Valid @RequestBody FindPasswordRequest request) {
+    public ResponseEntity<?> findPassword(@Valid @RequestBody MemberFindPassword request) {
         memberService.findPassword(request);
         return CustomResponse.success(FIND_MEMBER_PASSWORD);
     }
@@ -68,13 +63,13 @@ public class MemberApiController {
      * -> modify user information
      */
     @PatchMapping("/profile")
-    public ResponseEntity<?> editProfile(@Valid @RequestBody ProfileEditor request) {
+    public ResponseEntity<?> editProfile(@Valid @RequestBody ProfileEdit request) {
         memberService.editProfile(request);
         return CustomResponse.success(UPDATE_MEMBER);
     }
 
     @PatchMapping("/password")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordEditor request) {
+    public ResponseEntity<?> changePassword(@Valid @RequestBody PasswordEdit request) {
         memberService.changePassword(request);
         return CustomResponse.success(UPDATE_MEMBER);
     }

@@ -1,11 +1,6 @@
 package teamproject.lam_server.domain.member.service;
 
-import teamproject.lam_server.domain.member.dto.editor.PasswordEditor;
-import teamproject.lam_server.domain.member.dto.editor.ProfileEditor;
-import teamproject.lam_server.domain.member.dto.request.FindIdRequest;
-import teamproject.lam_server.domain.member.dto.request.FindPasswordRequest;
-import teamproject.lam_server.domain.member.dto.request.ReconfirmRequest;
-import teamproject.lam_server.domain.member.dto.request.SignUpRequest;
+import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
@@ -17,7 +12,7 @@ public interface MemberService{
     /**
      * 회원 가입
      */
-    PostIdResponse signUp(SignUpRequest request);
+    PostIdResponse signUp(MemberCreate request);
 
     /**
      * 이메일 중복 체크
@@ -37,24 +32,24 @@ public interface MemberService{
     /**
      * 회원 아이디 찾기
      */
-    FindIdResponse findLoginId(FindIdRequest request);
+    FindIdResponse findLoginId(MemberFindId request);
 
     /**
      * 회원 비밀번호 찾기
      */
-    void findPassword(FindPasswordRequest request);
+    void findPassword(MemberFindPassword request);
 
     /**
      * 비밀번호 재확인
      */
-    FormCheckResponse reconfirm(ReconfirmRequest request);
+    FormCheckResponse reconfirm(MemberReconfirm request);
 
     /**
      * 회원 정보  수정
      */
-    void editProfile(ProfileEditor request);
+    void editProfile(ProfileEdit request);
 
-    void changePassword(PasswordEditor request);
+    void changePassword(PasswordEdit request);
 
     /**
      * 회원 탈퇴
