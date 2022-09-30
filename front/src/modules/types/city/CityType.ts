@@ -21,7 +21,7 @@ export interface CityTransportType {
   id: number;
   name: EnumType;
   category: EnumType;
-  station_count: number;
+  stationCount: number;
   score: number;
 }
 
