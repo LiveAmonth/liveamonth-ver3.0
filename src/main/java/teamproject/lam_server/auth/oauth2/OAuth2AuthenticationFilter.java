@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import teamproject.lam_server.auth.dto.CustomOAuth2AuthenticationToken;
-import teamproject.lam_server.auth.dto.OAuth2TokenRequest;
-import teamproject.lam_server.auth.dto.OAuth2TokenResponse;
+import teamproject.lam_server.auth.dto.request.OAuth2TokenRequest;
+import teamproject.lam_server.auth.dto.response.OAuth2TokenResponse;
 import teamproject.lam_server.util.OAuth2Util;
 
 import javax.servlet.ServletException;

@@ -1,6 +1,7 @@
 package teamproject.lam_server.global.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,10 @@ public class SecurityContextFinder {
 
     public String getLoggedInMemberName() {
         return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+    }
+
+    public Authentication getAuthentication(){
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
     public <T extends BaseEntity> void checkLegalWriterOfPost(T t) {

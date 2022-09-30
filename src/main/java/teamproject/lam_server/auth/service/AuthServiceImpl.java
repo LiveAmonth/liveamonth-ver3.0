@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.auth.dto.PrincipalDetails;
-import teamproject.lam_server.auth.dto.TokenResponse;
+import teamproject.lam_server.auth.dto.response.TokenResponse;
 import teamproject.lam_server.auth.jwt.JwtTokenProvider;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.dto.request.MemberLogin;
@@ -32,7 +32,7 @@ import static org.springframework.util.StringUtils.hasText;
 public class AuthServiceImpl implements AuthService {
     private static final String BLACK_LIST_VALUE = "LOGOUT_TOKEN";
 
-    private final SecurityContextFinder securityContextFinder;
+    private final SecurityContextFinder finder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisRepository redisRepository;
@@ -66,24 +66,25 @@ public class AuthServiceImpl implements AuthService {
         return tokenResponse;
     }
 
-    public TokenResponse reissue(String accessTokenRequest, String refreshTokenRequest) {
+    @Override
+    public TokenResponse reissue(String accessToken, String refreshToken) {
         // Refresh 토큰 검증
-        if (isInvalidationToken(refreshTokenRequest))
+        if (isInvalidationToken(refreshToken))
             throw new InvalidRefreshToken();
 
         // Security Context 에서 Authentication 객체 가져오기 :: loginId
 
         // Redis 에서 'RT:'+loginId 을 key 값으로 하는 value 를 가져옴
-        Authentication authentication = jwtTokenProvider.getAuthentication(accessTokenRequest);
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         String savedRefreshToken = redisRepository.getValue("RT:" + authentication.getName());
 
         // logout 되어 Redis 에 refreshToken 이 없는 경우 체크
-        if (!hasText(accessTokenRequest)) {
+        if (!hasText(accessToken)) {
             throw new AlreadyUsedToken();
         }
 
         // Redis 에 저장되어 있는 RefreshToken 정보와 request 의 RefreshToken 정보 비교
-        if (!savedRefreshToken.equals(refreshTokenRequest)) {
+        if (!savedRefreshToken.equals(refreshToken)) {
             throw new InvalidRefreshToken();
         }
 
@@ -126,8 +127,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public TokenResponse socialRegister(OAuth2RegisterEdit request) {
         PrincipalDetails oAuth2User = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication();
-        securityContextFinder.getLoggedInMember();
-        Member member = securityContextFinder.getLoggedInMember();
+        Member member = finder.getLoggedInMember();
 
         OAuth2RegisterEditor editor = member.toOAuth2Editor()
                 .password(passwordEncoder.encode(request.getPassword()))

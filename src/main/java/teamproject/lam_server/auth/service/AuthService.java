@@ -1,6 +1,6 @@
 package teamproject.lam_server.auth.service;
 
-import teamproject.lam_server.auth.dto.TokenResponse;
+import teamproject.lam_server.auth.dto.response.TokenResponse;
 import teamproject.lam_server.domain.member.dto.request.MemberLogin;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEdit;
 
@@ -29,7 +29,7 @@ public interface AuthService {
      * 6. 새로운 token 정보 생성 <P>
      * 7. Redis 에 Refresh 토큰 업데이트
      */
-    TokenResponse reissue(String bearerToken, String refreshTokenRequest);
+    TokenResponse reissue(String accessToken, String refreshToken);
 
     /**
      * JwtAuthenticationFilter 에서 doFilter 메서드를 통해 securityContext 에 Authentication 객체가 이미 들어있음<p>
@@ -40,7 +40,7 @@ public interface AuthService {
      * 4. Redis 에 Acces Token을 키 값으로 가지는 블랙 리스트 추가
      * 5. SecurityContext 에 있는 authentication 객체를 삭제.
      */
-    void logout(String bearerToken);
+    void logout(String accessToken);
 
     TokenResponse socialRegister(OAuth2RegisterEdit request);
 }

@@ -1,4 +1,4 @@
-package teamproject.lam_server.auth.dto;
+package teamproject.lam_server.auth.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;

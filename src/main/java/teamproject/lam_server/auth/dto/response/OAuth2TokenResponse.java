@@ -1,4 +1,4 @@
-package teamproject.lam_server.auth.dto;
+package teamproject.lam_server.auth.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

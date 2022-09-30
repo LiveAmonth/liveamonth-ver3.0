@@ -11,8 +11,8 @@ import java.util.Collections;
 @Getter
 public class CustomOAuth2AuthenticationToken extends AbstractAuthenticationToken {
     private OAuth2User principal;
-    private ClientRegistration clientRegistration;
-    private String accessToken;
+    private final ClientRegistration clientRegistration;
+    private final String accessToken;
 
     public CustomOAuth2AuthenticationToken(ClientRegistration clientRegistration, String accessToken) {
         super(Collections.emptyList());
