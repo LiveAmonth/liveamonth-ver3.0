@@ -1,4 +1,4 @@
-package teamproject.lam_server.global.dto;
+package teamproject.lam_server.global.dto.request;
 
 import lombok.Data;
 

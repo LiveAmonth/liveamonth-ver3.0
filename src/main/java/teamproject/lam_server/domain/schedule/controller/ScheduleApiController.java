@@ -9,7 +9,7 @@ import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
-import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 

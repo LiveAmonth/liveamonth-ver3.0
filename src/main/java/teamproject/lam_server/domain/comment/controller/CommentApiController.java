@@ -8,7 +8,7 @@ import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
 import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.service.CommentServiceFinder;
-import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -32,19 +32,19 @@ public class CommentApiController {
         return CustomResponse.success(CREATE_COMMENT);
     }
 
-    @PatchMapping("/{type}/{comment_id}")
+    @PatchMapping("/{type}/{commentId}")
     public ResponseEntity<?> writeComment(
             @PathVariable String type,
-            @PathVariable("comment_id") Long commentId,
+            @PathVariable Long commentId,
             @RequestBody @Valid CommentEdit request) {
         commentServiceFinder.find(type).editComment(commentId, request);
         return CustomResponse.success(UPDATE_COMMENT);
     }
 
-    @DeleteMapping("/{type}/{comment_id}")
+    @DeleteMapping("/{type}/{commentId}")
     public ResponseEntity<?> deleteComment(
             @PathVariable String type,
-            @PathVariable("comment_id") Long commentId) {
+            @PathVariable Long commentId) {
         commentServiceFinder.find(type).deleteComment(commentId);
         return CustomResponse.success(DELETE_COMMENT);
     }

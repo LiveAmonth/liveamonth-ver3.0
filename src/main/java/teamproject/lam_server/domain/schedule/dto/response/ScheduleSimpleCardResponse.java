@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.global.entity.Period;
+import teamproject.lam_server.global.dto.response.PeriodResponse;
 
 @Getter
 @Builder
@@ -17,7 +17,7 @@ public class ScheduleSimpleCardResponse {
     private int cost;
     private int hits;
     private int likes;
-    private Period period;
+    private PeriodResponse period;
     private boolean publicFlag;
 
     public static ScheduleSimpleCardResponse of(Schedule schedule) {
@@ -29,7 +29,7 @@ public class ScheduleSimpleCardResponse {
                 .city(schedule.getCityName())
                 .hits(schedule.getViewCount())
                 .likes(schedule.getLikeCount())
-                .period(schedule.getPeriod())
+                .period(PeriodResponse.of(schedule.getPeriod()))
                 .publicFlag(schedule.getPublicFlag())
                 .build();
     }

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import teamproject.lam_server.domain.city.constants.CityName;
-import teamproject.lam_server.global.entity.Period;
+import teamproject.lam_server.global.dto.request.PeriodRequest;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
@@ -26,7 +26,7 @@ public class ScheduleEdit {
     private CityName city;
 
     @NotNull
-    private Period period;
+    private PeriodRequest period;
 
     private boolean publicFlag;
 

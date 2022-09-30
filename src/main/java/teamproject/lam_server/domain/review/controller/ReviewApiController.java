@@ -8,11 +8,10 @@ import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewEdit;
-import teamproject.lam_server.domain.review.entity.ReviewEditor;
 import teamproject.lam_server.domain.review.dto.response.ReviewDetailResponse;
 import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
 import teamproject.lam_server.domain.review.service.ReviewService;
-import teamproject.lam_server.global.dto.CustomResponse;
+import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 

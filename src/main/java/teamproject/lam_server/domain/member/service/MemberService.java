@@ -5,7 +5,7 @@ import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
 import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
-import teamproject.lam_server.global.dto.PostIdResponse;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 
 public interface MemberService{
 

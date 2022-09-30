@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static teamproject.lam_server.exception.ErrorCode.*;
-import static teamproject.lam_server.global.dto.CustomResponse.setResponse;
+import static teamproject.lam_server.global.dto.response.CustomResponse.setResponse;
 
 @Slf4j
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
-import teamproject.lam_server.global.entity.TimePeriod;
+import teamproject.lam_server.global.dto.request.TimePeriodRequest;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
@@ -28,7 +28,7 @@ public class ScheduleContentCreate {
     private String content;
 
     @NotNull
-    private TimePeriod timePeriod;
+    private TimePeriodRequest timePeriod;
 
     @Min(0)
     private int cost;
@@ -42,7 +42,7 @@ public class ScheduleContentCreate {
         return ScheduleContent.builder()
                 .title(this.title)
                 .content(this.content)
-                .timePeriod(this.timePeriod)
+                .timePeriod(this.timePeriod.toEntity())
                 .cost(this.cost)
                 .schedule(schedule)
                 .build();

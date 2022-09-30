@@ -47,7 +47,7 @@ public class ScheduleContentServiceImpl implements ScheduleContentService {
         ScheduleContentEditor editor = scheduleContent.toEditor()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .timePeriod(request.getTimePeriod())
+                .timePeriod(request.getTimePeriod().toEntity())
                 .cost(request.getCost())
                 .build();
 
