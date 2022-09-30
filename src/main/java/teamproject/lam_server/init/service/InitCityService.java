@@ -2,9 +2,9 @@ package teamproject.lam_server.init.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import teamproject.lam_server.domain.city.dto.request.CreateCityIntroRequest;
-import teamproject.lam_server.domain.city.dto.request.CreateCityTransportRequest;
-import teamproject.lam_server.domain.city.dto.request.CreateCityWeatherRequest;
+import teamproject.lam_server.domain.city.dto.request.CityIntroCreate;
+import teamproject.lam_server.domain.city.dto.request.CityTransportCreate;
+import teamproject.lam_server.domain.city.dto.request.CityWeatherCreate;
 import teamproject.lam_server.domain.city.repository.core.CityIntroRepository;
 import teamproject.lam_server.domain.city.repository.core.CityTransportRepository;
 import teamproject.lam_server.domain.city.repository.core.CityWeatherRepository;
@@ -25,8 +25,8 @@ public class InitCityService {
 
     public void initCityIntroData() {
         cityIntroRepository.saveAll(
-                JsonUtil.jsonArrayToList(CITY_INTRO, CreateCityIntroRequest.class).stream()
-                        .map(CreateCityIntroRequest::toEntity)
+                JsonUtil.jsonArrayToList(CITY_INTRO, CityIntroCreate.class).stream()
+                        .map(CityIntroCreate::toEntity)
                         .collect(Collectors.toList()
                         )
         );
@@ -34,8 +34,8 @@ public class InitCityService {
 
     public void initCityTransportData() {
         cityTransportRepository.saveAll(
-                JsonUtil.jsonArrayToList(CITY_TRANSPORT, CreateCityTransportRequest.class).stream()
-                        .map(CreateCityTransportRequest::toEntity)
+                JsonUtil.jsonArrayToList(CITY_TRANSPORT, CityTransportCreate.class).stream()
+                        .map(CityTransportCreate::toEntity)
                         .collect(Collectors.toList()
                         )
         );
@@ -43,8 +43,8 @@ public class InitCityService {
 
     public void initCityWeatherData() {
         cityWeatherRepository.saveAll(
-                JsonUtil.jsonArrayToList(CITY_WEATHER, CreateCityWeatherRequest.class).stream()
-                        .map(CreateCityWeatherRequest::toEntity)
+                JsonUtil.jsonArrayToList(CITY_WEATHER, CityWeatherCreate.class).stream()
+                        .map(CityWeatherCreate::toEntity)
                         .collect(Collectors.toList()
                         )
         );

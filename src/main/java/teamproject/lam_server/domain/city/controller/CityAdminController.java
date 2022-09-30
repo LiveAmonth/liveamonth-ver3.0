@@ -29,19 +29,19 @@ public class CityAdminController {
     private final CityAdminService cityService;
 
     @PostMapping("/intro")
-    public ResponseEntity<?> saveIntro(@RequestBody @Valid CreateCityIntroRequest request) {
+    public ResponseEntity<?> saveIntro(@RequestBody @Valid CityIntroCreate request) {
         PostIdResponse result = cityService.saveIntro(request);
         return CustomResponse.success(CREATE_CITY, result);
     }
 
     @PostMapping("/transport")
-    public ResponseEntity<?> saveTransport(@RequestBody @Valid CreateCityTransportRequest request) {
+    public ResponseEntity<?> saveTransport(@RequestBody @Valid CityTransportCreate request) {
         PostIdResponse result = cityService.saveTransport(request);
         return CustomResponse.success(CREATE_CITY, result);
     }
 
     @PostMapping("/weather")
-    public ResponseEntity<?> saveWeather(@RequestBody @Valid CreateCityWeatherRequest request) {
+    public ResponseEntity<?> saveWeather(@RequestBody @Valid CityWeatherCreate request) {
         PostIdResponse result = cityService.saveWeather(request);
         return CustomResponse.success(CREATE_CITY, result);
     }
@@ -71,13 +71,13 @@ public class CityAdminController {
     }
 
     @PutMapping("/intro/{id}")
-    public ResponseEntity<?> updateIntro(@PathVariable Long id, @RequestBody @Valid UpdateCityIntroRequest request) {
+    public ResponseEntity<?> updateIntro(@PathVariable Long id, @RequestBody @Valid CityIntroEdit request) {
         cityService.updateIntro(id, request);
         return CustomResponse.success(UPDATE_CITY);
     }
 
     @PutMapping("/transport/{id}")
-    public ResponseEntity<?> updateTransport(@PathVariable Long id, @RequestBody @Valid UpdateCityTransportRequest request) {
+    public ResponseEntity<?> updateTransport(@PathVariable Long id, @RequestBody @Valid CityTransportEdit request) {
         cityService.updateTransport(id, request);
         return CustomResponse.success(UPDATE_CITY);
     }

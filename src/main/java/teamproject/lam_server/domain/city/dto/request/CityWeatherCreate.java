@@ -1,14 +1,16 @@
 package teamproject.lam_server.domain.city.dto.request;
 
-import lombok.Data;
+import lombok.*;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.constants.MonthCategory;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 
 import javax.validation.constraints.NotNull;
 
-@Data
-public class CreateCityWeatherRequest {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class CityWeatherCreate {
 
     @NotNull
     private CityName name;
