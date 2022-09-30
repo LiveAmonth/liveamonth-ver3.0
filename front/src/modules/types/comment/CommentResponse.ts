@@ -22,9 +22,3 @@ export interface CommentReplyType {
   likes: number;
   dislikes: number;
 }
-
-export interface WriteCommentType {
-  commentId: number;
-  contentId: number;
-  comment: string;
-}

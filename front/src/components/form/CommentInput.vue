@@ -7,9 +7,14 @@ import { CommentEditor } from "@/modules/class/comment/CommentEditor";
 import type { FormInstance } from "element-plus/es";
 
 const props = defineProps({
+  contentId: {
+    type: Number,
+    required: true,
+  },
   commentId: {
     type: Number,
     required: false,
+    default: null,
   },
   isPending: {
     type: Boolean,
@@ -22,15 +27,17 @@ const { isLoggedIn } = useAuth();
 const { isPending } = useComment();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
-const form = reactive<CommentEditor>(new CommentEditor());
+const form = reactive<CommentEditor>(
+  new CommentEditor(props.contentId, props.commentId)
+);
 const ruleFormRef = ref<FormInstance>();
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      await emit("submitForm", form, props.commentId);
-      form.comment = "";
+      await emit("submitForm", form);
+      form.clear();
     } else {
       await openMessageBox(resultMsg("reWrite"));
     }
