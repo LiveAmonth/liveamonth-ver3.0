@@ -18,6 +18,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const {
   mySchedules,
   editedSchedule,
@@ -79,10 +80,9 @@ const deleteScheduleBtn = async () => {
   ).then(async () => {
     if (editedSchedule.value.id != null) {
       await deleteSchedule(editedSchedule.value.id);
-      await getMySchedules(props.loginId).then(() => {
-        selectedId.value = getInitialSelectedId();
-        changeSchedule();
-      });
+      await getMySchedules(props.loginId);
+      selectedId.value = await getInitialSelectedId();
+      await changeSchedule();
     } else {
       await openMessageBox(t("form.message.schedule.delete.exception"));
     }

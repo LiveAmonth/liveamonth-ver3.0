@@ -48,12 +48,10 @@ class ScheduleApiService {
       });
   }
 
-  async addSchedule(
-    memberId: number,
-    request: ScheduleEditor
-  ): Promise<string> {
+  async addSchedule(request: ScheduleEditor): Promise<string> {
+    console.log(request);
     return await http
-      .post(`/schedules/${memberId}`, JSON.stringify(request))
+      .post(`/schedules`, JSON.stringify(request))
       .then((response) => {
         return response.data;
       })
@@ -64,10 +62,10 @@ class ScheduleApiService {
 
   async editSchedule(
     scheduleId: number,
-    form: ScheduleEditor
+    request: ScheduleEditor
   ): Promise<string> {
     return await http
-      .patch(`/schedules/${scheduleId}`, JSON.stringify(form))
+      .patch(`/schedules/${scheduleId}`, JSON.stringify(request))
       .then((response) => {
         return response.data;
       })

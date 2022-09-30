@@ -10,7 +10,7 @@ const { mainMenus } = useHome();
 const { menuMsg } = useMessageBox();
 
 const handleSelect = (key: string, keyPath: string[]) => {
-  const menu = mainMenus[Number(keyPath[0])];
+  const menu = mainMenus.value[Number(keyPath[0])];
   if (keyPath.length === 1) {
     emits("menuClick", menu.name);
     router.push(menu.route);
