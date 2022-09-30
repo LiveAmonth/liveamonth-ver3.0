@@ -24,7 +24,7 @@ public class CommentResponse {
     public static <T extends CommentEntity> CommentResponse.CommentResponseBuilder of(T comment) {
         return CommentResponse.builder()
                 .commentId(comment.getId())
-                .content(comment.getContent())
+                .content(comment.getComment())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
                 .likes(comment.getLikeCount())
@@ -35,7 +35,7 @@ public class CommentResponse {
         if(comment != null){
             return CommentResponse.builder()
                     .commentId(comment.getId())
-                    .content(comment.getContent())
+                    .content(comment.getComment())
                     .profile(CommentProfileResponse.of(comment.getMember()))
                     .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
                     .likes(comment.getLikeCount())

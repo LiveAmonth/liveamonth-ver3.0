@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.comment.dto.request.CommentEditor;
+import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
+import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.service.CommentServiceFinder;
 import teamproject.lam_server.global.dto.CustomResponse;
@@ -13,8 +14,7 @@ import teamproject.lam_server.paging.PageableDTO;
 
 import javax.validation.Valid;
 
-import static teamproject.lam_server.global.constants.ResponseMessage.CREATE_COMMENT;
-import static teamproject.lam_server.global.constants.ResponseMessage.READ_COMMENT;
+import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,15 +27,31 @@ public class CommentApiController {
     @PostMapping("/{type}")
     public ResponseEntity<?> writeComment(
             @PathVariable String type,
-            @RequestBody @Valid CommentEditor request) {
-        commentServiceFinder.find(type)
-                .writeComment(request);
+            @RequestBody @Valid CommentCreate request) {
+        commentServiceFinder.find(type).writeComment(request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 
-    @GetMapping("/{type}/{contentId}")
+    @PatchMapping("/{type}/{comment_id}")
+    public ResponseEntity<?> writeComment(
+            @PathVariable String type,
+            @PathVariable("comment_id") Long commentId,
+            @RequestBody @Valid CommentEdit request) {
+        commentServiceFinder.find(type).editComment(commentId, request);
+        return CustomResponse.success(UPDATE_COMMENT);
+    }
+
+    @DeleteMapping("/{type}/{comment_id}")
+    public ResponseEntity<?> deleteComment(
+            @PathVariable String type,
+            @PathVariable("comment_id") Long commentId) {
+        commentServiceFinder.find(type).deleteComment(commentId);
+        return CustomResponse.success(DELETE_COMMENT);
+    }
+
+    @GetMapping("/{type}/{content_id}")
     public ResponseEntity<?> getComments(
-            @PathVariable Long contentId,
+            @PathVariable("content_id") Long contentId,
             @PathVariable String type,
             PageableDTO pageableDTO) {
 

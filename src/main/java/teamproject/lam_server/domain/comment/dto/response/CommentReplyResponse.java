@@ -21,7 +21,7 @@ public class CommentReplyResponse {
         return CommentReplyResponse.builder()
                 .commentId(comment.getId())
                 .parentId(comment.getParent().getId())
-                .content(comment.getContent())
+                .content(comment.getComment())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
                 .likes(comment.getLikeCount())
