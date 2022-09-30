@@ -24,7 +24,17 @@ public abstract class CommentEntity extends BaseEntity {
     protected Member member;
 
     @Length(max = 1000)
-    protected String content;
+    protected String comment;
+
+
+    public CommentEditor.CommentEditorBuilder toEditor(){
+        return CommentEditor.builder()
+                .comment(comment);
+    }
+
+    public void edit(CommentEditor editor){
+        comment = editor.getComment();
+    }
 
     protected abstract void setUpWriter(Member member);
 
@@ -34,5 +44,4 @@ public abstract class CommentEntity extends BaseEntity {
     public abstract int getDislikeCount();
 
     public abstract List<? extends CommentEntity> getChildren();
-
 }
