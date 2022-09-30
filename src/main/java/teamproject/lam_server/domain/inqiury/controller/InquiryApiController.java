@@ -3,7 +3,8 @@ package teamproject.lam_server.domain.inqiury.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.inqiury.dto.editor.InquiryEditor;
+import teamproject.lam_server.domain.inqiury.dto.request.InquiryCreate;
+import teamproject.lam_server.domain.inqiury.dto.request.InquiryEdit;
 import teamproject.lam_server.domain.inqiury.dto.response.InquiryListResponse;
 import teamproject.lam_server.domain.inqiury.dto.response.InquiryResponse;
 import teamproject.lam_server.domain.inqiury.service.InquiryService;
@@ -23,7 +24,7 @@ public class InquiryApiController {
     private final InquiryService inquiryService;
 
     @PostMapping
-    public ResponseEntity<?> writeInquiry(@Valid @RequestBody InquiryEditor request) {
+    public ResponseEntity<?> writeInquiry(@Valid @RequestBody InquiryCreate request) {
         inquiryService.write(request);
         return CustomResponse.success(CREATE_INQUIRY);
     }
@@ -41,7 +42,7 @@ public class InquiryApiController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> editInquiry(@PathVariable Long id, @Valid @RequestBody InquiryEditor editor) {
+    public ResponseEntity<?> editInquiry(@PathVariable Long id, @Valid @RequestBody InquiryEdit editor) {
         inquiryService.edit(id, editor);
         return CustomResponse.success(UPDATE_INQUIRY);
     }
