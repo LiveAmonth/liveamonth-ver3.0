@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.entity.BaseEntity;
 
 import javax.persistence.*;
 
@@ -15,7 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AttributeOverride(name = "id", column = @Column(name = "followers_id"))
-public class Follower extends BaseTimeEntity {
+public class Follower extends BaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "from_member_id")
@@ -35,10 +35,5 @@ public class Follower extends BaseTimeEntity {
     private void follow() {
         from.getFollowing().add(this);
         to.getFollowers().add(this);
-    }
-
-    public void unFollow() {
-        from.getFollowing().remove(this);
-        to.getFollowers().remove(this);
     }
 }

@@ -23,11 +23,9 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
 
-    @PostMapping("/{memberId}")
-    public ResponseEntity<?> addSchedule(
-            @PathVariable Long memberId,
-            @RequestBody @Valid ScheduleEditor request) {
-        scheduleApiService.addSchedule(memberId, request);
+    @PostMapping
+    public ResponseEntity<?> addSchedule(@RequestBody @Valid ScheduleEditor request) {
+        scheduleApiService.addSchedule(request);
         return CustomResponse.success(CREATE_SCHEDULE);
     }
 

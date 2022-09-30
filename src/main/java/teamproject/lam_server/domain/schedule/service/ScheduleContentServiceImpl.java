@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.schedule.dto.editor.ScheduleContentEditor;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
+import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.domain.schedule.repository.ScheduleContentRepository;
 import teamproject.lam_server.domain.schedule.repository.ScheduleQueryRepository;
+import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,21 +20,27 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ScheduleContentServiceImpl implements ScheduleContentService {
-
+    private final SecurityContextFinder finder;
     private final ScheduleContentRepository scheduleContentRepository;
     private final ScheduleQueryRepository scheduleQueryRepository;
+    private final ScheduleRepository scheduleRepository;
 
-    @Override
     @Transactional
     public void addScheduleContent(Long scheduleId, ScheduleContentEditor request) {
-        scheduleContentRepository.addContent(scheduleId, request);
+        Schedule schedule = scheduleRepository
+                .findById(scheduleId)
+                .orElseThrow(ScheduleNotFound::new);
+        finder.checkLegalWriterOfPost(schedule);
+        scheduleContentRepository.save(request.toEntity(schedule));
     }
+
 
     @Override
     @Transactional
     public void editScheduleContent(Long contentId, ScheduleContentEditor request) {
         ScheduleContent scheduleContent = scheduleContentRepository.findById(contentId)
                 .orElseThrow(ScheduleNotFound::new);
+        finder.checkLegalWriterOfPost(scheduleContent);
 
         ScheduleContentEditor editor = scheduleContent.toEditor()
                 .title(request.getTitle())
@@ -46,7 +55,11 @@ public class ScheduleContentServiceImpl implements ScheduleContentService {
     @Override
     @Transactional
     public void deleteScheduleContent(Long contentId) {
-        scheduleContentRepository.deleteContent(contentId);
+        ScheduleContent scheduleContent = scheduleContentRepository.findById(contentId)
+                .orElseThrow(ScheduleNotFound::new);
+        finder.checkLegalWriterOfPost(scheduleContent);
+
+        scheduleContentRepository.delete(scheduleContent);
     }
 
     @Override

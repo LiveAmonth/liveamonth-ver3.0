@@ -10,7 +10,7 @@ import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.schedule.dto.editor.ScheduleEditor;
-import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.entity.BaseEntity;
 import teamproject.lam_server.global.entity.Period;
 
 import javax.persistence.*;
@@ -26,13 +26,13 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AttributeOverride(name = "id", column = @Column(name = "schedule_id"))
-public class Schedule extends BaseTimeEntity {
+public class Schedule extends BaseEntity {
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private final List<ScheduleContent> scheduleContents = new ArrayList<>();
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private final List<ScheduleComment> scheduleComments = new ArrayList<>();
-    @OneToMany(mappedBy = "to")
+    @OneToMany(mappedBy = "to", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private final Set<ScheduleLike> likes = new HashSet<>();
     private String title;
     @Enumerated(EnumType.STRING)

@@ -7,9 +7,9 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 public interface InquiryService {
-    void write(String extractAccessToken, InquiryEditor request);
+    void write(InquiryEditor request);
 
-    CustomPage<InquiryListResponse> getInquires(String extractAccessToken, PageableDTO pageableDTO);
+    CustomPage<InquiryListResponse> getInquires(PageableDTO pageableDTO);
 
     InquiryResponse getInquiry(Long id);
 

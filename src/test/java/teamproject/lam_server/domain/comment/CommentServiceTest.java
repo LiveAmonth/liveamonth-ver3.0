@@ -1,28 +1,19 @@
 package teamproject.lam_server.domain.comment;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.auth.service.AuthService;
-import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
-import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
-import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
 import teamproject.lam_server.domain.comment.service.CommentService;
-import teamproject.lam_server.domain.member.dto.request.LoginRequest;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
-import teamproject.lam_server.paging.PageableDTO;
 
 @SpringBootTest
 @Transactional

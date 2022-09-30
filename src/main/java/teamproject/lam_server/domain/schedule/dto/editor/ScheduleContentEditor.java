@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import teamproject.lam_server.domain.schedule.entity.Schedule;
+import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.global.entity.TimePeriod;
 
 import javax.validation.constraints.AssertTrue;
@@ -38,5 +40,16 @@ public class ScheduleContentEditor {
         this.content = content;
         this.timePeriod = timePeriod;
         this.cost = cost;
+    }
+
+    public ScheduleContent toEntity(Schedule schedule) {
+        return ScheduleContent.builder()
+                .title(this.title)
+                .content(this.content)
+                .timePeriod(this.timePeriod)
+                .cost(this.cost)
+                .schedule(schedule)
+                .build();
+
     }
 }

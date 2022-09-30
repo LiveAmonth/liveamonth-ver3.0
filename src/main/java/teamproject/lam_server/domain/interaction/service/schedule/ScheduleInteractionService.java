@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.interaction.service.schedule;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.interaction.constants.InteractionType;
@@ -9,13 +8,13 @@ import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.repository.InteractionRepository;
 import teamproject.lam_server.domain.interaction.repository.schedule.ScheduleLikeRepository;
 import teamproject.lam_server.domain.interaction.service.InteractionService;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class ScheduleInteractionService implements InteractionService {
-
+    private final SecurityContextFinder finder;
     private final ScheduleLikeRepository scheduleLikeRepository;
     private final InteractionRepository interactionRepository;
 
@@ -27,6 +26,7 @@ public class ScheduleInteractionService implements InteractionService {
     @Override
     @Transactional
     public void react(Boolean likeStatus, InteractionRequest request) {
+        finder.checkLegalWriterId(request.getFrom());
         if (likeStatus) scheduleLikeRepository.cancelLike(request);
         else scheduleLikeRepository.like(request);
 

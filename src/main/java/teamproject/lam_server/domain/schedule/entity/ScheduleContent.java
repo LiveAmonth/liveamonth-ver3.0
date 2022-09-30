@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.schedule.dto.editor.ScheduleContentEditor;
-import teamproject.lam_server.global.entity.BaseTimeEntity;
+import teamproject.lam_server.global.entity.BaseEntity;
 import teamproject.lam_server.global.entity.TimePeriod;
 
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AttributeOverride(name = "id", column = @Column(name = "schedule_content_id"))
-public class ScheduleContent extends BaseTimeEntity {
+public class ScheduleContent extends BaseEntity {
 
     private String title;
 

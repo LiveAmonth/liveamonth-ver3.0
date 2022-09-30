@@ -26,11 +26,11 @@ public class InitInteractionService {
 
             request.setFrom(fromMember.getId());
             request.setTo(members.get(i).getId());
-            followRepository.follow(request);
+            followRepository.follow(fromMember.getLoginId(), request);
 
             request.setFrom(members.get(i).getId());
             request.setTo(fromMember.getId());
-            followRepository.follow(request);
+            followRepository.follow(members.get(i).getLoginId(), request);
         }
     }
 }

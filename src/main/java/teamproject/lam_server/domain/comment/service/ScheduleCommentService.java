@@ -1,18 +1,18 @@
 package teamproject.lam_server.domain.comment.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.constants.CommentType;
-import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
+import teamproject.lam_server.domain.comment.dto.request.CommentEditor;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
-import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.notfound.CommentNotFound;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -20,16 +20,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ScheduleCommentService extends CommentService {
     private final ScheduleCommentRepository scheduleCommentRepository;
 
-    public ScheduleCommentService(MemberRepository memberRepository,
-                                  ScheduleCommentRepository scheduleCommentRepository) {
-        super(memberRepository);
-        this.scheduleCommentRepository = scheduleCommentRepository;
-    }
-
+    private final SecurityContextFinder finder;
     @Override
     public CommentType getType() {
         return CommentType.SCHEDULE;
@@ -37,9 +33,8 @@ public class ScheduleCommentService extends CommentService {
 
     @Override
     @Transactional
-    public void writeComment(String loginId, WriteCommentRequest request) {
-        Member member = super.findMemberByLoginId(loginId);
-        scheduleCommentRepository.write(member.getId(), request);
+    public void writeComment(CommentEditor request) {
+        scheduleCommentRepository.write(finder.getLoggedInMember(), request);
     }
 
     @Override
@@ -65,7 +60,6 @@ public class ScheduleCommentService extends CommentService {
                 .build();
     }
 
-    @Override
     public CommentResponse getBestComments(Long contentId) {
         ScheduleComment scheduleComment = scheduleCommentRepository.getBestComment(contentId).orElseThrow(CommentNotFound::new);
         List<ScheduleComment> commentReplies = getScheduleCommentReplies(contentId, List.of(scheduleComment));

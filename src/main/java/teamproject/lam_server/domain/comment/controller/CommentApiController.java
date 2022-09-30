@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.comment.dto.request.WriteCommentRequest;
+import teamproject.lam_server.domain.comment.dto.request.CommentEditor;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.service.CommentServiceFinder;
 import teamproject.lam_server.global.dto.CustomResponse;
@@ -27,10 +27,9 @@ public class CommentApiController {
     @PostMapping("/{type}")
     public ResponseEntity<?> writeComment(
             @PathVariable String type,
-            @RequestParam("login_id") String loginId,
-            @RequestBody @Valid WriteCommentRequest request) {
+            @RequestBody @Valid CommentEditor request) {
         commentServiceFinder.find(type)
-                .writeComment(loginId, request);
+                .writeComment(request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 
