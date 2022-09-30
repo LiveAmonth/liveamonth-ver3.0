@@ -44,7 +44,7 @@ public class ReviewComment extends CommentEntity {
 
     @Builder
     public ReviewComment(String content, Member member, Review review, @Nullable ReviewComment parent) {
-        this.content = content;
+        this.comment = content;
         setUpWriter(member);
         setUpReview(review);
         if (parent != null) {

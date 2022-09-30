@@ -42,7 +42,7 @@ public class ScheduleComment extends CommentEntity {
 
     @Builder
     public ScheduleComment(String content, Member member, Schedule schedule, @Nullable ScheduleComment parent) {
-        this.content = content;
+        this.comment = content;
         setUpWriter(member);
         setUpSchedule(schedule);
         if (parent != null) {

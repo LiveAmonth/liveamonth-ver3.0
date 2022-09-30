@@ -1,13 +1,13 @@
 package teamproject.lam_server.domain.comment.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.constants.CommentType;
-import teamproject.lam_server.domain.comment.dto.request.CommentEditor;
+import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
+import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
@@ -20,12 +20,16 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ScheduleCommentService extends CommentService {
     private final ScheduleCommentRepository scheduleCommentRepository;
 
-    private final SecurityContextFinder finder;
+    public ScheduleCommentService(SecurityContextFinder finder,
+                                  ScheduleCommentRepository scheduleCommentRepository) {
+        super(finder);
+        this.scheduleCommentRepository = scheduleCommentRepository;
+    }
+
     @Override
     public CommentType getType() {
         return CommentType.SCHEDULE;
@@ -33,8 +37,27 @@ public class ScheduleCommentService extends CommentService {
 
     @Override
     @Transactional
-    public void writeComment(CommentEditor request) {
+    public void writeComment(CommentCreate request) {
         scheduleCommentRepository.write(finder.getLoggedInMember(), request);
+    }
+
+    @Override
+    @Transactional
+    public void editComment(Long commentId, CommentEdit request) {
+        super.edit(
+                scheduleCommentRepository.findById(commentId).orElseThrow(CommentNotFound::new),
+                request
+        );
+    }
+
+    @Override
+    @Transactional
+    public void deleteComment(Long commentId) {
+        ScheduleComment comment = scheduleCommentRepository
+                .findById(commentId)
+                .orElseThrow(CommentNotFound::new);
+        finder.checkLegalWriterId(commentId);
+        scheduleCommentRepository.delete(comment);
     }
 
     @Override
@@ -60,6 +83,7 @@ public class ScheduleCommentService extends CommentService {
                 .build();
     }
 
+    @Override
     public CommentResponse getBestComments(Long contentId) {
         ScheduleComment scheduleComment = scheduleCommentRepository.getBestComment(contentId).orElseThrow(CommentNotFound::new);
         List<ScheduleComment> commentReplies = getScheduleCommentReplies(contentId, List.of(scheduleComment));
