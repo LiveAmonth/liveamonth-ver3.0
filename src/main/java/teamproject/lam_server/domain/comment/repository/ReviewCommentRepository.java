@@ -13,8 +13,8 @@ public interface ReviewCommentRepository extends JpaRepository<ReviewComment, Lo
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into review_comment (created_date, last_modified_date, content, member_id, review_id, parent_comment_id) " +
-            "values(now(), now(), :#{#request.comment}, :memberId, :#{#request.contentId}, IFNULL(:#{#request.commentId}, null))"
+            "insert into review_comment (created_date, last_modified_date, comment, member_id, review_id, parent_comment_id) " +
+            "values(now(), now(), :#{#request.comment}, :memberId, :#{#request.contentId}, IFNULL(:#{#request.parentId}, null))"
             , nativeQuery = true)
     void write(@Param("memberId") Long memberId, @Param("request") CommentCreate request);
 }

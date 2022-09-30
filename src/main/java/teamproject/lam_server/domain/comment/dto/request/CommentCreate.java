@@ -21,5 +21,5 @@ public class CommentCreate {
     @NotNull
     private Long contentId;
 
-    private Long commentId;
+    private Long parentId;
 }

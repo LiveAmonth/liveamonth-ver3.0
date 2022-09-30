@@ -1,12 +1,17 @@
 import CommentApiService from "@/services/common/CommentApiService";
 import { defineStore } from "pinia";
-import type { CommentType } from "@/modules/types/comment/CommentTypes";
+import type { CommentType } from "@/modules/types/comment/CommentResponse";
 import type {
   PageableRequestType,
   PageableResponseType,
   PageableType,
 } from "@/modules/types/common/PageableType";
 import type { CommentFormType } from "@/modules/types/form/FormType";
+import type {
+  CommentCreateType,
+  CommentEditType,
+} from "@/modules/types/comment/CommentRequest";
+import { CommentEditor } from "@/modules/class/comment/CommentEditor";
 
 export const useCommentStore = defineStore("comment", {
   state: () => ({
@@ -18,12 +23,8 @@ export const useCommentStore = defineStore("comment", {
     commentPage: (state): PageableType => state.pageableComments.pageable,
   },
   actions: {
-    getComments: async function (
-      type: string,
-      contentId: number,
-      pageable: PageableRequestType
-    ) {
-      await CommentApiService.getComments(type, contentId, pageable)
+    writeComment: async function (type: string, request: CommentCreateType) {
+      await CommentApiService.writeComment(type, request)
         .then((response) => {
           this.pageableComments = response;
         })
@@ -32,12 +33,36 @@ export const useCommentStore = defineStore("comment", {
         });
     },
 
-    writeComment: async function (
+    editComment: async function (
       type: string,
-      loginId: string,
-      request: CommentFormType
+      commentId: number,
+      request: CommentEditType
     ) {
-      await CommentApiService.writeComment(type, loginId, request)
+      await CommentApiService.editComment(type, commentId, request)
+        .then((response) => {
+          this.pageableComments = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    deleteComment: async function (type: string, commentId: number) {
+      await CommentApiService.deleteComment(type, commentId)
+        .then((response) => {
+          this.pageableComments = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getComments: async function (
+      type: string,
+      contentId: number,
+      pageable: PageableRequestType
+    ) {
+      await CommentApiService.getComments(type, contentId, pageable)
         .then((response) => {
           this.pageableComments = response;
         })

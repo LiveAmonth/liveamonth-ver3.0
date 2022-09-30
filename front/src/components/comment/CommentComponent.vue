@@ -4,19 +4,17 @@ import TitleSlot from "@/components/common/TitleSlot.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentInput from "@/components/form/CommentInput.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
-import router from "@/router";
 import { onMounted } from "vue";
 import { usePagination } from "@/composables/common/pagination";
 import { useComment } from "@/composables/common/comment";
 import { useAuth } from "@/composables/member/auth";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useInteraction } from "@/composables/interaction/interaction";
-import type { CommentFormType } from "@/modules/types/form/FormType";
-import type { WriteCommentType } from "@/modules/types/comment/CommentTypes";
+import type { CommentEditor } from "@/modules/class/comment/CommentEditor";
 
 const props = defineProps({
-  id: {
-    type: [String || Number],
+  contentId: {
+    type: Number,
     required: true,
   },
   type: {
@@ -32,6 +30,7 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(["refresh"]);
 const category = "COMMENT";
 const {
   isPending,
@@ -49,7 +48,7 @@ const { requireLoginMessageBox } = useMessageBox();
 
 onMounted(async () => {
   setSize(5);
-  await getComments(props.type, Number(props.id), pageable.value).then(() => {
+  await getComments(props.type, props.contentId, pageable.value).then(() => {
     mappingPagination(commentPageable.value);
   });
   if (isLoggedIn.value && comments.value.length) {
@@ -59,19 +58,14 @@ onMounted(async () => {
 
 const pageClick = async (page: number) => {
   movePage(page);
-  await getComments(props.type, Number(props.id), pageable.value).then(() => {
+  await getComments(props.type, props.contentId, pageable.value).then(() => {
     mappingPagination(commentPageable.value);
   });
 };
 
-const submitForm = async (form: CommentFormType, commentId = 0) => {
-  const request: WriteCommentType = {
-    comment: form.comment,
-    commentId: commentId,
-    contentId: Number(props.id),
-  };
-  await writeComment(props.type, props.writer, request).then(() => {
-    getComments(props.type, Number(props.id), pageable.value).then(() => {
+const submitForm = async (form: CommentEditor) => {
+  await writeComment(props.type, form.getCreateData()).then(() => {
+    getComments(props.type, props.contentId, pageable.value).then(() => {
       mappingPagination(commentPageable.value);
     });
   });
@@ -84,7 +78,7 @@ const react = async (
 ) => {
   if (isLoggedIn.value) {
     await reactComment(props.type, commentId, option, isReacted);
-    router.go(0);
+    await emits("refresh");
   } else {
     await requireLoginMessageBox();
   }
@@ -99,7 +93,11 @@ const react = async (
   </TitleSlot>
   <el-card>
     <SmallTitleSlot>{{ $t("comment.write") }}</SmallTitleSlot>
-    <CommentInput :is-pending="isPending" @submit-form="submitForm" />
+    <CommentInput
+      :content-id="contentId"
+      :is-pending="isPending"
+      @submit-form="submitForm"
+    />
   </el-card>
   <ul>
     <li v-for="comment in comments" :key="comment.commentId">
@@ -140,6 +138,7 @@ const react = async (
           </ul>
           <div class="mt-2 ms-5">
             <CommentInput
+              :content-id="contentId"
               :comment-id="comment.commentId"
               :is-pending="isPending"
               @submit-form="submitForm"

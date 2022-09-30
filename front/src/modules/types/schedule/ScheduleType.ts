@@ -1,7 +1,7 @@
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
 import type { SearchCondType } from "../common/SearchType";
-import type { CommentType } from "@/modules/types/comment/CommentTypes";
+import type { CommentType } from "@/modules/types/comment/CommentResponse";
 
 export interface ScheduleDetailType {
   card: ScheduleCardType;

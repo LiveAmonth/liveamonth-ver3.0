@@ -107,6 +107,8 @@ export interface ScheduleFormType extends FormType<MyScheduleCardType> {
 
 export interface CommentFormType {
   comment: string;
+  contentId: number;
+  parentId: number | null;
 }
 
 export interface WriteInquiryFormType extends FormType<InquiryType> {

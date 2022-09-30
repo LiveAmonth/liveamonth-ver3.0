@@ -17,6 +17,7 @@ const props = defineProps({
 const { isPending, getOtherSchedule, getScheduleContents } = useSchedule();
 const { setContentCollapse } = useCalendarEvent();
 const schedule = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
+const commentKey = ref<number>(0);
 
 onMounted(async () => {
   await getScheduleContents(Number(props.id));
@@ -48,9 +49,11 @@ const changeCollapse = (id: number) => {
   <el-row>
     <el-col>
       <CommentComponent
-        :id="id"
+        :key="commentKey"
+        :id="Number(id)"
         :type="'schedule'"
         :writer="schedule.profile.nickname"
+        @refresh="commentKey++"
       />
     </el-col>
   </el-row>

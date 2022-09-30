@@ -4,10 +4,8 @@ import type {
   PageableRequestType,
   PageableType,
 } from "@/modules/types/common/PageableType";
-import type {
-  CommentType,
-  WriteCommentType,
-} from "@/modules/types/comment/CommentTypes";
+import type { CommentCreateType } from "@/modules/types/comment/CommentRequest";
+import type { CommentType } from "@/modules/types/comment/CommentResponse";
 
 export const useComment = () => {
   const store = useCommentStore();
@@ -16,6 +14,39 @@ export const useComment = () => {
 
   const comments = computed((): CommentType[] => store.comments);
   const commentPageable = computed((): PageableType => store.commentPage);
+
+  const writeComment = async (type: string, request: CommentCreateType) => {
+    try {
+      await store.writeComment(type, request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const editComment = async (type: string, commentId: number) => {
+    try {
+      await store.deleteComment(type, commentId);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const deleteComment = async (type: string, request: CommentCreateType) => {
+    try {
+      await store.writeComment(type, request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
 
   const extractIds = (arrays: CommentType[]) => {
     const ids: number[] = [];
@@ -42,28 +73,15 @@ export const useComment = () => {
       isPending.value = false;
     }
   };
-
-  const writeComment = async (
-    type: string,
-    loginId: string,
-    request: WriteCommentType
-  ) => {
-    try {
-      await store.writeComment(type, loginId, request);
-      error.value = null;
-    } catch (err) {
-      error.value = err;
-    } finally {
-      isPending.value = false;
-    }
-  };
   return {
     error,
     isPending,
     comments,
     commentPageable,
+    writeComment,
+    editComment,
+    deleteComment,
     extractIds,
     getComments,
-    writeComment,
   };
 };
