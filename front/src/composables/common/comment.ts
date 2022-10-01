@@ -4,8 +4,10 @@ import type {
   PageableRequestType,
   PageableType,
 } from "@/modules/types/common/PageableType";
-import type { CommentCreateType } from "@/modules/types/comment/CommentRequest";
-import type { CommentType } from "@/modules/types/comment/CommentResponse";
+import type {
+  CommentType,
+  CommentEditor,
+} from "@/modules/types/comment/CommentTypes";
 
 export const useComment = () => {
   const store = useCommentStore();
@@ -15,7 +17,7 @@ export const useComment = () => {
   const comments = computed((): CommentType[] => store.comments);
   const commentPageable = computed((): PageableType => store.commentPage);
 
-  const writeComment = async (type: string, request: CommentCreateType) => {
+  const writeComment = async (type: string, request: CommentEditor) => {
     try {
       await store.writeComment(type, request);
       error.value = null;
@@ -26,20 +28,24 @@ export const useComment = () => {
     }
   };
 
-  const editComment = async (type: string, commentId: number) => {
+  const editComment = async (
+    type: string,
+    commentId: number,
+    request: CommentEditor
+  ) => {
+    try {
+      await store.editComment(type, commentId, request);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const deleteComment = async (type: string, commentId: number) => {
     try {
       await store.deleteComment(type, commentId);
-      error.value = null;
-    } catch (err) {
-      error.value = err;
-    } finally {
-      isPending.value = false;
-    }
-  };
-
-  const deleteComment = async (type: string, request: CommentCreateType) => {
-    try {
-      await store.writeComment(type, request);
       error.value = null;
     } catch (err) {
       error.value = err;

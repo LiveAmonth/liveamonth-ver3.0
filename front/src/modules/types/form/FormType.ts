@@ -1,12 +1,11 @@
 import type {
   DatePeriodType,
   DateTimePeriodType,
-  MyScheduleCardType,
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleType";
-import type { EventApi } from "@fullcalendar/common";
 import type { FormRules } from "element-plus/es";
 import type { InquiryType } from "@/modules/types/member/MemberType";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleResponse";
 
 export interface FormType<T> {
   setForm(data: T): void;
@@ -14,6 +13,10 @@ export interface FormType<T> {
   getRules(): FormRules;
 
   clear(): void;
+
+  getCreateDate(): unknown;
+
+  getEditDate(): unknown;
 }
 
 export interface LoginType {
@@ -92,23 +95,13 @@ export interface ScheduleContentFormType extends FormType<ScheduleContentType> {
   content: string;
   cost: number;
   timePeriod: DateTimePeriodType;
-
-  setDefaultDate(date: string): void;
-
-  setAttr(event: EventApi): void;
 }
 
-export interface ScheduleFormType extends FormType<MyScheduleCardType> {
+export interface ScheduleFormType extends FormType<ScheduleCardType> {
   title: string;
   publicFlag: boolean;
   city: string;
   period: DatePeriodType;
-}
-
-export interface CommentFormType {
-  comment: string;
-  contentId: number;
-  parentId: number | null;
 }
 
 export interface WriteInquiryFormType extends FormType<InquiryType> {

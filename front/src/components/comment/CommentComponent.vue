@@ -10,7 +10,7 @@ import { useComment } from "@/composables/common/comment";
 import { useAuth } from "@/composables/member/auth";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useInteraction } from "@/composables/interaction/interaction";
-import type { CommentEditor } from "@/modules/class/comment/CommentEditor";
+import { CommentEditor } from "@/modules/types/comment/CommentTypes";
 
 const props = defineProps({
   contentId: {
@@ -64,7 +64,7 @@ const pageClick = async (page: number) => {
 };
 
 const submitForm = async (form: CommentEditor) => {
-  await writeComment(props.type, form.getCreateData()).then(() => {
+  await writeComment(props.type, form).then(() => {
     getComments(props.type, props.contentId, pageable.value).then(() => {
       mappingPagination(commentPageable.value);
     });

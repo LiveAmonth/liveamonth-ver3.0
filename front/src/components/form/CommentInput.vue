@@ -3,7 +3,7 @@ import { reactive, ref } from "vue";
 import { useAuth } from "@/composables/member/auth";
 import { useComment } from "@/composables/common/comment";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { CommentEditor } from "@/modules/class/comment/CommentEditor";
+import { CommentEditor } from "@/modules/types/comment/CommentTypes";
 import type { FormInstance } from "element-plus/es";
 
 const props = defineProps({
