@@ -1,9 +1,7 @@
 package teamproject.lam_server.global.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +15,6 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TimePeriodRequest {
 
     @NotNull

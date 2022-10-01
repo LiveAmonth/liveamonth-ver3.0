@@ -1,6 +1,6 @@
 [
   {
-    "login_id": "rbdus7174",
+    "loginId": "rbdus7174",
     "name": "홍길동",
     "email": "rbdus7174@gmail.com",
     "password": "Liveamonth3!",
@@ -9,7 +9,7 @@
     "gender": "MALE"
   },
   {
-    "login_id": "kxuxeon",
+    "loginId": "kxuxeon",
     "name": "이규연",
     "email": "rbdus7174@naver.com",
     "password": "Liveamonth3!",

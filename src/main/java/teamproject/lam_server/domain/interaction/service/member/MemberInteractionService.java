@@ -27,7 +27,7 @@ public class MemberInteractionService implements InteractionService {
     @Transactional
     public void react(Boolean likeStatus, InteractionRequest request) {
         finder.checkLegalWriterId(request.getFrom());
-        if (likeStatus) followRepository.follow(finder.getLoggedInMemberName(), request);
+        if (likeStatus) followRepository.follow(finder.getLoggedInMemberLoginId(), request);
         else followRepository.unFollow(request);
     }
 

@@ -1,42 +1,42 @@
 [
   {
     "comment": "스케줄 대댓글입니다. 1",
-    "content_id": 1,
-    "parent_id": 1
+    "contentId": 1,
+    "parentId": 1
   },
   {
     "comment": "스케줄 대댓글입니다. 2",
-    "content_id": 1,
-    "parent_id": 1
+    "contentId": 1,
+    "parentId": 1
   },
   {
     "comment": "스케줄 대댓글입니다. 3",
-    "content_id": 1,
-    "parent_id": 1
+    "contentId": 1,
+    "parentId": 1
   },
   {
     "comment": "스케줄 대댓글입니다. 4",
-    "content_id": 1,
-    "parent_id": 2
+    "contentId": 1,
+    "parentId": 2
   },
   {
     "comment": "스케줄 대댓글입니다. 5",
-    "content_id": 1,
-    "parent_id": 2
+    "contentId": 1,
+    "parentId": 2
   },
   {
     "comment": "스케줄 대댓글입니다. 6",
-    "content_id": 1,
-    "parent_id": 3
+    "contentId": 1,
+    "parentId": 3
   },
   {
     "comment": "스케줄 대댓글입니다. 7",
-    "content_id": 1,
-    "parent_id": 3
+    "contentId": 1,
+    "parentId": 3
   },
   {
     "comment": "스케줄 대댓글입니다.",
-    "content_id": 1,
-    "parent_id": 3
+    "contentId": 1,
+    "parentId": 3
   }
 ]
