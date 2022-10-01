@@ -1,13 +1,10 @@
 <script lang="ts" setup>
 import type { PropType } from "vue";
-import type {
-  MyScheduleCardType,
-  ScheduleCardType,
-} from "@/modules/types/schedule/ScheduleType";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 
 defineProps({
   schedule: {
-    type: Object as PropType<ScheduleCardType | MyScheduleCardType>,
+    type: Object as PropType<ScheduleCardType>,
     required: true,
   },
   fontSize: {

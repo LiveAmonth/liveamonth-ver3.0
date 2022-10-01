@@ -42,9 +42,9 @@ export const useCategory = () => {
 
   const hasScheduleCategories = () => {
     return (
-      scheduleSearchType.value &&
-      scheduleFilterType.value &&
-      scheduleSortType.value
+      scheduleSearchType.value.length ||
+      scheduleFilterType.value.length ||
+      scheduleSortType.value.length
     );
   };
 

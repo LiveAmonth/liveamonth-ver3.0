@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useMyPage } from "@/composables/member/mypage";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 import type { PropType } from "vue";
 
 defineProps({

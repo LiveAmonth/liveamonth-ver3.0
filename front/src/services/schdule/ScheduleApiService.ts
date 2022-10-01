@@ -4,23 +4,24 @@ import http, {
   getSortTypes,
 } from "@/http-common";
 import type {
-  MyScheduleCardType,
-  ScheduleCardType,
-  ScheduleContentType,
-  ScheduleSearchType,
-} from "@/modules/types/schedule/ScheduleType";
-import type {
   PageableRequestType,
   PageableResponseType,
 } from "@/modules/types/common/PageableType";
-import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
-import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
-import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
+import type {
+  ScheduleCardType,
+  ScheduleContentType,
+  ScheduleEditor,
+  ScheduleContentEditor,
+  ScheduleSearchCond,
+} from "@/modules/types/schedule/ScheduleTypes";
+import type { SortType } from "@/modules/types/common/SortType";
+import type { EnumType } from "@/modules/types/common/EnumType";
 
 class ScheduleApiService {
-  async getSearchTypes() {
+  async getSearchTypes(): Promise<EnumType[]> {
     return await getSearchTypes("schedule")
       .then((response) => {
+        console.log("여기까지는 들어오냐?");
         return response.data.data;
       })
       .catch((error) => {
@@ -28,7 +29,7 @@ class ScheduleApiService {
       });
   }
 
-  async getFilterTypes() {
+  async getFilterTypes(): Promise<EnumType[]> {
     return await getFilterTypes("schedule")
       .then((response) => {
         return response.data.data;
@@ -38,7 +39,7 @@ class ScheduleApiService {
       });
   }
 
-  async getSortTypes() {
+  async getSortTypes(): Promise<SortType[]> {
     return await getSortTypes("schedule")
       .then((response) => {
         return response.data.data;
@@ -49,9 +50,8 @@ class ScheduleApiService {
   }
 
   async addSchedule(request: ScheduleEditor): Promise<string> {
-    console.log(request);
     return await http
-      .post(`/schedules`, JSON.stringify(request))
+      .post(`/schedules`, JSON.stringify(request.getCreateDate()))
       .then((response) => {
         return response.data;
       })
@@ -65,7 +65,7 @@ class ScheduleApiService {
     request: ScheduleEditor
   ): Promise<string> {
     return await http
-      .patch(`/schedules/${scheduleId}`, JSON.stringify(request))
+      .patch(`/schedules/${scheduleId}`, JSON.stringify(request.getEditDate()))
       .then((response) => {
         return response.data;
       })
@@ -85,8 +85,19 @@ class ScheduleApiService {
       });
   }
 
+  async getSchedule(scheduleId: number): Promise<any> {
+    return await http
+      .get(`/schedules/${scheduleId}`)
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
   async getOtherSchedules(
-    request: ScheduleSearchType,
+    request: ScheduleSearchCond,
     pageable: PageableRequestType
   ): Promise<PageableResponseType> {
     return await http
@@ -95,7 +106,7 @@ class ScheduleApiService {
           pageable.size
         }&sort=${pageable.sort}`,
         {
-          params: request.fitToFormat(),
+          params: request.getSearchData(),
         }
       )
       .then((response) => {
@@ -110,7 +121,7 @@ class ScheduleApiService {
     loginId: string,
     size: number | null = null,
     lastId: number | null = null
-  ): Promise<MyScheduleCardType[]> {
+  ): Promise<ScheduleCardType[]> {
     return await http
       .get(
         `/schedules/list?login_id=${loginId}` +
@@ -149,7 +160,10 @@ class ScheduleApiService {
     request: ScheduleContentEditor
   ): Promise<string> {
     return await http
-      .post(`/schedules/${scheduleId}/contents`, JSON.stringify(request))
+      .post(
+        `/schedules/${scheduleId}/contents`,
+        JSON.stringify(request.getCreateDate())
+      )
       .then((response) => {
         return response.data;
       })
@@ -160,10 +174,13 @@ class ScheduleApiService {
 
   async editScheduleContent(
     contentId: number,
-    request: ScheduleContentFormType
+    request: ScheduleContentEditor
   ): Promise<string> {
     return await http
-      .patch(`/schedules/contents/${contentId}`, JSON.stringify(request))
+      .patch(
+        `/schedules/contents/${contentId}`,
+        JSON.stringify(request.getEditDate())
+      )
       .then((response) => {
         return response.data;
       })

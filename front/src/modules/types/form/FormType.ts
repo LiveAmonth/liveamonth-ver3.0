@@ -1,11 +1,5 @@
-import type {
-  DatePeriodType,
-  DateTimePeriodType,
-  ScheduleContentType,
-} from "@/modules/types/schedule/ScheduleType";
 import type { FormRules } from "element-plus/es";
 import type { InquiryType } from "@/modules/types/member/MemberType";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleResponse";
 
 export interface FormType<T> {
   setForm(data: T): void;
@@ -88,20 +82,6 @@ export interface ConfirmFormType {
   isAvailable: boolean;
   value: string;
   message: string;
-}
-
-export interface ScheduleContentFormType extends FormType<ScheduleContentType> {
-  title: string;
-  content: string;
-  cost: number;
-  timePeriod: DateTimePeriodType;
-}
-
-export interface ScheduleFormType extends FormType<ScheduleCardType> {
-  title: string;
-  publicFlag: boolean;
-  city: string;
-  period: DatePeriodType;
 }
 
 export interface WriteInquiryFormType extends FormType<InquiryType> {

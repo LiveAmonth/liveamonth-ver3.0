@@ -5,15 +5,14 @@ import { useScheduleContentStore } from "@/stores/schedule/scheduleContent";
 import type {
   ScheduleCardType,
   ScheduleContentType,
-  ScheduleSearchType,
-} from "@/modules/types/schedule/ScheduleType";
+  ScheduleContentEditor,
+  ScheduleEditor,
+  ScheduleSearchCond,
+} from "@/modules/types/schedule/ScheduleTypes";
 import type {
   PageableRequestType,
   PageableType,
 } from "@/modules/types/common/PageableType";
-import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
-import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
-import type { MyScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 export const useSchedule = () => {
   const store = useScheduleStore();
@@ -23,26 +22,27 @@ export const useSchedule = () => {
   const isPending = ref<boolean>(false);
   const type = "schedule";
 
-  const request = computed((): ScheduleSearchType => store.searchCond);
+  const request = computed((): ScheduleSearchCond => store.searchCond);
   const otherSchedules = computed(
     (): ScheduleCardType[] => store.otherScheduleCards
   );
-  const schedulePage = computed((): PageableType => store.schedulePage);
-  const editedSchedule = computed(
-    (): MyScheduleCardType => store.editedSchedule
-  );
-  const currScheduleContents = computed(
-    (): ScheduleContentType[] => contentStore.scheduleContents
-  );
-  const mySchedules = computed((): MyScheduleCardType[] => store.mySchedules);
   const followedSchedules = computed(
     (): ScheduleCardType[] => store.followedSchedules
   );
+  const currentSchedule = computed(
+    (): ScheduleCardType => store.currentSchedule
+  );
+  const schedulePage = computed((): PageableType => store.schedulePage);
+  const currScheduleContents = computed(
+    (): ScheduleContentType[] => contentStore.scheduleContents
+  );
+  const mySchedules = computed((): ScheduleCardType[] => store.mySchedules);
+  const editedSchedule = computed((): ScheduleCardType => store.editedSchedule);
   const contentCollapse = computed(
     (): number[] => contentStore.contentCollapse
   );
 
-  const infiniteSchedules = (isMyPage: boolean) => {
+  const infiniteSchedules = (isMyPage: boolean): ScheduleCardType[] => {
     return isMyPage ? mySchedules.value : followedSchedules.value;
   };
 
@@ -74,10 +74,8 @@ export const useSchedule = () => {
     }
   };
 
-  const getOtherSchedule = (id: number): ScheduleCardType => {
-    return otherSchedules.value.find(
-      (value: ScheduleCardType) => value.id === id
-    ) as ScheduleCardType;
+  const getOtherScheduleCard = (id: number) => {
+    return otherSchedules.value.find((value) => value.id === id);
   };
 
   // My Schedule View
@@ -200,8 +198,12 @@ export const useSchedule = () => {
     }
   };
 
-  const setSchedule = async (selectedId: number) => {
-    await store.setSchedule(selectedId);
+  const setEditedSchedule = async (selectedId: number) => {
+    await store.setEditedSchedule(selectedId);
+  };
+
+  const setCurrentSchedule = async (selectedId: number) => {
+    await store.setCurrentSchedule(selectedId);
   };
 
   const isScheduleEmpty = () => {
@@ -209,7 +211,7 @@ export const useSchedule = () => {
   };
 
   const isMemberEq = () => {
-    return editedSchedule.value.memberId === simpleProfile.value.id;
+    return editedSchedule.value.profile.id == simpleProfile.value.id;
   };
 
   const getInitialSelectedId = () => {
@@ -226,13 +228,14 @@ export const useSchedule = () => {
     request,
     schedulePage,
     otherSchedules,
+    currentSchedule,
     currScheduleContents,
     contentCollapse,
     mySchedules,
     followedSchedules,
     editedSchedule,
     infiniteSchedules,
-    getOtherSchedule,
+    getOtherScheduleCard,
     getOtherSchedules,
     getScheduleContents,
     getMySchedules,
@@ -243,7 +246,8 @@ export const useSchedule = () => {
     addContent,
     editContent,
     deleteContent,
-    setSchedule,
+    setEditedSchedule,
+    setCurrentSchedule,
     getInitialSelectedId,
   };
 };

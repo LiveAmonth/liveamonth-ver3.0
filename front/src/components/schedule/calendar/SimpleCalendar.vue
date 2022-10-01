@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import type { PropType } from "vue";
-import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   period: {

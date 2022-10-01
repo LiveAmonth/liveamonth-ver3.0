@@ -7,28 +7,21 @@ import { useSchedule } from "@/composables/schedule/schedule";
 import { onMounted, ref } from "vue";
 import { useInteraction } from "@/composables/interaction/interaction";
 
-const props = defineProps({
-  id: {
-    type: [String || Number],
-    required: true,
-  },
-});
-
-const { type, currScheduleContents, contentCollapse, getOtherSchedule } =
+const { type, currentSchedule, currScheduleContents, contentCollapse } =
   useSchedule();
 const { isLiked, isLikedContent, reactContent, changeLikeState } =
   useInteraction();
 
-const schedule = ref(getOtherSchedule(Number(props.id)));
-
 onMounted(async () => {
-  await isLikedContent(type, Number(props.id));
+  await isLikedContent(type, currentSchedule.value.id);
 });
 
 const clickHeart = async () => {
-  await reactContent(type, Number(props.id))
+  await reactContent(type, currentSchedule.value.id)
     .then(() => {
-      isLiked.value ? schedule.value.likes-- : schedule.value.likes++;
+      isLiked.value
+        ? currentSchedule.value.likes--
+        : currentSchedule.value.likes++;
       changeLikeState();
     })
     .catch((error) => {
@@ -37,7 +30,7 @@ const clickHeart = async () => {
 };
 </script>
 <template>
-  <el-card class="mb-3">
+  <el-card class="detail mb-3">
     <div class="d-flex justify-content-start">
       <SmallTitleSlot class="mb-4">
         {{ $t("schedule.title.schedule") }}
@@ -59,12 +52,12 @@ const clickHeart = async () => {
         @click="clickHeart"
       />
       <span class="likes">
-        {{ schedule.likes }}
+        {{ currentSchedule.likes }}
       </span>
     </div>
-    <SimpleScheduleCard :schedule="schedule" />
+    <SimpleScheduleCard />
   </el-card>
-  <el-card>
+  <el-card class="content">
     <SmallTitleSlot class="mb-4"
       >{{ $t("schedule.title.content") }}
     </SmallTitleSlot>

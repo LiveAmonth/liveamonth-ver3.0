@@ -6,7 +6,6 @@ import CommentComponent from "@/components/comment/CommentComponent.vue";
 import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
 
 const props = defineProps({
   id: {
@@ -14,12 +13,15 @@ const props = defineProps({
     required: true,
   },
 });
-const { isPending, getOtherSchedule, getScheduleContents } = useSchedule();
+const { getScheduleContents, currentSchedule, setCurrentSchedule } =
+  useSchedule();
 const { setContentCollapse } = useCalendarEvent();
-const schedule = ref<ScheduleCardType>(getOtherSchedule(Number(props.id)));
 const commentKey = ref<number>(0);
 
 onMounted(async () => {
+  if (!currentSchedule.value) {
+    await setCurrentSchedule(Number(props.id));
+  }
   await getScheduleContents(Number(props.id));
 });
 
@@ -29,30 +31,30 @@ const changeCollapse = (id: number) => {
 </script>
 
 <template>
-  <el-row v-if="!isPending" class="mb-5">
+  <el-row v-if="currentSchedule.id" class="mb-5">
     <el-col>
-      <TitleSlot>{{ schedule.title }}</TitleSlot>
+      <TitleSlot>{{ currentSchedule.title }}</TitleSlot>
       <el-row :gutter="10">
         <el-col :span="18">
           <ScheduleCalendar
-            :init-date="String(schedule.period.startDate)"
+            :init-date="String(currentSchedule.period.startDate)"
             @select-content="changeCollapse"
           />
         </el-col>
         <el-col :span="6">
-          <ScheduleDetail :id="id" />
+          <ScheduleDetail />
         </el-col>
       </el-row>
     </el-col>
   </el-row>
   <el-divider />
-  <el-row>
+  <el-row v-if="currentSchedule.id">
     <el-col>
       <CommentComponent
         :key="commentKey"
-        :id="Number(id)"
+        :content-id="Number(id)"
         :type="'schedule'"
-        :writer="schedule.profile.nickname"
+        :writer="currentSchedule.profile.nickname"
         @refresh="commentKey++"
       />
     </el-col>

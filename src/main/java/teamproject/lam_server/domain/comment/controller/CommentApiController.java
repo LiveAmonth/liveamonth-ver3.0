@@ -51,10 +51,9 @@ public class CommentApiController {
 
     @GetMapping("/{type}/{content_id}")
     public ResponseEntity<?> getComments(
-            @PathVariable("content_id") Long contentId,
             @PathVariable String type,
+            @PathVariable("content_id") Long contentId,
             PageableDTO pageableDTO) {
-
         CustomPage<CommentResponse> result =
                 commentServiceFinder.find(type).getComments(contentId, pageableDTO);
 

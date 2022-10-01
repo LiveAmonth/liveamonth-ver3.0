@@ -25,7 +25,7 @@ public class SecurityContextFinder {
         return memberRepository.findByLoginId(user).orElseThrow(MemberNotFound::new);
     }
 
-    public String getLoggedInMemberName() {
+    public String getLoggedInMemberLoginId() {
         return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
     }
 

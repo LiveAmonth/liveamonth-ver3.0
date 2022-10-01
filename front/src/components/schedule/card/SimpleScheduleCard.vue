@@ -1,51 +1,56 @@
 <script setup lang="ts">
 import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
 import { Location, Money, View } from "@element-plus/icons-vue";
-import type { PropType } from "vue";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleType";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useSchedule } from "@/composables/schedule/schedule";
 
 defineProps({
-  schedule: {
-    type: Object as PropType<ScheduleCardType>,
-    required: true,
-  },
   showLikes: {
     type: Boolean,
     required: false,
     default: false,
   },
 });
+const { currentSchedule } = useSchedule();
+const { labelMsg } = useMessageBox();
 </script>
 
 <template>
   <div>
     <ScheduleInfoSlot
-      :schedule="schedule"
+      :schedule="currentSchedule"
       :font-size="0.85"
       :show-likes="showLikes"
     >
       <template v-slot:period-title>
         <span>
-          <el-icon><Calendar /></el-icon> 기간:
+          <el-icon><Calendar /></el-icon>
+          {{ `${labelMsg("schedule.period")}:` }}
         </span>
       </template>
       <template v-slot:cost-title>
         <span>
-          <el-icon><Money /></el-icon> 총 비용:
+          <el-icon><Money /></el-icon>
+          {{ `${labelMsg("schedule.cost")}:` }}
         </span>
       </template>
       <template v-slot:location-title>
         <span>
-          <el-icon><Location /></el-icon> 지역:
+          <el-icon><Location /></el-icon>
+          {{ `${labelMsg("schedule.location")}:` }}
         </span>
       </template>
       <template v-slot:view-title>
         <span>
-          <el-icon><View /></el-icon> 조회수:
+          <el-icon><View /></el-icon>
+          {{ `${labelMsg("view")}:` }}
         </span>
       </template>
       <template v-if="showLikes" v-slot:like-title>
-        <span> <i class="bi bi-hand-thumbs-up"></i> 좋아요: </span>
+        <span>
+          <i class="bi bi-hand-thumbs-up"></i>
+          {{ `${labelMsg("like")}:` }}
+        </span>
       </template>
     </ScheduleInfoSlot>
   </div>

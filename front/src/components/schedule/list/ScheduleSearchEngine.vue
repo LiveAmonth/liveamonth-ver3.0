@@ -4,7 +4,7 @@ import { Search, Filter, Sort } from "@element-plus/icons-vue";
 import { useDate } from "@/composables/common/date";
 import { useCity } from "@/composables/city/city";
 import { useCategory } from "@/composables/common/category";
-import type { SearchSortFormType } from "@/modules/types/common/SearchType";
+import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
 
 const emit = defineEmits(["applyOption"]);
 const { getDate } = useDate();
@@ -18,7 +18,7 @@ const {
   hasScheduleCategories,
 } = useCategory();
 const { cityNames } = useCity();
-const scheduleSearchForm: SearchSortFormType = reactive({
+const scheduleSearchForm: SearchEngineFormType = reactive({
   searchType: null,
   searchInput: null,
   filterType: null,
@@ -35,6 +35,7 @@ const justifyClass = (collapse: number): string => {
 };
 
 onMounted(async () => {
+  console.log(hasScheduleCategories());
   if (!hasScheduleCategories()) {
     await getScheduleSearchType();
     await getScheduleFilterType();
@@ -62,9 +63,8 @@ const selectFilterType = () => {
 
 const applyOption = () => {
   if (scheduleSearchForm.filterType === "START_DATE") {
-    if (scheduleSearchForm.filterInput instanceof Date) {
-      const date: Date = scheduleSearchForm.filterInput as Date;
-      scheduleSearchForm.filterInput = getDate(date);
+    if (scheduleSearchForm.filterInput) {
+      scheduleSearchForm.filterInput = getDate(scheduleSearchForm.filterInput);
     }
   }
   searchCollapse.value = 0;

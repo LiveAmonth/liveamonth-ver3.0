@@ -1,12 +1,12 @@
-export interface SearchSortFormType {
+export interface SearchEngineFormType {
   searchType: string | null;
   searchInput: string | null;
   filterType: string | null;
-  filterInput: string | Date | null;
+  filterInput: string | null;
   sortType: string | null;
 }
 
-export interface SearchCondType {
-  setAttr(form: SearchSortFormType): void;
-  fitToFormat(): SearchCondType;
+export interface SearchCondType<T> {
+  setAttr(form: SearchEngineFormType): void;
+  getSearchData(): T;
 }

@@ -3,14 +3,11 @@ import { useMemberStore } from "@/stores/member/member";
 import { useDate } from "@/composables/common/date";
 import { useI18n } from "vue-i18n";
 import type { FormItemRule } from "element-plus/es";
-import type {
-  ScheduleContentFormType,
-  SignUpType,
-} from "@/modules/types/form/FormType";
+import type { SignUpType } from "@/modules/types/form/FormType";
 import type {
   DatePeriodType,
   DateTimePeriodType,
-} from "@/modules/types/schedule/ScheduleType";
+} from "@/modules/types/schedule/ScheduleTypes";
 
 export const useFormValidate = () => {
   const { t } = useI18n();
@@ -65,13 +62,10 @@ export const useFormValidate = () => {
     };
   };
 
-  const validateCost = (
-    form: ScheduleContentFormType,
-    min: number
-  ): FormItemRule => {
+  const validateCost = (cost: number, min: number): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (min >= form.cost) {
+        if (min >= cost) {
           callback(
             new Error(
               t("validation.min", {

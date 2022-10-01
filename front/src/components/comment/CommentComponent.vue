@@ -110,7 +110,7 @@ const react = async (
       >
         <template v-slot:writer>{{ comment.profile.nickname }}</template>
         <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
-        <template v-slot:content>{{ comment.content }}</template>
+        <template v-slot:content>{{ comment.comment }}</template>
         <template v-slot:likeCount>{{ comment.likes }}</template>
         <template v-slot:dislikeCount>{{ comment.dislikes }}</template>
       </CommentSlot>
@@ -129,7 +129,7 @@ const react = async (
               >
                 <template v-slot:writer>{{ reply.profile.nickname }}</template>
                 <template v-slot:elapsedTime>{{ reply.elapsedTime }}</template>
-                <template v-slot:content>{{ reply.content }}</template>
+                <template v-slot:content>{{ reply.comment }}</template>
                 <template v-slot:likeCount>{{ reply.likes }}</template>
                 <template v-slot:dislikeCount>{{ reply.dislikes }}</template>
               </CommentSlot>
