@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import { reactive, ref, watch } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";
-import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
+import { ScheduleContentEditor } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   scheduleId: {
@@ -28,7 +28,7 @@ const { addContent } = useSchedule();
 const { openMessage, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
-const contentForm = reactive<ScheduleContentEditor>(
+const form = reactive<ScheduleContentEditor>(
   new ScheduleContentEditor(props.period)
 );
 const ruleFormRef = ref<FormInstance>();
@@ -37,7 +37,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      await addContent(props.scheduleId, contentForm).then(() => {
+      await addContent(props.scheduleId, form).then(() => {
         openMessage(t("form.message.content.add"));
         emits("submit");
       });
@@ -50,7 +50,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 watch(
   () => props.defaultDate,
   () => {
-    contentForm.clear();
+    form.clear();
   }
 );
 </script>
@@ -58,8 +58,8 @@ watch(
   <el-card>
     <el-form
       ref="ruleFormRef"
-      :model="contentForm"
-      :rules="contentForm.getRules()"
+      :model="form"
+      :rules="form.getRules()"
       label-width="75px"
       status-icon
     >
@@ -70,7 +70,7 @@ watch(
       </div>
       <el-form-item :label="$t('common.title')" prop="title">
         <el-input
-          v-model="contentForm.title"
+          v-model="form.title"
           :placeholder="
             $t('common.please-input', {
               field: $t('common.title'),
@@ -81,7 +81,7 @@ watch(
       </el-form-item>
       <el-form-item :label="$t('schedule.form.content.content')" prop="content">
         <el-input
-          v-model="contentForm.content"
+          v-model="form.content"
           :placeholder="
             $t('common.please-input', {
               field: $t('schedule.form.content.content'),
@@ -93,7 +93,7 @@ watch(
       </el-form-item>
       <el-form-item :label="$t('schedule.form.content.cost')" prop="cost">
         <el-input
-          v-model="contentForm.cost"
+          v-model="form.cost"
           :placeholder="
             $t('common.please-input', {
               field: $t('schedule.form.content.cost'),
@@ -113,7 +113,7 @@ watch(
         prop="period"
       >
         <el-date-picker
-          v-model="contentForm.timePeriod.startDateTime"
+          v-model="form.timePeriod.startDateTime"
           :placeholder="$t('common.pick-day')"
           format="MM-DD HH:mm"
           style="width: 200px"
@@ -127,7 +127,7 @@ watch(
         prop="period"
       >
         <el-date-picker
-          v-model="contentForm.timePeriod.endDateTime"
+          v-model="form.timePeriod.endDateTime"
           :placeholder="$t('common.pick-day')"
           format="MM-DD HH:mm"
           style="width: 200px"
@@ -140,7 +140,7 @@ watch(
       <el-button @click="submitForm(ruleFormRef)">
         {{ $t("common.button.add") }}
       </el-button>
-      <el-button @click="contentForm.clear(period.startDate)">
+      <el-button @click="form.clear(period.startDate)">
         {{ $t("common.button.clear") }}
       </el-button>
     </div>

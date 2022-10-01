@@ -4,13 +4,13 @@ import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { useSchedule } from "@/composables/schedule/schedule";
-import type { SearchSortFormType } from "@/modules/types/common/SearchType";
+import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
 
 const emits = defineEmits(["applyOption"]);
 
 const { otherSchedules } = useSchedule();
 
-const goSchedule = (data: SearchSortFormType) => {
+const goSchedule = (data: SearchEngineFormType) => {
   emits("applyOption", data);
 };
 </script>
@@ -53,7 +53,7 @@ const goSchedule = (data: SearchSortFormType) => {
                   {{ schedule.comment.elapsedTime }}
                 </template>
                 <template v-slot:content>
-                  {{ schedule.comment.content }}
+                  {{ schedule.comment.comment }}
                 </template>
                 <template v-slot:likeCount>
                   {{ schedule.comment.likes }}

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
 import { onMounted, reactive, ref, watch } from "vue";
 import { useCity } from "@/composables/city/city";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { FormInstance } from "element-plus/es";
+import { ScheduleEditor } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   selectedId: {

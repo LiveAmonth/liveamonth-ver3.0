@@ -4,21 +4,17 @@ import PopoverProfileSlot from "@/components/common/PopoverProfileSlot.vue";
 import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
 import { Location, Money, View, Right, Close } from "@element-plus/icons-vue";
 import { useCategory } from "@/composables/common/category";
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
-import type { SearchSortFormType } from "@/modules/types/common/SearchType";
-import type {
-  MyScheduleCardType,
-  ScheduleCardType,
-} from "@/modules/types/schedule/ScheduleType";
+import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   schedule: {
-    type: Object as PropType<ScheduleCardType | MyScheduleCardType>,
+    type: Object as PropType<ScheduleCardType>,
     required: true,
   },
   isMyPage: {
@@ -35,15 +31,14 @@ const emit = defineEmits(["goToMemberSchedules", "deleteSchedule"]);
 
 const router = useRouter();
 const { scheduleSearchType, scheduleSortType } = useCategory();
-const { setSchedule } = useSchedule();
+const { setEditedSchedule } = useSchedule();
 const { openConfirmMessageBox } = useMessageBox();
 const { t } = useI18n();
 
-const otherSchedule = ref<ScheduleCardType>(props.schedule as ScheduleCardType);
 const goToMemberSchedules = () => {
-  const request: SearchSortFormType = {
+  const request: SearchEngineFormType = {
     searchType: scheduleSearchType.value[0].code,
-    searchInput: otherSchedule.value.profile.nickname,
+    searchInput: props.schedule.profile.nickname,
     filterType: null,
     filterInput: null,
     sortType: scheduleSortType.value[0].title,
@@ -53,7 +48,7 @@ const goToMemberSchedules = () => {
 
 const goSchedule = async () => {
   if (props.isMyPage) {
-    await setSchedule(props.schedule.id).then(() => {
+    await setEditedSchedule(props.schedule.id).then(() => {
       router.push({
         name: "my-schedule",
         params: {
@@ -85,7 +80,7 @@ const deleteScheduleBtn = async () => {
   <el-card class="information" :body-style="{ paddingRight: 0 }">
     <div class="profile-title d-flex justify-content-between">
       <div class="profile" v-if="!isMyPage">
-        <PopoverProfileSlot :schedule="otherSchedule">
+        <PopoverProfileSlot :schedule="schedule">
           <a class="mention" @click="goToMemberSchedules">
             @ {{ $t("schedule.popover.link") }}
           </a>

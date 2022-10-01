@@ -6,10 +6,7 @@ import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { computed, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMember } from "@/composables/member/member";
-import type {
-  MyScheduleCardType,
-  ScheduleCardType,
-} from "@/modules/types/schedule/ScheduleType";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   initialCount: {
@@ -40,9 +37,7 @@ const count = ref<number>(props.initialCount);
 const loading = ref<boolean>(false);
 const noMore = computed(() => count.value >= props.maxCount);
 const disabled = computed(() => loading.value || noMore.value);
-const schedules = computed((): MyScheduleCardType[] | ScheduleCardType[] =>
-  infiniteSchedules(props.isMyPage)
-);
+const schedules = computed(() => infiniteSchedules(props.isMyPage));
 const load = async () => {
   loading.value = true;
   await getInfiniteSchedules(
@@ -117,7 +112,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
                     {{ schedule.comment.elapsedTime }}
                   </template>
                   <template v-slot:content>
-                    {{ schedule.comment.content }}
+                    {{ schedule.comment.comment }}
                   </template>
                   <template v-slot:likeCount>
                     {{ schedule.comment.likes }}

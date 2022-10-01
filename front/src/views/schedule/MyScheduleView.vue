@@ -27,7 +27,7 @@ const {
   deleteSchedule,
   deleteContent,
   getInitialSelectedId,
-  setSchedule,
+  setEditedSchedule,
 } = useSchedule();
 const { resetContent } = useCalendarEvent();
 const { openConfirmMessageBox, openMessageBox } = useMessageBox();
@@ -52,7 +52,7 @@ onMounted(async () => {
 
 const changeSchedule = async () => {
   if (selectedId.value) {
-    await setSchedule(Number(selectedId.value));
+    await setEditedSchedule(Number(selectedId.value));
     await getScheduleContents(Number(selectedId.value)).then(() => {
       initDate.value = editedSchedule.value.period.startDate;
       calendarKey.value += 1;

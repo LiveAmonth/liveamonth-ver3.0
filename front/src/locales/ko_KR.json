@@ -157,6 +157,8 @@
     },
     "label": {
       "title": "제목",
+      "view": "조회수",
+      "like": "좋아요",
       "member": {
         "name": "이름",
         "loginId": "아이디",
@@ -195,6 +197,8 @@
         "won": "원",
         "start": "시작 날짜",
         "end": "종료 날짜",
+        "period": "기간",
+        "location": "지역",
         "content": {
           "title": "컨텐츠 제목",
           "content": "내용",

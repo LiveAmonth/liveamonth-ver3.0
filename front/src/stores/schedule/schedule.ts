@@ -1,25 +1,24 @@
 import ScheduleApiService from "@/services/schdule/ScheduleApiService";
-import ScheduleSearchCond from "@/modules/class/schedule/ScheduleCond";
 import { defineStore } from "pinia";
 import type {
-  MyScheduleCardType,
   ScheduleCardType,
-  ScheduleSearchType,
-} from "@/modules/types/schedule/ScheduleType";
+  ScheduleEditor,
+} from "@/modules/types/schedule/ScheduleTypes";
 import type {
   PageableRequestType,
   PageableResponseType,
   PageableType,
 } from "@/modules/types/common/PageableType";
-import type ScheduleEditor from "@/modules/class/schedule/ScheduleEditor";
+import { ScheduleSearchCond } from "@/modules/types/schedule/ScheduleTypes";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
-    searchCond: new ScheduleSearchCond() as ScheduleSearchType,
+    searchCond: new ScheduleSearchCond(),
     pageableSchedules: {} as PageableResponseType,
-    mySchedules: [] as MyScheduleCardType[],
+    mySchedules: [] as ScheduleCardType[],
     followedSchedules: [] as ScheduleCardType[],
-    editedSchedule: {} as MyScheduleCardType,
+    editedSchedule: {} as ScheduleCardType,
+    currentSchedule: {} as ScheduleCardType,
   }),
   getters: {
     otherScheduleCards: (state): ScheduleCardType[] =>
@@ -39,7 +38,7 @@ export const useScheduleStore = defineStore("schedule", {
 
     getMySchedules: async function (loginId: string, size = null) {
       await ScheduleApiService.getMySchedules(loginId, size)
-        .then((response: MyScheduleCardType[]) => {
+        .then((response: ScheduleCardType[]) => {
           this.mySchedules = response;
         })
         .catch((error) => {
@@ -53,7 +52,7 @@ export const useScheduleStore = defineStore("schedule", {
       lastId: number | null
     ) {
       await ScheduleApiService.getMySchedules(loginId, size, lastId)
-        .then((response: MyScheduleCardType[]) => {
+        .then((response: ScheduleCardType[]) => {
           lastId
             ? response.forEach((value) => this.mySchedules.push(value))
             : (this.mySchedules = response);
@@ -109,11 +108,24 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    setSchedule: async function (selectedId: number) {
-      const data = this.mySchedules.find((value) => value.id === selectedId);
+    setEditedSchedule: async function (selectedId: number) {
+      const data = this.mySchedules.find((value) => value.id == selectedId);
       if (data) {
         this.editedSchedule = data;
       }
     },
+
+    setCurrentSchedule: async function (selectedId: number) {
+      const data = this.otherScheduleCards.find(
+        (value) => value.id == selectedId
+      );
+      if (data) {
+        this.currentSchedule = data;
+      }
+    },
+  },
+  persist: {
+    storage: sessionStorage,
+    paths: ["editedSchedule", "currentSchedule"],
   },
 });

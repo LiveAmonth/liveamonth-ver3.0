@@ -3,7 +3,7 @@ import OpenModal from "@/components/common/OpenModal.vue";
 import ScheduleForm from "@/components/schedule/form/ScheduleForm.vue";
 import AddContentForm from "@/components/schedule/form/AddContentForm.vue";
 import type { PropType } from "vue";
-import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
 
 defineProps({
   scheduleId: Number,

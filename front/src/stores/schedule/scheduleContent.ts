@@ -5,10 +5,9 @@ import { useDate } from "@/composables/common/date";
 import type {
   CalendarExtendedType,
   ScheduleContentType,
-} from "@/modules/types/schedule/ScheduleType";
+  ScheduleContentEditor,
+} from "@/modules/types/schedule/ScheduleTypes";
 import type { EventApi } from "@fullcalendar/common";
-import type ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
-import type { ScheduleContentFormType } from "@/modules/types/form/FormType";
 
 const collapseArr: number[] = [];
 const { getDateTime } = useDate();
@@ -35,7 +34,7 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
 
     editContent: async function (
       contentId: number,
-      form: ScheduleContentFormType
+      form: ScheduleContentEditor
     ) {
       await ScheduleApiService.editScheduleContent(contentId, form)
         .then((response: string) => {

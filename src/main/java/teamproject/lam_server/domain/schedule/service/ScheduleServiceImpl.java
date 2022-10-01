@@ -8,12 +8,11 @@ import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepositoryImpl;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
-import teamproject.lam_server.domain.schedule.entity.ScheduleEditor;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
+import teamproject.lam_server.domain.schedule.entity.ScheduleEditor;
 import teamproject.lam_server.domain.schedule.repository.ScheduleQueryRepository;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
@@ -83,17 +82,17 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId, Integer size, Long lastId) {
-        return scheduleQueryRepository.getScheduleByMember(loginId, size, lastId)
+    public List<ScheduleCardResponse> getScheduleByMember(Integer size, Long lastId) {
+        return scheduleQueryRepository.getScheduleByMember(finder.getLoggedInMemberLoginId(), size, lastId)
                 .stream()
-                .map(ScheduleSimpleCardResponse::of)
+                .map(schedule -> ScheduleCardResponse.of(schedule, null))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
+    public List<ScheduleCardResponse> getFollowedSchedules(Integer size, Long lastId) {
         return scheduleQueryRepository
-                .getFollowedSchedules(loginId, size, lastId)
+                .getFollowedSchedules(finder.getLoggedInMemberLoginId(), size, lastId)
                 .stream()
                 .map(mapToScheduleAndComment())
                 .collect(Collectors.toList());

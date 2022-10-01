@@ -4,7 +4,6 @@ import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -20,8 +19,7 @@ public interface ScheduleService {
 
     CustomPage<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO);
 
-    List<ScheduleSimpleCardResponse> getScheduleByMember(String loginId, Integer size, Long lastId);
+    List<ScheduleCardResponse> getScheduleByMember(Integer size, Long lastId);
 
-    List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId);
-
+    List<ScheduleCardResponse> getFollowedSchedules(Integer size, Long lastId);
 }

@@ -7,7 +7,6 @@ import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
-import teamproject.lam_server.domain.schedule.dto.response.ScheduleSimpleCardResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
 import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.paging.CustomPage;
@@ -51,20 +50,18 @@ public class ScheduleApiController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> getScheduleByMember(
-            @RequestParam("login_id") String loginId,
+    public ResponseEntity<?> getSchedulesByMember(
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
-        List<ScheduleSimpleCardResponse> result = scheduleApiService.getScheduleByMember(loginId, size, lastId);
+        List<ScheduleCardResponse> result = scheduleApiService.getScheduleByMember(size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
     @GetMapping("/list/followed")
-    public ResponseEntity<?> searchFollowedSchedule(
-            @RequestParam("login_id") String loginId,
+    public ResponseEntity<?> searchFollowedSchedules(
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
-        List<ScheduleCardResponse> result = scheduleApiService.getFollowedSchedules(loginId, size, lastId);
+        List<ScheduleCardResponse> result = scheduleApiService.getFollowedSchedules(size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 }

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import ScheduleContentEditor from "@/modules/class/schedule/ScheduleContentEditor";
 import { reactive, ref, watch } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { FormInstance } from "element-plus/es";
+import { ScheduleContentEditor } from "@/modules/types/schedule/ScheduleTypes";
 
 defineProps({
   scheduleId: {
@@ -21,7 +21,7 @@ const { openMessage, openMessageBox } = useMessageBox();
 const { t } = useI18n();
 
 const isEdit = ref<boolean>(!selectedContent.value);
-const contentForm = reactive<ScheduleContentEditor>(
+const form = reactive<ScheduleContentEditor>(
   new ScheduleContentEditor(editedSchedule.value.period)
 );
 const ruleFormRef = ref<FormInstance>();
@@ -30,7 +30,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      await editContent(selectedContent.value.id, contentForm).then(() => {
+      await editContent(selectedContent.value.id, form).then(() => {
         isEdit.value = false;
         openMessage(t("form.message.content.update"));
         emits("submit", true);
@@ -42,14 +42,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 
 const cancelEdit = () => {
-  contentForm.setForm(selectedContent.value);
+  form.setForm(selectedContent.value);
   isEdit.value = false;
 };
 
 watch(
   () => editedSchedule.value,
   () => {
-    contentForm.schedulePeriod = editedSchedule.value.period;
+    form.schedulePeriod = editedSchedule.value.period;
   }
 );
 
@@ -57,7 +57,7 @@ watch(
   () => selectedContent.value,
   () => {
     if (selectedContent.value.title) {
-      contentForm.setForm(selectedContent.value);
+      form.setForm(selectedContent.value);
     }
   }
 );
@@ -73,14 +73,14 @@ watch(
       <el-form
         ref="ruleFormRef"
         :disabled="!isEdit"
-        :model="contentForm"
-        :rules="contentForm.getRules()"
+        :model="form"
+        :rules="form.getRules()"
         label-width="75px"
         status-icon
       >
         <el-form-item :label="$t('common.title')" prop="title">
           <el-input
-            v-model="contentForm.title"
+            v-model="form.title"
             :placeholder="
               $t('common.please-input', {
                 field: $t('common.title'),
@@ -94,7 +94,7 @@ watch(
           prop="content"
         >
           <el-input
-            v-model="contentForm.content"
+            v-model="form.content"
             :placeholder="
               $t('common.please-input', {
                 field: $t('schedule.form.content.content'),
@@ -106,7 +106,7 @@ watch(
         </el-form-item>
         <el-form-item :label="$t('schedule.form.content.cost')" prop="cost">
           <el-input
-            v-model="contentForm.cost"
+            v-model="form.cost"
             :placeholder="
               $t('common.please-input', {
                 field: $t('schedule.form.content.cost'),
@@ -126,7 +126,7 @@ watch(
           class="period-item"
         >
           <el-date-picker
-            v-model="contentForm.timePeriod.startDateTime"
+            v-model="form.timePeriod.startDateTime"
             :placeholder="$t('common.pick-day')"
             style="width: 200px"
             type="datetime"
@@ -140,7 +140,7 @@ watch(
           class="period-item"
         >
           <el-date-picker
-            v-model="contentForm.timePeriod.endDateTime"
+            v-model="form.timePeriod.endDateTime"
             :placeholder="$t('common.pick-day')"
             style="width: 200px"
             type="datetime"

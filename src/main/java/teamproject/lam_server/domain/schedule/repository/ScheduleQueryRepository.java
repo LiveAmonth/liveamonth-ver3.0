@@ -61,14 +61,10 @@ public class ScheduleQueryRepository extends BasicRepository {
     }
 
     public List<ScheduleContent> getScheduleContents(Long scheduleId) {
-        queryFactory.update(schedule)
-                .set(schedule.viewCount, schedule.viewCount.add(1))
-                .where(
-                        scheduleIdEq(scheduleId)
-                ).execute();
 
         return queryFactory.selectFrom(scheduleContent)
                 .join(scheduleContent.schedule, schedule).fetchJoin()
+                .join(schedule.member,member).fetchJoin()
                 .where(
                         scheduleIdEq(scheduleId)
                 )

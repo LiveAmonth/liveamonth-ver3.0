@@ -3,7 +3,7 @@ import "dayjs/locale/ko";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import isBetween from "dayjs/plugin/isBetween";
-import type { DatePeriodType } from "@/modules/types/schedule/ScheduleType";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
 
 dayjs.extend(isBetween);
 dayjs.extend(utc);
