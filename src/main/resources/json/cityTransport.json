@@ -1,216 +1,216 @@
 [
   {
-    "station_count": 9,
+    "stationCount": 9,
     "category": "T_SUBWAY",
     "name": "SE",
     "score": 5
   },
   {
-    "station_count": 361,
+    "stationCount": 361,
     "category": "T_BUS",
     "name": "SE",
     "score": 5
   },
   {
-    "station_count": 2228,
+    "stationCount": 2228,
     "category": "T_BICYCLE",
     "name": "SE",
     "score": 5
   },
   {
-    "station_count": 5,
+    "stationCount": 5,
     "category": "T_BUS_TERMINAL",
     "name": "SE",
     "score": 5
   },
   {
-    "station_count": 5,
+    "stationCount": 5,
     "category": "T_TRAIN",
     "name": "SE",
     "score": 5
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_AIRPORT",
     "name": "SE",
     "score": 5
   },
   {
-    "station_count": 0,
+    "stationCount": 0,
     "category": "T_SUBWAY",
     "name": "GN",
     "score": 0
   },
   {
-    "station_count": 91,
+    "stationCount": 91,
     "category": "T_BUS",
     "name": "GN",
     "score": 3
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_BICYCLE",
     "name": "GN",
     "score": 1
   },
   {
-    "station_count": 2,
+    "stationCount": 2,
     "category": "T_BUS_TERMINAL",
     "name": "GN",
     "score": 5
   },
   {
-    "station_count": 2,
+    "stationCount": 2,
     "category": "T_TRAIN",
     "name": "GN",
     "score": 4
   },
   {
-    "station_count": 0,
+    "stationCount": 0,
     "category": "T_AIRPORT",
     "name": "GN",
     "score": 0
   },
   {
-    "station_count": 0,
+    "stationCount": 0,
     "category": "T_SUBWAY",
     "name": "GJ",
     "score": 0
   },
   {
-    "station_count": 82,
+    "stationCount": 82,
     "category": "T_BUS",
     "name": "GJ",
     "score": 3
   },
   {
-    "station_count": 0,
+    "stationCount": 0,
     "category": "T_BICYCLE",
     "name": "GJ",
     "score": 0
   },
   {
-    "station_count": 2,
+    "stationCount": 2,
     "category": "T_BUS_TERMINAL",
     "name": "GJ",
     "score": 4
   },
   {
-    "station_count": 3,
+    "stationCount": 3,
     "category": "T_TRAIN",
     "name": "GJ",
     "score": 3
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_AIRPORT",
     "name": "GJ",
     "score": 5
   },
   {
-    "station_count": 6,
+    "stationCount": 6,
     "category": "T_SUBWAY",
     "name": "BS",
     "score": 4
   },
   {
-    "station_count": 144,
+    "stationCount": 144,
     "category": "T_BUS",
     "name": "BS",
     "score": 4
   },
   {
-    "station_count": 4,
+    "stationCount": 4,
     "category": "T_BICYCLE",
     "name": "BS",
     "score": 3
   },
   {
-    "station_count": 2,
+    "stationCount": 2,
     "category": "T_BUS_TERMINAL",
     "name": "BS",
     "score": 4
   },
   {
-    "station_count": 4,
+    "stationCount": 4,
     "category": "T_TRAIN",
     "name": "BS",
     "score": 4
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_AIRPORT",
     "name": "BS",
     "score": 5
   },
   {
-    "station_count": 0,
+    "stationCount": 0,
     "category": "T_SUBWAY",
     "name": "YS",
     "score": 0
   },
   {
-    "station_count": 63,
+    "stationCount": 63,
     "category": "T_BUS",
     "name": "YS",
     "score": 2
   },
   {
-    "station_count": 44,
+    "stationCount": 44,
     "category": "T_BICYCLE",
     "name": "YS",
     "score": 4
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_BUS_TERMINAL",
     "name": "YS",
     "score": 3
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_TRAIN",
     "name": "YS",
     "score": 1
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_AIRPORT",
     "name": "YS",
     "score": 5
   },
   {
-    "station_count": 0,
+    "stationCount": 0,
     "category": "T_SUBWAY",
     "name": "JJ",
     "score": 0
   },
   {
-    "station_count": 222,
+    "stationCount": 222,
     "category": "T_BUS",
     "name": "JJ",
     "score": 4
   },
   {
-    "station_count": 11,
+    "stationCount": 11,
     "category": "T_BICYCLE",
     "name": "JJ",
     "score": 3
   },
   {
-    "station_count": 2,
+    "stationCount": 2,
     "category": "T_BUS_TERMINAL",
     "name": "JJ",
     "score": 4
   },
   {
-    "station_count": 0,
+    "stationCount": 0,
     "category": "T_TRAIN",
     "name": "JJ",
     "score": 0
   },
   {
-    "station_count": 1,
+    "stationCount": 1,
     "category": "T_AIRPORT",
     "name": "JJ",
     "score": 5

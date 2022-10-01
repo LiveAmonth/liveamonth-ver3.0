@@ -10,7 +10,6 @@ import javax.validation.constraints.Pattern;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MemberFindPassword {
 
     @NotNull

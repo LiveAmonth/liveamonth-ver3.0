@@ -1,110 +1,110 @@
 [
   {
     "title": "서울 한 달 살기",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "SE",
     "period": {
-      "start_date": "2022-08-01",
-      "end_date": "2022-08-31"
+      "startDate": "2022-08-01",
+      "endDate": "2022-08-31"
     }
   },
   {
     "title": "강릉 한 달 살기",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "GN",
     "period": {
-      "start_date": "2022-07-31",
-      "end_date": "2022-08-24"
+      "startDate": "2022-07-31",
+      "endDate": "2022-08-24"
     }
   },
   {
     "title": "경주 한 달 살기",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "GJ",
     "period": {
-      "start_date": "2022-08-01",
-      "end_date": "2022-09-02"
+      "startDate": "2022-08-01",
+      "endDate": "2022-09-02"
     }
   },
   {
     "title": "부산 한 달 살기",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "BS",
     "period": {
-      "start_date": "2022-08-06",
-      "end_date": "2022-09-10"
+      "startDate": "2022-08-06",
+      "endDate": "2022-09-10"
     }
   },
   {
     "title": "여수 한 달 살기",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "YS",
     "period": {
-      "start_date": "2022-08-03",
-      "end_date": "2022-08-25"
+      "startDate": "2022-08-03",
+      "endDate": "2022-08-25"
     }
   },
   {
     "title": "제주 한 달 살기",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "JJ",
     "period": {
-      "start_date": "2022-08-11",
-      "end_date": "2022-09-10"
+      "startDate": "2022-08-11",
+      "endDate": "2022-09-10"
     }
   },
   {
     "title": "서울 한 달 살기 2",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "SE",
     "period": {
-      "start_date": "2022-08-01",
-      "end_date": "2022-09-10"
+      "startDate": "2022-08-01",
+      "endDate": "2022-09-10"
     }
   },
   {
     "title": "강릉 한 달 살기 2",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "GN",
     "period": {
-      "start_date": "2022-07-01",
-      "end_date": "2022-07-10"
+      "startDate": "2022-07-01",
+      "endDate": "2022-07-10"
     }
   },
   {
     "title": "경주 한 달 살기 2",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "GJ",
     "period": {
-      "start_date": "2022-07-01",
-      "end_date": "2022-08-05"
+      "startDate": "2022-07-01",
+      "endDate": "2022-08-05"
     }
   },
   {
     "title": "부산 한 달 살기 2",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "BS",
     "period": {
-      "start_date": "2022-08-03",
-      "end_date": "2022-08-30"
+      "startDate": "2022-08-03",
+      "endDate": "2022-08-30"
     }
   },
   {
     "title": "여수 한 달 살기 2",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "YS",
     "period": {
-      "start_date": "2022-08-01",
-      "end_date": "2022-08-31"
+      "startDate": "2022-08-01",
+      "endDate": "2022-08-31"
     }
   },
   {
     "title": "제주 한 달 살기 2",
-    "public_flag": true,
+    "publicFlag": true,
     "city": "JJ",
     "period": {
-      "start_date": "2022-08-02",
-      "end_date": "2022-08-26"
+      "startDate": "2022-08-02",
+      "endDate": "2022-08-26"
     }
   }
 ]

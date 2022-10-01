@@ -1,121 +1,121 @@
 [
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 1일차",
     "content": "1일차 내용 1",
-    "time_period": {
-      "start_date_time": "2022-08-01 11:00:00",
-      "end_date_time": "2022-08-01 12:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-01 11:00:00",
+      "endDateTime": "2022-08-01 12:00:00"
     },
     "cost": 12000
   },
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 1일차",
     "content": "1일차 내용 2",
-    "time_period": {
-      "start_date_time": "2022-08-01 13:00:00",
-      "end_date_time": "2022-08-01 14:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-01 13:00:00",
+      "endDateTime": "2022-08-01 14:00:00"
     },
     "cost": 56000
   },
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 1일차",
     "content": "1일차 내용 3",
-    "time_period": {
-      "start_date_time": "2022-08-01 15:00:00",
-      "end_date_time": "2022-08-01 16:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-01 15:00:00",
+      "endDateTime": "2022-08-01 16:00:00"
     },
     "cost": 45000
   },
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 1일차",
     "content": "1일차 내용 4",
-    "time_period": {
-      "start_date_time": "2022-08-01 17:00:00",
-      "end_date_time": "2022-08-01 18:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-01 17:00:00",
+      "endDateTime": "2022-08-01 18:00:00"
     },
     "cost": 23000
   },
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 1일차",
     "content": "1일차 내용 5",
-    "time_period": {
-      "start_date_time": "2022-08-01 19:00:00",
-      "end_date_time": "2022-08-01 20:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-01 19:00:00",
+      "endDateTime": "2022-08-01 20:00:00"
     },
     "cost": 35000
   },
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 1일차",
     "content": "1일차 내용 6",
-    "time_period": {
-      "start_date_time": "2022-08-01 21:00:00",
-      "end_date_time": "2022-08-01 22:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-01 21:00:00",
+      "endDateTime": "2022-08-01 22:00:00"
     },
     "cost": 70000
   },
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 2일차",
     "content": "2일차 내용",
-    "time_period": {
-      "start_date_time": "2022-08-02 12:00:00",
-      "end_date_time": "2022-08-02 13:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-02 12:00:00",
+      "endDateTime": "2022-08-02 13:00:00"
     },
     "cost": 50000
   },
   {
-    "schedule_id": 1,
+    "scheduleId": 1,
     "title": "서울 5일차",
     "content": "5일차 내용",
-    "time_period": {
-      "start_date_time": "2022-08-05 12:00:00",
-      "end_date_time": "2022-08-05 13:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-05 12:00:00",
+      "endDateTime": "2022-08-05 13:00:00"
     },
     "cost": 70000
   },
   {
-    "schedule_id": 3,
+    "scheduleId": 3,
     "title": "경주 10일차",
     "content": "10일차 내용",
-    "time_period": {
-      "start_date_time": "2022-08-10 12:00:00",
-      "end_date_time": "2022-08-10 13:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-10 12:00:00",
+      "endDateTime": "2022-08-10 13:00:00"
     },
     "cost": 20000
   },
   {
-    "schedule_id": 3,
+    "scheduleId": 3,
     "title": "경주 11일차",
     "content": "11일차 내용",
-    "time_period": {
-      "start_date_time": "2022-08-11 12:00:00",
-      "end_date_time": "2022-08-11 13:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-11 12:00:00",
+      "endDateTime": "2022-08-11 13:00:00"
     },
     "cost": 30000
   },
   {
-    "schedule_id": 3,
+    "scheduleId": 3,
     "title": "경주 12일차",
     "content": "12일차 내용",
-    "time_period": {
-      "start_date_time": "2022-08-12 12:00:00",
-      "end_date_time": "2022-08-12 13:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-12 12:00:00",
+      "endDateTime": "2022-08-12 13:00:00"
     },
     "cost": 50000
   },
   {
-    "schedule_id": 3,
+    "scheduleId": 3,
     "title": "경주 13일차",
     "content": "13일차 내용",
-    "time_period": {
-      "start_date_time": "2022-08-13 12:00:00",
-      "end_date_time": "2022-08-13 13:00:00"
+    "timePeriod": {
+      "startDateTime": "2022-08-13 12:00:00",
+      "endDateTime": "2022-08-13 13:00:00"
     },
     "cost": 20000
   }
