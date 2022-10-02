@@ -143,10 +143,10 @@ const react = async (
                   <template v-slot:likeCount>{{ reply.likes }}</template>
                   <template v-slot:dislikeCount>{{ reply.dislikes }}</template>
                 </CommentSlot>
-                <el-divider class="mt-1 mb-0" />
               </li>
             </ul>
             <div class="mt-2 ms-5">
+              <el-divider class="mb-1" />
               <CommentInput
                 :content-id="contentId"
                 :comment-id="comment.commentId"

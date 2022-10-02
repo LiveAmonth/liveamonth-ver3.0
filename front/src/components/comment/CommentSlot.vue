@@ -114,6 +114,10 @@ watch(
       {{ $t("comment.writer") }}
     </el-tag>
     <el-badge v-if="isBest" class="ms-1" value="Best" />
+    <div class="d-flex justify-content-end">
+      <el-button text size="small">수정</el-button>
+      <el-button text size="small">삭제</el-button>
+    </div>
   </div>
   <div class="content">
     <slot name="content"></slot>
