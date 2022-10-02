@@ -86,10 +86,9 @@ const react = async (
 </script>
 
 <template>
-  <TitleSlot
-    >{{ $t("comment.title") }}({{
-      commentPageable ? commentPageable.totalElements : "0"
-    }})
+  <TitleSlot>
+    {{ $t("comment.title") }}
+    {{ `(${commentPageable ? commentPageable.totalElements : "0"})` }}
   </TitleSlot>
   <el-card>
     <SmallTitleSlot>{{ $t("comment.write") }}</SmallTitleSlot>

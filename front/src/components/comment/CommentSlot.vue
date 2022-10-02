@@ -43,8 +43,8 @@ const fillThumbs = (thumbs: Ref<UnwrapRef<string>>) => {
 const reactComment = (option: boolean) => {
   checkReacted(option, reactedComment.value?.type)
     .then(() => {
-      emit("reactComment", props.id, option, !!reactedComment.value);
       option ? fillThumbs(thumbsUp) : fillThumbs(thumbsDown);
+      emit("reactComment", props.id, option, !!reactedComment.value);
     })
     .catch((error) => {
       openMessageBox(error);
@@ -85,20 +85,13 @@ watch(
           class="me-1"
           style="color: #535252"
         />
-        <el-tooltip
+        <BootstrapIcon
           v-else
-          :content="$t('comment.react.like')"
-          class="box-item"
-          effect="dark"
-          placement="top"
-        >
-          <BootstrapIcon
-            :class="{ active: !isBest }"
-            :icon="thumbsUp"
-            class="me-1"
-            @click="reactComment(true)"
-          />
-        </el-tooltip>
+          :class="{ active: !isBest }"
+          :icon="thumbsUp"
+          class="me-1"
+          @click="reactComment(true)"
+        />
         <slot name="likeCount"></slot>
       </span>
       <span class="icon">
@@ -108,19 +101,12 @@ watch(
           class="me-1"
           style="color: #535252"
         />
-        <el-tooltip
+        <BootstrapIcon
           v-else
-          :content="$t('comment.react.dislike')"
-          class="box-item"
-          effect="dark"
-          placement="top"
-        >
-          <BootstrapIcon
-            :icon="thumbsDown"
-            class="me-1"
-            @click="reactComment(false)"
-          />
-        </el-tooltip>
+          :icon="thumbsDown"
+          class="me-1"
+          @click="reactComment(false)"
+        />
         <slot name="dislikeCount"></slot>
       </span>
     </div>

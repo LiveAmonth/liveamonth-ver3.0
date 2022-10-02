@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class CommentResponse {
 
     private Long commentId;
-    private String content;
+    private String comment;
     private CommentProfileResponse profile;
     private List<CommentReplyResponse> commentReplies;
     private String elapsedTime;
@@ -24,7 +24,7 @@ public class CommentResponse {
     public static <T extends CommentEntity> CommentResponse.CommentResponseBuilder of(T comment) {
         return CommentResponse.builder()
                 .commentId(comment.getId())
-                .content(comment.getComment())
+                .comment(comment.getComment())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
                 .likes(comment.getLikeCount())
@@ -35,7 +35,7 @@ public class CommentResponse {
         if(comment != null){
             return CommentResponse.builder()
                     .commentId(comment.getId())
-                    .content(comment.getComment())
+                    .comment(comment.getComment())
                     .profile(CommentProfileResponse.of(comment.getMember()))
                     .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
                     .likes(comment.getLikeCount())

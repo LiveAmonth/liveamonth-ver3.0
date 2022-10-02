@@ -8,34 +8,15 @@ const props = defineProps({
   },
 });
 const iconClass = ref<string>(props.icon);
-const changeColor = () => {
-  if (iconClass.value.includes("-fill")) {
-    emptyColor();
-  } else {
-    fillColor();
-  }
-};
-
-const fillColor = () => {
-  iconClass.value = iconClass.value.concat("-fill");
-};
-const emptyColor = () => {
-  iconClass.value = iconClass.value.slice(0, iconClass.value.length - 5);
-};
 
 watch(
   () => props.icon,
-  (newValue, oldValue) => {
+  (newValue) => {
     iconClass.value = newValue;
   }
 );
 </script>
 
 <template>
-  <i
-    :class="`bi ${iconClass}`"
-    @mouseenter="changeColor"
-    @mouseleave="changeColor"
-    style="cursor: pointer; color: #535252"
-  />
+  <i :class="`bi ${iconClass}`" style="cursor: pointer; color: #535252" />
 </template>

@@ -30,7 +30,7 @@ class InteractionApiService {
   ): Promise<void> {
     return await http
       .post(
-        `interactions/comments/${commentType}/${
+        `interactions/comments/${commentType}${
           isReacted ? "/cancel" : `?react_type=${option}`
         }`,
         JSON.stringify(request)
