@@ -86,115 +86,113 @@ const react = async (
 </script>
 
 <template>
-  <TitleSlot>
-    {{ $t("comment.title") }}
-    {{ `(${commentPageable ? commentPageable.totalElements : "0"})` }}
-  </TitleSlot>
-  <el-card>
-    <SmallTitleSlot>{{ $t("comment.write") }}</SmallTitleSlot>
-    <CommentInput
-      :content-id="contentId"
-      :is-pending="isPending"
-      @submit-form="submitForm"
-    />
-  </el-card>
-  <ul>
-    <li v-for="comment in comments" :key="comment.commentId">
-      <CommentSlot
-        :id="comment.commentId"
-        :avatar-url="'/src/assets/image/default.jpg'"
-        :is-reply="false"
-        :is-writer="writer === comment.profile.nickname"
-        @react-comment="react"
-      >
-        <template v-slot:writer>{{ comment.profile.nickname }}</template>
-        <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
-        <template v-slot:content>{{ comment.comment }}</template>
-        <template v-slot:likeCount>{{ comment.likes }}</template>
-        <template v-slot:dislikeCount>{{ comment.dislikes }}</template>
-      </CommentSlot>
-      <el-collapse>
-        <el-collapse-item
-          :title="`${$t('comment.reply')}(${comment.commentReplies.length})`"
+  <div class="comment">
+    <TitleSlot class="comment-title">
+      {{ $t("comment.title") }}
+      {{ `(${commentPageable ? commentPageable.totalElements : "0"})` }}
+    </TitleSlot>
+    <el-card class="comment-write">
+      <SmallTitleSlot class="title">
+        {{ $t("comment.write") }}
+      </SmallTitleSlot>
+      <CommentInput
+        :content-id="contentId"
+        :is-pending="isPending"
+        @submit-form="submitForm"
+      />
+    </el-card>
+    <ul class="comment-list">
+      <li v-for="comment in comments" :key="comment.commentId">
+        <CommentSlot
+          :id="comment.commentId"
+          :avatar-url="'/src/assets/image/default.jpg'"
+          :is-reply="false"
+          :is-writer="writer === comment.profile.nickname"
+          @react-comment="react"
         >
-          <ul class="reply">
-            <li v-for="reply in comment.commentReplies" :key="reply.commentId">
-              <CommentSlot
-                :id="reply.commentId"
-                :avatar-url="'/src/assets/image/default.jpg'"
-                :is-reply="true"
-                :is-writer="writer === reply.profile.nickname"
-                @react-comment="react"
+          <template v-slot:writer>{{ comment.profile.nickname }}</template>
+          <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
+          <template v-slot:content>{{ comment.comment }}</template>
+          <template v-slot:likeCount>{{ comment.likes }}</template>
+          <template v-slot:dislikeCount>{{ comment.dislikes }}</template>
+        </CommentSlot>
+        <el-collapse class="comment-reply">
+          <el-collapse-item
+            :title="`${$t('comment.reply')}(${comment.commentReplies.length})`"
+          >
+            <ul>
+              <li
+                class="reply-list"
+                v-for="reply in comment.commentReplies"
+                :key="reply.commentId"
               >
-                <template v-slot:writer>{{ reply.profile.nickname }}</template>
-                <template v-slot:elapsedTime>{{ reply.elapsedTime }}</template>
-                <template v-slot:content>{{ reply.comment }}</template>
-                <template v-slot:likeCount>{{ reply.likes }}</template>
-                <template v-slot:dislikeCount>{{ reply.dislikes }}</template>
-              </CommentSlot>
-              <el-divider class="mt-1 mb-0" />
-            </li>
-          </ul>
-          <div class="mt-2 ms-5">
-            <CommentInput
-              :content-id="contentId"
-              :comment-id="comment.commentId"
-              :is-pending="isPending"
-              @submit-form="submitForm"
-            />
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-    </li>
-  </ul>
-  <CustomPagination :pagination-type="category" @click="pageClick" />
+                <CommentSlot
+                  :id="reply.commentId"
+                  :avatar-url="'/src/assets/image/default.jpg'"
+                  :is-reply="true"
+                  :is-writer="writer === reply.profile.nickname"
+                  @react-comment="react"
+                >
+                  <template v-slot:writer>
+                    {{ reply.profile.nickname }}
+                  </template>
+                  <template v-slot:elapsedTime>
+                    {{ reply.elapsedTime }}
+                  </template>
+                  <template v-slot:content>{{ reply.comment }}</template>
+                  <template v-slot:likeCount>{{ reply.likes }}</template>
+                  <template v-slot:dislikeCount>{{ reply.dislikes }}</template>
+                </CommentSlot>
+                <el-divider class="mt-1 mb-0" />
+              </li>
+            </ul>
+            <div class="mt-2 ms-5">
+              <CommentInput
+                :content-id="contentId"
+                :comment-id="comment.commentId"
+                :is-pending="isPending"
+                @submit-form="submitForm"
+              />
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </li>
+    </ul>
+    <CustomPagination :pagination-type="category" @click="pageClick" />
+  </div>
 </template>
 
-<style lang="scss" scoped>
-ul {
-  list-style: none;
-  padding: 0;
+<style lang="scss">
+.comment {
+  .comment-list {
+    list-style: none;
+    padding: 0;
 
-  li {
-    margin-bottom: 2rem;
+    li {
+      margin-bottom: 2.5rem;
 
-    .title {
-      a {
-        font-size: 1.1rem;
-        color: #383838;
-        text-decoration: none;
+      &:last-child {
+        margin-bottom: 0;
+      }
 
-        .view-count {
-          font-size: 1rem;
+      .el-collapse {
+        border: none;
+      }
+
+      .comment-reply {
+        ul {
+          .reply-list {
+            list-style: none;
+          }
         }
       }
-
-      &:hover {
-        text-decoration: underline;
-      }
     }
 
-    &:last-child {
-      margin-bottom: 0;
+    .el-collapse-item__header,
+    .el-collapse-item__wrap {
+      border: none;
+      background-color: inherit;
     }
-
-    .reply {
-      margin-left: 40px;
-    }
-  }
-}
-
-.el-collapse {
-  border: none;
-
-  > .el-collapse-item__header {
-    background-color: #004a55;
-    display: none;
-    border: none;
-  }
-
-  .el-collapse-item__content {
-    border: none;
   }
 }
 </style>
