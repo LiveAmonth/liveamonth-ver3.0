@@ -15,10 +15,10 @@ const {
   getReviewCategory,
   getReviewSearchType,
   getReviewSortType,
-  hasReviewCategories,
+  hasReviewCategory,
 } = useCategory();
 onMounted(async () => {
-  if (!hasReviewCategories()) {
+  if (!hasReviewCategory.value) {
     await getReviewCategory();
     await getReviewSearchType();
     await getReviewSortType();
@@ -29,12 +29,12 @@ onMounted(async () => {
 <template>
   <el-row :gutter="40" class="container">
     <el-col :span="4">
-      <ReviewMenu v-if="hasReviewCategories" :initial-menu="menu" />
+      <ReviewMenu v-if="hasReviewCategory" :initial-menu="menu" />
     </el-col>
     <el-col :span="16" class="main-content">
       <el-row>
         <el-col :span="22">
-          <ReviewSearch v-if="hasReviewCategories" />
+          <ReviewSearch v-if="hasReviewCategory" />
         </el-col>
       </el-row>
       <el-row>

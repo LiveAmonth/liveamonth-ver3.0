@@ -15,6 +15,17 @@ export const useCategoryStore = defineStore("category", {
     reviewSearchType: [] as EnumType[],
     reviewSortType: [] as SortType[],
   }),
+  getters: {
+    hasGenderType: (state): boolean => !!state.genderType.length,
+    hasScheduleCategory: (state): boolean =>
+      !!state.scheduleSearchType.length &&
+      !!state.scheduleFilterType.length &&
+      !!state.scheduleSortType.length,
+    hasReviewCategory: (state): boolean =>
+      !!state.reviewCategory.length &&
+      !!state.reviewSearchType.length &&
+      !!state.reviewSortType.length,
+  },
   actions: {
     getGenderType: async function () {
       await MemberApiService.getGenderTypes()

@@ -13,15 +13,11 @@ const props = defineProps({
     required: true,
   },
 });
-const { getScheduleContents, currentSchedule, setCurrentSchedule } =
-  useSchedule();
+const { currentSchedule, getScheduleContents } = useSchedule();
 const { setContentCollapse } = useCalendarEvent();
 const commentKey = ref<number>(0);
 
 onMounted(async () => {
-  if (!currentSchedule.value) {
-    await setCurrentSchedule(Number(props.id));
-  }
   await getScheduleContents(Number(props.id));
 });
 

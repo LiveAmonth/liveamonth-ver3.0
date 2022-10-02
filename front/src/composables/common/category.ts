@@ -12,6 +12,10 @@ export const useCategory = () => {
   const reviewSearchType = computed(() => store.reviewSearchType);
   const reviewSortType = computed(() => store.reviewSortType);
 
+  const hasGenderType = computed(() => store.hasGenderType);
+  const hasScheduleCategory = computed(() => store.hasScheduleCategory);
+  const hasReviewCategory = computed(() => store.hasReviewCategory);
+
   const getGenderType = async () => {
     await store.getGenderType();
   };
@@ -40,20 +44,6 @@ export const useCategory = () => {
     await store.getReviewSortType();
   };
 
-  const hasScheduleCategories = () => {
-    return (
-      scheduleSearchType.value.length ||
-      scheduleFilterType.value.length ||
-      scheduleSortType.value.length
-    );
-  };
-
-  const hasReviewCategories = () => {
-    return (
-      reviewCategory.value && reviewSearchType.value && reviewSortType.value
-    );
-  };
-
   return {
     genderType,
     scheduleSearchType,
@@ -62,6 +52,9 @@ export const useCategory = () => {
     reviewCategory,
     reviewSearchType,
     reviewSortType,
+    hasGenderType,
+    hasScheduleCategory,
+    hasReviewCategory,
     getGenderType,
     getScheduleSearchType,
     getScheduleFilterType,
@@ -69,7 +62,5 @@ export const useCategory = () => {
     getReviewCategory,
     getReviewSearchType,
     getReviewSortType,
-    hasScheduleCategories,
-    hasReviewCategories,
   };
 };
