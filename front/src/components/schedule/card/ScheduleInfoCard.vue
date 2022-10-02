@@ -31,7 +31,13 @@ const emit = defineEmits(["goToMemberSchedules", "deleteSchedule"]);
 
 const router = useRouter();
 const { scheduleSearchType, scheduleSortType } = useCategory();
-const { setEditedSchedule } = useSchedule();
+const {
+  error,
+  hasCurrentSchedule,
+  hasEditedSchedule,
+  setCurrentSchedule,
+  setEditedSchedule,
+} = useSchedule();
 const { openConfirmMessageBox } = useMessageBox();
 const { t } = useI18n();
 
@@ -48,21 +54,25 @@ const goToMemberSchedules = () => {
 
 const goSchedule = async () => {
   if (props.isMyPage) {
-    await setEditedSchedule(props.schedule.id).then(() => {
-      router.push({
+    await setEditedSchedule(props.schedule.id);
+    if (!error.value && hasEditedSchedule.value) {
+      await router.push({
         name: "my-schedule",
         params: {
           loginId: props.loginId,
         },
       });
-    });
+    }
   } else {
-    await router.push({
-      name: "read-schedule",
-      params: {
-        id: props.schedule.id,
-      },
-    });
+    await setCurrentSchedule(props.schedule.id);
+    if (!error.value && hasCurrentSchedule.value) {
+      await router.push({
+        name: "read-schedule",
+        params: {
+          id: props.schedule.id,
+        },
+      });
+    }
   }
 };
 

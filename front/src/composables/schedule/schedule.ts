@@ -42,6 +42,9 @@ export const useSchedule = () => {
     (): number[] => contentStore.contentCollapse
   );
 
+  const hasCurrentSchedule = computed((): boolean => store.hasCurrentSchedule);
+  const hasEditedSchedule = computed((): boolean => store.hasEditedSchedule);
+
   const infiniteSchedules = (isMyPage: boolean): ScheduleCardType[] => {
     return isMyPage ? mySchedules.value : followedSchedules.value;
   };
@@ -199,11 +202,29 @@ export const useSchedule = () => {
   };
 
   const setEditedSchedule = async (selectedId: number) => {
-    await store.setEditedSchedule(selectedId);
+    error.value = null;
+    try {
+      await store.setEditedSchedule(
+        mySchedules.value.find(
+          (value) => value.id == selectedId
+        ) as ScheduleCardType
+      );
+    } catch (err) {
+      error.value = err;
+    }
   };
 
   const setCurrentSchedule = async (selectedId: number) => {
-    await store.setCurrentSchedule(selectedId);
+    error.value = null;
+    try {
+      await store.setCurrentSchedule(
+        otherSchedules.value.find(
+          (value) => value.id == selectedId
+        ) as ScheduleCardType
+      );
+    } catch (err) {
+      error.value = err;
+    }
   };
 
   const isScheduleEmpty = () => {
@@ -234,6 +255,8 @@ export const useSchedule = () => {
     mySchedules,
     followedSchedules,
     editedSchedule,
+    hasCurrentSchedule,
+    hasEditedSchedule,
     infiniteSchedules,
     getOtherScheduleCard,
     getOtherSchedules,

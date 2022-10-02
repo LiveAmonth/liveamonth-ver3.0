@@ -15,7 +15,7 @@ const {
   getScheduleSearchType,
   getScheduleFilterType,
   getScheduleSortType,
-  hasScheduleCategories,
+  hasScheduleCategory,
 } = useCategory();
 const { cityNames } = useCity();
 const scheduleSearchForm: SearchEngineFormType = reactive({
@@ -35,13 +35,12 @@ const justifyClass = (collapse: number): string => {
 };
 
 onMounted(async () => {
-  console.log(hasScheduleCategories());
-  if (!hasScheduleCategories()) {
+  if (!hasScheduleCategory.value) {
     await getScheduleSearchType();
     await getScheduleFilterType();
     await getScheduleSortType();
   }
-  setUpEngine();
+  await setUpEngine();
 });
 
 const setUpEngine = () => {

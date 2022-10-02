@@ -11,10 +11,12 @@ import type { SignUpCheckType } from "@/modules/types/form/FormType";
 const router = useRouter();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 const { error, isPending, signUp, checkField, resetField } = useMember();
-const { getGenderType, genderType } = useCategory();
+const { hasGenderType, genderType, getGenderType } = useCategory();
 
 onMounted(async () => {
-  await getGenderType();
+  if (!hasGenderType.value) {
+    await getGenderType();
+  }
 });
 
 const form = reactive<MemberEditor>(new MemberEditor());
@@ -56,10 +58,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           <el-button
             v-if="!checkForm.loginId"
             @click="checkField(ruleFormRef, form, 'loginId')"
-            >{{ buttonMsg("member.duplication") }}
+          >
+            {{ buttonMsg("member.duplication") }}
           </el-button>
-          <el-button v-else color="#0f6778" @click="resetField(form, 'loginId')"
-            >{{ buttonMsg("reset") }}
+          <el-button
+            v-else
+            color="#0f6778"
+            @click="resetField(form, 'loginId')"
+          >
+            {{ buttonMsg("reset") }}
           </el-button>
         </template>
       </el-input>

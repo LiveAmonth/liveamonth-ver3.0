@@ -24,6 +24,8 @@ export const useScheduleStore = defineStore("schedule", {
     otherScheduleCards: (state): ScheduleCardType[] =>
       state.pageableSchedules.content as ScheduleCardType[],
     schedulePage: (state): PageableType => state.pageableSchedules.pageable,
+    hasCurrentSchedule: (state): boolean => !!state.currentSchedule.id,
+    hasEditedSchedule: (state): boolean => !!state.editedSchedule.id,
   },
   actions: {
     getOtherSchedules: async function (pageable: PageableRequestType) {
@@ -108,20 +110,12 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    setEditedSchedule: async function (selectedId: number) {
-      const data = this.mySchedules.find((value) => value.id == selectedId);
-      if (data) {
-        this.editedSchedule = data;
-      }
+    setEditedSchedule: async function (data: ScheduleCardType) {
+      this.editedSchedule = data;
     },
 
-    setCurrentSchedule: async function (selectedId: number) {
-      const data = this.otherScheduleCards.find(
-        (value) => value.id == selectedId
-      );
-      if (data) {
-        this.currentSchedule = data;
-      }
+    setCurrentSchedule: async function (data: ScheduleCardType) {
+      this.currentSchedule = data;
     },
   },
   persist: {
