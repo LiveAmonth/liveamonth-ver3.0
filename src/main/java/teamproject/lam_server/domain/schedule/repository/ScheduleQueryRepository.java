@@ -45,23 +45,7 @@ public class ScheduleQueryRepository extends BasicRepository {
                 countQuery::fetchOne);
     }
 
-    public Page<Schedule> searchFollowedSchedule(String loginId, Pageable pageable) {
-        List<Schedule> elements = getSearchFollowedElementsQuery(loginId)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
-                .fetch();
-
-        JPAQuery<Long> countQuery = getSearchFollowedCountQuery(loginId);
-
-        return PageableExecutionUtils.getPage(
-                elements,
-                pageable,
-                countQuery::fetchOne);
-    }
-
     public List<ScheduleContent> getScheduleContents(Long scheduleId) {
-
         return queryFactory.selectFrom(scheduleContent)
                 .join(scheduleContent.schedule, schedule).fetchJoin()
                 .join(schedule.member,member).fetchJoin()
@@ -114,23 +98,6 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .from(schedule)
                 .leftJoin(schedule.member, member)
                 .where(getSearchPredicts(cond));
-    }
-
-    private JPAQuery<Schedule> getSearchFollowedElementsQuery(String loginId) {
-        return queryFactory.selectFrom(schedule)
-                .join(schedule.member, member).fetchJoin()
-                .leftJoin(follower.from, member)
-                .where(
-                        followedMemberLoginIdEq(loginId)
-                );
-    }
-
-    private JPAQuery<Long> getSearchFollowedCountQuery(String loginId) {
-        return queryFactory.select(schedule.count())
-                .from(schedule)
-                .join(schedule.member, member).fetchJoin()
-                .join(follower.from, member).fetchJoin()
-                .where(followedMemberLoginIdEq(loginId));
     }
 
     private Predicate[] getSearchPredicts(ScheduleSearchCond cond) {
