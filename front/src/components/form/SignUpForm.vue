@@ -11,12 +11,10 @@ import type { SignUpCheckType } from "@/modules/types/form/FormType";
 const router = useRouter();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 const { error, isPending, signUp, checkField, resetField } = useMember();
-const { hasGenderType, genderType, getGenderType } = useCategory();
+const { genderType, hasGenderType, getGenderType } = useCategory();
 
 onMounted(async () => {
-  if (!hasGenderType.value) {
-    await getGenderType();
-  }
+  await getGenderType();
 });
 
 const form = reactive<MemberEditor>(new MemberEditor());
@@ -126,7 +124,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       </el-form-item>
     </el-form-item>
     <el-form-item :label="labelMsg('member.gender.title')" prop="gender">
-      <el-radio-group v-model="form.gender">
+      <el-radio-group v-if="hasGenderType" v-model="form.gender">
         <template v-for="type in genderType" :key="type.code">
           <el-radio :label="type.code">
             {{ labelMsg(`member.gender.${type.code}`) }}

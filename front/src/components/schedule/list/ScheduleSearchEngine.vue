@@ -2,7 +2,6 @@
 import { onMounted, reactive, ref } from "vue";
 import { Search, Filter, Sort } from "@element-plus/icons-vue";
 import { useDate } from "@/composables/common/date";
-import { useCity } from "@/composables/city/city";
 import { useCategory } from "@/composables/common/category";
 import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
 
@@ -12,12 +11,10 @@ const {
   scheduleSearchType,
   scheduleFilterType,
   scheduleSortType,
-  getScheduleSearchType,
-  getScheduleFilterType,
-  getScheduleSortType,
-  hasScheduleCategory,
+  cityNames,
+  getCityNames,
+  getScheduleCategories,
 } = useCategory();
-const { cityNames } = useCity();
 const scheduleSearchForm: SearchEngineFormType = reactive({
   searchType: null,
   searchInput: null,
@@ -35,12 +32,10 @@ const justifyClass = (collapse: number): string => {
 };
 
 onMounted(async () => {
-  if (!hasScheduleCategory.value) {
-    await getScheduleSearchType();
-    await getScheduleFilterType();
-    await getScheduleSortType();
-  }
-  await setUpEngine();
+  await getCityNames();
+  await getScheduleCategories().then(() => {
+    setUpEngine();
+  });
 });
 
 const setUpEngine = () => {
