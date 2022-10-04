@@ -21,7 +21,6 @@ class ScheduleApiService {
   async getSearchTypes(): Promise<EnumType[]> {
     return await getSearchTypes("schedule")
       .then((response) => {
-        console.log("여기까지는 들어오냐?");
         return response.data.data;
       })
       .catch((error) => {
@@ -79,17 +78,6 @@ class ScheduleApiService {
       .delete(`/schedules/${scheduleId}`)
       .then((response) => {
         return response.data;
-      })
-      .catch((error) => {
-        throw error.response.data;
-      });
-  }
-
-  async getSchedule(scheduleId: number): Promise<any> {
-    return await http
-      .get(`/schedules/${scheduleId}`)
-      .then((response) => {
-        return response.data.data;
       })
       .catch((error) => {
         throw error.response.data;

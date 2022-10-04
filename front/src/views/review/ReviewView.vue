@@ -11,18 +11,9 @@ defineProps({
   },
 });
 
-const {
-  getReviewCategory,
-  getReviewSearchType,
-  getReviewSortType,
-  hasReviewCategory,
-} = useCategory();
+const { hasReviewCategory, getScheduleCategories } = useCategory();
 onMounted(async () => {
-  if (!hasReviewCategory.value) {
-    await getReviewCategory();
-    await getReviewSearchType();
-    await getReviewSortType();
-  }
+  await getScheduleCategories();
 });
 </script>
 
