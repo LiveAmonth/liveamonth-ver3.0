@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useCity } from "@/composables/city/city";
 
-const { cityIntroDetail } = useCity();
+const { hasCityIntro, cityIntroDetail } = useCity();
 </script>
 
 <template>
-  <el-row>
+  <el-row v-if="hasCityIntro">
     <template v-for="introDetail in cityIntroDetail" :key="introDetail">
       <el-col :span="6">
         <el-image

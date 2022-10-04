@@ -12,7 +12,7 @@ const props = defineProps({
   },
 });
 
-const { carouselData } = useCity();
+const { hasCityIntro, carouselData } = useCity();
 const data = carouselData(props.dir);
 const dataSize = computed((): number => data.value.length);
 const carouselLen = computed<number>(() => Math.ceil(dataSize.value / 4));
@@ -20,7 +20,7 @@ const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
 </script>
 
 <template>
-  <el-carousel direction="vertical" height="350px">
+  <el-carousel v-if="hasCityIntro" direction="vertical" height="350px">
     <el-carousel-item v-for="idx in carouselLen" :key="idx">
       <el-row :gutter="5">
         <el-col v-for="col in 4" :key="col" :span="6">

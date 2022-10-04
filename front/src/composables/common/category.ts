@@ -4,6 +4,7 @@ import { useCategoryStore } from "@/stores/common/category";
 export const useCategory = () => {
   const store = useCategoryStore();
 
+  const cityNames = computed(() => store.cityNames);
   const genderType = computed(() => store.genderType);
   const scheduleSearchType = computed(() => store.scheduleSearchType);
   const scheduleFilterType = computed(() => store.scheduleFilterType);
@@ -12,39 +13,41 @@ export const useCategory = () => {
   const reviewSearchType = computed(() => store.reviewSearchType);
   const reviewSortType = computed(() => store.reviewSortType);
 
+  const hasCityNames = computed(() => store.hasCityNames);
   const hasGenderType = computed(() => store.hasGenderType);
   const hasScheduleCategory = computed(() => store.hasScheduleCategory);
   const hasReviewCategory = computed(() => store.hasReviewCategory);
 
+  const getCityNames = async () => {
+    if (!hasCityNames.value) {
+      await store.getCityNames();
+    }
+  };
+
   const getGenderType = async () => {
-    await store.getGenderType();
+    if (!hasGenderType.value) {
+      await store.getGenderType();
+    }
   };
 
-  const getScheduleSearchType = async () => {
-    await store.getScheduleSearchType();
+  const getScheduleCategories = async () => {
+    if (!hasScheduleCategory.value) {
+      await store.getScheduleSearchType();
+      await store.getScheduleFilterType();
+      await store.getScheduleSortType();
+    }
   };
 
-  const getScheduleFilterType = async () => {
-    await store.getScheduleFilterType();
-  };
-
-  const getScheduleSortType = async () => {
-    await store.getScheduleSortType();
-  };
-
-  const getReviewCategory = async () => {
-    await store.getReviewCategory();
-  };
-
-  const getReviewSearchType = async () => {
-    await store.getReviewSearchType();
-  };
-
-  const getReviewSortType = async () => {
-    await store.getReviewSortType();
+  const getReviewCategories = async () => {
+    if (!hasReviewCategory.value) {
+      await store.getReviewCategory();
+      await store.getReviewSearchType();
+      await store.getReviewSortType();
+    }
   };
 
   return {
+    cityNames,
     genderType,
     scheduleSearchType,
     scheduleFilterType,
@@ -52,15 +55,13 @@ export const useCategory = () => {
     reviewCategory,
     reviewSearchType,
     reviewSortType,
+    hasCityNames,
     hasGenderType,
     hasScheduleCategory,
     hasReviewCategory,
+    getCityNames,
     getGenderType,
-    getScheduleSearchType,
-    getScheduleFilterType,
-    getScheduleSortType,
-    getReviewCategory,
-    getReviewSearchType,
-    getReviewSortType,
+    getScheduleCategories,
+    getReviewCategories,
   };
 };
