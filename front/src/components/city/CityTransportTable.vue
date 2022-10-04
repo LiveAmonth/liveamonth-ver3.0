@@ -1,10 +1,15 @@
 <script lang="ts" setup>
 import { useCity } from "@/composables/city/city";
-const { cityTransport } = useCity();
+const { hasCityExtraInfo, cityTransport } = useCity();
 </script>
 
 <template>
-  <el-table :data="cityTransport" stripe table-layout="auto">
+  <el-table
+    v-if="hasCityExtraInfo"
+    :data="cityTransport"
+    stripe
+    table-layout="auto"
+  >
     <el-table-column :label="$t('city.transport.kind')">
       <template #default="scope">
         <div style="display: flex; align-items: center">

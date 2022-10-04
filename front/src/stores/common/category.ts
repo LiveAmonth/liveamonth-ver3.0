@@ -4,9 +4,11 @@ import { defineStore } from "pinia";
 import type { SortType } from "@/modules/types/common/SortType";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import ReviewApiService from "@/services/review/ReviewApiService";
+import CityApiService from "@/services/city/CityApiService";
 
 export const useCategoryStore = defineStore("category", {
   state: () => ({
+    cityNames: [] as EnumType[],
     genderType: [] as EnumType[],
     scheduleSearchType: [] as EnumType[],
     scheduleFilterType: [] as EnumType[],
@@ -16,6 +18,7 @@ export const useCategoryStore = defineStore("category", {
     reviewSortType: [] as SortType[],
   }),
   getters: {
+    hasCityNames: (state): boolean => !!state.cityNames.length,
     hasGenderType: (state): boolean => !!state.genderType.length,
     hasScheduleCategory: (state): boolean =>
       !!state.scheduleSearchType.length &&
@@ -27,6 +30,16 @@ export const useCategoryStore = defineStore("category", {
       !!state.reviewSortType.length,
   },
   actions: {
+    getCityNames: async function () {
+      await CityApiService.getCityNames()
+        .then((response: EnumType[]) => {
+          this.cityNames = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     getGenderType: async function () {
       await MemberApiService.getGenderTypes()
         .then((response: EnumType[]) => {

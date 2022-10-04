@@ -1,6 +1,5 @@
 import { computed, ref } from "vue";
 import { useCityStore } from "@/stores/city/city";
-import type { EnumType } from "@/modules/types/common/EnumType";
 import type { CityCardType } from "@/modules/types/city/CityType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import type {
@@ -13,31 +12,19 @@ export const useCity = () => {
   const error = ref();
   const isPending = ref(false);
 
-  const cityNames = computed((): EnumType[] => store.cityNameList);
-  const hasCityNames = computed((): boolean => store.cityNames.state);
   const cityGridInfos = computed((): CityCardType[] => store.gridInfo);
-  const hasCityGridInfos = computed((): boolean => store.cityGridInfo.state);
   const cityIntroDetail = computed((): ImageContentType[] => store.introDetail);
   const cityTransport = computed((): CityTransportType[] => store.transports);
   const cityWeather = computed((): CityWeatherType[] => store.weathers);
+
+  const hasCityIntro = computed(() => store.cityIntro.state);
+  const hasCityExtraInfo = computed(() => store.cityExtraInfo.state);
+  const hasCityGridInfos = computed(() => store.cityGridInfo.state);
 
   const carouselData = (dir: string) => {
     return dir === "food"
       ? computed((): ImageContentType[] => store.foods)
       : computed((): ImageContentType[] => store.views);
-  };
-
-  const getCityNames = async () => {
-    error.value = null;
-    isPending.value = true;
-    try {
-      await store.getCityNames();
-      error.value = null;
-      isPending.value = false;
-    } catch (err) {
-      error.value = err;
-      isPending.value = false;
-    }
   };
 
   const getCityIntro = async (cityName: string) => {
@@ -70,7 +57,9 @@ export const useCity = () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getCityGridInfo();
+      if (!hasCityGridInfos.value) {
+        await store.getCityGridInfo();
+      }
       error.value = null;
       isPending.value = false;
     } catch (err) {
@@ -86,15 +75,14 @@ export const useCity = () => {
   return {
     error,
     isPending,
-    cityNames,
-    hasCityNames,
     cityGridInfos,
-    hasCityGridInfos,
     cityIntroDetail,
     cityTransport,
     cityWeather,
+    hasCityIntro,
+    hasCityExtraInfo,
+    hasCityGridInfos,
     carouselData,
-    getCityNames,
     getCityGridInfo,
     getCityIntro,
     getExtraCityInfo,

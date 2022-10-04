@@ -1,11 +1,16 @@
 <script lang="ts" setup>
 import { useCity } from "@/composables/city/city";
 
-const { cityWeather } = useCity();
+const { hasCityExtraInfo, cityWeather } = useCity();
 </script>
 
 <template>
-  <el-table :data="cityWeather" stripe table-layout="auto">
+  <el-table
+    v-if="hasCityExtraInfo"
+    :data="cityWeather"
+    stripe
+    table-layout="auto"
+  >
     <el-table-column label="월">
       <template #default="scope">
         <div

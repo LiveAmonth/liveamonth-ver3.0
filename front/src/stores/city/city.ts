@@ -1,6 +1,5 @@
 import CityApiService from "@/services/city/CityApiService";
 import { defineStore } from "pinia";
-import type { EnumType } from "@/modules/types/common/EnumType";
 import type { ImageContentType } from "@/modules/types/common/ImageContentType";
 import type {
   CityCardType,
@@ -17,13 +16,6 @@ const storageGridInfo: CityCardType[] = localStorage["city-grid-info"]
 const initCityGridInfo: initDataType = storageGridInfo
   ? { state: true, data: storageGridInfo }
   : { state: false, data: {} as CityCardType[] };
-
-const storageCityNames: EnumType[] = localStorage["city-names"]
-  ? JSON.parse(localStorage["city-names"])
-  : null;
-const initCityNames: initDataType = storageCityNames
-  ? { state: true, data: storageCityNames }
-  : { state: false, data: {} as EnumType[] };
 
 const storageIntro: CityIntroType = localStorage["intro"]
   ? JSON.parse(localStorage["intro"])
@@ -42,13 +34,11 @@ const initCityExtraInfo: initDataType = storageExtraInfo
 export const useCityStore = defineStore("city", {
   state: () => ({
     cityGridInfo: initCityGridInfo as initDataType,
-    cityNames: initCityNames as initDataType,
     cityCategory: ["intro", "transport", "weather"],
     cityIntro: initCityIntro as initDataType,
     cityExtraInfo: initCityExtraInfo as initDataType,
   }),
   getters: {
-    cityNameList: (state): EnumType[] => state.cityNames.data as EnumType[],
     gridInfo: (state): CityCardType[] =>
       state.cityGridInfo.data as CityCardType[],
     introDetail: (state): ImageContentType[] =>
@@ -64,17 +54,6 @@ export const useCityStore = defineStore("city", {
       (state.cityExtraInfo.data as CityExtraType).weathers as CityWeatherType[],
   },
   actions: {
-    getCityNames: async function () {
-      try {
-        const response = await CityApiService.getCityNames();
-        localStorage.setItem("city-names", JSON.stringify(response));
-        this.cityNames.state = true;
-        this.cityNames.data = response;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
     getCityIntro: async function (cityName: string) {
       try {
         const response = await CityApiService.getCityIntro(cityName);
