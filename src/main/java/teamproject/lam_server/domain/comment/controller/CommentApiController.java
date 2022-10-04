@@ -33,7 +33,7 @@ public class CommentApiController {
     }
 
     @PatchMapping("/{type}/{commentId}")
-    public ResponseEntity<?> writeComment(
+    public ResponseEntity<?> editComment(
             @PathVariable String type,
             @PathVariable Long commentId,
             @RequestBody @Valid CommentEdit request) {

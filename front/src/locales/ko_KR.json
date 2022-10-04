@@ -136,6 +136,7 @@
       "write": "글쓰기",
       "delete": "삭제",
       "back": "목록으로 돌아가기",
+      "cancel": "취소",
       "member": {
         "login": "로그인",
         "reconfirm": "비밀번호 재확인",

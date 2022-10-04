@@ -4,13 +4,18 @@ import TitleSlot from "@/components/common/TitleSlot.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentInput from "@/components/form/CommentInput.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { usePagination } from "@/composables/common/pagination";
 import { useComment } from "@/composables/common/comment";
 import { useAuth } from "@/composables/member/auth";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useInteraction } from "@/composables/interaction/interaction";
-import { CommentEditor } from "@/modules/types/comment/CommentTypes";
+import type {
+  CommentEditor,
+  CommentReplyType,
+  CommentType,
+} from "@/modules/types/comment/CommentTypes";
+import { useMember } from "@/composables/member/member";
 
 const props = defineProps({
   contentId: {
@@ -38,13 +43,17 @@ const {
   comments,
   getComments,
   writeComment,
+  editComment,
   extractIds,
 } = useComment();
 const { getMemberReactedComment, reactComment } = useInteraction();
 const { isLoggedIn } = useAuth();
+const { simpleProfile } = useMember();
 const { pageable, mappingPagination, movePage, setSize } =
   usePagination(category);
 const { requireLoginMessageBox } = useMessageBox();
+const editedComment = ref<CommentType | null>();
+const editedReplyComment = ref<CommentReplyType | null>();
 
 onMounted(async () => {
   setSize(5);
@@ -63,12 +72,28 @@ const pageClick = async (page: number) => {
   });
 };
 
-const submitForm = async (form: CommentEditor) => {
-  await writeComment(props.type, form).then(() => {
-    getComments(props.type, props.contentId, pageable.value).then(() => {
+const submitForm = async (form: CommentEditor, isEdit: boolean) => {
+  if (isEdit) {
+    console.log("댓글고치기");
+    if (editedComment.value) {
+      await editComment(props.type, editedComment.value.commentId, form);
+      editedComment.value = null;
+    }
+    if (editedReplyComment.value) {
+      await editComment(props.type, editedReplyComment.value.commentId, form);
+      editedReplyComment.value = null;
+    }
+    await getComments(props.type, props.contentId, pageable.value).then(() => {
       mappingPagination(commentPageable.value);
     });
-  });
+  } else {
+    console.log("새댓글");
+    await writeComment(props.type, form).then(() => {
+      getComments(props.type, props.contentId, pageable.value).then(() => {
+        mappingPagination(commentPageable.value);
+      });
+    });
+  }
 };
 
 const react = async (
@@ -83,10 +108,31 @@ const react = async (
     await requireLoginMessageBox();
   }
 };
+
+const handleEdit = (comment: CommentType) => {
+  editedComment.value = comment;
+  window.location.href = "#0";
+};
+
+const handleReplyEdit = (comment: CommentReplyType) => {
+  editedReplyComment.value = comment;
+  window.location.href = `#${comment.parentId}`;
+};
+
+const handleDelete = (comment: CommentType) => {
+  console.log(comment);
+};
+const handleReplyDelete = (comment: CommentReplyType) => {
+  console.log(comment);
+};
+
+const handleCancel = (isReply: boolean) => {
+  isReply ? (editedReplyComment.value = null) : (editedComment.value = null);
+};
 </script>
 
 <template>
-  <div class="comment">
+  <div class="comment" id="0">
     <TitleSlot class="comment-title">
       {{ $t("comment.title") }}
       {{ `(${commentPageable ? commentPageable.totalElements : "0"})` }}
@@ -98,7 +144,9 @@ const react = async (
       <CommentInput
         :content-id="contentId"
         :is-pending="isPending"
+        :edited-comment="editedComment"
         @submit-form="submitForm"
+        @cancel="handleCancel(false)"
       />
     </el-card>
     <ul class="comment-list">
@@ -108,11 +156,14 @@ const react = async (
           :avatar-url="'/src/assets/image/default.jpg'"
           :is-reply="false"
           :is-writer="writer === comment.profile.nickname"
+          :editable="comment.profile.nickname === simpleProfile.nickname"
           @react-comment="react"
+          @edit="handleEdit(comment)"
+          @delete="handleDelete(comment)"
         >
           <template v-slot:writer>{{ comment.profile.nickname }}</template>
           <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
-          <template v-slot:content>{{ comment.comment }}</template>
+          <template v-slot:comment>{{ comment.comment }}</template>
           <template v-slot:likeCount>{{ comment.likes }}</template>
           <template v-slot:dislikeCount>{{ comment.dislikes }}</template>
         </CommentSlot>
@@ -131,7 +182,10 @@ const react = async (
                   :avatar-url="'/src/assets/image/default.jpg'"
                   :is-reply="true"
                   :is-writer="writer === reply.profile.nickname"
+                  :editable="reply.profile.nickname === simpleProfile.nickname"
                   @react-comment="react"
+                  @edit="handleReplyEdit(reply)"
+                  @delete="handleReplyDelete(reply)"
                 >
                   <template v-slot:writer>
                     {{ reply.profile.nickname }}
@@ -139,7 +193,7 @@ const react = async (
                   <template v-slot:elapsedTime>
                     {{ reply.elapsedTime }}
                   </template>
-                  <template v-slot:content>{{ reply.comment }}</template>
+                  <template v-slot:comment>{{ reply.comment }}</template>
                   <template v-slot:likeCount>{{ reply.likes }}</template>
                   <template v-slot:dislikeCount>{{ reply.dislikes }}</template>
                 </CommentSlot>
@@ -148,10 +202,13 @@ const react = async (
             <div class="mt-2 ms-5">
               <el-divider class="mb-1" />
               <CommentInput
+                :id="comment.commentId"
+                :parent-id="comment.commentId"
                 :content-id="contentId"
-                :comment-id="comment.commentId"
+                :edited-reply-comment="editedReplyComment"
                 :is-pending="isPending"
                 @submit-form="submitForm"
+                @cancel="handleCancel(true)"
               />
             </div>
           </el-collapse-item>

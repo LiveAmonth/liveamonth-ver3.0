@@ -52,7 +52,7 @@ const goSchedule = (data: SearchEngineFormType) => {
                 <template v-slot:elapsedTime>
                   {{ schedule.comment.elapsedTime }}
                 </template>
-                <template v-slot:content>
+                <template v-slot:comment>
                   {{ schedule.comment.comment }}
                 </template>
                 <template v-slot:likeCount>

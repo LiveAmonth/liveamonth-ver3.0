@@ -5,6 +5,7 @@ import { useInteraction } from "@/composables/interaction/interaction";
 import { useMessageBox } from "@/composables/common/messageBox";
 import type { Ref, UnwrapRef } from "vue";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
+import { useAuth } from "@/composables/member/auth";
 
 const props = defineProps({
   id: {
@@ -28,10 +29,17 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  editable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
-const emit = defineEmits(["reactComment"]);
+const emits = defineEmits(["reactComment", "edit", "delete"]);
+
+const { isLoggedIn } = useAuth();
 const { reactedComments, getReactedComment, checkReacted } = useInteraction();
-const { openMessageBox } = useMessageBox();
+const { buttonMsg, openMessageBox } = useMessageBox();
 const thumbsUp = ref<string>("bi-hand-thumbs-up");
 const thumbsDown = ref<string>("bi-hand-thumbs-down");
 const fillSuffix = "-fill";
@@ -44,7 +52,7 @@ const reactComment = (option: boolean) => {
   checkReacted(option, reactedComment.value?.type)
     .then(() => {
       option ? fillThumbs(thumbsUp) : fillThumbs(thumbsDown);
-      emit("reactComment", props.id, option, !!reactedComment.value);
+      emits("reactComment", props.id, option, !!reactedComment.value);
     })
     .catch((error) => {
       openMessageBox(error);
@@ -114,13 +122,18 @@ watch(
       {{ $t("comment.writer") }}
     </el-tag>
     <el-badge v-if="isBest" class="ms-1" value="Best" />
-    <div class="d-flex justify-content-end">
-      <el-button text size="small">수정</el-button>
-      <el-button text size="small">삭제</el-button>
+    <div class="flex-grow-1"></div>
+    <div class="edit-button" v-if="!isBest && isLoggedIn && editable">
+      <el-button class="button" text size="small" @click="emits('edit')">
+        {{ buttonMsg("edit") }}
+      </el-button>
+      <el-button class="button" text size="small" @click="emits('delete')">
+        {{ buttonMsg("delete") }}
+      </el-button>
     </div>
   </div>
-  <div class="content">
-    <slot name="content"></slot>
+  <div class="comment">
+    <slot name="comment"></slot>
   </div>
 </template>
 
@@ -151,9 +164,18 @@ watch(
       margin-right: 5px;
     }
   }
+
+  .edit-button {
+    display: flex;
+    justify-content: center;
+
+    .button {
+      margin: 0;
+    }
+  }
 }
 
-.content {
+.comment {
   font-size: 1rem;
   margin-top: 8px;
   color: #737373;

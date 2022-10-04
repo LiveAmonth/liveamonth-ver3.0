@@ -46,7 +46,8 @@ export interface CommentReplyType {
 /**
  * form & editor
  */
-export interface CommentFormType extends FormType<CommentType> {
+export interface CommentFormType
+  extends FormType<CommentType | CommentReplyType> {
   comment: string;
   contentId: number;
   parentId: number | null;
@@ -55,9 +56,9 @@ export interface CommentFormType extends FormType<CommentType> {
 export class CommentEditor implements CommentFormType {
   comment: string;
   contentId: number;
-  parentId: number | null;
+  parentId: number;
 
-  constructor(contentId: number, parentId: number | null) {
+  constructor(contentId: number, parentId: number) {
     this.comment = "";
     this.contentId = contentId;
     this.parentId = parentId;
@@ -65,6 +66,7 @@ export class CommentEditor implements CommentFormType {
 
   clear(): void {
     this.comment = "";
+    this.parentId = 0;
   }
 
   getRules(): FormRules {
@@ -77,9 +79,8 @@ export class CommentEditor implements CommentFormType {
     };
   }
 
-  setForm(data: CommentType): void {
+  setForm(data: CommentType | CommentReplyType): void {
     this.comment = data.comment;
-    this.parentId = data.commentReplies[0].parentId;
   }
 
   getCreateDate(): CommentCreateType {

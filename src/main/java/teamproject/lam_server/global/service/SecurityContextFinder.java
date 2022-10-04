@@ -1,9 +1,9 @@
 package teamproject.lam_server.global.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
@@ -21,12 +21,12 @@ public class SecurityContextFinder {
     private final MemberRepository memberRepository;
 
     public Member getLoggedInMember() {
-        String user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        String user = SecurityContextHolder.getContext().getAuthentication().getName();
         return memberRepository.findByLoginId(user).orElseThrow(MemberNotFound::new);
     }
 
     public String getLoggedInMemberLoginId() {
-        return ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     public Authentication getAuthentication(){

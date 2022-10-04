@@ -84,7 +84,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .logout().disable()
-                // 토큰을 활욜하면 세션이 필요 없어지므로 STATELESS 로 설정.
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -92,7 +91,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
                 .antMatchers("/admin/**").hasRole(MANAGER.getCode())
                 .antMatchers("/api/*/interactions/**").hasRole(USER.getCode())
-                .antMatchers(HttpMethod.POST, "/api/*/comments/*").hasRole(USER.getCode())
+                .antMatchers(HttpMethod.POST, "/api/*/comments/**").hasRole(USER.getCode())
                 .antMatchers(
                         "/api/*/auth/login",
                         "/api/*/auth/reissue",
@@ -105,7 +104,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/*/reviews/search",
                         "/api/*/city/**",
                         "/api/*/categories/**",
-                        "/api/*/interactions/**"
+                        "/api/*/interactions/**",
+                        "/api/*/comments/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
