@@ -1,6 +1,7 @@
 import { computed, ref } from "vue";
 import { useAuthStore } from "@/stores/member/auth";
 import type { LoginType } from "@/modules/types/form/FormType";
+import router from "@/router";
 
 export const useAuth = () => {
   const store = useAuthStore();
@@ -35,6 +36,15 @@ export const useAuth = () => {
       isPending.value = false;
     }
   };
+
+  const logoutBtn = async () => {
+    await logout().then(() => {
+      if (!isLoggedIn.value) {
+        router.push({ name: "home" });
+      }
+    });
+  };
+
   const reissue = async () => {
     error.value = null;
     isPending.value = true;
@@ -55,6 +65,7 @@ export const useAuth = () => {
     bearerToken,
     login,
     logout,
+    logoutBtn,
     reissue,
   };
 };

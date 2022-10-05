@@ -36,7 +36,7 @@ apiClient.interceptors.response.use(
     return response;
   },
   async function (error) {
-    const { bearerToken, reissue } = useAuth();
+    const { bearerToken, reissue, logoutBtn } = useAuth();
     if (error.response) {
       const status = error.response.data.status;
       const code = error.response.data.error;
@@ -50,13 +50,13 @@ apiClient.interceptors.response.use(
             return apiClient(axiosRequest);
           });
         } catch (error) {
-          localStorage.removeItem("token-info");
+          await logoutBtn();
         }
         return Promise.reject(error);
       }
       if (status == 400 && code == "INVALID_REFRESH_TOKEN") {
         console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
-        localStorage.removeItem("token-info");
+        await logoutBtn();
         return Promise.reject(error);
       }
     }

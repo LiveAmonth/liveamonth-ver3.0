@@ -5,7 +5,7 @@ import HeaderBanner from "@/components/main/HeaderBanner.vue";
 import { useAuth } from "@/composables/member/auth";
 import { ref } from "vue";
 
-const { isLoggedIn, logout } = useAuth();
+const { isLoggedIn, logoutBtn } = useAuth();
 const pageName = ref();
 const menuClick = (name: string) => {
   pageName.value = name;
@@ -27,7 +27,7 @@ const menuClick = (name: string) => {
         <LogoIcon class="logo" />
       </router-link>
       <div class="flex-grow" />
-      <el-menu-item v-if="isLoggedIn" index="#" @click="logout">
+      <el-menu-item v-if="isLoggedIn" index="#" @click="logoutBtn">
         {{ $t("member.logout") }}
       </el-menu-item>
       <template v-else>
