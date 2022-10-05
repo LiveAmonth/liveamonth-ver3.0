@@ -16,7 +16,7 @@ export const useComment = () => {
 
   const comments = computed((): CommentType[] => store.comments);
   const commentPageable = computed((): PageableType => store.commentPage);
-  const editedComment = ref<CommentType>();
+  const editableComment = computed((): CommentType => store.editableComment);
 
   const writeComment = async (type: string, request: CommentEditor) => {
     try {
@@ -59,7 +59,7 @@ export const useComment = () => {
     const ids: number[] = [];
     arrays.forEach((value) => ids.push(value.commentId));
     arrays.map((value) =>
-      value.commentReplies.forEach((value1) => ids.push(value1.parentId))
+      value.commentReplies.forEach((reply) => ids.push(reply.commentId))
     );
     return ids;
   };
@@ -80,16 +80,21 @@ export const useComment = () => {
       isPending.value = false;
     }
   };
+
+  const setEditableComment = (data: CommentType) => {
+    store.setEditableComment(data);
+  };
   return {
     error,
     isPending,
     comments,
     commentPageable,
-    editedComment,
+    editableComment,
     writeComment,
     editComment,
     deleteComment,
     extractIds,
     getComments,
+    setEditableComment,
   };
 };

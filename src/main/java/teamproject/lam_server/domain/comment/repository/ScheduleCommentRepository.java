@@ -15,7 +15,7 @@ public interface ScheduleCommentRepository extends JpaRepository<ScheduleComment
     @Transactional
     @Query(value = "" +
             "insert into schedule_comment (created_date, last_modified_date, created_by, last_modified_by, comment, member_id, schedule_id, parent_comment_id) " +
-            "values(now(), now(), :#{#member.loginId}, :#{#member.loginId}, :#{#request.comment}, :#{#member.id}, :#{#request.contentId}, IFNULL(:#{#request.parentId}, null))"
+            "values(now(), now(), :#{#member.loginId}, :#{#member.loginId}, :#{#request.comment}, :#{#member.id}, :contendId, IFNULL(:#{#request.parentId}, null))"
             , nativeQuery = true)
-    void write(@Param("member") Member member, @Param("request") CommentCreate request);
+    void write(@Param("member") Member member, @Param("contendId") Long contentId, @Param("request") CommentCreate request);
 }

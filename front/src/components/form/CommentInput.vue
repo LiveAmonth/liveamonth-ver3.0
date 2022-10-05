@@ -1,17 +1,21 @@
 <script lang="ts" setup>
-import { reactive, ref, watch, getCurrentInstance } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useAuth } from "@/composables/member/auth";
-import { useComment } from "@/composables/common/comment";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { CommentEditor } from "@/modules/types/comment/CommentTypes";
-import type {
-  CommentType,
-  CommentReplyType,
-} from "@/modules/types/comment/CommentTypes";
-import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";
+import { useComment } from "@/composables/common/comment";
 
 const props = defineProps({
+  isEdit: {
+    type: Boolean,
+    required: true,
+  },
+  isReply: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
   contentId: {
     type: Number,
     required: true,
@@ -19,37 +23,25 @@ const props = defineProps({
   parentId: {
     type: Number,
     required: false,
-    default: 0,
-  },
-  isPending: {
-    type: Boolean,
-    required: true,
-  },
-  editedComment: {
-    type: Object as PropType<CommentType> | null,
-    required: false,
-  },
-  editedReplyComment: {
-    type: Object as PropType<CommentReplyType> | null,
-    required: false,
+    default: null,
   },
 });
 const emits = defineEmits(["submitForm", "cancel"]);
 
+const { editableComment } = useComment();
 const { isLoggedIn } = useAuth();
-const { isPending } = useComment();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
-const isEdit = ref<boolean>(false);
 const form = reactive<CommentEditor>(
   new CommentEditor(props.contentId, props.parentId)
 );
 const ruleFormRef = ref<FormInstance>();
+const editable = ref(props.isEdit);
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      await emits("submitForm", form, isEdit.value);
+      await emits("submitForm", form, !props.isEdit);
       form.clear();
     } else {
       await openMessageBox(resultMsg("reWrite"));
@@ -58,20 +50,19 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 };
 
 watch(
-  () => props.editedComment,
+  () => props.isEdit,
   (value) => {
-    isEdit.value = props.parentId == 0 && !!value;
-    value ? form.setForm(value) : form.clear();
-  }
-);
-
-watch(
-  () => props.editedReplyComment,
-  (value) => {
-    isEdit.value = props.parentId != 0 && !!value;
-    if (value) {
-      props.parentId == value.parentId ? form.setForm(value) : form.clear();
+    if (props.isEdit) {
+      if (props.isReply && props.parentId == editableComment.value.parentId) {
+        form.setForm(editableComment.value);
+      }
+      if (!props.isReply && !editableComment.value.parentId) {
+        form.setForm(editableComment.value);
+      }
+    } else {
+      form.clear();
     }
+    editable.value = value;
   }
 );
 </script>
@@ -79,7 +70,7 @@ watch(
   <el-form ref="ruleFormRef" :model="form" :rules="form.getRules()">
     <el-row :gutter="5">
       <el-col :span="isEdit ? 21 : 22">
-        <el-form-item>
+        <el-form-item prop="comment">
           <el-input
             v-model="form.comment"
             :disabled="!isLoggedIn"
@@ -98,11 +89,10 @@ watch(
           </el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="isEdit ? 3 : 2">
+      <el-col :span="editable ? 3 : 2">
         <el-form-item class="d-flex justify-content-center">
           <el-button
             :disabled="!isLoggedIn"
-            :loading="isPending"
             color="#0f6778"
             :size="isEdit ? 'default' : 'large'"
             @click="submitForm(ruleFormRef)"
@@ -110,10 +100,9 @@ watch(
             {{ isEdit ? buttonMsg("edit") : buttonMsg("write") }}
           </el-button>
           <el-button
-            v-if="isEdit"
+            v-if="editable"
             class="ms-1"
             :disabled="!isLoggedIn"
-            :loading="isPending"
             color="#0f6778"
             size="default"
             @click="emits('cancel')"

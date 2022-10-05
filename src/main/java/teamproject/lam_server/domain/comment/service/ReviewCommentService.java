@@ -8,7 +8,6 @@ import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentRepository;
-import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.exception.notfound.CommentNotFound;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
@@ -31,9 +30,8 @@ public class ReviewCommentService extends CommentService {
 
     @Override
     @Transactional
-    public void writeComment(CommentCreate request) {
-        Member member = finder.getLoggedInMember();
-        reviewCommentRepository.write(member.getId(), request);
+    public void writeComment(Long contentId, CommentCreate request) {
+        reviewCommentRepository.write(finder.getLoggedInMember(), contentId, request);
     }
 
     @Override
@@ -53,13 +51,8 @@ public class ReviewCommentService extends CommentService {
         ReviewComment comment = reviewCommentRepository
                 .findById(commentId)
                 .orElseThrow(CommentNotFound::new);
-        finder.checkLegalWriterId(commentId);
+        finder.checkLegalWriterOfPost(comment);
         reviewCommentRepository.delete(comment);
-    }
-
-    @Override
-    public CommentResponse getBestComments(Long contentId) {
-        return null;
     }
 
     @Override

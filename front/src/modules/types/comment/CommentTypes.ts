@@ -6,7 +6,6 @@ import { useFormValidate } from "@/composables/common/formValidate";
  * requests
  */
 export interface CommentCreateType {
-  contentId: number;
   comment: string;
   parentId: number | null;
 }
@@ -20,9 +19,10 @@ export interface CommentEditType {
  */
 export interface CommentType {
   commentId: number;
+  parentId: number | null;
   comment: string;
   profile: CommentProfileType;
-  commentReplies: CommentReplyType[];
+  commentReplies: CommentType[];
   elapsedTime: string;
   likes: number;
   dislikes: number;
@@ -33,21 +33,10 @@ export interface CommentProfileType {
   nickname: string;
 }
 
-export interface CommentReplyType {
-  commentId: number;
-  parentId: number;
-  comment: string;
-  profile: CommentProfileType;
-  elapsedTime: string;
-  likes: number;
-  dislikes: number;
-}
-
 /**
  * form & editor
  */
-export interface CommentFormType
-  extends FormType<CommentType | CommentReplyType> {
+export interface CommentFormType extends FormType<CommentType> {
   comment: string;
   contentId: number;
   parentId: number | null;
@@ -56,9 +45,9 @@ export interface CommentFormType
 export class CommentEditor implements CommentFormType {
   comment: string;
   contentId: number;
-  parentId: number;
+  parentId: number | null;
 
-  constructor(contentId: number, parentId: number) {
+  constructor(contentId: number, parentId: number | null) {
     this.comment = "";
     this.contentId = contentId;
     this.parentId = parentId;
@@ -66,7 +55,7 @@ export class CommentEditor implements CommentFormType {
 
   clear(): void {
     this.comment = "";
-    this.parentId = 0;
+    this.parentId = null;
   }
 
   getRules(): FormRules {
@@ -79,14 +68,13 @@ export class CommentEditor implements CommentFormType {
     };
   }
 
-  setForm(data: CommentType | CommentReplyType): void {
+  setForm(data: CommentType): void {
     this.comment = data.comment;
   }
 
   getCreateDate(): CommentCreateType {
     return {
       comment: this.comment,
-      contentId: this.contentId,
       parentId: this.parentId,
     };
   }

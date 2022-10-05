@@ -13,15 +13,25 @@ export const useMessageBox = () => {
       type: "success",
     });
   };
+
   const openMessageByCode = (key: string) => {
     ElMessage({
       message: t(key),
       type: "success",
     });
   };
+
+  const openWarningMessageByCode = (key: string) => {
+    ElMessage({
+      message: t(key),
+      type: "warning",
+    });
+  };
+
   const openMessageBox = async (message: string) => {
     await ElMessageBox.alert(message);
   };
+
   const openConfirmMessageBox = async (title: string, message: string) => {
     return await ElMessageBox.confirm(message, title, {
       confirmButtonText: "OK",
@@ -67,6 +77,7 @@ export const useMessageBox = () => {
   return {
     openMessage,
     openMessageByCode,
+    openWarningMessageByCode,
     openMessageBox,
     openConfirmMessageBox,
     requireLoginMessageBox,

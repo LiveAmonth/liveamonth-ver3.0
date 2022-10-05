@@ -101,7 +101,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     private Function<Schedule, ScheduleCardResponse> mapToScheduleAndComment() {
         return schedule -> ScheduleCardResponse.of(
                 schedule,
-                CommentResponse.ofSingleEntity(
+                CommentResponse.ofBest(
                         commentRepository.getBestComment(schedule.getId()).orElse(null))
         );
     }
