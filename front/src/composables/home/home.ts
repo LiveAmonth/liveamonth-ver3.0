@@ -40,7 +40,7 @@ export const useHome = () => {
     {
       name: "reviewBoard",
       sub: [],
-      route: { name: "review-list", params: { menu: "se" } },
+      route: { name: "review-list", params: { menu: "review_se" } },
     },
     {
       name: "myPage",

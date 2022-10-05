@@ -7,6 +7,7 @@ import type {
 } from "@/modules/types/common/MenuType";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
 import type { EnumType } from "@/modules/types/common/EnumType";
+import { useCategory } from "@/composables/common/category";
 
 export const useReview = () => {
   const store = useReviewStore();
@@ -14,23 +15,17 @@ export const useReview = () => {
   const isPending = ref<boolean>(false);
 
   const { getMenuCategory } = useMenuTab();
+  const { reviewCategory } = useCategory();
 
   const getReviewMenu = (
     type: EnumType,
     icon: string
   ): CategoryMenuType<MenuType> => {
     return <CategoryMenuType<MenuType>>{
-      category: getMenuCategory("review", type.code, icon),
-      menus: type.subs?.map((value) => {
-        return <MenuType>{
-          name: value.code.toLowerCase(),
-          sub: [],
-          route: {
-            name: "review-list",
-            params: { menu: value.code.toLowerCase() },
-          },
-        };
-      }),
+      category: getMenuCategory("review", type.code.toLowerCase(), icon),
+      menus: reviewCategory.value
+        .filter((value) => filterCategory(type.code, value))
+        .map((value) => mapToMenu(value)),
     };
   };
 
@@ -97,6 +92,21 @@ export const useReview = () => {
     } finally {
       isPending.value = false;
     }
+  };
+
+  const mapToMenu = (value: EnumType) => {
+    return <MenuType>{
+      name: value.code.toLowerCase(),
+      sub: [],
+      route: {
+        name: "review-list",
+        params: { menu: value.code.toLowerCase() },
+      },
+    };
+  };
+
+  const filterCategory = (category: string, menu: EnumType) => {
+    return menu.code.split("_")[0] == category;
   };
 
   return {

@@ -11,9 +11,10 @@ defineProps({
   },
 });
 
-const { hasReviewCategory, getScheduleCategories } = useCategory();
+const { hasReviewCategory, getReviewCategories } = useCategory();
+
 onMounted(async () => {
-  await getScheduleCategories();
+  await getReviewCategories();
 });
 </script>
 

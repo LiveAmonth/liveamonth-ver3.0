@@ -15,8 +15,8 @@ import static teamproject.lam_server.domain.review.constants.ReviewCategory.*;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ReviewSearchType implements EnumMapperType {
     TOTAL("전체", List.of(ReviewCategory.values())),
-    REVIEW("추천 & 후기", List.of(SE_REVIEW, GN_REVIEW, GJ_REVIEW, BS_REVIEW, YS_REVIEW, JJ_REVIEW, OTHER_REVIEW)),
-    ETC("질문 & 자유", List.of(QUESTION, FREE));
+    REVIEW("추천 & 후기", List.of(REVIEW_SE, REVIEW_GN, REVIEW_GJ, REVIEW_BS, REVIEW_YS, REVIEW_JJ, REVIEW_OTHER)),
+    ETC("질문 & 자유", List.of(ETC_QUESTION, ETC_FREE));
 
     private final String value;
     private final List<ReviewCategory> subs;

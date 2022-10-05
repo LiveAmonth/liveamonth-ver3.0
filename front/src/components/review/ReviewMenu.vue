@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
@@ -15,10 +16,13 @@ const router = useRouter();
 const { getReviewMenu } = useReview();
 const { reviewSearchType } = useCategory();
 const { menuMsg, tabMsg } = useMessageBox();
-
 const selectMenu = (key: string) => {
   router.push({ name: "review-list", params: { menu: key } });
 };
+const reviewMenu = ref([
+  getReviewMenu(reviewSearchType.value[1], "Place"),
+  getReviewMenu(reviewSearchType.value[2], "Paperclip"),
+]);
 </script>
 
 <template>
@@ -30,10 +34,7 @@ const selectMenu = (key: string) => {
     :default-active="initialMenu"
     @select="selectMenu"
   >
-    <template
-      v-for="major in getReviewMenu(reviewSearchType[1], 'Place')"
-      :key="major.category.code"
-    >
+    <template v-for="major in reviewMenu" :key="major.category.code">
       <h5 class="menu-title mb-0 py-0 mt-3">
         <el-icon class="me-1">
           <component :is="major.category.icon" />
@@ -49,25 +50,6 @@ const selectMenu = (key: string) => {
         <span class="my-0">{{ menuMsg(`review.${menu.name}`) }}</span>
       </el-menu-item>
     </template>
-    <template
-      v-for="major in getReviewMenu(reviewSearchType[2], 'Paperclip')"
-      :key="major.category.code"
-    >
-      <h5 class="menu-title mb-0 py-0 mt-3">
-        <el-icon class="me-1">
-          <component :is="major.category.icon" />
-        </el-icon>
-        {{ major.category.value }}
-      </h5>
-      <el-menu-item
-        v-for="menu in major.menus"
-        :key="menu.name"
-        :index="menu.name"
-        class="menu-item"
-      >
-        <span class="my-0">{{ menuMsg(`board.${menu.name}`) }}</span>
-      </el-menu-item>
-    </template>
   </el-menu>
 </template>
 
@@ -80,7 +62,8 @@ const selectMenu = (key: string) => {
   .menu-title {
     display: flex;
     justify-content: start;
-    color: #878787;
+    font-size: 0.9rem;
+    color: #a2a1a1;
   }
 
   .menu-item {
@@ -89,13 +72,13 @@ const selectMenu = (key: string) => {
     height: 40px;
 
     &:hover {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       background-color: rgba(108, 153, 163, 0.86);
       color: #fafafa;
     }
 
     &.is-active {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
     }
 
     span {
