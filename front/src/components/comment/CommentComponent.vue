@@ -98,7 +98,7 @@ const handleEdit = (comment: CommentType, isReply = false) => {
   if (isAlreadyEdit()) {
     openWarningMessageByCode("validation.comment.alreadyEdit");
   } else {
-    isReply ? setEditInput(true, `#${ comment.commentId }`) : setEditInput();
+    isReply ? setEditInput(true, `#${comment.commentId}`) : setEditInput();
     setEditableComment(comment);
   }
 };
