@@ -319,15 +319,15 @@
     "myPage": "내 정보",
     "customerCenter": "고객 센터",
     "review": {
-      "se_review": "서울 후기",
-      "gn_review": "강릉 후기",
-      "gj_review": "경주 후기",
-      "bs_review": "부산 후기",
-      "ys_review": "여수 후기",
-      "jj_review": "제주 후기",
-      "other_review": "다른 지역 후기",
-      "question": "질문 게시판",
-      "free": "자유 게시판"
+      "review_se": "서울",
+      "review_gn": "강릉",
+      "review_gj": "경주",
+      "review_bs": "부산",
+      "review_ys": "여수",
+      "review_jj": "제주",
+      "review_other": "다른 지역",
+      "etc_question": "질문 게시판",
+      "etc_free": "자유 게시판"
     }
   },
   "myPage": {
@@ -345,11 +345,14 @@
     }
   },
   "review": {
-    "place": {
-      "title": "장소"
+    "total": {
+      "title": "전체"
+    },
+    "review": {
+      "title": "추천 & 후기"
     },
     "etc": {
-      "title": "기타"
+      "title": "질문 & 자유"
     }
   },
   "schedule": {

@@ -9,15 +9,15 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ReviewCategory implements EnumMapperType {
-    SE_REVIEW("서울 후기"),
-    GN_REVIEW("강릉 후기"),
-    GJ_REVIEW("경주 후기"),
-    BS_REVIEW("부산 후기"),
-    YS_REVIEW("여수 후기"),
-    JJ_REVIEW("제주 후기"),
-    OTHER_REVIEW("다른 지역 후기"),
-    QUESTION("질문 게시판"),
-    FREE("자유 게시판");
+    REVIEW_SE("서울 후기"),
+    REVIEW_GN("강릉 후기"),
+    REVIEW_GJ("경주 후기"),
+    REVIEW_BS("부산 후기"),
+    REVIEW_YS("여수 후기"),
+    REVIEW_JJ("제주 후기"),
+    REVIEW_OTHER("다른 지역 후기"),
+    ETC_QUESTION("질문 게시판"),
+    ETC_FREE("자유 게시판");
 
     private final String value;
 
