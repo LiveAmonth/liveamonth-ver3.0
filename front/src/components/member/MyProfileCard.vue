@@ -6,7 +6,7 @@ import { Avatar, Unlock, UserFilled, Lock } from "@element-plus/icons-vue";
 import { useMyPage } from "@/composables/member/mypage";
 
 const router = useRouter();
-const { isLoggedIn, logout } = useAuth();
+const { isLoggedIn, logoutBtn } = useAuth();
 const { simpleProfile } = useMember();
 const { profileTabs, getPostCount } = useMyPage();
 
@@ -40,7 +40,7 @@ const goProfile = (post: string) => {
             <Avatar />
           </el-icon>
         </router-link>
-        <a @click="logout">
+        <a @click="logoutBtn">
           <span>{{ $t("member.logout") }}</span>
           <el-icon>
             <Unlock />
