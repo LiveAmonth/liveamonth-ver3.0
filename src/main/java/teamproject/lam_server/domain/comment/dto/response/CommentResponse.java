@@ -6,17 +6,18 @@ import reactor.util.annotation.Nullable;
 import teamproject.lam_server.domain.comment.entity.CommentEntity;
 import teamproject.lam_server.util.DateTimeUtil;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder
 public class CommentResponse {
 
     private Long commentId;
+    private Long parentId;
     private String comment;
     private CommentProfileResponse profile;
-    private List<CommentReplyResponse> commentReplies;
+    private List<CommentResponse> commentReplies;
     private String elapsedTime;
     private int likes;
     private int dislikes;
@@ -31,7 +32,20 @@ public class CommentResponse {
                 .dislikes(comment.getDislikeCount());
     }
 
-    public static <T extends CommentEntity> CommentResponse ofSingleEntity(@Nullable T comment) {
+    public static <T extends CommentEntity> CommentResponse ofReply(Long parentId, T comment) {
+        return CommentResponse.builder()
+                .commentId(comment.getId())
+                .comment(comment.getComment())
+                .parentId(parentId)
+                .profile(CommentProfileResponse.of(comment.getMember()))
+                .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
+                .likes(comment.getLikeCount())
+                .dislikes(comment.getDislikeCount())
+                .commentReplies(Collections.emptyList())
+                .build();
+    }
+
+    public static <T extends CommentEntity> CommentResponse ofBest(@Nullable T comment) {
         if(comment != null){
             return CommentResponse.builder()
                     .commentId(comment.getId())
@@ -40,11 +54,7 @@ public class CommentResponse {
                     .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
                     .likes(comment.getLikeCount())
                     .dislikes(comment.getDislikeCount())
-                    .commentReplies(
-                            comment.getChildren().stream()
-                                    .map(CommentReplyResponse::of)
-                                    .collect(Collectors.toList())
-                    )
+                    .commentReplies(Collections.emptyList())
                     .build();
         }
         return null;

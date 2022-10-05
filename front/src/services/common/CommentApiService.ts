@@ -5,7 +5,10 @@ import type { CommentEditor } from "@/modules/types/comment/CommentTypes";
 class CommentApiService {
   async writeComment(type: string, request: CommentEditor) {
     return await http
-      .post(`/comments/${type}`, JSON.stringify(request.getCreateDate()))
+      .post(
+        `/comments/${type}/${request.contentId}`,
+        JSON.stringify(request.getCreateDate())
+      )
       .then((response) => {
         return response.data.data;
       })

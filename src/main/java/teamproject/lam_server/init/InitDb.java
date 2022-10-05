@@ -28,7 +28,6 @@ public class InitDb {
         initScheduleService.initScheduleData();
         initScheduleService.initScheduleContentData();
         initCommentService.initScheduleCommentData();
-        initCommentService.initScheduleReplyCommentData();
         initInteractionService.initInteractionData();
         initInquiryService.initInquiryData();
     }

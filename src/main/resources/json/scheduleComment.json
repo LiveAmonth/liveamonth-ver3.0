@@ -1,42 +1,66 @@
 [
   {
     "comment": "스케줄 댓글입니다. 1",
-    "contentId": 1,
     "parentId": null
   },
   {
     "comment": "안녕하세요!!!!",
-    "contentId": 1,
     "parentId": null
   },
   {
     "comment": "감사합니다@@@@@@@@@@@",
-    "contentId": 1,
     "parentId": null
   },
   {
     "comment": "잘보고 갑니다@@@@@@@@@@@",
-    "contentId": 1,
     "parentId": null
   },
   {
     "comment": "좋은 글이네요",
-    "contentId": 1,
     "parentId": null
   },
   {
     "comment": "굿굿굿",
-    "contentId": 1,
     "parentId": null
   },
   {
     "comment": "일정참고 할게요",
-    "contentId": 1,
     "parentId": null
   },
   {
     "comment": "좋은 글 감사합니다.",
-    "contentId": 1,
     "parentId": null
+  },
+  {
+    "comment": "스케줄 대댓글입니다. 1",
+    "parentId": 1
+  },
+  {
+    "comment": "스케줄 대댓글입니다. 2",
+    "parentId": 1
+  },
+  {
+    "comment": "스케줄 대댓글입니다. 3",
+    "parentId": 1
+  },
+  {
+    "comment": "스케줄 대댓글입니다. 4",
+    "parentId": 2
+  },
+  {
+    "comment": "스케줄 대댓글입니다. 5",
+    "parentId": 2
+  },
+  {
+    "comment": "스케줄 대댓글입니다. 6",
+    "parentId": 3
+  },
+  {
+    "comment": "스케줄 대댓글입니다. 7",
+    "parentId": 3
+  },
+  {
+    "comment": "스케줄 대댓글입니다.",
+    "parentId": 3
   }
 ]

@@ -8,14 +8,13 @@ import { onMounted, ref } from "vue";
 import { usePagination } from "@/composables/common/pagination";
 import { useComment } from "@/composables/common/comment";
 import { useAuth } from "@/composables/member/auth";
+import { useMember } from "@/composables/member/member";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useInteraction } from "@/composables/interaction/interaction";
 import type {
   CommentEditor,
-  CommentReplyType,
   CommentType,
 } from "@/modules/types/comment/CommentTypes";
-import { useMember } from "@/composables/member/member";
 
 const props = defineProps({
   contentId: {
@@ -38,12 +37,15 @@ const props = defineProps({
 const emits = defineEmits(["refresh"]);
 const category = "COMMENT";
 const {
-  isPending,
+  error,
   commentPageable,
   comments,
+  editableComment,
   getComments,
   writeComment,
   editComment,
+  deleteComment,
+  setEditableComment,
   extractIds,
 } = useComment();
 const { getMemberReactedComment, reactComment } = useInteraction();
@@ -51,49 +53,32 @@ const { isLoggedIn } = useAuth();
 const { simpleProfile } = useMember();
 const { pageable, mappingPagination, movePage, setSize } =
   usePagination(category);
-const { requireLoginMessageBox } = useMessageBox();
-const editedComment = ref<CommentType | null>();
-const editedReplyComment = ref<CommentReplyType | null>();
+const {
+  resultMsg,
+  openWarningMessageByCode,
+  openConfirmMessageBox,
+  requireLoginMessageBox,
+} = useMessageBox();
+
+const isEdit = ref<boolean>(false);
+const isReplyEdit = ref<boolean>(false);
 
 onMounted(async () => {
   setSize(5);
-  await getComments(props.type, props.contentId, pageable.value).then(() => {
-    mappingPagination(commentPageable.value);
-  });
+  await settingComments();
   if (isLoggedIn.value && comments.value.length) {
     await getMemberReactedComment(props.type, extractIds(comments.value));
   }
 });
 
-const pageClick = async (page: number) => {
-  movePage(page);
-  await getComments(props.type, props.contentId, pageable.value).then(() => {
-    mappingPagination(commentPageable.value);
-  });
+const settingComments = async () => {
+  await getComments(props.type, props.contentId, pageable.value);
+  mappingPagination(commentPageable.value);
 };
 
-const submitForm = async (form: CommentEditor, isEdit: boolean) => {
-  if (isEdit) {
-    console.log("댓글고치기");
-    if (editedComment.value) {
-      await editComment(props.type, editedComment.value.commentId, form);
-      editedComment.value = null;
-    }
-    if (editedReplyComment.value) {
-      await editComment(props.type, editedReplyComment.value.commentId, form);
-      editedReplyComment.value = null;
-    }
-    await getComments(props.type, props.contentId, pageable.value).then(() => {
-      mappingPagination(commentPageable.value);
-    });
-  } else {
-    console.log("새댓글");
-    await writeComment(props.type, form).then(() => {
-      getComments(props.type, props.contentId, pageable.value).then(() => {
-        mappingPagination(commentPageable.value);
-      });
-    });
-  }
+const pageClick = async (page: number) => {
+  movePage(page);
+  await settingComments();
 };
 
 const react = async (
@@ -109,25 +94,57 @@ const react = async (
   }
 };
 
-const handleEdit = (comment: CommentType) => {
-  editedComment.value = comment;
-  window.location.href = "#0";
+const handleEdit = (comment: CommentType, isReply = false) => {
+  if (isAlreadyEdit()) {
+    openWarningMessageByCode("validation.comment.alreadyEdit");
+  } else {
+    isReply ? setEditInput(true, `#${ comment.commentId }`) : setEditInput();
+    setEditableComment(comment);
+  }
 };
 
-const handleReplyEdit = (comment: CommentReplyType) => {
-  editedReplyComment.value = comment;
-  window.location.href = `#${comment.parentId}`;
+const handleDelete = async (commentId: number) => {
+  if (isAlreadyEdit()) {
+    openWarningMessageByCode("validation.comment.alreadyEdit");
+  } else {
+    await openConfirmMessageBox(
+      resultMsg("comment.delete.title"),
+      resultMsg("comment.delete.message")
+    ).then(async () => {
+      await deleteComment(props.type, commentId);
+    });
+  }
+  if (!error.value) {
+    await settingComments();
+  }
 };
 
-const handleDelete = (comment: CommentType) => {
-  console.log(comment);
-};
-const handleReplyDelete = (comment: CommentReplyType) => {
-  console.log(comment);
+const submitForm = async (form: CommentEditor, isNew: boolean) => {
+  isNew
+    ? await writeComment(props.type, form)
+    : await editComment(props.type, editableComment.value.commentId, form);
+  if (!error.value) {
+    await settingComments();
+    isEdit.value = false;
+    isReplyEdit.value = false;
+  }
 };
 
-const handleCancel = (isReply: boolean) => {
-  isReply ? (editedReplyComment.value = null) : (editedComment.value = null);
+const handleCancel = (isReply = false) => {
+  isReply ? (isReplyEdit.value = false) : (isEdit.value = false);
+};
+
+const isAlreadyEdit = () => {
+  return isReplyEdit.value || isEdit.value;
+};
+
+const setEditInput = (isReply = false, id = "#0") => {
+  if (isReply) {
+    isReplyEdit.value = true;
+  } else {
+    isEdit.value = true;
+  }
+  window.location.href = id;
 };
 </script>
 
@@ -143,10 +160,9 @@ const handleCancel = (isReply: boolean) => {
       </SmallTitleSlot>
       <CommentInput
         :content-id="contentId"
-        :is-pending="isPending"
-        :edited-comment="editedComment"
+        :is-edit="isEdit"
         @submit-form="submitForm"
-        @cancel="handleCancel(false)"
+        @cancel="handleCancel"
       />
     </el-card>
     <ul class="comment-list">
@@ -159,7 +175,7 @@ const handleCancel = (isReply: boolean) => {
           :editable="comment.profile.nickname === simpleProfile.nickname"
           @react-comment="react"
           @edit="handleEdit(comment)"
-          @delete="handleDelete(comment)"
+          @delete="handleDelete(comment.commentId)"
         >
           <template v-slot:writer>{{ comment.profile.nickname }}</template>
           <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
@@ -184,8 +200,8 @@ const handleCancel = (isReply: boolean) => {
                   :is-writer="writer === reply.profile.nickname"
                   :editable="reply.profile.nickname === simpleProfile.nickname"
                   @react-comment="react"
-                  @edit="handleReplyEdit(reply)"
-                  @delete="handleReplyDelete(reply)"
+                  @edit="handleEdit(reply, true)"
+                  @delete="handleDelete(reply.commentId)"
                 >
                   <template v-slot:writer>
                     {{ reply.profile.nickname }}
@@ -202,11 +218,10 @@ const handleCancel = (isReply: boolean) => {
             <div class="mt-2 ms-5">
               <el-divider class="mb-1" />
               <CommentInput
-                :id="comment.commentId"
-                :parent-id="comment.commentId"
                 :content-id="contentId"
-                :edited-reply-comment="editedReplyComment"
-                :is-pending="isPending"
+                :parent-id="comment.commentId"
+                :is-edit="isReplyEdit"
+                :is-reply="true"
                 @submit-form="submitForm"
                 @cancel="handleCancel(true)"
               />

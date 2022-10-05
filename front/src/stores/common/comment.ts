@@ -13,6 +13,7 @@ import type {
 export const useCommentStore = defineStore("comment", {
   state: () => ({
     pageableComments: {} as PageableResponseType,
+    editableComment: {} as CommentType,
   }),
   getters: {
     comments: (state): CommentType[] =>
@@ -66,6 +67,10 @@ export const useCommentStore = defineStore("comment", {
         .catch((error) => {
           throw error;
         });
+    },
+
+    setEditableComment: function (data: CommentType) {
+      this.editableComment = data;
     },
   },
 });

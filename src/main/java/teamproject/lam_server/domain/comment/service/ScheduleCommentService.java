@@ -37,8 +37,8 @@ public class ScheduleCommentService extends CommentService {
 
     @Override
     @Transactional
-    public void writeComment(CommentCreate request) {
-        scheduleCommentRepository.write(finder.getLoggedInMember(), request);
+    public void writeComment(Long contentId, CommentCreate request) {
+        scheduleCommentRepository.write(finder.getLoggedInMember(), contentId, request);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class ScheduleCommentService extends CommentService {
         ScheduleComment comment = scheduleCommentRepository
                 .findById(commentId)
                 .orElseThrow(CommentNotFound::new);
-        finder.checkLegalWriterId(commentId);
+        finder.checkLegalWriterOfPost(comment);
         scheduleCommentRepository.delete(comment);
     }
 
@@ -81,13 +81,6 @@ public class ScheduleCommentService extends CommentService {
         return CustomPage.<CommentResponse>builder()
                 .page(page)
                 .build();
-    }
-
-    @Override
-    public CommentResponse getBestComments(Long contentId) {
-        ScheduleComment scheduleComment = scheduleCommentRepository.getBestComment(contentId).orElseThrow(CommentNotFound::new);
-        List<ScheduleComment> commentReplies = getScheduleCommentReplies(contentId, List.of(scheduleComment));
-        return mapToCommentResponse(CommentResponse.of(scheduleComment), scheduleComment.getId(), commentReplies);
     }
 
     private List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, List<ScheduleComment> comments) {

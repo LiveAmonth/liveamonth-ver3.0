@@ -7,14 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
+import teamproject.lam_server.domain.member.entity.Member;
 
 public interface ReviewCommentRepository extends JpaRepository<ReviewComment, Long>, CommentRepository<ReviewComment> {
 
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into review_comment (created_date, last_modified_date, comment, member_id, review_id, parent_comment_id) " +
-            "values(now(), now(), :#{#request.comment}, :memberId, :#{#request.contentId}, IFNULL(:#{#request.parentId}, null))"
+            "insert into review_comment (created_date, last_modified_date, created_by, last_modified_by, comment, member_id, review_id, parent_comment_id) " +
+            "values(now(), now(), :#{#member.loginId}, :#{#member.loginId}, :#{#request.comment}, :#{#member.id}, :contentId, IFNULL(:#{#request.parentId}, null))"
             , nativeQuery = true)
-    void write(@Param("memberId") Long memberId, @Param("request") CommentCreate request);
+    void write(@Param("member") Member member, @Param("contentId") Long contentId,  @Param("request") CommentCreate request);
 }

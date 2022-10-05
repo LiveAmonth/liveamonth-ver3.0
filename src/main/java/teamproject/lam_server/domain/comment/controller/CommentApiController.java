@@ -24,11 +24,12 @@ public class CommentApiController {
 
     private final CommentServiceFinder commentServiceFinder;
 
-    @PostMapping("/{type}")
+    @PostMapping("/{type}/{contentId}")
     public ResponseEntity<?> writeComment(
             @PathVariable String type,
+            @PathVariable Long contentId,
             @RequestBody @Valid CommentCreate request) {
-        commentServiceFinder.find(type).writeComment(request);
+        commentServiceFinder.find(type).writeComment(contentId, request);
         return CustomResponse.success(CREATE_COMMENT);
     }
 
