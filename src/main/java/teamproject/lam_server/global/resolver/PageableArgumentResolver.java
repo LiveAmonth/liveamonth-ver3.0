@@ -1,10 +1,11 @@
-package teamproject.lam_server.paging;
+package teamproject.lam_server.global.resolver;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
+import teamproject.lam_server.paging.PageableDTO;
 import teamproject.lam_server.paging.sort.SortOption;
 import teamproject.lam_server.paging.sort.SortPair;
 
@@ -13,11 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PageableArgumentResolver implements HandlerMethodArgumentResolver {
-    private final String PAGE = "page";
-    private final String SIZE = "size";
-    private final String SORT = "sort";
-    private final String SEPARATE = ",";
-    private final String LATEST_CONTENT_ORDER = "id,desc";
+    private static final String PAGE = "page";
+    private static final String SIZE = "size";
+    private static final String SORT = "sort";
+    private static final String SEPARATE = ",";
+    private static final String LATEST_CONTENT_ORDER = "id,desc";
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
