@@ -15,6 +15,7 @@ public class InitDb {
     private final InitCityService initCityService;
     private final InitMemberService initMemberService;
     private final InitScheduleService initScheduleService;
+    private final InitReviewService initReviewService;
     private final InitCommentService initCommentService;
     private final InitInteractionService initInteractionService;
     private final InitInquiryService initInquiryService;
@@ -27,6 +28,7 @@ public class InitDb {
         initMemberService.initMemberData();
         initScheduleService.initScheduleData();
         initScheduleService.initScheduleContentData();
+        initReviewService.initReviewData();
         initCommentService.initScheduleCommentData();
         initInteractionService.initInteractionData();
         initInquiryService.initInquiryData();
