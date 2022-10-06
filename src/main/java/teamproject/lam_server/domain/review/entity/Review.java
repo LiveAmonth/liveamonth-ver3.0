@@ -9,7 +9,6 @@ import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
-import teamproject.lam_server.global.converter.StringArrayConverter;
 import teamproject.lam_server.global.entity.BaseEntity;
 
 import javax.persistence.*;
@@ -40,7 +39,11 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Convert(converter = StringArrayConverter.class)
+    @ElementCollection
+    @CollectionTable(name = "review_tag", joinColumns =
+        @JoinColumn(name = "review_id")
+    )
+    @Column(name = "tag_name")
     private Set<String> tags = new HashSet<>();
 
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
