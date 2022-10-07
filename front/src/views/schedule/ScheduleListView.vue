@@ -55,7 +55,7 @@ const applyOptions = async (data: SearchEngineFormType) => {
       </div>
       <div class="schedule-list-container">
         <el-row>
-          <el-col v-loading="isPending">
+          <el-col v-if="!isPending">
             <SchedulePageList @apply-option="applyOptions" />
           </el-col>
         </el-row>

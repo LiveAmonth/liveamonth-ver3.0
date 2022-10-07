@@ -94,6 +94,14 @@ public class EnumController {
     }
 
     /**
+     * 리뷰 메뉴 그룹
+     */
+    @GetMapping("/review/group")
+    public ResponseEntity<?> getReviewSearchGroup() {
+        return getCategories(REVIEW_MENU_GROUP);
+    }
+
+    /**
      * 엔티티 상태 코드
      */
     @GetMapping("/status/{entityName}")

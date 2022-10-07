@@ -14,6 +14,7 @@ export const useCategoryStore = defineStore("category", {
     scheduleFilterType: [] as EnumType[],
     scheduleSortType: [] as SortType[],
     reviewCategory: [] as EnumType[],
+    reviewMenuGroup: [] as EnumType[],
     reviewSearchType: [] as EnumType[],
     reviewSortType: [] as SortType[],
   }),
@@ -26,6 +27,7 @@ export const useCategoryStore = defineStore("category", {
       !!state.scheduleSortType.length,
     hasReviewCategory: (state): boolean =>
       !!state.reviewCategory.length &&
+      !!state.reviewMenuGroup.length &&
       !!state.reviewSearchType.length &&
       !!state.reviewSortType.length,
   },
@@ -84,6 +86,16 @@ export const useCategoryStore = defineStore("category", {
       await ReviewApiService.getReviewCategory()
         .then((response: EnumType[]) => {
           this.reviewCategory = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getReviewMenuGroup: async function () {
+      await ReviewApiService.getReviewMenuGroup()
+        .then((response: EnumType[]) => {
+          this.reviewMenuGroup = response;
         })
         .catch((error) => {
           throw error;

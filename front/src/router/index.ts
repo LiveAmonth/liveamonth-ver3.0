@@ -4,7 +4,6 @@ import WriteReviewView from "../views/review/WriteReviewView.vue";
 import ReadReviewView from "../views/review/ReadReviewView.vue";
 import EditReviewView from "../views/review/EditReviewView.vue";
 import ReviewView from "../views/review/ReviewView.vue";
-import ReviewListView from "../views/review/ReviewListView.vue";
 import ReadScheduleView from "../views/schedule/ReadScheduleView.vue";
 import ScheduleListView from "../views/schedule/ScheduleListView.vue";
 import MyScheduleView from "../views/schedule/MyScheduleView.vue";
@@ -53,34 +52,26 @@ const router = createRouter({
     },
     {
       path: "/reviews/:menu",
-      name: "review",
+      name: "review-list",
       component: ReviewView,
       props: true,
-      children: [
-        {
-          path: "list",
-          name: "review-list",
-          component: ReviewListView,
-          props: true,
-        },
-        {
-          path: "write",
-          name: "write-review",
-          component: WriteReviewView,
-        },
-        {
-          path: ":id/read",
-          name: "read-review",
-          component: ReadReviewView,
-          props: true,
-        },
-        {
-          path: ":id/edit",
-          name: "edit-review",
-          component: EditReviewView,
-          props: true,
-        },
-      ],
+    },
+    {
+      path: "/reviews/write",
+      name: "write-review",
+      component: WriteReviewView,
+    },
+    {
+      path: "/reviews/:id/read",
+      name: "read-review",
+      component: ReadReviewView,
+      props: true,
+    },
+    {
+      path: "/reviews/:id/edit",
+      name: "edit-review",
+      component: EditReviewView,
+      props: true,
     },
     { path: "/schedules", name: "schedule-list", component: ScheduleListView },
     {

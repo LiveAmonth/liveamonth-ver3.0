@@ -14,14 +14,14 @@ defineProps({
 
 const router = useRouter();
 const { getReviewMenu } = useReview();
-const { reviewSearchType } = useCategory();
-const { menuMsg, tabMsg } = useMessageBox();
+const { reviewMenuGroup } = useCategory();
+const { menuMsg } = useMessageBox();
 const selectMenu = (key: string) => {
   router.push({ name: "review-list", params: { menu: key } });
 };
 const reviewMenu = ref([
-  getReviewMenu(reviewSearchType.value[1], "Place"),
-  getReviewMenu(reviewSearchType.value[2], "Paperclip"),
+  getReviewMenu(reviewMenuGroup.value[0], "Place"),
+  getReviewMenu(reviewMenuGroup.value[1], "Paperclip"),
 ]);
 </script>
 
@@ -34,15 +34,15 @@ const reviewMenu = ref([
     :default-active="initialMenu"
     @select="selectMenu"
   >
-    <template v-for="major in reviewMenu" :key="major.category.code">
+    <template v-for="group in reviewMenu" :key="group.category.code">
       <h5 class="menu-title mb-0 py-0 mt-3">
         <el-icon class="me-1">
-          <component :is="major.category.icon" />
+          <component :is="group.category.icon" />
         </el-icon>
-        {{ tabMsg(`review.${major.category.code}`) }}
+        {{ group.category.value }}
       </h5>
       <el-menu-item
-        v-for="menu in major.menus"
+        v-for="menu in group.menus"
         :key="menu.name"
         :index="menu.name"
         class="menu-item"

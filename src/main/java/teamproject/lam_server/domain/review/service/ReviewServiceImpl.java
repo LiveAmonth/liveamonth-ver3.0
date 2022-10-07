@@ -1,6 +1,7 @@
 package teamproject.lam_server.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,11 +21,10 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ReviewServiceImpl implements ReviewService {
     private final SecurityContextFinder finder;
 
@@ -60,18 +60,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     public CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
-        Page<Review> result = reviewRepository.search(cond, pageable);
-
-        if (!cond.getTags().isEmpty()) {
-            result.filter(review -> filterTags(cond.getTags(), review.getTags()));
-        }
+        Page<ReviewListResponse> page =
+                reviewRepository
+                        .search(cond, pageable)
+                        .map(ReviewListResponse::of);
 
         return CustomPage.<ReviewListResponse>builder()
-                .page(result.map(ReviewListResponse::of))
+                .page(page)
                 .build();
-    }
-
-    private boolean filterTags(Set<String> condTags, Set<String> reviewTags) {
-        return condTags.stream().anyMatch(reviewTags::contains);
     }
 }

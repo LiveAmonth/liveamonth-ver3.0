@@ -315,19 +315,26 @@
     "schedule": "스케줄",
     "otherSchedule": "다른 사람 스케줄",
     "mySchedule": "내 스케줄",
-    "reviewBoard": "후기",
     "myPage": "내 정보",
     "customerCenter": "고객 센터",
     "review": {
-      "review_se": "서울",
-      "review_gn": "강릉",
-      "review_gj": "경주",
-      "review_bs": "부산",
-      "review_ys": "여수",
-      "review_jj": "제주",
+      "title": "후기",
+      "review_liveamonth": "리버먼스 지역",
       "review_other": "다른 지역",
       "etc_question": "질문 게시판",
-      "etc_free": "자유 게시판"
+      "etc_free": "자유 게시판",
+      "group": {
+        "review": "추천 & 후기",
+        "etc": "소통해요"
+      }
+    }
+  },
+  "review": {
+    "review": {
+      "title": "추천 & 후기"
+    },
+    "etc": {
+      "title": "소통해요"
     }
   },
   "myPage": {
@@ -342,17 +349,6 @@
       "title": "문의",
       "write": "문의 하기",
       "answer": "문의 목록"
-    }
-  },
-  "review": {
-    "total": {
-      "title": "전체"
-    },
-    "review": {
-      "title": "추천 & 후기"
-    },
-    "etc": {
-      "title": "질문 & 자유"
     }
   },
   "schedule": {
@@ -447,8 +443,12 @@
     },
     "review": {
       "total": "전체",
-      "review": "추천&후기",
-      "etc": "질문&자유"
+      "se": "서울",
+      "gn": "강릉",
+      "gj": "경주",
+      "bs": "부산",
+      "ys": "여수",
+      "jj": "제주"
     }
   },
   "title": {
