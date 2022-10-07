@@ -5,17 +5,29 @@ import type {
   MenuType,
   CategoryMenuType,
 } from "@/modules/types/common/MenuType";
-import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type {
+  PageableRequestType,
+  PageableType,
+} from "@/modules/types/common/PageableType";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import { useCategory } from "@/composables/common/category";
+import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
 
 export const useReview = () => {
   const store = useReviewStore();
   const error = ref();
   const isPending = ref<boolean>(false);
-
   const { getMenuCategory } = useMenuTab();
-  const { reviewCategory } = useCategory();
+  const { cityNames, reviewSearchType } = useCategory();
+
+  const request = computed(() => store.searchCond);
+  const reviewPage = computed((): PageableType => store.reviewPage);
+  const otherReviews = computed((): ReviewListType[] => store.otherReviews);
+
+  const cityReviewTabs: string[] = ["total"];
+  cityNames.value.forEach((value) =>
+    cityReviewTabs.push(value.code.toLowerCase())
+  );
 
   const getReviewMenu = (
     type: EnumType,
@@ -23,7 +35,7 @@ export const useReview = () => {
   ): CategoryMenuType<MenuType> => {
     return <CategoryMenuType<MenuType>>{
       category: getMenuCategory("review", type.code.toLowerCase(), icon),
-      menus: reviewCategory.value
+      menus: reviewSearchType.value
         .filter((value) => filterCategory(type.code, value))
         .map((value) => mapToMenu(value)),
     };
@@ -106,11 +118,15 @@ export const useReview = () => {
   };
 
   const filterCategory = (category: string, menu: EnumType) => {
-    return menu.code.split("_")[0] == category;
+    return category == menu.code.split("_")[0];
   };
 
   return {
     isPending,
+    request,
+    reviewPage,
+    cityReviewTabs,
+    otherReviews,
     getReviewMenu,
     addReview,
     editReview,

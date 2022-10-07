@@ -12,6 +12,7 @@ export const useCategory = () => {
   const reviewCategory = computed(() => store.reviewCategory);
   const reviewSearchType = computed(() => store.reviewSearchType);
   const reviewSortType = computed(() => store.reviewSortType);
+  const reviewMenuGroup = computed(() => store.reviewMenuGroup);
 
   const hasCityNames = computed(() => store.hasCityNames);
   const hasGenderType = computed(() => store.hasGenderType);
@@ -43,6 +44,7 @@ export const useCategory = () => {
       await store.getReviewCategory();
       await store.getReviewSearchType();
       await store.getReviewSortType();
+      await store.getReviewMenuGroup();
     }
   };
 
@@ -55,6 +57,7 @@ export const useCategory = () => {
     reviewCategory,
     reviewSearchType,
     reviewSortType,
+    reviewMenuGroup,
     hasCityNames,
     hasGenderType,
     hasScheduleCategory,

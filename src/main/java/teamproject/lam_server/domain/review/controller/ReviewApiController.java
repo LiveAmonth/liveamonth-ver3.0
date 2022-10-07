@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewEdit;
@@ -24,7 +23,6 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RequestMapping("/api/v1/reviews")
 @Slf4j
 public class ReviewApiController {
-    private final MemberRepository memberRepository;
     private final ReviewService reviewService;
 
     @PostMapping
@@ -45,8 +43,10 @@ public class ReviewApiController {
         return CustomResponse.success(UPDATE_REVIEW);
     }
 
-    @PostMapping("/search")
-    public ResponseEntity<?> search(@RequestBody ReviewSearchCond cond, PageableDTO pageableDTO) {
+    @GetMapping("/search")
+    public ResponseEntity<?> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
+        log.info("cond={}", cond.toString());
+        log.info("pageable={}", pageableDTO.toString());
         CustomPage<ReviewListResponse> result = reviewService.search(cond, pageableDTO);
         return CustomResponse.success(READ_REVIEW, result);
     }

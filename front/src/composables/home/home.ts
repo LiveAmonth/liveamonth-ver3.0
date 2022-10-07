@@ -8,7 +8,6 @@ export const useHome = () => {
   const { isLoggedIn } = useAuth();
   const { simpleProfile } = useMember();
   const { getTabsItem } = useMenuTab();
-
   const loggedPostsTabs: NameIconType[] = [
     getTabsItem("home", "schedule", "Calendar"),
     getTabsItem("home", "review", "Notebook"),
@@ -38,9 +37,20 @@ export const useHome = () => {
       ],
     },
     {
-      name: "reviewBoard",
-      sub: [],
-      route: { name: "review-list", params: { menu: "review_se" } },
+      name: "review.title",
+      route: { name: "review-list", params: { menu: "review_liveamonth" } },
+      sub: [
+        {
+          name: "review.group.review",
+          sub: [],
+          route: { name: "review-list", params: { menu: "review_liveamonth" } },
+        },
+        {
+          name: "review.group.etc",
+          sub: [],
+          route: { name: "review-list", params: { menu: "etc_free" } },
+        },
+      ],
     },
     {
       name: "myPage",

@@ -5,15 +5,19 @@ import type {
   PageableType,
 } from "@/modules/types/common/PageableType";
 import ReviewApiService from "@/services/review/ReviewApiService";
+import { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
+import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
 
 export const useReviewStore = defineStore("review", {
   state: () => ({
+    searchCond: new ReviewSearchCond(),
     pageableReviews: {} as PageableResponseType,
     currReview: {} as object,
   }),
   getters: {
-    otherScheduleCards: (state) => state.pageableReviews.content,
-    schedulePage: (state): PageableType => state.pageableReviews.pageable,
+    otherReviews: (state): ReviewListType[] =>
+      state.pageableReviews.content as ReviewListType[],
+    reviewPage: (state): PageableType => state.pageableReviews.pageable,
   },
   actions: {
     addReview: async function (memberId: number, form: any) {
@@ -47,7 +51,7 @@ export const useReviewStore = defineStore("review", {
     },
 
     getReviews: async function (pageable: PageableRequestType) {
-      await ReviewApiService.getReviews(null, pageable)
+      await ReviewApiService.getReviews(this.searchCond, pageable)
         .then((response: PageableResponseType) => {
           this.pageableReviews = response;
         })

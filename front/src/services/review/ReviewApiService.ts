@@ -1,10 +1,22 @@
 import http, { getSortTypes, getSearchTypes } from "@/http-common";
 import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
 
 class ReviewApiService {
   async getReviewCategory() {
     return await http
       .get("/categories/review")
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async getReviewMenuGroup() {
+    return await http
+      .get("/categories/review/group")
       .then((response) => {
         return response.data.data;
       })
@@ -66,14 +78,15 @@ class ReviewApiService {
       });
   }
 
-  async getReviews(request: any, pageable: PageableRequestType) {
+  async getReviews(request: ReviewSearchCond, pageable: PageableRequestType) {
+    console.log(request.getSearchData());
     return await http
       .get(
         `/reviews/search?page=${pageable.page - 1}&size=${pageable.size}&sort=${
           pageable.sort
         }`,
         {
-          params: request.fitToFormat(),
+          params: request.getSearchData(),
         }
       )
       .then((response) => {
