@@ -6,7 +6,6 @@ import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { computed, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMember } from "@/composables/member/member";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   initialCount: {
@@ -115,10 +114,10 @@ const deleteScheduleBtn = async (scheduleId: number) => {
                     {{ schedule.comment.comment }}
                   </template>
                   <template v-slot:likeCount>
-                    {{ schedule.comment.likes }}
+                    {{ schedule.comment.numberOfLikes }}
                   </template>
                   <template v-slot:dislikeCount>
-                    {{ schedule.comment.dislikes }}
+                    {{ schedule.comment.numberOfDislikes }}
                   </template>
                 </CommentSlot>
               </el-card>

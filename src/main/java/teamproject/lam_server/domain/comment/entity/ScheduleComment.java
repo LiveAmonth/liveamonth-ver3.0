@@ -1,6 +1,9 @@
 package teamproject.lam_server.domain.comment.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
 import org.springframework.lang.Nullable;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;

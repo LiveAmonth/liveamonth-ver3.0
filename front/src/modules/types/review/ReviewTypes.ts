@@ -17,7 +17,7 @@ export interface ReviewListType {
   title: string;
   content: string;
   elapsedTime: string;
-  viewCount: number;
+  numberOfHits: string;
 }
 
 /**

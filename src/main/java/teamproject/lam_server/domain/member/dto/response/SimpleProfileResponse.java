@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.member.entity.Member;
 
+import static teamproject.lam_server.util.NumberUtil.countFormat;
+
 @Getter
 @Builder
 public class SimpleProfileResponse {
@@ -11,10 +13,10 @@ public class SimpleProfileResponse {
     private String loginId;
     private String nickname;
     private String image;
-    private int numberOfReviews;
-    private int numberOfSchedules;
-    private int numberOfFollowers;
-    private int numberOfFollows;
+    private String numberOfReviews;
+    private String numberOfSchedules;
+    private String numberOfFollowers;
+    private String numberOfFollows;
 
     public static SimpleProfileResponse of(Member member) {
         return SimpleProfileResponse.builder()
@@ -22,10 +24,10 @@ public class SimpleProfileResponse {
                 .loginId(member.getLoginId())
                 .nickname(member.getNickname())
                 .image(member.getImage())
-                .numberOfReviews(member.getNumberOfReviews())
-                .numberOfSchedules(member.getNumberOfSchedules())
-                .numberOfFollowers(member.getNumberOfFollowers())
-                .numberOfFollows(member.getNumberOfFollows())
+                .numberOfReviews(countFormat(member.getNumberOfReviews()))
+                .numberOfSchedules(countFormat(member.getNumberOfSchedules()))
+                .numberOfFollowers(countFormat(member.getNumberOfFollowers()))
+                .numberOfFollows(countFormat(member.getNumberOfFollows()))
                 .build();
     }
 }

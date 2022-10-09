@@ -12,7 +12,7 @@ public class ScheduleContentResponse {
     private Long id;
     private String title;
     private String content;
-    private int cost;
+    private long cost;
     private TimePeriodResponse timePeriod;
 
     public static ScheduleContentResponse of(ScheduleContent schedulecontent) {

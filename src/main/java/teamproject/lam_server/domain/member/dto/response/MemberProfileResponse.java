@@ -7,6 +7,8 @@ import teamproject.lam_server.domain.member.entity.Member;
 
 import java.time.LocalDate;
 
+import static teamproject.lam_server.util.NumberUtil.countFormat;
+
 @Getter
 @Builder
 public class MemberProfileResponse {
@@ -18,10 +20,10 @@ public class MemberProfileResponse {
     private String email;
     private GenderType gender;
     private LocalDate birth;
-    private int numberOfReviews;
-    private int numberOfSchedules;
-    private int numberOfFollowers;
-    private int numberOfFollows;
+    private String numberOfReviews;
+    private String numberOfSchedules;
+    private String numberOfFollowers;
+    private String numberOfFollows;
 
 
     public static MemberProfileResponse of(Member member) {
@@ -34,10 +36,10 @@ public class MemberProfileResponse {
                 .email(member.getEmail())
                 .gender(member.getGender())
                 .birth(member.getBirth())
-                .numberOfReviews(member.getNumberOfReviews())
-                .numberOfSchedules(member.getNumberOfSchedules())
-                .numberOfFollowers(member.getNumberOfFollowers())
-                .numberOfFollows(member.getNumberOfFollows())
+                .numberOfReviews(countFormat(member.getNumberOfReviews()))
+                .numberOfSchedules(countFormat(member.getNumberOfSchedules()))
+                .numberOfFollowers(countFormat(member.getNumberOfFollowers()))
+                .numberOfFollows(countFormat(member.getNumberOfFollows()))
                 .build();
     }
 }

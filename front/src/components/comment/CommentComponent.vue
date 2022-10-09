@@ -149,7 +149,7 @@ const setEditInput = (isReply = false, id = "#0") => {
 </script>
 
 <template>
-  <div class="comment" id="0">
+  <div id="0" class="comment">
     <TitleSlot class="comment-title">
       {{ $t("comment.title") }}
       {{ `(${commentPageable ? commentPageable.totalElements : "0"})` }}
@@ -161,8 +161,8 @@ const setEditInput = (isReply = false, id = "#0") => {
       <CommentInput
         :content-id="contentId"
         :is-edit="isEdit"
-        @submit-form="submitForm"
         @cancel="handleCancel"
+        @submit-form="submitForm"
       />
     </el-card>
     <ul class="comment-list">
@@ -170,18 +170,20 @@ const setEditInput = (isReply = false, id = "#0") => {
         <CommentSlot
           :id="comment.commentId"
           :avatar-url="'/src/assets/image/default.jpg'"
+          :editable="comment.profile.nickname === simpleProfile.nickname"
           :is-reply="false"
           :is-writer="writer === comment.profile.nickname"
-          :editable="comment.profile.nickname === simpleProfile.nickname"
-          @react-comment="react"
-          @edit="handleEdit(comment)"
           @delete="handleDelete(comment.commentId)"
+          @edit="handleEdit(comment)"
+          @react-comment="react"
         >
           <template v-slot:writer>{{ comment.profile.nickname }}</template>
           <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
           <template v-slot:comment>{{ comment.comment }}</template>
-          <template v-slot:likeCount>{{ comment.likes }}</template>
-          <template v-slot:dislikeCount>{{ comment.dislikes }}</template>
+          <template v-slot:likeCount>{{ comment.numberOfLikes }}</template>
+          <template v-slot:dislikeCount>
+            {{ comment.numberOfDislikes }}
+          </template>
         </CommentSlot>
         <el-collapse class="comment-reply">
           <el-collapse-item
@@ -189,19 +191,19 @@ const setEditInput = (isReply = false, id = "#0") => {
           >
             <ul>
               <li
-                class="reply-list"
                 v-for="reply in comment.commentReplies"
                 :key="reply.commentId"
+                class="reply-list"
               >
                 <CommentSlot
                   :id="reply.commentId"
                   :avatar-url="'/src/assets/image/default.jpg'"
+                  :editable="reply.profile.nickname === simpleProfile.nickname"
                   :is-reply="true"
                   :is-writer="writer === reply.profile.nickname"
-                  :editable="reply.profile.nickname === simpleProfile.nickname"
-                  @react-comment="react"
-                  @edit="handleEdit(reply, true)"
                   @delete="handleDelete(reply.commentId)"
+                  @edit="handleEdit(reply, true)"
+                  @react-comment="react"
                 >
                   <template v-slot:writer>
                     {{ reply.profile.nickname }}
@@ -209,9 +211,15 @@ const setEditInput = (isReply = false, id = "#0") => {
                   <template v-slot:elapsedTime>
                     {{ reply.elapsedTime }}
                   </template>
-                  <template v-slot:comment>{{ reply.comment }}</template>
-                  <template v-slot:likeCount>{{ reply.likes }}</template>
-                  <template v-slot:dislikeCount>{{ reply.dislikes }}</template>
+                  <template v-slot:comment>
+                    {{ reply.comment }}
+                  </template>
+                  <template v-slot:likeCount>
+                    {{ reply.numberOfLikes }}
+                  </template>
+                  <template v-slot:dislikeCount>
+                    {{ reply.numberOfDislikes }}
+                  </template>
                 </CommentSlot>
               </li>
             </ul>
@@ -219,11 +227,11 @@ const setEditInput = (isReply = false, id = "#0") => {
               <el-divider class="mb-1" />
               <CommentInput
                 :content-id="contentId"
-                :parent-id="comment.commentId"
                 :is-edit="isReplyEdit"
                 :is-reply="true"
-                @submit-form="submitForm"
+                :parent-id="comment.commentId"
                 @cancel="handleCancel(true)"
+                @submit-form="submitForm"
               />
             </div>
           </el-collapse-item>
