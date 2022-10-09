@@ -13,12 +13,12 @@ import static teamproject.lam_server.util.NumberUtil.countFormat;
 @Builder
 public class FollowerResponse {
 
-    private String count;
+    private String numberOfFollowers;
     private List<MemberProfileResponse> followers;
 
     public static FollowerResponse of(List<Follower> followers) {
         return FollowerResponse.builder()
-                .count(countFormat(followers.size()))
+                .numberOfFollowers(countFormat(followers.size()))
                 .followers(followers.stream().map(follower -> MemberProfileResponse.of(follower.getFrom())).collect(Collectors.toList()))
                 .build();
     }

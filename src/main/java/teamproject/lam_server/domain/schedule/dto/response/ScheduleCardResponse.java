@@ -20,9 +20,9 @@ public class ScheduleCardResponse {
     private CityName city;
     private SimpleProfileResponse profile;
     private long cost;
-    private String hits;
-    private String likes;
-    private String comments;
+    private String numberOfHits;
+    private String numberOfLikes;
+    private String numberOfComments;
     private PeriodResponse period;
     private boolean publicFlag;
     private CommentResponse comment;
@@ -34,9 +34,9 @@ public class ScheduleCardResponse {
                 .title(schedule.getTitle())
                 .cost(schedule.getTotalCost())
                 .city(schedule.getCityName())
-                .hits(countFormat(schedule.getViewCount()))
-                .likes(countFormat(schedule.getLikeCount()))
-                .comments(countFormat(schedule.getCommentCount()))
+                .numberOfHits(countFormat(schedule.getNumberOfHits()))
+                .numberOfLikes(countFormat(schedule.getNumberOfLikes()))
+                .numberOfComments(countFormat(schedule.getNumberOfComments()))
                 .period(PeriodResponse.of(schedule.getPeriod()))
                 .publicFlag(schedule.getPublicFlag())
                 .comment(comment)

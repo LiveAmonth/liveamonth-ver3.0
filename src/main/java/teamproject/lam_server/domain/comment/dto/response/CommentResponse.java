@@ -21,8 +21,8 @@ public class CommentResponse {
     private CommentProfileResponse profile;
     private List<CommentResponse> commentReplies;
     private String elapsedTime;
-    private String likes;
-    private String dislikes;
+    private String numberOfLikes;
+    private String numberOfDislikes;
 
     public static <T extends CommentEntity> CommentResponse.CommentResponseBuilder of(T comment) {
         return CommentResponse.builder()
@@ -30,8 +30,8 @@ public class CommentResponse {
                 .comment(comment.getComment())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                .likes(countFormat(comment.getLikeCount()))
-                .dislikes(countFormat(comment.getDislikeCount()));
+                .numberOfLikes(countFormat(comment.getNumberOfLikes()))
+                .numberOfDislikes(countFormat(comment.getNumberOfDislikes()));
     }
 
     public static <T extends CommentEntity> CommentResponse ofReply(Long parentId, T comment) {
@@ -41,8 +41,8 @@ public class CommentResponse {
                 .parentId(parentId)
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                .likes(countFormat(comment.getLikeCount()))
-                .dislikes(countFormat(comment.getDislikeCount()))
+                .numberOfLikes(countFormat(comment.getNumberOfLikes()))
+                .numberOfDislikes(countFormat(comment.getNumberOfDislikes()))
                 .commentReplies(Collections.emptyList())
                 .build();
     }
@@ -54,8 +54,8 @@ public class CommentResponse {
                     .comment(comment.getComment())
                     .profile(CommentProfileResponse.of(comment.getMember()))
                     .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                    .likes(countFormat(comment.getLikeCount()))
-                    .dislikes(countFormat(comment.getDislikeCount()))
+                    .numberOfLikes(countFormat(comment.getNumberOfLikes()))
+                    .numberOfDislikes(countFormat(comment.getNumberOfDislikes()))
                     .commentReplies(Collections.emptyList())
                     .build();
         }

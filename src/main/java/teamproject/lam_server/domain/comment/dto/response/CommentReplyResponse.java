@@ -16,8 +16,8 @@ public class CommentReplyResponse {
     private String comment;
     private CommentProfileResponse profile;
     private String elapsedTime;
-    private String likes;
-    private String dislikes;
+    private String numberOfLikes;
+    private String numberOfDislikes;
 
     public static <T extends CommentEntity> CommentReplyResponse of(T comment) {
         return CommentReplyResponse.builder()
@@ -26,8 +26,8 @@ public class CommentReplyResponse {
                 .comment(comment.getComment())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                .likes(countFormat(comment.getLikeCount()))
-                .dislikes(countFormat(comment.getDislikeCount()))
+                .numberOfLikes(countFormat(comment.getNumberOfLikes()))
+                .numberOfDislikes(countFormat(comment.getNumberOfDislikes()))
                 .build();
     }
 }

@@ -37,11 +37,11 @@ public class ScheduleComment extends CommentEntity {
     private ScheduleComment parent;
 
     @Formula("(select count(sc.parent_comment_id) from schedule_comment sc where sc.parent_comment_id = schedule_comment_id)")
-    private int childrenCount;
+    private int numberOfChildren;
     @Formula("(select count(1) from schedule_comment_react scr where scr.to_schedule_comment_id = schedule_comment_id and scr.type = 'LIKE')")
-    private int likeCount;
+    private int numberOfLikes;
     @Formula("(select count(1) from schedule_comment_react scr where scr.to_schedule_comment_id = schedule_comment_id and scr.type = 'DISLIKE')")
-    private int dislikeCount;
+    private int numberOfDislikes;
 
     @Builder
     public ScheduleComment(String content, Member member, Schedule schedule, @Nullable ScheduleComment parent) {

@@ -34,7 +34,7 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReviewCategory category;
     private String content;
-    private long viewCount;
+    private long numberOfHits;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -47,9 +47,9 @@ public class Review extends BaseEntity {
     private Set<String> tags = new HashSet<>();
 
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
-    private long likeCount;
+    private long numberOfLikes;
     @Formula("(select count(1) from review_comment rc where rc.review_id = review_id)")
-    private long commentCount;
+    private long numberOfComments;
 
     @Builder
     public Review(ReviewCategory category, String title, String content, Member member, Set<String> tags) {
@@ -57,7 +57,7 @@ public class Review extends BaseEntity {
         this.title = title;
         this.content = content;
         this.tags = tags;
-        this.viewCount = 0L;
+        this.numberOfHits = 0L;
         setUpMember(member);
     }
 

@@ -16,7 +16,7 @@ public class ReviewListResponse {
     private String title;
     private String content;
     private String elapsedTime;
-    private String viewCount;
+    private String numberOfHits;
 
     public static ReviewListResponse of(Review review) {
         return ReviewListResponse.builder()
@@ -24,7 +24,7 @@ public class ReviewListResponse {
                 .title(review.getTitle())
                 .writer(review.getMember().getNickname())
                 .content(review.getContent())
-                .viewCount(countFormat(review.getViewCount()))
+                .numberOfHits(countFormat(review.getNumberOfHits()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(review.getCreatedDate()))
                 .build();
     }
