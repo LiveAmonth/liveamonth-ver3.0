@@ -64,7 +64,7 @@ public class ScheduleCommentRepositoryImpl implements CommentRepository<Schedule
                         .where(
                                 scheduleIdEq(contentId),
                                 parentIdNull()
-                        ).orderBy(scheduleComment.likeCount.desc())
+                        ).orderBy(scheduleComment.numberOfLikes.desc())
                         .fetchFirst()
         );
     }

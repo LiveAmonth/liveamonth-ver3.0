@@ -38,11 +38,11 @@ public class ReviewComment extends CommentEntity {
     private ReviewComment parent;
 
     @Formula("(select count(rc.parent_comment_id) from review_comment rc where rc.parent_comment_id = review_comment_id)")
-    private int childrenCount;
+    private int numberOfChildren;
     @Formula("(select count(1) from review_comment_react rcr where rcr.to_review_comment_id = review_comment_id and rcr.type = 'LIKE')")
-    private int likeCount;
+    private int numberOfLikes;
     @Formula("(select count(1) from review_comment_react rcr where rcr.to_review_comment_id = review_comment_id and rcr.type = 'DISLIKE')")
-    private int dislikeCount;
+    private int numberOfDislikes;
 
 
     @Builder
