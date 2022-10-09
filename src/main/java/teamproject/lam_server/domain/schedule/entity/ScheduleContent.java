@@ -24,7 +24,7 @@ public class ScheduleContent extends BaseEntity {
     @Embedded
     private TimePeriod timePeriod;
 
-    private int cost;
+    private long cost;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")

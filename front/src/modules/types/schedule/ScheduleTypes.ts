@@ -3,9 +3,11 @@ import { useFormValidate } from "@/composables/common/formValidate";
 import { reactive } from "vue";
 import type { EnumType } from "@/modules/types/common/EnumType";
 import type { SimpleProfileType } from "@/modules/types/member/MemberType";
-import type { SearchCondType } from "../common/SearchType";
+import type {
+  SearchCondType,
+  SearchEngineFormType,
+} from "../common/SearchType";
 import type { CommentType } from "@/modules/types/comment/CommentTypes";
-import type { SearchEngineFormType } from "../common/SearchType";
 import type { FormType } from "@/modules/types/form/FormType";
 import type { FormRules } from "element-plus/es";
 
@@ -56,9 +58,9 @@ export interface ScheduleCardType {
   profile: SimpleProfileType;
   cost: number;
   city: EnumType;
-  hits: number;
-  likes: number;
-  comments: number;
+  numberOfHits: string;
+  numberOfLikes: string;
+  numberOfComments: string;
   period: DatePeriodType;
   publicFlag: boolean;
   comment: CommentType | null;
@@ -210,6 +212,7 @@ export class ScheduleEditor implements ScheduleFormType {
 }
 
 const { getDateTime } = useDate();
+
 export class ScheduleContentEditor implements ScheduleContentFormType {
   content: string;
   cost: number;

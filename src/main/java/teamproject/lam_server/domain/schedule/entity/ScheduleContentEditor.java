@@ -13,10 +13,10 @@ public class ScheduleContentEditor {
 
     private final TimePeriod timePeriod;
 
-    private final int cost;
+    private final long cost;
 
     @Builder
-    public ScheduleContentEditor(String title, String content, TimePeriod timePeriod, int cost) {
+    public ScheduleContentEditor(String title, String content, TimePeriod timePeriod, long cost) {
         this.title = title;
         this.content = content;
         this.timePeriod = timePeriod;

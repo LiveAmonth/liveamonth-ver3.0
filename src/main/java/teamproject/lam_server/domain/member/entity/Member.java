@@ -79,15 +79,15 @@ public class Member extends BaseTimeEntity {
     private AccountState status;
 
     @Formula("(select count(1) from follower f where f.to_member_id = member_id)")
-    private int numberOfFollowers;
+    private long numberOfFollowers;
     @Formula("(select count(1) from schedule s join follower f on s.member_id = f.to_member_id where f.from_member_id = member_id)")
-    private int numberOfFollows;
+    private long numberOfFollows;
     @Formula("(select count(1) from review r where r.member_id = member_id)")
-    private int numberOfReviews;
+    private long numberOfReviews;
     @Formula("(select count(1) from schedule s where s.member_id = member_id)")
-    private int numberOfSchedules;
+    private long numberOfSchedules;
     @Formula("(select count(1) from inquiry i where i.member_id = member_id)")
-    private Long numberOfInquiries;
+    private long numberOfInquiries;
 
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")

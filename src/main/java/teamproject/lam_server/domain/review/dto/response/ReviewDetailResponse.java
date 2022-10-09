@@ -6,6 +6,7 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.entity.Review;
 
 import static teamproject.lam_server.util.DateTimeUtil.calcTimeBefore;
+import static teamproject.lam_server.util.NumberUtil.countFormat;
 
 @Getter
 @Builder
@@ -16,7 +17,7 @@ public class ReviewDetailResponse {
     private String content;
     private ReviewCategory category;
     private String elapsedTime;
-    private Long viewCount;
+    private String viewCount;
     // 회원 프로필, 댓글 정보..
 
     public static ReviewDetailResponse of(Review review) {
@@ -27,7 +28,7 @@ public class ReviewDetailResponse {
                 .category(review.getCategory())
                 .writer(review.getMember().getNickname())
                 .elapsedTime(calcTimeBefore(review.getCreatedDate()))
-                .viewCount(review.getViewCount())
+                .viewCount(countFormat(review.getViewCount()))
                 .build();
     }
 }

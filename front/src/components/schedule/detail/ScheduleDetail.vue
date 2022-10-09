@@ -4,7 +4,7 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
 import { Reading, Paperclip, Money, Clock } from "@element-plus/icons-vue";
 import { useSchedule } from "@/composables/schedule/schedule";
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useInteraction } from "@/composables/interaction/interaction";
 
 const { type, currentSchedule, currScheduleContents, contentCollapse } =
@@ -18,11 +18,8 @@ onMounted(async () => {
 
 const clickHeart = async () => {
   await reactContent(type, currentSchedule.value.id)
-    .then(() => {
-      isLiked.value
-        ? currentSchedule.value.likes--
-        : currentSchedule.value.likes++;
-      changeLikeState();
+    .then(async () => {
+      await changeLikeState();
     })
     .catch((error) => {
       console.log(error);
@@ -52,7 +49,7 @@ const clickHeart = async () => {
         @click="clickHeart"
       />
       <span class="likes">
-        {{ currentSchedule.likes }}
+        {{ currentSchedule.numberOfLikes }}
       </span>
     </div>
     <SimpleScheduleCard />

@@ -36,19 +36,20 @@ public class Schedule extends BaseEntity {
     private String title;
     @Enumerated(EnumType.STRING)
     private CityName cityName;
-    private int viewCount;
+    private long viewCount;
     private Boolean publicFlag;
     @Embedded
     private Period period;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
     @Formula("(select count(1) from schedule_like sl where sl.to_schedule_id = schedule_id)")
-    private int likeCount;
+    private long likeCount;
     @Formula("(select ifnull(sum(sc.cost),0) from schedule_content sc where sc.schedule_id = schedule_id)")
-    private int totalCost;
+    private long totalCost;
     @Formula("(select count(1) from schedule_comment sc where sc.schedule_id = schedule_id and sc.parent_comment_id is null)")
-    private int commentCount;
+    private long commentCount;
 
     @Builder
     public Schedule(String title, Boolean publicFlag, Member member, CityName cityName, Period period) {
@@ -56,8 +57,6 @@ public class Schedule extends BaseEntity {
         this.cityName = cityName;
         this.publicFlag = publicFlag;
         this.viewCount = 0;
-        this.likeCount = 0;
-        this.totalCost = 0;
         this.period = period;
         setUpMember(member);
     }

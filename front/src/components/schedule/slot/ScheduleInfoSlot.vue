@@ -57,13 +57,13 @@ const rowClass = "d-flex justify-content-start";
       <div class="view me-4">
         <slot name="view-title"></slot>
         <span class="ms-1`">
-          {{ schedule.hits }}
+          {{ schedule.numberOfHits }}
         </span>
       </div>
-      <div class="view me-4" v-if="showLikes">
+      <div v-if="showLikes" class="view me-4">
         <slot name="like-title"></slot>
         <span class="ms-1">
-          {{ schedule.likes }}
+          {{ schedule.numberOfLikes }}
         </span>
       </div>
     </el-row>

@@ -24,8 +24,8 @@ export interface CommentType {
   profile: CommentProfileType;
   commentReplies: CommentType[];
   elapsedTime: string;
-  likes: number;
-  dislikes: number;
+  numberOfLikes: number;
+  numberOfDislikes: number;
 }
 
 export interface CommentProfileType {

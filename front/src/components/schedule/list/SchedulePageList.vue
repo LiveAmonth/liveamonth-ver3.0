@@ -56,10 +56,10 @@ const goSchedule = (data: SearchEngineFormType) => {
                   {{ schedule.comment.comment }}
                 </template>
                 <template v-slot:likeCount>
-                  {{ schedule.comment.likes }}
+                  {{ schedule.comment.numberOfLikes }}
                 </template>
                 <template v-slot:dislikeCount>
-                  {{ schedule.comment.dislikes }}
+                  {{ schedule.comment.numberOfDislikes }}
                 </template>
               </CommentSlot>
             </el-card>

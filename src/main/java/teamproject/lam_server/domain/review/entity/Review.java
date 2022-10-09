@@ -34,22 +34,22 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ReviewCategory category;
     private String content;
-    private Long viewCount;
+    private long viewCount;
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ElementCollection
     @CollectionTable(name = "review_tag", joinColumns =
-        @JoinColumn(name = "review_id")
+    @JoinColumn(name = "review_id")
     )
     @Column(name = "tag_name")
     private Set<String> tags = new HashSet<>();
 
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
-    private int likeCount;
+    private long likeCount;
     @Formula("(select count(1) from review_comment rc where rc.review_id = review_id)")
-    private int commentCount;
+    private long commentCount;
 
     @Builder
     public Review(ReviewCategory category, String title, String content, Member member, Set<String> tags) {

@@ -5,16 +5,18 @@ import lombok.Getter;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.util.DateTimeUtil;
 
+import static teamproject.lam_server.util.NumberUtil.countFormat;
+
 @Getter
 @Builder
 public class ReviewListResponse {
 
-    private final Long id;
-    private final String writer;
-    private final String title;
-    private final String content;
-    private final String elapsedTime;
-    private final Long viewCount;
+    private Long id;
+    private String writer;
+    private String title;
+    private String content;
+    private String elapsedTime;
+    private String viewCount;
 
     public static ReviewListResponse of(Review review) {
         return ReviewListResponse.builder()
@@ -22,7 +24,7 @@ public class ReviewListResponse {
                 .title(review.getTitle())
                 .writer(review.getMember().getNickname())
                 .content(review.getContent())
-                .viewCount(review.getViewCount())
+                .viewCount(countFormat(review.getViewCount()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(review.getCreatedDate()))
                 .build();
     }
