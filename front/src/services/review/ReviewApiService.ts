@@ -79,7 +79,7 @@ class ReviewApiService {
   }
 
   async getReviews(request: ReviewSearchCond, pageable: PageableRequestType) {
-    console.log(request.getSearchData());
+    console.log(request);
     return await http
       .get(
         `/reviews/search?page=${pageable.page - 1}&size=${pageable.size}&sort=${

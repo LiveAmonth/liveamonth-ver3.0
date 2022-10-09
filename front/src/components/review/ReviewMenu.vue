@@ -13,11 +13,12 @@ defineProps({
 });
 
 const router = useRouter();
-const { getReviewMenu } = useReview();
+const { request, getReviewMenu } = useReview();
 const { reviewMenuGroup } = useCategory();
 const { menuMsg } = useMessageBox();
 const selectMenu = (key: string) => {
-  router.push({ name: "review-list", params: { menu: key } });
+  request.value.tags = [];
+  router.replace({ name: "review-list", params: { menu: key } });
 };
 const reviewMenu = ref([
   getReviewMenu(reviewMenuGroup.value[0], "Place"),

@@ -1,8 +1,3 @@
-import type {
-  SearchCondType,
-  SearchEngineFormType,
-} from "@/modules/types/common/SearchType";
-
 /**
  * requests
  */
@@ -28,7 +23,7 @@ export interface ReviewListType {
 /**
  * form & editor
  */
-export class ReviewSearchCond implements SearchCondType<ReviewSearchType> {
+export class ReviewSearchCond {
   searchWord: string | null;
   tags: string[];
   type: string;
@@ -50,7 +45,9 @@ export class ReviewSearchCond implements SearchCondType<ReviewSearchType> {
     };
   }
 
-  setAttr(form: SearchEngineFormType): void {
-    console.log(form);
+  setAttr(input: string, tags: string[], type: string): void {
+    this.category = type != "TOTAL" ? type : "";
+    this.searchWord = input;
+    this.tags = tags;
   }
 }
