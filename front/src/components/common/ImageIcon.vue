@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 defineProps({
   width: {
     type: Number,
@@ -12,18 +12,23 @@ defineProps({
     type: String,
     required: true,
   },
+  disable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 </script>
 
 <template>
   <el-image
     :src="url"
-    :style="{ height: `${height}px`, width: `${width}px` }"
+    :style="{
+      height: `${height}px`,
+      width: `${width}px`,
+      cursor: `${disable ? 'auto' : 'pointer'}`,
+    }"
   />
 </template>
 
-<style scoped lang="scss">
-.el-image {
-  cursor: pointer;
-}
-</style>
+<style lang="scss" scoped></style>

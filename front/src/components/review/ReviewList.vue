@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import ImageIcon from "@/components/common/ImageIcon.vue";
+import { View } from "@element-plus/icons-vue";
 import { useReview } from "@/composables/review/review";
 
 const { otherReviews } = useReview();
@@ -8,7 +9,7 @@ const { otherReviews } = useReview();
 <template>
   <ul>
     <li v-for="review in otherReviews" :key="review.id">
-      <el-row class="review-item px-3" :gutter="10">
+      <el-row :gutter="10" class="review-item px-3">
         <el-col :span="20" class="review">
           <div class="title">
             <router-link
@@ -27,24 +28,31 @@ const { otherReviews } = useReview();
             <div class="regDate">
               {{ review.elapsedTime }}
             </div>
+            <div class="views">
+              <el-icon class="me-1">
+                <View />
+              </el-icon>
+              {{ review.numberOfHits }}
+            </div>
           </div>
         </el-col>
         <el-col :span="2" class="comment-like">
           <div class="comment-count">
             <span class="count">
-              {{ review.viewCount }}
+              {{ review.numberOfComments }}
             </span>
             <span class="label"> 댓글 </span>
           </div>
           <div class="like-count">
             <ImageIcon
-              :height="30"
+              :disable="true"
+              :height="20"
               :url="`/src/assets/image/icon/love-fill.png`"
-              :width="30"
-              class="ms-2"
+              :width="20"
+              class="me-1"
             />
             <span class="likes">
-              {{ review.viewCount }}
+              {{ review.numberOfLikes }}
             </span>
           </div>
         </el-col>
@@ -54,19 +62,21 @@ const { otherReviews } = useReview();
   </ul>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 ul {
   list-style: none;
   padding: 0;
 
   li {
     margin-bottom: 2rem;
+
     &:last-child {
       margin-bottom: 0;
     }
 
     .review {
       margin-right: 40px;
+
       .title {
         margin-bottom: 15px;
         font-size: 1.3rem;
@@ -78,10 +88,6 @@ ul {
           .view-count {
             font-size: 1rem;
           }
-        }
-
-        &:hover {
-          text-decoration: underline;
         }
       }
 
@@ -99,12 +105,21 @@ ul {
           margin-left: 10px;
           color: #6b6b6b;
         }
+
+        .views {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-left: 10px;
+          color: #6b6b6b;
+        }
       }
     }
 
     .comment-like {
       display: flex;
       flex-direction: column;
+      align-items: center;
 
       .comment-count {
         margin-bottom: 10px;
@@ -114,7 +129,7 @@ ul {
         text-align: center;
         justify-content: center;
         flex-direction: column;
-        border: #acacac 1px solid;
+        border: #dcdfe6 1px solid;
         border-radius: 50%;
       }
 
