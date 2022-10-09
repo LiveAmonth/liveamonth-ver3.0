@@ -27,7 +27,7 @@ public class InitScheduleService {
     @Transactional
     public void initScheduleData() {
         String query = "insert into schedule" +
-                " (created_date, last_modified_date, created_by, last_modified_by, city_name, end_date, start_date, public_flag, title, view_count, member_id) " +
+                " (created_date, last_modified_date, created_by, last_modified_by, city_name, end_date, start_date, public_flag, title, number_of_hits, member_id) " +
                 "VALUES (now(), now(), :created_by, :last_modified_by, :city_name, :end_date, :start_date, :public_flag, :title, 0, :member_id)";
         List<ScheduleCreate> requests = JsonUtil.jsonArrayToList(SCHEDULE, ScheduleCreate.class);
         for (ScheduleCreate request : requests) {
