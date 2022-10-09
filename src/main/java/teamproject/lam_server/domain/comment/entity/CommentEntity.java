@@ -27,12 +27,12 @@ public abstract class CommentEntity extends BaseEntity {
     protected String comment;
 
 
-    public CommentEditor.CommentEditorBuilder toEditor(){
+    public CommentEditor.CommentEditorBuilder toEditor() {
         return CommentEditor.builder()
                 .comment(comment);
     }
 
-    public void edit(CommentEditor editor){
+    public void edit(CommentEditor editor) {
         comment = editor.getComment();
     }
 
@@ -40,8 +40,9 @@ public abstract class CommentEntity extends BaseEntity {
 
     public abstract CommentEntity getParent();
 
-    public abstract int getLikeCount();
-    public abstract int getDislikeCount();
+    public abstract int getNumberOfLikes();
+
+    public abstract int getNumberOfDislikes();
 
     public abstract List<? extends CommentEntity> getChildren();
 }

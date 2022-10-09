@@ -180,7 +180,7 @@ class ScheduleRepositoryTest {
         List<Schedule> allSchedules = scheduleRepository.findAll();
         List<Schedule> scheduleSortByStream1 = allSchedules.stream()
                 .sorted(
-                        Comparator.comparing(Schedule::getLikeCount, Comparator.reverseOrder())
+                        Comparator.comparing(Schedule::getNumberOfLikes, Comparator.reverseOrder())
                                 .thenComparing(Schedule::getId, Comparator.reverseOrder())
                 )
 
@@ -193,8 +193,8 @@ class ScheduleRepositoryTest {
             Schedule prevSchedule = searchSchedule.get(i);
             Schedule nextSchedule = searchSchedule.get(i + 1);
 
-            if (prevSchedule.getLikeCount() != nextSchedule.getLikeCount()) {
-                assertThat(prevSchedule.getLikeCount()).isGreaterThan(nextSchedule.getLikeCount());
+            if (prevSchedule.getNumberOfLikes() != nextSchedule.getNumberOfLikes()) {
+                assertThat(prevSchedule.getNumberOfLikes()).isGreaterThan(nextSchedule.getNumberOfLikes());
             } else {
                 assertThat(prevSchedule.getId()).isGreaterThan(nextSchedule.getId());
             }
@@ -202,9 +202,10 @@ class ScheduleRepositoryTest {
         }
         // 자바 스트림으로 정렬한 결과와 같은지 확인
         for (int i = 0; i < size; i++) {
-            assertThat(searchSchedule.get(i).getLikeCount()).isEqualTo(scheduleSortByStream1.get(i).getLikeCount());
+            assertThat(searchSchedule.get(i).getNumberOfLikes()).isEqualTo(scheduleSortByStream1.get(i).getNumberOfLikes());
         }
     }
+
     @Test
     @DisplayName("스케줄 검색(조회수 많은 순) / 조회수가 같은 경우 최신 스케줄 우선 정렬")
     void test_4() {
@@ -230,7 +231,7 @@ class ScheduleRepositoryTest {
         List<Schedule> allSchedules = scheduleRepository.findAll();
         List<Schedule> scheduleSortByStream1 = allSchedules.stream()
                 .sorted(
-                        Comparator.comparing(Schedule::getViewCount, Comparator.reverseOrder())
+                        Comparator.comparing(Schedule::getNumberOfHits, Comparator.reverseOrder())
                                 .thenComparing(Schedule::getId, Comparator.reverseOrder())
                 )
 
@@ -243,8 +244,8 @@ class ScheduleRepositoryTest {
             Schedule prevSchedule = searchSchedule.get(i);
             Schedule nextSchedule = searchSchedule.get(i + 1);
 
-            if (prevSchedule.getLikeCount() != nextSchedule.getLikeCount()) {
-                assertThat(prevSchedule.getViewCount()).isGreaterThan(nextSchedule.getViewCount());
+            if (prevSchedule.getNumberOfLikes() != nextSchedule.getNumberOfLikes()) {
+                assertThat(prevSchedule.getNumberOfHits()).isGreaterThan(nextSchedule.getNumberOfHits());
             } else {
                 assertThat(prevSchedule.getId()).isGreaterThan(nextSchedule.getId());
             }
@@ -252,7 +253,7 @@ class ScheduleRepositoryTest {
         }
         // 자바 스트림으로 정렬한 결과와 같은지 확인
         for (int i = 0; i < size; i++) {
-            assertThat(searchSchedule.get(i).getViewCount()).isEqualTo(scheduleSortByStream1.get(i).getViewCount());
+            assertThat(searchSchedule.get(i).getNumberOfHits()).isEqualTo(scheduleSortByStream1.get(i).getNumberOfHits());
         }
     }
 

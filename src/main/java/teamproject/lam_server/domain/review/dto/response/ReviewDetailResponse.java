@@ -17,7 +17,7 @@ public class ReviewDetailResponse {
     private String content;
     private ReviewCategory category;
     private String elapsedTime;
-    private String viewCount;
+    private String numberOfHits;
     // 회원 프로필, 댓글 정보..
 
     public static ReviewDetailResponse of(Review review) {
@@ -28,7 +28,7 @@ public class ReviewDetailResponse {
                 .category(review.getCategory())
                 .writer(review.getMember().getNickname())
                 .elapsedTime(calcTimeBefore(review.getCreatedDate()))
-                .viewCount(countFormat(review.getViewCount()))
+                .numberOfHits(countFormat(review.getNumberOfHits()))
                 .build();
     }
 }

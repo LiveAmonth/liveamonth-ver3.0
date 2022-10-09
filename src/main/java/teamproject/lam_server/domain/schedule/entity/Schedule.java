@@ -36,7 +36,7 @@ public class Schedule extends BaseEntity {
     private String title;
     @Enumerated(EnumType.STRING)
     private CityName cityName;
-    private long viewCount;
+    private long numberOfHits;
     private Boolean publicFlag;
     @Embedded
     private Period period;
@@ -45,18 +45,18 @@ public class Schedule extends BaseEntity {
     private Member member;
 
     @Formula("(select count(1) from schedule_like sl where sl.to_schedule_id = schedule_id)")
-    private long likeCount;
+    private long numberOfLikes;
     @Formula("(select ifnull(sum(sc.cost),0) from schedule_content sc where sc.schedule_id = schedule_id)")
     private long totalCost;
     @Formula("(select count(1) from schedule_comment sc where sc.schedule_id = schedule_id and sc.parent_comment_id is null)")
-    private long commentCount;
+    private long numberOfComments;
 
     @Builder
     public Schedule(String title, Boolean publicFlag, Member member, CityName cityName, Period period) {
         this.title = title;
         this.cityName = cityName;
         this.publicFlag = publicFlag;
-        this.viewCount = 0;
+        this.numberOfHits = 0;
         this.period = period;
         setUpMember(member);
     }
