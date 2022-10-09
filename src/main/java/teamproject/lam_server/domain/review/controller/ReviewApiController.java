@@ -45,8 +45,6 @@ public class ReviewApiController {
 
     @GetMapping("/search")
     public ResponseEntity<?> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
-        log.info("cond={}", cond.toString());
-        log.info("pageable={}", pageableDTO.toString());
         CustomPage<ReviewListResponse> result = reviewService.search(cond, pageableDTO);
         return CustomResponse.success(READ_REVIEW, result);
     }

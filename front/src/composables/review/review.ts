@@ -24,9 +24,9 @@ export const useReview = () => {
   const reviewPage = computed((): PageableType => store.reviewPage);
   const otherReviews = computed((): ReviewListType[] => store.otherReviews);
 
-  const cityReviewTabs: string[] = ["total"];
+  const cityReviewTabs: string[] = ["TOTAL"];
   cityNames.value.forEach((value) =>
-    cityReviewTabs.push(value.code.toLowerCase())
+    cityReviewTabs.push(`${value.code}_REVIEW`)
   );
 
   const getReviewMenu = (

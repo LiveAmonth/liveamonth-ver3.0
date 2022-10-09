@@ -23,6 +23,12 @@ const {
 } = useSearch();
 const { buttonMsg } = useMessageBox();
 const input = ref<string>();
+
+const clear = () => {
+  input.value = "";
+  clearTags();
+};
+
 const submitForm = () => {
   emits("applyOption", input.value, dynamicTags.value);
 };
@@ -77,7 +83,7 @@ const submitForm = () => {
         </el-button>
       </el-col>
       <el-col :span="3">
-        <el-button size="large" @click="clearTags" text>
+        <el-button size="large" @click="clear" text>
           <el-icon>
             <Refresh />
           </el-icon>

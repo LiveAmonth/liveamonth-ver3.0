@@ -1,8 +1,10 @@
 import { nextTick, ref } from "vue";
 import type { ElInput } from "element-plus";
+import { useReview } from "@/composables/review/review";
 
 export const useSearch = () => {
-  const dynamicTags = ref<string[]>([]);
+  const { request } = useReview();
+  const dynamicTags = ref<string[]>(request.value.tags);
   const tagInput = ref<string>("");
   const tagInputVisible = ref(false);
   const InputRef = ref<InstanceType<typeof ElInput>>();
@@ -38,6 +40,7 @@ export const useSearch = () => {
   };
 
   const clearTags = () => {
+    request.value.tags = [];
     dynamicTags.value = [];
   };
 

@@ -48,20 +48,16 @@ const applyOptions = async (data: SearchEngineFormType) => {
 </script>
 
 <template>
-  <el-row>
-    <el-col>
-      <div v-if="!isMain" class="search-filter">
-        <ScheduleSearchEngine @apply-option="applyOptions" />
-      </div>
-      <div class="schedule-list-container">
-        <el-row>
-          <el-col v-if="!isPending">
-            <SchedulePageList @apply-option="applyOptions" />
-          </el-col>
-        </el-row>
-      </div>
-    </el-col>
-  </el-row>
+  <div v-if="!isMain" class="search-filter">
+    <ScheduleSearchEngine @apply-option="applyOptions" />
+  </div>
+  <div class="schedule-list-container">
+    <el-row>
+      <el-col v-if="!isPending">
+        <SchedulePageList @apply-option="applyOptions" />
+      </el-col>
+    </el-row>
+  </div>
   <CustomPagination
     v-if="!isMain"
     :pagination-type="category"

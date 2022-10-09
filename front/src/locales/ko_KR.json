@@ -443,12 +443,12 @@
     },
     "review": {
       "total": "전체",
-      "se": "서울",
-      "gn": "강릉",
-      "gj": "경주",
-      "bs": "부산",
-      "ys": "여수",
-      "jj": "제주"
+      "se_review": "서울",
+      "gn_review": "강릉",
+      "gj_review": "경주",
+      "bs_review": "부산",
+      "ys_review": "여수",
+      "jj_review": "제주"
     }
   },
   "title": {
