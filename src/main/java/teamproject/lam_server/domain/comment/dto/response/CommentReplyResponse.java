@@ -5,8 +5,6 @@ import lombok.Getter;
 import teamproject.lam_server.domain.comment.entity.CommentEntity;
 import teamproject.lam_server.util.DateTimeUtil;
 
-import static teamproject.lam_server.util.NumberUtil.countFormat;
-
 @Getter
 @Builder
 public class CommentReplyResponse {
@@ -16,8 +14,8 @@ public class CommentReplyResponse {
     private String comment;
     private CommentProfileResponse profile;
     private String elapsedTime;
-    private String numberOfLikes;
-    private String numberOfDislikes;
+    private long numberOfLikes;
+    private long numberOfDislikes;
 
     public static <T extends CommentEntity> CommentReplyResponse of(T comment) {
         return CommentReplyResponse.builder()
@@ -26,8 +24,8 @@ public class CommentReplyResponse {
                 .comment(comment.getComment())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                .numberOfLikes(countFormat(comment.getNumberOfLikes()))
-                .numberOfDislikes(countFormat(comment.getNumberOfDislikes()))
+                .numberOfLikes(comment.getNumberOfLikes())
+                .numberOfDislikes(comment.getNumberOfDislikes())
                 .build();
     }
 }

@@ -9,8 +9,6 @@ import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.global.dto.response.PeriodResponse;
 
-import static teamproject.lam_server.util.NumberUtil.countFormat;
-
 @Getter
 @Builder
 public class ScheduleCardResponse {
@@ -20,9 +18,9 @@ public class ScheduleCardResponse {
     private CityName city;
     private SimpleProfileResponse profile;
     private long cost;
-    private String numberOfHits;
-    private String numberOfLikes;
-    private String numberOfComments;
+    private long numberOfHits;
+    private long numberOfLikes;
+    private long numberOfComments;
     private PeriodResponse period;
     private boolean publicFlag;
     private CommentResponse comment;
@@ -34,9 +32,9 @@ public class ScheduleCardResponse {
                 .title(schedule.getTitle())
                 .cost(schedule.getTotalCost())
                 .city(schedule.getCityName())
-                .numberOfHits(countFormat(schedule.getNumberOfHits()))
-                .numberOfLikes(countFormat(schedule.getNumberOfLikes()))
-                .numberOfComments(countFormat(schedule.getNumberOfComments()))
+                .numberOfHits(schedule.getNumberOfHits())
+                .numberOfLikes(schedule.getNumberOfLikes())
+                .numberOfComments(schedule.getNumberOfComments())
                 .period(PeriodResponse.of(schedule.getPeriod()))
                 .publicFlag(schedule.getPublicFlag())
                 .comment(comment)
