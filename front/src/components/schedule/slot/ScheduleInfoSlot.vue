@@ -42,7 +42,7 @@ const rowClass = "d-flex justify-content-start";
     <el-row :class="isMyPage ? 'mb-3' : 'mb-2'">
       <el-row :class="rowClass">
         <slot name="cost-title"></slot>
-        <span class="value"> {{ $filters.makeComma(schedule.cost) }}원 </span>
+        <span class="value"> {{ $won(schedule.cost) }} </span>
       </el-row>
     </el-row>
     <el-row :class="isMyPage ? 'mb-3' : 'mb-2'">
@@ -57,13 +57,13 @@ const rowClass = "d-flex justify-content-start";
       <div class="view me-4">
         <slot name="view-title"></slot>
         <span class="ms-1`">
-          {{ schedule.numberOfHits }}
+          {{ $count(schedule.numberOfHits) }}
         </span>
       </div>
       <div v-if="showLikes" class="view me-4">
         <slot name="like-title"></slot>
         <span class="ms-1">
-          {{ schedule.numberOfLikes }}
+          {{ $count(schedule.numberOfLikes) }}
         </span>
       </div>
     </el-row>
