@@ -49,7 +49,7 @@ const clickHeart = async () => {
         @click="clickHeart"
       />
       <span class="likes">
-        {{ currentSchedule.numberOfLikes }}
+        {{ $count(currentSchedule.numberOfLikes) }}
       </span>
     </div>
     <SimpleScheduleCard />

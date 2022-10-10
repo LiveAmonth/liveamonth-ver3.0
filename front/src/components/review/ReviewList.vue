@@ -32,14 +32,14 @@ const { otherReviews } = useReview();
               <el-icon class="me-1">
                 <View />
               </el-icon>
-              {{ review.numberOfHits }}
+              {{ $comma(review.numberOfHits) }}
             </div>
           </div>
         </el-col>
         <el-col :span="2" class="comment-like">
           <div class="comment-count">
             <span class="count">
-              {{ review.numberOfComments }}
+              {{ $count(review.numberOfComments) }}
             </span>
             <span class="label"> 댓글 </span>
           </div>
@@ -52,7 +52,7 @@ const { otherReviews } = useReview();
               class="me-1"
             />
             <span class="likes">
-              {{ review.numberOfLikes }}
+              {{ $count(review.numberOfLikes) }}
             </span>
           </div>
         </el-col>

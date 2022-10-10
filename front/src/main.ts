@@ -20,6 +20,7 @@ import i18n from "@/i18n";
 import VCalender from "v-calendar";
 import "v-calendar/dist/style.css";
 
+import { numberFormat } from "@/global/global";
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
@@ -34,9 +35,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 app.use(router);
 app.use(i18n);
-app.config.globalProperties.$filters = {
-  makeComma(value: number) {
-    return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  },
-};
+app.config.globalProperties.$comma = numberFormat.comma;
+app.config.globalProperties.$count = numberFormat.count;
+app.config.globalProperties.$won = numberFormat.won;
 app.mount("#app");

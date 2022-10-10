@@ -17,9 +17,9 @@ export interface ReviewListType {
   title: string;
   content: string;
   elapsedTime: string;
-  numberOfHits: string;
-  numberOfLikes: string;
-  numberOfComments: string;
+  numberOfHits: number;
+  numberOfLikes: number;
+  numberOfComments: number;
 }
 
 /**
