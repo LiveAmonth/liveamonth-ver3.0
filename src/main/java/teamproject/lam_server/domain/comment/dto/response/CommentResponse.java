@@ -9,8 +9,6 @@ import teamproject.lam_server.util.DateTimeUtil;
 import java.util.Collections;
 import java.util.List;
 
-import static teamproject.lam_server.util.NumberUtil.countFormat;
-
 @Getter
 @Builder
 public class CommentResponse {
@@ -21,8 +19,8 @@ public class CommentResponse {
     private CommentProfileResponse profile;
     private List<CommentResponse> commentReplies;
     private String elapsedTime;
-    private String numberOfLikes;
-    private String numberOfDislikes;
+    private long numberOfLikes;
+    private long numberOfDislikes;
 
     public static <T extends CommentEntity> CommentResponse.CommentResponseBuilder of(T comment) {
         return CommentResponse.builder()
@@ -30,8 +28,8 @@ public class CommentResponse {
                 .comment(comment.getComment())
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                .numberOfLikes(countFormat(comment.getNumberOfLikes()))
-                .numberOfDislikes(countFormat(comment.getNumberOfDislikes()));
+                .numberOfLikes(comment.getNumberOfLikes())
+                .numberOfDislikes(comment.getNumberOfDislikes());
     }
 
     public static <T extends CommentEntity> CommentResponse ofReply(Long parentId, T comment) {
@@ -41,8 +39,8 @@ public class CommentResponse {
                 .parentId(parentId)
                 .profile(CommentProfileResponse.of(comment.getMember()))
                 .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                .numberOfLikes(countFormat(comment.getNumberOfLikes()))
-                .numberOfDislikes(countFormat(comment.getNumberOfDislikes()))
+                .numberOfLikes(comment.getNumberOfLikes())
+                .numberOfDislikes(comment.getNumberOfDislikes())
                 .commentReplies(Collections.emptyList())
                 .build();
     }
@@ -54,8 +52,8 @@ public class CommentResponse {
                     .comment(comment.getComment())
                     .profile(CommentProfileResponse.of(comment.getMember()))
                     .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                    .numberOfLikes(countFormat(comment.getNumberOfLikes()))
-                    .numberOfDislikes(countFormat(comment.getNumberOfDislikes()))
+                    .numberOfLikes(comment.getNumberOfLikes())
+                    .numberOfDislikes(comment.getNumberOfDislikes())
                     .commentReplies(Collections.emptyList())
                     .build();
         }
