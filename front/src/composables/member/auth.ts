@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { useAuthStore } from "@/stores/member/auth";
-import type { LoginType } from "@/modules/types/form/FormType";
+import type { LoginType } from "@/modules/types/member/MemberTypes";
 import router from "@/router";
 
 export const useAuth = () => {

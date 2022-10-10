@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from "vue";
 import { Search, Filter, Sort } from "@element-plus/icons-vue";
 import { useDate } from "@/composables/common/date";
 import { useCategory } from "@/composables/common/category";
-import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
+import type { SearchEngineFormType } from "@/modules/types/common/SearchEngineTypes";
 
 const emit = defineEmits(["applyOption"]);
 const { getDate } = useDate();

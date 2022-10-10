@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import LogoIcon from "@/components/image/LogoIcon.vue";
-import FindPwForm from "@/components/form/FindPwForm.vue";
-import FindPwResult from "@/components/form/FindPwResult.vue";
+import FindPwForm from "@/components/member/account/FindPwForm.vue";
+import FindPwResult from "@/components/member/account/FindPwResult.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
 import { ref } from "vue";
 

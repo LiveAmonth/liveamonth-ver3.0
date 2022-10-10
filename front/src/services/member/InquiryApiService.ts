@@ -1,9 +1,13 @@
 import http from "@/http-common";
-import type InquiryEditor from "@/modules/class/member/InquiryEditor";
-import type { PageableRequestType } from "@/modules/types/common/PageableType";
-import type { PageableResponseType } from "@/modules/types/common/PageableType";
-import type { EnumType } from "@/modules/types/common/EnumType";
-import type { InquiryType } from "@/modules/types/member/MemberType";
+import type {
+  PageableRequestType,
+  PageableResponseType,
+} from "@/modules/types/pagination/PaginationTypes";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
+import type {
+  InquiryType,
+  InquiryEditor,
+} from "@/modules/types/member/MemberTypes";
 
 class InquiryApiService {
   async getInquiryCategory(): Promise<EnumType[]> {
@@ -19,7 +23,7 @@ class InquiryApiService {
 
   async writeInquiry(editor: InquiryEditor): Promise<string> {
     return await http
-      .post("/inquiries", JSON.stringify(editor.getRequest()))
+      .post("/inquiries", JSON.stringify(editor.getCreateData()))
       .then((response) => {
         return response.data;
       })
@@ -54,7 +58,7 @@ class InquiryApiService {
 
   async editInquiry(id: number, editor: InquiryEditor): Promise<string> {
     return await http
-      .patch(`/inquiries/${id}`, JSON.stringify(editor.getRequest()))
+      .patch(`/inquiries/${id}`, JSON.stringify(editor.getEditData()))
       .then((response) => {
         return response.data;
       })

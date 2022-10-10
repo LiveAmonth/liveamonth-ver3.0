@@ -1,11 +1,11 @@
 import { computed, ref } from "vue";
 import { useCityStore } from "@/stores/city/city";
-import type { CityCardType } from "@/modules/types/city/CityType";
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
+import type { CityCardType } from "@/modules/types/city/CityTypes";
+import type { ImageContentType } from "@/modules/types/common/CommonTypes";
 import type {
   CityTransportType,
   CityWeatherType,
-} from "@/modules/types/city/CityType";
+} from "@/modules/types/city/CityTypes";
 
 export const useCity = () => {
   const store = useCityStore();

@@ -1,5 +1,5 @@
 import http from "@/http-common";
-import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
 import type { CommentEditor } from "@/modules/types/comment/CommentTypes";
 
 class CommentApiService {
@@ -7,7 +7,7 @@ class CommentApiService {
     return await http
       .post(
         `/comments/${type}/${request.contentId}`,
-        JSON.stringify(request.getCreateDate())
+        JSON.stringify(request.getCreateData())
       )
       .then((response) => {
         return response.data.data;
@@ -21,7 +21,7 @@ class CommentApiService {
     return await http
       .patch(
         `/comments/${type}/${commentId}`,
-        JSON.stringify(request.getEditDate())
+        JSON.stringify(request.getEditData())
       )
       .then((response) => {
         return response.data.data;

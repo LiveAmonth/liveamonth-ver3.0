@@ -5,7 +5,7 @@ import { useMyPage } from "@/composables/member/mypage";
 import type {
   CategoryMenuType,
   MyPageMenuType,
-} from "@/modules/types/common/MenuType";
+} from "@/modules/types/common/MenuTypes";
 
 const props = defineProps({
   menu: {

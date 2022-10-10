@@ -8,7 +8,7 @@ import type {
   PageableRequestType,
   PageableResponseType,
   PageableType,
-} from "@/modules/types/common/PageableType";
+} from "@/modules/types/pagination/PaginationTypes";
 
 export const useCommentStore = defineStore("comment", {
   state: () => ({

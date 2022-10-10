@@ -1,4 +1,4 @@
-import type { FormType } from "@/modules/types/form/FormType";
+import type { FormType } from "@/modules/types/common/CommonTypes";
 import type { FormRules } from "element-plus/es";
 import { useFormValidate } from "@/composables/common/formValidate";
 
@@ -72,14 +72,14 @@ export class CommentEditor implements CommentFormType {
     this.comment = data.comment;
   }
 
-  getCreateDate(): CommentCreateType {
+  getCreateData(): CommentCreateType {
     return {
       comment: this.comment,
       parentId: this.parentId,
     };
   }
 
-  getEditDate(): CommentEditType {
+  getEditData(): CommentEditType {
     return {
       comment: this.comment,
     };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
+import type { ImageContentType } from "@/modules/types/common/CommonTypes";
 
 defineProps({
   data: {

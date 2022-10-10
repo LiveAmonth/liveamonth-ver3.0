@@ -3,8 +3,8 @@ import { usePageableStore } from "@/stores/common/pagination";
 import type {
   PageableType,
   PageableRequestType,
-} from "@/modules/types/common/PageableType";
-import type Pagination from "@/modules/class/paginations/Pagination";
+  Pagination,
+} from "@/modules/types/pagination/PaginationTypes";
 
 export const usePagination = (type: string) => {
   const store = usePageableStore();

@@ -1,5 +1,5 @@
 import http from "@/http-common";
-import type { LoginType } from "@/modules/types/form/FormType";
+import type { LoginType } from "@/modules/types/member/MemberTypes";
 import type { TokenType } from "@/modules/types/auth/AuthType";
 
 class AuthApiService {

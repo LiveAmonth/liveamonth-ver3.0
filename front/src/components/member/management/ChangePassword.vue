@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
 import { reactive, ref } from "vue";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
 import { useAuth } from "@/composables/member/auth";
+import { ChangePasswordEditor } from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
 
 const { logoutBtn } = useAuth();

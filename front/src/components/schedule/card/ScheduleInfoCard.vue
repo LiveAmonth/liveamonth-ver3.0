@@ -9,7 +9,7 @@ import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
-import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
+import type { SearchEngineFormType } from "@/modules/types/common/SearchEngineTypes";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({

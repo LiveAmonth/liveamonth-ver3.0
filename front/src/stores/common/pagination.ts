@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
-import Pagination from "@/modules/class/paginations/Pagination";
+import { Pagination } from "@/modules/types/pagination/PaginationTypes";
 import type {
   PageableRequestType,
   PageableType,
-} from "@/modules/types/common/PageableType";
+} from "@/modules/types/pagination/PaginationTypes";
 
 export const usePageableStore = defineStore("pageable", {
   state: () => ({

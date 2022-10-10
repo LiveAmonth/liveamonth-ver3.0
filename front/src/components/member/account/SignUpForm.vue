@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import MemberEditor from "@/modules/class/member/MemberEditor";
 import { onMounted, reactive, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useRouter } from "vue-router";
 import { useCategory } from "@/composables/common/category";
 import type { FormInstance } from "element-plus";
-import type { SignUpCheckType } from "@/modules/types/form/FormType";
+import type { SignUpCheckType } from "@/modules/types/member/MemberTypes";
+import { MemberCreate } from "@/modules/types/member/MemberTypes";
 
 const router = useRouter();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
@@ -17,8 +17,8 @@ onMounted(async () => {
   await getGenderType();
 });
 
-const form = reactive<MemberEditor>(new MemberEditor());
-const checkForm = reactive<SignUpCheckType>(form.checkForm);
+const form = reactive(new MemberCreate()) as MemberCreate;
+const checkForm = reactive(form.checkForm) as SignUpCheckType;
 const ruleFormRef = ref<FormInstance>();
 
 const submitForm = async (formEl: FormInstance | undefined) => {

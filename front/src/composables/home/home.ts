@@ -2,7 +2,7 @@ import { useMember } from "@/composables/member/member";
 import { computed } from "vue";
 import { useMenuTab } from "@/composables/common/tabs";
 import { useAuth } from "@/composables/member/auth";
-import type { MenuType, NameIconType } from "@/modules/types/common/MenuType";
+import type { MenuType, NameIconType } from "@/modules/types/common/MenuTypes";
 
 export const useHome = () => {
   const { isLoggedIn } = useAuth();

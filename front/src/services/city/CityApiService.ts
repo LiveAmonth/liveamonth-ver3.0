@@ -1,9 +1,9 @@
 import http from "@/http-common";
-import type { EnumType } from "@/modules/types/common/EnumType";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
 import type {
   CityExtraType,
   CityIntroType,
-} from "@/modules/types/city/CityType";
+} from "@/modules/types/city/CityTypes";
 
 class CityApiService {
   async getCityNames(): Promise<EnumType[]> {

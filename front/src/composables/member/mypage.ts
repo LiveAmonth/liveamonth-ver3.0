@@ -8,12 +8,12 @@ import { useMenuTab } from "@/composables/common/tabs";
 import type {
   ProfileType,
   SimpleProfileType,
-} from "@/modules/types/member/MemberType";
+} from "@/modules/types/member/MemberTypes";
 import type {
   CategoryMenuType,
   MyPageMenuType,
   NameIconType,
-} from "@/modules/types/common/MenuType";
+} from "@/modules/types/common/MenuTypes";
 
 export const useMyPage = () => {
   const router = useRouter();

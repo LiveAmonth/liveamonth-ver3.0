@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { reactive } from "vue";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
-import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import type { ReconfirmType } from "@/modules/types/form/FormType";
 import { useFormValidate } from "@/composables/common/formValidate";
+import type { ReconfirmType } from "@/modules/types/member/MemberTypes";
 
 const emits = defineEmits(["update:reChecked"]);
 
@@ -18,6 +18,7 @@ const {
   resultMsg,
   titleMsg,
 } = useMessageBox();
+
 const reCheckForm = reactive<ReconfirmType>({
   password: "",
 });

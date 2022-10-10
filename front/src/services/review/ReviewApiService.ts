@@ -1,5 +1,5 @@
 import http, { getSortTypes, getSearchTypes } from "@/http-common";
-import type { PageableRequestType } from "@/modules/types/common/PageableType";
+import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
 import type { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
 
 class ReviewApiService {

@@ -5,15 +5,13 @@ import type {
   FindIdType,
   FindPwType,
   ReconfirmType,
-} from "@/modules/types/form/FormType";
-import type {
   FoundIdType,
   ProfileType,
   SimpleProfileType,
-} from "@/modules/types/member/MemberType";
-import type ProfileEditor from "@/modules/class/member/ProfileEditor";
-import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
-import type MemberEditor from "@/modules/class/member/MemberEditor";
+  ProfileEditor,
+  ChangePasswordEditor,
+  MemberCreate,
+} from "@/modules/types/member/MemberTypes";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
@@ -26,7 +24,7 @@ export const useMemberStore = defineStore("member", {
     isAvailable: (state): boolean => state.confirmForm.isAvailable,
   },
   actions: {
-    signUp: async function (request: MemberEditor) {
+    signUp: async function (request: MemberCreate) {
       await MemberApiService.signUp(request)
         .then((response: string) => {
           console.log(response);
@@ -106,8 +104,8 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
-    getMember: async function (param: string) {
-      await MemberApiService.getMember(param)
+    getMember: async function () {
+      await MemberApiService.getMember()
         .then((response: ProfileType) => {
           this.memberProfile = response;
         })
@@ -116,8 +114,8 @@ export const useMemberStore = defineStore("member", {
         });
     },
 
-    getSimpleProfile: async function (param: string) {
-      await MemberApiService.getSimpleProfile(param)
+    getSimpleProfile: async function () {
+      await MemberApiService.getSimpleProfile()
         .then((response: SimpleProfileType) => {
           this.simpleProfile = response;
         })

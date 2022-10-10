@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import LogoIcon from "@/components/image/LogoIcon.vue";
-import SignUpForm from "@/components/form/SignUpForm.vue";
+import SignUpForm from "@/components/member/account/SignUpForm.vue";
 </script>
 
 <template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { PropType } from "vue";
-import type { NameIconType } from "@/modules/types/common/MenuType";
+import type { NameIconType } from "@/modules/types/common/MenuTypes";
 
 const props = defineProps({
   tabs: {

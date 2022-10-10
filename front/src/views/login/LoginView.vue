@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import LoginForm from "@/components/form/LoginForm.vue";
+import LoginForm from "@/components/member/account/LoginForm.vue";
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
 </script>

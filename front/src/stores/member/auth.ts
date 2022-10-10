@@ -1,9 +1,9 @@
 import AuthApiService from "@/services/member/AuthApiService";
 import jwtDecode from "jwt-decode";
 import { defineStore } from "pinia";
-import type { LoginType } from "@/modules/types/form/FormType";
+import type { LoginType } from "@/modules/types/member/MemberTypes";
 import type { JWTType, TokenType } from "@/modules/types/auth/AuthType";
-import type { initDataType } from "@/modules/types/common/initDataType";
+import type { initDataType } from "@/modules/types/common/CommonTypes";
 
 const storageToken: TokenType = localStorage["token-info"]
   ? JSON.parse(localStorage["token-info"])

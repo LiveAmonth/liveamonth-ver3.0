@@ -12,7 +12,7 @@ import type {
 import type {
   PageableRequestType,
   PageableType,
-} from "@/modules/types/common/PageableType";
+} from "@/modules/types/pagination/PaginationTypes";
 
 export const useSchedule = () => {
   const store = useScheduleStore();

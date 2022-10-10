@@ -4,7 +4,7 @@ import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { useSchedule } from "@/composables/schedule/schedule";
-import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
+import type { SearchEngineFormType } from "@/modules/types/common/SearchEngineTypes";
 
 const emits = defineEmits(["applyOption"]);
 

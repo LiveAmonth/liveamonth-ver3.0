@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import ProfileEditor from "@/modules/class/member/ProfileEditor";
 import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
 import { useCategory } from "@/composables/common/category";
 import { reactive, ref } from "vue";
+import { ProfileEditor } from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
-import type { SignUpCheckType } from "@/modules/types/form/FormType";
+import type { SignUpCheckType } from "@/modules/types/member/MemberTypes";
 
 const { openMessageBox, labelMsg, buttonMsg, titleMsg, resultMsg } =
   useMessageBox();
@@ -21,10 +21,10 @@ const {
 } = useMember();
 const { genderType } = useCategory();
 
-const form = reactive<ProfileEditor>(new ProfileEditor(memberProfile.value));
-const checkForm = reactive<SignUpCheckType>(form.checkForm);
+const form = reactive(new ProfileEditor(memberProfile.value)) as ProfileEditor;
+const checkForm = reactive(form.checkForm) as SignUpCheckType;
 const ruleFormRef = ref<FormInstance>();
-const reChecked = ref(false);
+const reChecked = ref<boolean>(false);
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;

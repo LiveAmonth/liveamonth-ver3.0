@@ -1,19 +1,17 @@
 import http from "@/http-common";
-import type { EnumType } from "@/modules/types/common/EnumType";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
 import type {
   ConfirmFormType,
   FindIdType,
   FindPwType,
   ReconfirmType,
-} from "@/modules/types/form/FormType";
-import type {
   FoundIdType,
   ProfileType,
   SimpleProfileType,
-} from "@/modules/types/member/MemberType";
-import type ProfileEditor from "@/modules/class/member/ProfileEditor";
-import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
-import type MemberEditor from "@/modules/class/member/MemberEditor";
+  ChangePasswordEditor,
+  ProfileEditor,
+  MemberCreate,
+} from "@/modules/types/member/MemberTypes";
 
 class MemberApiService {
   async getGenderTypes(): Promise<EnumType[]> {
@@ -49,9 +47,9 @@ class MemberApiService {
       });
   }
 
-  async signUp(request: MemberEditor): Promise<string> {
+  async signUp(request: MemberCreate): Promise<string> {
     return await http
-      .post("/members/sign-up", JSON.stringify(request))
+      .post("/members/sign-up", JSON.stringify(request.getCreateData()))
       .then((response) => {
         return response.data;
       })
@@ -73,7 +71,7 @@ class MemberApiService {
 
   async changePassword(request: ChangePasswordEditor): Promise<string> {
     return await http
-      .patch(`/members/password`, JSON.stringify(request.getRequest()))
+      .patch(`/members/password`, JSON.stringify(request.getEditData()))
       .then((response) => {
         return response.data;
       })
@@ -93,13 +91,9 @@ class MemberApiService {
       });
   }
 
-  async getMember(request: string): Promise<ProfileType> {
+  async getMember(): Promise<ProfileType> {
     return await http
-      .get("/members/profile/", {
-        headers: {
-          Authorization: request,
-        },
-      })
+      .get("/members/profile/")
       .then((response) => {
         return response.data.data;
       })
@@ -108,13 +102,9 @@ class MemberApiService {
       });
   }
 
-  async getSimpleProfile(request: string): Promise<SimpleProfileType> {
+  async getSimpleProfile(): Promise<SimpleProfileType> {
     return await http
-      .get("/members/profile/simple", {
-        headers: {
-          Authorization: request,
-        },
-      })
+      .get("/members/profile/simple")
       .then((response) => {
         return response.data.data;
       })
