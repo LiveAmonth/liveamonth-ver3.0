@@ -1,26 +1,26 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
-import { useAuth } from "@/composables/member/auth";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useRouter } from "vue-router";
-import type { LoginType } from "@/modules/types/form/FormType";
+import { useMember } from "@/composables/member/member";
+import type { FindPwType } from "@/modules/types/member/MemberTypes";
 
-const router = useRouter();
-const { error, isPending, login, isLoggedIn } = useAuth();
+const { error, isPending, foundId, findPw } = useMember();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
-const form = reactive<LoginType>({
+const emit = defineEmits(["findPw"]);
+
+const form = reactive<FindPwType>({
   loginId: "",
-  password: "",
+  email: "",
 });
 
 const submitForm = async () => {
-  await login(form);
-  if (isLoggedIn.value) {
-    await router.push({ name: "home" });
+  await findPw(form);
+  if (foundId.value) {
+    emit("findPw");
   }
   if (error.value) {
-    await openMessageBox(resultMsg("wrongIdPw"));
+    await openMessageBox(resultMsg("noMember"));
     for (const key in form) {
       form[key] = "";
     }
@@ -33,8 +33,8 @@ const submitForm = async () => {
     <el-form-item :label="labelMsg('member.loginId')" prop="loginId">
       <el-input v-model="form.loginId" />
     </el-form-item>
-    <el-form-item :label="labelMsg('member.password')" prop="password">
-      <el-input v-model="form.password" show-password type="password" />
+    <el-form-item :label="labelMsg('member.email')" prop="email">
+      <el-input v-model="form.email" />
     </el-form-item>
     <el-form-item>
       <el-button
@@ -43,7 +43,7 @@ const submitForm = async () => {
         size="large"
         style="width: 100%"
         @click="submitForm"
-        >{{ buttonMsg("member.login") }}
+        >{{ buttonMsg("member.findPw") }}
       </el-button>
     </el-form-item>
   </el-form>

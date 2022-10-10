@@ -1,15 +1,15 @@
 import { computed, ref } from "vue";
 import { useInquiryStore } from "@/stores/member/inquiry";
-import type InquiryEditor from "@/modules/class/member/InquiryEditor";
 import type {
   PageableRequestType,
   PageableType,
-} from "@/modules/types/common/PageableType";
-import type { EnumType } from "@/modules/types/common/EnumType";
+} from "@/modules/types/pagination/PaginationTypes";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
 import type {
   InquiryListType,
   InquiryType,
-} from "@/modules/types/member/MemberType";
+  InquiryEditor,
+} from "@/modules/types/member/MemberTypes";
 
 export const useInquiry = () => {
   const store = useInquiryStore();

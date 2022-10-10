@@ -6,7 +6,7 @@ import http, {
 import type {
   PageableRequestType,
   PageableResponseType,
-} from "@/modules/types/common/PageableType";
+} from "@/modules/types/pagination/PaginationTypes";
 import type {
   ScheduleCardType,
   ScheduleContentType,
@@ -14,8 +14,8 @@ import type {
   ScheduleContentEditor,
   ScheduleSearchCond,
 } from "@/modules/types/schedule/ScheduleTypes";
-import type { SortType } from "@/modules/types/common/SortType";
-import type { EnumType } from "@/modules/types/common/EnumType";
+import type { SortType } from "@/modules/types/common/SearchEngineTypes";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
 
 class ScheduleApiService {
   async getSearchTypes(): Promise<EnumType[]> {
@@ -50,7 +50,7 @@ class ScheduleApiService {
 
   async addSchedule(request: ScheduleEditor): Promise<string> {
     return await http
-      .post(`/schedules`, JSON.stringify(request.getCreateDate()))
+      .post(`/schedules`, JSON.stringify(request.getCreateData()))
       .then((response) => {
         return response.data;
       })
@@ -64,7 +64,7 @@ class ScheduleApiService {
     request: ScheduleEditor
   ): Promise<string> {
     return await http
-      .patch(`/schedules/${scheduleId}`, JSON.stringify(request.getEditDate()))
+      .patch(`/schedules/${scheduleId}`, JSON.stringify(request.getEditData()))
       .then((response) => {
         return response.data;
       })
@@ -150,7 +150,7 @@ class ScheduleApiService {
     return await http
       .post(
         `/schedules/${scheduleId}/contents`,
-        JSON.stringify(request.getCreateDate())
+        JSON.stringify(request.getCreateData())
       )
       .then((response) => {
         return response.data;
@@ -167,7 +167,7 @@ class ScheduleApiService {
     return await http
       .patch(
         `/schedules/contents/${contentId}`,
-        JSON.stringify(request.getEditDate())
+        JSON.stringify(request.getEditData())
       )
       .then((response) => {
         return response.data;

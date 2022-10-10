@@ -2,7 +2,7 @@
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import CommentInput from "@/components/form/CommentInput.vue";
+import CommentInput from "@/components/comment/CommentInput.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { onMounted, ref } from "vue";
 import { usePagination } from "@/composables/common/pagination";

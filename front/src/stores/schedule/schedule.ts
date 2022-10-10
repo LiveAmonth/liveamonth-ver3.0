@@ -8,7 +8,7 @@ import type {
   PageableRequestType,
   PageableResponseType,
   PageableType,
-} from "@/modules/types/common/PageableType";
+} from "@/modules/types/pagination/PaginationTypes";
 import { ScheduleSearchCond } from "@/modules/types/schedule/ScheduleTypes";
 
 export const useScheduleStore = defineStore("schedule", {

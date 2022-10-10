@@ -4,14 +4,14 @@ import type {
   InquiryAnswerType,
   InquiryListType,
   InquiryType,
-} from "@/modules/types/member/MemberType";
-import type InquiryEditor from "@/modules/class/member/InquiryEditor";
+  InquiryEditor,
+} from "@/modules/types/member/MemberTypes";
 import type {
   PageableRequestType,
   PageableResponseType,
-} from "@/modules/types/common/PageableType";
-import type { PageableType } from "@/modules/types/common/PageableType";
-import type { EnumType } from "@/modules/types/common/EnumType";
+} from "@/modules/types/pagination/PaginationTypes";
+import type { PageableType } from "@/modules/types/pagination/PaginationTypes";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
 
 export const useInquiryStore = defineStore("inquiry", {
   state: () => ({

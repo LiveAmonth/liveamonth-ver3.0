@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
-import InquiryEditor from "@/modules/class/member/InquiryEditor";
 import { onMounted, reactive, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useInquiry } from "@/composables/member/inquiry";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useMyPage } from "@/composables/member/mypage";
+import { InquiryEditor } from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
 
 const { memberProfile } = useMember();

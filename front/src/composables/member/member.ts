@@ -1,25 +1,20 @@
 import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member/member";
-import { useAuth } from "@/composables/member/auth";
 import { useFormValidate } from "@/composables/common/formValidate";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type {
-  EditProfileType,
   FindIdType,
   FindPwType,
   ReconfirmType,
-  SignUpType,
-} from "@/modules/types/form/FormType";
-import type {
   FoundIdType,
   ProfileType,
   SimpleProfileType,
-} from "@/modules/types/member/MemberType";
+  ChangePasswordEditor,
+  ProfileEditor,
+  MemberCreate,
+} from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
-import type ProfileEditor from "@/modules/class/member/ProfileEditor";
-import type MemberEditor from "@/modules/class/member/MemberEditor";
-import type ChangePasswordEditor from "@/modules/class/member/ChangePasswordEditor";
 
 export const useMember = () => {
   const store = useMemberStore();
@@ -29,16 +24,14 @@ export const useMember = () => {
 
   const error = ref();
   const isPending = ref(false);
-  const { bearerToken } = useAuth();
 
   const simpleProfile = computed((): SimpleProfileType => store.simpleProfile);
   const memberProfile = computed((): ProfileType => store.memberProfile);
-
   const foundId = computed((): FoundIdType => store.foundId);
 
   const checkField = async (
     formEl: FormInstance,
-    form: MemberEditor | ProfileEditor,
+    form: MemberCreate | ProfileEditor,
     field: string
   ) => {
     const value = form[field];
@@ -76,7 +69,7 @@ export const useMember = () => {
   };
 
   const resetField = async (
-    form: SignUpType | EditProfileType,
+    form: MemberCreate | ProfileEditor,
     field: string
   ) => {
     form.checkForm[field] = !form.checkForm[field];
@@ -97,7 +90,7 @@ export const useMember = () => {
       });
   };
 
-  const signUp = async (request: MemberEditor) => {
+  const signUp = async (request: MemberCreate) => {
     error.value = null;
     isPending.value = true;
     try {
@@ -192,7 +185,7 @@ export const useMember = () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getMember(bearerToken.value);
+      await store.getMember();
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -205,7 +198,7 @@ export const useMember = () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getSimpleProfile(bearerToken.value);
+      await store.getSimpleProfile();
       error.value = null;
     } catch (err) {
       error.value = err;

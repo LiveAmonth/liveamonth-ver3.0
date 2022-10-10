@@ -3,7 +3,7 @@ import { useCommentStore } from "@/stores/common/comment";
 import type {
   PageableRequestType,
   PageableType,
-} from "@/modules/types/common/PageableType";
+} from "@/modules/types/pagination/PaginationTypes";
 import type {
   CommentType,
   CommentEditor,

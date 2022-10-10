@@ -3,7 +3,7 @@ import type {
   PageableRequestType,
   PageableResponseType,
   PageableType,
-} from "@/modules/types/common/PageableType";
+} from "@/modules/types/pagination/PaginationTypes";
 import ReviewApiService from "@/services/review/ReviewApiService";
 import { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
 import type { ReviewListType } from "@/modules/types/review/ReviewTypes";

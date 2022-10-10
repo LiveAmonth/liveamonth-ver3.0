@@ -4,12 +4,12 @@ import { useReviewStore } from "@/stores/review/review";
 import type {
   MenuType,
   CategoryMenuType,
-} from "@/modules/types/common/MenuType";
+} from "@/modules/types/common/MenuTypes";
 import type {
   PageableRequestType,
   PageableType,
-} from "@/modules/types/common/PageableType";
-import type { EnumType } from "@/modules/types/common/EnumType";
+} from "@/modules/types/pagination/PaginationTypes";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
 import { useCategory } from "@/composables/common/category";
 import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
 

@@ -7,8 +7,10 @@ import { onMounted, ref } from "vue";
 import { useInquiry } from "@/composables/member/inquiry";
 import { usePagination } from "@/composables/common/pagination";
 import { useMessageBox } from "@/composables/common/messageBox";
-import type InquiryEditor from "@/modules/class/member/InquiryEditor";
-import type { InquiryTableType } from "@/modules/types/common/TableType";
+import type {
+  InquiryEditor,
+  InquiryTableType,
+} from "@/modules/types/member/MemberTypes";
 
 const type = "INQUIRY";
 const {
@@ -48,6 +50,7 @@ const setTableData = (): InquiryTableType[] => {
   });
   return data;
 };
+
 const pageClick = async (page: number) => {
   movePage(page);
   await getInquires(pageable.value).then(() => {
@@ -55,23 +58,27 @@ const pageClick = async (page: number) => {
     mappingPagination(inquiryPage.value);
   });
 };
+
 const select = async (cell?: InquiryTableType) => {
   await getInquiry(Number(cell?.id)).then(() => {
     inquiryType.value = "detail";
   });
 };
+
 const editBtn = async (id: number, form: InquiryEditor) => {
   await editInquiry(id, form);
   await pageClick(pageable.value.page);
   openMessage(resultMsg("inquiry.edit"));
   inquiryType.value = "list";
 };
+
 const deleteBtn = async (id: number) => {
   await deleteInquiry(id);
   await pageClick(pageable.value.page);
   openMessage(resultMsg("inquiry.delete.success"));
   inquiryType.value = "list";
 };
+
 const goBackBtn = () => {
   inquiryType.value = "list";
 };

@@ -1,5 +1,5 @@
 import { useI18n } from "vue-i18n";
-import type { NameIconType } from "@/modules/types/common/MenuType";
+import type { NameIconType } from "@/modules/types/common/MenuTypes";
 
 export const useMenuTab = () => {
   const { t } = useI18n();

@@ -1,14 +1,14 @@
 import CityApiService from "@/services/city/CityApiService";
 import { defineStore } from "pinia";
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
+import type { ImageContentType } from "@/modules/types/common/CommonTypes";
 import type {
   CityCardType,
   CityExtraType,
   CityIntroType,
   CityTransportType,
   CityWeatherType,
-} from "@/modules/types/city/CityType";
-import type { initDataType } from "@/modules/types/common/initDataType";
+} from "@/modules/types/city/CityTypes";
+import type { initDataType } from "@/modules/types/common/CommonTypes";
 
 const storageGridInfo: CityCardType[] = localStorage["city-grid-info"]
   ? JSON.parse(localStorage["city-grid-info"])

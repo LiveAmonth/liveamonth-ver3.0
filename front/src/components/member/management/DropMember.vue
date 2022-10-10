@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import Reconfirm from "@/components/member/management/ReconfirmPassword.vue";
 import { ref } from "vue";

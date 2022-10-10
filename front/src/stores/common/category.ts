@@ -1,8 +1,8 @@
 import ScheduleApiService from "@/services/schdule/ScheduleApiService";
 import MemberApiService from "@/services/member/MemberApiService";
 import { defineStore } from "pinia";
-import type { SortType } from "@/modules/types/common/SortType";
-import type { EnumType } from "@/modules/types/common/EnumType";
+import type { SortType } from "@/modules/types/common/SearchEngineTypes";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
 import ReviewApiService from "@/services/review/ReviewApiService";
 import CityApiService from "@/services/city/CityApiService";
 

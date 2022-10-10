@@ -5,7 +5,7 @@ import SchedulePageList from "@/components/schedule/list/SchedulePageList.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { usePagination } from "@/composables/common/pagination";
-import type { SearchEngineFormType } from "@/modules/types/common/SearchType";
+import type { SearchEngineFormType } from "@/modules/types/common/SearchEngineTypes";
 
 const props = defineProps({
   isMain: {

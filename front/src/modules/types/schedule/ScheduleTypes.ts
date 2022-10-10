@@ -1,14 +1,14 @@
 import { useDate } from "@/composables/common/date";
 import { useFormValidate } from "@/composables/common/formValidate";
 import { reactive } from "vue";
-import type { EnumType } from "@/modules/types/common/EnumType";
-import type { SimpleProfileType } from "@/modules/types/member/MemberType";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
+import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
 import type {
   SearchCondType,
   SearchEngineFormType,
-} from "../common/SearchType";
+} from "@/modules/types/common/SearchEngineTypes";
 import type { CommentType } from "@/modules/types/comment/CommentTypes";
-import type { FormType } from "@/modules/types/form/FormType";
+import type { FormType } from "@/modules/types/common/CommonTypes";
 import type { FormRules } from "element-plus/es";
 
 /**
@@ -58,9 +58,9 @@ export interface ScheduleCardType {
   profile: SimpleProfileType;
   cost: number;
   city: EnumType;
-  numberOfHits: string;
-  numberOfLikes: string;
-  numberOfComments: string;
+  numberOfHits: number;
+  numberOfLikes: number;
+  numberOfComments: number;
   period: DatePeriodType;
   publicFlag: boolean;
   comment: CommentType | null;
@@ -192,7 +192,7 @@ export class ScheduleEditor implements ScheduleFormType {
     });
   }
 
-  getCreateDate(): ScheduleCreateType {
+  getCreateData(): ScheduleCreateType {
     return {
       title: this.title,
       city: this.city,
@@ -201,7 +201,7 @@ export class ScheduleEditor implements ScheduleFormType {
     };
   }
 
-  getEditDate(): ScheduleEditType {
+  getEditData(): ScheduleEditType {
     return {
       title: this.title,
       city: this.city,
@@ -268,7 +268,7 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     });
   }
 
-  getCreateDate(): ContentCreateType {
+  getCreateData(): ContentCreateType {
     return {
       title: this.title,
       content: this.content,
@@ -277,7 +277,7 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     };
   }
 
-  getEditDate(): ContentEditType {
+  getEditData(): ContentEditType {
     return {
       title: this.title,
       content: this.content,

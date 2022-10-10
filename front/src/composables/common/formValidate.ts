@@ -3,7 +3,7 @@ import { useMemberStore } from "@/stores/member/member";
 import { useDate } from "@/composables/common/date";
 import { useI18n } from "vue-i18n";
 import type { FormItemRule } from "element-plus/es";
-import type { SignUpType } from "@/modules/types/form/FormType";
+import type { MemberCreateType } from "@/modules/types/member/MemberTypes";
 import type {
   DatePeriodType,
   DateTimePeriodType,
@@ -93,7 +93,7 @@ export const useFormValidate = () => {
     };
   };
 
-  const validateBirth = (form: SignUpType): FormItemRule => {
+  const validateBirth = (form: MemberCreateType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
         isBefore(form.birth, getDate(new Date()))
@@ -156,7 +156,7 @@ export const useFormValidate = () => {
     };
   };
 
-  const checkedField = (form: SignUpType): FormItemRule => {
+  const checkedField = (form: MemberCreateType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
         if (form.duplicationCheck) {

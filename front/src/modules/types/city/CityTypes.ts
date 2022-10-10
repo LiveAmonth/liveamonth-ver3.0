@@ -1,5 +1,5 @@
-import type { EnumType } from "@/modules/types/common/EnumType";
-import type { ImageContentType } from "@/modules/types/common/ImageContentType";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
+import type { ImageContentType } from "@/modules/types/common/CommonTypes";
 
 export interface CityCardType {
   name: EnumType;
