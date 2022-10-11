@@ -18,6 +18,7 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -58,6 +59,13 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .fetch();
     }
 
+    public Optional<Review> getReview(Long id) {
+        return Optional.ofNullable(queryFactory.selectFrom(review)
+                .leftJoin(review.member, member).fetchJoin()
+                .where(reviewIdEq(id))
+                .fetchOne());
+    }
+
     private JPAQuery<Review> getSearchElementsQuery(ReviewSearchCond cond) {
         return queryFactory.selectFrom(review)
                 .join(review.member, member).fetchJoin()
@@ -82,6 +90,10 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
 
     private BooleanExpression createdIdEq(String loginId) {
         return hasText(loginId) ? review.createdBy.eq(loginId) : null;
+    }
+
+    private BooleanExpression reviewIdEq(Long id) {
+        return id != null ? review.id.eq(id) : null;
     }
 
     private BooleanExpression reviewIdLt(Long lastId) {

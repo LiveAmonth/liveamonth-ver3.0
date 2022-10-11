@@ -36,7 +36,6 @@ export interface ReviewDetailType {
   numberOfHits: number;
   numberOfLikes: number;
   numberOfComments: number;
-  comments: CommentType | null;
 }
 
 /**
