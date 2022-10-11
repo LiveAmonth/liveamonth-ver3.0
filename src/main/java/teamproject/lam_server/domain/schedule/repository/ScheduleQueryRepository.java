@@ -59,7 +59,7 @@ public class ScheduleQueryRepository extends BasicRepository {
         JPAQuery<Schedule> query = queryFactory.selectFrom(schedule)
                 .leftJoin(schedule.member, member).fetchJoin()
                 .where(
-                        memberLoginIdEq(loginId),
+                        createdIdEq(loginId),
                         scheduleIdLt(lastId)
                 )
                 .orderBy(schedule.id.desc());
@@ -118,8 +118,8 @@ public class ScheduleQueryRepository extends BasicRepository {
         return hasText(nickname) ? member.nickname.eq(nickname) : null;
     }
 
-    private BooleanExpression memberLoginIdEq(String loginId) {
-        return hasText(loginId) ? member.loginId.eq(loginId) : null;
+    private BooleanExpression createdIdEq(String loginId) {
+        return hasText(loginId) ? schedule.createdBy.eq(loginId) : null;
     }
 
     private BooleanExpression followedMemberLoginIdEq(String loginId) {

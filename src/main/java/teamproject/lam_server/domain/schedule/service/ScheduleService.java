@@ -21,5 +21,5 @@ public interface ScheduleService {
 
     List<ScheduleCardResponse> getScheduleByMember(String loginId, Integer size, Long lastId);
 
-    List<ScheduleCardResponse> getFollowedSchedules(Integer size, Long lastId);
+    List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId);
 }

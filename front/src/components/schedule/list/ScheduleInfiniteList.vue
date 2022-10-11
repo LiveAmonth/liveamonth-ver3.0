@@ -12,18 +12,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  loginId: {
-    type: String,
-    required: true,
-  },
   isMyPage: {
     type: Boolean,
     required: false,
     default: false,
-  },
-  maxCount: {
-    type: Number,
-    required: true,
   },
 });
 const emits = defineEmits(["refresh"]);
@@ -34,13 +26,16 @@ const { infiniteSchedules, getInfiniteSchedules, deleteSchedule } =
 const size = ref<number>(2);
 const count = ref<number>(props.initialCount);
 const loading = ref<boolean>(false);
-const noMore = computed(() => count.value >= props.maxCount);
+const noMore = computed(
+  () => count.value >= memberProfile.value.numberOfSchedules
+);
 const disabled = computed(() => loading.value || noMore.value);
 const schedules = computed(() => infiniteSchedules(props.isMyPage));
+
 const load = async () => {
   loading.value = true;
   await getInfiniteSchedules(
-    props.loginId,
+    memberProfile.value.loginId,
     size.value,
     schedules.value[count.value - 1].id,
     props.isMyPage
@@ -48,13 +43,13 @@ const load = async () => {
   setTimeout(() => {
     count.value += size.value;
     loading.value = false;
-  }, 2000);
+  }, 500);
 };
 
 const deleteScheduleBtn = async (scheduleId: number) => {
   await deleteSchedule(scheduleId);
   await getInfiniteSchedules(
-    props.loginId,
+    memberProfile.value.loginId,
     props.initialCount,
     null,
     props.isMyPage
@@ -129,8 +124,6 @@ const deleteScheduleBtn = async (scheduleId: number) => {
         </el-row>
       </li>
     </ul>
-    <p v-if="loading">Loading...</p>
-    <p v-if="noMore">No more</p>
   </div>
 </template>
 
