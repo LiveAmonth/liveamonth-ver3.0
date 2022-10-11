@@ -111,11 +111,12 @@ class ScheduleApiService {
     lastId: number | null = null
   ): Promise<ScheduleCardType[]> {
     return await http
-      .get(
-        `/schedules/list?login_id=${loginId}` +
-          `${size != null ? `&size=${size}` : ""}` +
-          `${lastId != null ? `&last_id=${lastId}` : ""}`
-      )
+      .get(`/schedules/${loginId}`, {
+        params: {
+          size: size != null ? size : null,
+          last_id: lastId != null ? lastId : null,
+        },
+      })
       .then((response) => {
         return response.data.data;
       })

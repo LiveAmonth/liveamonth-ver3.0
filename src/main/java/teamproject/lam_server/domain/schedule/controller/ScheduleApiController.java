@@ -49,11 +49,12 @@ public class ScheduleApiController {
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/{loginId}")
     public ResponseEntity<?> getSchedulesByMember(
+            @PathVariable String loginId,
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
-        List<ScheduleCardResponse> result = scheduleApiService.getScheduleByMember(size, lastId);
+        List<ScheduleCardResponse> result = scheduleApiService.getScheduleByMember(loginId, size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
