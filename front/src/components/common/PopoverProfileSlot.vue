@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useMyPage } from "@/composables/member/mypage";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 import type { PropType } from "vue";
+import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
 
 defineProps({
-  schedule: {
-    type: Object as PropType<ScheduleCardType>,
+  profile: {
+    type: Object as PropType<SimpleProfileType>,
     required: true,
   },
 });
@@ -31,7 +31,7 @@ const { profileTabs, getPostCount } = useMyPage();
           style="margin-bottom: 8px"
         />
         <p class="nickname" style="margin: 0; font-weight: 500">
-          {{ schedule.profile.nickname }}
+          {{ profile.nickname }}
         </p>
         <slot></slot>
 
@@ -49,7 +49,7 @@ const { profileTabs, getPostCount } = useMyPage();
               </el-icon>
             </h6>
             <p>
-              {{ getPostCount(tab.code, schedule.profile) }}
+              {{ getPostCount(tab.code, profile) }}
             </p>
           </div>
         </div>

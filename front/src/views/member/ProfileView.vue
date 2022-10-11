@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
+import ReviewInfiniteList from "@/components/review/ReviewInfiniteList.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import { Setting } from "@element-plus/icons-vue";
@@ -7,6 +8,7 @@ import { onMounted, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMyPage } from "@/composables/member/mypage";
+import { useReview } from "@/composables/review/review";
 
 const props = defineProps({
   post: {
@@ -17,19 +19,26 @@ const props = defineProps({
 
 const { memberProfile, getMember } = useMember();
 const { mySchedules, getInfiniteSchedules } = useSchedule();
+const { myReviews, getMyReviews } = useReview();
 const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =
   useMyPage();
-const listKey = ref<number>(0);
 const activeName = ref<string>(props.post);
-const initialSize = ref<number>(3);
+const listKey = ref<number>(0);
+const scheduleInitialSize = ref<number>(3);
+const reviewInitialSize = ref<number>(5);
 
 onMounted(async () => {
   await getMember();
   await getInfiniteSchedules(
     memberProfile.value.loginId,
-    initialSize.value,
+    scheduleInitialSize.value,
     null,
     true
+  );
+  await getMyReviews(
+    memberProfile.value.loginId,
+    reviewInitialSize.value,
+    null
   );
 });
 
@@ -85,6 +94,7 @@ const clickTab = (tab: string) => {
       </el-col>
     </el-row>
     <ContentTabsSlot
+      v-if="memberProfile.id"
       v-model:active-name="activeName"
       :tabs="myPagePostsTabs"
       class="content-tab"
@@ -93,17 +103,16 @@ const clickTab = (tab: string) => {
         <ScheduleInfiniteList
           v-if="activeName === myPagePostsTabs[0].code && mySchedules.length"
           :key="listKey"
-          :initial-count="initialSize"
+          :initial-count="scheduleInitialSize"
           :is-my-page="true"
-          :login-id="memberProfile.loginId"
-          :max-count="memberProfile.numberOfSchedules"
           @refresh="listKey++"
         />
       </template>
       <template v-slot:tab-2>
-        <div v-if="activeName === myPagePostsTabs[1].code">
-          내 후기글 리스트@@
-        </div>
+        <ReviewInfiniteList
+          v-if="activeName === myPagePostsTabs[1].code && myReviews.length"
+          :initial-count="reviewInitialSize"
+        />
       </template>
     </ContentTabsSlot>
   </div>

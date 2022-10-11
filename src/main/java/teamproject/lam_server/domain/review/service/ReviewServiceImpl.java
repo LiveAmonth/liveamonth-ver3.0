@@ -21,6 +21,9 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -34,14 +37,6 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public void write(ReviewCreate request) {
         reviewRepository.save(request.toEntity(finder.getLoggedInMember()));
-    }
-
-    public ReviewDetailResponse findById(Long id) {
-        return ReviewDetailResponse.of(
-                reviewRepository
-                        .findById(id)
-                        .orElseThrow(ReviewNotFound::new)
-        );
     }
 
     @Transactional
@@ -68,5 +63,18 @@ public class ReviewServiceImpl implements ReviewService {
         return CustomPage.<ReviewListResponse>builder()
                 .page(page)
                 .build();
+    }
+
+    public List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId) {
+        finder.checkLegalLoginId(loginId);
+        return reviewRepository.getReviewByMember(loginId, size, lastId).stream()
+                .map(ReviewListResponse::of)
+                .collect(Collectors.toList());
+
+    }
+
+    @Transactional
+    public ReviewDetailResponse getReview(Long id) {
+        return null;
     }
 }

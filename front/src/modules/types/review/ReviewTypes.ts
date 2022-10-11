@@ -1,3 +1,7 @@
+import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
+import type { EnumType } from "@/modules/types/common/CommonTypes";
+import type { CommentType } from "@/modules/types/comment/CommentTypes";
+
 /**
  * requests
  */
@@ -20,6 +24,19 @@ export interface ReviewListType {
   numberOfHits: number;
   numberOfLikes: number;
   numberOfComments: number;
+}
+
+export interface ReviewDetailType {
+  id: number;
+  title: string;
+  profile: SimpleProfileType;
+  content: string;
+  category: EnumType;
+  createDateTime: string;
+  numberOfHits: number;
+  numberOfLikes: number;
+  numberOfComments: number;
+  comments: CommentType | null;
 }
 
 /**

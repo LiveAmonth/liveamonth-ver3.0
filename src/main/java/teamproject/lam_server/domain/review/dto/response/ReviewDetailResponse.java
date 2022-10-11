@@ -1,33 +1,43 @@
 package teamproject.lam_server.domain.review.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.lang.Nullable;
+import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
+import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.entity.Review;
 
-import static teamproject.lam_server.util.DateTimeUtil.calcTimeBefore;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
 public class ReviewDetailResponse {
     private Long id;
-    private String writer;
     private String title;
+    private SimpleProfileResponse profile;
     private String content;
     private ReviewCategory category;
-    private String elapsedTime;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd a h:mm", timezone = "Asia/Seoul")
+    private LocalDateTime createDateTime;
     private long numberOfHits;
-    // 회원 프로필, 댓글 정보..
+    private long numberOfComments;
+    private long numberOfLikes;
+    private CommentResponse comments;
 
-    public static ReviewDetailResponse of(Review review) {
+    public static ReviewDetailResponse of(Review review, @Nullable CommentResponse comments) {
         return ReviewDetailResponse.builder()
                 .id(review.getId())
                 .title(review.getTitle())
+                .profile(SimpleProfileResponse.of(review.getMember()))
                 .content(review.getContent())
                 .category(review.getCategory())
-                .writer(review.getMember().getNickname())
-                .elapsedTime(calcTimeBefore(review.getCreatedDate()))
+                .createDateTime(review.getCreatedDate())
                 .numberOfHits(review.getNumberOfHits())
+                .numberOfLikes(review.getNumberOfLikes())
+                .numberOfComments(review.getNumberOfComments())
+                .comments(comments)
                 .build();
     }
 }

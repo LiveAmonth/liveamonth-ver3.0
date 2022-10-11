@@ -335,6 +335,9 @@
     },
     "etc": {
       "title": "소통해요"
+    },
+    "popover": {
+      "link": "@후기 보러가기"
     }
   },
   "myPage": {
@@ -381,7 +384,7 @@
       "view_desc": "조회수 순"
     },
     "popover": {
-      "link": "스케줄 보러가기"
+      "link": "@스케줄 보러가기"
     },
     "form": {
       "main": {

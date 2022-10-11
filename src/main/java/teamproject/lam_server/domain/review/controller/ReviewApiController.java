@@ -16,6 +16,8 @@ import teamproject.lam_server.paging.PageableDTO;
 
 import javax.validation.Valid;
 
+import java.util.List;
+
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
 @RestController
@@ -33,7 +35,7 @@ public class ReviewApiController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getReview(@PathVariable Long id) {
-        ReviewDetailResponse result = reviewService.findById(id);
+        ReviewDetailResponse result = reviewService.getReview(id);
         return CustomResponse.success(READ_REVIEW, result);
     }
 
@@ -46,6 +48,14 @@ public class ReviewApiController {
     @GetMapping("/search")
     public ResponseEntity<?> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
         CustomPage<ReviewListResponse> result = reviewService.search(cond, pageableDTO);
+        return CustomResponse.success(READ_REVIEW, result);
+    }
+
+    @GetMapping("/list/{loginId}")
+    public ResponseEntity<?> getReviewByMember(@PathVariable String loginId,
+                                            @RequestParam Integer size,
+                                            @RequestParam(name = "last_id", required = false) Long lastId) {
+        List<ReviewListResponse> result = reviewService.getReviewByMember(loginId, size, lastId);
         return CustomResponse.success(READ_REVIEW, result);
     }
 }

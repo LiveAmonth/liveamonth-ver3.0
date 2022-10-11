@@ -1,46 +1,47 @@
-<script setup lang="ts">
-import { onMounted, ref } from "vue";
-import axios from "axios";
+<script lang="ts" setup>
+import { View } from "@element-plus/icons-vue";
+import { onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useReview } from "@/composables/review/review";
 
 const props = defineProps({
-  reviewId: {
+  id: {
     type: [Number, String],
     required: true,
   },
 });
 
-const review = ref({
-  id: 0,
-  title: "",
-  content: "",
-  writer: "",
-  writeDateTime: "",
-  viewCount: 0,
-});
-
+const { currReview, getReview } = useReview();
 const router = useRouter();
 
-const moveToEdit = () => {
-  router.push({ name: "edit", params: { reviewId: props.reviewId } });
-};
-onMounted(() => {
-  axios.get(`/reviews/${props.reviewId}`).then((response) => {
-    review.value = response.data.data;
-  });
+onMounted(async () => {
+  await getReview(Number(props.id));
 });
+
+const moveToEdit = () => {
+  router.push({ name: "edit", params: { id: props.id } });
+};
 </script>
 
 <template>
-  <el-row>
+  <el-row v-if="currReview.id">
     <el-col>
-      <h2 class="title">{{ review.title }}</h2>
+      <h2 class="title">{{ currReview.title }}</h2>
       <div class="sub d-flex">
+        <div class="avatar">
+          <el-avatar :size="20" :src="'/src/assets/image/default.jpg'" />
+        </div>
         <div class="writer">
-          {{ review.writer }}
+          {{ currReview.profile.nickname }}
         </div>
         <div class="regDate">
-          {{ review.writeDateTime }}
+          {{ currReview.elapsedTime }}
+        </div>
+        <div class="views">
+          <el-icon class="me-1">
+            <View />
+          </el-icon>
+          {{ $comma(currReview.numberOfHits) }}
         </div>
       </div>
     </el-col>
