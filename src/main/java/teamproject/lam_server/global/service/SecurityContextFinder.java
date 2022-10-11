@@ -1,7 +1,6 @@
 package teamproject.lam_server.global.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -41,6 +40,12 @@ public class SecurityContextFinder {
 
     public void checkLegalWriterId(Long id) {
         if (!Objects.equals(getLoggedInMember().getId(), id)) {
+            throw new IllegalLoggedInMember();
+        }
+    }
+
+    public void checkLegalLoginId(String loginId) {
+        if (!Objects.equals(getLoggedInMemberLoginId(), loginId)) {
             throw new IllegalLoggedInMember();
         }
     }

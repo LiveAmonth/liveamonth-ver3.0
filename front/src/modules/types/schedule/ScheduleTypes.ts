@@ -63,7 +63,7 @@ export interface ScheduleCardType {
   numberOfComments: number;
   period: DatePeriodType;
   publicFlag: boolean;
-  comment: CommentType | null;
+  comments: CommentType | null;
 }
 
 export interface ScheduleContentType {

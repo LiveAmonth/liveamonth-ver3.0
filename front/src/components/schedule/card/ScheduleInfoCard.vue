@@ -90,9 +90,9 @@ const deleteScheduleBtn = async () => {
   <el-card class="information" :body-style="{ paddingRight: 0 }">
     <div class="profile-title d-flex justify-content-between">
       <div class="profile" v-if="!isMyPage">
-        <PopoverProfileSlot :schedule="schedule">
+        <PopoverProfileSlot :profile="schedule.profile">
           <a class="mention" @click="goToMemberSchedules">
-            @ {{ $t("schedule.popover.link") }}
+            {{ $t("schedule.popover.link") }}
           </a>
         </PopoverProfileSlot>
         <div class="nickname mt-2">
