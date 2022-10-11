@@ -6,10 +6,13 @@ import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
 import teamproject.lam_server.domain.review.entity.Review;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewRepositoryCustom {
 
     Page<Review> search(ReviewSearchCond cond, Pageable pageable);
 
     List<Review> getReviewByMember(String loginId, Integer size, Long lastId);
+
+    Optional<Review> getReview(Long id);
 }

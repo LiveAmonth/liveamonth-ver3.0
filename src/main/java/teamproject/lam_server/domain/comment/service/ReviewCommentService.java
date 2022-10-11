@@ -1,5 +1,8 @@
 package teamproject.lam_server.domain.comment.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.constants.CommentType;
@@ -12,6 +15,9 @@ import teamproject.lam_server.exception.notfound.CommentNotFound;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -57,6 +63,26 @@ public class ReviewCommentService extends CommentService {
 
     @Override
     public CustomPage<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
-        return null;
+        Pageable pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
+
+        Page<ReviewComment> reviewComments = reviewCommentRepository.getComments(contentId, pageable);
+
+        List<ReviewComment> reviewCommentReplies = reviewComments.getNumberOfElements() != 0
+                ? getReviewCommentReplies(contentId, reviewComments.getContent())
+                : Collections.emptyList();
+
+        Page<CommentResponse> page = reviewComments.map(comment -> mapToCommentResponse(
+                CommentResponse.of(comment),
+                comment.getId(),
+                reviewCommentReplies));
+
+        return CustomPage.<CommentResponse>builder()
+                .page(page)
+                .build();
+    }
+    private List<ReviewComment> getReviewCommentReplies(Long reviewId, List<ReviewComment> comments) {
+        Long from = comments.get(comments.size() - 1).getId();
+        Long to = comments.get(0).getId();
+        return reviewCommentRepository.getCommentReplies(reviewId, from, to);
     }
 }

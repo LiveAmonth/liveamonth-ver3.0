@@ -3,8 +3,6 @@ package teamproject.lam_server.domain.review.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.lang.Nullable;
-import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.entity.Review;
@@ -24,9 +22,8 @@ public class ReviewDetailResponse {
     private long numberOfHits;
     private long numberOfComments;
     private long numberOfLikes;
-    private CommentResponse comments;
 
-    public static ReviewDetailResponse of(Review review, @Nullable CommentResponse comments) {
+    public static ReviewDetailResponse of(Review review) {
         return ReviewDetailResponse.builder()
                 .id(review.getId())
                 .title(review.getTitle())
@@ -37,7 +34,6 @@ public class ReviewDetailResponse {
                 .numberOfHits(review.getNumberOfHits())
                 .numberOfLikes(review.getNumberOfLikes())
                 .numberOfComments(review.getNumberOfComments())
-                .comments(comments)
                 .build();
     }
 }

@@ -73,8 +73,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
-    @Transactional
     public ReviewDetailResponse getReview(Long id) {
-        return null;
+        return ReviewDetailResponse.of(
+                reviewRepository.getReview(id)
+                        .orElseThrow(ReviewNotFound::new)
+        );
     }
+
 }
