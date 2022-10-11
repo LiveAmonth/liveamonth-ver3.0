@@ -6,13 +6,17 @@ import type {
 } from "@/modules/types/pagination/PaginationTypes";
 import ReviewApiService from "@/services/review/ReviewApiService";
 import { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
-import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
+import type {
+  ReviewListType,
+  ReviewDetailType,
+} from "@/modules/types/review/ReviewTypes";
 
 export const useReviewStore = defineStore("review", {
   state: () => ({
     searchCond: new ReviewSearchCond(),
     pageableReviews: {} as PageableResponseType,
-    currReview: {} as object,
+    currReview: {} as ReviewDetailType,
+    myReviews: {} as ReviewListType[],
   }),
   getters: {
     otherReviews: (state): ReviewListType[] =>
@@ -60,9 +64,25 @@ export const useReviewStore = defineStore("review", {
         });
     },
 
+    getMyReviews: async function (
+      loginId: string,
+      size: number,
+      lastId: number | null
+    ) {
+      await ReviewApiService.getMyReviews(loginId, size, lastId)
+        .then((response: ReviewListType[]) => {
+          lastId
+            ? response.forEach((value) => this.myReviews.push(value))
+            : (this.myReviews = response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     getReview: async function (reviewId: number) {
       await ReviewApiService.getReview(reviewId)
-        .then((response: PageableResponseType) => {
+        .then((response: ReviewDetailType) => {
           this.currReview = response;
         })
         .catch((error) => {

@@ -11,7 +11,10 @@ import type {
 } from "@/modules/types/pagination/PaginationTypes";
 import type { EnumType } from "@/modules/types/common/CommonTypes";
 import { useCategory } from "@/composables/common/category";
-import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
+import type {
+  ReviewDetailType,
+  ReviewListType,
+} from "@/modules/types/review/ReviewTypes";
 
 export const useReview = () => {
   const store = useReviewStore();
@@ -23,6 +26,8 @@ export const useReview = () => {
   const request = computed(() => store.searchCond);
   const reviewPage = computed((): PageableType => store.reviewPage);
   const otherReviews = computed((): ReviewListType[] => store.otherReviews);
+  const currReview = computed((): ReviewDetailType => store.currReview);
+  const myReviews = computed((): ReviewListType[] => store.myReviews);
 
   const cityReviewTabs: string[] = ["TOTAL"];
   cityNames.value.forEach((value) =>
@@ -93,6 +98,23 @@ export const useReview = () => {
     }
   };
 
+  const getMyReviews = async (
+    loginId: string,
+    size: number,
+    lastId: number | null
+  ) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getMyReviews(loginId, size, lastId);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   const getReview = async (reviewId: number) => {
     error.value = null;
     isPending.value = true;
@@ -127,11 +149,14 @@ export const useReview = () => {
     reviewPage,
     cityReviewTabs,
     otherReviews,
+    currReview,
+    myReviews,
     getReviewMenu,
     addReview,
     editReview,
     deleteReview,
     getReviews,
+    getMyReviews,
     getReview,
   };
 };

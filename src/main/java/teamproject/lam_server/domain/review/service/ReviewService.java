@@ -8,13 +8,17 @@ import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
+import java.util.List;
+
 public interface ReviewService {
 
     void write(ReviewCreate request);
 
     CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO);
 
-    ReviewDetailResponse findById(Long id);
+    ReviewDetailResponse getReview(Long id);
 
     void edit(Long id, ReviewEdit reviewEdit);
+
+    List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId);
 }

@@ -97,6 +97,26 @@ class ReviewApiService {
       });
   }
 
+  async getMyReviews(
+    loginId: string,
+    size: number,
+    lastId: number | null = null
+  ) {
+    return await http
+      .get(`/reviews/list/${loginId}`, {
+        params: {
+          size: size,
+          last_id: lastId != null ? lastId : null,
+        },
+      })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
   async getReview(reviewId: number) {
     return await http
       .get(`reviews/${reviewId}`)
