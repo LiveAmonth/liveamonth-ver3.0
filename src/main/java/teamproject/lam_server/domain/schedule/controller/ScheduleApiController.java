@@ -49,8 +49,8 @@ public class ScheduleApiController {
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/{loginId}")
-    public ResponseEntity<?> getSchedulesByMember(
+    @GetMapping("/list/{loginId}")
+    public ResponseEntity<?> getScheduleByMember(
             @PathVariable String loginId,
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
@@ -58,11 +58,12 @@ public class ScheduleApiController {
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/list/followed")
+    @GetMapping("/list/{loginId}/followed")
     public ResponseEntity<?> searchFollowedSchedules(
+            @PathVariable String loginId,
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
-        List<ScheduleCardResponse> result = scheduleApiService.getFollowedSchedules(size, lastId);
+        List<ScheduleCardResponse> result = scheduleApiService.getFollowedSchedules(loginId, size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 }

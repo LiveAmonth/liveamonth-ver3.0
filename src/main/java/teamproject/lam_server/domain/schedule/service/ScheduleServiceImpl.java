@@ -91,9 +91,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleCardResponse> getFollowedSchedules(Integer size, Long lastId) {
+    public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
+        finder.checkLegalLoginId(loginId);
         return scheduleQueryRepository
-                .getFollowedSchedules(finder.getLoggedInMemberLoginId(), size, lastId)
+                .getFollowedSchedules(loginId, size, lastId)
                 .stream()
                 .map(mapToScheduleAndComment())
                 .collect(Collectors.toList());
