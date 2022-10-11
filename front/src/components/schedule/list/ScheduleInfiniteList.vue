@@ -85,34 +85,34 @@ const deleteScheduleBtn = async (scheduleId: number) => {
               @delete-schedule="deleteScheduleBtn"
             />
             <template v-if="!isMyPage">
-              <el-card v-if="schedule.comments" class="reply mb-2">
+              <el-card v-if="schedule.bestComment" class="reply mb-2">
                 <SmallTitleSlot class="mb-3">
                   {{ $t("comment.best") }}
                 </SmallTitleSlot>
                 <CommentSlot
-                  :id="schedule.comments.commentId"
+                  :id="schedule.bestComment.commentId"
                   :avatar-url="'/src/assets/image/default.jpg'"
                   :is-best="true"
                   :is-reply="false"
                   :is-writer="
                     schedule.profile.nickname ===
-                    schedule.comments.profile.nickname
+                    schedule.bestComment.profile.nickname
                   "
                 >
                   <template v-slot:writer>
-                    {{ schedule.comments.profile.nickname }}
+                    {{ schedule.bestComment.profile.nickname }}
                   </template>
                   <template v-slot:elapsedTime>
-                    {{ schedule.comments.elapsedTime }}
+                    {{ schedule.bestComment.elapsedTime }}
                   </template>
                   <template v-slot:comment>
-                    {{ schedule.comments.comment }}
+                    {{ schedule.bestComment.comment }}
                   </template>
                   <template v-slot:likeCount>
-                    {{ schedule.comments.numberOfLikes }}
+                    {{ schedule.bestComment.numberOfLikes }}
                   </template>
                   <template v-slot:dislikeCount>
-                    {{ schedule.comments.numberOfDislikes }}
+                    {{ schedule.bestComment.numberOfDislikes }}
                   </template>
                 </CommentSlot>
               </el-card>

@@ -23,7 +23,7 @@ public class ScheduleCardResponse {
     private long numberOfComments;
     private PeriodResponse period;
     private boolean publicFlag;
-    private CommentResponse comments;
+    private CommentResponse bestComment;
 
     public static ScheduleCardResponse of(Schedule schedule, @Nullable CommentResponse comment) {
         return ScheduleCardResponse.builder()
@@ -37,7 +37,7 @@ public class ScheduleCardResponse {
                 .numberOfComments(schedule.getNumberOfComments())
                 .period(PeriodResponse.of(schedule.getPeriod()))
                 .publicFlag(schedule.getPublicFlag())
-                .comments(comment)
+                .bestComment(comment)
                 .build();
     }
 }
