@@ -24,11 +24,7 @@ const disabled = computed(() => loading.value || noMore.value);
 
 const load = async () => {
   loading.value = true;
-  await getMyReviews(
-    memberProfile.value.loginId,
-    size.value,
-    myReviews.value[count.value - 1].id
-  );
+  await getMyReviews(size.value, myReviews.value[count.value - 1].id);
   setTimeout(() => {
     count.value += size.value;
     loading.value = false;

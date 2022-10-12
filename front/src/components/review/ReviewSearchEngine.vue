@@ -14,7 +14,7 @@ defineProps({
   },
 });
 
-const emits = defineEmits(["applyOption"]);
+const emits = defineEmits(["applyOption", "write"]);
 const { isPending, cityReviewTabs, request } = useReview();
 const { pageable, setSort } = usePagination("REVIEW");
 const { buttonMsg, tabMsg } = useMessageBox();
@@ -31,10 +31,6 @@ const submitForm = async (form: ReviewSearchType) => {
 const changeSort = async () => {
   await setSort(order.value);
   await emits("applyOption");
-};
-
-const writeReview = () => {
-  console.log("글쓰기");
 };
 </script>
 
@@ -84,7 +80,7 @@ const writeReview = () => {
       class="write-btn"
       color="#0f6778"
       style="width: 80px"
-      @click="writeReview"
+      @click="emits('write')"
     >
       {{ buttonMsg("write") }}
     </el-button>

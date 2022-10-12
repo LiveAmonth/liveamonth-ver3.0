@@ -140,7 +140,7 @@ watch(
       <el-button @click="submitForm(ruleFormRef)">
         {{ $t("common.button.add") }}
       </el-button>
-      <el-button @click="form.clear(period.startDate)">
+      <el-button @click="form.clear()">
         {{ $t("common.button.clear") }}
       </el-button>
     </div>

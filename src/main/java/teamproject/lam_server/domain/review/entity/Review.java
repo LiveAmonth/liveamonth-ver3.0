@@ -33,6 +33,7 @@ public class Review extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private ReviewCategory category;
+    @Lob
     private String content;
     private long numberOfHits;
     @ManyToOne(fetch = LAZY)

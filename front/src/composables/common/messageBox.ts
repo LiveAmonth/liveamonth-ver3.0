@@ -74,6 +74,18 @@ export const useMessageBox = () => {
     return t(`tabs.${field}`);
   };
 
+  const getInputPlaceHolder = (field: string): string => {
+    return t("common.please-input", {
+      field: field,
+    });
+  };
+
+  const getSelectPlaceHolder = (field: string): string => {
+    return t("common.please-select", {
+      field: field,
+    });
+  };
+
   return {
     openMessage,
     openMessageByCode,
@@ -88,5 +100,7 @@ export const useMessageBox = () => {
     menuMsg: getMenuName,
     bannerMsg: getBannerMessage,
     tabMsg: getTabMessage,
+    inputPhMsg: getInputPlaceHolder,
+    selectPhMsg: getSelectPlaceHolder,
   };
 };

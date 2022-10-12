@@ -93,6 +93,14 @@ defineProps({
       font-size: 0.95rem;
       margin-top: 8px;
       color: #737373;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* 라인수 */
+      -webkit-box-orient: vertical;
+      word-wrap: break-word;
+      line-height: 1.2em;
+      height: 2.4rem;
     }
 
     .sub {

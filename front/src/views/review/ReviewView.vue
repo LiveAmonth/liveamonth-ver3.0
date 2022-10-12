@@ -15,6 +15,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const category = "REVIEW";
 const { hasReviewCategory, getReviewCategories } = useCategory();
 const { pageable, mappingPagination, movePage } = usePagination(category);
@@ -22,6 +23,7 @@ const { isPending, request, reviewPage, otherReviews, getReviews } =
   useReview();
 const route = useRoute();
 const router = useRouter();
+
 onMounted(async () => {
   request.value.type = props.menu.toUpperCase();
   await getReviewCategories();
@@ -63,6 +65,7 @@ watch(
             v-if="hasReviewCategory"
             :menu="menu"
             @apply-option="pageClick(1)"
+            @write="router.push({ name: 'write-review' })"
           />
         </el-col>
       </el-row>

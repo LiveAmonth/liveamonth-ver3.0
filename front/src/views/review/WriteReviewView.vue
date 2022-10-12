@@ -1,58 +1,162 @@
-<script setup lang="ts">
-import { onMounted, ref } from "vue";
-
-import axios from "axios";
+<script lang="ts" setup>
+import TagsInput from "@/components/review/TagsInput.vue";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { reactive, ref } from "vue";
+import { ReviewEditor } from "@/modules/types/review/ReviewTypes";
+import { useCategory } from "@/composables/common/category";
+import { useQuillEditor } from "@/composables/common/quilleditor";
+import { useSearch } from "@/composables/search/search";
+import type { FormInstance } from "element-plus/es";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import { useReview } from "@/composables/review/review";
 import { useRouter } from "vue-router";
-import dayjs from "dayjs";
 
-const title = ref("");
-const content = ref("");
-const category = ref("");
 const router = useRouter();
-const reviewCategories = ref([]);
-onMounted(() => {
-  axios.get("/categories/review").then((res) => {
-    reviewCategories.value = res.data.data;
-  });
-});
+const { reviewCategory } = useCategory();
+const {
+  resultMsg,
+  buttonMsg,
+  labelMsg,
+  inputPhMsg,
+  selectPhMsg,
+  openMessageBox,
+} = useMessageBox();
+const { toolbarOptions, onEditorReady } = useQuillEditor();
+const { dynamicTags, pushTag, handleClose, clearTags } = useSearch();
+const { addedReviewId, addReview } = useReview();
 
-const write = function () {
-  axios
-    .post("/reviews", {
-      title: title.value,
-      content: content.value,
-      category: category.value,
-      reviewDateTime: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      writer: "리버먼스",
-    })
-    .then(() => {
-      router.replace({ name: "home" });
-    });
+const form = reactive<ReviewEditor>(new ReviewEditor());
+const ruleFormRef = ref<FormInstance>();
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  await formEl.validate(async (valid) => {
+    if (valid) {
+      form.tags = dynamicTags.value;
+      await addReview(form).then(() => {
+        openMessageBox(resultMsg("review.write.success"));
+        if (addedReviewId.value != 0) {
+          router.replace({
+            name: "read-review",
+            params: { id: addedReviewId.value },
+          });
+        } else {
+          router.replace({
+            name: "review-list",
+            params: {
+              menu: "review_liveamonth",
+            },
+          });
+        }
+      });
+    }
+  });
 };
 </script>
 
 <template>
-  <div class="d-flex">
-    <el-input v-model="title" placeholder="제목을 입력해주세요" />
-    <el-select class="ms-2" v-model="category" placeholder="리뷰 카테고리">
-      <el-option
-        v-for="item in reviewCategories"
-        :key="item.code"
-        :label="item.value"
-        :value="item.code"
-      >
-      </el-option>
-    </el-select>
-  </div>
-
-  <div class="mt-2">
-    <el-input v-model="content" type="textarea" rows="15"></el-input>
-  </div>
-  <div class="mt-2">
-    <div class="d-flex justify-content-end">
-      <el-button type="primary" @click="write()">글 작성완료</el-button>
-    </div>
-  </div>
+  <el-row class="d-flex justify-content-center">
+    <el-col :span="20">
+      <el-row class="d-flex justify-content-center mt-3">
+        <el-col :span="18">
+          <el-form
+            ref="ruleFormRef"
+            :model="form"
+            :rules="form.getRules()"
+            status-icon
+          >
+            <div class="title-items">
+              <SmallTitleSlot>
+                {{ labelMsg("title") }}
+              </SmallTitleSlot>
+              <el-input
+                class="title-input"
+                :placeholder="inputPhMsg(labelMsg('title'))"
+                v-model="form.title"
+              />
+            </div>
+            <div class="category-items">
+              <SmallTitleSlot class="category-title">
+                {{ labelMsg("category") }}
+              </SmallTitleSlot>
+              <el-select
+                class="category-select"
+                v-model="form.category"
+                :placeholder="selectPhMsg(labelMsg('category'))"
+              >
+                <el-option
+                  v-for="item in reviewCategory"
+                  :key="item.code"
+                  :label="item.value"
+                  :value="item.code"
+                />
+              </el-select>
+            </div>
+            <div class="tags-items">
+              <SmallTitleSlot>
+                {{ labelMsg("review.tags") }}
+                <span class="title-span">
+                  ({{ labelMsg("review.tags-pl") }})
+                </span>
+              </SmallTitleSlot>
+              <TagsInput
+                :dynamic-tags="dynamicTags"
+                @push-tag="pushTag"
+                @handle-close="handleClose"
+                @clear="clearTags"
+              />
+            </div>
+            <el-form-item>
+              <div class="quill-editor">
+                <QuillEditor
+                  theme="snow"
+                  v-model:content="form.content"
+                  :toolbar="toolbarOptions"
+                  contentType="html"
+                  @ready="onEditorReady($event, '', false)"
+                />
+              </div>
+            </el-form-item>
+          </el-form>
+          <div class="d-flex justify-content-end">
+            <el-button size="large" @click="submitForm(ruleFormRef)">
+              {{ buttonMsg("write") }}
+            </el-button>
+          </div>
+        </el-col>
+      </el-row>
+    </el-col>
+  </el-row>
 </template>
 
-<style></style>
+<style lang="scss" scoped>
+.title-items {
+  margin-bottom: 25px;
+
+  .title-input {
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+.category-items {
+  margin-bottom: 25px;
+
+  .category-title {
+    display: block;
+  }
+
+  .category-select {
+    width: 250px;
+  }
+}
+
+.tags-items {
+  .title-span {
+    font-size: 20px;
+    color: #8d8d8d;
+  }
+
+  margin-bottom: 25px;
+}
+</style>
