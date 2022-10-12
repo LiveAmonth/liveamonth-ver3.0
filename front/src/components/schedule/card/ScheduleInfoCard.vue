@@ -92,7 +92,7 @@ const deleteScheduleBtn = async () => {
       <div class="profile" v-if="!isMyPage">
         <PopoverProfileSlot :profile="schedule.profile">
           <a class="mention" @click="goToMemberSchedules">
-            {{ $t("schedule.popover.link") }}
+            @{{ $t("schedule.popover.link") }}
           </a>
         </PopoverProfileSlot>
         <div class="nickname mt-2">
