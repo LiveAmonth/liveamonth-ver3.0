@@ -42,7 +42,14 @@ const deleteBtn = async () => {
     <el-divider />
     <el-row class="mt-3">
       <el-col>
-        <div class="content">{{ currInquiry.content }}</div>
+        <div class="content">
+          <QuillEditor
+            theme="bubble"
+            v-model:content="currInquiry.content"
+            read-only
+            contentType="html"
+          />
+        </div>
       </el-col>
     </el-row>
 

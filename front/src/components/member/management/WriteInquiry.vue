@@ -5,6 +5,7 @@ import { useMember } from "@/composables/member/member";
 import { useInquiry } from "@/composables/member/inquiry";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useMyPage } from "@/composables/member/mypage";
+import { useQuillEditor } from "@/composables/common/quilleditor";
 import { InquiryEditor } from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
 
@@ -14,7 +15,7 @@ const { isPending, category, currInquiry, writeInquiry, getCategory } =
 const { goManagement } = useMyPage();
 const { titleMsg, labelMsg, buttonMsg, resultMsg, openMessageBox } =
   useMessageBox();
-
+const { toolbarOptions, onEditorReady } = useQuillEditor();
 const props = defineProps({
   isEdit: {
     type: Boolean,
@@ -75,7 +76,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             <el-select
               v-model="form.category"
               placeholder="Select"
-              style="width: 115px"
+              style="width: 120px"
             >
               <el-option
                 v-for="item in category"
@@ -88,11 +89,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         </el-input>
       </el-form-item>
       <el-form-item :label="labelMsg('inquiry.content')" prop="content">
-        <el-input
-          v-model="form.content"
-          :autosize="{ minRows: 6 }"
-          type="textarea"
-        />
+        <div class="quill-editor">
+          <QuillEditor
+            theme="snow"
+            v-model:content="form.content"
+            :toolbar="toolbarOptions"
+            contentType="html"
+            @ready="onEditorReady($event, currInquiry.content)"
+          />
+        </div>
       </el-form-item>
       <el-row v-if="!isEdit">
         <el-col>
@@ -132,4 +137,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.quill-editor {
+  height: 550px;
+  width: 700px;
+
+  .ql-container {
+    height: 450px;
+  }
+}
+</style>
