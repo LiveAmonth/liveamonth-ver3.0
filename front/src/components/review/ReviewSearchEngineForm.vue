@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { Search, Refresh } from "@element-plus/icons-vue";
+import TagsInput from "@/components/review/TagsInput.vue";
+import { Search } from "@element-plus/icons-vue";
 import { reactive } from "vue";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useSearch } from "@/composables/search/search";
@@ -13,15 +14,7 @@ defineProps({
 });
 const emits = defineEmits(["applyOption"]);
 
-const {
-  dynamicTags,
-  tagInput,
-  tagInputVisible,
-  showInput,
-  handleClose,
-  handleInputConfirm,
-  clearTags,
-} = useSearch();
+const { dynamicTags, pushTag, handleClose, clearTags } = useSearch();
 const { buttonMsg } = useMessageBox();
 
 const form = reactive<ReviewSearchType>({
@@ -65,45 +58,12 @@ const submitForm = () => {
         </el-button>
       </el-col>
     </el-row>
-    <el-row class="tag-row">
-      <el-col :span="20" class="mx-2">
-        <el-tag
-          v-for="tag in dynamicTags"
-          :key="tag"
-          class="me-1"
-          size="large"
-          closable
-          :disable-transitions="false"
-          @close="handleClose(tag)"
-        >
-          {{ `#${tag}` }}
-        </el-tag>
-        <el-input
-          v-if="tagInputVisible"
-          ref="InputRef"
-          v-model="tagInput"
-          class="w-25"
-          @keyup.enter="handleInputConfirm"
-          @blur="handleInputConfirm"
-        />
-        <el-button
-          v-else
-          class="button-new-tag ml-1"
-          size="small"
-          @click="showInput"
-        >
-          {{ buttonMsg("newTag") }}
-        </el-button>
-      </el-col>
-      <el-col :span="3">
-        <el-button class="reset-btn" size="large" @click="clear" text>
-          <el-icon>
-            <Refresh />
-          </el-icon>
-          {{ buttonMsg("reset") }}
-        </el-button>
-      </el-col>
-    </el-row>
+    <TagsInput
+      :dynamic-tags="dynamicTags"
+      @push-tag="pushTag"
+      @handle-close="handleClose"
+      @clear="clear"
+    />
   </el-form>
 </template>
 

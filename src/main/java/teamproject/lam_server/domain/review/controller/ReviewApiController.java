@@ -11,6 +11,7 @@ import teamproject.lam_server.domain.review.dto.response.ReviewDetailResponse;
 import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
 import teamproject.lam_server.domain.review.service.ReviewService;
 import teamproject.lam_server.global.dto.response.CustomResponse;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -27,10 +28,10 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 public class ReviewApiController {
     private final ReviewService reviewService;
 
-    @PostMapping
-    public ResponseEntity<?> writeReview(@RequestBody @Valid ReviewCreate request) {
-        reviewService.write(request);
-        return CustomResponse.success(CREATE_REVIEW);
+    @PostMapping("/{loginId}")
+    public ResponseEntity<?> writeReview(@PathVariable String loginId, @RequestBody @Valid ReviewCreate request) {
+        PostIdResponse result = reviewService.write(loginId, request);
+        return CustomResponse.success(CREATE_REVIEW, result);
     }
 
     @GetMapping("/{id}")
@@ -43,6 +44,12 @@ public class ReviewApiController {
     public ResponseEntity<?> edit(@PathVariable Long id, @RequestBody @Valid ReviewEdit request) {
         reviewService.edit(id, request);
         return CustomResponse.success(UPDATE_REVIEW);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        reviewService.delete(id);
+        return CustomResponse.success(DELETE_REVIEW);
     }
 
     @GetMapping("/search")

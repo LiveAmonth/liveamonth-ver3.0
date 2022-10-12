@@ -1,6 +1,8 @@
 import { useMenuTab } from "@/composables/common/tabs";
 import { computed, ref } from "vue";
 import { useReviewStore } from "@/stores/review/review";
+import { useCategory } from "@/composables/common/category";
+import { useMember } from "@/composables/member/member";
 import type {
   MenuType,
   CategoryMenuType,
@@ -10,17 +12,18 @@ import type {
   PageableType,
 } from "@/modules/types/pagination/PaginationTypes";
 import type { EnumType } from "@/modules/types/common/CommonTypes";
-import { useCategory } from "@/composables/common/category";
 import type {
   ReviewDetailType,
   ReviewListType,
 } from "@/modules/types/review/ReviewTypes";
+import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
 
 export const useReview = () => {
   const store = useReviewStore();
   const error = ref();
   const isPending = ref<boolean>(false);
   const { getMenuCategory } = useMenuTab();
+  const { simpleProfile } = useMember();
   const { cityNames, reviewSearchType } = useCategory();
 
   const request = computed(() => store.searchCond);
@@ -28,6 +31,7 @@ export const useReview = () => {
   const otherReviews = computed((): ReviewListType[] => store.otherReviews);
   const currReview = computed((): ReviewDetailType => store.currReview);
   const myReviews = computed((): ReviewListType[] => store.myReviews);
+  const addedReviewId = computed((): number => store.addedReviewId);
 
   const cityReviewTabs: string[] = ["TOTAL"];
   cityNames.value.forEach((value) =>
@@ -46,11 +50,11 @@ export const useReview = () => {
     };
   };
 
-  const addReview = async (memberId: number, form: any) => {
+  const addReview = async (form: ReviewEditor) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.addReview(memberId, form);
+      await store.addReview(simpleProfile.value.loginId, form);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -59,7 +63,7 @@ export const useReview = () => {
     }
   };
 
-  const editReview = async (reviewId: number, form: any) => {
+  const editReview = async (reviewId: number, form: ReviewEditor) => {
     error.value = null;
     isPending.value = true;
     try {
@@ -98,15 +102,11 @@ export const useReview = () => {
     }
   };
 
-  const getMyReviews = async (
-    loginId: string,
-    size: number,
-    lastId: number | null
-  ) => {
+  const getMyReviews = async (size: number, lastId: number | null) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getMyReviews(loginId, size, lastId);
+      await store.getMyReviews(simpleProfile.value.loginId, size, lastId);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -151,6 +151,7 @@ export const useReview = () => {
     otherReviews,
     currReview,
     myReviews,
+    addedReviewId,
     getReviewMenu,
     addReview,
     editReview,

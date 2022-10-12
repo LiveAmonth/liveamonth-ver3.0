@@ -35,11 +35,7 @@ onMounted(async () => {
     null,
     true
   );
-  await getMyReviews(
-    memberProfile.value.loginId,
-    reviewInitialSize.value,
-    null
-  );
+  await getMyReviews(reviewInitialSize.value, null);
 });
 
 const dialogVisible = ref<boolean>(false);

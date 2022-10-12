@@ -71,7 +71,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <el-form-item :label="labelMsg('inquiry.writer')" prop="writer">
         <el-input v-model="form.writer" disabled />
       </el-form-item>
-      <el-form-item :label="labelMsg('inquiry.title')" prop="title">
+      <el-form-item :label="labelMsg('title')" prop="title">
         <el-input v-model="form.title">
           <template #append>
             <el-select

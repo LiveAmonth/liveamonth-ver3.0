@@ -1,15 +1,19 @@
 import { defineStore } from "pinia";
+import {
+  ReviewEditor,
+  ReviewSearchCond,
+} from "@/modules/types/review/ReviewTypes";
 import type {
   PageableRequestType,
   PageableResponseType,
   PageableType,
 } from "@/modules/types/pagination/PaginationTypes";
 import ReviewApiService from "@/services/review/ReviewApiService";
-import { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
 import type {
   ReviewListType,
   ReviewDetailType,
 } from "@/modules/types/review/ReviewTypes";
+import type { IdResponseType } from "@/modules/types/common/CommonTypes";
 
 export const useReviewStore = defineStore("review", {
   state: () => ({
@@ -17,6 +21,7 @@ export const useReviewStore = defineStore("review", {
     pageableReviews: {} as PageableResponseType,
     currReview: {} as ReviewDetailType,
     myReviews: {} as ReviewListType[],
+    addedReviewId: 0,
   }),
   getters: {
     otherReviews: (state): ReviewListType[] =>
@@ -24,17 +29,17 @@ export const useReviewStore = defineStore("review", {
     reviewPage: (state): PageableType => state.pageableReviews.pageable,
   },
   actions: {
-    addReview: async function (memberId: number, form: any) {
-      await ReviewApiService.addReview(memberId, form)
-        .then((response: string) => {
-          return response;
+    addReview: async function (loginId: string, form: ReviewEditor) {
+      await ReviewApiService.addReview(loginId, form)
+        .then((response: IdResponseType) => {
+          this.addedReviewId = response.id;
         })
         .catch((error) => {
           throw error;
         });
     },
 
-    editReview: async function (reviewId: number, form: any) {
+    editReview: async function (reviewId: number, form: ReviewEditor) {
       await ReviewApiService.editReview(reviewId, form)
         .then((response: string) => {
           return response;

@@ -1,6 +1,8 @@
+import { useFormValidate } from "@/composables/common/formValidate";
 import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
 import type { EnumType, FormType } from "@/modules/types/common/CommonTypes";
 import type { SearchCondType } from "@/modules/types/common/SearchEngineTypes";
+import type { FormRules } from "element-plus/es";
 
 /**
  * responses
@@ -22,6 +24,7 @@ export interface ReviewDetailType {
   profile: SimpleProfileType;
   content: string;
   category: EnumType;
+  tags: string[];
   createDateTime: string;
   numberOfHits: number;
   numberOfLikes: number;
@@ -48,7 +51,7 @@ export interface ReviewCreateType {
 /**
  * form & editor
  */
-export interface ReviewWriteType extends FormType<ReviewDetailType> {
+export interface ReviewFormType extends FormType<ReviewDetailType> {
   title: string;
   content: string;
   category: string;
@@ -83,5 +86,60 @@ export class ReviewSearchCond
     this.category = form.type != "TOTAL" ? form.type : "";
     this.searchWord = form.searchWord;
     this.tags = form.tags;
+  }
+}
+
+export class ReviewEditor implements ReviewFormType {
+  category: string;
+  content: string;
+  tags: string[];
+  title: string;
+
+  constructor(category = "", content = "", tags: string[] = [], title = "") {
+    this.category = category;
+    this.content = content;
+    this.tags = tags;
+    this.title = title;
+  }
+
+  clear(): void {
+    this.category = "";
+    this.content = "";
+    this.tags = [];
+    this.title = "";
+  }
+
+  getCreateData(): ReviewCreateType {
+    return {
+      title: this.title,
+      category: this.category,
+      tags: this.tags,
+      content: this.content,
+    };
+  }
+
+  getEditData(): ReviewCreateType {
+    return {
+      title: this.title,
+      category: this.category,
+      tags: this.tags,
+      content: this.content,
+    };
+  }
+
+  getRules(): FormRules {
+    const { validateRequire, validateSelection } = useFormValidate();
+    return {
+      title: [validateRequire("form.label.title")],
+      category: [validateSelection("form.label.category")],
+      content: [validateRequire("form.label.content")],
+    };
+  }
+
+  setForm(data: ReviewDetailType): void {
+    this.title = data.title;
+    this.category = data.category.code;
+    this.tags = data.tags;
+    this.content = data.content;
   }
 }

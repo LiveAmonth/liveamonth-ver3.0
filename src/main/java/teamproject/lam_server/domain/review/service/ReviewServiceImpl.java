@@ -16,6 +16,7 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewEditor;
 import teamproject.lam_server.domain.review.repository.ReviewRepository;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
@@ -35,14 +36,17 @@ public class ReviewServiceImpl implements ReviewService {
     private final DomainSpec<ReviewSortType> spec = new DomainSpec<>(ReviewSortType.class);
 
     @Transactional
-    public void write(ReviewCreate request) {
-        reviewRepository.save(request.toEntity(finder.getLoggedInMember()));
+    public PostIdResponse write(String loginId, ReviewCreate request) {
+        finder.checkLegalLoginId(loginId);
+        Review save = reviewRepository.save(request.toEntity(finder.getLoggedInMember()));
+        return PostIdResponse.of(save.getId());
     }
 
     @Transactional
     public void edit(Long id, ReviewEdit request) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(ReviewNotFound::new);
+        finder.checkLegalWriterOfPost(review);
 
         ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
 
@@ -51,6 +55,16 @@ public class ReviewServiceImpl implements ReviewService {
                 .content(request.getContent())
                 .build();
         review.edit(reviewEditor);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(ReviewNotFound::new);
+
+        finder.checkLegalWriterOfPost(review);
+
+        reviewRepository.delete(review);
     }
 
     public CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO) {

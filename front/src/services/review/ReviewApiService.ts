@@ -1,6 +1,8 @@
 import http, { getSortTypes, getSearchTypes } from "@/http-common";
 import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
 import type { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
+import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
+import type { IdResponseType } from "@/modules/types/common/CommonTypes";
 
 class ReviewApiService {
   async getReviewCategory() {
@@ -45,20 +47,23 @@ class ReviewApiService {
       });
   }
 
-  async addReview(memberId: number, request: any): Promise<string> {
+  async addReview(
+    loginId: string,
+    request: ReviewEditor
+  ): Promise<IdResponseType> {
     return await http
-      .post(`/reviews/${memberId}`, JSON.stringify(request))
+      .post(`/reviews/${loginId}`, JSON.stringify(request.getCreateData()))
       .then((response) => {
-        return response.data;
+        return response.data.data;
       })
       .catch((error) => {
         throw error.response.data;
       });
   }
 
-  async editReview(reviewId: number, request: any): Promise<string> {
+  async editReview(reviewId: number, request: ReviewEditor): Promise<string> {
     return await http
-      .patch(`/reviews/${reviewId}`, JSON.stringify(request))
+      .patch(`/reviews/${reviewId}`, JSON.stringify(request.getEditData()))
       .then((response) => {
         return response.data;
       })
@@ -79,7 +84,6 @@ class ReviewApiService {
   }
 
   async getReviews(request: ReviewSearchCond, pageable: PageableRequestType) {
-    console.log(request);
     return await http
       .get(
         `/reviews/search?page=${pageable.page - 1}&size=${pageable.size}&sort=${

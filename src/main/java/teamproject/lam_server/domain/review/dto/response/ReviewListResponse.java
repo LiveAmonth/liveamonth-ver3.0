@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.util.DateTimeUtil;
+import teamproject.lam_server.util.StringUtil;
 
 @Getter
 @Builder
@@ -23,7 +24,7 @@ public class ReviewListResponse {
                 .id(review.getId())
                 .title(review.getTitle())
                 .writer(review.getMember().getNickname())
-                .content(review.getContent())
+                .content(StringUtil.removeHtmlTag(review.getContent()))
                 .numberOfHits(review.getNumberOfHits())
                 .numberOfComments(review.getNumberOfComments())
                 .numberOfLikes(review.getNumberOfLikes())

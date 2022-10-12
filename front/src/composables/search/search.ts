@@ -1,6 +1,6 @@
 import { nextTick, ref } from "vue";
-import type { ElInput } from "element-plus";
 import { useReview } from "@/composables/review/review";
+import type { ElInput } from "element-plus";
 
 export const useSearch = () => {
   const { request } = useReview();
@@ -16,27 +16,20 @@ export const useSearch = () => {
     });
   };
 
+  const pushTag = (tag: string) => {
+    dynamicTags.value.push(tag);
+  };
+
   const handleClose = (tag: string) => {
     dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1);
   };
+
   const validationCheck = (input: string) => {
     return !/([^a-zA-Z0-9가-힣\x20])/i.test(input);
   };
 
-  const duplicationCheck = (input: string) => {
-    return !dynamicTags.value.includes(input);
-  };
-
-  const handleInputConfirm = () => {
-    if (
-      tagInput.value &&
-      duplicationCheck(tagInput.value) &&
-      validationCheck(tagInput.value)
-    ) {
-      dynamicTags.value.push(tagInput.value);
-    }
-    tagInputVisible.value = false;
-    tagInput.value = "";
+  const duplicationCheck = (tags: string[], input: string) => {
+    return !tags.includes(input);
   };
 
   const clearTags = () => {
@@ -49,8 +42,10 @@ export const useSearch = () => {
     tagInput,
     tagInputVisible,
     showInput,
+    pushTag,
     handleClose,
-    handleInputConfirm,
+    duplicationCheck,
+    validationCheck,
     clearTags,
   };
 };

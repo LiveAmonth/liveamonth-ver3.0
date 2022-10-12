@@ -1,5 +1,9 @@
 import type { FormRules } from "element-plus/es";
 
+export interface IdResponseType {
+  id: number;
+}
+
 export interface EnumType {
   code: string;
   value: string;

@@ -92,7 +92,8 @@
     "sort": "정렬",
     "select": "선택",
     "application": "적용",
-    "please-input": "{field}을 입력해주세요.",
+    "please-input": "{field}을/를 입력해주세요.",
+    "please-select": "{field}을/를 선택해주세요.",
     "pick-day": "날짜를 선택해주세요",
     "before-input": "{field}을 작성하려면 로그인 해주세요.",
     "submit": "작성",
@@ -211,6 +212,10 @@
           "start": "시작 시간",
           "end": "종료 시간"
         }
+      },
+      "review": {
+        "tags": "태그",
+        "tags-pl": "최대 10개"
       }
     },
     "message": {
@@ -250,7 +255,7 @@
         "delete": {
           "title": "1:1 문의 삭제",
           "content": "1:1 문의를 삭제하시겠습니까?",
-          "success": "문의 글이 삭제되었습니다."
+          "success": "1:1 문의가 삭제되었습니다."
         }
       },
       "schedule": {
@@ -279,6 +284,16 @@
         "delete": {
           "title": "댓글 삭제",
           "message": "해당 댓글을 삭제하시겠습니까?"
+        }
+      },
+      "review": {
+        "write": {
+          "success": "글 작성이 완료되었습니다."
+        },
+        "delete": {
+          "title": "게시글 삭제",
+          "content": "게시글을 삭제하시겠습니까?",
+          "success": "게시글이 삭제되었습니다."
         }
       }
     }
