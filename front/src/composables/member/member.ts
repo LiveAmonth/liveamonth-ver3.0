@@ -207,6 +207,9 @@ export const useMember = () => {
     }
   };
 
+  const isLoggedInMemberPost = (writerId: number) => {
+    return writerId == simpleProfile.value.id;
+  };
   return {
     error,
     isPending,
@@ -224,5 +227,6 @@ export const useMember = () => {
     findPw,
     getMember,
     getSimpleProfile,
+    isLoggedInMemberPost,
   };
 };
