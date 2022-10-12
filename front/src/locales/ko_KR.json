@@ -97,6 +97,8 @@
     "before-input": "{field}을 작성하려면 로그인 해주세요.",
     "submit": "작성",
     "title": "제목",
+    "content": "내용",
+    "category": "카테고리",
     "open": "공개",
     "hide": "숨김",
     "button": {
@@ -153,13 +155,19 @@
         "select": "스케줄 선택",
         "content": {
           "add": "새 컨텐츠 추가"
-        }
+        },
+        "open": "공개",
+        "hide": "숨김"
       }
     },
     "label": {
       "title": "제목",
+      "writer": "작성자",
+      "content": "내용",
+      "category": "카테고리",
       "view": "조회수",
       "like": "좋아요",
+      "city": "도시",
       "member": {
         "name": "이름",
         "loginId": "아이디",
@@ -183,10 +191,6 @@
         "created": "가입"
       },
       "inquiry": {
-        "writer": "작성자",
-        "title": "제목",
-        "content": "문의 내용",
-        "category": "카테고리",
         "date": "문의 날짜",
         "state": "상태",
         "standBy": "대기",
@@ -459,7 +463,8 @@
       "posts": "인기 게시물"
     },
     "review": {
-      "main": "후기 게시판"
+      "main": "후기 게시판",
+      "write": "글쓰기"
     },
     "member": {
       "reconfirm": "비밀번호 재확인",
