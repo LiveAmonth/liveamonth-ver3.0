@@ -9,13 +9,6 @@ import { useQuillEditor } from "@/composables/common/quilleditor";
 import { InquiryEditor } from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
 
-const { memberProfile } = useMember();
-const { isPending, category, currInquiry, writeInquiry, getCategory } =
-  useInquiry();
-const { goManagement } = useMyPage();
-const { titleMsg, labelMsg, buttonMsg, resultMsg, openMessageBox } =
-  useMessageBox();
-const { toolbarOptions, onEditorReady } = useQuillEditor();
 const props = defineProps({
   isEdit: {
     type: Boolean,
@@ -24,6 +17,14 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["goBack", "edit"]);
+
+const { memberProfile } = useMember();
+const { isPending, category, currInquiry, writeInquiry, getCategory } =
+  useInquiry();
+const { goManagement } = useMyPage();
+const { titleMsg, labelMsg, buttonMsg, resultMsg, openMessageBox } =
+  useMessageBox();
+const { toolbarOptions, onEditorReady } = useQuillEditor();
 
 const form = reactive<InquiryEditor>(
   new InquiryEditor(memberProfile.value.nickname)
