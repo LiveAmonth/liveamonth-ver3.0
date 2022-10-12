@@ -170,7 +170,7 @@ export interface ChangePasswordFormType extends FormType<PasswordChangeType> {
   passwordCheck: string;
 }
 
-export interface WriteInquiryFormType extends FormType<InquiryType> {
+export interface InquiryWriteFormType extends FormType<InquiryType> {
   title: string;
   category: string;
   content: string;
@@ -425,7 +425,7 @@ export class ChangePasswordEditor implements ChangePasswordFormType {
   }
 }
 
-export class InquiryEditor implements WriteInquiryFormType {
+export class InquiryEditor implements InquiryWriteFormType {
   category: string;
   content: string;
   title: string;
