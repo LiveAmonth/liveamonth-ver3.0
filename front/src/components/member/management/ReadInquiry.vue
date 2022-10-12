@@ -89,7 +89,9 @@ const deleteBtn = async () => {
         <el-divider />
         <el-row class="mt-3">
           <el-col>
-            <div class="content">{{ currInquiry.content }}</div>
+            <div class="content">
+              {{ currInquiry.content }}
+            </div>
           </el-col>
         </el-row>
       </el-col>

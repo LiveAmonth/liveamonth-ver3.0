@@ -95,7 +95,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             v-model:content="form.content"
             :toolbar="toolbarOptions"
             contentType="html"
-            @ready="onEditorReady($event, currInquiry.content)"
+            @ready="onEditorReady($event, currInquiry.content, isEdit)"
           />
         </div>
       </el-form-item>

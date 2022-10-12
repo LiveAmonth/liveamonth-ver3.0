@@ -1,8 +1,8 @@
 import type { Quill } from "@vueup/vue-quill";
 
 export const useQuillEditor = () => {
-  const onEditorReady = (e: Quill, content: string) => {
-    e.container.querySelector(".ql-blank").innerHTML = content ? content : "";
+  const onEditorReady = (e: Quill, content: string, isEdit: boolean) => {
+    e.container.querySelector(".ql-blank").innerHTML = isEdit ? content : "";
   };
 
   return {

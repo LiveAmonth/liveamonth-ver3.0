@@ -1,4 +1,6 @@
 import type { RouteLocationRaw } from "vue-router";
+import type { Component } from "vue";
+import { DefineComponent } from "vue";
 
 export interface MenuType {
   name: string;
@@ -14,10 +16,10 @@ export interface NameIconType {
 
 export interface CategoryMenuType<T> {
   category: NameIconType;
-  menus: T[] | undefined;
+  menus: T[];
 }
 
 export interface MyPageMenuType {
   value: string;
-  component: object;
+  component: DefineComponent;
 }
