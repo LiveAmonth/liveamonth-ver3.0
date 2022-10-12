@@ -89,7 +89,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           </template>
         </el-input>
       </el-form-item>
-      <el-form-item :label="labelMsg('inquiry.content')" prop="content">
+      <el-form-item :label="labelMsg('content')" prop="content">
         <div class="quill-editor">
           <QuillEditor
             theme="snow"

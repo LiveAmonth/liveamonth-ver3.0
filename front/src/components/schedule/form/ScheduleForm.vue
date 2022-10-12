@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { onMounted, reactive, ref, watch } from "vue";
-import { useCity } from "@/composables/city/city";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useI18n } from "vue-i18n";
-import type { FormInstance } from "element-plus/es";
 import { ScheduleEditor } from "@/modules/types/schedule/ScheduleTypes";
+import { useCategory } from "@/composables/common/category";
+import type { FormInstance } from "element-plus/es";
 
 const props = defineProps({
   selectedId: {
@@ -23,9 +22,9 @@ const props = defineProps({
 
 const emits = defineEmits(["submit", "deleteSchedule"]);
 const { editedSchedule, addSchedule, editSchedule } = useSchedule();
-const { cityNames } = useCity();
-const { openMessage, openMessageBox } = useMessageBox();
-const { t } = useI18n();
+const { cityNames } = useCategory();
+const { openMessage, openMessageBox, labelMsg, resultMsg, buttonMsg } =
+  useMessageBox();
 
 const isEdit = ref<boolean>(!props.selectedId);
 const scheduleForm = reactive<ScheduleEditor>(new ScheduleEditor());
@@ -56,17 +55,17 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       if (props.selectedId) {
         await editSchedule(props.selectedId, scheduleForm).then(() => {
           isEdit.value = false;
-          openMessage(t("form.message.schedule.update"));
+          openMessage(resultMsg("schedule.update"));
           emits("submit", true);
         });
       } else {
         await addSchedule(scheduleForm).then(() => {
-          openMessage(t("form.message.schedule.add"));
+          openMessage(resultMsg("schedule.add"));
           emits("submit");
         });
       }
     } else {
-      await openMessageBox(t("form.message.reWrite"));
+      await openMessageBox(resultMsg("reWrite"));
     }
   });
 };
@@ -89,8 +88,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         <el-form-item>
           <el-switch
             v-model="scheduleForm.publicFlag"
-            :active-text="$t('common.open')"
-            :inactive-text="$t('common.hide')"
+            :active-text="buttonMsg('schedule.open')"
+            :inactive-text="buttonMsg('schedule.hide')"
             class="ml-2"
             inline-prompt
             size="large"
@@ -101,19 +100,19 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           />
         </el-form-item>
       </div>
-      <el-form-item :label="$t('common.title')" prop="title">
+      <el-form-item :label="labelMsg('title')" prop="title">
         <el-input
           v-model="scheduleForm.title"
           :placeholder="
             $t('common.please-input', {
-              field: $t('common.title'),
+              field: labelMsg('title'),
             })
           "
           style="width: 200px"
         >
         </el-input>
       </el-form-item>
-      <el-form-item :label="$t('city.title')" prop="city">
+      <el-form-item :label="labelMsg('city')" prop="city">
         <el-select
           v-model="scheduleForm.city"
           :placeholder="$t('common.select')"

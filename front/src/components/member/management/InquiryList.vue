@@ -111,20 +111,20 @@ const goBackBtn = () => {
           @cell-click="select"
         >
           <el-table-column
-            :label="labelMsg('inquiry.category')"
+            :label="labelMsg('category')"
             align="center"
             prop="category"
             width="80"
           />
           <el-table-column
-            :label="labelMsg('inquiry.title')"
+            :label="labelMsg('title')"
             align="left"
             header-align="center"
             prop="title"
             width="280"
           />
           <el-table-column
-            :label="labelMsg('inquiry.writer')"
+            :label="labelMsg('writer')"
             align="center"
             prop="writer"
             width="100"

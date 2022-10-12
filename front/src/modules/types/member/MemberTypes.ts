@@ -446,10 +446,9 @@ export class InquiryEditor implements InquiryWriteFormType {
 
   getRules(): FormRules {
     const { validateRequire } = useFormValidate();
-
     return {
-      title: [validateRequire("form.label.inquiry.title")],
-      content: [validateRequire("form.label.inquiry.content")],
+      title: [validateRequire("form.label.title")],
+      content: [validateRequire("form.label.content")],
     };
   }
 
