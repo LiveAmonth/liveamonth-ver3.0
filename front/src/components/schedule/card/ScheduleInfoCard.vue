@@ -9,8 +9,10 @@ import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
-import type { SearchEngineFormType } from "@/modules/types/common/SearchEngineTypes";
-import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
+import type {
+  ScheduleCardType,
+  ScheduleSearchFormType,
+} from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   schedule: {
@@ -42,7 +44,7 @@ const { openConfirmMessageBox } = useMessageBox();
 const { t } = useI18n();
 
 const goToMemberSchedules = () => {
-  const request: SearchEngineFormType = {
+  const request: ScheduleSearchFormType = {
     searchType: scheduleSearchType.value[0].code,
     searchInput: props.schedule.profile.nickname,
     filterType: null,

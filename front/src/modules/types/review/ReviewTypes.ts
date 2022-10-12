@@ -1,16 +1,6 @@
 import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
-import type { EnumType } from "@/modules/types/common/CommonTypes";
-import type { CommentType } from "@/modules/types/comment/CommentTypes";
-
-/**
- * requests
- */
-export interface ReviewSearchType {
-  searchWord: string | null;
-  tags: string[];
-  type: string | null;
-  category: string | null;
-}
+import type { EnumType, FormType } from "@/modules/types/common/CommonTypes";
+import type { SearchCondType } from "@/modules/types/common/SearchEngineTypes";
 
 /**
  * responses
@@ -39,13 +29,39 @@ export interface ReviewDetailType {
 }
 
 /**
- * form & editor
+ * request
  */
-export class ReviewSearchCond {
+export interface ReviewSearchType {
   searchWord: string | null;
   tags: string[];
-  type: string;
+  type: string | null;
+  category: string | null;
+}
+
+export interface ReviewCreateType {
+  title: string;
+  content: string;
   category: string;
+  tags: string[];
+}
+
+/**
+ * form & editor
+ */
+export interface ReviewWriteType extends FormType<ReviewDetailType> {
+  title: string;
+  content: string;
+  category: string;
+  tags: string[];
+}
+
+export class ReviewSearchCond
+  implements SearchCondType<ReviewSearchType, ReviewSearchType>
+{
+  searchWord: string | null;
+  tags: string[];
+  type: string | null;
+  category: string | null;
 
   constructor() {
     this.searchWord = "";
@@ -63,9 +79,9 @@ export class ReviewSearchCond {
     };
   }
 
-  setAttr(input: string, tags: string[], type: string): void {
-    this.category = type != "TOTAL" ? type : "";
-    this.searchWord = input;
-    this.tags = tags;
+  setAttr(form: ReviewSearchType): void {
+    this.category = form.type != "TOTAL" ? form.type : "";
+    this.searchWord = form.searchWord;
+    this.tags = form.tags;
   }
 }

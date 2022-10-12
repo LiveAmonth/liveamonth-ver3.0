@@ -1,13 +1,5 @@
-export interface SearchEngineFormType {
-  searchType: string | null;
-  searchInput: string | null;
-  filterType: string | null;
-  filterInput: string | null;
-  sortType: string | null;
-}
-
-export interface SearchCondType<T> {
-  setAttr(form: SearchEngineFormType): void;
+export interface SearchCondType<T, D> {
+  setAttr(form: D): void;
   getSearchData(): T;
 }
 

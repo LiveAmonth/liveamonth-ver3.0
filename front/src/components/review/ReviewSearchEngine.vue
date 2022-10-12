@@ -5,6 +5,7 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import { useCategory } from "@/composables/common/category";
 import ReviewSearchEngineForm from "@/components/review/ReviewSearchEngineForm.vue";
 import { usePagination } from "@/composables/common/pagination";
+import type { ReviewSearchType } from "@/modules/types/review/ReviewTypes";
 
 defineProps({
   menu: {
@@ -21,8 +22,9 @@ const { reviewSearchType, reviewSortType } = useCategory();
 const activeName = ref<string>(cityReviewTabs[0]);
 const order = ref<string>(pageable.value.sort);
 
-const submitForm = async (input: string, tags: string[]) => {
-  request.value.setAttr(input, tags, activeName.value);
+const submitForm = async (form: ReviewSearchType) => {
+  form.type = activeName.value;
+  request.value.setAttr(form);
   await emits("applyOption");
 };
 
@@ -107,6 +109,7 @@ const writeReview = () => {
 }
 
 .sort-write-content {
+  margin-top: 30px;
   display: flex;
   justify-content: space-between;
 
