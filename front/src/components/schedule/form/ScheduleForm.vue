@@ -27,24 +27,24 @@ const { openMessage, openMessageBox, labelMsg, resultMsg, buttonMsg } =
   useMessageBox();
 
 const isEdit = ref<boolean>(!props.selectedId);
-const scheduleForm = reactive<ScheduleEditor>(new ScheduleEditor());
+const form = reactive<ScheduleEditor>(new ScheduleEditor());
 const ruleFormRef = ref<FormInstance>();
 
 onMounted(() => {
   if (props.selectedId) {
-    scheduleForm.setForm(editedSchedule.value);
+    form.setForm(editedSchedule.value);
   }
 });
 
 watch(
   () => editedSchedule.value,
   () => {
-    scheduleForm.setForm(editedSchedule.value);
+    form.setForm(editedSchedule.value);
   }
 );
 
 const cancelEdit = () => {
-  scheduleForm.setForm(editedSchedule.value);
+  form.setForm(editedSchedule.value);
   isEdit.value = false;
 };
 
@@ -53,13 +53,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid) => {
     if (valid) {
       if (props.selectedId) {
-        await editSchedule(props.selectedId, scheduleForm).then(() => {
+        await editSchedule(props.selectedId, form).then(() => {
           isEdit.value = false;
           openMessage(resultMsg("schedule.update"));
           emits("submit", true);
         });
       } else {
-        await addSchedule(scheduleForm).then(() => {
+        await addSchedule(form).then(() => {
           openMessage(resultMsg("schedule.add"));
           emits("submit");
         });
@@ -76,8 +76,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     <el-form
       ref="ruleFormRef"
       :disabled="!isEdit"
-      :model="scheduleForm"
-      :rules="scheduleForm.getRules()"
+      :model="form"
+      :rules="form.getRules()"
       label-width="75px"
       status-icon
     >
@@ -87,7 +87,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         </SmallTitleSlot>
         <el-form-item>
           <el-switch
-            v-model="scheduleForm.publicFlag"
+            v-model="form.publicFlag"
             :active-text="buttonMsg('schedule.open')"
             :inactive-text="buttonMsg('schedule.hide')"
             class="ml-2"
@@ -102,7 +102,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       </div>
       <el-form-item :label="labelMsg('title')" prop="title">
         <el-input
-          v-model="scheduleForm.title"
+          v-model="form.title"
           :placeholder="
             $t('common.please-input', {
               field: labelMsg('title'),
@@ -114,7 +114,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       </el-form-item>
       <el-form-item :label="labelMsg('city')" prop="city">
         <el-select
-          v-model="scheduleForm.city"
+          v-model="form.city"
           :placeholder="$t('common.select')"
           style="width: 200px"
         >
@@ -129,7 +129,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         class="period-item"
       >
         <el-date-picker
-          v-model="scheduleForm.period.startDate"
+          v-model="form.period.startDate"
           :placeholder="$t('common.pick-day')"
           style="width: 200px"
           type="date"
@@ -142,7 +142,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         class="period-item"
       >
         <el-date-picker
-          v-model="scheduleForm.period.endDate"
+          v-model="form.period.endDate"
           :placeholder="$t('common.pick-day')"
           style="width: 200px"
           type="date"
@@ -172,7 +172,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <el-button @click="submitForm(ruleFormRef)">
         {{ $t("common.button.add") }}
       </el-button>
-      <el-button @click="scheduleForm.clear()">
+      <el-button @click="form.clear()">
         {{ $t("common.button.clear") }}
       </el-button>
     </div>
