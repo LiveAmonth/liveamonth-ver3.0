@@ -192,11 +192,11 @@ export class ScheduleEditor implements ScheduleFormType {
     const { validateRequire, validateSelection, validateDatePeriod } =
       useFormValidate();
 
-    return reactive<FormRules>({
-      title: [validateRequire("common.title")],
+    return {
+      title: [validateRequire("form.label.title")],
       city: [validateSelection("city.title")],
       period: [validateDatePeriod(this.period)],
-    });
+    };
   }
 
   getCreateData(): ScheduleCreateType {
