@@ -14,7 +14,7 @@ import type {
   MyPageMenuType,
   NameIconType,
 } from "@/modules/types/common/MenuTypes";
-import type { Component, DefineComponent } from "vue";
+import type { DefineComponent } from "vue";
 
 export const useMyPage = () => {
   const router = useRouter();

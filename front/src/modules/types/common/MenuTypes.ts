@@ -1,6 +1,5 @@
 import type { RouteLocationRaw } from "vue-router";
-import type { Component } from "vue";
-import { DefineComponent } from "vue";
+import type { DefineComponent } from "vue";
 
 export interface MenuType {
   name: string;
