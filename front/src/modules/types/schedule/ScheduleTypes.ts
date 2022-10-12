@@ -3,10 +3,7 @@ import { useFormValidate } from "@/composables/common/formValidate";
 import { reactive } from "vue";
 import type { EnumType } from "@/modules/types/common/CommonTypes";
 import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
-import type {
-  SearchCondType,
-  SearchEngineFormType,
-} from "@/modules/types/common/SearchEngineTypes";
+import type { SearchCondType } from "@/modules/types/common/SearchEngineTypes";
 import type { CommentType } from "@/modules/types/comment/CommentTypes";
 import type { FormType } from "@/modules/types/common/CommonTypes";
 import type { FormRules } from "element-plus/es";
@@ -106,7 +103,17 @@ export interface CalendarExtendedType {
   content: string;
 }
 
-export class ScheduleSearchCond implements SearchCondType<ScheduleSearchType> {
+export interface ScheduleSearchFormType {
+  searchType: string | null;
+  searchInput: string | null;
+  filterType: string | null;
+  filterInput: string | null;
+  sortType: string | null;
+}
+
+export class ScheduleSearchCond
+  implements SearchCondType<ScheduleSearchType, ScheduleSearchFormType>
+{
   memberNickname: string | null;
   cityName: string | null;
   startDate: string | null;
@@ -124,7 +131,7 @@ export class ScheduleSearchCond implements SearchCondType<ScheduleSearchType> {
     this.startDate = startDate;
   }
 
-  setAttr(form: SearchEngineFormType): void {
+  setAttr(form: ScheduleSearchFormType): void {
     if (form.searchType === "MEMBER_NICKNAME") {
       this.memberNickname = form.searchInput as string;
       this.title = null;

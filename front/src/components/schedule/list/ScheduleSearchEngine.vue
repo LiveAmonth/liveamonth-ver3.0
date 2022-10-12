@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from "vue";
 import { Search, Filter, Sort } from "@element-plus/icons-vue";
 import { useDate } from "@/composables/common/date";
 import { useCategory } from "@/composables/common/category";
-import type { SearchEngineFormType } from "@/modules/types/common/SearchEngineTypes";
+import type { ScheduleSearchFormType } from "@/modules/types/schedule/ScheduleTypes";
 
 const emit = defineEmits(["applyOption"]);
 const { getDate } = useDate();
@@ -15,7 +15,7 @@ const {
   getCityNames,
   getScheduleCategories,
 } = useCategory();
-const scheduleSearchForm: SearchEngineFormType = reactive({
+const form = reactive<ScheduleSearchFormType>({
   searchType: null,
   searchInput: null,
   filterType: null,
@@ -39,32 +39,30 @@ onMounted(async () => {
 });
 
 const setUpEngine = () => {
-  scheduleSearchForm.searchType = scheduleSearchType.value[0].code;
-  scheduleSearchForm.filterType = scheduleFilterType.value[0].code;
-  scheduleSearchForm.sortType = scheduleSortType.value[0].title;
+  form.searchType = scheduleSearchType.value[0].code;
+  form.filterType = scheduleFilterType.value[0].code;
+  form.sortType = scheduleSortType.value[0].title;
 };
 
 const selectSearchType = () => {
-  scheduleSearchForm.searchInput = "";
+  form.searchInput = "";
 };
 
 const selectFilterType = () => {
-  scheduleSearchForm.filterInput =
-    scheduleSearchForm.filterType === "CITY_NAME"
-      ? cityNames.value[0].code
-      : null;
+  form.filterInput =
+    form.filterType === "CITY_NAME" ? cityNames.value[0].code : null;
 };
 
 const applyOption = () => {
-  if (scheduleSearchForm.filterType === "START_DATE") {
-    if (scheduleSearchForm.filterInput) {
-      scheduleSearchForm.filterInput = getDate(scheduleSearchForm.filterInput);
+  if (form.filterType === "START_DATE") {
+    if (form.filterInput) {
+      form.filterInput = getDate(form.filterInput);
     }
   }
   searchCollapse.value = 0;
   filterCollapse.value = 0;
   sortCollapse.value = 0;
-  emit("applyOption", scheduleSearchForm);
+  emit("applyOption", form);
 };
 
 const disabledDate = (time: Date) => {
@@ -73,7 +71,7 @@ const disabledDate = (time: Date) => {
 </script>
 <template>
   <el-card class="schedule-list-card" :body-style="{ paddingBottom: '6px' }">
-    <el-form :model="scheduleSearchForm" class="d-flex justify-content-center">
+    <el-form :model="form" class="d-flex justify-content-center">
       <el-collapse
         v-model="searchCollapse"
         class="search me-3"
@@ -90,7 +88,7 @@ const disabledDate = (time: Date) => {
           <div class="d-flex justify-content-between pt-1">
             <el-form-item>
               <el-select
-                v-model="scheduleSearchForm.searchType"
+                v-model="form.searchType"
                 :placeholder="$t('common.select')"
                 class="me-2"
                 style="width: 115px"
@@ -106,7 +104,7 @@ const disabledDate = (time: Date) => {
             </el-form-item>
             <el-form-item>
               <el-input
-                v-model="scheduleSearchForm.searchInput"
+                v-model="form.searchInput"
                 :placeholder="
                   $t('common.please-input', {
                     field: $t('member.nickname'),
@@ -135,7 +133,7 @@ const disabledDate = (time: Date) => {
           <div class="d-flex justify-content-between pt-1">
             <el-form-item>
               <el-select
-                v-model="scheduleSearchForm.filterType"
+                v-model="form.filterType"
                 :placeholder="$t('common.filter')"
                 class="me-2"
                 style="width: 115px"
@@ -149,9 +147,9 @@ const disabledDate = (time: Date) => {
                 </template>
               </el-select>
             </el-form-item>
-            <el-form-item v-if="scheduleSearchForm.filterType === 'CITY_NAME'">
+            <el-form-item v-if="form.filterType === 'CITY_NAME'">
               <el-select
-                v-model="scheduleSearchForm.filterInput"
+                v-model="form.filterInput"
                 :placeholder="$t('common.select')"
                 style="width: 200px"
               >
@@ -163,11 +161,9 @@ const disabledDate = (time: Date) => {
                 </template>
               </el-select>
             </el-form-item>
-            <el-form-item
-              v-else-if="scheduleSearchForm.filterType === 'START_DATE'"
-            >
+            <el-form-item v-else-if="form.filterType === 'START_DATE'">
               <el-date-picker
-                v-model="scheduleSearchForm.filterInput"
+                v-model="form.filterInput"
                 :disabled-date="disabledDate"
                 :placeholder="$t('common.pick-day')"
                 style="width: 200px"
@@ -193,7 +189,7 @@ const disabledDate = (time: Date) => {
           <div class="d-flex justify-content-between pt-1">
             <el-form-item>
               <el-select
-                v-model="scheduleSearchForm.sortType"
+                v-model="form.sortType"
                 :placeholder="$t('common.sort')"
                 class="me-2"
                 style="width: 115px"

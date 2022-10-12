@@ -5,7 +5,7 @@ import SchedulePageList from "@/components/schedule/list/SchedulePageList.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { usePagination } from "@/composables/common/pagination";
-import type { SearchEngineFormType } from "@/modules/types/common/SearchEngineTypes";
+import type { ScheduleSearchFormType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   isMain: {
@@ -38,7 +38,7 @@ const pageClick = async (page: number) => {
   });
 };
 
-const applyOptions = async (data: SearchEngineFormType) => {
+const applyOptions = async (data: ScheduleSearchFormType) => {
   request.value.setAttr(data);
   await setSort(String(data.sortType));
   await getOtherSchedules(pageable.value).then(() => {
