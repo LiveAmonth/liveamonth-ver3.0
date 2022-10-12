@@ -90,7 +90,12 @@ const deleteBtn = async () => {
         <el-row class="mt-3">
           <el-col>
             <div class="content">
-              {{ currInquiry.content }}
+              <QuillEditor
+                theme="bubble"
+                v-model:content="currInquiry.content"
+                read-only
+                contentType="html"
+              />
             </div>
           </el-col>
         </el-row>
@@ -131,14 +136,6 @@ const deleteBtn = async () => {
         color: #8d8d8d;
       }
     }
-  }
-
-  .content {
-    font-size: 1rem;
-    margin-top: 8px;
-    color: #535252;
-    white-space: break-spaces;
-    line-height: 1.5;
   }
 }
 
