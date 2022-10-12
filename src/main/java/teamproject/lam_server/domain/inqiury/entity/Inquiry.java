@@ -20,6 +20,7 @@ import static javax.persistence.FetchType.LAZY;
 public class Inquiry extends BaseEntity {
 
     private String title;
+    @Lob
     private String content;
 
     @Enumerated(STRING)
