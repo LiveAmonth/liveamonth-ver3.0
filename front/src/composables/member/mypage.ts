@@ -14,6 +14,7 @@ import type {
   MyPageMenuType,
   NameIconType,
 } from "@/modules/types/common/MenuTypes";
+import type { Component, DefineComponent } from "vue";
 
 export const useMyPage = () => {
   const router = useRouter();
@@ -76,6 +77,18 @@ export const useMyPage = () => {
     });
   };
 
+  const findComponent = (category: string, menu: string): DefineComponent => {
+    const menus: MyPageMenuType[] =
+      category === accountMenu.category.code
+        ? accountMenu.menus
+        : inquiryMenu.menus;
+    let component: DefineComponent = EditProfile;
+    menus.forEach((value) => {
+      if (value.value == menu) component = value.component;
+    });
+    return component;
+  };
+
   return {
     profileTabs,
     myPagePostsTabs,
@@ -85,5 +98,6 @@ export const useMyPage = () => {
     ],
     getPostCount,
     goManagement,
+    findComponent,
   };
 };
