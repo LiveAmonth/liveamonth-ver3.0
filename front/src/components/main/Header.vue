@@ -17,7 +17,7 @@ const menuClick = (name: string) => {
     <el-menu
       :ellipsis="false"
       active-text-color="#0f6778"
-      background-color="#F6F6F6"
+      background-color="#fff"
       class="header-content"
       mode="horizontal"
       router

@@ -26,14 +26,25 @@ const handleSelect = (key: string, keyPath: string[]) => {
     active-text-color="#0f6778"
     class="header-content"
     mode="horizontal"
-    text-color="#0f6778"
+    background-color="#fafafa"
+    text-color="#5d5d5d"
     @select="handleSelect"
+    style="
+      --el-menu-hover-bg-color: #fafafa;
+      --el-menu-hover-text-color: #007f95;
+    "
   >
     <template v-for="(menu, idx) in mainMenus" :key="menu.name">
       <el-sub-menu v-if="menu.sub.length" :index="String(idx)">
         <template #title>{{ menuMsg(menu.name) }}</template>
         <template v-for="(sub, sIdx) in menu.sub" :key="sub.name">
-          <el-menu-item :index="`${idx}-${sIdx}`">
+          <el-menu-item
+            :index="`${idx}-${sIdx}`"
+            style="
+              --el-menu-hover-bg-color: #fafafa;
+              --el-menu-hover-text-color: #007f95;
+            "
+          >
             {{ menuMsg(sub.name) }}
           </el-menu-item>
         </template>
@@ -45,4 +56,26 @@ const handleSelect = (key: string, keyPath: string[]) => {
   </el-menu>
 </template>
 
-<style scoped></style>
+<style lang="scss">
+.header-content {
+  box-shadow: 0 2px 4px 0 hsl(0deg 0% 81% / 50%);
+  border-top: 1px solid #f1f3f5;
+
+  .el-menu-item {
+    font-size: 1rem;
+    font-weight: 400;
+
+    &:hover {
+      font-weight: bold;
+      color: #007f95;
+    }
+  }
+}
+
+.el-sub-menu {
+  .el-sub-menu__title {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}
+</style>

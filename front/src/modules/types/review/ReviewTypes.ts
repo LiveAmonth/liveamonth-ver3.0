@@ -139,7 +139,7 @@ export class ReviewEditor implements ReviewFormType {
   setForm(data: ReviewDetailType): void {
     this.title = data.title;
     this.category = data.category.code;
-    this.tags = data.tags;
+    this.tags = data.tags ? data.tags : [];
     this.content = data.content;
   }
 }

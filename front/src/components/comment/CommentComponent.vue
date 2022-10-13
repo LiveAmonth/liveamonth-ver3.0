@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import CustomPagination from "@/components/common/CustomPagination.vue";
-import TitleSlot from "@/components/common/TitleSlot.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentInput from "@/components/comment/CommentInput.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
@@ -150,10 +149,14 @@ const setEditInput = (isReply = false, id = "#0") => {
 
 <template>
   <div id="0" class="comment">
-    <TitleSlot class="comment-title">
-      {{ $t("comment.title") }}
-      {{ `(${commentPageable ? commentPageable.totalElements : "0"})` }}
-    </TitleSlot>
+    <SmallTitleSlot class="comment-title">
+      {{
+        $t(
+          "comment.title",
+          commentPageable ? commentPageable.totalElements : "0"
+        )
+      }}
+    </SmallTitleSlot>
     <el-card class="comment-write">
       <SmallTitleSlot class="title">
         {{ $t("comment.write") }}
@@ -223,17 +226,15 @@ const setEditInput = (isReply = false, id = "#0") => {
                 </CommentSlot>
               </li>
             </ul>
-            <div class="mt-2 ms-5">
-              <el-divider class="mb-1" />
-              <CommentInput
-                :content-id="contentId"
-                :is-edit="isReplyEdit"
-                :is-reply="true"
-                :parent-id="comment.commentId"
-                @cancel="handleCancel(true)"
-                @submit-form="submitForm"
-              />
-            </div>
+            <CommentInput
+              class="comment-reply-input"
+              :content-id="contentId"
+              :is-edit="isReplyEdit"
+              :is-reply="true"
+              :parent-id="comment.commentId"
+              @cancel="handleCancel(true)"
+              @submit-form="submitForm"
+            />
           </el-collapse-item>
         </el-collapse>
       </li>
@@ -244,7 +245,16 @@ const setEditInput = (isReply = false, id = "#0") => {
 
 <style lang="scss">
 .comment {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .comment-write {
+    width: fit-content;
+  }
+
   .comment-list {
+    max-width: 870px;
     list-style: none;
     padding: 0;
 
@@ -260,10 +270,19 @@ const setEditInput = (isReply = false, id = "#0") => {
       }
 
       .comment-reply {
+        width: inherit;
+        margin-top: 15px;
         ul {
+          margin-bottom: 30px;
           .reply-list {
             list-style: none;
           }
+        }
+
+        .comment-reply-input {
+          padding-left: 40px;
+          padding-top: 20px;
+          border-top: 1px solid #e7e9eb;
         }
       }
     }
@@ -271,7 +290,7 @@ const setEditInput = (isReply = false, id = "#0") => {
     .el-collapse-item__header,
     .el-collapse-item__wrap {
       border: none;
-      background-color: inherit;
+      background-color: #fafafa;
     }
   }
 }

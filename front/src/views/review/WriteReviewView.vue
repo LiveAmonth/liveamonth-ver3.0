@@ -1,17 +1,15 @@
 <script lang="ts" setup>
 import TagsInput from "@/components/review/TagsInput.vue";
-import { useMessageBox } from "@/composables/common/messageBox";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { reactive, ref } from "vue";
 import { ReviewEditor } from "@/modules/types/review/ReviewTypes";
 import { useCategory } from "@/composables/common/category";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useQuillEditor } from "@/composables/common/quilleditor";
 import { useSearch } from "@/composables/search/search";
-import type { FormInstance } from "element-plus/es";
-import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useReview } from "@/composables/review/review";
-import { useRouter } from "vue-router";
+import type { FormInstance } from "element-plus/es";
 
-const router = useRouter();
 const { reviewCategory } = useCategory();
 const {
   resultMsg,
@@ -23,7 +21,7 @@ const {
 } = useMessageBox();
 const { toolbarOptions, onEditorReady } = useQuillEditor();
 const { dynamicTags, pushTag, handleClose, clearTags } = useSearch();
-const { addedReviewId, addReview } = useReview();
+const { addedReviewId, addReview, goReadReview, goReviewList } = useReview();
 
 const form = reactive<ReviewEditor>(new ReviewEditor());
 const ruleFormRef = ref<FormInstance>();
@@ -33,22 +31,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid) => {
     if (valid) {
       form.tags = dynamicTags.value;
-      await addReview(form).then(() => {
-        openMessageBox(resultMsg("review.write.success"));
-        if (addedReviewId.value != 0) {
-          router.replace({
-            name: "read-review",
-            params: { id: addedReviewId.value },
-          });
-        } else {
-          router.replace({
-            name: "review-list",
-            params: {
-              menu: "review_liveamonth",
-            },
-          });
-        }
-      });
+      await addReview(form)
+        .then(() => {
+          openMessageBox(resultMsg("review.write.success"));
+          goReadReview(addedReviewId.value);
+        })
+        .catch(() => {
+          openMessageBox(resultMsg("review.write.exception"));
+          goReviewList();
+        });
     }
   });
 };

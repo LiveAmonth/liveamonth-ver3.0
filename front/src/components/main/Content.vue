@@ -8,7 +8,7 @@
 
 <style lang="scss" scoped>
 .content {
-  background-color: #fafafa;
+  background-color: #fff;
   height: fit-content;
 
   &::-webkit-scrollbar {

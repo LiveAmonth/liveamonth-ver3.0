@@ -11,7 +11,7 @@ import Header from "@/components/main/Header.vue";
 <style lang="scss">
 body {
   font-family: "Noto Sans KR", sans-serif;
-  background-color: #fafafa;
+  background-color: #ffffff;
 }
 
 a {

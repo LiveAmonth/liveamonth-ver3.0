@@ -33,7 +33,7 @@ public class SecurityContextFinder {
     }
 
     public <T extends BaseEntity> void checkLegalWriterOfPost(T t) {
-        if (!Objects.equals(getLoggedInMember().getLoginId(), t.getCreatedBy())) {
+        if (!Objects.equals(getLoggedInMemberLoginId(), t.getCreatedBy())) {
             throw new IllegalWriterOfPost();
         }
     }

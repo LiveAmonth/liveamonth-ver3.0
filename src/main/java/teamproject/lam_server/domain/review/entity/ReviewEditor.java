@@ -12,10 +12,10 @@ public class ReviewEditor {
     private final String title;
     private final String content;
     private final ReviewCategory category;
-    private final Set<String> tags;
+    private final Set<ReviewTag> tags;
 
     @Builder
-    public ReviewEditor(String title, String content, ReviewCategory category, Set<String> tags) {
+    public ReviewEditor(String title, String content, ReviewCategory category, Set<ReviewTag> tags) {
         this.title = title;
         this.content = content;
         this.category = category;
