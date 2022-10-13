@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.entity.Review;
+import teamproject.lam_server.domain.review.entity.ReviewTag;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,12 +26,12 @@ public class ReviewCreate {
 
     private Set<String> tags;
 
-    public Review toEntity(Member member) {
+    public Review toEntity(Member member, Set<ReviewTag> tags) {
         return Review.builder()
                 .title(this.title)
                 .content(this.content)
                 .category(this.category)
-                .tags(this.tags)
+                .tags(tags)
                 .member(member)
                 .build();
     }

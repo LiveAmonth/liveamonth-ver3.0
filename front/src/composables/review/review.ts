@@ -17,11 +17,13 @@ import type {
   ReviewListType,
 } from "@/modules/types/review/ReviewTypes";
 import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
+import { useRouter } from "vue-router";
 
 export const useReview = () => {
   const store = useReviewStore();
   const error = ref();
   const isPending = ref<boolean>(false);
+  const router = useRouter();
   const { getMenuCategory } = useMenuTab();
   const { simpleProfile } = useMember();
   const { cityNames, reviewSearchType } = useCategory();
@@ -143,6 +145,20 @@ export const useReview = () => {
     return category == menu.code.split("_")[0];
   };
 
+  const goReadReview = async (id: string | number) => {
+    await router.replace({
+      name: "read-review",
+      params: { id: id },
+    });
+  };
+
+  const goReviewList = async () => {
+    await router.replace({
+      name: "review-list",
+      params: { menu: reviewSearchType.value[0].code.toLowerCase() },
+    });
+  };
+
   return {
     isPending,
     request,
@@ -159,5 +175,7 @@ export const useReview = () => {
     getReviews,
     getMyReviews,
     getReview,
+    goReadReview,
+    goReviewList,
   };
 };

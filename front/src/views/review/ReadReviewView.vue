@@ -11,12 +11,12 @@ import { useMember } from "@/composables/member/member";
 
 const props = defineProps({
   id: {
-    type: String,
+    type: String || Number,
     required: true,
   },
 });
 
-const { currReview, getReview, deleteReview } = useReview();
+const { currReview, getReview, deleteReview, goReviewList } = useReview();
 const { isLoggedInMemberPost } = useMember();
 const { buttonMsg, resultMsg, openMessage, openConfirmMessageBox } =
   useMessageBox();
@@ -28,33 +28,25 @@ onMounted(async () => {
   await getReview(Number(props.id));
 });
 
-const backBtn = () => {
-  router.push({ name: "review-list", params: { menu: "review_liveamonth" } });
-};
-
-const editBtn = () => {
-  console.log("게시글 수정");
-  router.push({ name: "edit", params: { id: Number(props.id) } });
-};
-
 const deleteBtn = async () => {
   await openConfirmMessageBox(
     resultMsg("review.delete.title"),
     resultMsg("review.delete.content")
   ).then(async () => {
-    await deleteReview(Number(props.id));
-    openMessage(resultMsg("review.delete.success"));
-    backBtn();
+    await deleteReview(Number(props.id)).then(() => {
+      openMessage(resultMsg("review.delete.success"));
+      goReviewList();
+    });
   });
 };
 </script>
 
 <template>
-  <div v-if="currReview.id">
+  <div v-if="currReview.id === Number(id)">
     <el-row class="review">
-      <el-col :span="20">
+      <el-col :span="18" class="review-wrapper">
         <TitleSlot>{{ currReview.title }}</TitleSlot>
-        <div class="sub d-flex justify-content-start">
+        <div class="sub">
           <div class="avatar me-1">
             <el-avatar :size="20" :src="'/src/assets/image/default.jpg'" />
           </div>
@@ -72,7 +64,7 @@ const deleteBtn = async () => {
           </div>
           <div class="flex-grow-1"></div>
           <div class="d-flex justify-content-end">
-            <el-button @click="backBtn" text>
+            <el-button @click="goReviewList" text>
               <el-icon>
                 <Back />
               </el-icon>
@@ -80,8 +72,8 @@ const deleteBtn = async () => {
             </el-button>
           </div>
         </div>
-        <el-divider />
-        <div class="content mt-3">
+        <el-divider class="mt-0" />
+        <div class="content">
           <QuillEditor
             theme="bubble"
             v-model:content="currReview.content"
@@ -89,15 +81,23 @@ const deleteBtn = async () => {
             contentType="html"
           />
         </div>
+        <div class="tags">
+          {{ currReview.tags }}
+          <el-tag v-for="tag in currReview.tags" :key="tag" size="large">
+            {{ `#${tag}` }}
+          </el-tag>
+        </div>
       </el-col>
-    </el-row>
-    <el-row
-      v-if="isLoggedInMemberPost(currReview.profile.id)"
-      class="mt-3 me-5"
-    >
-      <el-col>
-        <div class="d-flex justify-content-end me-5">
-          <el-button color="#0f6778" @click="editBtn">
+      <el-col
+        :span="20"
+        class="mt-2"
+        v-if="isLoggedInMemberPost(currReview.profile.id)"
+      >
+        <div class="d-flex justify-content-end">
+          <el-button
+            color="#0f6778"
+            @click="router.push({ name: 'edit-review', params: { id: id } })"
+          >
             {{ buttonMsg("edit") }}
           </el-button>
           <el-button type="danger" @click="deleteBtn">
@@ -106,9 +106,8 @@ const deleteBtn = async () => {
         </div>
       </el-col>
     </el-row>
-    <el-divider />
     <el-row class="comments">
-      <el-col :span="20">
+      <el-col :span="20" class="d-flex justify-content-center">
         <CommentComponent
           :key="commentKey"
           :content-id="Number(id)"
@@ -125,41 +124,63 @@ const deleteBtn = async () => {
 .review {
   display: flex;
   justify-content: center;
-  margin-bottom: 200px;
 
-  .title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #383838;
-    margin-bottom: 30px;
-  }
+  .review-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 
-  .sub {
-    margin-top: 5px;
-    font-size: 0.85rem;
-    font-weight: 300;
-    align-items: center;
-
-    .writer {
-      font-weight: 400;
+    .title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #383838;
+      margin-bottom: 30px;
     }
 
-    .regDate {
-      margin-left: 10px;
-      color: #c4c4c4;
-    }
-
-    .views {
+    .sub {
       display: flex;
-      justify-content: center;
+      justify-content: start;
+      margin-top: 5px;
+      font-size: 0.85rem;
+      font-weight: 300;
       align-items: center;
+
+      .writer {
+        font-weight: 400;
+      }
+
+      .regDate {
+        margin-left: 10px;
+        color: #c4c4c4;
+      }
+
+      .views {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    .content {
+      margin-bottom: 100px;
+    }
+
+    .tags {
+      .el-tag {
+        border: none;
+        background-color: #fafafa;
+        font-size: 0.95rem;
+        color: #383838;
+        font-style: italic;
+        font-weight: 400;
+      }
     }
   }
 }
 
 .comments {
+  margin-top: 100px;
   display: flex;
   justify-content: center;
-  margin-top: 50px;
 }
 </style>

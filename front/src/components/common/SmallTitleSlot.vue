@@ -22,7 +22,7 @@ defineProps({
   margin-bottom: 10px;
 
   > span {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: 0.5px;
     position: relative;
@@ -36,7 +36,7 @@ defineProps({
       left: 0;
       top: 6px;
       width: 4px;
-      height: 27px;
+      height: 20px;
     }
   }
 }

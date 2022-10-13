@@ -68,50 +68,45 @@ watch(
 </script>
 <template>
   <el-form ref="ruleFormRef" :model="form" :rules="form.getRules()">
-    <el-row :gutter="5">
-      <el-col :span="isEdit ? 21 : 22">
-        <el-form-item prop="comment">
-          <el-input
-            v-model="form.comment"
-            :disabled="!isLoggedIn"
-            :placeholder="
-              isLoggedIn
-                ? $t('common.please-input', {
-                    field: labelMsg('title'),
-                  })
-                : $t('common.before-input', {
-                    field: labelMsg('title'),
-                  })
-            "
-            :rows="3"
-            type="textarea"
-          >
-          </el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="editable ? 3 : 2">
-        <el-form-item class="d-flex justify-content-center">
-          <el-button
-            :disabled="!isLoggedIn"
-            color="#0f6778"
-            :size="isEdit ? 'default' : 'large'"
-            @click="submitForm(ruleFormRef)"
-          >
-            {{ isEdit ? buttonMsg("edit") : buttonMsg("write") }}
-          </el-button>
-          <el-button
-            v-if="editable"
-            class="ms-1"
-            :disabled="!isLoggedIn"
-            color="#0f6778"
-            size="default"
-            @click="emits('cancel')"
-          >
-            {{ buttonMsg("cancel") }}
-          </el-button>
-        </el-form-item>
-      </el-col>
-    </el-row>
+    <div class="d-flex justify-content-start">
+      <el-form-item prop="comment">
+        <el-input
+          class="comment-input"
+          v-model="form.comment"
+          :input-style="{ minWidth: isReply ? `700px` : `750px` }"
+          :disabled="!isLoggedIn"
+          :placeholder="
+            isLoggedIn
+              ? $t('common.please-input', {
+                  field: labelMsg('title'),
+                })
+              : $t('common.before-input', {
+                  field: labelMsg('title'),
+                })
+          "
+          :rows="3"
+          type="textarea"
+        >
+        </el-input>
+      </el-form-item>
+      <el-button
+        class="ms-2"
+        :disabled="!isLoggedIn"
+        color="#0f6778"
+        @click="submitForm(ruleFormRef)"
+      >
+        {{ isEdit ? buttonMsg("edit") : buttonMsg("write") }}
+      </el-button>
+      <el-button
+        v-if="editable"
+        class="ms-1"
+        :disabled="!isLoggedIn"
+        color="#0f6778"
+        @click="emits('cancel')"
+      >
+        {{ buttonMsg("cancel") }}
+      </el-button>
+    </div>
   </el-form>
 </template>
 <style lang="scss" scoped>

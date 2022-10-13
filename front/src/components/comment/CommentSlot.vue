@@ -132,7 +132,7 @@ watch(
       </el-button>
     </div>
   </div>
-  <div class="comment">
+  <div class="description">
     <slot name="comment"></slot>
   </div>
 </template>
@@ -175,7 +175,7 @@ watch(
   }
 }
 
-.comment {
+.description {
   font-size: 1rem;
   margin-top: 8px;
   color: #737373;

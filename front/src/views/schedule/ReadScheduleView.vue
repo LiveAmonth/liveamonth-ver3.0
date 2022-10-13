@@ -45,7 +45,7 @@ const changeCollapse = (id: number) => {
   </el-row>
   <el-divider />
   <el-row v-if="currentSchedule.id">
-    <el-col>
+    <el-col class="d-flex justify-content-center">
       <CommentComponent
         :key="commentKey"
         :content-id="Number(id)"

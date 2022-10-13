@@ -40,12 +40,8 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ElementCollection
-    @CollectionTable(name = "review_tag", joinColumns =
-    @JoinColumn(name = "review_id")
-    )
-    @Column(name = "tag_name")
-    private Set<String> tags = new HashSet<>();
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ReviewTag> tags = new HashSet<>();
 
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
     private long numberOfLikes;
@@ -53,7 +49,7 @@ public class Review extends BaseEntity {
     private long numberOfComments;
 
     @Builder
-    public Review(ReviewCategory category, String title, String content, Member member, Set<String> tags) {
+    public Review(ReviewCategory category, String title, String content, Member member, Set<ReviewTag> tags) {
         this.category = category;
         this.title = title;
         this.content = content;
@@ -78,5 +74,6 @@ public class Review extends BaseEntity {
         this.title = reviewEditor.getTitle();
         this.category = reviewEditor.getCategory();
         this.content = reviewEditor.getContent();
+        this.tags = reviewEditor.getTags();
     }
 }
