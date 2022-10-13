@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Formula;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
@@ -12,10 +13,7 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.global.entity.BaseEntity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -23,12 +21,15 @@ import static javax.persistence.FetchType.LAZY;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AttributeOverride(name = "id", column = @Column(name = "review_id"))
+@Slf4j
 public class Review extends BaseEntity {
 
     @OneToMany(mappedBy = "review")
     private final List<ReviewComment> reviewComments = new ArrayList<>();
     @OneToMany(mappedBy = "to")
     private final Set<ReviewLike> likes = new HashSet<>();
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST)
+    private Set<ReviewTag> tags = new HashSet<>();
     private String title;
 
     @Enumerated(EnumType.STRING)
@@ -40,9 +41,6 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ReviewTag> tags = new HashSet<>();
-
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
     private long numberOfLikes;
     @Formula("(select count(1) from review_comment rc where rc.review_id = review_id)")
@@ -53,6 +51,9 @@ public class Review extends BaseEntity {
         this.category = category;
         this.title = title;
         this.content = content;
+        for (ReviewTag tag : tags) {
+            addTags(tag);
+        }
         this.tags = tags;
         this.numberOfHits = 0L;
         setUpMember(member);
@@ -61,6 +62,11 @@ public class Review extends BaseEntity {
     private void setUpMember(Member member) {
         this.member = member;
         member.getReviews().add(this);
+    }
+
+    private void addTags(ReviewTag tag) {
+        tags.add(tag);
+        tag.connectReview(this);
     }
 
     public ReviewEditor.ReviewEditorBuilder toEditor() {
@@ -74,6 +80,19 @@ public class Review extends BaseEntity {
         this.title = reviewEditor.getTitle();
         this.category = reviewEditor.getCategory();
         this.content = reviewEditor.getContent();
-        this.tags = reviewEditor.getTags();
+        for (ReviewTag tag : reviewEditor.getTags()) {
+            log.info("새롭게 추가될 태그 이름={}", tag.getTag().getName());
+            if (!getTags().contains(tag)) {
+                log.info("등록되어 있지 않습니다");
+                for (ReviewTag reviewTag : getTags()) {
+                    if (reviewTag.equals(tag)) {
+                        log.info("그런데 두개가 같네요???");
+                    } else {
+                        log.info("아니요 틀린데요? 비교1={} / 비교2={}", reviewTag.getTag().getName(), tag.getTag().getName());
+                    }
+                }
+                addTags(tag);
+            }
+        }
     }
 }

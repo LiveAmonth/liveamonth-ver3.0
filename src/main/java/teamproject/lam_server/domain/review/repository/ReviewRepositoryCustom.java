@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface ReviewRepositoryCustom {
 
-    Page<Review> search(ReviewSearchCond cond, Pageable pageable);
+    Page<Review> search(ReviewSearchCond cond, List<Long> reviewTagIds, Pageable pageable);
 
     List<Review> getReviewByMember(String loginId, Integer size, Long lastId);
 
