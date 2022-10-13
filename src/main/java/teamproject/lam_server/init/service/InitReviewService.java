@@ -8,10 +8,17 @@ import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
+import teamproject.lam_server.domain.review.entity.ReviewTag;
+import teamproject.lam_server.domain.review.entity.Tag;
+import teamproject.lam_server.domain.review.repository.ReviewRepository;
+import teamproject.lam_server.domain.review.repository.ReviewTagRepository;
+import teamproject.lam_server.domain.review.repository.TagRepository;
 import teamproject.lam_server.util.JsonUtil;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +27,9 @@ public class InitReviewService {
 
     private static final String REVIEW = "review";
     private final MemberRepository memberRepository;
+    private final ReviewRepository reviewRepository;
+    private final ReviewTagRepository reviewTagRepository;
+    private final TagRepository tagRepository;
     private final EntityManager em;
 
     @Transactional
@@ -29,14 +39,23 @@ public class InitReviewService {
         List<ReviewCreate> requests = JsonUtil.jsonArrayToList(REVIEW, ReviewCreate.class);
         for (ReviewCreate request : requests) {
             Member member = memberRepository.findAll().get((int) (2 * Math.random()));
+            Set<ReviewTag> tags = request.getTags().stream()
+                    .map(tag -> ReviewTag.createReviewTag(tagRepository.findByName(tag)
+                            .orElseGet(
+                                    () -> tagRepository.save(
+                                            Tag.builder().name(tag).build()
+                                    )
+                            )))
+                    .collect(Collectors.toSet());
             Review review = Review.builder()
                     .member(member)
                     .title(request.getTitle())
                     .content(request.getContent())
                     .category(request.getCategory())
-                    .tags(request.getTags())
+                    .tags(tags)
                     .build();
-            em.persist(review);
+
+            reviewRepository.save(review);
             em.createNativeQuery(query)
                     .setParameter("created_by", member.getLoginId())
                     .setParameter("last_modified_by", member.getLoginId())

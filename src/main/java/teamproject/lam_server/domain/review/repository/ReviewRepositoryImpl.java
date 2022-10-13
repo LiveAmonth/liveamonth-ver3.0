@@ -1,6 +1,5 @@
 package teamproject.lam_server.domain.review.repository;
 
-import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -19,7 +18,6 @@ import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.springframework.util.StringUtils.hasText;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -31,15 +29,15 @@ import static teamproject.lam_server.domain.review.entity.QReview.review;
 public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
-    public Page<Review> search(ReviewSearchCond cond, Pageable pageable) {
-        List<Review> pageElements = getSearchElementsQuery(cond)
+    public Page<Review> search(ReviewSearchCond cond, List<Long> tagInReviewIds, Pageable pageable) {
+        List<Review> pageElements = getSearchElementsQuery(cond, tagInReviewIds)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(mapToOrderSpec(pageable.getSort(), Review.class, review))
                 .groupBy(review.id)
                 .fetch();
 
-        JPAQuery<Long> countQuery = getSearchCountQuery(cond);
+        JPAQuery<Long> countQuery = getSearchCountQuery(cond, tagInReviewIds);
 
         return PageableExecutionUtils.getPage(
                 pageElements,
@@ -66,24 +64,24 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .fetchOne());
     }
 
-    private JPAQuery<Review> getSearchElementsQuery(ReviewSearchCond cond) {
+    private JPAQuery<Review> getSearchElementsQuery(ReviewSearchCond cond, List<Long> reviewTagIds) {
         return queryFactory.selectFrom(review)
                 .join(review.member, member).fetchJoin()
-                .where(getSearchPredicts(cond));
+                .where(getSearchPredicts(cond, reviewTagIds));
     }
 
 
-    private JPAQuery<Long> getSearchCountQuery(ReviewSearchCond cond) {
+    private JPAQuery<Long> getSearchCountQuery(ReviewSearchCond cond, List<Long> reviewTagIds) {
         return queryFactory.select(review.count())
                 .from(review)
-                .where(getSearchPredicts(cond));
+                .where(getSearchPredicts(cond, reviewTagIds));
     }
 
-    private Predicate[] getSearchPredicts(ReviewSearchCond cond) {
+    private Predicate[] getSearchPredicts(ReviewSearchCond cond, List<Long> reviewTagIds) {
         return new Predicate[]{
                 reviewContains(cond.getSearchWord()),
                 categoryIn(cond.getType()),
-                tagContains(cond.getTags()),
+                tagContains(reviewTagIds),
                 categoryEq(cond.getCategory())
         };
     }
@@ -112,12 +110,7 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
         return category != null ? review.category.eq(category) : null;
     }
 
-    private BooleanBuilder tagContains(Set<String> condTags) {
-        if (condTags == null || condTags.isEmpty()) return null;
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        for (String condTag : condTags) {
-            booleanBuilder.or(review.tags.contains(condTag));
-        }
-        return booleanBuilder;
+    private BooleanExpression tagContains(List<Long> ids) {
+        return !ids.isEmpty() ? review.id.in(ids) : null;
     }
 }

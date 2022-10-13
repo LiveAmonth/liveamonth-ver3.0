@@ -14,7 +14,11 @@ import teamproject.lam_server.domain.review.dto.response.ReviewDetailResponse;
 import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewEditor;
+import teamproject.lam_server.domain.review.entity.ReviewTag;
+import teamproject.lam_server.domain.review.entity.Tag;
 import teamproject.lam_server.domain.review.repository.ReviewRepository;
+import teamproject.lam_server.domain.review.repository.ReviewTagRepository;
+import teamproject.lam_server.domain.review.repository.TagRepository;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
@@ -22,7 +26,9 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,15 +37,34 @@ import java.util.stream.Collectors;
 @Slf4j
 public class ReviewServiceImpl implements ReviewService {
     private final SecurityContextFinder finder;
-
     private final ReviewRepository reviewRepository;
+    private final ReviewTagRepository reviewTagRepository;
+    private final TagRepository tagRepository;
     private final DomainSpec<ReviewSortType> spec = new DomainSpec<>(ReviewSortType.class);
 
     @Transactional
     public PostIdResponse write(String loginId, ReviewCreate request) {
         finder.checkLegalLoginId(loginId);
-        Review save = reviewRepository.save(request.toEntity(finder.getLoggedInMember()));
+        Review save = reviewRepository.save(
+                request.toEntity(finder.getLoggedInMember(), mapToReviewTags(request.getTags()))
+        );
         return PostIdResponse.of(save.getId());
+    }
+
+    private Set<ReviewTag> mapToReviewTags(Set<String> tags) {
+        return tags.stream()
+                .map(tag -> ReviewTag.createReviewTag(findOrCreateTag(tag)))
+                .collect(Collectors.toSet());
+    }
+
+    @Transactional
+    public Tag findOrCreateTag(String tag) {
+        return tagRepository.findByName(tag)
+                .orElseGet(
+                        () -> tagRepository.save(
+                                Tag.builder().name(tag).build()
+                        )
+                );
     }
 
     @Transactional
@@ -50,10 +75,19 @@ public class ReviewServiceImpl implements ReviewService {
 
         ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
 
+        Set<ReviewTag> reviewTags = mapToReviewTags(request.getTags()); // 리뷰 등록안된 리뷰태그들
+        List<ReviewTag> byReviewId = reviewTagRepository.findByReviewId(id);
+        Set<ReviewTag> collect = byReviewId.stream().filter(tag -> !reviewTags.contains(tag)).collect(Collectors.toSet());
+        for (ReviewTag reviewTag : collect) {
+            log.info("reviewTag={}", reviewTag.getTag().getName());
+        }
+
         ReviewEditor reviewEditor = editorBuilder.title(request.getTitle())
                 .category(request.getCategory())
                 .content(request.getContent())
+                .tags(mapToReviewTags(request.getTags()))
                 .build();
+
         review.edit(reviewEditor);
     }
 
@@ -68,10 +102,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     public CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
+        List<Long> reviewTagIds = cond.getTags() != null && !cond.getTags().isEmpty()
+                ? reviewTagRepository.findReviewTagsByTags(cond.getTags())
+                : Collections.emptyList();
         Pageable pageable = spec.getPageable(pageableDTO);
         Page<ReviewListResponse> page =
                 reviewRepository
-                        .search(cond, pageable)
+                        .search(cond, reviewTagIds, pageable)
                         .map(ReviewListResponse::of);
 
         return CustomPage.<ReviewListResponse>builder()
@@ -90,7 +127,8 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewDetailResponse getReview(Long id) {
         return ReviewDetailResponse.of(
                 reviewRepository.getReview(id)
-                        .orElseThrow(ReviewNotFound::new)
+                        .orElseThrow(ReviewNotFound::new),
+                reviewTagRepository.findTagNamesById(id)
         );
     }
 

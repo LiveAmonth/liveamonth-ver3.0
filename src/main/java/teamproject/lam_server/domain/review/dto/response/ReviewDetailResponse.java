@@ -8,6 +8,7 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.entity.Review;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,19 +18,21 @@ public class ReviewDetailResponse {
     private SimpleProfileResponse profile;
     private String content;
     private ReviewCategory category;
+    private List<String> tags;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy.MM.dd a h:mm", timezone = "Asia/Seoul")
     private LocalDateTime createDateTime;
     private long numberOfHits;
     private long numberOfComments;
     private long numberOfLikes;
 
-    public static ReviewDetailResponse of(Review review) {
+    public static ReviewDetailResponse of(Review review, List<String> tagNames) {
         return ReviewDetailResponse.builder()
                 .id(review.getId())
                 .title(review.getTitle())
                 .profile(SimpleProfileResponse.of(review.getMember()))
                 .content(review.getContent())
                 .category(review.getCategory())
+                .tags(tagNames)
                 .createDateTime(review.getCreatedDate())
                 .numberOfHits(review.getNumberOfHits())
                 .numberOfLikes(review.getNumberOfLikes())
