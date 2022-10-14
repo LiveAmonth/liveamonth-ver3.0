@@ -3,16 +3,24 @@ import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
 import ScheduleListView from "@/views/schedule/ScheduleListView.vue";
 import { ref } from "vue";
-import { useAuth } from "@/composables/member/auth";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMember } from "@/composables/member/member";
 import { useHome } from "@/composables/home/home";
+import { useReview } from "@/composables/review/review";
+import ReviewList from "@/components/review/ReviewList.vue";
 
-const { isLoggedIn } = useAuth();
+const props = defineProps({
+  initialTab: {
+    type: String,
+    required: true,
+  },
+});
 const { simpleProfile } = useMember();
 const { homePostsTabs } = useHome();
-const { followedSchedules } = useSchedule();
-const activeName = ref(isLoggedIn ? "followed" : "schedule");
+const { otherSchedules, followedSchedules } = useSchedule();
+const { otherReviews } = useReview();
+
+const activeName = ref(props.initialTab);
 const initialSize = ref<number>(3);
 </script>
 
@@ -25,23 +33,31 @@ const initialSize = ref<number>(3);
   >
     <template v-slot:tab-1>
       <ScheduleListView
-        v-if="activeName === homePostsTabs[0].code"
+        v-if="activeName === homePostsTabs[0].code && otherSchedules"
         :is-main="true"
       />
     </template>
     <template v-slot:tab-2>
-      <div v-if="activeName === homePostsTabs[1].code">
-        {{ activeName }}
-      </div>
+      <el-row class="d-flex justify-content-center">
+        <el-col :span="18">
+          <ReviewList
+            v-if="activeName === homePostsTabs[1].code && otherReviews"
+          />
+        </el-col>
+      </el-row>
     </template>
-    <template v-if="isLoggedIn" v-slot:tab-3>
-      <ScheduleInfiniteList
-        v-if="activeName === homePostsTabs[2].code && followedSchedules.length"
-        :initial-count="initialSize"
-        :is-my-page="false"
-        :login-id="simpleProfile.loginId"
-        :max-count="simpleProfile.numberOfFollows"
-      />
+    <template v-if="homePostsTabs.length > 2" v-slot:tab-3>
+      <el-row class="d-flex justify-content-center">
+        <el-col :span="20">
+          <ScheduleInfiniteList
+            v-if="followedSchedules.length"
+            :initial-count="initialSize"
+            :is-my-page="false"
+            :login-id="simpleProfile.loginId"
+            :max-count="simpleProfile.numberOfFollows"
+          />
+        </el-col>
+      </el-row>
     </template>
   </ContentTabsSlot>
 </template>

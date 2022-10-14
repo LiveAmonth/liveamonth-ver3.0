@@ -17,11 +17,15 @@ const menuClick = (name: string) => {
     <el-menu
       :ellipsis="false"
       active-text-color="#0f6778"
-      background-color="#fff"
+      background-color="#fafafa"
       class="header-content"
       mode="horizontal"
       router
-      text-color="#0f6778"
+      style="
+        --el-menu-hover-bg-color: #fafafa;
+        --el-menu-hover-text-color: #007f95;
+      "
+      text-color="#5d5d5d"
     >
       <router-link :to="{ name: 'home' }">
         <LogoIcon class="logo" />

@@ -2,6 +2,7 @@ import { computed, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useScheduleStore } from "@/stores/schedule/schedule";
 import { useScheduleContentStore } from "@/stores/schedule/scheduleContent";
+import { useCategory } from "@/composables/common/category";
 import type {
   ScheduleCardType,
   ScheduleContentType,
@@ -15,12 +16,13 @@ import type {
 } from "@/modules/types/pagination/PaginationTypes";
 
 export const useSchedule = () => {
+  const type = "schedule";
   const store = useScheduleStore();
   const contentStore = useScheduleContentStore();
   const { simpleProfile } = useMember();
+  const { schedulePopularSortType } = useCategory();
   const error = ref();
   const isPending = ref<boolean>(false);
-  const type = "schedule";
 
   const request = computed((): ScheduleSearchCond => store.searchCond);
   const otherSchedules = computed(
@@ -69,6 +71,23 @@ export const useSchedule = () => {
     isPending.value = true;
     try {
       await store.getOtherSchedules(pageable);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
+  const getPopularSchedules = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getPopularSchedules({
+        size: 5,
+        sort: schedulePopularSortType.value,
+        page: 1,
+      });
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -263,6 +282,7 @@ export const useSchedule = () => {
     getScheduleContents,
     getMySchedules,
     getInfiniteSchedules,
+    getPopularSchedules,
     addSchedule,
     editSchedule,
     deleteSchedule,

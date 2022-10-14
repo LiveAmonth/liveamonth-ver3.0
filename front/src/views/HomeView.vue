@@ -7,12 +7,18 @@ import { useMember } from "@/composables/member/member";
 import { onMounted } from "vue";
 import { useAuth } from "@/composables/member/auth";
 import { useSchedule } from "@/composables/schedule/schedule";
+import { useHome } from "@/composables/home/home";
+import { useReview } from "@/composables/review/review";
 
 const { isLoggedIn } = useAuth();
 const { simpleProfile, getSimpleProfile } = useMember();
-const { getInfiniteSchedules } = useSchedule();
+const { homePostsTabs } = useHome();
+const { getPopularSchedules, getInfiniteSchedules } = useSchedule();
+const { getPopularReviews } = useReview();
 
 onMounted(async () => {
+  await getPopularSchedules();
+  await getPopularReviews();
   if (isLoggedIn.value) {
     await getSimpleProfile();
     await getInfiniteSchedules(simpleProfile.value.loginId, 3, null);
@@ -29,7 +35,9 @@ onMounted(async () => {
       </el-col>
     </el-row>
     <TitleSlot>{{ $t("title.home.posts") }}</TitleSlot>
-    <HomePostsTab />
+    <HomePostsTab
+      :initial-tab="isLoggedIn ? homePostsTabs[2].code : homePostsTabs[0].code"
+    />
   </div>
 </template>
 

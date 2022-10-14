@@ -24,15 +24,15 @@ const handleSelect = (key: string, keyPath: string[]) => {
 <template>
   <el-menu
     active-text-color="#0f6778"
+    background-color="#fafafa"
     class="header-content"
     mode="horizontal"
-    background-color="#fafafa"
-    text-color="#5d5d5d"
-    @select="handleSelect"
     style="
       --el-menu-hover-bg-color: #fafafa;
       --el-menu-hover-text-color: #007f95;
     "
+    text-color="#5d5d5d"
+    @select="handleSelect"
   >
     <template v-for="(menu, idx) in mainMenus" :key="menu.name">
       <el-sub-menu v-if="menu.sub.length" :index="String(idx)">
