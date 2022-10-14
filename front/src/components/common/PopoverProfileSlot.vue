@@ -33,7 +33,6 @@ const { profileTabs, getPostCount } = useMyPage();
         <p class="nickname" style="margin: 0; font-weight: 500">
           {{ profile.nickname }}
         </p>
-        <slot></slot>
 
         <div class="ds-info d-flex justify-content-center m-1">
           <div

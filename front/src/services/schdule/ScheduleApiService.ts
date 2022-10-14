@@ -151,7 +151,7 @@ class ScheduleApiService {
   ): Promise<string> {
     return await http
       .post(
-        `/schedules/${scheduleId}/detail`,
+        `/schedules/${scheduleId}/contents`,
         JSON.stringify(request.getCreateData())
       )
       .then((response) => {
@@ -194,7 +194,7 @@ class ScheduleApiService {
     scheduleId: number
   ): Promise<ScheduleContentType[]> {
     return await http
-      .get(`/schedules/${scheduleId}/contents`)
+      .get(`/schedules/${scheduleId}/detail`)
       .then((response) => {
         return response.data.data;
       })

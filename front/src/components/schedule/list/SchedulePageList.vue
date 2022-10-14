@@ -4,15 +4,8 @@ import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { useSchedule } from "@/composables/schedule/schedule";
-import type { ScheduleSearchFormType } from "@/modules/types/schedule/ScheduleTypes";
-
-const emits = defineEmits(["applyOption"]);
 
 const { otherSchedules } = useSchedule();
-
-const goSchedule = (data: ScheduleSearchFormType) => {
-  emits("applyOption", data);
-};
 </script>
 
 <template>
@@ -26,10 +19,7 @@ const goSchedule = (data: ScheduleSearchFormType) => {
         <el-row class="d-flex justify-content-center">
           <SimpleCalendar class="me-3" :period="schedule.period" />
           <el-col :span="16" class="schedule-list-card">
-            <ScheduleInfoCard
-              :schedule="schedule"
-              @go-to-member-schedules="goSchedule"
-            />
+            <ScheduleInfoCard :schedule="schedule" />
             <el-card v-if="schedule.bestComment" class="reply mb-2">
               <SmallTitleSlot class="mb-3">
                 {{ $t("comment.best") }}

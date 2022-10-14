@@ -67,10 +67,4 @@ const applyOptions = async (data: ScheduleSearchFormType) => {
   margin-top: 20px;
   margin-left: 10px;
 }
-
-//@media screen and (max-width: 1200px) {
-//  .schedule-list-container {
-//    margin-right: 34px;
-//  }
-//}
 </style>
