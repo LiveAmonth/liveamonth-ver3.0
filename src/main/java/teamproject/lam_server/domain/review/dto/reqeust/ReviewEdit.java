@@ -22,5 +22,6 @@ public class ReviewEdit {
     @NotNull
     private ReviewCategory category;
 
-    private Set<String> tags;
+    private Set<String> addedTags;
+    private Set<String> removedTags;
 }

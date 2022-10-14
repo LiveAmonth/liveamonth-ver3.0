@@ -6,7 +6,6 @@ import { ReviewEditor } from "@/modules/types/review/ReviewTypes";
 import { useCategory } from "@/composables/common/category";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useQuillEditor } from "@/composables/common/quilleditor";
-import { useSearch } from "@/composables/search/search";
 import { useReview } from "@/composables/review/review";
 import type { FormInstance } from "element-plus/es";
 
@@ -27,22 +26,21 @@ const {
   openMessageBox,
 } = useMessageBox();
 const { toolbarOptions, onEditorReady } = useQuillEditor();
-const { clearTags } = useSearch();
-const { currReview, getReview, editReview, goReadReview, goReviewList } =
-  useReview();
+const { currReview, editReview, goReadReview, goReviewList } = useReview();
 
 const form = reactive<ReviewEditor>(new ReviewEditor());
 const ruleFormRef = ref<FormInstance>();
+const tags = ref<string[]>();
 
 onMounted(async () => {
   form.setForm(currReview.value);
+  tags.value = form.tags;
 });
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      console.log(form.tags);
       await editReview(Number(props.id), form)
         .then(() => {
           openMessageBox(resultMsg("review.write.success"));
@@ -58,10 +56,23 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 const pushTag = (tag: string) => {
   form.tags.push(tag);
+  if (form.changedTag.removedTags.includes(tag)) {
+    form.changedTag.removedTags.splice(
+      form.changedTag.removedTags.indexOf(tag),
+      1
+    );
+  } else {
+    form.changedTag.addedTags.push(tag);
+  }
 };
 
 const handleClose = (tag: string) => {
   form.tags.splice(form.tags.indexOf(tag), 1);
+  if (form.changedTag.addedTags.includes(tag)) {
+    form.changedTag.addedTags.splice(form.changedTag.addedTags.indexOf(tag), 1);
+  } else {
+    form.changedTag.removedTags.push(tag);
+  }
 };
 </script>
 

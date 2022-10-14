@@ -151,7 +151,7 @@ class ScheduleApiService {
   ): Promise<string> {
     return await http
       .post(
-        `/schedules/${scheduleId}/contents`,
+        `/schedules/${scheduleId}/detail`,
         JSON.stringify(request.getCreateData())
       )
       .then((response) => {

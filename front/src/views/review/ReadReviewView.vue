@@ -82,7 +82,6 @@ const deleteBtn = async () => {
           />
         </div>
         <div class="tags">
-          {{ currReview.tags }}
           <el-tag v-for="tag in currReview.tags" :key="tag" size="large">
             {{ `#${tag}` }}
           </el-tag>

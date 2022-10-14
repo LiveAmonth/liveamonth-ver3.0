@@ -48,6 +48,19 @@ export interface ReviewCreateType {
   tags: string[];
 }
 
+export interface ReviewEditType {
+  title: string;
+  content: string;
+  category: string;
+  addedTags: string[];
+  removedTags: string[];
+}
+
+export interface ReviewChangedTagType {
+  addedTags: string[];
+  removedTags: string[];
+}
+
 /**
  * form & editor
  */
@@ -56,6 +69,7 @@ export interface ReviewFormType extends FormType<ReviewDetailType> {
   content: string;
   category: string;
   tags: string[];
+  changedTag: ReviewChangedTagType;
 }
 
 export class ReviewSearchCond
@@ -94,12 +108,14 @@ export class ReviewEditor implements ReviewFormType {
   content: string;
   tags: string[];
   title: string;
+  changedTag: ReviewChangedTagType;
 
   constructor(category = "", content = "", tags: string[] = [], title = "") {
     this.category = category;
     this.content = content;
     this.tags = tags;
     this.title = title;
+    this.changedTag = { addedTags: [], removedTags: [] };
   }
 
   clear(): void {
@@ -118,11 +134,12 @@ export class ReviewEditor implements ReviewFormType {
     };
   }
 
-  getEditData(): ReviewCreateType {
+  getEditData(): ReviewEditType {
     return {
       title: this.title,
       category: this.category,
-      tags: this.tags,
+      addedTags: this.changedTag.addedTags,
+      removedTags: this.changedTag.removedTags,
       content: this.content,
     };
   }

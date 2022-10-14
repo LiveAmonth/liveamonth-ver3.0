@@ -44,7 +44,7 @@ public class ScheduleContentAPiController {
         return CustomResponse.success(DELETE_SCHEDULE_CONTENT);
     }
 
-    @GetMapping("/{scheduleId}/contents")
+    @GetMapping("/{scheduleId}/detail")
     public ResponseEntity<?> getScheduleContents(@PathVariable Long scheduleId) {
         List<ScheduleContentResponse> result = scheduleContentService.getScheduleContents(scheduleId);
         return CustomResponse.success(READ_SCHEDULE_CONTENT, result);

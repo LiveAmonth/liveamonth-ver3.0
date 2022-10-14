@@ -1,7 +1,9 @@
 import http, { getSortTypes, getSearchTypes } from "@/http-common";
 import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
-import type { ReviewSearchCond } from "@/modules/types/review/ReviewTypes";
-import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
+import type {
+  ReviewEditor,
+  ReviewSearchCond,
+} from "@/modules/types/review/ReviewTypes";
 import type { IdResponseType } from "@/modules/types/common/CommonTypes";
 
 class ReviewApiService {
@@ -49,10 +51,10 @@ class ReviewApiService {
 
   async addReview(
     loginId: string,
-    request: ReviewEditor
+    form: ReviewEditor
   ): Promise<IdResponseType> {
     return await http
-      .post(`/reviews/${loginId}`, JSON.stringify(request.getCreateData()))
+      .post(`/reviews/${loginId}`, JSON.stringify(form.getCreateData()))
       .then((response) => {
         return response.data.data;
       })
@@ -61,9 +63,9 @@ class ReviewApiService {
       });
   }
 
-  async editReview(reviewId: number, request: ReviewEditor): Promise<string> {
+  async editReview(reviewId: number, form: ReviewEditor): Promise<string> {
     return await http
-      .patch(`/reviews/${reviewId}`, JSON.stringify(request.getEditData()))
+      .patch(`/reviews/${reviewId}`, JSON.stringify(form.getEditData()))
       .then((response) => {
         return response.data;
       })
@@ -123,7 +125,7 @@ class ReviewApiService {
 
   async getReview(reviewId: number) {
     return await http
-      .get(`reviews/${reviewId}`)
+      .get(`reviews/${reviewId}/detail`)
       .then((response) => {
         return response.data.data;
       })

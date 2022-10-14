@@ -28,7 +28,7 @@ public class Review extends BaseEntity {
     private final List<ReviewComment> reviewComments = new ArrayList<>();
     @OneToMany(mappedBy = "to")
     private final Set<ReviewLike> likes = new HashSet<>();
-    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<ReviewTag> tags = new HashSet<>();
     private String title;
 
@@ -52,7 +52,7 @@ public class Review extends BaseEntity {
         this.title = title;
         this.content = content;
         for (ReviewTag tag : tags) {
-            addTags(tag);
+            addTag(tag);
         }
         this.tags = tags;
         this.numberOfHits = 0L;
@@ -64,9 +64,13 @@ public class Review extends BaseEntity {
         member.getReviews().add(this);
     }
 
-    private void addTags(ReviewTag tag) {
-        tags.add(tag);
+    public void addTag(ReviewTag tag) {
+        this.tags.add(tag);
         tag.connectReview(this);
+    }
+
+    public void removeTags(List<ReviewTag> tags) {
+        tags.forEach(this.tags::remove);
     }
 
     public ReviewEditor.ReviewEditorBuilder toEditor() {
@@ -80,19 +84,5 @@ public class Review extends BaseEntity {
         this.title = reviewEditor.getTitle();
         this.category = reviewEditor.getCategory();
         this.content = reviewEditor.getContent();
-        for (ReviewTag tag : reviewEditor.getTags()) {
-            log.info("새롭게 추가될 태그 이름={}", tag.getTag().getName());
-            if (!getTags().contains(tag)) {
-                log.info("등록되어 있지 않습니다");
-                for (ReviewTag reviewTag : getTags()) {
-                    if (reviewTag.equals(tag)) {
-                        log.info("그런데 두개가 같네요???");
-                    } else {
-                        log.info("아니요 틀린데요? 비교1={} / 비교2={}", reviewTag.getTag().getName(), tag.getTag().getName());
-                    }
-                }
-                addTags(tag);
-            }
-        }
     }
 }

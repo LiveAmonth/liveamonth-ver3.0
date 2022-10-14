@@ -59,7 +59,7 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
 
     public Optional<Review> getReview(Long id) {
         return Optional.ofNullable(queryFactory.selectFrom(review)
-                .leftJoin(review.member, member).fetchJoin()
+                .join(review.member, member).fetchJoin()
                 .where(reviewIdEq(id))
                 .fetchOne());
     }

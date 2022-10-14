@@ -34,7 +34,7 @@ public class ReviewApiController {
         return CustomResponse.success(CREATE_REVIEW, result);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id}/detail")
     public ResponseEntity<?> getReview(@PathVariable Long id) {
         ReviewDetailResponse result = reviewService.getReview(id);
         return CustomResponse.success(READ_REVIEW, result);
