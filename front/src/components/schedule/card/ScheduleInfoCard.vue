@@ -3,16 +3,12 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import PopoverProfileSlot from "@/components/common/PopoverProfileSlot.vue";
 import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
 import { Location, Money, View, Right, Close } from "@element-plus/icons-vue";
-import { useCategory } from "@/composables/common/category";
 import { useRouter } from "vue-router";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
-import type {
-  ScheduleCardType,
-  ScheduleSearchFormType,
-} from "@/modules/types/schedule/ScheduleTypes";
+import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   schedule: {
@@ -29,10 +25,9 @@ const props = defineProps({
     required: false,
   },
 });
-const emit = defineEmits(["goToMemberSchedules", "deleteSchedule"]);
+const emit = defineEmits(["deleteSchedule"]);
 
 const router = useRouter();
-const { scheduleSearchType, scheduleSortType } = useCategory();
 const {
   error,
   hasCurrentSchedule,
@@ -42,17 +37,6 @@ const {
 } = useSchedule();
 const { openConfirmMessageBox } = useMessageBox();
 const { t } = useI18n();
-
-const goToMemberSchedules = () => {
-  const request: ScheduleSearchFormType = {
-    searchType: scheduleSearchType.value[0].code,
-    searchInput: props.schedule.profile.nickname,
-    filterType: null,
-    filterInput: null,
-    sortType: scheduleSortType.value[0].title,
-  };
-  emit("goToMemberSchedules", request);
-};
 
 const goSchedule = async () => {
   if (props.isMyPage) {
@@ -92,11 +76,7 @@ const deleteScheduleBtn = async () => {
   <el-card class="information" :body-style="{ paddingRight: 0 }">
     <div class="profile-title d-flex justify-content-between">
       <div class="profile" v-if="!isMyPage">
-        <PopoverProfileSlot :profile="schedule.profile">
-          <a class="mention" @click="goToMemberSchedules">
-            @{{ $t("schedule.popover.link") }}
-          </a>
-        </PopoverProfileSlot>
+        <PopoverProfileSlot :profile="schedule.profile" />
         <div class="nickname mt-2">
           {{ schedule.profile.nickname }}
         </div>
