@@ -6,7 +6,6 @@ import { ReviewEditor } from "@/modules/types/review/ReviewTypes";
 import { useCategory } from "@/composables/common/category";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useQuillEditor } from "@/composables/common/quilleditor";
-import { useSearch } from "@/composables/search/search";
 import { useReview } from "@/composables/review/review";
 import type { FormInstance } from "element-plus/es";
 
@@ -20,7 +19,6 @@ const {
   openMessageBox,
 } = useMessageBox();
 const { toolbarOptions, onEditorReady } = useQuillEditor();
-const { dynamicTags, pushTag, handleClose, clearTags } = useSearch();
 const { addedReviewId, addReview, goReadReview, goReviewList } = useReview();
 
 const form = reactive<ReviewEditor>(new ReviewEditor());
@@ -30,7 +28,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      form.tags = dynamicTags.value;
       await addReview(form)
         .then(() => {
           openMessageBox(resultMsg("review.write.success"));
@@ -42,6 +39,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         });
     }
   });
+};
+
+const pushTag = (tag: string) => {
+  form.tags.push(tag);
+};
+
+const handleClose = (tag: string) => {
+  form.tags.splice(form.tags.indexOf(tag), 1);
 };
 </script>
 
@@ -91,10 +96,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 </span>
               </SmallTitleSlot>
               <TagsInput
-                :dynamic-tags="dynamicTags"
+                :dynamic-tags="form.tags"
                 @push-tag="pushTag"
                 @handle-close="handleClose"
-                @clear="clearTags"
+                @clear="form.tags = []"
               />
             </div>
             <el-form-item>

@@ -51,12 +51,6 @@ public class ReviewServiceImpl implements ReviewService {
         return PostIdResponse.of(save.getId());
     }
 
-    private Set<ReviewTag> mapToReviewTags(Set<String> tags) {
-        return tags.stream()
-                .map(tag -> ReviewTag.createReviewTag(findOrCreateTag(tag)))
-                .collect(Collectors.toSet());
-    }
-
     @Transactional
     public Tag findOrCreateTag(String tag) {
         return tagRepository.findByName(tag)
@@ -73,19 +67,23 @@ public class ReviewServiceImpl implements ReviewService {
                 .orElseThrow(ReviewNotFound::new);
         finder.checkLegalWriterOfPost(review);
 
-        ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
-
-        Set<ReviewTag> reviewTags = mapToReviewTags(request.getTags()); // 리뷰 등록안된 리뷰태그들
-        List<ReviewTag> byReviewId = reviewTagRepository.findByReviewId(id);
-        Set<ReviewTag> collect = byReviewId.stream().filter(tag -> !reviewTags.contains(tag)).collect(Collectors.toSet());
-        for (ReviewTag reviewTag : collect) {
-            log.info("reviewTag={}", reviewTag.getTag().getName());
+        // 리뷰 태그 삭제
+        if (request.getRemovedTags() != null) {
+            review.removeTags(reviewTagRepository.findByReviewIdAndTag(id, request.getRemovedTags()));
         }
 
+        // 리뷰 태그 추가
+        if (request.getAddedTags() != null) {
+            for (ReviewTag addedTag : mapToReviewTags(request.getAddedTags())) {
+                review.addTag(addedTag);
+            }
+        }
+
+        // 나머지 내용 수정
+        ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
         ReviewEditor reviewEditor = editorBuilder.title(request.getTitle())
                 .category(request.getCategory())
                 .content(request.getContent())
-                .tags(mapToReviewTags(request.getTags()))
                 .build();
 
         review.edit(reviewEditor);
@@ -102,7 +100,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     public CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
-        List<Long> reviewTagIds = cond.getTags() != null && !cond.getTags().isEmpty()
+        List<Long> reviewTagIds = cond.getTags() != null
                 ? reviewTagRepository.findReviewTagsByTags(cond.getTags())
                 : Collections.emptyList();
         Pageable pageable = spec.getPageable(pageableDTO);
@@ -132,4 +130,9 @@ public class ReviewServiceImpl implements ReviewService {
         );
     }
 
+    private Set<ReviewTag> mapToReviewTags(Set<String> tags) {
+        return tags.stream()
+                .map(tag -> ReviewTag.createReviewTag(findOrCreateTag(tag)))
+                .collect(Collectors.toSet());
+    }
 }

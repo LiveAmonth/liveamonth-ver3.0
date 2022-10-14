@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -34,18 +33,5 @@ public class ReviewTag extends BaseTimeEntity {
 
     public void connectReview(Review review) {
         this.review = review;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ReviewTag)) return false;
-        ReviewTag reviewTag = (ReviewTag) o;
-        return Objects.equals(tag, reviewTag.tag);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(tag);
     }
 }

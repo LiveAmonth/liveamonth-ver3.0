@@ -45,15 +45,9 @@ const changeSort = async () => {
       :key="tab"
       :label="tabMsg(`review.${tab.toLowerCase()}`)"
       :name="tab"
-    >
-      <ReviewSearchEngineForm
-        :is-pending="isPending"
-        @apply-option="submitForm"
-      />
-    </el-tab-pane>
+    />
   </el-tabs>
   <ReviewSearchEngineForm
-    v-else
     class="mt-3"
     :is-pending="isPending"
     @apply-option="submitForm"
@@ -101,6 +95,10 @@ const changeSort = async () => {
 
   .el-tabs__active-bar {
     background-color: #006778 !important;
+  }
+
+  .el-tabs__header {
+    margin-bottom: 0;
   }
 }
 

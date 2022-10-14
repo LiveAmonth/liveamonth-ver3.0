@@ -1,10 +1,12 @@
+import router from "@/router";
 import { computed, ref } from "vue";
 import { useAuthStore } from "@/stores/member/auth";
+import { useMemberStore } from "@/stores/member/member";
 import type { LoginType } from "@/modules/types/member/MemberTypes";
-import router from "@/router";
 
 export const useAuth = () => {
   const store = useAuthStore();
+  const memberStore = useMemberStore();
   const error = ref();
   const isPending = ref(false);
   const isLoggedIn = computed(() => store.loggedIn);
@@ -29,6 +31,7 @@ export const useAuth = () => {
     isPending.value = true;
     try {
       await store.logout();
+      memberStore.$reset();
       error.value = null;
     } catch (err) {
       error.value = err;

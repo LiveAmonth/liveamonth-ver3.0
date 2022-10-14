@@ -13,9 +13,9 @@ public interface ReviewTagRepository extends JpaRepository<ReviewTag, Long> {
     @Query(value = "select rt.review_id from review_tag rt left join tag t on t.tag_id = rt.tag_id where t.name in :tags group by rt.review_id", nativeQuery = true)
     List<Long> findReviewTagsByTags(@Param("tags") Set<String> tags);
 
-    @Query(value = "select t.name from review_tag rt left join tag t on t.tag_id = rt.tag_id where rt.review_id =:id", nativeQuery = true)
+    @Query(value = "select t.name from review_tag rt left join tag t on t.tag_id = rt.tag_id where rt.review_id = :id", nativeQuery = true)
     List<String> findTagNamesById(@Param("id") Long id);
 
-    @Query(value = "select rt from ReviewTag rt join fetch Review r join fetch Tag t where r.id =: reviewId")
-    List<ReviewTag> findByReviewId(@Param("reviewId") Long reviewId);
+    @Query(value = "select * from review_tag rt left join tag t on t.tag_id = rt.tag_id where rt.review_id = :reviewId and t.name in :tags", nativeQuery = true)
+    List<ReviewTag> findByReviewIdAndTag(@Param("reviewId") Long reviewId, @Param("tags") Set<String> tags);
 }

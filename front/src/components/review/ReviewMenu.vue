@@ -18,7 +18,7 @@ const { reviewMenuGroup } = useCategory();
 const { menuMsg } = useMessageBox();
 const selectMenu = (key: string) => {
   request.value.tags = [];
-  router.replace({ name: "review-list", params: { menu: key } });
+  router.push({ name: "review-list", params: { menu: key } });
 };
 const reviewMenu = ref([
   getReviewMenu(reviewMenuGroup.value[0], "Place"),

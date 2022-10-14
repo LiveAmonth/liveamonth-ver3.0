@@ -3,7 +3,6 @@ import TagsInput from "@/components/review/TagsInput.vue";
 import { Search } from "@element-plus/icons-vue";
 import { reactive } from "vue";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useSearch } from "@/composables/search/search";
 import type { ReviewSearchType } from "@/modules/types/review/ReviewTypes";
 
 defineProps({
@@ -14,23 +13,30 @@ defineProps({
 });
 const emits = defineEmits(["applyOption"]);
 
-const { dynamicTags, pushTag, handleClose, clearTags } = useSearch();
 const { buttonMsg } = useMessageBox();
 
 const form = reactive<ReviewSearchType>({
-  searchWord: null,
-  tags: dynamicTags.value,
-  type: null,
-  category: null,
+  searchWord: "",
+  tags: [],
+  type: "",
+  category: "",
 });
 
 const clear = () => {
   form.searchWord = "";
-  clearTags();
+  form.tags = [];
 };
 
 const submitForm = () => {
   emits("applyOption", form);
+};
+
+const pushTag = (tag: string) => {
+  form.tags.push(tag);
+};
+
+const handleClose = (tag: string) => {
+  form.tags.splice(form.tags.indexOf(tag), 1);
 };
 </script>
 
@@ -59,7 +65,7 @@ const submitForm = () => {
       </el-col>
     </el-row>
     <TagsInput
-      :dynamic-tags="dynamicTags"
+      :dynamic-tags="form.tags"
       @push-tag="pushTag"
       @handle-close="handleClose"
       @clear="clear"

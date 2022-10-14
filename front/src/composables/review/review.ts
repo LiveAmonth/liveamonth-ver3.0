@@ -146,14 +146,14 @@ export const useReview = () => {
   };
 
   const goReadReview = async (id: string | number) => {
-    await router.replace({
+    await router.push({
       name: "read-review",
       params: { id: id },
     });
   };
 
   const goReviewList = async () => {
-    await router.replace({
+    await router.push({
       name: "review-list",
       params: { menu: reviewSearchType.value[0].code.toLowerCase() },
     });
