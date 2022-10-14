@@ -26,7 +26,7 @@ export const useReview = () => {
   const router = useRouter();
   const { getMenuCategory } = useMenuTab();
   const { simpleProfile } = useMember();
-  const { cityNames, reviewSearchType } = useCategory();
+  const { cityNames, reviewSearchType, reviewPopularSortType } = useCategory();
 
   const request = computed(() => store.searchCond);
   const reviewPage = computed((): PageableType => store.reviewPage);
@@ -104,6 +104,23 @@ export const useReview = () => {
     }
   };
 
+  const getPopularReviews = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getPopularReviews({
+        size: 7,
+        sort: reviewPopularSortType.value,
+        page: 1,
+      });
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   const getMyReviews = async (size: number, lastId: number | null) => {
     error.value = null;
     isPending.value = true;
@@ -173,6 +190,7 @@ export const useReview = () => {
     editReview,
     deleteReview,
     getReviews,
+    getPopularReviews,
     getMyReviews,
     getReview,
     goReadReview,

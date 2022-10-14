@@ -17,18 +17,15 @@ const props = defineProps({
 
 const category = "SCHEDULE";
 const { isPending, request, schedulePage, getOtherSchedules } = useSchedule();
-const { pageable, mappingPagination, movePage, setSort, clear } =
+const { pageable, mappingPagination, movePage, setSort } =
   usePagination(category);
 
 onMounted(async () => {
-  if (props.isMain) {
-    await setSort("like,desc");
-  } else {
-    await clear();
+  if (!props.isMain) {
+    await getOtherSchedules(pageable.value).then(() => {
+      mappingPagination(schedulePage.value);
+    });
   }
-  await getOtherSchedules(pageable.value).then(() => {
-    mappingPagination(schedulePage.value);
-  });
 });
 
 const pageClick = async (page: number) => {
@@ -51,13 +48,11 @@ const applyOptions = async (data: ScheduleSearchFormType) => {
   <div v-if="!isMain" class="search-filter">
     <ScheduleSearchEngine @apply-option="applyOptions" />
   </div>
-  <div class="schedule-list-container">
-    <el-row>
-      <el-col v-if="!isPending">
-        <SchedulePageList @apply-option="applyOptions" />
-      </el-col>
-    </el-row>
-  </div>
+  <el-row class="d-flex justify-content-center">
+    <el-col :span="20" v-if="!isPending">
+      <SchedulePageList @apply-option="applyOptions" />
+    </el-col>
+  </el-row>
   <CustomPagination
     v-if="!isMain"
     :pagination-type="category"
@@ -73,9 +68,9 @@ const applyOptions = async (data: ScheduleSearchFormType) => {
   margin-left: 10px;
 }
 
-@media screen and (max-width: 1200px) {
-  .schedule-list-container {
-    margin-right: 34px;
-  }
-}
+//@media screen and (max-width: 1200px) {
+//  .schedule-list-container {
+//    margin-right: 34px;
+//  }
+//}
 </style>

@@ -23,11 +23,9 @@ const goSchedule = (data: ScheduleSearchFormType) => {
         :key="schedule.id"
         class="list-item py-4"
       >
-        <el-row :gutter="5" class="d-flex justify-content-center">
-          <el-col :lg="8" :md="8" :sm="8" :xl="6" :xs="8">
-            <SimpleCalendar :period="schedule.period" />
-          </el-col>
-          <el-col :lg="14" :md="14" :sm="14" :xl="16" :xs="14">
+        <el-row class="d-flex justify-content-center">
+          <SimpleCalendar class="me-3" :period="schedule.period" />
+          <el-col :span="16" class="schedule-list-card">
             <ScheduleInfoCard
               :schedule="schedule"
               @go-to-member-schedules="goSchedule"
@@ -87,9 +85,15 @@ const goSchedule = (data: ScheduleSearchFormType) => {
         margin-top: 10px;
       }
 
-      .reply {
-        margin-top: 1.3rem;
-        text-align: left;
+      .schedule-list-card {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        .reply {
+          margin-top: 1.3rem;
+          text-align: left;
+        }
       }
     }
   }

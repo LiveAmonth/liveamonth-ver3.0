@@ -38,6 +38,19 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
+    getPopularSchedules: async function (pageable: PageableRequestType) {
+      await ScheduleApiService.getOtherSchedules(
+        new ScheduleSearchCond(),
+        pageable
+      )
+        .then((response: PageableResponseType) => {
+          this.pageableSchedules = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     getMySchedules: async function (loginId: string, size = null) {
       await ScheduleApiService.getMySchedules(loginId, size)
         .then((response: ScheduleCardType[]) => {

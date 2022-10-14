@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import ReviewMenu from "@/components/review/ReviewMenu.vue";
 import ReviewSearchEngine from "@/components/review/ReviewSearchEngine.vue";
+import CustomPagination from "@/components/common/CustomPagination.vue";
+import ReviewList from "@/components/review/ReviewList.vue";
 import { onMounted, watch } from "vue";
 import { useCategory } from "@/composables/common/category";
-import ReviewListCard from "@/components/review/ReviewListCard.vue";
-import CustomPagination from "@/components/common/CustomPagination.vue";
 import { usePagination } from "@/composables/common/pagination";
 import { useReview } from "@/composables/review/review";
 import { useRoute, useRouter } from "vue-router";
@@ -19,8 +19,7 @@ const props = defineProps({
 const category = "REVIEW";
 const { hasReviewCategory, getReviewCategories } = useCategory();
 const { pageable, mappingPagination, movePage } = usePagination(category);
-const { isPending, request, reviewPage, otherReviews, getReviews } =
-  useReview();
+const { isPending, request, reviewPage, getReviews } = useReview();
 const route = useRoute();
 const router = useRouter();
 
@@ -71,12 +70,7 @@ watch(
       </el-row>
       <el-row>
         <el-col :span="22">
-          <ul v-if="!isPending">
-            <li v-for="review in otherReviews" :key="review.id">
-              <ReviewListCard :review="review" />
-              <el-divider />
-            </li>
-          </ul>
+          <ReviewList v-if="!isPending" />
         </el-col>
       </el-row>
       <CustomPagination :pagination-type="category" @click="pageClick" />
@@ -95,19 +89,6 @@ watch(
   .main-content {
     display: flex;
     flex-direction: column;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-
-    li {
-      margin-bottom: 2rem;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
   }
 }
 </style>

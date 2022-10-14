@@ -69,6 +69,16 @@ export const useReviewStore = defineStore("review", {
         });
     },
 
+    getPopularReviews: async function (pageable: PageableRequestType) {
+      await ReviewApiService.getReviews(new ReviewSearchCond(), pageable)
+        .then((response: PageableResponseType) => {
+          this.pageableReviews = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     getMyReviews: async function (
       loginId: string,
       size: number,
