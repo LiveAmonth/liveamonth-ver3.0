@@ -35,20 +35,22 @@ const reviewMenu = ref([
     :default-active="initialMenu"
     @select="selectMenu"
   >
-    <template v-for="group in reviewMenu" :key="group.category.code">
+    <template v-for="cat in reviewMenu" :key="cat.category.code">
       <h5 class="menu-title mb-0 py-0 mt-3">
         <el-icon class="me-1">
-          <component :is="group.category.icon" />
+          <component :is="cat.category.icon" />
         </el-icon>
-        {{ group.category.value }}
+        {{ cat.category.value }}
       </h5>
       <el-menu-item
-        v-for="menu in group.menus"
+        v-for="menu in cat.menus"
         :key="menu.name"
         :index="menu.name"
         class="menu-item"
       >
-        <span class="my-0">{{ menuMsg(`review.${menu.name}`) }}</span>
+        <span class="my-0">
+          {{ menuMsg(`review.${cat.category.code}.${menu.name}`) }}
+        </span>
       </el-menu-item>
     </template>
   </el-menu>

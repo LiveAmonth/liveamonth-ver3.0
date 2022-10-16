@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.review.repository.ReviewTagRepository;
@@ -15,7 +14,6 @@ import java.util.Set;
 @SpringBootTest
 @Transactional
 @ActiveProfiles({"local", "oauth2"})
-@Rollback
 @Slf4j
 public class ReviewServiceTest {
 

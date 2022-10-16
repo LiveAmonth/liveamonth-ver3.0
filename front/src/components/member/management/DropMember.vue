@@ -27,7 +27,7 @@ const btnClick = async () => {
   <Reconfirm v-if="!reChecked" v-model:re-checked="reChecked" />
   <div v-else class="d-flex justify-content-center mt-5">
     <div class="container">
-      <TitleSlot>{{ titleMsg("member.dropMember") }}</TitleSlot>
+      <TitleSlot :title="titleMsg('member.dropMember')" />
       <p class="my-5">
         {{ resultMsg("dropMember.announce") }}
       </p>

@@ -29,10 +29,7 @@ public enum EnumClassConst implements EnumMapperType {
     REVIEW_CATEGORY("ReviewCategory","리뷰 카테고리"),
     REVIEW_MENU_GROUP("ReviewSearchGroup","리뷰 메뉴 그룹"),
     REVIEW_SEARCH_TYPE("ReviewSearchType", "리뷰 검색 타입"),
-    REVIEW_SORT_TYPE("ReviewSortType", "리뷰 정렬 방식"),
-
-    // Customer Center
-    CUSTOMER_CENTER_MENU("CustomerCenterCategory","고객 센터");
+    REVIEW_SORT_TYPE("ReviewSortType", "리뷰 정렬 방식");
 
     private final String className;
     private final String value;

@@ -35,7 +35,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   <div v-else class="d-flex justify-content-center mt-5">
     <div class="container">
       <div class="mt-3">
-        <SmallTitleSlot>{{ titleMsg("member.changePassword") }}</SmallTitleSlot>
+        <SmallTitleSlot :title="titleMsg('member.changePassword')" />
         <el-form
           ref="ruleFormRef"
           :model="form"

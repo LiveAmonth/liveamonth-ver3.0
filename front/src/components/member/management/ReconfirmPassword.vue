@@ -39,9 +39,7 @@ const submitForm = async () => {
 <template>
   <div class="d-flex justify-content-center mt-5">
     <div class="container">
-      <SmallTitleSlot class="my-3">
-        {{ titleMsg("member.reconfirm") }}
-      </SmallTitleSlot>
+      <SmallTitleSlot class="my-3" :title="titleMsg('member.reconfirm')" />
       <el-form
         ref="ruleFormRef"
         :model="reCheckForm"

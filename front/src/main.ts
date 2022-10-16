@@ -24,7 +24,8 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import "@vueup/vue-quill/dist/vue-quill.bubble.css";
 
-import { numberFormat } from "@/global/global";
+import { numberFormat } from "@/global/unit";
+
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 
@@ -40,7 +41,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(router);
 app.use(i18n);
 app.component("QuillEditor", QuillEditor);
+app.mount("#app");
 app.config.globalProperties.$comma = numberFormat.comma;
 app.config.globalProperties.$count = numberFormat.count;
 app.config.globalProperties.$won = numberFormat.won;
-app.mount("#app");

@@ -4,6 +4,9 @@ import FindPwForm from "@/components/member/account/FindPwForm.vue";
 import FindPwResult from "@/components/member/account/FindPwResult.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
 import { ref } from "vue";
+import { useMessageBox } from "@/composables/common/messageBox";
+
+const { buttonMsg } = useMessageBox();
 
 const isFind = ref<boolean>(false);
 const findPw = () => {
@@ -31,7 +34,7 @@ const findPw = () => {
           <FindPwForm v-if="!isFind" @find-pw="findPw" />
           <FindPwResult v-else />
           <div class="d-flex justify-content-end">
-            <LinkSlot :label="$t('member.login')" link="/login" />
+            <LinkSlot :label="buttonMsg('member.login')" link="/login" />
           </div>
         </el-card>
       </el-space>

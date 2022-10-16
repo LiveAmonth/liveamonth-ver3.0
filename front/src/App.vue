@@ -28,6 +28,10 @@ a {
   }
 }
 
+.bi {
+  padding-bottom: 1px;
+}
+
 @keyframes fadeInMove {
   0% {
     opacity: 0;

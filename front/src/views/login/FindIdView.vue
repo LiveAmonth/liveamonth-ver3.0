@@ -4,6 +4,9 @@ import FindIdForm from "@/components/member/account/FindIdForm.vue";
 import FindIdResult from "@/components/member/account/FindIdResult.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
 import { ref } from "vue";
+import { useMessageBox } from "@/composables/common/messageBox";
+
+const { buttonMsg } = useMessageBox();
 
 const isFind = ref<boolean>(false);
 const findId = () => {
@@ -31,14 +34,18 @@ const findId = () => {
           <FindIdForm v-if="!isFind" @find-id="findId" />
           <FindIdResult v-else />
           <div class="d-flex justify-content-end">
-            <LinkSlot :label="$t('member.login')" link="/login" />
+            <LinkSlot :label="buttonMsg('member.login')" link="/login" />
             <el-divider direction="vertical" />
             <LinkSlot
               v-if="!isFind"
-              :label="$t('member.signUp')"
+              :label="buttonMsg('member.signUp')"
               link="/sign-up"
             />
-            <LinkSlot v-else :label="$t('member.findPw')" link="/find-pw" />
+            <LinkSlot
+              v-else
+              :label="buttonMsg('member.findPw')"
+              link="/find-pw"
+            />
           </div>
         </el-card>
       </el-space>

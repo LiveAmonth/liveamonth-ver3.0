@@ -2,6 +2,9 @@
 import LoginForm from "@/components/member/account/LoginForm.vue";
 import LogoIcon from "@/components/image/LogoIcon.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
+import { useMessageBox } from "@/composables/common/messageBox";
+
+const { buttonMsg } = useMessageBox();
 </script>
 
 <template>
@@ -23,11 +26,11 @@ import LinkSlot from "@/components/common/LinkSlot.vue";
           </template>
           <LoginForm />
           <div class="d-flex justify-content-end">
-            <LinkSlot :label="$t('member.findId')" link="/find-id" />
+            <LinkSlot :label="buttonMsg('member.findId')" link="/find-id" />
             <el-divider direction="vertical" />
-            <LinkSlot :label="$t('member.findPw')" link="/find-pw" />
+            <LinkSlot :label="buttonMsg('member.findPw')" link="/find-pw" />
             <el-divider direction="vertical" />
-            <LinkSlot :label="$t('member.signUp')" link="/sign-up" />
+            <LinkSlot :label="buttonMsg('member.signUp')" link="/sign-up" />
           </div>
         </el-card>
       </el-space>

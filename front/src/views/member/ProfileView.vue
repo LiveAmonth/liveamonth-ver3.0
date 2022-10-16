@@ -9,6 +9,7 @@ import { useMember } from "@/composables/member/member";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMyPage } from "@/composables/member/mypage";
 import { useReview } from "@/composables/review/review";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const props = defineProps({
   post: {
@@ -22,6 +23,8 @@ const { mySchedules, getInfiniteSchedules } = useSchedule();
 const { myReviews, getMyReviews } = useReview();
 const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =
   useMyPage();
+const { menuMsg } = useMessageBox();
+
 const activeName = ref<string>(props.post);
 const listKey = ref<number>(0);
 const scheduleInitialSize = ref<number>(3);
@@ -65,7 +68,7 @@ const clickTab = (tab: string) => {
               )
             "
           >
-            {{ $t("myPage.account.editProfile") }}
+            {{ menuMsg("myPage.account.editProfile") }}
           </el-button>
           <el-icon @click="dialogVisible = true">
             <Setting />
@@ -113,7 +116,11 @@ const clickTab = (tab: string) => {
     </ContentTabsSlot>
   </div>
 
-  <el-dialog v-model="dialogVisible" :title="$t('myPage.menu')" width="300px">
+  <el-dialog
+    v-model="dialogVisible"
+    :title="menuMsg('myPage.menu')"
+    width="300px"
+  >
     <ManagementMenu @select-menu="goManagement" />
   </el-dialog>
 </template>

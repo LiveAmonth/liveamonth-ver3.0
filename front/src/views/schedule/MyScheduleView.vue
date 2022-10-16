@@ -9,7 +9,6 @@ import { Plus } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useI18n } from "vue-i18n";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 
 const props = defineProps({
@@ -30,8 +29,14 @@ const {
   setEditedSchedule,
 } = useSchedule();
 const { resetContent } = useCalendarEvent();
-const { openConfirmMessageBox, openMessageBox } = useMessageBox();
-const { t } = useI18n();
+const {
+  buttonMsg,
+  titleMsg,
+  resultMsg,
+  selectPhMsg,
+  openConfirmMessageBox,
+  openMessageBox,
+} = useMessageBox();
 
 const isPending = ref<boolean>(true);
 const selectedId = ref<string | number>("");
@@ -75,8 +80,8 @@ const submitScheduleForm = async (isEdit = false) => {
 
 const deleteScheduleBtn = async () => {
   await openConfirmMessageBox(
-    t("form.message.schedule.delete.title"),
-    t("form.message.schedule.delete.message")
+    resultMsg("schedule.delete.title"),
+    resultMsg("schedule.delete.message")
   ).then(async () => {
     if (editedSchedule.value.id != null) {
       await deleteSchedule(editedSchedule.value.id);
@@ -84,7 +89,7 @@ const deleteScheduleBtn = async () => {
       selectedId.value = await getInitialSelectedId();
       await changeSchedule();
     } else {
-      await openMessageBox(t("form.message.schedule.delete.exception"));
+      await openMessageBox(resultMsg("schedule.delete.exception"));
     }
   });
 };
@@ -106,8 +111,8 @@ const submitContentForm = async (isEdit = false) => {
 
 const deleteContentBtn = async (contentId: number) => {
   await openConfirmMessageBox(
-    t("form.message.content.delete.title"),
-    t("form.message.content.delete.message")
+    resultMsg("content.delete.title"),
+    resultMsg("content.delete.message")
   ).then(async () => {
     await deleteContent(contentId).then(async () => {
       await getScheduleContents(editedSchedule.value.id).then(() => {
@@ -125,11 +130,11 @@ const deleteContentBtn = async (contentId: number) => {
       <el-row v-if="!isPending" :gutter="10">
         <el-col :span="18">
           <div class="d-flex justify-content-between mt-3 mb-3">
-            <TitleSlot>{{ $t("schedule.title.manage") }}</TitleSlot>
+            <TitleSlot :title="titleMsg('schedule.manage')" />
             <div class="select-content d-flex justify-content-end">
               <el-select
                 v-model="selectedId"
-                :placeholder="$t('common.select')"
+                :placeholder="selectPhMsg(titleMsg('schedule.own'))"
                 @change="changeSchedule"
               >
                 <el-option
@@ -162,7 +167,7 @@ const deleteContentBtn = async (contentId: number) => {
                 <el-icon class="me-1">
                   <Plus />
                 </el-icon>
-                {{ $t("schedule.form.main.add") }}
+                {{ buttonMsg("schedule.add") }}
               </el-button>
             </div>
             <ScheduleForm
@@ -171,7 +176,7 @@ const deleteContentBtn = async (contentId: number) => {
               @delete-schedule="deleteScheduleBtn"
             >
               <template v-slot:title>
-                {{ $t("schedule.title.schedule") }}
+                {{ titleMsg("schedule.info") }}
               </template>
             </ScheduleForm>
           </div>
@@ -186,7 +191,7 @@ const deleteContentBtn = async (contentId: number) => {
                 <el-icon class="me-1">
                   <Plus />
                 </el-icon>
-                {{ $t("schedule.form.content.add") }}
+                {{ buttonMsg("schedule.content.add") }}
               </el-button>
             </div>
             <EditContentForm
@@ -202,7 +207,7 @@ const deleteContentBtn = async (contentId: number) => {
   <OpenModal @close="scheduleModal = false" v-if="scheduleModal">
     <ScheduleForm :is-add-form="true" @submit="submitScheduleForm">
       <template v-slot:title>
-        {{ $t("schedule.form.main.add") }}
+        {{ titleMsg("schedule.new") }}
       </template>
     </ScheduleForm>
   </OpenModal>

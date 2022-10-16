@@ -1,8 +1,18 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+defineProps({
+  title: {
+    type: String,
+    required: false,
+    default: "제목을 입력해주세요",
+  },
+});
+</script>
 
 <template>
   <div class="title">
-    <span><slot></slot></span>
+    <span>
+      <slot>{{ title }}</slot>
+    </span>
   </div>
 </template>
 

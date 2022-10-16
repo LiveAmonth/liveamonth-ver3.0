@@ -3,11 +3,10 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { reactive, ref, watch } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useI18n } from "vue-i18n";
+import { ScheduleContentEditor } from "@/modules/types/schedule/ScheduleTypes";
 import type { PropType } from "vue";
 import type { FormInstance } from "element-plus/es";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
-import { ScheduleContentEditor } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   scheduleId: {
@@ -25,8 +24,16 @@ const props = defineProps({
 });
 const emits = defineEmits(["submit"]);
 const { addContent } = useSchedule();
-const { openMessage, openMessageBox } = useMessageBox();
-const { t } = useI18n();
+const {
+  buttonMsg,
+  titleMsg,
+  labelMsg,
+  openMessage,
+  openMessageBox,
+  inputPhMsg,
+  resultMsg,
+  placeholderMsg,
+} = useMessageBox();
 
 const form = reactive<ScheduleContentEditor>(
   new ScheduleContentEditor(props.period)
@@ -38,11 +45,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   await formEl.validate(async (valid) => {
     if (valid) {
       await addContent(props.scheduleId, form).then(() => {
-        openMessage(t("form.message.content.add"));
+        openMessage(resultMsg("content.add"));
         emits("submit");
       });
     } else {
-      await openMessageBox(t("form.message.reWrite"));
+      await openMessageBox(resultMsg("reWrite"));
     }
   });
 };
@@ -64,57 +71,43 @@ watch(
       status-icon
     >
       <div class="d-flex justify-content-between align-items-center mb-2">
-        <SmallTitleSlot>
-          {{ $t("schedule.form.content.add") }}
-        </SmallTitleSlot>
+        <SmallTitleSlot :title="titleMsg('schedule.content.new')" />
       </div>
-      <el-form-item :label="$t('common.title')" prop="title">
+      <el-form-item :label="labelMsg('title')" prop="title">
         <el-input
           v-model="form.title"
-          :placeholder="
-            $t('common.please-input', {
-              field: $t('common.title'),
-            })
-          "
+          :placeholder="inputPhMsg(labelMsg('title'))"
           style="width: 200px"
         />
       </el-form-item>
-      <el-form-item :label="$t('schedule.form.content.content')" prop="content">
+      <el-form-item :label="labelMsg('content')" prop="content">
         <el-input
           v-model="form.content"
-          :placeholder="
-            $t('common.please-input', {
-              field: $t('schedule.form.content.content'),
-            })
-          "
+          :placeholder="inputPhMsg(labelMsg('content'))"
           :rows="2"
           type="textarea"
         />
       </el-form-item>
-      <el-form-item :label="$t('schedule.form.content.cost')" prop="cost">
+      <el-form-item :label="labelMsg('schedule.content.cost')" prop="cost">
         <el-input
           v-model="form.cost"
-          :placeholder="
-            $t('common.please-input', {
-              field: $t('schedule.form.content.cost'),
-            })
-          "
+          :placeholder="inputPhMsg(labelMsg('schedule.content.cost'))"
           style="width: 200px"
           type="number"
         >
           <template #append>
-            {{ $t("schedule.form.content.won") }}
+            {{ labelMsg("schedule.won") }}
           </template>
         </el-input>
       </el-form-item>
       <el-form-item
-        :label="$t('schedule.form.content.period.start')"
+        :label="labelMsg('schedule.content.start')"
         class="period-item"
         prop="period"
       >
         <el-date-picker
           v-model="form.timePeriod.startDateTime"
-          :placeholder="$t('common.pick-day')"
+          :placeholder="placeholderMsg('pick-day')"
           format="MM-DD HH:mm"
           style="width: 200px"
           type="datetime"
@@ -122,13 +115,13 @@ watch(
         />
       </el-form-item>
       <el-form-item
-        :label="$t('schedule.form.content.period.end')"
+        :label="labelMsg('schedule.content.end')"
         class="period-item"
         prop="period"
       >
         <el-date-picker
           v-model="form.timePeriod.endDateTime"
-          :placeholder="$t('common.pick-day')"
+          :placeholder="placeholderMsg('pick-day')"
           format="MM-DD HH:mm"
           style="width: 200px"
           type="datetime"
@@ -138,10 +131,10 @@ watch(
     </el-form>
     <div class="d-flex justify-content-end">
       <el-button @click="submitForm(ruleFormRef)">
-        {{ $t("common.button.add") }}
+        {{ buttonMsg("add") }}
       </el-button>
       <el-button @click="form.clear()">
-        {{ $t("common.button.clear") }}
+        {{ buttonMsg("reset") }}
       </el-button>
     </div>
   </el-card>

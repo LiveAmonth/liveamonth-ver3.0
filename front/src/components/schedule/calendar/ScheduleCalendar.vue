@@ -10,7 +10,6 @@ import { onMounted, reactive, watch } from "vue";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 import { useDate } from "@/composables/common/date";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useI18n } from "vue-i18n";
 import type { CalendarOptions } from "@fullcalendar/core";
 
 const props = defineProps({
@@ -37,8 +36,7 @@ const emits = defineEmits([
 const { scheduleContents, setContent, getEvents, updateEvent } =
   useCalendarEvent();
 const { now, isSameDate } = useDate();
-const { openConfirmMessageBox } = useMessageBox();
-const { t } = useI18n();
+const { resultMsg, openConfirmMessageBox } = useMessageBox();
 
 const options: CalendarOptions = reactive({
   locale: koLocale,
@@ -63,8 +61,8 @@ const options: CalendarOptions = reactive({
     });
     if (!hasEvents) {
       await openConfirmMessageBox(
-        t("form.message.content.new.title"),
-        t("form.message.content.new.message")
+        resultMsg("content.new.title"),
+        resultMsg("content.new.message")
       ).then(() => {
         emits("update:defaultDate", arg.startStr);
         emits("update:contentModal", true);

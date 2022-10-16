@@ -14,6 +14,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["click"]);
+
 const {
   pagination,
   getCurrentPageGroupPages,
@@ -21,7 +23,6 @@ const {
   getCurrentPageNumber,
 } = usePagination(props.paginationType);
 
-const emit = defineEmits(["click"]);
 const onClick = (page: number) => {
   emit("click", page);
 };

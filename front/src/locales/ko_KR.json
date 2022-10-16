@@ -1,9 +1,4 @@
 {
-  "auth": {
-    "reissue": {
-      "login": "다시 로그인 해주시기 바랍니다."
-    }
-  },
   "banner": {
     "schedule": {
       "other": {
@@ -20,102 +15,55 @@
       "content": "많은 사람의 '한 달 살기' 후기를 살펴보아요. 회원님의 소중한 경험도 알려주세요!"
     }
   },
-  "city": {
-    "title": "도시",
-    "name": {
-      "SE": "서울",
-      "GN": "강릉",
-      "GJ": "경주",
-      "BS": "부산",
-      "YS": "여수",
-      "JJ": "제주"
+  "title": {
+    "home": {
+      "posts": "인기 게시물"
     },
-    "intro": {
-      "title": "'한 달 살기' 추천 도시",
-      "category": {
-        "INTRO": "소개",
-        "food": "먹거리",
-        "view": "볼거리"
+    "city": {
+      "intro": "'리버먼스' 추천 도시",
+      "weather": "월 평균 기온(작년)",
+      "transport": "정류장 및 노선 개수"
+    },
+    "schedule": {
+      "own": "내 스케줄",
+      "other": "다른 사람 스케줄",
+      "info": "스케줄 정보",
+      "manage": "내 스케줄 관리",
+      "new": "새 스케줄 추가",
+      "content": {
+        "info": "컨텐츠 정보",
+        "new": "새 컨텐츠 추가"
       }
     },
-    "transport": {
-      "category": {
-        "T_SUBWAY": "지하철 역",
-        "T_BUS": "버스 정류장",
-        "T_BICYCLE": "공공 자전거",
-        "T_BUS_TERMINAL": "버스 터미널",
-        "T_TRAIN": "기차역",
-        "T_AIRPORT": "공항"
-      },
-      "kind": "종류",
-      "infoTitle": "정류장 및 노선 개수",
-      "score": "교통 점수",
-      "source": "출처 : 교통 정보"
+    "review": {
+      "main": "후기 게시판",
+      "write": "글쓰기"
     },
-    "weather": {
-      "source": "출처 : 기상청 홈페이지",
-      "infoTitle": "월 평균 기온(작년)",
-      "high": "최고",
-      "avg": "평균",
-      "low": "최저",
-      "month": {
-        "JAN": "1월",
-        "FEB": "2월",
-        "MAR": "3월",
-        "APR": "4월",
-        "MAY": "5월",
-        "JUN": "6월",
-        "JUL": "7월",
-        "AUG": "8월",
-        "SEP": "9월",
-        "OCT": "10월",
-        "NOV": "11월",
-        "DEC": "12월"
+    "member": {
+      "myPage": "내 정보",
+      "reconfirm": "비밀번호 재확인",
+      "editProfile": "프로필 편집",
+      "changePassword": "비밀번호 변경",
+      "dropMember": "회원 탈퇴",
+      "inquiry": {
+        "write": "1:1 문의 하기",
+        "list": "1:1 문의 목록",
+        "answer": "답변",
+        "detail": "문의 내용"
       }
+    },
+    "comment": {
+      "count": "총 {count}개의 댓글이 달렸습니다",
+      "write": "댓글 쓰기",
+      "reply": "대댓글({count})"
     }
   },
-  "comment": {
-    "title": "총 {count}개의 댓글이 달렸습니다",
-    "write": "댓글 쓰기",
-    "reply": "댓글의 댓글",
-    "react": {
-      "like": "추천",
-      "dislike": "비추천"
-    },
-    "best": "베스트 댓글",
-    "writer": "작성자 댓글",
-    "no-comment": "작성된 댓글이 없습니다."
-  },
-  "common": {
-    "search": "검색",
-    "filter": "필터",
-    "sort": "정렬",
-    "select": "선택",
-    "application": "적용",
+  "placeholder": {
     "please-input": "{field}을/를 입력해주세요.",
     "please-select": "{field}을/를 선택해주세요.",
     "pick-day": "날짜를 선택해주세요",
     "before-input": "{field}을 작성하려면 로그인 해주세요.",
-    "submit": "작성",
-    "title": "제목",
-    "content": "내용",
-    "category": "카테고리",
-    "open": "공개",
-    "hide": "숨김",
-    "button": {
-      "add": "추가",
-      "edit": "수정",
-      "delete": "삭제",
-      "update": "업데이트",
-      "clear": "초기화",
-      "cancel": "취소"
-    }
-  },
-  "customerCenter": {
-    "faq": "자주 묻는 질문들",
-    "personalTerms": "개인정보 처리방침",
-    "termsAndConditions": "이용 약관",
-    "notice": "공지사항"
+    "select": "선택"
   },
   "footer": {
     "info": "'한달 살기'를 위한 정보를 공유하는 사이트입니다.",
@@ -131,6 +79,9 @@
   },
   "form": {
     "button": {
+      "add": "추가",
+      "application": "적용",
+      "update": "업데이트",
       "reset": "초기화",
       "search": "검색",
       "newTag": "+ 태그 추가",
@@ -142,33 +93,55 @@
       "cancel": "취소",
       "member": {
         "login": "로그인",
+        "logout": "로그아웃",
+        "signUp": "회원가입",
         "reconfirm": "비밀번호 재확인",
         "findId": "아이디 찾기",
         "findPw": "비밀번호 찾기",
         "duplication": "중복 확인",
         "edit": "프로필 변경하기",
         "changePassword": "비밀번호 변경하기",
-        "dropMember": "회원 탈퇴하기"
+        "dropMember": "회원 탈퇴하기",
+        "image": "이미지 변경"
       },
       "schedule": {
-        "add": "새 스케줄 추가",
+        "add": "스케줄 추가",
         "edit": "스케줄 수정",
         "select": "스케줄 선택",
         "content": {
-          "add": "새 컨텐츠 추가"
+          "add": "컨텐츠 추가"
         },
         "open": "공개",
         "hide": "숨김"
       }
     },
     "label": {
+      "search": "검색",
+      "sort": "정렬",
+      "select": "선택",
+      "submit": "작성",
+      "open": "공개",
+      "hide": "숨김",
       "title": "제목",
       "writer": "작성자",
       "content": "내용",
       "category": "카테고리",
+      "filter": "필터",
       "view": "조회수",
       "like": "좋아요",
-      "city": "도시",
+      "city": {
+        "transport": {
+          "score": "교통 점수",
+          "kind": "종류",
+          "source": "출처 : 교통 정보"
+        },
+        "weather": {
+          "source": "출처 : 기상청 홈페이지",
+          "high": "최고",
+          "avg": "평균",
+          "low": "최저"
+        }
+      },
       "member": {
         "name": "이름",
         "loginId": "아이디",
@@ -176,6 +149,7 @@
         "passwordCheck": "비밀번호 확인",
         "nickname": "닉네임",
         "email": "이메일",
+        "image": "",
         "gender": {
           "title": "성별",
           "MALE": "남성",
@@ -186,7 +160,7 @@
           "end": "세"
         },
         "birth": "생년월일",
-        "imageChange": "이미지 변경"
+        "askLogin": "리버먼스의 다양한 서비스를 즐겨보세요"
       },
       "findId": {
         "created": "가입"
@@ -216,6 +190,10 @@
       "review": {
         "tags": "태그",
         "tags-pl": "최대 10개"
+      },
+      "comment": {
+        "writer": "작성자 댓글",
+        "best": "베스트 댓글"
       }
     },
     "message": {
@@ -265,6 +243,10 @@
           "title": "스케줄 삭제",
           "message": "해당 스케줄을 삭제하시겠습니까? 삭제된 정보는 복구할 수 없습니다.",
           "exception": "선택된 스케줄이 없습니다."
+        },
+        "empty": {
+          "content": "스케줄표에서 컨텐츠를 선택해주세요",
+          "schedule": "등록된 스케줄이 없습니다"
         }
       },
       "content": {
@@ -281,6 +263,7 @@
         }
       },
       "comment": {
+        "empty": "작성된 댓글이 없습니다",
         "delete": {
           "title": "댓글 삭제",
           "message": "해당 댓글을 삭제하시겠습니까?"
@@ -299,148 +282,41 @@
       }
     }
   },
-  "hello": {
-    "name": "{user}님 안녕하세요!"
-  },
-  "member": {
-    "signUp": "회원가입",
-    "edit": "회원정보 수정",
-    "login": "로그인",
-    "logout": "로그아웃",
-    "notMember": "아직 회원이 아니신가요?",
-    "askLogin": "리버먼스의 다양한 서비스를 즐겨보세요",
-    "reconfirm": "비밀번호 재확인",
-    "findId": "아이디 찾기",
-    "findPw": "비밀번호 찾기",
-    "loginId": "아이디",
-    "password": "비밀번호",
-    "passwordCheck": "비밀번호 확인",
-    "name": "이름",
-    "nickname": "닉네임",
-    "email": "이메일",
-    "gender": {
-      "title": "성별",
-      "MALE": "남성",
-      "FEMALE": "여성"
-    },
-    "age": {
-      "start": "나이",
-      "end": "세"
-    },
-    "birth": "생년월일",
-    "imageChange": "이미지 변경"
-  },
   "menu": {
-    "city": "도시 소개",
-    "schedule": "스케줄",
-    "otherSchedule": "다른 사람 스케줄",
-    "mySchedule": "내 스케줄",
-    "myPage": "내 정보",
-    "customerCenter": "고객 센터",
-    "review": {
-      "title": "후기",
-      "review_liveamonth": "리버먼스 지역",
-      "review_other": "다른 지역",
-      "etc_question": "질문 게시판",
-      "etc_free": "자유 게시판",
-      "group": {
-        "review": "추천 & 후기",
-        "etc": "소통해요"
-      }
-    }
-  },
-  "review": {
-    "review": {
-      "title": "추천 & 후기"
+    "header": {
+      "city": "도시 소개",
+      "schedule": "스케줄",
+      "otherSchedule": "다른 사람 스케줄",
+      "mySchedule": "내 스케줄",
+      "myPage": "내 정보",
+      "review": "후기",
+      "recommend": "추천 & 후기",
+      "etc": "소통해요"
     },
-    "etc": {
-      "title": "소통해요"
-    },
-    "popover": {
-      "link": "후기 보러가기"
-    }
-  },
-  "myPage": {
-    "menu": "마이페이지 메뉴",
-    "account": {
-      "title": "계정",
-      "editProfile": "프로필 편집",
-      "changePassword": "비밀번호 변경",
-      "dropMember": "회원 탈퇴"
-    },
-    "inquiry": {
-      "title": "문의",
-      "write": "문의 하기",
-      "answer": "문의 목록"
-    }
-  },
-  "schedule": {
-    "title": {
-      "own": "내 스케줄",
-      "other": "다른 사람 스케줄",
-      "schedule": "스케줄 정보",
-      "content": "컨텐츠 정보",
-      "manage": "내 스케줄 관리"
-    },
-    "tooltip": {
-      "date": "한 달 살기 기간",
-      "cost": "한 달 살기 비용",
-      "location": "한 달 살기 지역",
-      "view": "조회 수",
-      "like": "좋아요 수"
-    },
-    "search": {
-      "member_nickname": "닉네임",
-      "city_name": "도시 이름",
-      "start_date": "시작 날짜",
-      "title": "제목"
-    },
-    "sort": {
-      "id_desc": "최신 순",
-      "id_asc": "오래된 순",
-      "cost_desc": "비용 많은 순",
-      "cost_asc": "비용 적은 순",
-      "like_desc": "좋아요 순",
-      "view_desc": "조회수 순"
-    },
-    "popover": {
-      "link": "스케줄 보러가기"
-    },
-    "form": {
-      "main": {
-        "period": {
-          "start": "시작 날짜",
-          "end": "종료 날짜"
-        },
-        "add": "새 스케줄 추가",
-        "edit": "스케줄 수정",
-        "select": "스케줄 선택"
+    "myPage": {
+      "menu": "마이페이지 메뉴",
+      "account": {
+        "title": "계정",
+        "editProfile": "프로필 편집",
+        "changePassword": "비밀번호 변경",
+        "dropMember": "회원 탈퇴"
       },
-      "content": {
-        "title": "제목",
-        "content": "내용",
-        "cost": "비용",
-        "period": {
-          "start": "시작 시간",
-          "end": "종료 시간"
-        },
-        "add": "새 컨텐츠 추가",
-        "won": "원"
-      },
-      "delete": "삭제",
-      "empty": {
-        "schedule": "등록된 스케줄이 없습니다.",
-        "content": "스케줄표에서 컨텐츠를 선택해주세요."
+      "inquiry": {
+        "title": "문의",
+        "write": "문의 하기",
+        "answer": "문의 목록"
       }
     },
-    "collapse": {
-      "member": {
-        "schedule": "스케줄표 관리",
-        "content": "컨텐츠 관리"
+    "review": {
+      "review": {
+        "title": "추천 & 후기",
+        "review_liveamonth": "리버먼스 지역",
+        "review_other": "다른 지역"
       },
-      "other": {
-        "schedule": "스케줄 정보",
-        "content": "컨텐츠 목록"
+      "etc": {
+        "title": "소통해요",
+        "etc_question": "질문 게시판",
+        "etc_free": "자유 게시판"
       }
     }
   },
@@ -472,27 +348,6 @@
       "bs_review": "부산",
       "ys_review": "여수",
       "jj_review": "제주"
-    }
-  },
-  "title": {
-    "home": {
-      "posts": "인기 게시물"
-    },
-    "review": {
-      "main": "후기 게시판",
-      "write": "글쓰기"
-    },
-    "member": {
-      "reconfirm": "비밀번호 재확인",
-      "editProfile": "프로필 편집",
-      "changePassword": "비밀번호 변경",
-      "dropMember": "회원 탈퇴",
-      "inquiry": {
-        "write": "1:1 문의 하기",
-        "list": "1:1 문의 목록",
-        "answer": "답변",
-        "detail": "문의 내용"
-      }
     }
   },
   "validation": {
@@ -531,6 +386,61 @@
     },
     "comment": {
       "alreadyEdit": "이미 수정 중입니다."
+    }
+  },
+  "category": {
+    "city": {
+      "intro": {
+        "intro": "소개",
+        "food": "먹거리",
+        "view": "볼거리"
+      },
+      "name": {
+        "se": "서울",
+        "gn": "강릉",
+        "gj": "경주",
+        "bs": "부산",
+        "ys": "여수",
+        "jj": "제주"
+      },
+      "transport": {
+        "t_subway": "지하철 역",
+        "t_bus": "버스 정류장",
+        "t_bicycle": "공공 자전거",
+        "t_bus_terminal": "버스 터미널",
+        "t_train": "기차역",
+        "t_airport": "공항"
+      },
+      "month": {
+        "jan": "1월",
+        "feb": "2월",
+        "mar": "3월",
+        "apr": "4월",
+        "may": "5월",
+        "jun": "6월",
+        "jul": "7월",
+        "aug": "8월",
+        "sep": "9월",
+        "oct": "10월",
+        "nov": "11월",
+        "dec": "12월"
+      }
+    },
+    "schedule": {
+      "search": {
+        "member_nickname": "닉네임",
+        "city_name": "도시 이름",
+        "start_date": "시작 날짜",
+        "title": "제목"
+      },
+      "sort": {
+        "id_desc": "최신 순",
+        "id_asc": "오래된 순",
+        "cost_desc": "비용 많은 순",
+        "cost_asc": "비용 적은 순",
+        "like_desc": "좋아요 순",
+        "view_desc": "조회수 순"
+      }
     }
   }
 }

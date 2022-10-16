@@ -31,7 +31,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           router.replace({ name: "login" });
         });
       } else {
-        console.log(error.value);
         openMessageBox(resultMsg("unknown"));
       }
     } else {

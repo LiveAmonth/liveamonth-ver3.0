@@ -19,12 +19,21 @@ const props = defineProps({
     default: false,
   },
 });
-
 const emits = defineEmits(["submit", "deleteSchedule"]);
+
 const { editedSchedule, addSchedule, editSchedule } = useSchedule();
 const { cityNames } = useCategory();
-const { openMessage, openMessageBox, labelMsg, resultMsg, buttonMsg } =
-  useMessageBox();
+const {
+  labelMsg,
+  resultMsg,
+  buttonMsg,
+  inputPhMsg,
+  selectPhMsg,
+  categoryMsg,
+  placeholderMsg,
+  openMessage,
+  openMessageBox,
+} = useMessageBox();
 
 const isEdit = ref<boolean>(!props.selectedId);
 const form = reactive<ScheduleEditor>(new ScheduleEditor());
@@ -103,11 +112,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <el-form-item :label="labelMsg('title')" prop="title">
         <el-input
           v-model="form.title"
-          :placeholder="
-            $t('common.please-input', {
-              field: labelMsg('title'),
-            })
-          "
+          :placeholder="inputPhMsg(labelMsg('title'))"
           style="width: 200px"
         >
         </el-input>
@@ -115,35 +120,38 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <el-form-item :label="labelMsg('city')" prop="city">
         <el-select
           v-model="form.city"
-          :placeholder="$t('common.select')"
+          :placeholder="selectPhMsg(labelMsg('city'))"
           style="width: 200px"
         >
           <template v-for="val in cityNames" :key="val.code">
-            <el-option :label="$t(`city.name.${val.code}`)" :value="val.code" />
+            <el-option
+              :label="categoryMsg('city.name', val.code)"
+              :value="val.code"
+            />
           </template>
         </el-select>
       </el-form-item>
       <el-form-item
-        :label="$t('schedule.form.main.period.start')"
+        :label="labelMsg('schedule.start')"
         prop="period"
         class="period-item"
       >
         <el-date-picker
           v-model="form.period.startDate"
-          :placeholder="$t('common.pick-day')"
+          :placeholder="placeholderMsg('pick-day')"
           style="width: 200px"
           type="date"
           value-format="YYYY-MM-DD"
         />
       </el-form-item>
       <el-form-item
-        :label="$t('schedule.form.main.period.end')"
+        :label="labelMsg('schedule.end')"
         prop="period"
         class="period-item"
       >
         <el-date-picker
           v-model="form.period.endDate"
-          :placeholder="$t('common.pick-day')"
+          :placeholder="placeholderMsg('pick-day')"
           style="width: 200px"
           type="date"
           value-format="YYYY-MM-DD"
@@ -153,32 +161,32 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     <div v-if="selectedId" class="d-flex justify-content-end">
       <template v-if="!isEdit">
         <el-button @click="isEdit = true">
-          {{ $t("common.button.edit") }}
+          {{ buttonMsg("edit") }}
         </el-button>
         <el-button @click="emits('deleteSchedule')">
-          {{ $t("common.button.delete") }}
+          {{ buttonMsg("delete") }}
         </el-button>
       </template>
       <template v-else>
         <el-button @click="submitForm(ruleFormRef)">
-          {{ $t("common.button.update") }}
+          {{ buttonMsg("update") }}
         </el-button>
         <el-button @click="cancelEdit">
-          {{ $t("common.button.cancel") }}
+          {{ buttonMsg("cancel") }}
         </el-button>
       </template>
     </div>
     <div v-else class="d-flex justify-content-end">
       <el-button @click="submitForm(ruleFormRef)">
-        {{ $t("common.button.add") }}
+        {{ buttonMsg("add") }}
       </el-button>
       <el-button @click="form.clear()">
-        {{ $t("common.button.clear") }}
+        {{ buttonMsg("clear") }}
       </el-button>
     </div>
   </el-card>
   <el-card v-else-if="!isAddForm">
-    {{ $t("schedule.form.empty.schedule") }}
+    {{ resultMsg("schedule.empty.schedule") }}
   </el-card>
 </template>
 

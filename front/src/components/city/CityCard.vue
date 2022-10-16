@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useCity } from "@/composables/city/city";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const props = defineProps({
   index: {
@@ -8,6 +9,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const { categoryMsg, titleMsg, labelMsg } = useMessageBox();
 const { cityGridInfos, calcTransportScore } = useCity();
 const cityGridInfo = cityGridInfos.value[props.index];
 const score = ref(calcTransportScore(cityGridInfo.transportScore));
@@ -25,14 +28,14 @@ const score = ref(calcTransportScore(cityGridInfo.transportScore));
         />
       </div>
       <div class="flip-card-back">
-        <h1>{{ $t(`city.name.${cityGridInfo.name.code}`) }}</h1>
+        <h1>{{ categoryMsg("city.name", cityGridInfo.name.code) }}</h1>
         <div class="ms-4">
           <div class="d-flex justify-content-start">
-            <p>{{ $t("city.weather.infoTitle") }} :</p>
+            <p>{{ titleMsg("city.weather") }} :</p>
             <p class="ms-1">{{ cityGridInfo.averageDegree }}&#8451;</p>
           </div>
           <div class="d-flex justify-content-start">
-            <p>{{ $t("city.transport.score") }} :</p>
+            <p>{{ labelMsg("city.transport.score") }} :</p>
             <el-rate
               v-model="score"
               class="ms-1 pt-2"

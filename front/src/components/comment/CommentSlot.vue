@@ -39,11 +39,13 @@ const emits = defineEmits(["reactComment", "edit", "delete"]);
 
 const { isLoggedIn } = useAuth();
 const { reactedComments, getReactedComment, checkReacted } = useInteraction();
-const { buttonMsg, openMessageBox } = useMessageBox();
+const { buttonMsg, openMessageBox, labelMsg } = useMessageBox();
+
 const thumbsUp = ref<string>("bi-hand-thumbs-up");
 const thumbsDown = ref<string>("bi-hand-thumbs-down");
 const fillSuffix = "-fill";
 const reactedComment = ref<ReactedCommentType>();
+
 const fillThumbs = (thumbs: Ref<UnwrapRef<string>>) => {
   thumbs.value = thumbs.value.concat(fillSuffix);
 };
@@ -119,7 +121,7 @@ watch(
       </span>
     </div>
     <el-tag v-if="isWriter" size="small">
-      {{ $t("comment.writer") }}
+      {{ labelMsg("comment.writer") }}
     </el-tag>
     <el-badge v-if="isBest" class="ms-1" value="Best" />
     <div class="flex-grow-1"></div>

@@ -4,6 +4,7 @@ import { Search, Filter, Sort } from "@element-plus/icons-vue";
 import { useDate } from "@/composables/common/date";
 import { useCategory } from "@/composables/common/category";
 import type { ScheduleSearchFormType } from "@/modules/types/schedule/ScheduleTypes";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const emit = defineEmits(["applyOption"]);
 const { getDate } = useDate();
@@ -15,6 +16,9 @@ const {
   getCityNames,
   getScheduleCategories,
 } = useCategory();
+const { buttonMsg, labelMsg, categoryMsg, placeholderMsg, inputPhMsg } =
+  useMessageBox();
+
 const form = reactive<ScheduleSearchFormType>({
   searchType: null,
   searchInput: null,
@@ -83,33 +87,26 @@ const disabledDate = (time: Date) => {
             <el-icon class="me-1">
               <Search />
             </el-icon>
-            {{ $t("common.search") }}
+            {{ buttonMsg("search") }}
           </template>
           <div class="d-flex justify-content-between pt-1">
             <el-form-item>
               <el-select
                 v-model="form.searchType"
-                :placeholder="$t('common.select')"
+                :placeholder="placeholderMsg('select')"
                 class="me-2"
                 style="width: 115px"
                 @change="selectSearchType"
               >
-                <template v-for="val in scheduleSearchType" :key="val.code">
-                  <el-option
-                    :label="$t(`schedule.search.${val.code.toLowerCase()}`)"
-                    :value="val.code"
-                  />
+                <template v-for="type in scheduleSearchType" :key="type.code">
+                  <el-option :label="type.value" :value="type.code" />
                 </template>
               </el-select>
             </el-form-item>
             <el-form-item>
               <el-input
                 v-model="form.searchInput"
-                :placeholder="
-                  $t('common.please-input', {
-                    field: $t('member.nickname'),
-                  })
-                "
+                :placeholder="inputPhMsg(labelMsg('content'))"
                 style="width: 200px"
               >
               </el-input>
@@ -128,44 +125,40 @@ const disabledDate = (time: Date) => {
             <el-icon class="me-1">
               <Filter />
             </el-icon>
-            {{ $t("common.filter") }}
+            {{ labelMsg("filter") }}
           </template>
           <div class="d-flex justify-content-between pt-1">
             <el-form-item>
               <el-select
                 v-model="form.filterType"
-                :placeholder="$t('common.filter')"
+                :placeholder="placeholderMsg('select')"
                 class="me-2"
                 style="width: 115px"
                 @change="selectFilterType"
               >
-                <template v-for="val in scheduleFilterType" :key="val.code">
-                  <el-option
-                    :label="$t(`schedule.search.${val.code.toLowerCase()}`)"
-                    :value="val.code"
-                  />
+                <template v-for="type in scheduleFilterType" :key="type.code">
+                  <el-option :label="type.value" :value="type.code" />
                 </template>
               </el-select>
             </el-form-item>
-            <el-form-item v-if="form.filterType === 'CITY_NAME'">
+            <el-form-item v-if="form.filterType === scheduleFilterType[0].code">
               <el-select
                 v-model="form.filterInput"
-                :placeholder="$t('common.select')"
+                :placeholder="placeholderMsg('select')"
                 style="width: 200px"
               >
                 <template v-for="val in cityNames" :key="val.code">
-                  <el-option
-                    :label="$t(`city.name.${val.code}`)"
-                    :value="val.code"
-                  />
+                  <el-option :label="val.value" :value="val.code" />
                 </template>
               </el-select>
             </el-form-item>
-            <el-form-item v-else-if="form.filterType === 'START_DATE'">
+            <el-form-item
+              v-else-if="form.filterType === scheduleFilterType[1].code"
+            >
               <el-date-picker
                 v-model="form.filterInput"
                 :disabled-date="disabledDate"
-                :placeholder="$t('common.pick-day')"
+                :placeholder="placeholderMsg('pick-day')"
                 style="width: 200px"
                 type="date"
               />
@@ -184,19 +177,20 @@ const disabledDate = (time: Date) => {
             <el-icon class="me-1">
               <Sort />
             </el-icon>
-            {{ $t("common.sort") }}
+            {{ labelMsg("sort") }}
           </template>
           <div class="d-flex justify-content-between pt-1">
             <el-form-item>
               <el-select
                 v-model="form.sortType"
-                :placeholder="$t('common.sort')"
                 class="me-2"
                 style="width: 115px"
               >
                 <template v-for="val in scheduleSortType" :key="val.code">
                   <el-option
-                    :label="$t(`schedule.sort.${val.code.toLowerCase()}`)"
+                    :label="
+                      categoryMsg('schedule.sort', val.code.toLowerCase())
+                    "
                     :value="val.title"
                   />
                 </template>
@@ -208,7 +202,7 @@ const disabledDate = (time: Date) => {
       <div class="btn-wrapper ms-2 pt-1">
         <el-form-item>
           <el-button size="large" @click="applyOption">
-            {{ $t("common.application") }}
+            {{ buttonMsg("application") }}
           </el-button>
         </el-form-item>
       </div>

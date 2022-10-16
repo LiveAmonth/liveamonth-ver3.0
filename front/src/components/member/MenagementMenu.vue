@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useMyPage } from "@/composables/member/mypage";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 defineProps({
   initialMenu: {
@@ -10,7 +11,10 @@ defineProps({
   },
 });
 const emits = defineEmits(["selectMenu"]);
+
 const { managementMenu } = useMyPage();
+const { menuMsg } = useMessageBox();
+
 const select = (key: string) => {
   emits("selectMenu", key);
 };
@@ -35,18 +39,18 @@ const select = (key: string) => {
           <el-icon class="pb-1 me-1">
             <component :is="cat.category.icon" />
           </el-icon>
-          {{ $t(`myPage.${cat.category.code}.title`) }}
+          {{ cat.category.value }}
         </SmallTitleSlot>
         <el-menu-item
           class="menu-item"
           v-for="menu in cat.menus"
           :index="
-            JSON.stringify({ category: cat.category.code, menu: menu.value })
+            JSON.stringify({ category: cat.category.code, menu: menu.name })
           "
-          :key="menu.value"
+          :key="menu.name"
         >
           <span class="ms-2">
-            {{ $t(`myPage.${cat.category.code}.${menu.value}`) }}
+            {{ menuMsg(`myPage.${cat.category.code}.${menu.name}`) }}
           </span>
         </el-menu-item>
       </div>

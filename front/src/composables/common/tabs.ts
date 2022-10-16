@@ -1,8 +1,10 @@
 import { useI18n } from "vue-i18n";
 import type { NameIconType } from "@/modules/types/common/MenuTypes";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 export const useMenuTab = () => {
   const { t } = useI18n();
+  const { menuMsg } = useMessageBox();
 
   const getTabsItem = (
     dir: string,
@@ -23,7 +25,7 @@ export const useMenuTab = () => {
   ): NameIconType => {
     return {
       code: code,
-      value: t(`${dir}.${code}.title`),
+      value: menuMsg(`${dir}.${code}.title`),
       icon: icon,
     };
   };

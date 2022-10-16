@@ -5,6 +5,11 @@ defineProps({
     required: false,
     default: true,
   },
+  title: {
+    type: String,
+    required: false,
+    default: "제목을 입력해주세요",
+  },
 });
 </script>
 
@@ -13,7 +18,9 @@ defineProps({
     :style="{ '--bgColor': titleLine ? '#004a55' : 'inherit' }"
     class="title"
   >
-    <span><slot></slot></span>
+    <span>
+      <slot>{{ title }}</slot>
+    </span>
   </div>
 </template>
 

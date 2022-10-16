@@ -43,7 +43,8 @@ const submitForm = async () => {
         size="large"
         style="width: 100%"
         @click="submitForm"
-        >{{ buttonMsg("member.findPw") }}
+      >
+        {{ buttonMsg("member.findPw") }}
       </el-button>
     </el-form-item>
   </el-form>

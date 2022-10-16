@@ -3,7 +3,6 @@ package teamproject.lam_server.global.enumMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import teamproject.lam_server.domain.city.constants.*;
-import teamproject.lam_server.domain.customercenter.constants.CustomerCenterMenu;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -46,9 +45,6 @@ public class EnumConfig {
         enumMapper.put(REVIEW_MENU_GROUP, ReviewMenuGroup.class);
         enumMapper.put(REVIEW_SEARCH_TYPE, ReviewSearchType.class);
         enumMapper.putMetaModelType(REVIEW_SORT_TYPE, ReviewSortType.class);
-
-        // Customer Center
-        enumMapper.put(CUSTOMER_CENTER_MENU, CustomerCenterMenu.class);
 
         return enumMapper;
     }

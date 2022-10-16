@@ -2,6 +2,7 @@
 import OpenModal from "@/components/common/OpenModal.vue";
 import ScheduleForm from "@/components/schedule/form/ScheduleForm.vue";
 import AddContentForm from "@/components/schedule/form/AddContentForm.vue";
+import { useMessageBox } from "@/composables/common/messageBox";
 import type { PropType } from "vue";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
 
@@ -26,6 +27,8 @@ const emits = defineEmits([
   "addContent",
 ]);
 
+const { titleMsg } = useMessageBox();
+
 const addSchedule = () => {
   emits("update:scheduleModal", false);
   emits("addSchedule");
@@ -41,7 +44,7 @@ const addContent = () => {
   <OpenModal @close="$emit('update:scheduleModal', false)" v-if="scheduleModal">
     <ScheduleForm @submit="addSchedule">
       <template v-slot:title>
-        {{ $t("schedule.form.main.add") }}
+        {{ titleMsg("schedule.new") }}
       </template>
     </ScheduleForm>
   </OpenModal>
@@ -49,7 +52,7 @@ const addContent = () => {
     <AddContentForm
       :schedule-id="scheduleId"
       :period="period"
-      :start-date="period.startDate"
+      :default-date="period.startDate"
       @submit="addContent"
     />
   </OpenModal>

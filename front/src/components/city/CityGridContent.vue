@@ -4,6 +4,7 @@ import { onMounted } from "vue";
 import { useCity } from "@/composables/city/city";
 
 const { hasCityGridInfos, getCityGridInfo } = useCity();
+
 onMounted(async () => {
   await getCityGridInfo();
 });

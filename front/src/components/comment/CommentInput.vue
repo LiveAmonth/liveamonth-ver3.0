@@ -30,7 +30,15 @@ const emits = defineEmits(["submitForm", "cancel"]);
 
 const { editableComment } = useComment();
 const { isLoggedIn } = useAuth();
-const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
+const {
+  openMessageBox,
+  buttonMsg,
+  labelMsg,
+  resultMsg,
+  inputPhMsg,
+  beforeWritePhMsg,
+} = useMessageBox();
+
 const form = reactive<CommentEditor>(
   new CommentEditor(props.contentId, props.parentId)
 );
@@ -77,12 +85,8 @@ watch(
           :disabled="!isLoggedIn"
           :placeholder="
             isLoggedIn
-              ? $t('common.please-input', {
-                  field: labelMsg('title'),
-                })
-              : $t('common.before-input', {
-                  field: labelMsg('title'),
-                })
+              ? inputPhMsg(labelMsg('title'))
+              : beforeWritePhMsg(labelMsg('title'))
           "
           :rows="3"
           type="textarea"
