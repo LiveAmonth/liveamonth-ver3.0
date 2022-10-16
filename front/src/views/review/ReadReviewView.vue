@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import CommentComponent from "@/components/comment/CommentComponent.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
+import ImageIcon from "@/components/common/ImageIcon.vue";
 import { Back } from "@element-plus/icons-vue";
 import { View } from "@element-plus/icons-vue";
 import { onMounted, ref } from "vue";
@@ -8,6 +9,8 @@ import { useRouter } from "vue-router";
 import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
+import { useInteraction } from "@/composables/interaction/interaction";
+import { useAuth } from "@/composables/member/auth";
 
 const props = defineProps({
   id: {
@@ -16,17 +19,31 @@ const props = defineProps({
   },
 });
 
-const { currReview, getReview, deleteReview, goReviewList } = useReview();
+const { type, currReview, getReview, deleteReview, goReviewList } = useReview();
 const { isLoggedInMemberPost } = useMember();
 const { buttonMsg, resultMsg, openMessage, openConfirmMessageBox } =
   useMessageBox();
-
+const { isLiked, error, isLikedContent, reactContent } = useInteraction();
+const { isLoggedIn } = useAuth();
 const router = useRouter();
 const commentKey = ref<number>(0);
 
 onMounted(async () => {
   await getReview(Number(props.id));
+  if (isLoggedIn.value) {
+    await isLikedContent(type, currReview.value.id);
+  }
 });
+
+const handelLike = async () => {
+  await reactContent(type, currReview.value.id).then(() => {
+    if (!error.value && isLoggedIn.value) {
+      isLiked.value
+        ? currReview.value.numberOfLikes++
+        : currReview.value.numberOfLikes--;
+    }
+  });
+};
 
 const deleteBtn = async () => {
   await openConfirmMessageBox(
@@ -45,7 +62,7 @@ const deleteBtn = async () => {
   <div v-if="currReview.id === Number(id)">
     <el-row class="review">
       <el-col :span="18" class="review-wrapper">
-        <TitleSlot>{{ currReview.title }}</TitleSlot>
+        <TitleSlot :titl="currReview.title" />
         <div class="sub">
           <div class="avatar me-1">
             <el-avatar :size="20" :src="'/src/assets/image/default.jpg'" />
@@ -85,6 +102,23 @@ const deleteBtn = async () => {
           <el-tag v-for="tag in currReview.tags" :key="tag" size="large">
             {{ `#${tag}` }}
           </el-tag>
+        </div>
+        <div class="like-content">
+          <el-button class="btn" @click="handelLike">
+            <div class="like">
+              <div class="icon">
+                <ImageIcon
+                  :height="30"
+                  :url="`/src/assets/image/icon/love${
+                    !isLiked ? '' : '-fill'
+                  }.png`"
+                  :width="30"
+                />
+                {{ $count(currReview.numberOfLikes) }}
+              </div>
+              <span class="label">좋아요</span>
+            </div>
+          </el-button>
         </div>
       </el-col>
       <el-col
@@ -172,6 +206,38 @@ const deleteBtn = async () => {
         color: #383838;
         font-style: italic;
         font-weight: 400;
+      }
+    }
+
+    .like-content {
+      display: flex;
+      justify-content: center;
+
+      .btn {
+        min-height: 65px;
+
+        &:hover,
+        &:focus {
+          color: #606266;
+          background-color: inherit;
+          border-color: #dcdfe6;
+        }
+
+        .like {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          .icon {
+            display: flex;
+            justify-content: center;
+            font-size: 1.7rem;
+          }
+
+          .label {
+            font-size: 1rem;
+          }
+        }
       }
     }
   }

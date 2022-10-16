@@ -2,7 +2,8 @@ import InteractionApiService from "@/services/common/InteractionApiService";
 import { computed, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useInteractionStore } from "@/stores/common/interaction";
-import { useI18n } from "vue-i18n";
+import { useAuth } from "@/composables/member/auth";
+import { useMessageBox } from "@/composables/common/messageBox";
 import type {
   InteractionType,
   ReactedCommentType,
@@ -11,9 +12,10 @@ import type {
 export const useInteraction = () => {
   const store = useInteractionStore();
 
-  const { t } = useI18n();
   const { simpleProfile } = useMember();
-
+  const { isLoggedIn } = useAuth();
+  const { validationMsg, requireLoginMessageBox, openWarningMessage } =
+    useMessageBox();
   const error = ref();
   const isPending = ref(false);
   const isLiked = computed(() => store.isLikedContent);
@@ -27,17 +29,21 @@ export const useInteraction = () => {
   };
 
   const reactContent = async (type: string, contentId: number) => {
-    await InteractionApiService.reactContent(
-      type,
-      isLiked.value,
-      getInteractionRequest(contentId)
-    )
-      .then(() => {
-        console.log("react content");
-      })
-      .catch((err) => {
-        error.value = err;
-      });
+    if (isLoggedIn.value) {
+      try {
+        await InteractionApiService.reactContent(
+          type,
+          isLiked.value,
+          getInteractionRequest(contentId)
+        );
+        changeLikeState();
+      } catch (err: any) {
+        error.value = err.message;
+        openWarningMessage(err.message);
+      }
+    } else {
+      await requireLoginMessageBox();
+    }
   };
 
   const isLikedContent = async (type: string, contentId: number) => {
@@ -90,10 +96,10 @@ export const useInteraction = () => {
 
   const checkReacted = async (option: boolean, type: string | undefined) => {
     if (option && type && type === "DISLIKE") {
-      error.value = t("validation.interaction.alreadyDislikeComment");
+      error.value = validationMsg("interaction.alreadyDislikeComment");
       throw error.value;
     } else if (!option && type && type === "LIKE") {
-      error.value = t("validation.interaction.alreadyLikeComment");
+      error.value = validationMsg("interaction.alreadyLikeComment");
       throw error.value;
     }
   };

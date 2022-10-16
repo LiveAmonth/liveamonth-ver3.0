@@ -88,9 +88,7 @@ const handleClose = (tag: string) => {
             status-icon
           >
             <div class="title-items">
-              <SmallTitleSlot>
-                {{ labelMsg("title") }}
-              </SmallTitleSlot>
+              <SmallTitleSlot :title="labelMsg('title')" />
               <el-input
                 class="title-input"
                 :placeholder="inputPhMsg(labelMsg('title'))"

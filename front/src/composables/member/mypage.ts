@@ -23,15 +23,15 @@ export const useMyPage = () => {
     category: getMenuCategory("myPage", "account", "User"),
     menus: [
       {
-        value: "editProfile",
+        name: "editProfile",
         component: EditProfile,
       },
       {
-        value: "changePassword",
+        name: "changePassword",
         component: ChangePassword,
       },
       {
-        value: "dropMember",
+        name: "dropMember",
         component: DropMember,
       },
     ],
@@ -40,11 +40,11 @@ export const useMyPage = () => {
     category: getMenuCategory("myPage", "inquiry", "Headset"),
     menus: [
       {
-        value: "write",
+        name: "write",
         component: WriteInquiry,
       },
       {
-        value: "answer",
+        name: "answer",
         component: InquiryList,
       },
     ],
@@ -84,7 +84,7 @@ export const useMyPage = () => {
         : inquiryMenu.menus;
     let component: DefineComponent = EditProfile;
     menus.forEach((value) => {
-      if (value.value == menu) component = value.component;
+      if (value.name == menu) component = value.component;
     });
     return component;
   };

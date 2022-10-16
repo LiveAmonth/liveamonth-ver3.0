@@ -78,7 +78,8 @@ public class ScheduleQueryRepository extends BasicRepository {
                                         .leftJoin(follower.from, member)
                                         .where(followedMemberLoginIdEq(loginId))
                         ),
-                        scheduleIdLt(lastId)
+                        scheduleIdLt(lastId),
+                        publicFlag()
                 )
                 .orderBy(schedule.id.desc());
 

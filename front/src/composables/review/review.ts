@@ -22,6 +22,7 @@ import { useRouter } from "vue-router";
 export const useReview = () => {
   const store = useReviewStore();
   const error = ref();
+  const type = "review";
   const isPending = ref<boolean>(false);
   const router = useRouter();
   const { getMenuCategory } = useMenuTab();
@@ -178,6 +179,8 @@ export const useReview = () => {
 
   return {
     isPending,
+    error,
+    type,
     request,
     reviewPage,
     cityReviewTabs,

@@ -68,7 +68,7 @@ const deleteBtn = async () => {
   </div>
 
   <div class="answer">
-    <SmallTitleSlot>{{ titleMsg("member.inquiry.answer") }}</SmallTitleSlot>
+    <SmallTitleSlot :title="titleMsg('member.inquiry.answer')" />
     <el-row v-if="currInquiry.isAnswered">
       <el-col>
         <el-row class="title-content">

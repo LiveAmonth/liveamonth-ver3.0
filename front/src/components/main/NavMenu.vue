@@ -4,8 +4,8 @@ import { useHome } from "@/composables/home/home";
 import { useMessageBox } from "@/composables/common/messageBox";
 
 const emits = defineEmits(["menuClick"]);
-const router = useRouter();
 
+const router = useRouter();
 const { mainMenus } = useHome();
 const { menuMsg } = useMessageBox();
 
@@ -36,7 +36,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
   >
     <template v-for="(menu, idx) in mainMenus" :key="menu.name">
       <el-sub-menu v-if="menu.sub.length" :index="String(idx)">
-        <template #title>{{ menuMsg(menu.name) }}</template>
+        <template #title>{{ menuMsg(`header.${menu.name}`) }}</template>
         <template v-for="(sub, sIdx) in menu.sub" :key="sub.name">
           <el-menu-item
             :index="`${idx}-${sIdx}`"
@@ -45,12 +45,12 @@ const handleSelect = (key: string, keyPath: string[]) => {
               --el-menu-hover-text-color: #007f95;
             "
           >
-            {{ menuMsg(sub.name) }}
+            {{ menuMsg(`header.${sub.name}`) }}
           </el-menu-item>
         </template>
       </el-sub-menu>
       <el-menu-item v-else :index="String(idx)">
-        {{ menuMsg(menu.name) }}
+        {{ menuMsg(`header.${menu.name}`) }}
       </el-menu-item>
     </template>
   </el-menu>

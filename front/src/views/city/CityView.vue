@@ -5,9 +5,12 @@ import TitleSlot from "@/components/common/TitleSlot.vue";
 import { onMounted, ref } from "vue";
 import { useCity } from "@/composables/city/city";
 import { useCategory } from "@/composables/common/category";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const { cityNames, hasCityNames, getCityNames } = useCategory();
 const { getCityIntro, getExtraCityInfo } = useCity();
+const { titleMsg, categoryMsg } = useMessageBox();
+
 const activeName = ref<string>();
 
 onMounted(async () => {
@@ -30,7 +33,7 @@ const cityChange = async () => {
   <el-row class="mb-lg-2">
     <el-col>
       <div class="d-flex justify-content-between">
-        <TitleSlot>{{ $t("city.intro.title") }}</TitleSlot>
+        <TitleSlot :title="titleMsg('city.intro')" />
         <el-radio-group
           v-if="hasCityNames"
           v-model="activeName"
@@ -38,8 +41,8 @@ const cityChange = async () => {
           size="large"
         >
           <template v-for="name in cityNames" :key="name.code">
-            <el-radio-button :label="name.code" @change="cityChange"
-              >{{ name.value }}
+            <el-radio-button :label="name.code" @change="cityChange">
+              {{ name.value }}
             </el-radio-button>
           </template>
         </el-radio-group>
@@ -49,7 +52,7 @@ const cityChange = async () => {
         <div class="mt-5">
           <el-row v-for="cat in ['food', 'view']" :key="cat">
             <el-col>
-              <TitleSlot>{{ $t(`city.intro.category.${cat}`) }}</TitleSlot>
+              <TitleSlot :title="categoryMsg('city.intro', cat)" />
               <CardModeCarousel :dir="cat" />
             </el-col>
           </el-row>

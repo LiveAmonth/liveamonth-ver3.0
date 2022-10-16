@@ -19,6 +19,6 @@ export interface CategoryMenuType<T> {
 }
 
 export interface MyPageMenuType {
-  value: string;
+  name: string;
   component: DefineComponent;
 }

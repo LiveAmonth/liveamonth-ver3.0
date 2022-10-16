@@ -8,17 +8,19 @@ import type {
   DatePeriodType,
   DateTimePeriodType,
 } from "@/modules/types/schedule/ScheduleTypes";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 export const useFormValidate = () => {
   const { t } = useI18n();
   const { getDate, isBetween, isSameDate, isBefore } = useDate();
+  const { labelMsg } = useMessageBox();
   const store = useMemberStore();
   const isPending = ref(false);
   const isAvailable = computed(() => store.isAvailable);
   const validateRequire = (field: string): FormItemRule => {
     return {
       required: true,
-      message: t("validation.require.text", { field: t(field) }),
+      message: t("validation.require.text", { field: labelMsg(field) }),
       trigger: "blur",
     };
   };
@@ -26,7 +28,7 @@ export const useFormValidate = () => {
   const validateSelection = (field: string): FormItemRule => {
     return {
       required: true,
-      message: t("validation.require.select", { field: t(field) }),
+      message: t("validation.require.select", { field: labelMsg(field) }),
       trigger: "change",
     };
   };
@@ -156,19 +158,6 @@ export const useFormValidate = () => {
     };
   };
 
-  const checkedField = (form: MemberCreateType): FormItemRule => {
-    return {
-      validator: (rule, value, callback) => {
-        if (form.duplicationCheck) {
-          callback(new Error(t("validation.duplication.check")));
-        } else {
-          callback();
-        }
-      },
-      trigger: "blur",
-    };
-  };
-
   const duplicateCheck = async (field: string, param: string) => {
     isPending.value = true;
     try {
@@ -194,7 +183,6 @@ export const useFormValidate = () => {
     validateDateTimePeriod,
     validatePeriodRange,
     validateSameDate,
-    checkedField,
     duplicateCheck,
   };
 };

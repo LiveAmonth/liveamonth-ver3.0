@@ -99,9 +99,7 @@ const goBackBtn = () => {
       @go-back="goBackBtn"
     />
     <div v-else-if="inquiryType === 'list'" class="list-container">
-      <SmallTitleSlot>
-        {{ titleMsg("member.inquiry.list") }}
-      </SmallTitleSlot>
+      <SmallTitleSlot :title="titleMsg('member.inquiry.list')" />
       <div class="inquiry-list">
         <el-table
           :cell-style="{ cursor: 'pointer' }"

@@ -6,7 +6,7 @@ import type { InteractionType } from "@/modules/types/interaction/InteractionTyp
 export const useInteractionStore = defineStore("interaction", {
   state: () => ({
     reactedComments: [] as ReactedCommentType[],
-    isLikedContent: {} as boolean,
+    isLikedContent: false,
   }),
   getters: {},
   actions: {

@@ -1,8 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import PopoverProfileSlot from "@/components/common/PopoverProfileSlot.vue";
 import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
-import { Location, Money, View, Right, Close } from "@element-plus/icons-vue";
+import { Right, Close } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
@@ -85,61 +85,14 @@ const deleteScheduleBtn = async () => {
         :schedule="schedule"
         :font-size="isMyPage ? 1.0 : 0.9"
         :show-likes="true"
-        :is-my-page="isMyPage"
       >
         <template v-slot:title>
           <SmallTitleSlot
             class="slot"
             @click="goSchedule"
             style="cursor: pointer"
-          >
-            {{ schedule.title }}
-          </SmallTitleSlot>
-        </template>
-        <template v-slot:period-title>
-          <el-tooltip
-            :content="$t('schedule.tooltip.date')"
-            placement="left-start"
-          >
-            <el-icon>
-              <Calendar />
-            </el-icon>
-          </el-tooltip>
-        </template>
-        <template v-slot:cost-title>
-          <el-tooltip
-            :content="$t('schedule.tooltip.cost')"
-            placement="left-start"
-          >
-            <el-icon>
-              <Money />
-            </el-icon>
-          </el-tooltip>
-        </template>
-        <template v-slot:location-title>
-          <el-tooltip
-            :content="$t('schedule.tooltip.location')"
-            placement="left-start"
-          >
-            <el-icon>
-              <Location />
-            </el-icon>
-          </el-tooltip>
-        </template>
-        <template v-slot:view-title>
-          <el-tooltip
-            :content="$t('schedule.tooltip.view')"
-            placement="bottom-end"
-          >
-            <el-icon class="me-2">
-              <View />
-            </el-icon>
-          </el-tooltip>
-        </template>
-        <template v-slot:like-title>
-          <el-tooltip :content="$t('schedule.tooltip.like')" placement="bottom">
-            <i class="bi bi-hand-thumbs-up"></i>
-          </el-tooltip>
+            :title="schedule.title"
+          />
         </template>
       </ScheduleInfoSlot>
       <div v-if="isMyPage" class="delete" @click="deleteScheduleBtn">

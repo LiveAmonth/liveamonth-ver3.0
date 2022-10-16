@@ -57,9 +57,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
 <template>
   <div class="my-5">
-    <TitleSlot class="my-5">
-      {{ titleMsg("member.inquiry.write") }}
-    </TitleSlot>
+    <TitleSlot class="my-5" :title="titleMsg('member.inquiry.write')" />
     <el-form
       ref="ruleFormRef"
       :model="form"

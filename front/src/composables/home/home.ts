@@ -39,14 +39,14 @@ export const useHome = () => {
       ],
     },
     {
-      name: "review.title",
+      name: "review",
       route: {
         name: "review-list",
         params: { menu: reviewSearchType.value[0].code.toLowerCase() },
       },
       sub: [
         {
-          name: "review.group.review",
+          name: "recommend",
           sub: [],
           route: {
             name: "review-list",
@@ -54,7 +54,7 @@ export const useHome = () => {
           },
         },
         {
-          name: "review.group.etc",
+          name: "etc",
           sub: [],
           route: {
             name: "review-list",

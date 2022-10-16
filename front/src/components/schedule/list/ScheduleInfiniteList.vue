@@ -6,6 +6,7 @@ import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { computed, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMember } from "@/composables/member/member";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const props = defineProps({
   initialCount: {
@@ -22,6 +23,7 @@ const emits = defineEmits(["refresh"]);
 const { memberProfile } = useMember();
 const { infiniteSchedules, getInfiniteSchedules, deleteSchedule } =
   useSchedule();
+const { labelMsg, resultMsg } = useMessageBox();
 
 const size = ref<number>(2);
 const count = ref<number>(props.initialCount);
@@ -85,7 +87,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
             <template v-if="!isMyPage">
               <el-card v-if="schedule.bestComment" class="reply mb-2">
                 <SmallTitleSlot class="mb-3">
-                  {{ $t("comment.best") }}
+                  {{ labelMsg("comment.best") }}
                 </SmallTitleSlot>
                 <CommentSlot
                   :id="schedule.bestComment.commentId"
@@ -115,7 +117,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
                 </CommentSlot>
               </el-card>
               <el-card v-else class="reply mb-0">
-                {{ $t("comment.no-comment") }}
+                {{ resultMsg("comment.empty") }}
               </el-card>
             </template>
           </el-col>

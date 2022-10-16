@@ -29,8 +29,8 @@ const changeCollapse = (id: number) => {
 <template>
   <el-row v-if="currentSchedule.id" class="mb-5">
     <el-col>
-      <TitleSlot>{{ currentSchedule.title }}</TitleSlot>
-      <el-row :gutter="10">
+      <TitleSlot :title="currentSchedule.title" />
+      <el-row :gutter="5">
         <el-col :span="18">
           <ScheduleCalendar
             :init-date="String(currentSchedule.period.startDate)"

@@ -13,6 +13,7 @@ const props = defineProps({
 });
 
 const { hasCityIntro, carouselData } = useCity();
+
 const data = carouselData(props.dir);
 const dataSize = computed((): number => data.value.length);
 const carouselLen = computed<number>(() => Math.ceil(dataSize.value / 4));

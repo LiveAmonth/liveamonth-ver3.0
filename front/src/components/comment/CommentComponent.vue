@@ -54,6 +54,7 @@ const { pageable, mappingPagination, movePage, setSize } =
   usePagination(category);
 const {
   resultMsg,
+  titleMsg,
   openWarningMessageByCode,
   openConfirmMessageBox,
   requireLoginMessageBox,
@@ -149,18 +150,18 @@ const setEditInput = (isReply = false, id = "#0") => {
 
 <template>
   <div id="0" class="comment">
-    <SmallTitleSlot class="comment-title">
-      {{
-        $t(
-          "comment.title",
-          commentPageable ? commentPageable.totalElements : "0"
+    <SmallTitleSlot
+      :title="
+        titleMsg(
+          'comment.count',
+          commentPageable ? commentPageable.totalElements : '0'
         )
-      }}
+      "
+      class="comment-title"
+    >
     </SmallTitleSlot>
     <el-card class="comment-write">
-      <SmallTitleSlot class="title">
-        {{ $t("comment.write") }}
-      </SmallTitleSlot>
+      <SmallTitleSlot :title="titleMsg('comment.write')" class="title" />
       <CommentInput
         :content-id="contentId"
         :is-edit="isEdit"
@@ -190,7 +191,9 @@ const setEditInput = (isReply = false, id = "#0") => {
         </CommentSlot>
         <el-collapse class="comment-reply">
           <el-collapse-item
-            :title="`${$t('comment.reply')}(${comment.commentReplies.length})`"
+            :title="
+              titleMsg('comment.reply', String(comment.commentReplies.length))
+            "
           >
             <ul>
               <li

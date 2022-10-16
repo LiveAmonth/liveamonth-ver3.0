@@ -4,8 +4,11 @@ import LogoIcon from "@/components/image/LogoIcon.vue";
 import HeaderBanner from "@/components/main/HeaderBanner.vue";
 import { useAuth } from "@/composables/member/auth";
 import { ref } from "vue";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const { isLoggedIn, logoutBtn } = useAuth();
+const { buttonMsg } = useMessageBox();
+
 const pageName = ref();
 const menuClick = (name: string) => {
   pageName.value = name;
@@ -32,11 +35,15 @@ const menuClick = (name: string) => {
       </router-link>
       <div class="flex-grow" />
       <el-menu-item v-if="isLoggedIn" index="#" @click="logoutBtn">
-        {{ $t("member.logout") }}
+        {{ buttonMsg("member.logout") }}
       </el-menu-item>
       <template v-else>
-        <el-menu-item index="/login">{{ $t("member.login") }}</el-menu-item>
-        <el-menu-item index="/sign-up">{{ $t("member.signUp") }}</el-menu-item>
+        <el-menu-item index="/login">
+          {{ buttonMsg("member.login") }}
+        </el-menu-item>
+        <el-menu-item index="/sign-up">
+          {{ buttonMsg("member.signUp") }}
+        </el-menu-item>
       </template>
     </el-menu>
   </el-header>

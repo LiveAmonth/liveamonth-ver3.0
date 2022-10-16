@@ -44,7 +44,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 <template>
   <Reconfirm v-if="!reChecked" v-model:re-checked="reChecked" />
   <div v-else class="mt-3">
-    <SmallTitleSlot>{{ titleMsg("member.editProfile") }}</SmallTitleSlot>
+    <SmallTitleSlot :title="titleMsg('member.editProfile')" />
     <el-row class="d-flex justify-content-center">
       <el-col>
         <el-form
@@ -67,13 +67,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 <el-button
                   v-if="!checkForm.nickname"
                   @click="checkField(ruleFormRef, form, 'nickname')"
-                  >{{ buttonMsg("member.duplication") }}
+                >
+                  {{ buttonMsg("member.duplication") }}
                 </el-button>
                 <el-button
                   v-else
                   color="#0f6778"
                   @click="resetField(form, 'nickname')"
-                  >{{ buttonMsg("modify") }}
+                >
+                  {{ buttonMsg("modify") }}
                 </el-button>
               </template>
             </el-input>
@@ -84,13 +86,15 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 <el-button
                   v-if="!checkForm.email"
                   @click="checkField(ruleFormRef, form, 'email')"
-                  >{{ buttonMsg("member.duplication") }}
+                >
+                  {{ buttonMsg("member.duplication") }}
                 </el-button>
                 <el-button
                   v-else
                   color="#0f6778"
                   @click="resetField(form, 'email')"
-                  >{{ buttonMsg("modify") }}
+                >
+                  {{ buttonMsg("modify") }}
                 </el-button>
               </template>
             </el-input>
@@ -121,7 +125,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
               size="large"
               style="width: 100%"
               @click="submitForm(ruleFormRef)"
-              >{{ buttonMsg("member.edit") }}
+            >
+              {{ buttonMsg("member.edit") }}
             </el-button>
           </el-form-item>
         </el-form>

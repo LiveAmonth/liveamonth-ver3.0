@@ -1,63 +1,60 @@
 <script lang="ts" setup>
-import SimpleScheduleCard from "@/components/schedule/card/SimpleScheduleCard.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
 import { Reading, Paperclip, Money, Clock } from "@element-plus/icons-vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { onMounted } from "vue";
 import { useInteraction } from "@/composables/interaction/interaction";
+import { useAuth } from "@/composables/member/auth";
+import { useMessageBox } from "@/composables/common/messageBox";
 
+const { isLoggedIn } = useAuth();
 const { type, currentSchedule, currScheduleContents, contentCollapse } =
   useSchedule();
-const { isLiked, isLikedContent, reactContent, changeLikeState } =
-  useInteraction();
+const { isLiked, error, isLikedContent, reactContent } = useInteraction();
+const { titleMsg, labelMsg } = useMessageBox();
 
 onMounted(async () => {
-  await isLikedContent(type, currentSchedule.value.id);
+  if (isLoggedIn.value) {
+    await isLikedContent(type, currentSchedule.value.id);
+  }
 });
 
-const clickHeart = async () => {
-  await reactContent(type, currentSchedule.value.id)
-    .then(async () => {
-      await changeLikeState();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const handelLike = async () => {
+  await reactContent(type, currentSchedule.value.id).then(() => {
+    if (!error.value && isLoggedIn.value) {
+      isLiked.value
+        ? currentSchedule.value.numberOfLikes++
+        : currentSchedule.value.numberOfLikes--;
+    }
+  });
 };
 </script>
 <template>
-  <el-card class="detail mb-3">
-    <div class="d-flex justify-content-start">
-      <SmallTitleSlot class="mb-4">
-        {{ $t("schedule.title.schedule") }}
-      </SmallTitleSlot>
-      <ImageIcon
-        v-if="!isLiked"
-        :height="30"
-        :url="`/src/assets/image/icon/love.png`"
-        :width="30"
-        class="ms-2"
-        @click="clickHeart"
-      />
-      <ImageIcon
-        v-else
-        :height="30"
-        :url="`/src/assets/image/icon/love-fill.png`"
-        :width="30"
-        class="ms-2"
-        @click="clickHeart"
-      />
-      <span class="likes">
-        {{ $count(currentSchedule.numberOfLikes) }}
-      </span>
-    </div>
-    <SimpleScheduleCard />
+  <el-card class="mb-3" :body-style="{ paddingRight: 0 }">
+    <ScheduleInfoSlot :schedule="currentSchedule" :font-size="0.85">
+      <template v-slot:title>
+        <div class="title-like">
+          <SmallTitleSlot :title="titleMsg('schedule.info')" />
+          <el-button class="like-btn" @click="handelLike">
+            <div class="icon-count">
+              <ImageIcon
+                :height="25"
+                :width="25"
+                :url="`/src/assets/image/icon/love${
+                  !isLiked ? '' : '-fill'
+                }.png`"
+              />
+              {{ $count(currentSchedule.numberOfLikes) }}
+            </div>
+          </el-button>
+        </div>
+      </template>
+    </ScheduleInfoSlot>
   </el-card>
   <el-card class="content">
-    <SmallTitleSlot class="mb-4"
-      >{{ $t("schedule.title.content") }}
-    </SmallTitleSlot>
+    <SmallTitleSlot :title="titleMsg('schedule.content.info')" class="mb-4" />
     <el-collapse v-model="contentCollapse" class="search">
       <template v-for="(content, idx) in currScheduleContents" :key="idx">
         <el-collapse-item :name="content.id">
@@ -80,7 +77,7 @@ const clickHeart = async () => {
                   <el-icon>
                     <Reading />
                   </el-icon>
-                  {{ $t("schedule.form.content.content") }}
+                  {{ labelMsg("content") }}
                 </div>
               </template>
               {{ content.content }}
@@ -91,10 +88,10 @@ const clickHeart = async () => {
                   <el-icon>
                     <Money />
                   </el-icon>
-                  {{ $t("schedule.form.content.cost") }}
+                  {{ labelMsg("schedule.content.cost") }}
                 </div>
               </template>
-              {{ content.cost }}원
+              {{ $won(content.cost) }}
             </el-descriptions-item>
             <el-descriptions-item>
               <template #label>
@@ -102,7 +99,7 @@ const clickHeart = async () => {
                   <el-icon>
                     <Clock />
                   </el-icon>
-                  {{ $t("schedule.form.content.period.start") }}
+                  {{ labelMsg("schedule.content.start") }}
                 </div>
               </template>
               {{ content.timePeriod.startDateTime }}
@@ -113,7 +110,7 @@ const clickHeart = async () => {
                   <el-icon>
                     <Clock />
                   </el-icon>
-                  {{ $t("schedule.form.content.period.end") }}
+                  {{ labelMsg("schedule.content.end") }}
                 </div>
               </template>
               {{ content.timePeriod.endDateTime }}
@@ -125,12 +122,28 @@ const clickHeart = async () => {
   </el-card>
 </template>
 <style lang="scss" scoped>
-.el-icon {
-  padding-bottom: 0.1rem;
-}
+.title-like {
+  display: flex;
+  justify-content: start;
+  align-items: center;
 
-.likes {
-  margin-left: 5px;
-  font-size: 25px;
+  .like-btn {
+    border: none;
+    padding: 0 5px;
+    margin-bottom: 10px;
+
+    &:hover,
+    &:focus {
+      color: #606266;
+      background-color: inherit;
+      border-color: #dcdfe6;
+    }
+
+    .icon-count {
+      display: flex;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+  }
 }
 </style>

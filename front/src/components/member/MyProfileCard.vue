@@ -4,11 +4,13 @@ import { useRouter } from "vue-router";
 import { useMember } from "@/composables/member/member";
 import { Avatar, Unlock, UserFilled, Lock } from "@element-plus/icons-vue";
 import { useMyPage } from "@/composables/member/mypage";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const router = useRouter();
 const { isLoggedIn, logoutBtn } = useAuth();
 const { simpleProfile } = useMember();
 const { profileTabs, getPostCount } = useMyPage();
+const { buttonMsg, menuMsg, labelMsg } = useMessageBox();
 
 const goProfile = (post: string) => {
   router.push({ name: "profile", params: { post: post } });
@@ -22,7 +24,7 @@ const goProfile = (post: string) => {
       <div class="avatar-holder">
         <el-avatar :size="100" :src="`/src/assets/image/default.jpg`" />
         <div class="overlay">
-          <div class="text">{{ $t("member.imageChange") }}</div>
+          <div class="text">{{ buttonMsg("member.image") }}</div>
         </div>
       </div>
       <div class="name">
@@ -35,13 +37,13 @@ const goProfile = (post: string) => {
       </div>
       <div class="button d-flex justify-content-center">
         <router-link :to="{ name: 'profile', params: { post: 'schedule' } }">
-          <span>{{ $t("menu.myPage") }}</span>
+          <span>{{ menuMsg("menu.myPage") }}</span>
           <el-icon>
             <Avatar />
           </el-icon>
         </router-link>
         <a @click="logoutBtn">
-          <span>{{ $t("member.logout") }}</span>
+          <span>{{ buttonMsg("member.logout") }}</span>
           <el-icon>
             <Unlock />
           </el-icon>
@@ -71,17 +73,17 @@ const goProfile = (post: string) => {
         <el-image :size="100" :src="`/src/assets/image/logo.png`" />
       </div>
       <div class="name">
-        <h5 class="m-0 p-0">{{ $t("member.askLogin") }}</h5>
+        <h5 class="m-0 p-0">{{ labelMsg("member.askLogin") }}</h5>
       </div>
       <div class="button d-flex justify-content-center">
         <router-link :to="{ name: 'login' }">
-          {{ $t("member.login") }}
+          {{ buttonMsg("member.login") }}
           <el-icon>
             <Lock />
           </el-icon>
         </router-link>
         <router-link :to="{ name: 'sign-up' }">
-          {{ $t("member.signUp") }}
+          {{ buttonMsg("member.signUp") }}
           <el-icon>
             <UserFilled />
           </el-icon>

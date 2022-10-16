@@ -4,8 +4,10 @@ import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
 import { useSchedule } from "@/composables/schedule/schedule";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const { otherSchedules } = useSchedule();
+const { labelMsg, resultMsg } = useMessageBox();
 </script>
 
 <template>
@@ -22,7 +24,7 @@ const { otherSchedules } = useSchedule();
             <ScheduleInfoCard :schedule="schedule" />
             <el-card v-if="schedule.bestComment" class="reply mb-2">
               <SmallTitleSlot class="mb-3">
-                {{ $t("comment.best") }}
+                {{ labelMsg("comment.best") }}
               </SmallTitleSlot>
               <CommentSlot
                 :id="schedule.bestComment.commentId"
@@ -44,15 +46,15 @@ const { otherSchedules } = useSchedule();
                   {{ schedule.bestComment.comment }}
                 </template>
                 <template v-slot:likeCount>
-                  {{ schedule.bestComment.numberOfLikes }}
+                  {{ $count(schedule.bestComment.numberOfLikes) }}
                 </template>
                 <template v-slot:dislikeCount>
-                  {{ schedule.bestComment.numberOfDislikes }}
+                  {{ $count(schedule.bestComment.numberOfDislikes) }}
                 </template>
               </CommentSlot>
             </el-card>
             <el-card v-else class="reply mb-0">
-              {{ $t("comment.no-comment") }}
+              {{ resultMsg("comment.empty") }}
             </el-card>
           </el-col>
         </el-row>

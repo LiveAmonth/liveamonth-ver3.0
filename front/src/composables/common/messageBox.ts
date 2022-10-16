@@ -14,6 +14,13 @@ export const useMessageBox = () => {
     });
   };
 
+  const openWarningMessage = (message: string) => {
+    ElMessage({
+      message: message,
+      type: "warning",
+    });
+  };
+
   const openMessageByCode = (key: string) => {
     ElMessage({
       message: t(key),
@@ -51,9 +58,11 @@ export const useMessageBox = () => {
         console.log("취소");
       });
   };
-
-  const getTitleMsg = (field: string): string => {
-    return t(`title.${field}`);
+  const getCategoryMsg = (field: string, type: string): string => {
+    return t(`category.${field}.${type.toLowerCase()}`);
+  };
+  const getTitleMsg = (field: string, param = ""): string => {
+    return t(`title.${field}`, param);
   };
   const getFormLabelMsg = (field: string): string => {
     return t(`form.label.${field}`);
@@ -73,26 +82,41 @@ export const useMessageBox = () => {
   const getTabMessage = (field: string): string => {
     return t(`tabs.${field}`);
   };
+  const getValidationMessage = (field: string): string => {
+    return t(`validation.${field}`);
+  };
+
+  const getPlaceholder = (field: string) => {
+    return t(`placeholder.${field}`);
+  };
 
   const getInputPlaceHolder = (field: string): string => {
-    return t("common.please-input", {
+    return t("placeholder.please-input", {
+      field: field,
+    });
+  };
+
+  const getBeforeWritePlaceHolder = (field: string): string => {
+    return t("placeholder.before-write", {
       field: field,
     });
   };
 
   const getSelectPlaceHolder = (field: string): string => {
-    return t("common.please-select", {
+    return t("placeholder.please-select", {
       field: field,
     });
   };
 
   return {
     openMessage,
+    openWarningMessage,
     openMessageByCode,
     openWarningMessageByCode,
     openMessageBox,
     openConfirmMessageBox,
     requireLoginMessageBox,
+    categoryMsg: getCategoryMsg,
     labelMsg: getFormLabelMsg,
     buttonMsg: getFormButtonMsg,
     resultMsg: getResultMessage,
@@ -102,5 +126,8 @@ export const useMessageBox = () => {
     tabMsg: getTabMessage,
     inputPhMsg: getInputPlaceHolder,
     selectPhMsg: getSelectPlaceHolder,
+    beforeWritePhMsg: getBeforeWritePlaceHolder,
+    placeholderMsg: getPlaceholder,
+    validationMsg: getValidationMessage,
   };
 };

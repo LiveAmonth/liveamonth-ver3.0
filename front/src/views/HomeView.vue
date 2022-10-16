@@ -9,10 +9,12 @@ import { useAuth } from "@/composables/member/auth";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useHome } from "@/composables/home/home";
 import { useReview } from "@/composables/review/review";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const { isLoggedIn } = useAuth();
 const { simpleProfile, getSimpleProfile } = useMember();
 const { homePostsTabs } = useHome();
+const { titleMsg } = useMessageBox();
 const { getPopularSchedules, getInfiniteSchedules } = useSchedule();
 const { getPopularReviews } = useReview();
 
@@ -34,7 +36,7 @@ onMounted(async () => {
         <MyProfileCard v-if="simpleProfile" />
       </el-col>
     </el-row>
-    <TitleSlot>{{ $t("title.home.posts") }}</TitleSlot>
+    <TitleSlot :title="titleMsg('home.posts')" />
     <HomePostsTab
       :initial-tab="isLoggedIn ? homePostsTabs[2].code : homePostsTabs[0].code"
     />
