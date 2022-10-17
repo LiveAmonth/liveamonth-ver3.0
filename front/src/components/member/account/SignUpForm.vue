@@ -107,10 +107,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     <el-form-item :label="labelMsg('member.gender.title')" prop="gender">
       <el-radio-group v-if="hasGenderType" v-model="form.gender">
         <template v-for="type in genderType" :key="type.code">
-          <el-radio
-            :label="categoryMsg('member.gender', type.code.toLowerCase())"
-          >
-            {{ labelMsg(`member.gender.${type.code}`) }}
+          <el-radio :label="type.code">
+            {{ categoryMsg("member.gender", type.code.toLowerCase()) }}
           </el-radio>
         </template>
       </el-radio-group>
