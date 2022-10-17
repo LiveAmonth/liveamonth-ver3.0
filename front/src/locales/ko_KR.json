@@ -105,6 +105,7 @@
         "image": "이미지 변경"
       },
       "schedule": {
+        "go": "스케줄 등록하러가기",
         "add": "스케줄 추가",
         "edit": "스케줄 수정",
         "select": "스케줄 선택",
@@ -113,6 +114,9 @@
         },
         "open": "공개",
         "hide": "숨김"
+      },
+      "review": {
+        "go": "게시물 등록하러가기"
       }
     },
     "label": {
@@ -172,6 +176,7 @@
         "complete": "완료"
       },
       "schedule": {
+        "empty": "등록된 스케줄이 없습니다",
         "title": "제목",
         "cost": "총 비용",
         "won": "원",
@@ -188,6 +193,7 @@
         }
       },
       "review": {
+        "empty": "등록된 게시물이 없습니다",
         "tags": "태그",
         "tags-pl": "최대 10개"
       },
@@ -390,6 +396,12 @@
     }
   },
   "category": {
+    "member": {
+      "gender": {
+        "male": "남성",
+        "female": "여성"
+      }
+    },
     "city": {
       "intro": {
         "intro": "소개",
@@ -435,12 +447,45 @@
         "title": "제목"
       },
       "sort": {
-        "id_desc": "최신 순",
-        "id_asc": "오래된 순",
-        "cost_desc": "비용 많은 순",
-        "cost_asc": "비용 적은 순",
-        "like_desc": "좋아요 순",
-        "view_desc": "조회수 순"
+        "id_desc": "최신순",
+        "id_asc": "오래된순",
+        "cost_desc": "많은비용순",
+        "cost_asc": "적은비용순",
+        "like_desc": "인기순",
+        "view_desc": "조회순"
+      },
+      "filter": {
+        "city_name": "도시 이름",
+        "start_date": "시작 날짜"
+      }
+    },
+    "review": {
+      "sort": {
+        "id_desc": "최신순",
+        "comments_desc": "댓글순",
+        "like_desc": "인기순",
+        "view_desc": "조회순"
+      },
+      "category": {
+        "se_review": "서울 살기",
+        "gn_review": "강릉 살기",
+        "gj_review": "경주 살기",
+        "bs_review": "부산 살기",
+        "ys_review": "여수 살기",
+        "jj_review": "제주 살기",
+        "other": "다른 지역 후기",
+        "question": "질문 게시판",
+        "free": "자유 게시판"
+      },
+      "menu": {
+        "review": "추천 & 후기",
+        "etc": "소통"
+      },
+      "search": {
+        "review_liveamonth": "리버먼스 지역",
+        "review_other": "다른 지역",
+        "etc_question": "질문 게시판",
+        "etc_free": "자유 게시판"
       }
     }
   }

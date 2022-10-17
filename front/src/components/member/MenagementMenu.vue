@@ -9,6 +9,11 @@ defineProps({
     required: false,
     default: "editProfile",
   },
+  isMyPage: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 const emits = defineEmits(["selectMenu"]);
 
@@ -28,6 +33,7 @@ const select = (key: string) => {
     :default-active="initialMenu"
     text-color="#111111"
     @select="select"
+    :style="{ minHeight: isMyPage ? '360px' : '600px' }"
   >
     <template v-for="(cat, index) in managementMenu" :key="cat">
       <div :class="cat.category.code">
@@ -61,7 +67,6 @@ const select = (key: string) => {
 <style scoped lang="scss">
 .management-menu {
   border: none;
-  min-height: 600px;
 
   .menu-item {
     font-size: 1rem;

@@ -9,7 +9,8 @@ import type { FormInstance } from "element-plus";
 import type { SignUpCheckType } from "@/modules/types/member/MemberTypes";
 
 const router = useRouter();
-const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
+const { openMessageBox, buttonMsg, labelMsg, resultMsg, categoryMsg } =
+  useMessageBox();
 const { error, isPending, signUp, checkField, resetField } = useMember();
 const { genderType, hasGenderType, getGenderType } = useCategory();
 
@@ -23,18 +24,18 @@ const ruleFormRef = ref<FormInstance>();
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  await formEl.validate((valid) => {
+  await formEl.validate(async (valid) => {
     if (valid) {
-      signUp(form);
+      await signUp(form);
       if (!error.value) {
         openMessageBox(resultMsg("signup")).then(() => {
           router.replace({ name: "login" });
         });
       } else {
-        openMessageBox(resultMsg("unknown"));
+        await openMessageBox(resultMsg("unknown"));
       }
     } else {
-      openMessageBox(resultMsg("reWrite"));
+      await openMessageBox(resultMsg("reWrite"));
     }
   });
 };
@@ -106,7 +107,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     <el-form-item :label="labelMsg('member.gender.title')" prop="gender">
       <el-radio-group v-if="hasGenderType" v-model="form.gender">
         <template v-for="type in genderType" :key="type.code">
-          <el-radio :label="type.code">
+          <el-radio
+            :label="categoryMsg('member.gender', type.code.toLowerCase())"
+          >
             {{ labelMsg(`member.gender.${type.code}`) }}
           </el-radio>
         </template>
@@ -119,7 +122,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         size="large"
         style="width: 100%"
         @click="submitForm(ruleFormRef)"
-        >{{ buttonMsg("member.signUp") }}
+      >
+        {{ buttonMsg("member.signUp") }}
       </el-button>
     </el-form-item>
   </el-form>

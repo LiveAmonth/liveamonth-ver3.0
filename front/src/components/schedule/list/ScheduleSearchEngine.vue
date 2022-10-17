@@ -99,7 +99,12 @@ const disabledDate = (time: Date) => {
                 @change="selectSearchType"
               >
                 <template v-for="type in scheduleSearchType" :key="type.code">
-                  <el-option :label="type.value" :value="type.code" />
+                  <el-option
+                    :label="
+                      categoryMsg('schedule.search', type.code.toLowerCase())
+                    "
+                    :value="type.code"
+                  />
                 </template>
               </el-select>
             </el-form-item>
@@ -137,7 +142,12 @@ const disabledDate = (time: Date) => {
                 @change="selectFilterType"
               >
                 <template v-for="type in scheduleFilterType" :key="type.code">
-                  <el-option :label="type.value" :value="type.code" />
+                  <el-option
+                    :label="
+                      categoryMsg('schedule.filter', type.code.toLowerCase())
+                    "
+                    :value="type.code"
+                  />
                 </template>
               </el-select>
             </el-form-item>
@@ -148,7 +158,10 @@ const disabledDate = (time: Date) => {
                 style="width: 200px"
               >
                 <template v-for="val in cityNames" :key="val.code">
-                  <el-option :label="val.value" :value="val.code" />
+                  <el-option
+                    :label="categoryMsg('city.name', val.code.toLowerCase())"
+                    :value="val.code"
+                  />
                 </template>
               </el-select>
             </el-form-item>

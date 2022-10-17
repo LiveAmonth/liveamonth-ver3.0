@@ -54,6 +54,7 @@ const submitForm = async () => {
             v-model="reCheckForm.password"
             show-password
             type="password"
+            @keydown.enter.prevent="submitForm"
           />
         </el-form-item>
         <el-form-item>

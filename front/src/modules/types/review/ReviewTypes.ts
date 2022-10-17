@@ -147,9 +147,9 @@ export class ReviewEditor implements ReviewFormType {
   getRules(): FormRules {
     const { validateRequire, validateSelection } = useFormValidate();
     return {
-      title: [validateRequire("form.label.title")],
-      category: [validateSelection("form.label.category")],
-      content: [validateRequire("form.label.content")],
+      title: [validateRequire("title")],
+      category: [validateSelection("category")],
+      content: [validateRequire("content")],
     };
   }
 

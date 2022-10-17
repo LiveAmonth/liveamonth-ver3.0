@@ -3,6 +3,8 @@ import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
+import LinkSlot from "@/components/common/LinkSlot.vue";
+import { Right } from "@element-plus/icons-vue";
 import { computed, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMember } from "@/composables/member/member";
@@ -20,10 +22,11 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["refresh"]);
+
 const { memberProfile } = useMember();
 const { infiniteSchedules, getInfiniteSchedules, deleteSchedule } =
   useSchedule();
-const { labelMsg, resultMsg } = useMessageBox();
+const { labelMsg, resultMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(2);
 const count = ref<number>(props.initialCount);
@@ -64,7 +67,11 @@ const deleteScheduleBtn = async (scheduleId: number) => {
 </script>
 
 <template>
-  <div class="infinite-list-wrapper" style="overflow: auto">
+  <div
+    v-if="memberProfile.numberOfSchedules"
+    class="infinite-list-wrapper"
+    style="overflow: auto"
+  >
     <ul
       v-infinite-scroll="load"
       :infinite-scroll-disabled="disabled"
@@ -125,6 +132,21 @@ const deleteScheduleBtn = async (scheduleId: number) => {
       </li>
     </ul>
   </div>
+  <div v-else class="empty-post">
+    <SmallTitleSlot
+      class="d-flex justify-content-center"
+      :title="labelMsg('schedule.empty')"
+      :title-line="false"
+    />
+    <LinkSlot class="link" :link="`/my-schedule/${memberProfile.loginId}`">
+      <span>
+        {{ buttonMsg("schedule.go") }}
+      </span>
+      <el-icon>
+        <Right />
+      </el-icon>
+    </LinkSlot>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -156,6 +178,20 @@ const deleteScheduleBtn = async (scheduleId: number) => {
         text-align: left;
       }
     }
+  }
+}
+
+.empty-post {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: #808080;
+
+  .link {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    color: #016d7d;
   }
 }
 </style>

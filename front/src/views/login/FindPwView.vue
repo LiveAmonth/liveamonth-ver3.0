@@ -9,14 +9,11 @@ import { useMessageBox } from "@/composables/common/messageBox";
 const { buttonMsg } = useMessageBox();
 
 const isFind = ref<boolean>(false);
-const findPw = () => {
-  isFind.value = true;
-};
 </script>
 
 <template>
   <div class="login-content d-flex justify-content-center mt-5">
-    <el-col :xs="16" :sm="10" :md="8" :lg="10" :xl="9">
+    <el-col :xs="16" :sm="10" :md="8" :lg="10" :xl="8">
       <el-space
         :fill="true"
         direction="vertical"
@@ -31,7 +28,7 @@ const findPw = () => {
               </router-link>
             </div>
           </template>
-          <FindPwForm v-if="!isFind" @find-pw="findPw" />
+          <FindPwForm v-if="!isFind" v-model:is-find="isFind" />
           <FindPwResult v-else />
           <div class="d-flex justify-content-end">
             <LinkSlot :label="buttonMsg('member.login')" link="/login" />
