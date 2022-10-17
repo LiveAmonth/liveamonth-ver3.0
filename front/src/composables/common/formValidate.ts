@@ -1,26 +1,27 @@
 import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member/member";
+import { useMessageBox } from "@/composables/common/messageBox";
 import { useDate } from "@/composables/common/date";
-import { useI18n } from "vue-i18n";
 import type { FormItemRule } from "element-plus/es";
-import type { MemberCreateType } from "@/modules/types/member/MemberTypes";
+import type {
+  ChangePasswordFormType,
+  MemberCreateFormType,
+} from "@/modules/types/member/MemberTypes";
 import type {
   DatePeriodType,
   DateTimePeriodType,
 } from "@/modules/types/schedule/ScheduleTypes";
-import { useMessageBox } from "@/composables/common/messageBox";
 
 export const useFormValidate = () => {
-  const { t } = useI18n();
   const { getDate, isBetween, isSameDate, isBefore } = useDate();
-  const { labelMsg } = useMessageBox();
+  const { labelMsg, validationMsg } = useMessageBox();
   const store = useMemberStore();
   const isPending = ref(false);
   const isAvailable = computed(() => store.isAvailable);
   const validateRequire = (field: string): FormItemRule => {
     return {
       required: true,
-      message: t("validation.require.text", { field: labelMsg(field) }),
+      message: validationMsg("require.text", { field: labelMsg(field) }),
       trigger: "blur",
     };
   };
@@ -28,7 +29,7 @@ export const useFormValidate = () => {
   const validateSelection = (field: string): FormItemRule => {
     return {
       required: true,
-      message: t("validation.require.select", { field: labelMsg(field) }),
+      message: validationMsg("require.select", { field: labelMsg(field) }),
       trigger: "change",
     };
   };
@@ -39,7 +40,7 @@ export const useFormValidate = () => {
   ): FormItemRule => {
     return {
       pattern: pattern,
-      message: t(message),
+      message: validationMsg(message),
       trigger: "blur",
     };
   };
@@ -47,7 +48,7 @@ export const useFormValidate = () => {
   const validateNumber = (): FormItemRule => {
     return {
       type: "number",
-      message: t("validation.number"),
+      message: validationMsg("number"),
       trigger: "blur",
     };
   };
@@ -59,7 +60,11 @@ export const useFormValidate = () => {
     return {
       min: min,
       max: max,
-      message: t("validation.range", { field: t(field), min: min, max: max }),
+      message: validationMsg("range", {
+        field: labelMsg(field),
+        min: min,
+        max: max,
+      }),
       trigger: "blur",
     };
   };
@@ -70,8 +75,8 @@ export const useFormValidate = () => {
         if (min >= cost) {
           callback(
             new Error(
-              t("validation.min", {
-                field: t("schedule.form.content.cost"),
+              validationMsg("min", {
+                field: labelMsg("schedule.content.cost"),
                 min: min,
               })
             )
@@ -84,23 +89,25 @@ export const useFormValidate = () => {
     };
   };
 
-  const validatePassword = (password: string): FormItemRule => {
+  const validatePassword = (
+    form: MemberCreateFormType | ChangePasswordFormType
+  ): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        value === password
+        form.password == form.passwordCheck
           ? callback()
-          : callback(new Error(t("validation.password.recheck")));
+          : callback(new Error(validationMsg("password.recheck")));
       },
       trigger: "blur",
     };
   };
 
-  const validateBirth = (form: MemberCreateType): FormItemRule => {
+  const validateBirth = (form: MemberCreateFormType): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
         isBefore(form.birth, getDate(new Date()))
           ? callback()
-          : callback(new Error(t("validation.birth")));
+          : callback(new Error(validationMsg("birth")));
       },
       trigger: "select",
     };
@@ -111,7 +118,7 @@ export const useFormValidate = () => {
       validator: (rule, value, callback) => {
         isBefore(period.startDate, period.endDate)
           ? callback()
-          : callback(new Error(t("validation.period.date")));
+          : callback(new Error(validationMsg("period.date")));
       },
       trigger: "select",
     };
@@ -122,7 +129,7 @@ export const useFormValidate = () => {
       validator: (rule, value, callback) => {
         isBefore(period.startDateTime, period.endDateTime)
           ? callback()
-          : callback(new Error(t("validation.period.time")));
+          : callback(new Error(validationMsg("period.time")));
       },
       trigger: "select",
     };
@@ -133,7 +140,7 @@ export const useFormValidate = () => {
       validator: (rule, value, callback) => {
         isSameDate(period.startDateTime, period.endDateTime)
           ? callback()
-          : callback(new Error(t("validation.period.sameDate")));
+          : callback(new Error(validationMsg("period.sameDate")));
       },
       trigger: "select",
     };
@@ -151,7 +158,7 @@ export const useFormValidate = () => {
         ) {
           callback();
         } else {
-          callback(new Error(t("validation.period.range")));
+          callback(new Error(validationMsg("period.range")));
         }
       },
       trigger: "select",

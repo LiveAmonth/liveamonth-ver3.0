@@ -2,7 +2,6 @@ import { computed, ref } from "vue";
 import { useMemberStore } from "@/stores/member/member";
 import { useFormValidate } from "@/composables/common/formValidate";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useI18n } from "vue-i18n";
 import type {
   FindIdType,
   FindPwType,
@@ -19,8 +18,7 @@ import type { FormInstance } from "element-plus";
 export const useMember = () => {
   const store = useMemberStore();
   const { isAvailable, duplicateCheck } = useFormValidate();
-  const { openMessageBox, openConfirmMessageBox } = useMessageBox();
-  const { t } = useI18n();
+  const { openMessageBox, labelMsg, validationMsg } = useMessageBox();
 
   const error = ref();
   const isPending = ref(false);
@@ -37,33 +35,24 @@ export const useMember = () => {
     const value = form[field];
     if (value.length === 0) {
       await openMessageBox(
-        t("validation.require.text", { field: t(`member.${field}`) })
+        validationMsg("require.text", {
+          field: labelMsg(`member.${field}`),
+        })
       );
     } else if (!(await isValidate(formEl, field))) {
-      await openMessageBox(t(`validation.pattern.${field}`));
+      await openMessageBox(validationMsg(`pattern.${field}`));
     } else {
       await duplicateCheck(field, value);
       if (!isAvailable.value) {
         await openMessageBox(
-          t("validation.duplication.duplicated", {
+          validationMsg("duplication.duplicated", {
             value: value,
-            field: t(`member.${field}`),
+            field: labelMsg(`member.${field}`),
           })
         );
         form[field] = "";
       } else {
-        await openConfirmMessageBox(
-          t("validation.duplication.button"),
-          t("validation.duplication.confirm", {
-            field: t(`member.${field}`),
-          })
-        )
-          .then(() => {
-            form.checkForm[field] = true;
-          })
-          .catch(() => {
-            form[field] = "";
-          });
+        form.checkForm[field] = true;
       }
     }
   };
@@ -222,6 +211,7 @@ export const useMember = () => {
     dropMember,
     checkField,
     resetField,
+    isValidate,
     editProfile,
     findId,
     findPw,
