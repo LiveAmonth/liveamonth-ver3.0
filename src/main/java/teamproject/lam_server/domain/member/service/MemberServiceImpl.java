@@ -115,7 +115,7 @@ public class MemberServiceImpl implements MemberService {
         member.changePassword(editor);
 
         // mail send
-        mailService.sendMail(TempPasswordSendMailInfo.of(member));
+        mailService.sendMail(TempPasswordSendMailInfo.of(member), tempPassword);
     }
 
     @Override

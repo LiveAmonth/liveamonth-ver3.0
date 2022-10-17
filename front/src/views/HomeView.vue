@@ -7,13 +7,11 @@ import { useMember } from "@/composables/member/member";
 import { onMounted } from "vue";
 import { useAuth } from "@/composables/member/auth";
 import { useSchedule } from "@/composables/schedule/schedule";
-import { useHome } from "@/composables/home/home";
 import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
 
 const { isLoggedIn } = useAuth();
 const { simpleProfile, getSimpleProfile } = useMember();
-const { homePostsTabs } = useHome();
 const { titleMsg } = useMessageBox();
 const { getPopularSchedules, getInfiniteSchedules } = useSchedule();
 const { getPopularReviews } = useReview();
@@ -33,13 +31,11 @@ onMounted(async () => {
     <el-row class="main-content mb-5">
       <CityGridContent />
       <el-col :span="6">
-        <MyProfileCard v-if="simpleProfile" />
+        <MyProfileCard />
       </el-col>
     </el-row>
     <TitleSlot :title="titleMsg('home.posts')" />
-    <HomePostsTab
-      :initial-tab="isLoggedIn ? homePostsTabs[2].code : homePostsTabs[0].code"
-    />
+    <HomePostsTab />
   </div>
 </template>
 

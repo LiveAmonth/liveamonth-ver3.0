@@ -9,18 +9,12 @@ import { useHome } from "@/composables/home/home";
 import { useReview } from "@/composables/review/review";
 import ReviewList from "@/components/review/ReviewList.vue";
 
-const props = defineProps({
-  initialTab: {
-    type: String,
-    required: true,
-  },
-});
 const { simpleProfile } = useMember();
 const { homePostsTabs } = useHome();
 const { otherSchedules, followedSchedules } = useSchedule();
 const { otherReviews } = useReview();
 
-const activeName = ref(props.initialTab);
+const activeName = ref(homePostsTabs.value[0].code);
 const initialSize = ref<number>(3);
 </script>
 

@@ -20,7 +20,7 @@ const goProfile = (post: string) => {
 <template>
   <el-card class="p-0">
     <div class="ds-top"></div>
-    <template v-if="isLoggedIn">
+    <template v-if="isLoggedIn && simpleProfile.id">
       <div class="avatar-holder">
         <el-avatar :size="100" :src="`/src/assets/image/default.jpg`" />
         <div class="overlay">

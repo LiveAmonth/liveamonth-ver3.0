@@ -9,7 +9,7 @@ const { buttonMsg } = useMessageBox();
 
 <template>
   <div class="login-content d-flex justify-content-center mt-5">
-    <el-col :lg="10" :md="8" :sm="12" :xl="8" :xs="12">
+    <el-col :xs="16" :sm="10" :md="8" :lg="10" :xl="8">
       <el-space
         :fill="true"
         direction="vertical"
