@@ -16,7 +16,7 @@ const findPw = () => {
 
 <template>
   <div class="login-content d-flex justify-content-center mt-5">
-    <el-col :lg="8" :md="8" :sm="10" :xl="6" :xs="12">
+    <el-col :xs="16" :sm="10" :md="8" :lg="10" :xl="9">
       <el-space
         :fill="true"
         direction="vertical"

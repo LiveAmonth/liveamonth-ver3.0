@@ -4,9 +4,9 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
 import type { FindIdType } from "@/modules/types/member/MemberTypes";
 
-const emit = defineEmits(["findId"]);
+const emit = defineEmits(["update:isFind"]);
 
-const { error, isPending, foundId, findId } = useMember();
+const { error, isPending, findId } = useMember();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
 const form = reactive<FindIdType>({
@@ -16,14 +16,13 @@ const form = reactive<FindIdType>({
 
 const submitForm = async () => {
   await findId(form);
-  if (foundId.value) {
-    emit("findId");
-  }
   if (error.value) {
     await openMessageBox(resultMsg("noMember"));
     for (const key in form) {
       form[key] = "";
     }
+  } else {
+    emit("update:isFind", true);
   }
 };
 </script>
@@ -43,7 +42,8 @@ const submitForm = async () => {
         size="large"
         style="width: 100%"
         @click="submitForm"
-        >{{ buttonMsg("member.findId") }}
+      >
+        {{ buttonMsg("member.findId") }}
       </el-button>
     </el-form-item>
   </el-form>

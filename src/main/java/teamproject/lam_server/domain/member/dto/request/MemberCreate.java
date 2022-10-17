@@ -19,7 +19,7 @@ import java.time.LocalDate;
 public class MemberCreate {
 
     @NotEmpty
-    @Pattern(regexp = "[a-zA-Z\\d]{3,20}")
+    @Pattern(regexp = "[a-zA-Z\\d]{5,20}")
     private String loginId;
 
     @NotBlank

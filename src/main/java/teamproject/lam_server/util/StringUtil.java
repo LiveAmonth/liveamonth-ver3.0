@@ -9,7 +9,7 @@ public abstract class StringUtil {
     }
 
     public static String coverContent(String content) {
-        return content.replaceAll("(?<=.{3}).", COVER_STAR);
+        return content.replaceAll("(?<=.{" + (content.length() - 3) + "}).", COVER_STAR);
     }
 
     public static String removeHtmlTag(String content) {

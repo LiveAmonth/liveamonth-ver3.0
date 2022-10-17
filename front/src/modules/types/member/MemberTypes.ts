@@ -249,7 +249,7 @@ export class MemberCreate implements MemberCreateFormType {
     return {
       loginId: [
         validateRequire("member.loginId"),
-        validatePattern("[a-zA-Z0-9]{3,20}", "pattern.loginId"),
+        validatePattern("[a-zA-Z0-9]{5,20}", "pattern.loginId"),
       ],
       password: [
         validateRequire("member.password"),

@@ -21,12 +21,12 @@ public class MailService {
     private final JavaMailSender mailSender;
     private final MessageSource messageSource;
 
-    public void sendMail(TempPasswordSendMailInfo info) {
+    public void sendMail(TempPasswordSendMailInfo info, String password) {
         // 필요한거 -> 회원 이름, 이메일, 임시 비번
         MimeMessage message = mailSender.createMimeMessage();
         String helloUser = transMessage(MailConstant.HELLO.getCode(), new String[]{info.getName()});
         String intro = transMessage(MailConstant.INTRO.getCode(), null);
-        String temp = transMessage(MailConstant.TEMP.getCode(), new String[]{info.getPassword()});
+        String temp = transMessage(MailConstant.TEMP.getCode(), new String[]{password});
         String login = transMessage(MailConstant.LOGIN.getCode(), null);
         String edit = transMessage(MailConstant.EDIT.getCode(), null);
         String ask = transMessage(MailConstant.ASK.getCode(), null);
@@ -34,8 +34,9 @@ public class MailService {
         try {
             MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, UTF_8);
             messageHelper.setSubject(transMessage(MailConstant.PW_SUBJECT.getPwMailCode(), null));
-            String htmlContent = "<img src=\"img/logo.png\"><br><br>"
-                    + helloUser + "<br><br>"
+            String htmlContent =
+//                    "<img src=\"img/logo.png\"><br><br>"
+                    helloUser + "<br><br>"
                     + "<h4>" + intro + "<br>"
                     + temp + "<br>"
                     + "<a href=\"http://localhost:3000/" + "login\">" + login + "</a></h4><br>"
