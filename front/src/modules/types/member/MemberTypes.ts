@@ -249,22 +249,22 @@ export class MemberCreate implements MemberCreateFormType {
     return {
       loginId: [
         validateRequire("member.loginId"),
-        validatePattern("[a-zA-Z0-9]{3,20}", "validation.pattern.loginId"),
+        validatePattern("[a-zA-Z0-9]{3,20}", "pattern.loginId"),
       ],
       password: [
         validateRequire("member.password"),
         validatePattern(
           "(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,20}",
-          "validation.pattern.password"
+          "pattern.password"
         ),
       ],
       passwordCheck: [
         validateRequire("member.passwordCheck"),
-        validatePassword(this.password),
+        validatePassword(this),
       ],
       name: [
         validateRequire("member.name"),
-        validatePattern("[a-zA-Z가-힣]{2,20}", "validation.pattern.name"),
+        validatePattern("[a-zA-Z가-힣]{2,20}", "pattern.name"),
       ],
       nickname: [
         validateRequire("member.nickname"),
@@ -274,7 +274,7 @@ export class MemberCreate implements MemberCreateFormType {
         validateRequire("member.email"),
         validatePattern(
           "[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}",
-          "validation.pattern.email"
+          "pattern.email"
         ),
       ],
       birth: [validateSelection("member.birth"), validateBirth(this)],
@@ -347,7 +347,7 @@ export class ProfileEditor implements EditProfileFormType {
         validateRequire("member.email"),
         validatePattern(
           "[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}",
-          "validation.pattern.email"
+          "pattern.email"
         ),
       ],
     };
@@ -400,12 +400,12 @@ export class ChangePasswordEditor implements ChangePasswordFormType {
         validateRequire("member.password"),
         validatePattern(
           "(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,20}",
-          "validation.pattern.password"
+          "pattern.password"
         ),
       ],
       passwordCheck: [
         validateRequire("member.passwordCheck"),
-        validatePassword(this.password),
+        validatePassword(this),
       ],
     };
   }

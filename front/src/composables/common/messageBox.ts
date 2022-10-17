@@ -2,6 +2,7 @@ import { ElMessageBox } from "element-plus/es";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+import type { NamedValue } from "@intlify/core-base";
 
 export const useMessageBox = () => {
   const router = useRouter();
@@ -82,8 +83,11 @@ export const useMessageBox = () => {
   const getTabMessage = (field: string): string => {
     return t(`tabs.${field}`);
   };
-  const getValidationMessage = (field: string): string => {
-    return t(`validation.${field}`);
+  const getValidationMessage = (
+    field: string,
+    param: NamedValue = {}
+  ): string => {
+    return t(`validation.${field}`, param);
   };
 
   const getPlaceholder = (field: string) => {

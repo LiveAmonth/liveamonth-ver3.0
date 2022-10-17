@@ -4,9 +4,9 @@ import { useMember } from "@/composables/member/member";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useRouter } from "vue-router";
 import { useCategory } from "@/composables/common/category";
+import { MemberCreate } from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
 import type { SignUpCheckType } from "@/modules/types/member/MemberTypes";
-import { MemberCreate } from "@/modules/types/member/MemberTypes";
 
 const router = useRouter();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
@@ -27,7 +27,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
       signUp(form);
       if (!error.value) {
-        openMessageBox(resultMsg("signUp.result")).then(() => {
+        openMessageBox(resultMsg("signup")).then(() => {
           router.replace({ name: "login" });
         });
       } else {
@@ -45,24 +45,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     ref="ruleFormRef"
     :model="form"
     :rules="form.getRules()"
-    label-position="top"
+    label-position="left"
     label-width="120px"
     status-icon
   >
     <el-form-item :label="labelMsg('member.loginId')" prop="loginId">
-      <el-input v-model="form.loginId" :disabled="checkForm.loginId">
-        <template #append>
-          <el-button
-            v-if="!checkForm.loginId"
-            @click="checkField(ruleFormRef, form, 'loginId')"
-          >
-            {{ buttonMsg("member.duplication") }}
-          </el-button>
-          <el-button
-            v-else
-            color="#0f6778"
-            @click="resetField(form, 'loginId')"
-          >
+      <el-input
+        v-model="form.loginId"
+        :disabled="checkForm.loginId"
+        @change="checkField(ruleFormRef, form, 'loginId')"
+      >
+        <template v-if="checkForm.loginId" #append>
+          <el-button color="#0f6778" @click="resetField(form, 'loginId')">
             {{ buttonMsg("reset") }}
           </el-button>
         </template>
@@ -81,46 +75,33 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       <el-input v-model="form.name" />
     </el-form-item>
     <el-form-item :label="labelMsg('member.nickname')" prop="nickname">
-      <el-input v-model="form.nickname" :disabled="checkForm.nickname">
-        <template #append>
-          <el-button
-            v-if="!checkForm.nickname"
-            @click="checkField(ruleFormRef, form, 'nickname')"
-            >{{ ButtonMsg("member.duplication") }}
-          </el-button>
-          <el-button
-            v-else
-            color="#0f6778"
-            @click="resetField(form, 'nickname')"
-            >{{ ButtonMsg("reset") }}
+      <el-input
+        v-model="form.nickname"
+        :disabled="checkForm.nickname"
+        @change="checkField(ruleFormRef, form, 'nickname')"
+      >
+        <template v-if="checkForm.nickname" #append>
+          <el-button color="#0f6778" @click="resetField(form, 'nickname')">
+            {{ buttonMsg("reset") }}
           </el-button>
         </template>
       </el-input>
     </el-form-item>
     <el-form-item :label="labelMsg('member.email')" prop="email">
-      <el-input v-model="form.email" :disabled="checkForm.email">
-        <template #append>
-          <el-button
-            v-if="!checkForm.email"
-            @click="checkField(ruleFormRef, form, 'email')"
-            >{{ buttonMsg("member.duplication") }}
-          </el-button>
-          <el-button v-else color="#0f6778" @click="resetField(form, 'email')"
-            >{{ buttonMsg("reset") }}
+      <el-input
+        v-model="form.email"
+        :disabled="checkForm.email"
+        @change="checkField(ruleFormRef, form, 'email')"
+      >
+        <template v-if="checkForm.email" #append>
+          <el-button color="#0f6778" @click="resetField(form, 'email')">
+            {{ buttonMsg("reset") }}
           </el-button>
         </template>
       </el-input>
     </el-form-item>
-    <el-form-item :label="labelMsg('member.birth')" required>
-      <el-form-item prop="birth">
-        <el-date-picker
-          v-model="form.birth"
-          label="Pick a date"
-          placeholder="Pick a date"
-          style="width: 100%"
-          type="date"
-        />
-      </el-form-item>
+    <el-form-item :label="labelMsg('member.birth')" prop="birth">
+      <el-date-picker v-model="form.birth" style="width: 100%" type="date" />
     </el-form-item>
     <el-form-item :label="labelMsg('member.gender.title')" prop="gender">
       <el-radio-group v-if="hasGenderType" v-model="form.gender">
