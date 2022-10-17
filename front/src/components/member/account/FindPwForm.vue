@@ -4,10 +4,10 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
 import type { FindPwType } from "@/modules/types/member/MemberTypes";
 
-const { error, isPending, foundId, findPw } = useMember();
-const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
+const emit = defineEmits(["update:isFind"]);
 
-const emit = defineEmits(["findPw"]);
+const { error, isPending, findPw } = useMember();
+const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
 const form = reactive<FindPwType>({
   loginId: "",
@@ -16,14 +16,13 @@ const form = reactive<FindPwType>({
 
 const submitForm = async () => {
   await findPw(form);
-  if (foundId.value) {
-    emit("findPw");
-  }
   if (error.value) {
     await openMessageBox(resultMsg("noMember"));
     for (const key in form) {
       form[key] = "";
     }
+  } else {
+    emit("update:isFind", true);
   }
 };
 </script>

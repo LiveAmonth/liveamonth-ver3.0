@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   label: {
     type: String,
-    required: true,
+    required: false,
   },
   link: {
     type: String,
@@ -13,8 +13,8 @@ const props = defineProps({
 
 <template>
   <el-link :underline="false">
-    <router-link :to="props.link">
-      {{ props.label }}
+    <router-link :to="link">
+      <slot>{{ label }}</slot>
     </router-link>
   </el-link>
 </template>
@@ -23,5 +23,8 @@ const props = defineProps({
 a {
   color: inherit;
   text-decoration: none;
+  display: flex;
+  justify-items: center;
+  align-items: center;
 }
 </style>

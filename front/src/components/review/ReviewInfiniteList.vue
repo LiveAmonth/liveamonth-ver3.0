@@ -1,8 +1,12 @@
 <script lang="ts" setup>
+import ReviewListCard from "@/components/review/ReviewListCard.vue";
+import LinkSlot from "@/components/common/LinkSlot.vue";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import { Right } from "@element-plus/icons-vue";
 import { useMember } from "@/composables/member/member";
 import { useReview } from "@/composables/review/review";
 import { computed, ref } from "vue";
-import ReviewListCard from "@/components/review/ReviewListCard.vue";
+import { useMessageBox } from "@/composables/common/messageBox";
 
 const props = defineProps({
   initialCount: {
@@ -13,6 +17,7 @@ const props = defineProps({
 
 const { memberProfile } = useMember();
 const { myReviews, getMyReviews } = useReview();
+const { labelMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(2);
 const count = ref<number>(props.initialCount);
@@ -33,7 +38,11 @@ const load = async () => {
 </script>
 
 <template>
-  <div class="infinite-list-wrapper" style="overflow: auto">
+  <div
+    v-if="memberProfile.numberOfReviews"
+    class="infinite-list-wrapper"
+    style="overflow: auto"
+  >
     <el-row class="d-flex justify-content-center">
       <el-col :span="20">
         <ul
@@ -48,6 +57,21 @@ const load = async () => {
         </ul>
       </el-col>
     </el-row>
+  </div>
+  <div v-else class="empty-post">
+    <SmallTitleSlot
+      class="d-flex justify-content-center"
+      :title="labelMsg('review.empty')"
+      :title-line="false"
+    />
+    <LinkSlot class="link" link="/reviews/write">
+      <span>
+        {{ buttonMsg("review.go") }}
+      </span>
+      <el-icon>
+        <Right />
+      </el-icon>
+    </LinkSlot>
   </div>
 </template>
 
@@ -66,6 +90,20 @@ const load = async () => {
         margin-bottom: 0;
       }
     }
+  }
+}
+
+.empty-post {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: #808080;
+
+  .link {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    color: #016d7d;
   }
 }
 </style>

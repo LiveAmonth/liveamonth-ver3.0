@@ -54,7 +54,8 @@ class MemberApiService {
         return response.data;
       })
       .catch((error) => {
-        throw error.response.data;
+        console.log(error);
+        throw error;
       });
   }
 

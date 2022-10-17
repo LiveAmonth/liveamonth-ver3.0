@@ -19,8 +19,8 @@ const props = defineProps({
 });
 
 const { memberProfile, getMember } = useMember();
-const { mySchedules, getInfiniteSchedules } = useSchedule();
-const { myReviews, getMyReviews } = useReview();
+const { getInfiniteSchedules } = useSchedule();
+const { getMyReviews } = useReview();
 const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =
   useMyPage();
 const { menuMsg } = useMessageBox();
@@ -100,7 +100,7 @@ const clickTab = (tab: string) => {
     >
       <template v-slot:tab-1>
         <ScheduleInfiniteList
-          v-if="activeName === myPagePostsTabs[0].code && mySchedules.length"
+          v-if="activeName === myPagePostsTabs[0].code"
           :key="listKey"
           :initial-count="scheduleInitialSize"
           :is-my-page="true"
@@ -109,7 +109,7 @@ const clickTab = (tab: string) => {
       </template>
       <template v-slot:tab-2>
         <ReviewInfiniteList
-          v-if="activeName === myPagePostsTabs[1].code && myReviews.length"
+          v-if="activeName === myPagePostsTabs[1].code"
           :initial-count="reviewInitialSize"
         />
       </template>
@@ -121,7 +121,7 @@ const clickTab = (tab: string) => {
     :title="menuMsg('myPage.menu')"
     width="300px"
   >
-    <ManagementMenu @select-menu="goManagement" />
+    <ManagementMenu :is-my-page="true" @select-menu="goManagement" />
   </el-dialog>
 </template>
 

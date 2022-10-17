@@ -1,10 +1,10 @@
 import ScheduleApiService from "@/services/schdule/ScheduleApiService";
 import MemberApiService from "@/services/member/MemberApiService";
+import ReviewApiService from "@/services/review/ReviewApiService";
+import CityApiService from "@/services/city/CityApiService";
 import { defineStore } from "pinia";
 import type { SortType } from "@/modules/types/common/SearchEngineTypes";
 import type { EnumType } from "@/modules/types/common/CommonTypes";
-import ReviewApiService from "@/services/review/ReviewApiService";
-import CityApiService from "@/services/city/CityApiService";
 
 export const useCategoryStore = defineStore("category", {
   state: () => ({

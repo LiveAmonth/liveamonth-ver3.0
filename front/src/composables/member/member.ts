@@ -84,7 +84,6 @@ export const useMember = () => {
     isPending.value = true;
     try {
       await store.signUp(request);
-      error.value = null;
     } catch (err) {
       error.value = err;
     } finally {

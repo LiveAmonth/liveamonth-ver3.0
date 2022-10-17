@@ -43,11 +43,12 @@ public abstract class JwtUtil {
                 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
                 'w', 'x', 'y', 'z'};
 
-        StringBuffer tempPassword = new StringBuffer();
+        StringBuilder tempPassword = new StringBuilder();
         for (int i = 0; i < 10; i++) {
             index = (int) (charArr.length * Math.random());
             tempPassword.append(charArr[index]);
         }
+        tempPassword.append("!");
         return tempPassword.toString();
     }
 }

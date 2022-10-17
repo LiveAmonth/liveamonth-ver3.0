@@ -17,7 +17,7 @@ defineProps({
 const emits = defineEmits(["applyOption", "write"]);
 const { isPending, cityReviewTabs, request } = useReview();
 const { pageable, setSort } = usePagination("REVIEW");
-const { buttonMsg, tabMsg } = useMessageBox();
+const { buttonMsg, tabMsg, categoryMsg } = useMessageBox();
 const { reviewSearchType, reviewSortType } = useCategory();
 const activeName = ref<string>(cityReviewTabs[0]);
 const order = ref<string>(pageable.value.sort);
@@ -66,7 +66,7 @@ const changeSort = async () => {
         :key="order.code"
         :label="order.title"
       >
-        {{ order.value }}
+        {{ categoryMsg("review.sort", order.code.toLowerCase()) }}
       </el-radio>
     </el-radio-group>
     <el-button
