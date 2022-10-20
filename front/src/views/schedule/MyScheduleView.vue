@@ -10,6 +10,8 @@ import { onMounted, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
+import { useDate } from "@/composables/common/date";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   loginId: {
@@ -19,9 +21,9 @@ const props = defineProps({
 });
 
 const {
-  mySchedules,
   editedSchedule,
-  getMySchedules,
+  editableSchedules,
+  getEditableSchedules,
   getScheduleContents,
   deleteSchedule,
   deleteContent,
@@ -29,6 +31,7 @@ const {
   setEditedSchedule,
 } = useSchedule();
 const { resetContent } = useCalendarEvent();
+const { isBetween } = useDate();
 const {
   buttonMsg,
   titleMsg,
@@ -40,14 +43,14 @@ const {
 
 const isPending = ref<boolean>(true);
 const selectedId = ref<string | number>("");
-const initDate = ref<string>("");
+const initPeriod = ref<DatePeriodType>();
 const calendarKey = ref(0);
 const scheduleModal = ref<boolean>(false);
 const contentModal = ref<boolean>(false);
 const defaultContentDate = ref<string>("");
 
 onMounted(async () => {
-  await getMySchedules(props.loginId).then(() => {
+  await getEditableSchedules(props.loginId).then(() => {
     selectedId.value = getInitialSelectedId();
   });
   await changeSchedule().then(() => {
@@ -59,7 +62,7 @@ const changeSchedule = async () => {
   if (selectedId.value) {
     await setEditedSchedule(Number(selectedId.value));
     await getScheduleContents(Number(selectedId.value)).then(() => {
-      initDate.value = editedSchedule.value.period.startDate;
+      initPeriod.value = editedSchedule.value.period;
       calendarKey.value += 1;
     });
     await resetContent();
@@ -68,9 +71,9 @@ const changeSchedule = async () => {
 };
 
 const submitScheduleForm = async (isEdit = false) => {
-  await getMySchedules(props.loginId).then(() => {
+  await getEditableSchedules(props.loginId).then(() => {
     if (!isEdit) {
-      selectedId.value = mySchedules.value[0].id;
+      selectedId.value = editableSchedules.value[0].id;
     }
   });
   await changeSchedule().then(() => {
@@ -85,7 +88,7 @@ const deleteScheduleBtn = async () => {
   ).then(async () => {
     if (editedSchedule.value.id != null) {
       await deleteSchedule(editedSchedule.value.id);
-      await getMySchedules(props.loginId);
+      await getEditableSchedules(props.loginId);
       selectedId.value = await getInitialSelectedId();
       await changeSchedule();
     } else {
@@ -94,8 +97,16 @@ const deleteScheduleBtn = async () => {
   });
 };
 
-const openContentModal = () => {
-  defaultContentDate.value = editedSchedule.value.period.startDate;
+const openContentModal = (startDate = "", hasSelectedDate = false) => {
+  if (hasSelectedDate) {
+    if (isBetween(startDate, editedSchedule.value.period)) {
+      defaultContentDate.value = startDate;
+    } else {
+      openMessageBox(resultMsg("content.periodOut"));
+    }
+  } else {
+    defaultContentDate.value = "";
+  }
   contentModal.value = true;
 };
 
@@ -138,7 +149,7 @@ const deleteContentBtn = async (contentId: number) => {
                 @change="changeSchedule"
               >
                 <el-option
-                  v-for="val in mySchedules"
+                  v-for="val in editableSchedules"
                   :key="val.id"
                   :label="val.title"
                   :value="val.id"
@@ -149,10 +160,9 @@ const deleteContentBtn = async (contentId: number) => {
           <ScheduleCalendar
             :key="calendarKey"
             :editable="true"
-            :init-date="initDate"
+            :init-period="initPeriod"
             :is-basic="!selectedId"
-            v-model:content-modal="contentModal"
-            v-model:default-date="defaultContentDate"
+            @add-content="openContentModal"
           />
         </el-col>
         <el-col :span="6" class="mt-4">
@@ -184,9 +194,9 @@ const deleteContentBtn = async (contentId: number) => {
             <div class="d-flex justify-content-end mt-3">
               <el-button
                 class="d-flex justify-content-between"
-                @click="openContentModal"
                 size="large"
                 text
+                @click="openContentModal"
               >
                 <el-icon class="me-1">
                   <Plus />

@@ -1,53 +1,46 @@
 import { computed, ref } from "vue";
-import { useMember } from "@/composables/member/member";
 import { useScheduleStore } from "@/stores/schedule/schedule";
 import { useScheduleContentStore } from "@/stores/schedule/scheduleContent";
 import { useCategory } from "@/composables/common/category";
 import type {
   ScheduleCardType,
-  ScheduleContentType,
   ScheduleContentEditor,
   ScheduleEditor,
-  ScheduleSearchCond,
+  MyScheduleType,
 } from "@/modules/types/schedule/ScheduleTypes";
-import type {
-  PageableRequestType,
-  PageableType,
-} from "@/modules/types/pagination/PaginationTypes";
+import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
 
 export const useSchedule = () => {
   const type = "schedule";
   const store = useScheduleStore();
   const contentStore = useScheduleContentStore();
-  const { simpleProfile } = useMember();
+
   const { schedulePopularSortType } = useCategory();
   const error = ref();
   const isPending = ref<boolean>(false);
 
-  const request = computed((): ScheduleSearchCond => store.searchCond);
-  const otherSchedules = computed(
-    (): ScheduleCardType[] => store.otherScheduleCards
-  );
-  const followedSchedules = computed(
-    (): ScheduleCardType[] => store.followedSchedules
-  );
-  const currentSchedule = computed(
-    (): ScheduleCardType => store.currentSchedule
-  );
-  const schedulePage = computed((): PageableType => store.schedulePage);
-  const currScheduleContents = computed(
-    (): ScheduleContentType[] => contentStore.scheduleContents
-  );
-  const mySchedules = computed((): ScheduleCardType[] => store.mySchedules);
-  const editedSchedule = computed((): ScheduleCardType => store.editedSchedule);
-  const contentCollapse = computed(
-    (): number[] => contentStore.contentCollapse
-  );
+  const request = computed(() => store.searchCond);
+  const otherSchedules = computed(() => store.otherScheduleCards);
+  const followedSchedules = computed(() => store.followedSchedules);
+  const currentSchedule = computed(() => store.currentSchedule);
+  const schedulePage = computed(() => store.schedulePage);
+  const currScheduleContents = computed(() => contentStore.scheduleContents);
 
-  const hasCurrentSchedule = computed((): boolean => store.hasCurrentSchedule);
-  const hasEditedSchedule = computed((): boolean => store.hasEditedSchedule);
+  // my page schedules
+  const mySchedules = computed(() => store.mySchedules);
 
-  const infiniteSchedules = (isMyPage: boolean): ScheduleCardType[] => {
+  // 내 스케줄 관리
+  const editableSchedules = computed(() => store.editableSchedules);
+  const editedSchedule = computed(() => store.editedSchedule);
+
+  const contentCollapse = computed(() => contentStore.contentCollapse);
+
+  const hasCurrentSchedule = computed(() => store.hasCurrentSchedule);
+  const hasEditedSchedule = computed(() => store.hasEditedSchedule);
+
+  const infiniteSchedules = (
+    isMyPage: boolean
+  ): ScheduleCardType[] | MyScheduleType[] => {
     return isMyPage ? mySchedules.value : followedSchedules.value;
   };
 
@@ -101,11 +94,11 @@ export const useSchedule = () => {
   };
 
   // My Schedule View
-  const getMySchedules = async (loginId: string) => {
+  const getEditableSchedules = async (loginId: string) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getMySchedules(loginId);
+      await store.getEditableSchedules(loginId);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -123,11 +116,9 @@ export const useSchedule = () => {
     error.value = null;
     isPending.value = true;
     try {
-      if (isMyPage) {
-        await store.getInfiniteSchedules(loginId, size, lastId);
-      } else {
-        await store.getAdditionalFollowedSchedules(loginId, size, lastId);
-      }
+      isMyPage
+        ? await store.getFollowedSchedules(loginId, size, lastId)
+        : await store.getMySchedules(loginId, size, lastId);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -224,7 +215,7 @@ export const useSchedule = () => {
     error.value = null;
     try {
       await store.setEditedSchedule(
-        mySchedules.value.find(
+        editableSchedules.value.find(
           (value) => value.id == selectedId
         ) as ScheduleCardType
       );
@@ -246,19 +237,11 @@ export const useSchedule = () => {
     }
   };
 
-  const isScheduleEmpty = () => {
-    return !mySchedules.value.length;
-  };
-
-  const isMemberEq = () => {
-    return editedSchedule.value.profile.id == simpleProfile.value.id;
-  };
-
   const getInitialSelectedId = () => {
-    if (isScheduleEmpty()) return "";
-    if (!mySchedules.value.includes(editedSchedule.value))
-      return mySchedules.value[0].id;
-    return isMemberEq() ? editedSchedule.value.id : mySchedules.value[0].id;
+    if (!editableSchedules.value.length) return "";
+    return editableSchedules.value.includes(editedSchedule.value)
+      ? editedSchedule.value.id
+      : editableSchedules.value[0].id;
   };
 
   return {
@@ -274,13 +257,14 @@ export const useSchedule = () => {
     mySchedules,
     followedSchedules,
     editedSchedule,
+    editableSchedules,
     hasCurrentSchedule,
     hasEditedSchedule,
     infiniteSchedules,
     getOtherScheduleCard,
     getOtherSchedules,
     getScheduleContents,
-    getMySchedules,
+    getEditableSchedules,
     getInfiniteSchedules,
     getPopularSchedules,
     addSchedule,

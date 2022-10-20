@@ -72,7 +72,7 @@ export const useFormValidate = () => {
   const validateCost = (cost: number, min: number): FormItemRule => {
     return {
       validator: (rule, value, callback) => {
-        if (min >= cost) {
+        if (min > cost) {
           callback(
             new Error(
               validationMsg("min", {

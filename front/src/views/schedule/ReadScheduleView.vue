@@ -33,7 +33,7 @@ const changeCollapse = (id: number) => {
       <el-row :gutter="5">
         <el-col :span="18">
           <ScheduleCalendar
-            :init-date="String(currentSchedule.period.startDate)"
+            :init-period="currentSchedule.period"
             @select-content="changeCollapse"
           />
         </el-col>

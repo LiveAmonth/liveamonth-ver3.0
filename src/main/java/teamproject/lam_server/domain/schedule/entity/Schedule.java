@@ -46,8 +46,11 @@ public class Schedule extends BaseEntity {
 
     @Formula("(select count(1) from schedule_like sl where sl.to_schedule_id = schedule_id)")
     private long numberOfLikes;
+
     @Formula("(select ifnull(sum(sc.cost),0) from schedule_content sc where sc.schedule_id = schedule_id)")
     private long totalCost;
+
+    @Basic(fetch = LAZY)
     @Formula("(select count(1) from schedule_comment sc where sc.schedule_id = schedule_id and sc.parent_comment_id is null)")
     private long numberOfComments;
 

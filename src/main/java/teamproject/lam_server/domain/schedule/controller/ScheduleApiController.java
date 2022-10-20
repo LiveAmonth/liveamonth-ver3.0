@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
+import teamproject.lam_server.domain.schedule.dto.response.MyScheduleResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
+import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleResponse;
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
+import teamproject.lam_server.global.dto.response.CountResponse;
 import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
@@ -49,12 +52,18 @@ public class ScheduleApiController {
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
+    @GetMapping("/list/{loginId}/edit")
+    public ResponseEntity<?> getMySchedulesToEdit(@PathVariable String loginId) {
+        List<EditableScheduleResponse> result = scheduleApiService.getEditableSchedules(loginId);
+        return CustomResponse.success(READ_SCHEDULE, result);
+    }
+
     @GetMapping("/list/{loginId}")
-    public ResponseEntity<?> getScheduleByMember(
+    public ResponseEntity<?> getMySchedules(
             @PathVariable String loginId,
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
-        List<ScheduleCardResponse> result = scheduleApiService.getScheduleByMember(loginId, size, lastId);
+        List<MyScheduleResponse> result = scheduleApiService.getMySchedules(loginId, size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
@@ -64,6 +73,12 @@ public class ScheduleApiController {
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
         List<ScheduleCardResponse> result = scheduleApiService.getFollowedSchedules(loginId, size, lastId);
+        return CustomResponse.success(READ_SCHEDULE, result);
+    }
+
+    @GetMapping("/count/{loginId}/followed")
+    public ResponseEntity<?> getFollowedScheduleCounts(@PathVariable String loginId) {
+        CountResponse result = scheduleApiService.getNumberOfFollowedPosts(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 }

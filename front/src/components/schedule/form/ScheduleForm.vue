@@ -35,7 +35,7 @@ const {
   openMessageBox,
 } = useMessageBox();
 
-const isEdit = ref<boolean>(!props.selectedId);
+const isEdit = ref<boolean>(props.isAddForm);
 const form = reactive<ScheduleEditor>(new ScheduleEditor());
 const ruleFormRef = ref<FormInstance>();
 
@@ -90,25 +90,20 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       label-width="75px"
       status-icon
     >
-      <div class="d-flex justify-content-between align-items-center mb-2">
+      <el-row class="d-flex justify-content-between align-items-center mb-2">
         <SmallTitleSlot>
           <slot name="title"></slot>
         </SmallTitleSlot>
-        <el-form-item>
-          <el-switch
-            v-model="form.publicFlag"
-            :active-text="buttonMsg('schedule.open')"
-            :inactive-text="buttonMsg('schedule.hide')"
-            class="ml-2"
-            inline-prompt
-            size="large"
-            style="
-              --el-switch-on-color: #016d7d;
-              --el-switch-off-color: #535252;
-            "
-          />
-        </el-form-item>
-      </div>
+        <el-switch
+          v-model="form.publicFlag"
+          :active-text="buttonMsg('schedule.open')"
+          :inactive-text="buttonMsg('schedule.hide')"
+          class="mb-2"
+          inline-prompt
+          size="large"
+          style="--el-switch-on-color: #016d7d; --el-switch-off-color: #535252"
+        />
+      </el-row>
       <el-form-item :label="labelMsg('title')" prop="title">
         <el-input
           v-model="form.title"
@@ -117,10 +112,10 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         >
         </el-input>
       </el-form-item>
-      <el-form-item :label="labelMsg('city')" prop="city">
+      <el-form-item :label="labelMsg('city.title')" prop="city">
         <el-select
           v-model="form.city"
-          :placeholder="selectPhMsg(labelMsg('city'))"
+          :placeholder="selectPhMsg(labelMsg('city.title'))"
           style="width: 200px"
         >
           <template v-for="val in cityNames" :key="val.code">
@@ -181,7 +176,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         {{ buttonMsg("add") }}
       </el-button>
       <el-button @click="form.clear()">
-        {{ buttonMsg("clear") }}
+        {{ buttonMsg("reset") }}
       </el-button>
     </div>
   </el-card>

@@ -19,6 +19,14 @@ export const useDate = () => {
     return dayjs(value).format("YYYY-MM-DD HH:mm:ss");
   };
 
+  const getContentStartTime = (value: string) => {
+    return dayjs(value).add(6, "hour").format("YYYY-MM-DD HH:mm:ss");
+  };
+
+  const getContentEndTime = (value: string) => {
+    return dayjs(value).add(7, "hour").format("YYYY-MM-DD HH:mm:ss");
+  };
+
   const getDate = (value: Date | string | null) => {
     return dayjs(value).format("YYYY-MM-DD");
   };
@@ -48,6 +56,8 @@ export const useDate = () => {
     now,
     getDate,
     getDateTime,
+    getContentStartTime,
+    getContentEndTime,
     isBetween,
     isSameDate,
     isAfter,

@@ -1,6 +1,8 @@
 import ScheduleApiService from "@/services/schdule/ScheduleApiService";
 import { defineStore } from "pinia";
 import type {
+  EditableScheduleType,
+  MyScheduleType,
   ScheduleCardType,
   ScheduleEditor,
 } from "@/modules/types/schedule/ScheduleTypes";
@@ -15,9 +17,10 @@ export const useScheduleStore = defineStore("schedule", {
   state: () => ({
     searchCond: new ScheduleSearchCond(),
     pageableSchedules: {} as PageableResponseType,
-    mySchedules: [] as ScheduleCardType[],
+    mySchedules: [] as MyScheduleType[],
+    editableSchedules: [] as EditableScheduleType[],
     followedSchedules: [] as ScheduleCardType[],
-    editedSchedule: {} as ScheduleCardType,
+    editedSchedule: {} as EditableScheduleType,
     currentSchedule: {} as ScheduleCardType,
   }),
   getters: {
@@ -51,23 +54,23 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    getMySchedules: async function (loginId: string, size = null) {
-      await ScheduleApiService.getMySchedules(loginId, size)
-        .then((response: ScheduleCardType[]) => {
-          this.mySchedules = response;
+    getEditableSchedules: async function (loginId: string) {
+      await ScheduleApiService.getEditableSchedules(loginId)
+        .then((response: EditableScheduleType[]) => {
+          this.editableSchedules = response;
         })
         .catch((error) => {
           throw error;
         });
     },
 
-    getInfiniteSchedules: async function (
+    getMySchedules: async function (
       loginId: string,
       size: number,
       lastId: number | null
     ) {
       await ScheduleApiService.getMySchedules(loginId, size, lastId)
-        .then((response: ScheduleCardType[]) => {
+        .then((response: MyScheduleType[]) => {
           lastId
             ? response.forEach((value) => this.mySchedules.push(value))
             : (this.mySchedules = response);
@@ -77,7 +80,7 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    getAdditionalFollowedSchedules: async function (
+    getFollowedSchedules: async function (
       loginId: string,
       size: number,
       lastId: number | null
@@ -92,7 +95,6 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-
     addSchedule: async function (form: ScheduleEditor) {
       await ScheduleApiService.addSchedule(form)
         .then((response: string) => {
@@ -123,7 +125,7 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    setEditedSchedule: async function (data: ScheduleCardType) {
+    setEditedSchedule: async function (data: EditableScheduleType) {
       this.editedSchedule = data;
     },
 

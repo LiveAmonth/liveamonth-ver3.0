@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import { reactive, ref, watch } from "vue";
+import { reactive, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { ScheduleContentEditor } from "@/modules/types/schedule/ScheduleTypes";
@@ -36,7 +36,7 @@ const {
 } = useMessageBox();
 
 const form = reactive<ScheduleContentEditor>(
-  new ScheduleContentEditor(props.period)
+  new ScheduleContentEditor(props.period, props.defaultDate)
 );
 const ruleFormRef = ref<FormInstance>();
 
@@ -53,13 +53,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   });
 };
-
-watch(
-  () => props.defaultDate,
-  () => {
-    form.clear();
-  }
-);
 </script>
 <template>
   <el-card>

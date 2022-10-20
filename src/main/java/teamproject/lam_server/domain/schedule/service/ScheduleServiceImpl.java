@@ -4,25 +4,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
-import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepositoryImpl;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleEdit;
+import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleResponse;
+import teamproject.lam_server.domain.schedule.dto.response.MyScheduleResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleEditor;
 import teamproject.lam_server.domain.schedule.repository.ScheduleQueryRepository;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
+import teamproject.lam_server.global.dto.response.CountResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +32,6 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final SecurityContextFinder finder;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleQueryRepository scheduleQueryRepository;
-    private final ScheduleCommentRepositoryImpl commentRepository;
     private final DomainSpec<ScheduleSortType> spec = new DomainSpec<>(ScheduleSortType.class);
 
     @Override
@@ -72,9 +71,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public CustomPage<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Page<ScheduleCardResponse> page =
-                scheduleQueryRepository
-                        .search(cond, spec.getPageable(pageableDTO))
-                        .map(mapToScheduleAndComment());
+                scheduleQueryRepository.search(cond, spec.getPageable(pageableDTO))
+                        .map(ScheduleCardResponse::of);
 
         return CustomPage.<ScheduleCardResponse>builder()
                 .page(page)
@@ -82,29 +80,33 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<ScheduleCardResponse> getScheduleByMember(String loginId, Integer size, Long lastId) {
+    public List<MyScheduleResponse> getMySchedules(String loginId, Integer size, Long lastId) {
         finder.checkLegalLoginId(loginId);
-        return scheduleQueryRepository.getScheduleByMember(loginId, size, lastId)
+        return scheduleQueryRepository.getMySchedules(loginId, size, lastId)
                 .stream()
-                .map(schedule -> ScheduleCardResponse.of(schedule, null))
+                .map(MyScheduleResponse::of)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
-        finder.checkLegalLoginId(loginId);
-        return scheduleQueryRepository
-                .getFollowedSchedules(loginId, size, lastId)
-                .stream()
-                .map(mapToScheduleAndComment())
+        return scheduleQueryRepository.getFollowedSchedules(loginId, size, lastId).stream()
+                .map(ScheduleCardResponse::of)
                 .collect(Collectors.toList());
     }
 
-    private Function<Schedule, ScheduleCardResponse> mapToScheduleAndComment() {
-        return schedule -> ScheduleCardResponse.of(
-                schedule,
-                CommentResponse.ofBest(
-                        commentRepository.getBestComment(schedule.getId()).orElse(null))
-        );
+    @Override
+    public List<EditableScheduleResponse> getEditableSchedules(String loginId) {
+        finder.checkLegalLoginId(loginId);
+        return scheduleRepository.getByCreatedBy(loginId)
+                .stream()
+                .map(EditableScheduleResponse::of)
+                .collect(Collectors.toList());
     }
+
+    @Override
+    public CountResponse getNumberOfFollowedPosts(String loginId) {
+        return CountResponse.of(scheduleQueryRepository.getNumberOfFollowedPosts(loginId));
+    }
+
 }

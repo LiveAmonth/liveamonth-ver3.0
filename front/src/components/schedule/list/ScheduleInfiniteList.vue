@@ -2,13 +2,16 @@
 import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import CommentSlot from "@/components/comment/CommentSlot.vue";
 import LinkSlot from "@/components/common/LinkSlot.vue";
 import { Right } from "@element-plus/icons-vue";
 import { computed, ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMember } from "@/composables/member/member";
 import { useMessageBox } from "@/composables/common/messageBox";
+import type {
+  MyScheduleType,
+  ScheduleCardType,
+} from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   initialCount: {
@@ -26,16 +29,20 @@ const emits = defineEmits(["refresh"]);
 const { memberProfile } = useMember();
 const { infiniteSchedules, getInfiniteSchedules, deleteSchedule } =
   useSchedule();
-const { labelMsg, resultMsg, buttonMsg } = useMessageBox();
+const { labelMsg, buttonMsg } = useMessageBox();
 
-const size = ref<number>(2);
-const count = ref<number>(props.initialCount);
+const size = ref<number>(10);
+const count = ref<number>(
+  infiniteSchedules.length < 20 ? infiniteSchedules.length : 20
+);
 const loading = ref<boolean>(false);
 const noMore = computed(
-  () => count.value >= memberProfile.value.numberOfSchedules
+  () => count.value >= 30 || schedules.value.length % 10 != 0
 );
 const disabled = computed(() => loading.value || noMore.value);
-const schedules = computed(() => infiniteSchedules(props.isMyPage));
+const schedules = ref<ScheduleCardType[] | MyScheduleType[]>(
+  infiniteSchedules(props.isMyPage)
+);
 
 const load = async () => {
   loading.value = true;
@@ -46,7 +53,10 @@ const load = async () => {
     props.isMyPage
   );
   setTimeout(() => {
-    count.value += size.value;
+    count.value =
+      schedules.value.length - count.value < size.value
+        ? schedules.value.length
+        : count.value + size.value;
     loading.value = false;
   }, 500);
 };
@@ -68,7 +78,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
 
 <template>
   <div
-    v-if="memberProfile.numberOfSchedules"
+    v-if="infiniteSchedules.length"
     class="infinite-list-wrapper"
     style="overflow: auto"
   >
@@ -91,42 +101,6 @@ const deleteScheduleBtn = async (scheduleId: number) => {
               :schedule="schedule"
               @delete-schedule="deleteScheduleBtn"
             />
-            <template v-if="!isMyPage">
-              <el-card v-if="schedule.bestComment" class="reply mb-2">
-                <SmallTitleSlot class="mb-3">
-                  {{ labelMsg("comment.best") }}
-                </SmallTitleSlot>
-                <CommentSlot
-                  :id="schedule.bestComment.commentId"
-                  :avatar-url="'/src/assets/image/default.jpg'"
-                  :is-best="true"
-                  :is-reply="false"
-                  :is-writer="
-                    schedule.profile.nickname ===
-                    schedule.bestComment.profile.nickname
-                  "
-                >
-                  <template v-slot:writer>
-                    {{ schedule.bestComment.profile.nickname }}
-                  </template>
-                  <template v-slot:elapsedTime>
-                    {{ schedule.bestComment.elapsedTime }}
-                  </template>
-                  <template v-slot:comment>
-                    {{ schedule.bestComment.comment }}
-                  </template>
-                  <template v-slot:likeCount>
-                    {{ schedule.bestComment.numberOfLikes }}
-                  </template>
-                  <template v-slot:dislikeCount>
-                    {{ schedule.bestComment.numberOfDislikes }}
-                  </template>
-                </CommentSlot>
-              </el-card>
-              <el-card v-else class="reply mb-0">
-                {{ resultMsg("comment.empty") }}
-              </el-card>
-            </template>
           </el-col>
         </el-row>
       </li>
@@ -138,9 +112,14 @@ const deleteScheduleBtn = async (scheduleId: number) => {
       :title="labelMsg('schedule.empty')"
       :title-line="false"
     />
-    <LinkSlot class="link" :link="`/my-schedule/${memberProfile.loginId}`">
+    <LinkSlot
+      class="link"
+      :link="`${
+        isMyPage ? `/my-schedule/${memberProfile.loginId}` : '/schedules'
+      }`"
+    >
       <span>
-        {{ buttonMsg("schedule.go") }}
+        {{ buttonMsg(`${isMyPage ? "schedule.go" : "schedule.goOther"}`) }}
       </span>
       <el-icon>
         <Right />
@@ -186,6 +165,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
   justify-content: center;
   flex-direction: column;
   color: #808080;
+  margin-top: 15px;
 
   .link {
     display: flex;

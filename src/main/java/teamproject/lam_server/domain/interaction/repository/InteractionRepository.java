@@ -25,11 +25,12 @@ public class InteractionRepository {
                 .leftJoin(scheduleLike.from, member)
                 .leftJoin(scheduleLike.to, schedule)
                 .where(
-                        memberIdEq(request.getFrom()),
+                        fromMemberIdEq(request.getFrom()),
                         scheduleIdEq(request.getTo())
 
                 ).fetchFirst() != null;
     }
+
     public boolean isMemberLikeReview(InteractionRequest request) {
         return queryFactory.selectOne()
                 .from(reviewLike)
@@ -41,26 +42,33 @@ public class InteractionRepository {
 
                 ).fetchFirst() != null;
     }
+
     public boolean isMemberFollow(InteractionRequest request) {
         return queryFactory.selectOne()
                 .from(follower)
                 .leftJoin(follower.from, member)
                 .leftJoin(follower.to, member)
                 .where(
-                        memberIdEq(request.getFrom()),
-                        memberIdEq(request.getTo())
+                        fromMemberIdEq(request.getFrom()),
+                        toMemberIdEq(request.getTo())
 
                 ).fetchFirst() != null;
     }
 
-
+    private BooleanExpression fromMemberIdEq(Long memberId) {
+        return memberId != null ? follower.from.id.eq(memberId) : null;
+    }
     private BooleanExpression memberIdEq(Long memberId) {
         return memberId != null ? member.id.eq(memberId) : null;
+    }
+    private BooleanExpression toMemberIdEq(Long memberId) {
+        return memberId != null ? follower.to.id.eq(memberId) : null;
     }
 
     private BooleanExpression scheduleIdEq(Long scheduleId) {
         return scheduleId != null ? schedule.id.eq(scheduleId) : null;
     }
+
     private BooleanExpression reviewIdEq(Long reviewId) {
         return reviewId != null ? review.id.eq(reviewId) : null;
     }

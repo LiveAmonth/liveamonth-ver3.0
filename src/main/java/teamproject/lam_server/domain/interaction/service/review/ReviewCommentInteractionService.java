@@ -50,7 +50,6 @@ public class ReviewCommentInteractionService implements CommentInteractionServic
                 .collect(Collectors.toList());
     }
 
-
     private void checkExists(InteractionRequest request) {
         reactRepository.existsReact(request).ifPresent(reactType -> {
             throw reactType == LIKE
