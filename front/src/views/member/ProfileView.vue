@@ -27,8 +27,12 @@ const { menuMsg } = useMessageBox();
 
 const activeName = ref<string>(props.post);
 const listKey = ref<number>(0);
-const scheduleInitialSize = ref<number>(3);
-const reviewInitialSize = ref<number>(5);
+const scheduleInitialSize = ref<number>(
+  memberProfile.value.numberOfSchedules <= 20
+    ? memberProfile.value.numberOfSchedules
+    : 20
+);
+const reviewInitialSize = ref<number>(20);
 
 onMounted(async () => {
   await getMember();

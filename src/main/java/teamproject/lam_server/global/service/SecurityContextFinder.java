@@ -38,10 +38,12 @@ public class SecurityContextFinder {
         }
     }
 
-    public void checkLegalWriterId(Long id) {
-        if (!Objects.equals(getLoggedInMember().getId(), id)) {
+    public Member checkLegalWriterId(Long id) {
+        Member loggedInMember = getLoggedInMember();
+        if (!Objects.equals(loggedInMember.getId(), id)) {
             throw new IllegalLoggedInMember();
         }
+        return loggedInMember;
     }
 
     public void checkLegalLoginId(String loginId) {

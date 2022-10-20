@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.city.constants.CityName;
+import teamproject.lam_server.domain.member.entity.QMember;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
@@ -37,6 +38,7 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .limit(pageable.getPageSize())
                 .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
                 .fetch();
+
         JPAQuery<Long> countQuery = getSearchCountQuery(cond);
 
         return PageableExecutionUtils.getPage(
@@ -48,14 +50,14 @@ public class ScheduleQueryRepository extends BasicRepository {
     public List<ScheduleContent> getScheduleContents(Long scheduleId) {
         return queryFactory.selectFrom(scheduleContent)
                 .join(scheduleContent.schedule, schedule).fetchJoin()
-                .join(schedule.member,member).fetchJoin()
+                .join(schedule.member, member).fetchJoin()
                 .where(
                         scheduleIdEq(scheduleId)
                 )
                 .fetch();
     }
 
-    public List<Schedule> getScheduleByMember(String loginId, Integer size, Long lastId) {
+    public List<Schedule> getMySchedules(String loginId, Integer size, Long lastId) {
         JPAQuery<Schedule> query = queryFactory.selectFrom(schedule)
                 .leftJoin(schedule.member, member).fetchJoin()
                 .where(
@@ -86,6 +88,18 @@ public class ScheduleQueryRepository extends BasicRepository {
         return size != null
                 ? query.limit(size).fetch()
                 : query.fetch();
+    }
+
+    public Long getNumberOfFollowedPosts(String loginId) {
+        QMember toMember = new QMember("toMember");
+        QMember fromMember = new QMember("fromMember");
+
+        return queryFactory.select(toMember.numberOfSchedules.sum())
+                .from(follower)
+                .leftJoin(follower.from, fromMember)
+                .leftJoin(follower.to, toMember).fetchJoin()
+                .where(fromMember.loginId.eq(loginId))
+                .fetchOne();
     }
 
     private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {

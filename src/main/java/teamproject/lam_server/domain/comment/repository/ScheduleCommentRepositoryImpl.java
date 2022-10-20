@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 
 import java.util.List;
-import java.util.Optional;
 
 import static teamproject.lam_server.domain.comment.entity.QScheduleComment.scheduleComment;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -55,18 +54,18 @@ public class ScheduleCommentRepositoryImpl implements CommentRepository<Schedule
     }
 
     @Override
-    public Optional<ScheduleComment> getBestComment(Long contentId) {
-        return Optional.ofNullable(
-                queryFactory.selectFrom(scheduleComment)
+    public List<ScheduleComment> getBestComments(Long contentId) {
+        return queryFactory.selectFrom(scheduleComment)
                         .leftJoin(scheduleComment.schedule, schedule).fetchJoin()
                         .leftJoin(scheduleComment.member, member).fetchJoin()
                         .leftJoin(scheduleComment.parent).fetchJoin()
                         .where(
                                 scheduleIdEq(contentId),
                                 parentIdNull()
-                        ).orderBy(scheduleComment.numberOfLikes.desc())
-                        .fetchFirst()
-        );
+                        )
+                        .orderBy(scheduleComment.numberOfLikes.desc())
+                        .limit(3)
+                        .fetch();
     }
 
     private JPAQuery<ScheduleComment> getScheduleElementsQuery(Long scheduleId) {

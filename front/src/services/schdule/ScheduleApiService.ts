@@ -13,6 +13,8 @@ import type {
   ScheduleEditor,
   ScheduleContentEditor,
   ScheduleSearchCond,
+  MyScheduleType,
+  EditableScheduleType,
 } from "@/modules/types/schedule/ScheduleTypes";
 import type { SortType } from "@/modules/types/common/SearchEngineTypes";
 import type { EnumType } from "@/modules/types/common/CommonTypes";
@@ -109,7 +111,7 @@ class ScheduleApiService {
     loginId: string,
     size: number | null = null,
     lastId: number | null = null
-  ): Promise<ScheduleCardType[]> {
+  ): Promise<MyScheduleType[]> {
     return await http
       .get(`/schedules/list/${loginId}`, {
         params: {
@@ -117,6 +119,17 @@ class ScheduleApiService {
           last_id: lastId != null ? lastId : null,
         },
       })
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async getEditableSchedules(loginId: string): Promise<EditableScheduleType[]> {
+    return await http
+      .get(`/schedules/list/${loginId}/edit`)
       .then((response) => {
         return response.data.data;
       })
@@ -139,6 +152,17 @@ class ScheduleApiService {
       })
       .then((response) => {
         return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async getFollowedPostsCount(loginId: string): Promise<number> {
+    return await http
+      .get(`schedules/count/${loginId}/followed`)
+      .then((response) => {
+        return response.data.data.counts;
       })
       .catch((error) => {
         throw error.response.data;

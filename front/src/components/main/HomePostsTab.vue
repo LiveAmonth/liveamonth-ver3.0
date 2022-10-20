@@ -2,20 +2,17 @@
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
 import ScheduleListView from "@/views/schedule/ScheduleListView.vue";
+import ReviewList from "@/components/review/ReviewList.vue";
 import { ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
-import { useMember } from "@/composables/member/member";
 import { useHome } from "@/composables/home/home";
 import { useReview } from "@/composables/review/review";
-import ReviewList from "@/components/review/ReviewList.vue";
 
-const { simpleProfile } = useMember();
 const { homePostsTabs } = useHome();
 const { otherSchedules, followedSchedules } = useSchedule();
 const { otherReviews } = useReview();
-
 const activeName = ref(homePostsTabs.value[0].code);
-const initialSize = ref<number>(3);
+const initialSize = ref<number>(20);
 </script>
 
 <template>
@@ -46,9 +43,6 @@ const initialSize = ref<number>(3);
           <ScheduleInfiniteList
             v-if="followedSchedules.length"
             :initial-count="initialSize"
-            :is-my-page="false"
-            :login-id="simpleProfile.loginId"
-            :max-count="simpleProfile.numberOfFollows"
           />
         </el-col>
       </el-row>

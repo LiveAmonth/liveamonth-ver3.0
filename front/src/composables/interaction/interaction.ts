@@ -46,6 +46,19 @@ export const useInteraction = () => {
     }
   };
 
+  const isFollow = async (toId: number) => {
+    return InteractionApiService.isMemberLikeContent("member", {
+      from: simpleProfile.value.id,
+      to: toId,
+    })
+      .then((response) => {
+        return response;
+      })
+      .catch((err) => {
+        return err;
+      });
+  };
+
   const isLikedContent = async (type: string, contentId: number) => {
     try {
       await store.isMemberLikedContent(type, getInteractionRequest(contentId));
@@ -107,6 +120,7 @@ export const useInteraction = () => {
   const changeLikeState = () => {
     store.changeLikeState();
   };
+
   return {
     error,
     isPending,
@@ -119,5 +133,6 @@ export const useInteraction = () => {
     isLikedContent,
     getMemberReactedComment,
     changeLikeState,
+    isFollow,
   };
 };

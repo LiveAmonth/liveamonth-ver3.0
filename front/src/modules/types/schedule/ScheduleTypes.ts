@@ -4,7 +4,6 @@ import { reactive } from "vue";
 import type { EnumType } from "@/modules/types/common/CommonTypes";
 import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
 import type { SearchCondType } from "@/modules/types/common/SearchEngineTypes";
-import type { CommentType } from "@/modules/types/comment/CommentTypes";
 import type { FormType } from "@/modules/types/common/CommonTypes";
 import type { FormRules } from "element-plus/es";
 
@@ -60,7 +59,26 @@ export interface ScheduleCardType {
   numberOfComments: number;
   period: DatePeriodType;
   publicFlag: boolean;
-  bestComment: CommentType | null;
+}
+
+export interface EditableScheduleType {
+  id: number;
+  title: string;
+  city: EnumType;
+  period: DatePeriodType;
+  publicFlag: boolean;
+}
+
+export interface MyScheduleType {
+  id: number;
+  title: string;
+  city: EnumType;
+  cost: number;
+  period: DatePeriodType;
+  publicFlag: boolean;
+  numberOfHits: number;
+  numberOfLikes: number;
+  numberOfComments: number;
 }
 
 export interface ScheduleContentType {
@@ -193,7 +211,7 @@ export class ScheduleEditor implements ScheduleFormType {
       useFormValidate();
 
     return {
-      title: [validateRequire("form.label.title")],
+      title: [validateRequire("title")],
       city: [validateSelection("city.title")],
       period: [validateDatePeriod(this.period)],
     };
@@ -218,7 +236,8 @@ export class ScheduleEditor implements ScheduleFormType {
   }
 }
 
-const { getDateTime } = useDate();
+const { getContentStartTime, getContentEndTime, getDate, isSameDate } =
+  useDate();
 
 export class ScheduleContentEditor implements ScheduleContentFormType {
   content: string;
@@ -227,13 +246,17 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
   timePeriod: DateTimePeriodType;
   schedulePeriod: DatePeriodType;
 
-  constructor(period: DatePeriodType) {
+  constructor(period: DatePeriodType, startDate = "") {
     this.title = "";
     this.content = "";
     this.cost = 0;
     this.timePeriod = {
-      startDateTime: getDateTime(period.startDate),
-      endDateTime: getDateTime(period.startDate),
+      startDateTime: startDate
+        ? getContentStartTime(startDate)
+        : getContentStartTime(period.startDate),
+      endDateTime: startDate
+        ? getContentEndTime(startDate)
+        : getContentEndTime(period.startDate),
     };
     this.schedulePeriod = period;
   }
@@ -250,8 +273,18 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     this.title = "";
     this.content = "";
     this.cost = 0;
-    this.timePeriod.startDateTime = getDateTime(this.schedulePeriod.startDate);
-    this.timePeriod.endDateTime = getDateTime(this.schedulePeriod.startDate);
+    this.timePeriod.startDateTime = isSameDate(
+      this.timePeriod.startDateTime,
+      this.schedulePeriod.startDate
+    )
+      ? getContentStartTime(this.schedulePeriod.startDate)
+      : getContentStartTime(getDate(this.timePeriod.startDateTime));
+    this.timePeriod.endDateTime = isSameDate(
+      this.timePeriod.endDateTime,
+      this.schedulePeriod.endDate
+    )
+      ? getContentEndTime(this.schedulePeriod.endDate)
+      : getContentEndTime(getDate(this.timePeriod.endDateTime));
   }
 
   getRules(): FormRules {
@@ -264,8 +297,8 @@ export class ScheduleContentEditor implements ScheduleContentFormType {
     } = useFormValidate();
 
     return reactive<FormRules>({
-      title: [validateRequire("common.title")],
-      content: [validateRequire("schedule.form.content.content")],
+      title: [validateRequire("title")],
+      content: [validateRequire("content")],
       cost: [validateCost(this.cost, 0)],
       period: [
         validateSameDate(this.timePeriod),

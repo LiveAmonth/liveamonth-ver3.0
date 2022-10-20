@@ -2,14 +2,34 @@
 import { useMyPage } from "@/composables/member/mypage";
 import type { PropType } from "vue";
 import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useInteraction } from "@/composables/interaction/interaction";
+import { useAuth } from "@/composables/member/auth";
+import { onMounted, ref } from "vue";
+import { useMember } from "@/composables/member/member";
 
-defineProps({
+const props = defineProps({
   profile: {
     type: Object as PropType<SimpleProfileType>,
     required: true,
   },
 });
+const { isLoggedIn } = useAuth();
+const { type, simpleProfile } = useMember();
 const { profileTabs, getPostCount } = useMyPage();
+const { reactContent, isFollow } = useInteraction();
+const { buttonMsg } = useMessageBox();
+const isFollowed = ref<boolean>(false);
+
+onMounted(async () => {
+  if (isLoggedIn.value) {
+    isFollowed.value = await isFollow(props.profile.id);
+  }
+});
+
+const follow = async () => {
+  await reactContent(type, props.profile.id);
+};
 </script>
 
 <template>
@@ -33,7 +53,13 @@ const { profileTabs, getPostCount } = useMyPage();
         <p class="nickname" style="margin: 0; font-weight: 500">
           {{ profile.nickname }}
         </p>
-
+        <span
+          class="mention"
+          @click="follow"
+          v-if="profile.id !== simpleProfile.id"
+        >
+          @{{ buttonMsg(`${isFollowed ? "unfollow" : "follow"}`) }}
+        </span>
         <div class="ds-info d-flex justify-content-center m-1">
           <div
             v-for="tab in profileTabs"
@@ -66,6 +92,7 @@ const { profileTabs, getPostCount } = useMyPage();
     font-size: 14px;
     color: var(--el-color-info);
     text-decoration: none;
+    font-style: italic;
 
     &:hover {
       font-weight: bold;

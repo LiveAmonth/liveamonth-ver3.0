@@ -10,7 +10,9 @@ import { onMounted, reactive, watch } from "vue";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 import { useDate } from "@/composables/common/date";
 import { useMessageBox } from "@/composables/common/messageBox";
+import type { PropType } from "vue";
 import type { CalendarOptions } from "@fullcalendar/core";
+import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
 
 const props = defineProps({
   editable: {
@@ -18,8 +20,8 @@ const props = defineProps({
     required: false,
     default: false,
   },
-  initDate: {
-    type: String,
+  initPeriod: {
+    type: Object as PropType<DatePeriodType>,
     required: true,
   },
   isBasic: {
@@ -28,13 +30,8 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits([
-  "selectContent",
-  "update:contentModal",
-  "update:defaultDate",
-]);
-const { scheduleContents, setContent, getEvents, updateEvent } =
-  useCalendarEvent();
+const emits = defineEmits(["selectContent", "addContent"]);
+const { scheduleContents, setContent, getEvents } = useCalendarEvent();
 const { now, isSameDate } = useDate();
 const { resultMsg, openConfirmMessageBox } = useMessageBox();
 
@@ -42,13 +39,13 @@ const options: CalendarOptions = reactive({
   locale: koLocale,
   plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
   initialView: "dayGridMonth",
-  initialDate: !props.isBasic ? props.initDate : now(),
+  initialDate: !props.isBasic ? props.initPeriod.startDate : now(),
   headerToolbar: {
     left: "prev,next today",
     center: "title",
     right: "dayGridMonth,listYear",
   },
-  editable: !props.isBasic ? props.editable : false,
+  editable: false,
   selectable: !props.isBasic ? props.editable : false,
   weekends: true,
   dayMaxEvents: true,
@@ -59,23 +56,17 @@ const options: CalendarOptions = reactive({
         hasEvents = true;
       }
     });
-    if (!hasEvents) {
-      await openConfirmMessageBox(
-        resultMsg("content.new.title"),
-        resultMsg("content.new.message")
-      ).then(() => {
-        emits("update:defaultDate", arg.startStr);
-        emits("update:contentModal", true);
-      });
-    }
+    await openConfirmMessageBox(
+      resultMsg("content.new.title"),
+      resultMsg(`content.new.${hasEvents ? "message" : "empty"}`)
+    ).then(() => {
+      emits("addContent", arg.startStr, true);
+    });
   },
   eventClick: (arg) => {
     props.editable
       ? setContent(arg.event)
       : emits("selectContent", Number(arg.event.id));
-  },
-  eventChange: (arg) => {
-    updateEvent(arg.event);
   },
   events: [],
 });

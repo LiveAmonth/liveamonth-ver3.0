@@ -161,8 +161,14 @@ watch(
       </div>
     </template>
     <template v-else>
-      {{ resultMsg("schedule.empty.content") }}
+      <span class="empty-content">
+        {{ resultMsg("schedule.empty.content") }}
+      </span>
     </template>
   </el-card>
 </template>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.empty-content {
+  font-size: 0.93rem;
+}
+</style>

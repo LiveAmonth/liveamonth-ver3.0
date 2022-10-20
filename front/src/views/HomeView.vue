@@ -21,7 +21,7 @@ onMounted(async () => {
   await getPopularReviews();
   if (isLoggedIn.value) {
     await getSimpleProfile();
-    await getInfiniteSchedules(simpleProfile.value.loginId, 3, null);
+    await getInfiniteSchedules(simpleProfile.value.loginId, 20, null);
   }
 });
 </script>

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 
 import java.util.List;
-import java.util.Optional;
 
 import static teamproject.lam_server.domain.comment.entity.QReviewComment.reviewComment;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -55,8 +54,18 @@ public class ReviewCommentRepositoryImpl implements CommentRepository<ReviewComm
     }
 
     @Override
-    public Optional<ReviewComment> getBestComment(Long contentId) {
-        return Optional.empty();
+    public List<ReviewComment> getBestComments(Long contentId) {
+        return queryFactory.selectFrom(reviewComment)
+                .leftJoin(reviewComment.review, review).fetchJoin()
+                .leftJoin(reviewComment.member, member).fetchJoin()
+                .leftJoin(reviewComment.parent).fetchJoin()
+                .where(
+                        reviewIdEq(contentId),
+                        parentIdNull()
+                )
+                .orderBy(reviewComment.numberOfLikes.desc())
+                .limit(3)
+                .fetch();
     }
 
     private JPAQuery<ReviewComment> getScheduleElementsQuery(Long scheduleId) {

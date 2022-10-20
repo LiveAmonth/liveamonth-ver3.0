@@ -16,6 +16,7 @@ import type {
 import type { FormInstance } from "element-plus";
 
 export const useMember = () => {
+  const type = "member";
   const store = useMemberStore();
   const { isAvailable, duplicateCheck } = useFormValidate();
   const { openMessageBox, labelMsg, validationMsg } = useMessageBox();
@@ -201,6 +202,7 @@ export const useMember = () => {
   return {
     error,
     isPending,
+    type,
     simpleProfile,
     memberProfile,
     foundId,

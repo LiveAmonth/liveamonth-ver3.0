@@ -3,7 +3,7 @@ import { useScheduleContentStore } from "@/stores/schedule/scheduleContent";
 import { useDate } from "@/composables/common/date";
 import type { EventApi } from "@fullcalendar/common";
 import type {
-  ScheduleContentFormType,
+  ScheduleContentEditor,
   ScheduleContentType,
 } from "@/modules/types/schedule/ScheduleTypes";
 
@@ -43,7 +43,7 @@ export const useCalendarEvent = () => {
         startDateTime: getDateTime(event.start),
         endDateTime: getDateTime(event.end),
       },
-    } as ScheduleContentFormType;
+    } as ScheduleContentEditor;
     await store.editContent(Number(event.id), request);
   };
 

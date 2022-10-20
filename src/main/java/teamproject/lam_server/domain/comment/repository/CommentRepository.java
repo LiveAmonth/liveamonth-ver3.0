@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import teamproject.lam_server.domain.comment.entity.CommentEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CommentRepository<T extends CommentEntity> {
 
@@ -13,5 +12,5 @@ public interface CommentRepository<T extends CommentEntity> {
 
     List<T> getCommentReplies(Long contentId, Long from, Long to);
 
-    Optional<T> getBestComment(Long contentId);
+    List<T> getBestComments(Long contentId);
 }
