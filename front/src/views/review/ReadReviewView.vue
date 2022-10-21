@@ -11,6 +11,7 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import { useMember } from "@/composables/member/member";
 import { useInteraction } from "@/composables/interaction/interaction";
 import { useAuth } from "@/composables/member/auth";
+import PopoverProfileSlot from "@/components/common/PopoverProfile.vue";
 
 const props = defineProps({
   id: {
@@ -62,14 +63,9 @@ const deleteBtn = async () => {
   <div v-if="currReview.id === Number(id)">
     <el-row class="review">
       <el-col :span="18" class="review-wrapper">
-        <TitleSlot :titl="currReview.title" />
+        <TitleSlot :title="currReview.title" />
         <div class="sub">
-          <div class="avatar me-1">
-            <el-avatar :size="20" :src="'/src/assets/image/default.jpg'" />
-          </div>
-          <div class="writer">
-            {{ currReview.profile.nickname }}
-          </div>
+          <PopoverProfileSlot :profile="currReview.profile" />
           <div class="regDate me-2">
             {{ currReview.createDateTime }}
           </div>

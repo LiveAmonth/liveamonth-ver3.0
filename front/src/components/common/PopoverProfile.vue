@@ -38,7 +38,14 @@ const follow = async () => {
     popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
   >
     <template #reference>
-      <el-avatar :size="80" :src="`/src/assets/image/default.jpg`" />
+      <div class="d-flex justify-content-start">
+        <div class="avatar me-1">
+          <el-avatar :size="20" :src="'/src/assets/image/default.jpg'" />
+        </div>
+        <div class="writer pt-1">
+          {{ profile.nickname }}
+        </div>
+      </div>
     </template>
     <template #default>
       <div
