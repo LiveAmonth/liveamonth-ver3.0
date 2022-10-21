@@ -14,7 +14,6 @@ import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import java.util.List;
 
 import static teamproject.lam_server.domain.comment.entity.QReviewComment.reviewComment;
-import static teamproject.lam_server.domain.comment.entity.QScheduleComment.scheduleComment;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
 
@@ -107,6 +106,6 @@ public class ReviewCommentRepositoryImpl implements CommentRepository<ReviewComm
     }
 
     private BooleanExpression numberOfLikesNotZero() {
-        return scheduleComment.numberOfLikes.ne(0);
+        return reviewComment.numberOfLikes.ne(0);
     }
 }
