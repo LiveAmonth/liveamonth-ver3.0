@@ -7,6 +7,7 @@ import type {
 import type {
   CommentType,
   CommentEditor,
+  BestCommentType,
 } from "@/modules/types/comment/CommentTypes";
 
 export const useComment = () => {
@@ -17,6 +18,8 @@ export const useComment = () => {
   const comments = computed((): CommentType[] => store.comments);
   const commentPageable = computed((): PageableType => store.commentPage);
   const editableComment = computed((): CommentType => store.editableComment);
+  const bestComments = computed((): BestCommentType[] => store.bestComments);
+  const hasBestComments = computed((): boolean => store.hasBestComments);
 
   const writeComment = async (type: string, request: CommentEditor) => {
     try {
@@ -81,6 +84,19 @@ export const useComment = () => {
     }
   };
 
+  const getBestComments = async (type: string, contentId: number) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getBestComments(type, contentId);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   const setEditableComment = (data: CommentType) => {
     store.setEditableComment(data);
   };
@@ -88,6 +104,8 @@ export const useComment = () => {
     error,
     isPending,
     comments,
+    bestComments,
+    hasBestComments,
     commentPageable,
     editableComment,
     writeComment,
@@ -95,6 +113,7 @@ export const useComment = () => {
     deleteComment,
     extractIds,
     getComments,
+    getBestComments,
     setEditableComment,
   };
 };

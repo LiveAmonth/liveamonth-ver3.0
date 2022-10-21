@@ -1,15 +1,19 @@
 <script lang="ts" setup>
 import BootstrapIcon from "@/components/common/BootstrapIcon.vue";
 import { ref, watch } from "vue";
+import { useAuth } from "@/composables/member/auth";
 import { useInteraction } from "@/composables/interaction/interaction";
 import { useMessageBox } from "@/composables/common/messageBox";
-import type { Ref, UnwrapRef } from "vue";
+import type { PropType, Ref, UnwrapRef } from "vue";
 import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
-import { useAuth } from "@/composables/member/auth";
+import type {
+  BestCommentType,
+  CommentType,
+} from "@/modules/types/comment/CommentTypes";
 
 const props = defineProps({
-  id: {
-    type: Number,
+  comment: {
+    type: Object as PropType<CommentType | BestCommentType>,
     required: true,
   },
   avatarUrl: {
@@ -24,6 +28,11 @@ const props = defineProps({
     type: Boolean,
     required: false,
     default: false,
+  },
+  rank: {
+    type: Number,
+    required: false,
+    default: 0,
   },
   isWriter: {
     type: Boolean,
@@ -54,7 +63,12 @@ const reactComment = (option: boolean) => {
   checkReacted(option, reactedComment.value?.type)
     .then(() => {
       option ? fillThumbs(thumbsUp) : fillThumbs(thumbsDown);
-      emits("reactComment", props.id, option, !!reactedComment.value);
+      emits(
+        "reactComment",
+        props.comment.commentId,
+        option,
+        !!reactedComment.value
+      );
     })
     .catch((error) => {
       openMessageBox(error);
@@ -64,7 +78,7 @@ const reactComment = (option: boolean) => {
 watch(
   () => reactedComments.value,
   async () => {
-    await getReactedComment(props.id).then((response) => {
+    await getReactedComment(props.comment.commentId).then((response) => {
       if (response) {
         reactedComment.value = response;
         reactedComment.value.type === "LIKE"
@@ -76,66 +90,73 @@ watch(
 );
 </script>
 <template>
-  <div class="sub d-flex justify-content-start">
-    <i v-if="isReply" class="bi bi-arrow-return-right me-2"></i>
-    <div :class="`avatar ${isReply ? 'pt-1' : ''}`">
-      <el-avatar :size="25" :src="avatarUrl" />
+  <div>
+    <div class="sub d-flex justify-content-start">
+      <i v-if="isReply" class="bi bi-arrow-return-right me-2"></i>
+      <el-badge v-if="isBest" class="me-1 mb-2" :value="`TOP ${rank}`" />
+      <div :class="`avatar ${isReply ? 'pt-1' : ''}`">
+        <el-avatar :size="25" :src="avatarUrl" />
+      </div>
+      <div class="writer">
+        {{ comment.profile.nickname }}
+      </div>
+      <div :class="`elapsedTime ${isReply ? 'pb-1' : 'pb-2'}`">
+        {{ comment.elapsedTime }}
+      </div>
+      <div class="like ms-2">
+        <span class="icon">
+          <i
+            v-if="isBest"
+            :class="`bi ${thumbsUp}`"
+            class="me-1"
+            style="color: #535252"
+          />
+          <BootstrapIcon
+            v-else
+            :class="{ active: !isBest }"
+            :icon="thumbsUp"
+            class="me-1"
+            @click="reactComment(true)"
+          />
+          {{ comment.numberOfLikes }}
+        </span>
+        <span class="icon">
+          <i
+            v-if="isBest"
+            :class="`bi ${thumbsDown}`"
+            class="me-1"
+            style="color: #535252"
+          />
+          <BootstrapIcon
+            v-else
+            :icon="thumbsDown"
+            class="me-1"
+            @click="reactComment(false)"
+          />
+          {{ comment.numberOfDislikes }}
+        </span>
+      </div>
+      <el-tag v-if="isWriter" size="small">
+        {{ labelMsg("comment.writer") }}
+      </el-tag>
+      <div class="flex-grow-1"></div>
+      <div class="edit-button" v-if="!isBest && isLoggedIn && editable">
+        <el-button class="button" text size="small" @click="emits('edit')">
+          {{ buttonMsg("edit") }}
+        </el-button>
+        <el-button class="button" text size="small" @click="emits('delete')">
+          {{ buttonMsg("delete") }}
+        </el-button>
+      </div>
     </div>
-    <div class="writer">
-      <slot name="writer"></slot>
+    <div
+      class="description"
+      :style="{
+        marginLeft: isBest ? '50px' : '',
+      }"
+    >
+      {{ comment.comment }}
     </div>
-    <div :class="`elapsedTime ${isReply ? 'pb-1' : 'pb-2'}`">
-      <slot name="elapsedTime"></slot>
-    </div>
-    <div class="like ms-2">
-      <span class="icon">
-        <i
-          v-if="isBest"
-          :class="`bi ${thumbsUp}`"
-          class="me-1"
-          style="color: #535252"
-        />
-        <BootstrapIcon
-          v-else
-          :class="{ active: !isBest }"
-          :icon="thumbsUp"
-          class="me-1"
-          @click="reactComment(true)"
-        />
-        <slot name="likeCount"></slot>
-      </span>
-      <span class="icon">
-        <i
-          v-if="isBest"
-          :class="`bi ${thumbsDown}`"
-          class="me-1"
-          style="color: #535252"
-        />
-        <BootstrapIcon
-          v-else
-          :icon="thumbsDown"
-          class="me-1"
-          @click="reactComment(false)"
-        />
-        <slot name="dislikeCount"></slot>
-      </span>
-    </div>
-    <el-tag v-if="isWriter" size="small">
-      {{ labelMsg("comment.writer") }}
-    </el-tag>
-    <el-badge v-if="isBest" class="ms-1" value="Best" />
-    <div class="flex-grow-1"></div>
-    <div class="edit-button" v-if="!isBest && isLoggedIn && editable">
-      <el-button class="button" text size="small" @click="emits('edit')">
-        {{ buttonMsg("edit") }}
-      </el-button>
-      <el-button class="button" text size="small" @click="emits('delete')">
-        {{ buttonMsg("delete") }}
-      </el-button>
-    </div>
-  </div>
-  <div class="description">
-    <slot name="comment"></slot>
   </div>
 </template>
 

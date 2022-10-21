@@ -48,10 +48,14 @@ export const useMessageBox = () => {
     });
   };
   const requireLoginMessageBox = () => {
-    return ElMessageBox.confirm(t("form.message.login"), t("member.login"), {
-      confirmButtonText: "OK",
-      cancelButtonText: "Cancel",
-    })
+    return ElMessageBox.confirm(
+      t("form.message.login"),
+      t("form.button.member.login"),
+      {
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancel",
+      }
+    )
       .then(async () => {
         await router.push({ name: "login" });
       })
@@ -101,7 +105,7 @@ export const useMessageBox = () => {
   };
 
   const getBeforeWritePlaceHolder = (field: string): string => {
-    return t("placeholder.before-write", {
+    return t("placeholder.before-input", {
       field: field,
     });
   };

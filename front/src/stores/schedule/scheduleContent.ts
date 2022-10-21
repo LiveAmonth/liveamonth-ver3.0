@@ -112,5 +112,13 @@ export const useScheduleContentStore = defineStore("scheduleContent", {
     setContentCollapse: function (id: number) {
       this.contentCollapse.push(id);
     },
+
+    openContentCollapse: function () {
+      this.contentCollapse = this.scheduleContents.map((value) => value.id);
+    },
+
+    closeContentCollapse: function () {
+      this.contentCollapse = [];
+    },
   },
 });

@@ -33,6 +33,15 @@ export interface CommentProfileType {
   nickname: string;
 }
 
+export interface BestCommentType {
+  commentId: number;
+  comment: string;
+  profile: CommentProfileType;
+  elapsedTime: string;
+  numberOfLikes: number;
+  numberOfDislikes: number;
+}
+
 /**
  * form & editor
  */

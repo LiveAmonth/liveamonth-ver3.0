@@ -30,10 +30,5 @@ const attrs = ref([
 </script>
 
 <template>
-  <v-calendar
-    style="height: 270px"
-    :from-page="fromPage"
-    color="teal"
-    :attributes="attrs"
-  />
+  <v-calendar :from-page="fromPage" color="gray" :attributes="attrs" />
 </template>

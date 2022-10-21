@@ -95,7 +95,7 @@ const { labelMsg, categoryMsg } = useMessageBox();
   width: 82%;
 
   .details {
-    margin-top: 8px;
+    margin-top: 0.5rem;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -123,6 +123,21 @@ const { labelMsg, categoryMsg } = useMessageBox();
 
         .value {
           margin: 0 5px;
+        }
+      }
+    }
+
+    .count {
+      display: flex;
+      justify-content: start;
+
+      .icon-value {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+
+        &:first-child {
+          margin-right: 10px;
         }
       }
     }

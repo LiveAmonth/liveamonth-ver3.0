@@ -60,6 +60,17 @@ class CommentApiService {
         throw error.response.data;
       });
   }
+
+  async getBestComments(type: string, contentId: number) {
+    return await http
+      .get(`/comments/${type}/${contentId}/best`)
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
 }
 
 export default new CommentApiService();

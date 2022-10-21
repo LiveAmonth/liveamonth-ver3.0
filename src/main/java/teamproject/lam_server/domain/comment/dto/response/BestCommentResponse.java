@@ -2,8 +2,7 @@ package teamproject.lam_server.domain.comment.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.lang.Nullable;
-import teamproject.lam_server.domain.comment.entity.ScheduleComment;
+import teamproject.lam_server.domain.comment.entity.CommentEntity;
 
 import static teamproject.lam_server.util.DateTimeUtil.calcTimeBefore;
 
@@ -11,20 +10,21 @@ import static teamproject.lam_server.util.DateTimeUtil.calcTimeBefore;
 @Builder
 public class BestCommentResponse {
 
+    private Long commentId;
     private String comment;
     private CommentProfileResponse profile;
     private String elapsedTime;
     private long numberOfLikes;
     private long numberOfDislikes;
 
-    public static BestCommentResponse of(@Nullable ScheduleComment comment) {
-        if(comment == null) return null;
+    public static <T extends CommentEntity> BestCommentResponse of(T t) {
         return BestCommentResponse.builder()
-                .comment(comment.getComment())
-                .profile(CommentProfileResponse.of(comment.getMember()))
-                .elapsedTime(calcTimeBefore(comment.getCreatedDate()))
-                .numberOfLikes(comment.getNumberOfLikes())
-                .numberOfDislikes(comment.getNumberOfDislikes())
+                .commentId(t.getId())
+                .comment(t.getComment())
+                .profile(CommentProfileResponse.of(t.getMember()))
+                .elapsedTime(calcTimeBefore(t.getCreatedDate()))
+                .numberOfLikes(t.getNumberOfLikes())
+                .numberOfDislikes(t.getNumberOfDislikes())
                 .build();
     }
 

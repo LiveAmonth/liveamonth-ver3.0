@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
 import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
+import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.service.CommentServiceFinder;
 import teamproject.lam_server.global.dto.response.CustomResponse;
@@ -13,6 +14,7 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 import javax.validation.Valid;
+import java.util.List;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
 
@@ -57,8 +59,15 @@ public class CommentApiController {
             PageableDTO pageableDTO) {
         CustomPage<CommentResponse> result =
                 commentServiceFinder.find(type).getComments(contentId, pageableDTO);
-
         return CustomResponse.success(READ_COMMENT, result);
     }
 
+    @GetMapping("/{type}/{content_id}/best")
+    public ResponseEntity<?> getComments(
+            @PathVariable String type,
+            @PathVariable("content_id") Long contentId) {
+        List<BestCommentResponse> result =
+                commentServiceFinder.find(type).getBestComments(contentId);
+        return CustomResponse.success(READ_COMMENT, result);
+    }
 }

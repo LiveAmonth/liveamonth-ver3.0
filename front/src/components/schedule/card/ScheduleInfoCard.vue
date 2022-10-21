@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
-import PopoverProfileSlot from "@/components/common/PopoverProfileSlot.vue";
 import ScheduleInfoSlot from "@/components/schedule/slot/ScheduleInfoSlot.vue";
+import ProfileCard from "@/components/common/ProfileCard.vue";
 import { Right, Close } from "@element-plus/icons-vue";
 import { useRouter } from "vue-router";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useI18n } from "vue-i18n";
 import type { PropType } from "vue";
 import type { ScheduleCardType } from "@/modules/types/schedule/ScheduleTypes";
 
@@ -35,8 +34,7 @@ const {
   setCurrentSchedule,
   setEditedSchedule,
 } = useSchedule();
-const { openConfirmMessageBox } = useMessageBox();
-const { t } = useI18n();
+const { buttonMsg, resultMsg, openConfirmMessageBox } = useMessageBox();
 
 const goSchedule = async () => {
   if (props.isMyPage) {
@@ -64,8 +62,8 @@ const goSchedule = async () => {
 
 const deleteScheduleBtn = async () => {
   await openConfirmMessageBox(
-    t("form.message.schedule.delete.title"),
-    t("form.message.schedule.delete.message")
+    resultMsg("schedule.delete.title"),
+    resultMsg("schedule.delete.message")
   ).then(() => {
     emit("deleteSchedule", props.schedule.id);
   });
@@ -73,38 +71,47 @@ const deleteScheduleBtn = async () => {
 </script>
 
 <template>
-  <el-card class="information" :body-style="{ paddingRight: 0 }">
-    <div class="profile-title d-flex justify-content-between">
-      <div class="profile" v-if="!isMyPage">
-        <PopoverProfileSlot :profile="schedule.profile" />
-        <div class="nickname mt-2">
-          {{ schedule.profile.nickname }}
+  <el-card class="information" :body-style="{ padding: '0 20px 0 0' }">
+    <el-row :gutter="10" class="profile-title d-flex justify-content-between">
+      <el-col :span="8">
+        <div class="profile" v-if="!isMyPage">
+          <ProfileCard :profile="schedule.profile" :is-list="true" />
         </div>
-      </div>
-      <ScheduleInfoSlot
-        :schedule="schedule"
-        :font-size="isMyPage ? 1.0 : 0.9"
-        :show-likes="true"
+      </el-col>
+      <el-col
+        :span="16"
+        class="d-flex justify-content-center align-items-center"
       >
-        <template v-slot:title>
-          <SmallTitleSlot
-            class="slot"
-            @click="goSchedule"
-            style="cursor: pointer"
-            :title="schedule.title"
-          />
-        </template>
-      </ScheduleInfoSlot>
+        <ScheduleInfoSlot
+          :schedule="schedule"
+          :font-size="isMyPage ? 1.0 : 1.0"
+          :show-likes="true"
+        >
+          <template v-slot:title>
+            <SmallTitleSlot
+              class="slot"
+              @click="goSchedule"
+              style="cursor: pointer"
+              :title="`${schedule.title}`"
+            >
+              {{ schedule.title }}
+              <span style="font-size: 1.1rem; font-weight: 400">
+                ({{ schedule.numberOfComments }})
+              </span>
+            </SmallTitleSlot>
+          </template>
+        </ScheduleInfoSlot>
+      </el-col>
       <div v-if="isMyPage" class="delete" @click="deleteScheduleBtn">
-        삭제
+        {{ buttonMsg("delete") }}
         <el-icon>
           <Close />
         </el-icon>
       </div>
-    </div>
+    </el-row>
   </el-card>
   <div v-if="isMyPage" class="manage mt-3" @click="goSchedule">
-    스케줄 관리
+    {{ buttonMsg("schedule.manage") }}
     <el-icon>
       <Right />
     </el-icon>

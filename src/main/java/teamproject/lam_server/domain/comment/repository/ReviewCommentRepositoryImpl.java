@@ -14,6 +14,7 @@ import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import java.util.List;
 
 import static teamproject.lam_server.domain.comment.entity.QReviewComment.reviewComment;
+import static teamproject.lam_server.domain.comment.entity.QScheduleComment.scheduleComment;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
 
@@ -56,12 +57,13 @@ public class ReviewCommentRepositoryImpl implements CommentRepository<ReviewComm
     @Override
     public List<ReviewComment> getBestComments(Long contentId) {
         return queryFactory.selectFrom(reviewComment)
-                .leftJoin(reviewComment.review, review).fetchJoin()
+                .leftJoin(reviewComment.review, review)
                 .leftJoin(reviewComment.member, member).fetchJoin()
-                .leftJoin(reviewComment.parent).fetchJoin()
+                .leftJoin(reviewComment.parent)
                 .where(
                         reviewIdEq(contentId),
-                        parentIdNull()
+                        parentIdNull(),
+                        numberOfLikesNotZero()
                 )
                 .orderBy(reviewComment.numberOfLikes.desc())
                 .limit(3)
@@ -102,5 +104,9 @@ public class ReviewCommentRepositoryImpl implements CommentRepository<ReviewComm
 
     private BooleanExpression parentIdBetween(Long min, Long max) {
         return reviewComment.parent.id.between(min, max);
+    }
+
+    private BooleanExpression numberOfLikesNotZero() {
+        return scheduleComment.numberOfLikes.ne(0);
     }
 }
