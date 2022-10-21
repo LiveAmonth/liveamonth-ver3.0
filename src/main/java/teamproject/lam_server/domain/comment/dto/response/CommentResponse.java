@@ -2,7 +2,6 @@ package teamproject.lam_server.domain.comment.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import reactor.util.annotation.Nullable;
 import teamproject.lam_server.domain.comment.entity.CommentEntity;
 import teamproject.lam_server.util.DateTimeUtil;
 
@@ -43,20 +42,5 @@ public class CommentResponse {
                 .numberOfDislikes(comment.getNumberOfDislikes())
                 .commentReplies(Collections.emptyList())
                 .build();
-    }
-
-    public static <T extends CommentEntity> CommentResponse ofBest(@Nullable T comment) {
-        if (comment != null) {
-            return CommentResponse.builder()
-                    .commentId(comment.getId())
-                    .comment(comment.getComment())
-                    .profile(CommentProfileResponse.of(comment.getMember()))
-                    .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                    .numberOfLikes(comment.getNumberOfLikes())
-                    .numberOfDislikes(comment.getNumberOfDislikes())
-                    .commentReplies(Collections.emptyList())
-                    .build();
-        }
-        return null;
     }
 }

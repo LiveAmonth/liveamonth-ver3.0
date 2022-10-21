@@ -14,6 +14,7 @@ import type {
   CommentEditor,
   CommentType,
 } from "@/modules/types/comment/CommentTypes";
+import BestComment from "@/components/comment/BestComment.vue";
 
 const props = defineProps({
   contentId: {
@@ -39,8 +40,10 @@ const {
   error,
   commentPageable,
   comments,
+  hasBestComments,
   editableComment,
   getComments,
+  getBestComments,
   writeComment,
   editComment,
   deleteComment,
@@ -66,6 +69,7 @@ const isReplyEdit = ref<boolean>(false);
 onMounted(async () => {
   setSize(5);
   await settingComments();
+  await getBestComments(props.type, props.contentId);
   if (isLoggedIn.value && comments.value.length) {
     await getMemberReactedComment(props.type, extractIds(comments.value));
   }
@@ -160,8 +164,9 @@ const setEditInput = (isReply = false, id = "#0") => {
       class="comment-title"
     >
     </SmallTitleSlot>
-    <el-card class="comment-write">
-      <SmallTitleSlot :title="titleMsg('comment.write')" class="title" />
+    <el-card class="comment-write" :body-style="{ paddingBottom: 0 }">
+      <BestComment v-if="hasBestComments" :writer="writer" />
+      <SmallTitleSlot :title="titleMsg('comment.write')" class="title mt-1" />
       <CommentInput
         :content-id="contentId"
         :is-edit="isEdit"
@@ -172,7 +177,7 @@ const setEditInput = (isReply = false, id = "#0") => {
     <ul class="comment-list">
       <li v-for="comment in comments" :key="comment.commentId">
         <CommentSlot
-          :id="comment.commentId"
+          :comment="comment"
           :avatar-url="'/src/assets/image/default.jpg'"
           :editable="comment.profile.nickname === simpleProfile.nickname"
           :is-reply="false"
@@ -180,20 +185,10 @@ const setEditInput = (isReply = false, id = "#0") => {
           @delete="handleDelete(comment.commentId)"
           @edit="handleEdit(comment)"
           @react-comment="react"
-        >
-          <template v-slot:writer>{{ comment.profile.nickname }}</template>
-          <template v-slot:elapsedTime>{{ comment.elapsedTime }}</template>
-          <template v-slot:comment>{{ comment.comment }}</template>
-          <template v-slot:likeCount>{{ comment.numberOfLikes }}</template>
-          <template v-slot:dislikeCount>
-            {{ comment.numberOfDislikes }}
-          </template>
-        </CommentSlot>
+        />
         <el-collapse class="comment-reply">
           <el-collapse-item
-            :title="
-              titleMsg('comment.reply', String(comment.commentReplies.length))
-            "
+            :title="titleMsg('comment.reply', comment.commentReplies.length)"
           >
             <ul>
               <li
@@ -202,7 +197,7 @@ const setEditInput = (isReply = false, id = "#0") => {
                 class="reply-list"
               >
                 <CommentSlot
-                  :id="reply.commentId"
+                  :comment="reply"
                   :avatar-url="'/src/assets/image/default.jpg'"
                   :editable="reply.profile.nickname === simpleProfile.nickname"
                   :is-reply="true"
@@ -210,23 +205,7 @@ const setEditInput = (isReply = false, id = "#0") => {
                   @delete="handleDelete(reply.commentId)"
                   @edit="handleEdit(reply, true)"
                   @react-comment="react"
-                >
-                  <template v-slot:writer>
-                    {{ reply.profile.nickname }}
-                  </template>
-                  <template v-slot:elapsedTime>
-                    {{ reply.elapsedTime }}
-                  </template>
-                  <template v-slot:comment>
-                    {{ reply.comment }}
-                  </template>
-                  <template v-slot:likeCount>
-                    {{ reply.numberOfLikes }}
-                  </template>
-                  <template v-slot:dislikeCount>
-                    {{ reply.numberOfDislikes }}
-                  </template>
-                </CommentSlot>
+                />
               </li>
             </ul>
             <CommentInput
@@ -275,8 +254,10 @@ const setEditInput = (isReply = false, id = "#0") => {
       .comment-reply {
         width: inherit;
         margin-top: 15px;
+
         ul {
           margin-bottom: 30px;
+
           .reply-list {
             list-style: none;
           }

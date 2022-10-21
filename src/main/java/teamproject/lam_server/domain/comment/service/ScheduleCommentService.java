@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
 import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
+import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
@@ -18,6 +19,7 @@ import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -81,6 +83,13 @@ public class ScheduleCommentService extends CommentService {
         return CustomPage.<CommentResponse>builder()
                 .page(page)
                 .build();
+    }
+
+    @Override
+    public List<BestCommentResponse> getBestComments(Long contentId) {
+        return scheduleCommentRepository.getBestComments(contentId).stream()
+                .map(BestCommentResponse::of)
+                .collect(Collectors.toList());
     }
 
     private List<ScheduleComment> getScheduleCommentReplies(Long scheduleId, List<ScheduleComment> comments) {

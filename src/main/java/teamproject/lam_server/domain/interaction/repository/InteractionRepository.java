@@ -25,9 +25,8 @@ public class InteractionRepository {
                 .leftJoin(scheduleLike.from, member)
                 .leftJoin(scheduleLike.to, schedule)
                 .where(
-                        fromMemberIdEq(request.getFrom()),
+                        memberIdEq(request.getFrom()),
                         scheduleIdEq(request.getTo())
-
                 ).fetchFirst() != null;
     }
 

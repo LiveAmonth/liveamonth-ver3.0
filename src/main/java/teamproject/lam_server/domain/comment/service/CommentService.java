@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
 import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
+import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.CommentEditor;
 import teamproject.lam_server.domain.comment.entity.CommentEntity;
@@ -49,4 +50,6 @@ public abstract class CommentService{
 
         t.edit(editor);
     }
+
+    public abstract List<BestCommentResponse> getBestComments(Long contentId);
 }

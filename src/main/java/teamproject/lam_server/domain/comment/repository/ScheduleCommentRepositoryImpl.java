@@ -56,12 +56,13 @@ public class ScheduleCommentRepositoryImpl implements CommentRepository<Schedule
     @Override
     public List<ScheduleComment> getBestComments(Long contentId) {
         return queryFactory.selectFrom(scheduleComment)
-                        .leftJoin(scheduleComment.schedule, schedule).fetchJoin()
+                        .leftJoin(scheduleComment.schedule, schedule)
                         .leftJoin(scheduleComment.member, member).fetchJoin()
-                        .leftJoin(scheduleComment.parent).fetchJoin()
+                        .leftJoin(scheduleComment.parent)
                         .where(
                                 scheduleIdEq(contentId),
-                                parentIdNull()
+                                parentIdNull(),
+                                numberOfLikesNotZero()
                         )
                         .orderBy(scheduleComment.numberOfLikes.desc())
                         .limit(3)
@@ -102,5 +103,9 @@ public class ScheduleCommentRepositoryImpl implements CommentRepository<Schedule
 
     private BooleanExpression parentIdBetween(Long min, Long max) {
         return scheduleComment.parent.id.between(min, max);
+    }
+
+    private BooleanExpression numberOfLikesNotZero(){
+        return scheduleComment.numberOfLikes.ne(0);
     }
 }

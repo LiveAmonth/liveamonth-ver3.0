@@ -237,6 +237,12 @@ export const useSchedule = () => {
     }
   };
 
+  const handleContentCollapse = async (isOpen: boolean) => {
+    isOpen
+      ? contentStore.openContentCollapse()
+      : contentStore.closeContentCollapse();
+  };
+
   const getInitialSelectedId = () => {
     if (!editableSchedules.value.length) return "";
     return editableSchedules.value.includes(editedSchedule.value)
@@ -275,6 +281,7 @@ export const useSchedule = () => {
     deleteContent,
     setEditedSchedule,
     setCurrentSchedule,
+    handleContentCollapse,
     getInitialSelectedId,
   };
 };

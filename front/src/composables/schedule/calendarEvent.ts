@@ -10,9 +10,6 @@ import type {
 export const useCalendarEvent = () => {
   const store = useScheduleContentStore();
   const contentCollapse = computed((): number[] => store.contentCollapse);
-  const scheduleContents = computed(
-    (): ScheduleContentType[] => store.scheduleContents
-  );
   const selectedContent = computed(
     (): ScheduleContentType => store.selectContent
   );
@@ -48,7 +45,6 @@ export const useCalendarEvent = () => {
   };
 
   return {
-    scheduleContents,
     contentCollapse,
     selectedContent,
     setContent,

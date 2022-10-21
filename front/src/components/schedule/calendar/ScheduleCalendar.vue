@@ -13,6 +13,7 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import type { PropType } from "vue";
 import type { CalendarOptions } from "@fullcalendar/core";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
+import { useSchedule } from "@/composables/schedule/schedule";
 
 const props = defineProps({
   editable: {
@@ -31,7 +32,8 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(["selectContent", "addContent"]);
-const { scheduleContents, setContent, getEvents } = useCalendarEvent();
+const { setContent, getEvents } = useCalendarEvent();
+const { currScheduleContents } = useSchedule();
 const { now, isSameDate } = useDate();
 const { resultMsg, openConfirmMessageBox } = useMessageBox();
 
@@ -76,7 +78,7 @@ onMounted(() => {
 });
 
 watch(
-  () => scheduleContents.value,
+  () => currScheduleContents.value,
   () => {
     options.events = getEvents();
   }

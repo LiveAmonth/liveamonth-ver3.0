@@ -1,6 +1,7 @@
 import CommentApiService from "@/services/common/CommentApiService";
 import { defineStore } from "pinia";
 import type {
+  BestCommentType,
   CommentEditor,
   CommentType,
 } from "@/modules/types/comment/CommentTypes";
@@ -14,11 +15,13 @@ export const useCommentStore = defineStore("comment", {
   state: () => ({
     pageableComments: {} as PageableResponseType,
     editableComment: {} as CommentType,
+    bestComments: {} as BestCommentType[],
   }),
   getters: {
     comments: (state): CommentType[] =>
       state.pageableComments.content as CommentType[],
     commentPage: (state): PageableType => state.pageableComments.pageable,
+    hasBestComments: (state): boolean => state.bestComments.length != 0,
   },
   actions: {
     writeComment: async function (type: string, request: CommentEditor) {
@@ -63,6 +66,16 @@ export const useCommentStore = defineStore("comment", {
       await CommentApiService.getComments(type, contentId, pageable)
         .then((response) => {
           this.pageableComments = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
+    getBestComments: async function (type: string, contentId: number) {
+      await CommentApiService.getBestComments(type, contentId)
+        .then((response) => {
+          this.bestComments = response;
         })
         .catch((error) => {
           throw error;
