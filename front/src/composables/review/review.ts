@@ -27,7 +27,7 @@ export const useReview = () => {
   const router = useRouter();
   const { getMenuCategory } = useMenuTab();
   const { simpleProfile } = useMember();
-  const { cityNames, reviewSearchType, reviewPopularSortType } = useCategory();
+  const { cityNames, reviewSearchType } = useCategory();
 
   const request = computed(() => store.searchCond);
   const reviewPage = computed((): PageableType => store.reviewPage);
@@ -111,7 +111,7 @@ export const useReview = () => {
     try {
       await store.getPopularReviews({
         size: 7,
-        sort: reviewPopularSortType.value,
+        sort: "like,desc",
         page: 1,
       });
       error.value = null;

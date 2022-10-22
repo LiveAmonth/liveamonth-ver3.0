@@ -3,7 +3,6 @@ import { useCategoryStore } from "@/stores/common/category";
 
 export const useCategory = () => {
   const store = useCategoryStore();
-  const popularSort = "LIKE_DESC";
 
   const cityNames = computed(() => store.cityNames);
   const genderType = computed(() => store.genderType);
@@ -19,18 +18,6 @@ export const useCategory = () => {
   const hasGenderType = computed(() => store.hasGenderType);
   const hasScheduleCategory = computed(() => store.hasScheduleCategory);
   const hasReviewCategory = computed(() => store.hasReviewCategory);
-
-  const schedulePopularSortType = computed(
-    () =>
-      store.scheduleSortType.find((value) => value.code == popularSort)
-        ?.title as string
-  );
-
-  const reviewPopularSortType = computed(
-    () =>
-      store.reviewSortType.find((value) => value.code == popularSort)
-        ?.title as string
-  );
 
   const getCityNames = async () => {
     if (!hasCityNames.value) {
@@ -75,8 +62,6 @@ export const useCategory = () => {
     hasGenderType,
     hasScheduleCategory,
     hasReviewCategory,
-    schedulePopularSortType,
-    reviewPopularSortType,
     getCityNames,
     getGenderType,
     getScheduleCategories,

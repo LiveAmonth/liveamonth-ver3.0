@@ -70,8 +70,8 @@ const { labelMsg, categoryMsg } = useMessageBox();
           </span>
         </el-col>
       </el-row>
-      <el-row :gutter="10" class="count">
-        <el-col :span="2" class="icon-value">
+      <el-row class="count">
+        <el-col class="icon-value">
           <el-icon>
             <View />
           </el-icon>
@@ -79,7 +79,9 @@ const { labelMsg, categoryMsg } = useMessageBox();
             {{ $count(schedule.numberOfHits) }}
           </span>
         </el-col>
-        <el-col :span="2" v-if="showLikes" class="icon-value">
+      </el-row>
+      <el-row class="count">
+        <el-col v-if="showLikes" class="icon-value">
           <i class="bi bi-hand-thumbs-up"></i>
           <span class="value">
             {{ $count(schedule.numberOfLikes) }}

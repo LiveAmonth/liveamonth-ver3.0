@@ -3,13 +3,11 @@ import { computed } from "vue";
 import { useMenuTab } from "@/composables/common/tabs";
 import { useAuth } from "@/composables/member/auth";
 import type { MenuType, NameIconType } from "@/modules/types/common/MenuTypes";
-import { useCategory } from "@/composables/common/category";
 
 export const useHome = () => {
   const { isLoggedIn } = useAuth();
   const { simpleProfile } = useMember();
   const { getTabsItem } = useMenuTab();
-  const { reviewSearchType } = useCategory();
   const loggedPostsTabs: NameIconType[] = [
     getTabsItem("home", "schedule", "Calendar"),
     getTabsItem("home", "review", "Notebook"),
@@ -42,7 +40,7 @@ export const useHome = () => {
       name: "review",
       route: {
         name: "review-list",
-        params: { menu: reviewSearchType.value[0].code.toLowerCase() },
+        params: { menu: "review_liveamonth" },
       },
       sub: [
         {
@@ -50,7 +48,7 @@ export const useHome = () => {
           sub: [],
           route: {
             name: "review-list",
-            params: { menu: reviewSearchType.value[0].code.toLowerCase() },
+            params: { menu: "review_liveamonth" },
           },
         },
         {
@@ -59,7 +57,7 @@ export const useHome = () => {
           route: {
             name: "review-list",
             params: {
-              menu: reviewSearchType.value.slice(-1)[0].code.toLowerCase(),
+              menu: "etc_free",
             },
           },
         },

@@ -30,8 +30,9 @@ public class InitScheduleService {
                 " (created_date, last_modified_date, created_by, last_modified_by, city_name, end_date, start_date, public_flag, title, number_of_hits, member_id) " +
                 "VALUES (now(), now(), :created_by, :last_modified_by, :city_name, :end_date, :start_date, :public_flag, :title, 0, :member_id)";
         List<ScheduleCreate> requests = JsonUtil.jsonArrayToList(SCHEDULE, ScheduleCreate.class);
+        long count = memberRepository.count();
         for (ScheduleCreate request : requests) {
-            Member member = memberRepository.findAll().get((int) (2 * Math.random()));
+            Member member = memberRepository.findAll().get((int) ((count - 1) * Math.random()));
             em.createNativeQuery(query)
                     .setParameter("created_by", member.getLoginId())
                     .setParameter("last_modified_by", member.getLoginId())

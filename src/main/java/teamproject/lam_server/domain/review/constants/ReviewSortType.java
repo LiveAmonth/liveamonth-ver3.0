@@ -11,9 +11,9 @@ import static teamproject.lam_server.paging.metaModel.MetaModelUtil.getColumn;
 @AllArgsConstructor
 public enum ReviewSortType implements MetaModelType {
     ID_DESC("최신순", "id,desc", getColumn(review.id)),
-    COMMENTS_DESC("댓글많은순", "comments,desc", getColumn(review.numberOfComments)),
-    LIKE_DESC("좋아요순", "like,desc", getColumn(review.numberOfLikes)),
-    VIEW_DESC("조회순", "view,desc", getColumn(review.numberOfHits));
+    VIEW_DESC("조회순", "view,desc", getColumn(review.numberOfHits)),
+    LIKE_DESC("인기순", "like,desc", getColumn(review.numberOfLikes)),
+    COMMENTS_DESC("댓글순", "comments,desc", getColumn(review.numberOfComments));
     private final String value;
     private final String title;
     private final String metaData;

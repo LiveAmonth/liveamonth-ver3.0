@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import teamproject.lam_server.global.resolver.PageableArgumentResolver;
+import teamproject.lam_server.paging.resolver.PageableArgumentResolver;
 
 import java.util.List;
 

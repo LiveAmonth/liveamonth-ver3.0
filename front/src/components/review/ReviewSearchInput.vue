@@ -5,12 +5,6 @@ import { reactive } from "vue";
 import { useMessageBox } from "@/composables/common/messageBox";
 import type { ReviewSearchType } from "@/modules/types/review/ReviewTypes";
 
-defineProps({
-  isPending: {
-    type: Boolean,
-    required: true,
-  },
-});
 const emits = defineEmits(["applyOption"]);
 
 const { buttonMsg } = useMessageBox();
@@ -54,7 +48,6 @@ const handleClose = (tag: string) => {
       </el-col>
       <el-col :span="2" class="ms-2">
         <el-button
-          :loading="isPending"
           size="large"
           color="#0f6778"
           style="width: 80px"

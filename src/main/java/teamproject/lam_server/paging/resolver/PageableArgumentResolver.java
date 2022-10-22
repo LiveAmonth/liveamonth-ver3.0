@@ -1,4 +1,4 @@
-package teamproject.lam_server.global.resolver;
+package teamproject.lam_server.paging.resolver;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

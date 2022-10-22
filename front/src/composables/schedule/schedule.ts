@@ -1,7 +1,6 @@
 import { computed, ref } from "vue";
 import { useScheduleStore } from "@/stores/schedule/schedule";
 import { useScheduleContentStore } from "@/stores/schedule/scheduleContent";
-import { useCategory } from "@/composables/common/category";
 import type {
   ScheduleCardType,
   ScheduleContentEditor,
@@ -15,7 +14,6 @@ export const useSchedule = () => {
   const store = useScheduleStore();
   const contentStore = useScheduleContentStore();
 
-  const { schedulePopularSortType } = useCategory();
   const error = ref();
   const isPending = ref<boolean>(false);
 
@@ -78,7 +76,7 @@ export const useSchedule = () => {
     try {
       await store.getPopularSchedules({
         size: 5,
-        sort: schedulePopularSortType.value,
+        sort: "like,desc",
         page: 1,
       });
       error.value = null;

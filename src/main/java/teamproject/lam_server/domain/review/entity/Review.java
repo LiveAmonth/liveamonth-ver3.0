@@ -43,7 +43,7 @@ public class Review extends BaseEntity {
 
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
     private long numberOfLikes;
-    @Formula("(select count(1) from review_comment rc where rc.review_id = review_id)")
+    @Formula("(select count(1) from review_comment rc where rc.review_id = review_id and rc.parent_comment_id is null)")
     private long numberOfComments;
 
     @Builder

@@ -126,7 +126,6 @@ export interface ScheduleSearchFormType {
   searchInput: string | null;
   filterType: string | null;
   filterInput: string | null;
-  sortType: string | null;
 }
 
 export class ScheduleSearchCond
