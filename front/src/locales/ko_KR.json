@@ -93,6 +93,7 @@
       "cancel": "취소",
       "follow": "팔로우 하기",
       "unfollow": "언팔로우 하기",
+
       "member": {
         "login": "로그인",
         "logout": "로그아웃",
@@ -121,10 +122,12 @@
         "collapse": {
           "open": "모두 열기",
           "close": "모두 닫기"
-        }
+        },
+        "search": "스케줄 검색하기"
       },
       "review": {
-        "go": "게시물 등록하러가기"
+        "go": "게시물 등록하러가기",
+        "search": "게시글 검색하기"
       }
     },
     "label": {
@@ -460,11 +463,10 @@
       },
       "sort": {
         "id_desc": "최신순",
-        "id_asc": "오래된순",
-        "cost_desc": "많은비용순",
-        "cost_asc": "적은비용순",
+        "comments_desc": "댓글순",
         "like_desc": "인기순",
-        "view_desc": "조회순"
+        "view_desc": "조회순",
+        "cost_desc": "비용순"
       },
       "filter": {
         "city_name": "도시 이름",

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import ReviewSearchInput from "@/components/review/ReviewSearchInput.vue";
+import { Search } from "@element-plus/icons-vue";
 import { ref } from "vue";
 import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useCategory } from "@/composables/common/category";
-import ReviewSearchEngineForm from "@/components/review/ReviewSearchEngineForm.vue";
 import { usePagination } from "@/composables/common/pagination";
 import type { ReviewSearchType } from "@/modules/types/review/ReviewTypes";
 
@@ -15,10 +16,13 @@ defineProps({
 });
 
 const emits = defineEmits(["applyOption", "write"]);
-const { isPending, cityReviewTabs, request } = useReview();
-const { pageable, setSort } = usePagination("REVIEW");
-const { buttonMsg, tabMsg, categoryMsg } = useMessageBox();
+
+const { type, cityReviewTabs, request } = useReview();
+const { pageable, setSort } = usePagination(type.toUpperCase());
 const { reviewSearchType, reviewSortType } = useCategory();
+const { buttonMsg, tabMsg, categoryMsg } = useMessageBox();
+
+const searchCollapse = ref(0);
 const activeName = ref<string>(cityReviewTabs[0]);
 const order = ref<string>(pageable.value.sort);
 
@@ -35,23 +39,31 @@ const changeSort = async () => {
 </script>
 
 <template>
-  <el-tabs
-    v-if="menu === reviewSearchType[0].code.toLowerCase()"
-    v-model="activeName"
-    class="search-tabs"
-  >
-    <el-tab-pane
-      v-for="tab in cityReviewTabs"
-      :key="tab"
-      :label="tabMsg(`review.${tab.toLowerCase()}`)"
-      :name="tab"
-    />
-  </el-tabs>
-  <ReviewSearchEngineForm
-    class="mt-3"
-    :is-pending="isPending"
-    @apply-option="submitForm"
-  />
+  <el-collapse v-model="searchCollapse" class="search me-3" accordion>
+    <el-collapse-item name="1">
+      <template #title>
+        <span class="ms-3 d-flex justify-content-start align-items-center">
+          <el-icon class="me-1">
+            <Search />
+          </el-icon>
+          {{ buttonMsg("review.search") }}
+        </span>
+      </template>
+      <el-tabs
+        v-if="menu === reviewSearchType[0].code.toLowerCase()"
+        v-model="activeName"
+        class="search-tabs"
+      >
+        <el-tab-pane
+          v-for="tab in cityReviewTabs"
+          :key="tab"
+          :label="tabMsg(`review.${tab.toLowerCase()}`)"
+          :name="tab"
+        />
+      </el-tabs>
+      <ReviewSearchInput class="mt-3" @apply-option="submitForm" />
+    </el-collapse-item>
+  </el-collapse>
 
   <div class="sort-write-content">
     <el-radio-group
@@ -70,7 +82,6 @@ const changeSort = async () => {
       </el-radio>
     </el-radio-group>
     <el-button
-      :loading="isPending"
       class="write-btn"
       color="#0f6778"
       style="width: 80px"

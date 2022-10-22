@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import ScheduleInfiniteList from "@/components/schedule/list/ScheduleInfiniteList.vue";
-import ScheduleListView from "@/views/schedule/ScheduleListView.vue";
+import ScheduleList from "@/components/schedule/list/ScheduleList.vue";
 import ReviewList from "@/components/review/ReviewList.vue";
 import { ref } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
@@ -23,9 +23,8 @@ const initialSize = ref<number>(20);
     :tabs="homePostsTabs"
   >
     <template v-slot:tab-1>
-      <ScheduleListView
+      <ScheduleList
         v-if="activeName === homePostsTabs[0].code && otherSchedules"
-        :is-main="true"
       />
     </template>
     <template v-slot:tab-2>

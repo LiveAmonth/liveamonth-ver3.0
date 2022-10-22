@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import CustomPagination from "@/components/common/CustomPagination.vue";
 import ScheduleSearchEngine from "@/components/schedule/list/ScheduleSearchEngine.vue";
-import SchedulePageList from "@/components/schedule/list/SchedulePageList.vue";
+import SchedulePageList from "@/components/schedule/list/ScheduleList.vue";
 import { onMounted } from "vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { usePagination } from "@/composables/common/pagination";
-import type { ScheduleSearchFormType } from "@/modules/types/schedule/ScheduleTypes";
+import { useCategory } from "@/composables/common/category";
 
 const props = defineProps({
   isMain: {
@@ -16,55 +16,45 @@ const props = defineProps({
 });
 
 const category = "SCHEDULE";
-const { isPending, request, schedulePage, getOtherSchedules } = useSchedule();
-const { pageable, mappingPagination, movePage, setSort } =
-  usePagination(category);
+const { isPending, schedulePage, getOtherSchedules } = useSchedule();
+const { pageable, mappingPagination, movePage } = usePagination(category);
+const {
+  hasCityNames,
+  hasScheduleCategory,
+  getCityNames,
+  getScheduleCategories,
+} = useCategory();
 
 onMounted(async () => {
+  await getCityNames();
+  await getScheduleCategories();
   if (!props.isMain) {
-    await getOtherSchedules(pageable.value).then(() => {
-      mappingPagination(schedulePage.value);
-    });
+    await settingSchedules();
   }
 });
 
 const pageClick = async (page: number) => {
   movePage(page);
-  await getOtherSchedules(pageable.value).then(() => {
-    mappingPagination(schedulePage.value);
-  });
+  await settingSchedules();
 };
 
-const applyOptions = async (data: ScheduleSearchFormType) => {
-  request.value.setAttr(data);
-  await setSort(String(data.sortType));
-  await getOtherSchedules(pageable.value).then(() => {
-    mappingPagination(schedulePage.value);
-  });
+const settingSchedules = async () => {
+  await getOtherSchedules(pageable.value);
+  mappingPagination(schedulePage.value);
 };
 </script>
 
 <template>
-  <div v-if="!isMain" class="search-filter">
-    <ScheduleSearchEngine @apply-option="applyOptions" />
-  </div>
   <el-row class="d-flex justify-content-center">
-    <el-col :span="20" v-if="!isPending">
-      <SchedulePageList @apply-option="applyOptions" />
+    <el-col :span="18" class="search-filter">
+      <ScheduleSearchEngine
+        v-if="hasScheduleCategory && hasCityNames"
+        @apply-option="pageClick(1)"
+      />
+    </el-col>
+    <el-col :span="18" v-if="!isPending">
+      <SchedulePageList />
     </el-col>
   </el-row>
-  <CustomPagination
-    v-if="!isMain"
-    :pagination-type="category"
-    @click="pageClick"
-  />
+  <CustomPagination :pagination-type="category" @click="pageClick" />
 </template>
-
-<style lang="scss" scoped>
-.search-filter {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-left: 10px;
-}
-</style>

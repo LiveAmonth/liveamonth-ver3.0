@@ -16,6 +16,78 @@
     "nickname": "kxuxeon",
     "birth": "1994-06-15",
     "gender": "MALE"
+  },
+  {
+    "loginId": "java",
+    "name": "자바",
+    "email": "java@gmail.com",
+    "password": "asdasd1!",
+    "nickname": "JAVA",
+    "birth": "1991-02-23",
+    "gender": "FEMALE"
+  },
+  {
+    "loginId": "vuejs",
+    "name": "뷰제이에스",
+    "email": "vuejs@naver.com",
+    "password": "asdasd1!",
+    "nickname": "VUEJS",
+    "birth": "2014-11-11",
+    "gender": "MALE"
+  },
+  {
+    "loginId": "spring",
+    "name": "스프링",
+    "email": "spring@naver.com",
+    "password": "asdasd1!",
+    "nickname": "spring",
+    "birth": "2003-06-10",
+    "gender": "FEMALE"
+  },
+  {
+    "loginId": "element",
+    "name": "엘리먼트",
+    "email": "element@naver.com",
+    "password": "asdasd1!",
+    "nickname": "elementplus",
+    "birth": "2010-03-12",
+    "gender": "MALE"
+  },
+  {
+    "loginId": "intellij",
+    "name": "인텔리",
+    "email": "intellij@naver.com",
+    "password": "asdasd1!",
+    "nickname": "IntelliJ",
+    "birth": "2001-01-11",
+    "gender": "FEMALE"
+  },
+  {
+    "loginId": "mysql",
+    "name": "데이터",
+    "email": "mysql@naver.com",
+    "password": "asdasd1!",
+    "nickname": "MYSQL",
+    "birth": "1995-05-23",
+    "gender": "MALE"
+  },
+  {
+    "loginId": "leeky",
+    "name": "이규연",
+    "email": "leeky@naver.com",
+    "password": "asdasd1!",
+    "nickname": "leeky",
+    "birth": "1994-06-15",
+    "gender": "MALE"
+  },
+  {
+    "loginId": "coding",
+    "name": "코딩",
+    "email": "coding@naver.com",
+    "password": "asdasd1!",
+    "nickname": "COding",
+    "birth": "1992-02-15",
+    "gender": "FEMALE"
   }
 ]
 
