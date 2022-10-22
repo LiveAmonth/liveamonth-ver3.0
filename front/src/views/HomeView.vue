@@ -4,7 +4,7 @@ import MyProfileCard from "@/components/member/MyProfileCard.vue";
 import HomePostsTab from "@/components/main/HomePostsTab.vue";
 import TitleSlot from "@/components/common/TitleSlot.vue";
 import { useMember } from "@/composables/member/member";
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useAuth } from "@/composables/member/auth";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useReview } from "@/composables/review/review";
@@ -13,8 +13,25 @@ import { useMessageBox } from "@/composables/common/messageBox";
 const { isLoggedIn } = useAuth();
 const { simpleProfile, getSimpleProfile } = useMember();
 const { titleMsg } = useMessageBox();
-const { getPopularSchedules, getInfiniteSchedules } = useSchedule();
-const { getPopularReviews } = useReview();
+const {
+  otherSchedules,
+  followedSchedules,
+  getPopularSchedules,
+  getInfiniteSchedules,
+} = useSchedule();
+const { otherReviews, getPopularReviews } = useReview();
+const hasTopPosts = computed(
+  () =>
+    otherSchedules.value &&
+    otherReviews.value &&
+    otherSchedules.value.length &&
+    otherReviews.value.length
+);
+const hasFollowedPosts = computed(() =>
+  isLoggedIn.value
+    ? followedSchedules.value && followedSchedules.value.length
+    : true
+);
 
 onMounted(async () => {
   await getPopularSchedules();
@@ -35,7 +52,7 @@ onMounted(async () => {
       </el-col>
     </el-row>
     <TitleSlot :title="titleMsg('home.posts')" />
-    <HomePostsTab />
+    <HomePostsTab v-if="hasTopPosts && hasFollowedPosts" />
   </div>
 </template>
 

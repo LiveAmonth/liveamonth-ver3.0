@@ -115,8 +115,8 @@ export const useSchedule = () => {
     isPending.value = true;
     try {
       isMyPage
-        ? await store.getFollowedSchedules(loginId, size, lastId)
-        : await store.getMySchedules(loginId, size, lastId);
+        ? await store.getMySchedules(loginId, size, lastId)
+        : await store.getFollowedSchedules(loginId, size, lastId);
       error.value = null;
     } catch (err) {
       error.value = err;
