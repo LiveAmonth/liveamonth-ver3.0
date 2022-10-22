@@ -71,10 +71,10 @@ const deleteScheduleBtn = async () => {
 </script>
 
 <template>
-  <el-card class="information" :body-style="{ padding: '0 20px 0 0' }">
+  <el-card class="information" :body-style="{ padding: '10px 20px 0 0' }">
     <el-row :gutter="10" class="profile-title d-flex justify-content-between">
-      <el-col :span="8">
-        <div class="profile" v-if="!isMyPage">
+      <el-col :span="8" v-if="!isMyPage">
+        <div class="profile">
           <ProfileCard :profile="schedule.profile" :is-list="true" />
         </div>
       </el-col>

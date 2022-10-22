@@ -8,7 +8,6 @@ import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.repository.InteractionRepository;
 import teamproject.lam_server.domain.interaction.repository.member.FollowRepository;
 import teamproject.lam_server.domain.interaction.service.InteractionService;
-import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 
 @Service
@@ -27,9 +26,10 @@ public class MemberInteractionService implements InteractionService {
     @Override
     @Transactional
     public void react(Boolean likeStatus, InteractionRequest request) {
-        Member member = finder.checkLegalWriterId(request.getFrom());
+        finder.checkLegalWriterId(request.getFrom());
+
         if (likeStatus) followRepository.unFollow(request);
-        else followRepository.follow(member.getLoginId(), request);
+        else followRepository.follow(request);
     }
 
     @Override

@@ -15,9 +15,10 @@ const props = defineProps({
   },
 });
 
-const category = "SCHEDULE";
-const { isPending, schedulePage, getOtherSchedules } = useSchedule();
-const { pageable, mappingPagination, movePage } = usePagination(category);
+const { type, isPending, schedulePage, getOtherSchedules } = useSchedule();
+const { pageable, mappingPagination, movePage } = usePagination(
+  type.toUpperCase()
+);
 const {
   hasCityNames,
   hasScheduleCategory,
@@ -56,5 +57,5 @@ const settingSchedules = async () => {
       <SchedulePageList />
     </el-col>
   </el-row>
-  <CustomPagination :pagination-type="category" @click="pageClick" />
+  <CustomPagination :pagination-type="type.toUpperCase()" @click="pageClick" />
 </template>

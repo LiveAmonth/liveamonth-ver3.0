@@ -12,10 +12,10 @@ public interface FollowRepository extends JpaRepository<Follower, Long> {
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into follower (created_date, last_modified_date, created_by, last_modified_by, from_member_id, to_member_id) " +
-            "values(now(), now(), :auditor, :auditor, :#{#request.from}, :#{#request.to})"
+            "insert into follower (created_date, last_modified_date, from_member_id, to_member_id) " +
+            "values(now(), now(), :#{#request.from}, :#{#request.to})"
             , nativeQuery = true)
-    void follow(@Param("auditor") String auditor, @Param("request") InteractionRequest request);
+    void follow(@Param("request") InteractionRequest request);
 
     @Modifying
     @Transactional

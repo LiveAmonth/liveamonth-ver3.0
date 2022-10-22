@@ -20,7 +20,11 @@ const { myReviews, getMyReviews } = useReview();
 const { labelMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(2);
-const count = ref<number>(props.initialCount);
+const count = ref<number>(
+  myReviews.value.length < props.initialCount
+    ? myReviews.value.length
+    : props.initialCount
+);
 const loading = ref<boolean>(false);
 const noMore = computed(
   () => count.value >= memberProfile.value.numberOfReviews
@@ -31,7 +35,10 @@ const load = async () => {
   loading.value = true;
   await getMyReviews(size.value, myReviews.value[count.value - 1].id);
   setTimeout(() => {
-    count.value += size.value;
+    count.value =
+      myReviews.value.length - count.value < size.value
+        ? myReviews.value.length
+        : count.value + size.value;
     loading.value = false;
   }, 500);
 };

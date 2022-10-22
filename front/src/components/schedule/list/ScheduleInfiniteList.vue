@@ -26,18 +26,22 @@ const props = defineProps({
 });
 const emits = defineEmits(["refresh"]);
 
-const { memberProfile } = useMember();
+const { simpleProfile } = useMember();
 const { infiniteSchedules, getInfiniteSchedules, deleteSchedule } =
   useSchedule();
 const { labelMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(10);
 const count = ref<number>(
-  infiniteSchedules.length < 20 ? infiniteSchedules.length : 20
+  infiniteSchedules(props.isMyPage).length < props.initialCount
+    ? infiniteSchedules(props.isMyPage).length
+    : props.initialCount
 );
 const loading = ref<boolean>(false);
-const noMore = computed(
-  () => count.value >= 30 || schedules.value.length % 10 != 0
+const noMore = computed(() =>
+  props.isMyPage
+    ? simpleProfile.value.numberOfSchedules
+    : count.value >= 30 || schedules.value.length % 10 != 0
 );
 const disabled = computed(() => loading.value || noMore.value);
 const schedules = ref<ScheduleCardType[] | MyScheduleType[]>(
@@ -47,7 +51,7 @@ const schedules = ref<ScheduleCardType[] | MyScheduleType[]>(
 const load = async () => {
   loading.value = true;
   await getInfiniteSchedules(
-    memberProfile.value.loginId,
+    simpleProfile.value.loginId,
     size.value,
     schedules.value[count.value - 1].id,
     props.isMyPage
@@ -64,12 +68,12 @@ const load = async () => {
 const deleteScheduleBtn = async (scheduleId: number) => {
   await deleteSchedule(scheduleId);
   await getInfiniteSchedules(
-    memberProfile.value.loginId,
+    simpleProfile.value.loginId,
     props.initialCount,
     null,
     props.isMyPage
   );
-  memberProfile.value.numberOfSchedules--;
+  simpleProfile.value.numberOfSchedules--;
   count.value--;
   loading.value = false;
   emits("refresh");
@@ -97,7 +101,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
           <el-col :span="16" class="schedule-list-card">
             <ScheduleInfoCard
               :is-my-page="isMyPage"
-              :login-id="memberProfile.loginId"
+              :login-id="simpleProfile.loginId"
               :schedule="schedule"
               @delete-schedule="deleteScheduleBtn"
             />
@@ -115,7 +119,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
     <LinkSlot
       class="link"
       :link="`${
-        isMyPage ? `/my-schedule/${memberProfile.loginId}` : '/schedules'
+        isMyPage ? `/my-schedule/${simpleProfile.loginId}` : '/schedules'
       }`"
     >
       <span>

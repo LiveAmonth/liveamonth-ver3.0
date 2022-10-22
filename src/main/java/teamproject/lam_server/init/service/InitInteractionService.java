@@ -34,32 +34,32 @@ public class InitInteractionService {
             if (i % 2 == 0 && i > 3) {
                 request.setFrom(members.get(i).getId());
                 request.setTo(members.get(i - 2).getId());
-                followRepository.follow(members.get(i).getLoginId(), request);
+                followRepository.follow(request);
             }
 
             request.setFrom(members.get(i).getId());
             request.setTo(members.get(i - 1).getId());
-            followRepository.follow(members.get(i).getLoginId(), request);
+            followRepository.follow(request);
 
             request.setFrom(members.get(i).getId());
             request.setTo(members.get(0).getId());
-            followRepository.follow(members.get(i).getLoginId(), request);
+            followRepository.follow(request);
         }
         for (int i = 0; i < members.size() - 2; i++) {
             InteractionRequest request = new InteractionRequest();
             if (i % 2 == 0 && i > 1 && i < members.size() - 3) {
                 request.setFrom(members.get(i).getId());
                 request.setTo(members.get(i + 3).getId());
-                followRepository.follow(members.get(i).getLoginId(), request);
+                followRepository.follow(request);
             }
 
             request.setFrom(members.get(i).getId());
             request.setTo(members.get(i + 1).getId());
-            followRepository.follow(members.get(i).getLoginId(), request);
+            followRepository.follow(request);
 
             request.setFrom(members.get(0).getId());
             request.setTo(members.get(i).getId());
-            followRepository.follow(members.get(i).getLoginId(), request);
+            followRepository.follow(request);
         }
     }
 
