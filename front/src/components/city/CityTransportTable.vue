@@ -22,7 +22,7 @@ const { labelMsg, titleMsg, categoryMsg } = useMessageBox();
         </div>
       </template>
     </el-table-column>
-    <el-table-column :label="titleMsg('city.transport')" prop="station_count" />
+    <el-table-column :label="titleMsg('city.transport')" prop="stationCount" />
     <el-table-column :label="labelMsg('city.transport.score')">
       <template #default="scope">
         <el-rate

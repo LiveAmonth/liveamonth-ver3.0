@@ -28,10 +28,13 @@ const initialSize = ref<number>(20);
         </el-col>
       </el-row>
     </template>
-    <template v-if="homePostsTabs.length > 2" v-slot:tab-3>
+    <template v-slot:tab-3>
       <el-row class="d-flex justify-content-center">
         <el-col :span="20">
-          <ScheduleInfiniteList :initial-count="initialSize" />
+          <ScheduleInfiniteList
+            v-if="activeName === homePostsTabs[2].code"
+            :initial-count="initialSize"
+          />
         </el-col>
       </el-row>
     </template>

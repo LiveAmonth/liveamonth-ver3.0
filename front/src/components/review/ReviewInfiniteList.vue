@@ -13,10 +13,16 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  isMyPage: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
+const emits = defineEmits(["refresh"]);
 
 const { memberProfile } = useMember();
-const { myReviews, getMyReviews } = useReview();
+const { myReviews, getMyReviews, deleteReview } = useReview();
 const { labelMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(2);
@@ -42,6 +48,15 @@ const load = async () => {
     loading.value = false;
   }, 500);
 };
+
+const handleDelete = async (reviewId: number) => {
+  await deleteReview(reviewId);
+  await getMyReviews(props.initialCount, null);
+  memberProfile.value.numberOfReviews--;
+  count.value--;
+  loading.value = false;
+  emits("refresh");
+};
 </script>
 
 <template>
@@ -58,7 +73,11 @@ const load = async () => {
           class="list"
         >
           <li v-for="review in myReviews" :key="review.id" class="list-item">
-            <ReviewListCard :review="review" :is-my-page="true" />
+            <ReviewListCard
+              :review="review"
+              :is-my-page="isMyPage"
+              @delete-review="handleDelete(review.id)"
+            />
             <el-divider />
           </li>
         </ul>

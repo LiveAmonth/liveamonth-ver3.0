@@ -4,7 +4,7 @@ import ReviewInfiniteList from "@/components/review/ReviewInfiniteList.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import { Setting } from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMyPage } from "@/composables/member/mypage";
@@ -19,8 +19,8 @@ const props = defineProps({
 });
 
 const { memberProfile, getMember } = useMember();
-const { getInfiniteSchedules } = useSchedule();
-const { getMyReviews } = useReview();
+const { hasMySchedules, getInfiniteSchedules } = useSchedule();
+const { hasMyReviews, getMyReviews } = useReview();
 const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =
   useMyPage();
 const { menuMsg } = useMessageBox();
@@ -29,6 +29,10 @@ const activeName = ref<string>(props.post);
 const listKey = ref<number>(0);
 const scheduleInitialSize = ref<number>(20);
 const reviewInitialSize = ref<number>(20);
+
+const hasData = computed(
+  () => memberProfile.value && hasMySchedules.value && hasMyReviews.value
+);
 
 onMounted(async () => {
   await getMember();
@@ -48,7 +52,7 @@ const clickTab = (tab: string) => {
 };
 </script>
 <template>
-  <div class="container">
+  <div class="container" v-if="hasData">
     <el-row class="profile">
       <el-col :span="4"></el-col>
       <el-col :span="6" class="image">
@@ -93,7 +97,6 @@ const clickTab = (tab: string) => {
       </el-col>
     </el-row>
     <ContentTabsSlot
-      v-if="memberProfile.id"
       v-model:active-name="activeName"
       :tabs="myPagePostsTabs"
       class="content-tab"
@@ -110,7 +113,10 @@ const clickTab = (tab: string) => {
       <template v-slot:tab-2>
         <ReviewInfiniteList
           v-if="activeName === myPagePostsTabs[1].code"
+          :key="listKey"
           :initial-count="reviewInitialSize"
+          :is-my-page="true"
+          @refresh="listKey++"
         />
       </template>
     </ContentTabsSlot>

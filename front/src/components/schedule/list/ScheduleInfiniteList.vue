@@ -65,7 +65,7 @@ const load = async () => {
   }, 500);
 };
 
-const deleteScheduleBtn = async (scheduleId: number) => {
+const handleDelete = async (scheduleId: number) => {
   await deleteSchedule(scheduleId);
   await getInfiniteSchedules(
     simpleProfile.value.loginId,
@@ -82,7 +82,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
 
 <template>
   <div
-    v-if="infiniteSchedules.length"
+    v-if="schedules.length"
     class="infinite-list-wrapper"
     style="overflow: auto"
   >
@@ -103,7 +103,7 @@ const deleteScheduleBtn = async (scheduleId: number) => {
               :is-my-page="isMyPage"
               :login-id="simpleProfile.loginId"
               :schedule="schedule"
-              @delete-schedule="deleteScheduleBtn"
+              @delete-schedule="handleDelete(schedule.id)"
             />
           </el-col>
         </el-row>

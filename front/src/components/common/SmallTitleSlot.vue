@@ -41,7 +41,7 @@ defineProps({
       content: "";
       position: absolute;
       left: 0;
-      top: 6px;
+      top: 3px;
       width: 4px;
       height: 20px;
     }
