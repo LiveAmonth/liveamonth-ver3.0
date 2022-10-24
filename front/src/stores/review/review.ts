@@ -20,13 +20,14 @@ export const useReviewStore = defineStore("review", {
     searchCond: new ReviewSearchCond(),
     pageableReviews: {} as PageableResponseType,
     currReview: {} as ReviewDetailType,
-    myReviews: {} as ReviewListType[],
+    myReviews: [] as ReviewListType[],
     addedReviewId: 0,
   }),
   getters: {
     otherReviews: (state): ReviewListType[] =>
       state.pageableReviews.content as ReviewListType[],
     reviewPage: (state): PageableType => state.pageableReviews.pageable,
+    hasMyReviews: (state): boolean => !!state.myReviews.length,
   },
   actions: {
     addReview: async function (loginId: string, form: ReviewEditor) {

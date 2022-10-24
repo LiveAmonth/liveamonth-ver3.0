@@ -33,7 +33,7 @@ defineProps({
       content: "";
       position: absolute;
       left: 0;
-      top: 9px;
+      top: 3px;
       width: 4px;
       height: 32px;
     }

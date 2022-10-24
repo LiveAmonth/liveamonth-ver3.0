@@ -35,6 +35,8 @@ export const useSchedule = () => {
 
   const hasCurrentSchedule = computed(() => store.hasCurrentSchedule);
   const hasEditedSchedule = computed(() => store.hasEditedSchedule);
+  const hasMySchedules = computed(() => store.hasMySchedules);
+  const hasFollowedSchedules = computed(() => store.hasFollowedSchedules);
 
   const infiniteSchedules = (
     isMyPage: boolean
@@ -264,6 +266,8 @@ export const useSchedule = () => {
     editableSchedules,
     hasCurrentSchedule,
     hasEditedSchedule,
+    hasMySchedules,
+    hasFollowedSchedules,
     infiniteSchedules,
     getOtherScheduleCard,
     getOtherSchedules,

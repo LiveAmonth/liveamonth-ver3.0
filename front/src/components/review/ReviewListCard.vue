@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import ImageIcon from "@/components/common/ImageIcon.vue";
-import { View } from "@element-plus/icons-vue";
+import { View, Close } from "@element-plus/icons-vue";
+import { useMessageBox } from "@/composables/common/messageBox";
 import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
 import type { PropType } from "vue";
 
-defineProps({
+const props = defineProps({
   review: {
     type: Object as PropType<ReviewListType>,
     required: true,
@@ -15,6 +16,18 @@ defineProps({
     default: false,
   },
 });
+const emit = defineEmits(["deleteReview"]);
+
+const { buttonMsg, resultMsg, openConfirmMessageBox } = useMessageBox();
+
+const handleDelete = async () => {
+  await openConfirmMessageBox(
+    resultMsg("review.delete.title"),
+    resultMsg("review.delete.message")
+  ).then(() => {
+    emit("deleteReview", props.review.id);
+  });
+};
 </script>
 
 <template>
@@ -64,6 +77,12 @@ defineProps({
         </span>
       </div>
     </el-col>
+    <div v-if="isMyPage" class="delete" @click="handleDelete">
+      {{ buttonMsg("delete") }}
+      <el-icon>
+        <Close />
+      </el-icon>
+    </div>
   </el-row>
 </template>
 
@@ -144,5 +163,12 @@ defineProps({
       justify-content: center;
     }
   }
+}
+
+.delete {
+  display: flex;
+  justify-content: end;
+  cursor: pointer;
+  margin-top: -15px;
 }
 </style>

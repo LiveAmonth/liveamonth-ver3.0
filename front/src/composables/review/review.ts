@@ -36,6 +36,8 @@ export const useReview = () => {
   const myReviews = computed((): ReviewListType[] => store.myReviews);
   const addedReviewId = computed((): number => store.addedReviewId);
 
+  const hasMyReviews = computed(() => store.hasMyReviews);
+
   const cityReviewTabs: string[] = ["TOTAL"];
   cityNames.value.forEach((value) =>
     cityReviewTabs.push(`${value.code}_REVIEW`)
@@ -188,6 +190,7 @@ export const useReview = () => {
     currReview,
     myReviews,
     addedReviewId,
+    hasMyReviews,
     getReviewMenu,
     addReview,
     editReview,

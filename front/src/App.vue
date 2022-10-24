@@ -9,9 +9,17 @@ import Header from "@/components/main/Header.vue";
 </template>
 
 <style lang="scss">
+@font-face {
+  font-family: "main_medium";
+  src: url(@/assets/fonts/PretendardVariable.ttf) format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
 body {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family: main_medium, sans-serif;
   background-color: #ffffff;
+  font-weight: normal;
+  font-style: normal;
 }
 
 a {

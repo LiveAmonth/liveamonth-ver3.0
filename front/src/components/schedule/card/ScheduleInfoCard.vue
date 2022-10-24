@@ -60,18 +60,18 @@ const goSchedule = async () => {
   }
 };
 
-const deleteScheduleBtn = async () => {
+const handleDelete = async () => {
   await openConfirmMessageBox(
     resultMsg("schedule.delete.title"),
     resultMsg("schedule.delete.message")
   ).then(() => {
-    emit("deleteSchedule", props.schedule.id);
+    emit("deleteSchedule");
   });
 };
 </script>
 
 <template>
-  <el-card class="information" :body-style="{ padding: '10px 20px 0 0' }">
+  <el-card class="information" :body-style="{ padding: '0 20px 0 0' }">
     <el-row :gutter="10" class="profile-title d-flex justify-content-between">
       <el-col :span="8" v-if="!isMyPage">
         <div class="profile">
@@ -102,7 +102,7 @@ const deleteScheduleBtn = async () => {
           </template>
         </ScheduleInfoSlot>
       </el-col>
-      <div v-if="isMyPage" class="delete" @click="deleteScheduleBtn">
+      <div v-if="isMyPage" class="delete" @click="handleDelete">
         {{ buttonMsg("delete") }}
         <el-icon>
           <Close />
@@ -134,7 +134,7 @@ span {
   display: flex;
   justify-content: end;
   cursor: pointer;
-  margin-right: 10px;
+  margin-top: 15px;
 }
 
 .manage {

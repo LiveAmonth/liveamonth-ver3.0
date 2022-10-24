@@ -24,7 +24,7 @@ const { bannerMsg } = useMessageBox();
 <style lang="scss" scoped>
 .banner {
   padding-left: 1%;
-  font-family: "Jua", sans-serif;
+  font-weight: 800;
   background-color: #6b778c;
   color: white;
   margin-top: -1px;
