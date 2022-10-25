@@ -2,7 +2,6 @@ import InteractionApiService from "@/services/common/InteractionApiService";
 import { computed, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useInteractionStore } from "@/stores/common/interaction";
-import { useAuth } from "@/composables/member/auth";
 import { useMessageBox } from "@/composables/common/messageBox";
 import type {
   InteractionType,
@@ -13,12 +12,11 @@ export const useInteraction = () => {
   const store = useInteractionStore();
 
   const { simpleProfile } = useMember();
-  const { isLoggedIn } = useAuth();
-  const { validationMsg, requireLoginMessageBox, openWarningMessage } =
-    useMessageBox();
+  const { validationMsg } = useMessageBox();
   const error = ref();
   const isPending = ref(false);
   const isLiked = computed(() => store.isLikedContent);
+  const isFollowed = computed(() => store.isFollowedMember);
   const reactedComments = computed(() => store.reactedComments);
 
   const getInteractionRequest = (id: number): InteractionType => {
@@ -28,38 +26,23 @@ export const useInteraction = () => {
     };
   };
 
-  const reactContent = async (type: string, contentId: number) => {
-    if (isLoggedIn.value) {
-      try {
-        await InteractionApiService.reactContent(
-          type,
-          isLiked.value,
-          getInteractionRequest(contentId)
-        );
-        changeLikeState();
-      } catch (err: any) {
-        error.value = err.message;
-        openWarningMessage(err.message);
-      }
-    } else {
-      await requireLoginMessageBox();
+  const reactContent = async (type: string, toId: number) => {
+    try {
+      isPending.value = true;
+      await store.doInteraction(
+        type,
+        simpleProfile.value.loginId,
+        getInteractionRequest(toId)
+      );
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
     }
   };
 
-  const isFollow = async (toId: number) => {
-    return InteractionApiService.isMemberLikeContent("member", {
-      from: simpleProfile.value.id,
-      to: toId,
-    })
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => {
-        return err;
-      });
-  };
-
-  const isLikedContent = async (type: string, contentId: number) => {
+  const isPositiveInteraction = async (type: string, contentId: number) => {
     try {
       await store.isMemberLikedContent(type, getInteractionRequest(contentId));
       error.value = null;
@@ -89,6 +72,7 @@ export const useInteraction = () => {
   ) => {
     await InteractionApiService.reactComment(
       commentType,
+      simpleProfile.value.loginId,
       option ? "LIKE" : "DISLIKE",
       getInteractionRequest(commentId),
       isReacted
@@ -117,22 +101,22 @@ export const useInteraction = () => {
     }
   };
 
-  const changeLikeState = () => {
-    store.changeLikeState();
+  const isWriter = (toId: number) => {
+    return simpleProfile.value.id == toId;
   };
 
   return {
     error,
     isPending,
     isLiked,
+    isFollowed,
     reactedComments,
     checkReacted,
     getReactedComment,
     reactContent,
     reactComment,
-    isLikedContent,
+    isPositiveInteraction,
     getMemberReactedComment,
-    changeLikeState,
-    isFollow,
+    isWriter,
   };
 };

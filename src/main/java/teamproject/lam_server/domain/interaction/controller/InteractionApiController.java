@@ -21,29 +21,32 @@ public class InteractionApiController {
 
     private final InteractionServiceFinder interactionServiceFinder;
 
-    @PostMapping("/contents/{type}")
+    @PostMapping("/contents/{type}/{loginId}")
     public ResponseEntity<?> reactContent(
             @PathVariable String type,
-            @RequestParam("is_liked") Boolean isLiked,
+            @PathVariable String loginId,
+            @RequestParam("is_reacted") Boolean isReacted,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.find(type).react(isLiked, request);
+        interactionServiceFinder.find(type).react(loginId, isReacted, request);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/comments/{commentType}")
+    @PostMapping("/comments/{commentType}/{loginId}")
     public ResponseEntity<?> reactComment(
             @PathVariable String commentType,
+            @PathVariable String loginId,
             @RequestParam(name = "react_type") ReactType reactType,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.findComment(commentType).react(request, reactType);
+        interactionServiceFinder.findComment(commentType).react(loginId, request, reactType);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/comments/{type}/cancel")
+    @PostMapping("/comments/{type}/{loginId}/cancel")
     public ResponseEntity<?> cancelReactComment(
             @PathVariable String type,
+            @PathVariable String loginId,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.findComment(type).cancelReact(request);
+        interactionServiceFinder.findComment(type).cancelReact(loginId, request);
         return CustomResponse.success(DELETE_INTERACTION);
     }
 

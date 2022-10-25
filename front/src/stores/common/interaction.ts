@@ -7,9 +7,30 @@ export const useInteractionStore = defineStore("interaction", {
   state: () => ({
     reactedComments: [] as ReactedCommentType[],
     isLikedContent: false,
+    isFollowedMember: false,
   }),
   getters: {},
   actions: {
+    doInteraction: async function (
+      type: string,
+      loginId: string,
+      request: InteractionType
+    ) {
+      await InteractionApiService.reactContent(
+        type,
+        loginId,
+        this.isTypeMember(type) ? this.isFollowedMember : this.isLikedContent,
+        request
+      )
+        .then((response) => {
+          console.log(response);
+          this.changeLikeState(type);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
+
     getMemberReactedComment: async function (
       type: string,
       memberId: number,
@@ -30,15 +51,23 @@ export const useInteractionStore = defineStore("interaction", {
     ) {
       await InteractionApiService.isMemberLikeContent(type, request)
         .then((response) => {
-          this.isLikedContent = response;
+          this.isTypeMember(type)
+            ? (this.isFollowedMember = response)
+            : (this.isLikedContent = response);
         })
         .catch((error) => {
           throw error;
         });
     },
 
-    changeLikeState: function () {
-      this.isLikedContent = !this.isLikedContent;
+    changeLikeState: function (type: string) {
+      this.isTypeMember(type)
+        ? (this.isFollowedMember = !this.isFollowedMember)
+        : (this.isLikedContent = !this.isLikedContent);
+    },
+
+    isTypeMember: function (type: string) {
+      return type === "member";
     },
   },
 });

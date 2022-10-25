@@ -22,7 +22,8 @@ const props = defineProps({
 });
 const { isLoggedIn } = useAuth();
 const { type, currentSchedule, getScheduleContents } = useSchedule();
-const { isLiked, error, isLikedContent, reactContent } = useInteraction();
+const { isLiked, error, isPositiveInteraction, reactContent } =
+  useInteraction();
 const { setContentCollapse } = useCalendarEvent();
 const { titleMsg } = useMessageBox();
 const commentKey = ref<number>(0);
@@ -30,7 +31,7 @@ const commentKey = ref<number>(0);
 onMounted(async () => {
   await getScheduleContents(Number(props.id));
   if (isLoggedIn.value) {
-    await isLikedContent(type, currentSchedule.value.id);
+    await isPositiveInteraction(type, currentSchedule.value.id);
   }
 });
 
@@ -134,6 +135,8 @@ const handelLike = async () => {
     .icon-count {
       display: flex;
       justify-content: center;
+      align-items: center;
+      margin-bottom: 5px;
       font-size: 1.3rem;
     }
   }

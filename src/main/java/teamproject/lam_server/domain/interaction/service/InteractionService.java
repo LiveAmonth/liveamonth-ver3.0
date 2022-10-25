@@ -7,7 +7,7 @@ public interface InteractionService {
 
     InteractionType getType();
 
-    void react(Boolean likeStatus, InteractionRequest request);
+    void react(String loginId, Boolean isReacted, InteractionRequest request);
 
     boolean isLiked(InteractionRequest request);
 }

@@ -25,9 +25,9 @@ public class ScheduleInteractionService implements InteractionService {
 
     @Override
     @Transactional
-    public void react(Boolean likeStatus, InteractionRequest request) {
-        finder.checkLegalWriterId(request.getFrom());
-        if (likeStatus) scheduleLikeRepository.cancelLike(request);
+    public void react(String loginId, Boolean isReacted, InteractionRequest request) {
+        finder.checkLegalLoginId(loginId);
+        if (isReacted) scheduleLikeRepository.cancelLike(request);
         else scheduleLikeRepository.like(request);
 
     }

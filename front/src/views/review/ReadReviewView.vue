@@ -24,7 +24,8 @@ const { type, currReview, getReview, deleteReview, goReviewList } = useReview();
 const { isLoggedInMemberPost } = useMember();
 const { buttonMsg, resultMsg, openMessage, openConfirmMessageBox } =
   useMessageBox();
-const { isLiked, error, isLikedContent, reactContent } = useInteraction();
+const { isLiked, error, isPositiveInteraction, reactContent } =
+  useInteraction();
 const { isLoggedIn } = useAuth();
 const router = useRouter();
 const commentKey = ref<number>(0);
@@ -32,7 +33,7 @@ const commentKey = ref<number>(0);
 onMounted(async () => {
   await getReview(Number(props.id));
   if (isLoggedIn.value) {
-    await isLikedContent(type, currReview.value.id);
+    await isPositiveInteraction(type, currReview.value.id);
   }
 });
 

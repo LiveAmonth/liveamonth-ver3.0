@@ -19,20 +19,41 @@ const props = defineProps({
   },
 });
 
-const { type, simpleProfile } = useMember();
+const { type } = useMember();
 const { isLoggedIn } = useAuth();
-const { reactContent, isFollow } = useInteraction();
-const isFollowed = ref<boolean>(false);
-const { buttonMsg, tabMsg } = useMessageBox();
+const {
+  error,
+  isPending,
+  isFollowed,
+  isPositiveInteraction,
+  reactContent,
+  isWriter,
+} = useInteraction();
+const { buttonMsg, tabMsg, requireLoginMessageBox, openWarningMessage } =
+  useMessageBox();
+
+const numberOfFollowers = ref<number>(props.profile.numberOfFollowers);
 
 onMounted(async () => {
   if (isLoggedIn.value) {
-    isFollowed.value = await isFollow(props.profile.id);
+    await isPositiveInteraction(type, props.profile.id);
   }
 });
 
 const follow = async () => {
-  await reactContent(type, props.profile.id);
+  if (isLoggedIn.value) {
+    await reactContent(type, props.profile.id);
+    if (error.value) {
+      openWarningMessage(error.value.message);
+    }
+    if (isFollowed.value) {
+      numberOfFollowers.value++;
+    } else {
+      numberOfFollowers.value--;
+    }
+  } else {
+    await requireLoginMessageBox();
+  }
 };
 </script>
 
@@ -47,8 +68,8 @@ const follow = async () => {
 
       <div class="name">{{ profile.nickname }}</div>
 
-      <div class="actions" v-if="profile.id !== simpleProfile.id && !isList">
-        <el-button class="btn" @click="follow">
+      <div class="actions" v-if="!isWriter(profile.id) && !isList">
+        <el-button class="btn" @click="follow" :loading="isPending">
           {{ buttonMsg(`${isFollowed ? "unfollow" : "follow"}`) }}
         </el-button>
       </div>
@@ -63,7 +84,7 @@ const follow = async () => {
         <span class="parameter">{{ tabMsg("profile.review") }}</span>
       </div>
       <div class="box">
-        <span class="value">{{ $count(profile.numberOfFollowers) }}</span>
+        <span class="value">{{ $count(numberOfFollowers) }}</span>
         <span class="parameter">{{ tabMsg("profile.follower") }}</span>
       </div>
     </el-col>
