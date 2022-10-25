@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    void addSchedule(ScheduleCreate request);
+    void addSchedule(String loginId, ScheduleCreate request);
 
     void editSchedule(Long scheduleId, ScheduleEdit request);
 

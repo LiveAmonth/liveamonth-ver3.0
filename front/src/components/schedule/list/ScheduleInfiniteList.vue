@@ -27,8 +27,13 @@ const props = defineProps({
 const emits = defineEmits(["refresh"]);
 
 const { simpleProfile } = useMember();
-const { infiniteSchedules, getInfiniteSchedules, deleteSchedule } =
-  useSchedule();
+const {
+  hasMySchedules,
+  hasFollowedSchedules,
+  infiniteSchedules,
+  getInfiniteSchedules,
+  deleteSchedule,
+} = useSchedule();
 const { labelMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(10);
@@ -46,6 +51,9 @@ const noMore = computed(() =>
 const disabled = computed(() => loading.value || noMore.value);
 const schedules = ref<ScheduleCardType[] | MyScheduleType[]>(
   infiniteSchedules(props.isMyPage)
+);
+const hasSchedules = computed(() =>
+  props.isMyPage ? hasMySchedules.value : hasFollowedSchedules.value
 );
 
 const load = async () => {
@@ -81,11 +89,7 @@ const handleDelete = async (scheduleId: number) => {
 </script>
 
 <template>
-  <div
-    v-if="schedules.length"
-    class="infinite-list-wrapper"
-    style="overflow: auto"
-  >
+  <div v-if="hasSchedules" class="infinite-list-wrapper" style="overflow: auto">
     <ul
       v-infinite-scroll="load"
       :infinite-scroll-disabled="disabled"

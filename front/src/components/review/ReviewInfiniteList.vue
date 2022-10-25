@@ -22,7 +22,7 @@ const props = defineProps({
 const emits = defineEmits(["refresh"]);
 
 const { memberProfile } = useMember();
-const { myReviews, getMyReviews, deleteReview } = useReview();
+const { myReviews, hasMyReviews, getMyReviews, deleteReview } = useReview();
 const { labelMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(2);
@@ -39,7 +39,11 @@ const disabled = computed(() => loading.value || noMore.value);
 
 const load = async () => {
   loading.value = true;
-  await getMyReviews(size.value, myReviews.value[count.value - 1].id);
+  await getMyReviews(
+    memberProfile.value.loginId,
+    size.value,
+    myReviews.value[count.value - 1].id
+  );
   setTimeout(() => {
     count.value =
       myReviews.value.length - count.value < size.value
@@ -51,7 +55,7 @@ const load = async () => {
 
 const handleDelete = async (reviewId: number) => {
   await deleteReview(reviewId);
-  await getMyReviews(props.initialCount, null);
+  await getMyReviews(memberProfile.value.loginId, props.initialCount, null);
   memberProfile.value.numberOfReviews--;
   count.value--;
   loading.value = false;
@@ -60,11 +64,7 @@ const handleDelete = async (reviewId: number) => {
 </script>
 
 <template>
-  <div
-    v-if="memberProfile.numberOfReviews"
-    class="infinite-list-wrapper"
-    style="overflow: auto"
-  >
+  <div v-if="hasMyReviews" class="infinite-list-wrapper" style="overflow: auto">
     <el-row class="d-flex justify-content-center">
       <el-col :span="20">
         <ul

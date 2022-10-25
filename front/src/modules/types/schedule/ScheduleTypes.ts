@@ -109,7 +109,7 @@ export interface ScheduleContentFormType extends FormType<ScheduleContentType> {
   timePeriod: DateTimePeriodType;
 }
 
-export interface ScheduleFormType extends FormType<ScheduleCardType> {
+export interface ScheduleFormType extends FormType<EditableScheduleType> {
   title: string;
   publicFlag: boolean;
   city: string;
@@ -189,7 +189,7 @@ export class ScheduleEditor implements ScheduleFormType {
     this.period = { startDate: "", endDate: "" };
   }
 
-  setForm(data: ScheduleCardType) {
+  setForm(data: EditableScheduleType) {
     this.title = data.title;
     this.publicFlag = data.publicFlag;
     this.city = data.city.code;
