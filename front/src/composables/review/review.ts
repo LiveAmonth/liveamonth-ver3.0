@@ -2,7 +2,6 @@ import { useMenuTab } from "@/composables/common/tabs";
 import { computed, ref } from "vue";
 import { useReviewStore } from "@/stores/review/review";
 import { useCategory } from "@/composables/common/category";
-import { useMember } from "@/composables/member/member";
 import type {
   MenuType,
   CategoryMenuType,
@@ -26,7 +25,6 @@ export const useReview = () => {
   const isPending = ref<boolean>(false);
   const router = useRouter();
   const { getMenuCategory } = useMenuTab();
-  const { simpleProfile } = useMember();
   const { cityNames, reviewSearchType } = useCategory();
 
   const request = computed(() => store.searchCond);
@@ -55,11 +53,11 @@ export const useReview = () => {
     };
   };
 
-  const addReview = async (form: ReviewEditor) => {
+  const addReview = async (loginId: string, form: ReviewEditor) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.addReview(simpleProfile.value.loginId, form);
+      await store.addReview(loginId, form);
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -124,11 +122,15 @@ export const useReview = () => {
     }
   };
 
-  const getMyReviews = async (size: number, lastId: number | null) => {
+  const getMyReviews = async (
+    loginId: string,
+    size: number,
+    lastId: number | null
+  ) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getMyReviews(simpleProfile.value.loginId, size, lastId);
+      await store.getMyReviews(loginId, size, lastId);
       error.value = null;
     } catch (err) {
       error.value = err;

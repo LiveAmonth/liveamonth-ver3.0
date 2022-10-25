@@ -4,7 +4,7 @@ import ReviewInfiniteList from "@/components/review/ReviewInfiniteList.vue";
 import ManagementMenu from "@/components/member/MenagementMenu.vue";
 import ContentTabsSlot from "@/components/common/ConentTabsSlot.vue";
 import { Setting } from "@element-plus/icons-vue";
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useMember } from "@/composables/member/member";
 import { useSchedule } from "@/composables/schedule/schedule";
 import { useMyPage } from "@/composables/member/mypage";
@@ -19,30 +19,34 @@ const props = defineProps({
 });
 
 const { memberProfile, getMember } = useMember();
-const { hasMySchedules, getInfiniteSchedules } = useSchedule();
-const { hasMyReviews, getMyReviews } = useReview();
+const { getInfiniteSchedules } = useSchedule();
+const { getMyReviews } = useReview();
 const { myPagePostsTabs, profileTabs, getPostCount, goManagement } =
   useMyPage();
-const { menuMsg } = useMessageBox();
+const { menuMsg, resultMsg, openWarningMessage } = useMessageBox();
 
 const activeName = ref<string>(props.post);
 const listKey = ref<number>(0);
 const scheduleInitialSize = ref<number>(20);
 const reviewInitialSize = ref<number>(20);
 
-const hasData = computed(
-  () => memberProfile.value && hasMySchedules.value && hasMyReviews.value
-);
-
 onMounted(async () => {
   await getMember();
-  await getInfiniteSchedules(
-    memberProfile.value.loginId,
-    scheduleInitialSize.value,
-    null,
-    true
-  );
-  await getMyReviews(reviewInitialSize.value, null);
+  if (memberProfile.value) {
+    await getInfiniteSchedules(
+      memberProfile.value.loginId,
+      scheduleInitialSize.value,
+      null,
+      true
+    );
+    await getMyReviews(
+      memberProfile.value.loginId,
+      reviewInitialSize.value,
+      null
+    );
+  } else {
+    await openWarningMessage(resultMsg("noMember"));
+  }
 });
 
 const dialogVisible = ref<boolean>(false);
@@ -52,7 +56,7 @@ const clickTab = (tab: string) => {
 };
 </script>
 <template>
-  <div class="container" v-if="hasData">
+  <div class="container">
     <el-row class="profile">
       <el-col :span="4"></el-col>
       <el-col :span="6" class="image">

@@ -8,8 +8,12 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import { useQuillEditor } from "@/composables/common/quilleditor";
 import { useReview } from "@/composables/review/review";
 import type { FormInstance } from "element-plus/es";
+import { useMember } from "@/composables/member/member";
 
 const { reviewCategory } = useCategory();
+const { simpleProfile } = useMember();
+const { addedReviewId, addReview, goReadReview, goReviewList } = useReview();
+const { toolbarOptions, onEditorReady } = useQuillEditor();
 const {
   resultMsg,
   buttonMsg,
@@ -18,8 +22,6 @@ const {
   selectPhMsg,
   openMessageBox,
 } = useMessageBox();
-const { toolbarOptions, onEditorReady } = useQuillEditor();
-const { addedReviewId, addReview, goReadReview, goReviewList } = useReview();
 
 const form = reactive<ReviewEditor>(new ReviewEditor());
 const ruleFormRef = ref<FormInstance>();
@@ -28,7 +30,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async (valid) => {
     if (valid) {
-      await addReview(form)
+      await addReview(simpleProfile.value.loginId, form)
         .then(() => {
           openMessageBox(resultMsg("review.write.success"));
           goReadReview(addedReviewId.value);

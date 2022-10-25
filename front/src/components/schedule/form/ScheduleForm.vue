@@ -6,6 +6,7 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import { ScheduleEditor } from "@/modules/types/schedule/ScheduleTypes";
 import { useCategory } from "@/composables/common/category";
 import type { FormInstance } from "element-plus/es";
+import { useMember } from "@/composables/member/member";
 
 const props = defineProps({
   selectedId: {
@@ -22,6 +23,7 @@ const props = defineProps({
 const emits = defineEmits(["submit", "deleteSchedule"]);
 
 const { editedSchedule, addSchedule, editSchedule } = useSchedule();
+const { simpleProfile } = useMember();
 const { cityNames } = useCategory();
 const {
   labelMsg,
@@ -68,7 +70,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
           emits("submit", true);
         });
       } else {
-        await addSchedule(form).then(() => {
+        await addSchedule(simpleProfile.value.loginId, form).then(() => {
           openMessage(resultMsg("schedule.add"));
           emits("submit");
         });

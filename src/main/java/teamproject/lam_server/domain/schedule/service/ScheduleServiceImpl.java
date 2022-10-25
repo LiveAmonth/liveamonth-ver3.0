@@ -36,7 +36,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     @Transactional
-    public void addSchedule(ScheduleCreate request) {
+    public void addSchedule(String loginId, ScheduleCreate request) {
+        finder.checkLegalLoginId(loginId);
         scheduleRepository.save(request.toEntity(finder.getLoggedInMember()));
     }
 

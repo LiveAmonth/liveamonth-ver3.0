@@ -127,11 +127,11 @@ export const useSchedule = () => {
     }
   };
 
-  const addSchedule = async (form: ScheduleEditor) => {
+  const addSchedule = async (loginId: string, form: ScheduleEditor) => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.addSchedule(form);
+      await store.addSchedule(loginId, form);
       error.value = null;
     } catch (err) {
       error.value = err;

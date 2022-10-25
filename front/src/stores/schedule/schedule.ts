@@ -97,8 +97,8 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
-    addSchedule: async function (form: ScheduleEditor) {
-      await ScheduleApiService.addSchedule(form)
+    addSchedule: async function (loginId: string, form: ScheduleEditor) {
+      await ScheduleApiService.addSchedule(loginId, form)
         .then((response: string) => {
           return response;
         })

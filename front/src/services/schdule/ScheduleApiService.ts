@@ -50,9 +50,9 @@ class ScheduleApiService {
       });
   }
 
-  async addSchedule(request: ScheduleEditor): Promise<string> {
+  async addSchedule(loginId: string, request: ScheduleEditor): Promise<string> {
     return await http
-      .post(`/schedules`, JSON.stringify(request.getCreateData()))
+      .post(`/schedules/${loginId}`, JSON.stringify(request.getCreateData()))
       .then((response) => {
         return response.data;
       })
