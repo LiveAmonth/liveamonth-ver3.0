@@ -7,15 +7,20 @@ import type {
 class InteractionApiService {
   async reactContent(
     type: string,
-    isLiked: boolean,
+    loginId: string,
+    isReacted: boolean,
     request: InteractionType
-  ): Promise<void> {
+  ): Promise<string> {
     return await http
-      .post(`interactions/contents/${type}`, JSON.stringify(request), {
-        params: { is_liked: isLiked },
-      })
+      .post(
+        `interactions/contents/${type}/${loginId}`,
+        JSON.stringify(request),
+        {
+          params: { is_reacted: isReacted },
+        }
+      )
       .then((response) => {
-        return response.data.data;
+        return response.data;
       })
       .catch((error) => {
         throw error.response.data;
@@ -24,13 +29,14 @@ class InteractionApiService {
 
   async reactComment(
     commentType: string,
+    loginId: string,
     option: string,
     request: InteractionType,
     isReacted: boolean
   ): Promise<void> {
     return await http
       .post(
-        `interactions/comments/${commentType}${
+        `interactions/comments/${commentType}/${loginId}${
           isReacted ? "/cancel" : `?react_type=${option}`
         }`,
         JSON.stringify(request)

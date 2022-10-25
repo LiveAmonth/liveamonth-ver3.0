@@ -25,10 +25,10 @@ public class MemberInteractionService implements InteractionService {
 
     @Override
     @Transactional
-    public void react(Boolean likeStatus, InteractionRequest request) {
-        finder.checkLegalWriterId(request.getFrom());
+    public void react(String loginId, Boolean isReacted, InteractionRequest request) {
+        finder.checkLegalLoginId(loginId);
 
-        if (likeStatus) followRepository.unFollow(request);
+        if (isReacted) followRepository.unFollow(request);
         else followRepository.follow(request);
     }
 

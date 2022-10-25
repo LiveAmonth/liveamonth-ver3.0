@@ -11,6 +11,7 @@ import teamproject.lam_server.domain.interaction.repository.review.ReviewComment
 import teamproject.lam_server.domain.interaction.service.CommentInteractionService;
 import teamproject.lam_server.exception.badrequest.AlreadyDislikeComment;
 import teamproject.lam_server.exception.badrequest.AlreadyLikeComment;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import static teamproject.lam_server.domain.interaction.constants.ReactType.LIKE
 public class ReviewCommentInteractionService implements CommentInteractionService {
 
     private final ReviewCommentReactRepository reactRepository;
+    private final SecurityContextFinder finder;
 
     @Override
     public InteractionType getType() {
@@ -32,14 +34,16 @@ public class ReviewCommentInteractionService implements CommentInteractionServic
 
     @Override
     @Transactional
-    public void react(InteractionRequest request, ReactType type) {
+    public void react(String loginId, InteractionRequest request, ReactType type) {
+        finder.checkLegalLoginId(loginId);
+
         checkExists(request);
         reactRepository.react(request, type);
     }
 
     @Override
     @Transactional
-    public void cancelReact(InteractionRequest request) {
+    public void cancelReact(String loginId, InteractionRequest request) {
         reactRepository.cancelLike(request);
     }
 

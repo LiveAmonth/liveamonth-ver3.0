@@ -25,10 +25,10 @@ public class ReviewInteractionService implements InteractionService {
 
     @Override
     @Transactional
-    public void react(Boolean likeStatus, InteractionRequest request) {
-        finder.checkLegalWriterId(request.getFrom());
+    public void react(String loginId, Boolean isReacted, InteractionRequest request) {
+        finder.checkLegalLoginId(loginId);
 
-        if (likeStatus) reviewLikeRepository.cancelLike(request);
+        if (isReacted) reviewLikeRepository.cancelLike(request);
         else reviewLikeRepository.like(request);
     }
 

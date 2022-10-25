@@ -11,9 +11,9 @@ public interface CommentInteractionService {
 
     InteractionType getType();
 
-    void react(InteractionRequest request, ReactType type);
+    void react(String loginId, InteractionRequest request, ReactType type);
 
-    void cancelReact(InteractionRequest request);
+    void cancelReact(String loginId, InteractionRequest request);
 
     List<ReactedCommentResponse> getReactedComments(Long memberId, List<Long> request);
 }
