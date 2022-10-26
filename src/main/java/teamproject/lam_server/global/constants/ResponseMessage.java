@@ -10,12 +10,10 @@ public abstract class ResponseMessage {
     public static final String LOGIN_SUCCESS = "로그인 성공";
     public static final String LOGOUT_SUCCESS = "로그아웃 성공";
     public static final String REISSUE_TOKEN_SUCCESS = "토큰 재발급 성공";
-    public static final String LOGIN_FAIL = "로그인 실패";
     public static final String READ_MEMBER = "회원 정보 조회 성공";
     public static final String FIND_MEMBER_LOGIN_ID = "회원 아이디 찾기 성공";
     public static final String FIND_MEMBER_PASSWORD = "회원 비밀번호 재발급 성공";
     public static final String CREATED_MEMBER = "회원 가입 성공";
-    public static final String CREATED_ADMIN = "관리자 계정 생성 성공";
     public static final String UPDATE_MEMBER = "회원 정보 수정 성공";
     public static final String DROP_MEMBER = "회원 탈퇴 성공";
     public static final String DELETE_MEMBER = "회원 데이터 삭제 성공";
@@ -66,6 +64,7 @@ public abstract class ResponseMessage {
     public static final String UPDATE_REVIEW = "후기글 변경 성공";
     public static final String DELETE_REVIEW = "후기글 삭제 성공";
     public static final String READ_REVIEW = "후기글 조회 성공";
+    public static final String READ_TAG = "태그 조회 성공";
 
     /**
      * Domain: Comment

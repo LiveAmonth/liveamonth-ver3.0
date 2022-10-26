@@ -70,4 +70,10 @@ public class ReviewApiController {
         reviewService.viewCountUp(reviewId);
         return CustomResponse.success(READ_REVIEW);
     }
+
+    @GetMapping("/recommendation-tags")
+    public ResponseEntity<?> getRecommendationTags() {
+        List<String> result = reviewService.getRecommendationTags();
+        return CustomResponse.success(READ_TAG, result);
+    }
 }

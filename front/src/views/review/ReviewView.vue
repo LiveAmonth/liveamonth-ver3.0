@@ -10,6 +10,7 @@ import { useReview } from "@/composables/review/review";
 import { useRoute, useRouter } from "vue-router";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useAuth } from "@/composables/member/auth";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 
 const props = defineProps({
   menu: {
@@ -22,8 +23,15 @@ const category = "REVIEW";
 const { isLoggedIn } = useAuth();
 const { hasReviewCategory, getReviewCategories } = useCategory();
 const { pageable, mappingPagination, movePage } = usePagination(category);
-const { isPending, request, reviewPage, getReviews } = useReview();
-const { requireLoginMessageBox } = useMessageBox();
+const {
+  isPending,
+  request,
+  reviewPage,
+  recommendationTags,
+  getReviews,
+  getRecommendationTags,
+} = useReview();
+const { labelMsg, requireLoginMessageBox } = useMessageBox();
 const route = useRoute();
 const router = useRouter();
 
@@ -31,6 +39,7 @@ onMounted(async () => {
   request.value.type = props.menu.toUpperCase();
   await getReviewCategories();
   await settingReviews();
+  await getRecommendationTags();
 });
 
 const pageClick = async (page: number) => {
@@ -50,6 +59,11 @@ const goWriteReview = () => {
   } else {
     requireLoginMessageBox(writeReviewPath);
   }
+};
+
+const searchTag = (tag: string) => {
+  request.value.pushTag(tag);
+  pageClick(1);
 };
 
 watch(
@@ -89,7 +103,17 @@ watch(
       <CustomPagination :pagination-type="category" @click="pageClick" />
     </el-col>
     <el-col :span="4" class="px-0">
-      <el-card> 추천 태그</el-card>
+      <el-card>
+        <SmallTitleSlot :title="labelMsg('review.recommendation')" />
+        <el-tag
+          v-for="tag in recommendationTags"
+          :key="tag"
+          class="me-1"
+          @click="searchTag(tag)"
+        >
+          {{ `#${tag}` }}
+        </el-tag>
+      </el-card>
     </el-col>
   </el-row>
 </template>
@@ -102,6 +126,19 @@ watch(
   .main-content {
     display: flex;
     flex-direction: column;
+  }
+
+  .el-tag {
+    color: #0f6778;
+    background: none;
+    border: none;
+    font-size: 0.85em;
+    cursor: pointer;
+    margin: 7px 0;
+
+    &:hover {
+      font-weight: 600;
+    }
   }
 }
 </style>

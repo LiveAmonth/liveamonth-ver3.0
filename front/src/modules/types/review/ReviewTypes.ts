@@ -101,6 +101,13 @@ export class ReviewSearchCond
     this.searchWord = form.searchWord;
     this.tags = form.tags;
   }
+
+  pushTag(tag: string): void {
+    this.searchWord = "";
+    this.tags = [tag];
+    this.type = "REVIEW_LIVEAMONTH";
+    this.category = "";
+  }
 }
 
 export class ReviewEditor implements ReviewFormType {

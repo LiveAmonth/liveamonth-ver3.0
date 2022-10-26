@@ -33,6 +33,7 @@ export const useReview = () => {
   const currReview = computed((): ReviewDetailType => store.currReview);
   const myReviews = computed((): ReviewListType[] => store.myReviews);
   const addedReviewId = computed((): number => store.addedReviewId);
+  const recommendationTags = computed((): string[] => store.recommendationTags);
 
   const hasMyReviews = computed(() => store.hasMyReviews);
   const hasOtherReviews = computed(() => store.hasOtherReviews);
@@ -190,6 +191,19 @@ export const useReview = () => {
     });
   };
 
+  const getRecommendationTags = async () => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.getRecommendationTags();
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   return {
     isPending,
     error,
@@ -199,6 +213,7 @@ export const useReview = () => {
     cityReviewTabs,
     otherReviews,
     currReview,
+    recommendationTags,
     myReviews,
     addedReviewId,
     hasMyReviews,
@@ -214,5 +229,6 @@ export const useReview = () => {
     goReadReview,
     goReview,
     goReviewList,
+    getRecommendationTags,
   };
 };

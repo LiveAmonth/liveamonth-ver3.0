@@ -80,32 +80,5 @@ const handleClose = (tag: string) => {
   .search-row {
     margin-bottom: 5px;
   }
-
-  .tag-row {
-    .el-tag {
-      --el-tag-bg-color: rgba(16, 120, 118, 0.15);
-      --el-tag-border-color: rgba(101, 157, 168, 0.83);
-      --el-tag-hover-color: #0f6778;
-      --el-tag-text-color: #0f6778;
-      color: #0f6778;
-      background-color: rgba(16, 120, 118, 0.15);
-      border-color: rgba(101, 157, 168, 0.83);
-    }
-
-    .button-new-tag {
-      border: none;
-
-      &:focus,
-      &:hover {
-        color: #0f6778;
-        background-color: rgba(16, 120, 118, 0.15);
-      }
-    }
-
-    .reset-btn {
-      margin-left: 3px;
-      margin-top: -5px;
-    }
-  }
 }
 </style>

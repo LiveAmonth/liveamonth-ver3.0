@@ -18,4 +18,5 @@ public interface ReviewTagRepository extends JpaRepository<ReviewTag, Long> {
 
     @Query(value = "select * from review_tag rt left join tag t on t.tag_id = rt.tag_id where rt.review_id = :reviewId and t.name in :tags", nativeQuery = true)
     List<ReviewTag> findByReviewIdAndTag(@Param("reviewId") Long reviewId, @Param("tags") Set<String> tags);
+
 }

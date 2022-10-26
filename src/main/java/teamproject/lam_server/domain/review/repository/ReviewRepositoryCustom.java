@@ -15,4 +15,6 @@ public interface ReviewRepositoryCustom {
     List<Review> getReviewByMember(String loginId, Integer size, Long lastId);
 
     Optional<Review> getReview(Long id);
+
+    List<String> getRecommendationTags();
 }

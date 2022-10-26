@@ -44,7 +44,6 @@ const handelInputConfirm = () => {
         class="me-1"
         size="large"
         closable
-        :disable-transitions="false"
         @close="emits('handleClose', tag)"
       >
         {{ `#${tag}` }}

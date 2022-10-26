@@ -22,6 +22,8 @@ import java.util.Optional;
 import static org.springframework.util.StringUtils.hasText;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
+import static teamproject.lam_server.domain.review.entity.QReviewTag.reviewTag;
+import static teamproject.lam_server.domain.review.entity.QTag.tag;
 
 @Repository
 @RequiredArgsConstructor
@@ -62,6 +64,16 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .join(review.member, member).fetchJoin()
                 .where(reviewIdEq(id))
                 .fetchOne());
+    }
+
+    public List<String> getRecommendationTags() {
+        return queryFactory.select(tag.name)
+                .from(reviewTag)
+                .join(reviewTag.tag, tag)
+                .groupBy(tag.id)
+                .orderBy(tag.id.count().desc())
+                .limit(10)
+                .fetch();
     }
 
     private JPAQuery<Review> getSearchElementsQuery(ReviewSearchCond cond, List<Long> reviewTagIds) {
