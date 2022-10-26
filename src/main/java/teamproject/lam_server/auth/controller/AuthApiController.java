@@ -37,7 +37,7 @@ public class AuthApiController {
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(
             @RequestHeader(value = "Authorization") String bearerToken,
-            @CookieValue(value = "Refresh-Token") String refreshToken) {
+            @CookieValue(value = "Refresh-Token", required = false, defaultValue = "expired") String refreshToken) {
         TokenResponse result = authService.reissue(extractAccessToken(bearerToken), refreshToken);
 //        response.addCookie(addRefreshTokenCookie(result.getRefreshToken()));
         return CustomResponse.success(REISSUE_TOKEN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));

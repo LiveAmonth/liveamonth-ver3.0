@@ -30,9 +30,7 @@ public enum ErrorCode {
      * Detail: 잘못된 요청
      */
     PERMISSION_NOT_ACCESSIBLE(400, "해당 리소스에 대한 권한이 없습니다."),
-    INVALID_REFRESH_TOKEN(400, "리프레시 토큰이 유효하지 않습니다."),
     NOT_CORRESPOND_MEMBER(400, "회원 정보가 일치하지 않습니다"),
-    ALREADY_USED_TOKEN(400, "이미 사용 후 반납된 토큰입니다."),
     ALREADY_DROP_MEMBER(400, "이미 탈퇴한 회원입니다."),
     ALREADY_FOLLOW_MEMBER(400, "이미 '팔로우'한 회원입니다."),
     ALREADY_LIKE_SCHEDULE(400, "이미 '좋아요'한 스케줄입니다."),
@@ -46,6 +44,16 @@ public enum ErrorCode {
 
     ILLEGAL_OWNER_OF_POST(400, "해당 게시물의 작성자가 아닙니다."),
     ILLEGAL_LOGGED_IN_MEMBER(400, "로그인 되어 있는 회원 정보와 일치하지 않습니다."),
+
+    /**
+     * <p>
+     * Status: 401 UNAUTHORIZED
+     * <p>
+     * Detail: 허가되지 않음
+     */
+    INVALID_REFRESH_TOKEN(401, "리프레시 토큰이 유효하지 않습니다."),
+    ALREADY_USED_TOKEN(401, "이미 사용 후 반납된 토큰입니다."),
+
 
     /**
      * <p>
