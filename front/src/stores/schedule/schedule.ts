@@ -135,6 +135,7 @@ export const useScheduleStore = defineStore("schedule", {
 
     setCurrentSchedule: async function (data: ScheduleCardType) {
       this.currentSchedule = data;
+      this.currentSchedule.numberOfHits++;
     },
 
     viewCountUp: async function (id: number) {

@@ -43,7 +43,7 @@ export const useAuth = () => {
   const logoutBtn = async () => {
     await logout().then(() => {
       if (!isLoggedIn.value) {
-        router.push({ name: "home" });
+        router.push({ name: "login" });
       }
     });
   };

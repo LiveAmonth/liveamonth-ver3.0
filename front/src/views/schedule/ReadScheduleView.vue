@@ -25,7 +25,7 @@ const { type, currentSchedule, getScheduleContents } = useSchedule();
 const { isLiked, error, isPositiveInteraction, reactContent } =
   useInteraction();
 const { setContentCollapse } = useCalendarEvent();
-const { titleMsg } = useMessageBox();
+const { titleMsg, requireLoginMessageBox } = useMessageBox();
 const commentKey = ref<number>(0);
 
 onMounted(async () => {
@@ -40,13 +40,17 @@ const changeCollapse = (id: number) => {
 };
 
 const handelLike = async () => {
-  await reactContent(type, currentSchedule.value.id).then(() => {
-    if (!error.value && isLoggedIn.value) {
-      isLiked.value
-        ? currentSchedule.value.numberOfLikes++
-        : currentSchedule.value.numberOfLikes--;
-    }
-  });
+  if (isLoggedIn.value) {
+    await reactContent(type, currentSchedule.value.id).then(() => {
+      if (!error.value) {
+        isLiked.value
+          ? currentSchedule.value.numberOfLikes++
+          : currentSchedule.value.numberOfLikes--;
+      }
+    });
+  } else {
+    await requireLoginMessageBox();
+  }
 };
 </script>
 

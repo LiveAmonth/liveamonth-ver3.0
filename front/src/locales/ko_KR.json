@@ -93,9 +93,9 @@
       "cancel": "취소",
       "follow": "팔로우 하기",
       "unfollow": "언팔로우 하기",
-
       "member": {
         "login": "로그인",
+        "goLogin": "로그인 하러가기",
         "logout": "로그아웃",
         "signUp": "회원가입",
         "reconfirm": "비밀번호 재확인",

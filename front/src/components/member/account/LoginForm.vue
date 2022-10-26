@@ -2,10 +2,12 @@
 import { reactive } from "vue";
 import { useAuth } from "@/composables/member/auth";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import type { LoginType } from "@/modules/types/member/MemberTypes";
 
 const router = useRouter();
+const route = useRoute();
+const { returnUrl } = route.query;
 const { error, isPending, login, isLoggedIn } = useAuth();
 const { openMessageBox, buttonMsg, labelMsg, resultMsg } = useMessageBox();
 
@@ -17,7 +19,9 @@ const form = reactive<LoginType>({
 const submitForm = async () => {
   await login(form);
   if (isLoggedIn.value) {
-    await router.push({ name: "home" });
+    returnUrl
+      ? await router.push({ path: String(returnUrl) })
+      : await router.push({ name: "home" });
   }
   if (error.value) {
     await openMessageBox(resultMsg("wrongIdPw"));
@@ -43,7 +47,8 @@ const submitForm = async () => {
         size="large"
         style="width: 100%"
         @click="submitForm"
-        >{{ buttonMsg("member.login") }}
+      >
+        {{ buttonMsg("member.login") }}
       </el-button>
     </el-form-item>
   </el-form>

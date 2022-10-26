@@ -92,7 +92,7 @@ const follow = async () => {
 </template>
 
 <style lang="scss" scoped>
-$brown: #4c6e72;
+$color: #4c6e72;
 
 .center {
   display: flex;
@@ -120,7 +120,7 @@ $brown: #4c6e72;
       left: -3px;
       border-width: 1px;
       border-style: solid;
-      border-color: $brown $brown $brown transparent;
+      border-color: $color $color $color transparent;
       border-radius: 50%;
       transition: all 1.5s ease-in-out;
     }
@@ -131,7 +131,7 @@ $brown: #4c6e72;
       height: 82px;
       top: -6px;
       left: -6px;
-      border-color: $brown transparent $brown $brown;
+      border-color: $color transparent $color $color;
     }
 
     .el-avatar {
@@ -195,12 +195,12 @@ $brown: #4c6e72;
     text-align: center;
     transition: all 0.4s ease-in-out;
     cursor: default;
-    color: $brown;
+    color: $color;
 
     &:hover {
       background: #648b93;
       color: #ffffff;
-      text-shadow: -1px 0 $brown, 0 1px $brown, 1px 0 $brown, 0 -1px $brown;
+      text-shadow: -1px 0 $color, 0 1px $color, 1px 0 $color, 0 -1px $color;
     }
 
     &:nth-child(2) {

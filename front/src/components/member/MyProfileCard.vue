@@ -63,7 +63,7 @@ const goProfile = (post: string) => {
             </el-icon>
           </h6>
           <p @click="tab !== profileTabs[0] ? goProfile(tab.code) : null">
-            {{ getPostCount(tab.code, simpleProfile) }}
+            {{ getPostCount(tab.code, simpleProfile, null) }}
           </p>
         </div>
       </div>

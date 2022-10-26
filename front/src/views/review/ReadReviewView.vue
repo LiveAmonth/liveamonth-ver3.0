@@ -22,8 +22,13 @@ const props = defineProps({
 
 const { type, currReview, getReview, deleteReview, goReviewList } = useReview();
 const { isLoggedInMemberPost } = useMember();
-const { buttonMsg, resultMsg, openMessage, openConfirmMessageBox } =
-  useMessageBox();
+const {
+  buttonMsg,
+  resultMsg,
+  openMessage,
+  openConfirmMessageBox,
+  requireLoginMessageBox,
+} = useMessageBox();
 const { isLiked, error, isPositiveInteraction, reactContent } =
   useInteraction();
 const { isLoggedIn } = useAuth();
@@ -38,13 +43,17 @@ onMounted(async () => {
 });
 
 const handelLike = async () => {
-  await reactContent(type, currReview.value.id).then(() => {
-    if (!error.value && isLoggedIn.value) {
-      isLiked.value
-        ? currReview.value.numberOfLikes++
-        : currReview.value.numberOfLikes--;
-    }
-  });
+  if (isLoggedIn.value) {
+    await reactContent(type, currReview.value.id).then(() => {
+      if (!error.value) {
+        isLiked.value
+          ? currReview.value.numberOfLikes++
+          : currReview.value.numberOfLikes--;
+      }
+    });
+  } else {
+    await requireLoginMessageBox();
+  }
 };
 
 const deleteBtn = async () => {

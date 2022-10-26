@@ -8,6 +8,8 @@ import { useCategory } from "@/composables/common/category";
 import { usePagination } from "@/composables/common/pagination";
 import { useReview } from "@/composables/review/review";
 import { useRoute, useRouter } from "vue-router";
+import { useMessageBox } from "@/composables/common/messageBox";
+import { useAuth } from "@/composables/member/auth";
 
 const props = defineProps({
   menu: {
@@ -17,9 +19,11 @@ const props = defineProps({
 });
 
 const category = "REVIEW";
+const { isLoggedIn } = useAuth();
 const { hasReviewCategory, getReviewCategories } = useCategory();
 const { pageable, mappingPagination, movePage } = usePagination(category);
 const { isPending, request, reviewPage, getReviews } = useReview();
+const { requireLoginMessageBox } = useMessageBox();
 const route = useRoute();
 const router = useRouter();
 
@@ -37,6 +41,15 @@ const pageClick = async (page: number) => {
 const settingReviews = async () => {
   await getReviews(pageable.value);
   mappingPagination(reviewPage.value);
+};
+
+const goWriteReview = () => {
+  const writeReviewPath = "/reviews/write";
+  if (isLoggedIn.value) {
+    router.push({ path: writeReviewPath });
+  } else {
+    requireLoginMessageBox(writeReviewPath);
+  }
 };
 
 watch(
@@ -64,7 +77,7 @@ watch(
             v-if="hasReviewCategory"
             :menu="menu"
             @apply-option="pageClick(1)"
-            @write="router.push({ name: 'write-review' })"
+            @write="goWriteReview"
           />
         </el-col>
       </el-row>

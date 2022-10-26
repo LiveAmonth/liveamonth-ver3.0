@@ -225,7 +225,7 @@ export const useSchedule = () => {
           (value) => value.id == selectedId
         ) as ScheduleCardType
       );
-      store.viewCountUp(selectedId);
+      await store.viewCountUp(selectedId);
     } catch (err) {
       error.value = err;
     }
