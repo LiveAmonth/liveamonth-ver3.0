@@ -28,6 +28,7 @@ export const useReviewStore = defineStore("review", {
       state.pageableReviews.content as ReviewListType[],
     reviewPage: (state): PageableType => state.pageableReviews.pageable,
     hasMyReviews: (state): boolean => !!state.myReviews.length,
+    hasOtherReviews: (state): boolean => !!state.pageableReviews,
   },
   actions: {
     addReview: async function (loginId: string, form: ReviewEditor) {
