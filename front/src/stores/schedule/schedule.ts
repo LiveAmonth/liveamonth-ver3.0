@@ -12,6 +12,7 @@ import type {
   PageableType,
 } from "@/modules/types/pagination/PaginationTypes";
 import { ScheduleSearchCond } from "@/modules/types/schedule/ScheduleTypes";
+import scheduleApiService from "@/services/schdule/ScheduleApiService";
 
 export const useScheduleStore = defineStore("schedule", {
   state: () => ({
@@ -97,6 +98,7 @@ export const useScheduleStore = defineStore("schedule", {
           throw error;
         });
     },
+
     addSchedule: async function (loginId: string, form: ScheduleEditor) {
       await ScheduleApiService.addSchedule(loginId, form)
         .then((response: string) => {
@@ -133,6 +135,10 @@ export const useScheduleStore = defineStore("schedule", {
 
     setCurrentSchedule: async function (data: ScheduleCardType) {
       this.currentSchedule = data;
+    },
+
+    viewCountUp: async function (id: number) {
+      await scheduleApiService.viewCountUp(id);
     },
   },
   persist: {

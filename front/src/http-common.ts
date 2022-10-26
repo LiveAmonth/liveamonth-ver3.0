@@ -42,19 +42,20 @@ apiClient.interceptors.response.use(
       const code = error.response.data.error;
       const axiosRequest = error.config;
       if (status == 403 && code == "EXPIRED_JWT") {
-        try {
-          console.log("access token을 재발급합니다.");
-          await reissue().then(() => {
-            axiosRequest.headers["Authorization"] = `${bearerToken}`;
-            console.log("재발급 된 토큰 ", bearerToken);
+        console.log("access token을 재발급합니다.");
+        await reissue()
+          .then(() => {
+            axiosRequest.headers["Authorization"] = `${bearerToken.value}`;
+            console.log("재발급 된 토큰 ", bearerToken.value);
             return apiClient(axiosRequest);
+          })
+          .catch(async (error) => {
+            console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
+            return Promise.reject(error);
           });
-        } catch (error) {
-          await logoutBtn();
-        }
         return Promise.reject(error);
       }
-      if (status == 400 && code == "INVALID_REFRESH_TOKEN") {
+      if (status == 400) {
         console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
         await logoutBtn();
         return Promise.reject(error);

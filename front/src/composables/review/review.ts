@@ -174,6 +174,14 @@ export const useReview = () => {
     });
   };
 
+  const goReview = async (id: string | number) => {
+    await store.viewCountUp(Number(id));
+    await router.push({
+      name: "read-review",
+      params: { id: id },
+    });
+  };
+
   const goReviewList = async () => {
     await router.push({
       name: "review-list",
@@ -202,6 +210,7 @@ export const useReview = () => {
     getMyReviews,
     getReview,
     goReadReview,
+    goReview,
     goReviewList,
   };
 };

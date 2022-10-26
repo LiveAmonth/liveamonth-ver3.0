@@ -5,7 +5,6 @@ import type {
   ScheduleCardType,
   ScheduleContentEditor,
   ScheduleEditor,
-  MyScheduleType,
 } from "@/modules/types/schedule/ScheduleTypes";
 import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
 
@@ -37,12 +36,6 @@ export const useSchedule = () => {
   const hasEditedSchedule = computed(() => store.hasEditedSchedule);
   const hasMySchedules = computed(() => store.hasMySchedules);
   const hasFollowedSchedules = computed(() => store.hasFollowedSchedules);
-
-  const infiniteSchedules = (
-    isMyPage: boolean
-  ): ScheduleCardType[] | MyScheduleType[] => {
-    return isMyPage ? mySchedules.value : followedSchedules.value;
-  };
 
   // Schedule Global
   const getScheduleContents = async (id: number) => {
@@ -232,6 +225,7 @@ export const useSchedule = () => {
           (value) => value.id == selectedId
         ) as ScheduleCardType
       );
+      store.viewCountUp(selectedId);
     } catch (err) {
       error.value = err;
     }
@@ -268,7 +262,6 @@ export const useSchedule = () => {
     hasEditedSchedule,
     hasMySchedules,
     hasFollowedSchedules,
-    infiniteSchedules,
     getOtherScheduleCard,
     getOtherSchedules,
     getScheduleContents,

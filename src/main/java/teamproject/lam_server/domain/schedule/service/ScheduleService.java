@@ -29,4 +29,6 @@ public interface ScheduleService {
     List<EditableScheduleResponse> getEditableSchedules(String loginId);
 
     CountResponse getNumberOfFollowedPosts(String loginId);
+
+    void viewCountUp(Long scheduleId);
 }

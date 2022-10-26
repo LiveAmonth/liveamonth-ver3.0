@@ -30,16 +30,20 @@ const { simpleProfile } = useMember();
 const {
   hasMySchedules,
   hasFollowedSchedules,
-  infiniteSchedules,
+  mySchedules,
+  followedSchedules,
   getInfiniteSchedules,
   deleteSchedule,
 } = useSchedule();
 const { labelMsg, buttonMsg } = useMessageBox();
 
 const size = ref<number>(10);
+const schedules = computed((): ScheduleCardType[] | MyScheduleType[] =>
+  props.isMyPage ? mySchedules.value : followedSchedules.value
+);
 const count = ref<number>(
-  infiniteSchedules(props.isMyPage).length < props.initialCount
-    ? infiniteSchedules(props.isMyPage).length
+  schedules.value.length < props.initialCount
+    ? schedules.value.length
     : props.initialCount
 );
 const loading = ref<boolean>(false);
@@ -49,9 +53,7 @@ const noMore = computed(() =>
     : count.value >= 30 || schedules.value.length % 10 != 0
 );
 const disabled = computed(() => loading.value || noMore.value);
-const schedules = ref<ScheduleCardType[] | MyScheduleType[]>(
-  infiniteSchedules(props.isMyPage)
-);
+
 const hasSchedules = computed(() =>
   props.isMyPage ? hasMySchedules.value : hasFollowedSchedules.value
 );

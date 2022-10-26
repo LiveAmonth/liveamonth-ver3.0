@@ -81,4 +81,10 @@ public class ScheduleApiController {
         CountResponse result = scheduleApiService.getNumberOfFollowedPosts(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
+
+    @PatchMapping("/{scheduleId}/count-up")
+    public ResponseEntity<?> viewCountUp(@PathVariable Long scheduleId) {
+        scheduleApiService.viewCountUp(scheduleId);
+        return CustomResponse.success(READ_SCHEDULE);
+    }
 }

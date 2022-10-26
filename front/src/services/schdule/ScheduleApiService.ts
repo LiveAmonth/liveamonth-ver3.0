@@ -226,6 +226,17 @@ class ScheduleApiService {
         throw error.response.data;
       });
   }
+
+  viewCountUp(scheduleId: number): Promise<void> {
+    return http
+      .patch(`/schedules/${scheduleId}/count-up`, {})
+      .then((response) => {
+        console.log(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }
 }
 
 export default new ScheduleApiService();

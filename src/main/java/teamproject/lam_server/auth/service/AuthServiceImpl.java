@@ -24,6 +24,8 @@ import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.redis.RedisRepository;
 
+import java.util.Date;
+
 import static org.springframework.util.StringUtils.hasText;
 
 @Service
@@ -89,12 +91,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 새로운 토큰 생성
-        TokenResponse tokenResponse = jwtTokenProvider.generateToken(authentication);
-        redisRepository.save(jwtTokenProvider.getRefreshTokenKey(authentication), tokenResponse);
+        String newAccessToken = jwtTokenProvider.createAccessToken(authentication, new Date());
 
         return TokenResponse.builder()
-                .accessToken(tokenResponse.getAccessToken())
-                .refreshToken(tokenResponse.getRefreshToken())
+                .accessToken(newAccessToken)
+                .refreshToken(savedRefreshToken)
                 .build();
     }
 

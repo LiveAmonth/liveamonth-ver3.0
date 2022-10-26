@@ -19,6 +19,8 @@ public interface ReviewService {
 
     ReviewDetailResponse getReview(Long id);
 
+    void viewCountUp(Long id);
+
     void edit(Long id, ReviewEdit reviewEdit);
 
     void delete(Long id);
