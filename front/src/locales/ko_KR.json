@@ -207,7 +207,8 @@
       "review": {
         "empty": "등록된 게시물이 없습니다",
         "tags": "태그",
-        "tags-pl": "최대 10개"
+        "tags-pl": "최대 10개",
+        "recommendation": "추천 태그"
       },
       "comment": {
         "title": "댓글",

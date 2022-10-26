@@ -22,6 +22,7 @@ export const useReviewStore = defineStore("review", {
     currReview: {} as ReviewDetailType,
     myReviews: [] as ReviewListType[],
     addedReviewId: 0,
+    recommendationTags: [] as string[],
   }),
   getters: {
     otherReviews: (state): ReviewListType[] =>
@@ -109,6 +110,16 @@ export const useReviewStore = defineStore("review", {
 
     viewCountUp: async function (id: number) {
       await ReviewApiService.viewCountUp(id);
+    },
+
+    getRecommendationTags: async function () {
+      await ReviewApiService.getRecommendationTags()
+        .then((response: string[]) => {
+          this.recommendationTags = response;
+        })
+        .catch((error) => {
+          throw error;
+        });
     },
   },
 });

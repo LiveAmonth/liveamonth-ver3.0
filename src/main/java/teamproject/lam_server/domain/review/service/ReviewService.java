@@ -26,4 +26,6 @@ public interface ReviewService {
     void delete(Long id);
 
     List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId);
+
+    List<String> getRecommendationTags();
 }

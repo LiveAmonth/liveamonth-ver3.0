@@ -122,6 +122,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
+    public List<String> getRecommendationTags() {
+        return reviewRepository.getRecommendationTags();
+    }
+
     public ReviewDetailResponse getReview(Long id) {
         return ReviewDetailResponse.of(
                 reviewRepository.getReview(id)

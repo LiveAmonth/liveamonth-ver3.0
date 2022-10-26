@@ -144,6 +144,17 @@ class ReviewApiService {
         console.log(error.response.data);
       });
   }
+
+  getRecommendationTags(): Promise<string[]> {
+    return http
+      .get("/reviews/recommendation-tags")
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
 }
 
 export default new ReviewApiService();
