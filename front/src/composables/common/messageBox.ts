@@ -1,11 +1,12 @@
 import { ElMessageBox } from "element-plus/es";
 import { ElMessage } from "element-plus";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import type { NamedValue } from "@intlify/core-base";
 
 export const useMessageBox = () => {
   const router = useRouter();
+  const route = useRoute();
   const { t } = useI18n();
 
   const openMessage = (message: string) => {
@@ -47,7 +48,7 @@ export const useMessageBox = () => {
       type: "info",
     });
   };
-  const requireLoginMessageBox = () => {
+  const requireLoginMessageBox = (path = route.path) => {
     return ElMessageBox.confirm(
       t("form.message.login"),
       t("form.button.member.login"),
@@ -57,7 +58,7 @@ export const useMessageBox = () => {
       }
     )
       .then(async () => {
-        await router.push({ name: "login" });
+        await router.push({ name: "login", query: { returnUrl: path } });
       })
       .catch(() => {
         console.log("취소");

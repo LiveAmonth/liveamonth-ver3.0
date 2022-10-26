@@ -61,9 +61,11 @@ export const useMyPage = () => {
 
   const getPostCount = (
     post: string,
-    profile: SimpleProfileType | ProfileType
+    profile: SimpleProfileType | ProfileType,
+    followers: number
   ) => {
-    if (post === "follower") return profile.numberOfFollowers;
+    if (post === "follower")
+      return followers ? followers : profile.numberOfFollowers;
     if (post === "schedule") return profile.numberOfSchedules;
     if (post === "review") return profile.numberOfReviews;
     return null;

@@ -15,6 +15,8 @@ import type {
   CommentType,
 } from "@/modules/types/comment/CommentTypes";
 import BestComment from "@/components/comment/BestComment.vue";
+import LinkSlot from "@/components/common/LinkSlot.vue";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
   contentId: {
@@ -35,7 +37,9 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["refresh"]);
+
 const category = "COMMENT";
+const route = useRoute();
 const {
   error,
   commentPageable,
@@ -58,6 +62,7 @@ const { pageable, mappingPagination, movePage, setSize } =
 const {
   resultMsg,
   titleMsg,
+  buttonMsg,
   openWarningMessageByCode,
   openConfirmMessageBox,
   requireLoginMessageBox,
@@ -166,7 +171,15 @@ const setEditInput = (isReply = false, id = "#0") => {
     </SmallTitleSlot>
     <el-card class="comment-write" :body-style="{ paddingBottom: 0 }">
       <BestComment v-if="hasBestComments" :writer="writer" />
-      <SmallTitleSlot :title="titleMsg('comment.write')" class="title mt-1" />
+      <div class="d-flex justify-content-start">
+        <SmallTitleSlot :title="titleMsg('comment.write')" class="title mt-1" />
+        <LinkSlot
+          v-if="!isLoggedIn"
+          class="ms-2"
+          :label="buttonMsg('member.goLogin')"
+          :link="`/login/?returnUrl=${route.path}`"
+        />
+      </div>
       <CommentInput
         :content-id="contentId"
         :is-edit="isEdit"

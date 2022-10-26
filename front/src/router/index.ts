@@ -102,12 +102,14 @@ const router = createRouter({
 });
 router.beforeEach(async (to, from, next) => {
   const store = useAuthStore();
-  const authenticationPages = ["my-page", "my-schedule"];
-  if (
-    authenticationPages.includes(<string>to.name) &&
-    to.name !== "login" &&
-    !store.loggedIn
-  )
+  const authenticationPages = [
+    "management",
+    "profile",
+    "my-schedule",
+    "edit-review",
+    "write-review",
+  ];
+  if (authenticationPages.includes(<string>to.name) && !store.loggedIn)
     next({ name: "login" });
   else next();
 });

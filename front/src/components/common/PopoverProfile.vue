@@ -15,20 +15,41 @@ const props = defineProps({
   },
 });
 const { isLoggedIn } = useAuth();
-const { type, simpleProfile } = useMember();
+const { type } = useMember();
 const { profileTabs, getPostCount } = useMyPage();
-const { reactContent, isFollow } = useInteraction();
-const { buttonMsg } = useMessageBox();
-const isFollowed = ref<boolean>(false);
+const {
+  error,
+  isPending,
+  isFollowed,
+  isPositiveInteraction,
+  reactContent,
+  isWriter,
+} = useInteraction();
+const { buttonMsg, requireLoginMessageBox, openWarningMessage } =
+  useMessageBox();
+
+const numberOfFollowers = ref<number>(props.profile.numberOfFollowers);
 
 onMounted(async () => {
   if (isLoggedIn.value) {
-    isFollowed.value = await isFollow(props.profile.id);
+    await isPositiveInteraction(type, props.profile.id);
   }
 });
 
 const follow = async () => {
-  await reactContent(type, props.profile.id);
+  if (isLoggedIn.value) {
+    await reactContent(type, props.profile.id);
+    if (error.value) {
+      openWarningMessage(error.value.message);
+    }
+    if (isFollowed.value) {
+      numberOfFollowers.value++;
+    } else {
+      numberOfFollowers.value--;
+    }
+  } else {
+    await requireLoginMessageBox();
+  }
 };
 </script>
 
@@ -48,26 +69,21 @@ const follow = async () => {
       </div>
     </template>
     <template #default>
-      <div
-        class="popover-content"
-        style="display: flex; gap: 5px; flex-direction: column"
-      >
-        <el-avatar
-          :size="60"
-          :src="`/src/assets/image/default.jpg`"
-          style="margin-bottom: 8px"
-        />
-        <p class="nickname" style="margin: 0; font-weight: 500">
+      <div class="popover-content">
+        <div class="image">
+          <div class="circle-1"></div>
+          <div class="circle-2"></div>
+          <el-avatar :size="60" :src="`/src/assets/image/default.jpg`" />
+        </div>
+        <p class="nickname">
           {{ profile.nickname }}
         </p>
-        <span
-          class="mention"
-          @click="follow"
-          v-if="profile.id !== simpleProfile.id"
-        >
-          @{{ buttonMsg(`${isFollowed ? "unfollow" : "follow"}`) }}
-        </span>
-        <div class="ds-info d-flex justify-content-center m-1">
+        <div class="actions" v-if="!isWriter(profile.id)">
+          <el-button :loading="isPending" class="btn" text @click="follow">
+            @{{ buttonMsg(`${isFollowed ? "unfollow" : "follow"}`) }}
+          </el-button>
+        </div>
+        <div class="ds-info m-1">
           <div
             v-for="tab in profileTabs"
             :key="tab.code"
@@ -81,7 +97,7 @@ const follow = async () => {
               </el-icon>
             </h6>
             <p>
-              {{ getPostCount(tab.code, profile) }}
+              {{ getPostCount(tab.code, profile, numberOfFollowers) }}
             </p>
           </div>
         </div>
@@ -93,8 +109,62 @@ const follow = async () => {
 <style lang="scss" scoped>
 .popover-content {
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 
-  .mention {
+  .image {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    margin: 7px 15px;
+
+    .circle-1 {
+      position: absolute;
+      box-sizing: border-box;
+      width: 66px;
+      height: 66px;
+      top: -3px;
+      left: -3px;
+      border-width: 1px;
+      border-style: solid;
+      border-color: #4c6e72 #4c6e72 #4c6e72 transparent;
+      border-radius: 50%;
+      transition: all 1.5s ease-in-out;
+    }
+
+    .circle-2 {
+      @extend .circle-1;
+      width: 72px;
+      height: 72px;
+      top: -6px;
+      left: -6px;
+      border-color: #4c6e72 transparent #4c6e72 #4c6e72;
+    }
+
+    .el-avatar {
+      display: block;
+      border-radius: 50%;
+      background: #f5e8df;
+    }
+
+    &:hover {
+      .circle-1 {
+        transform: rotate(360deg);
+      }
+
+      .circle-2 {
+        transform: rotate(-360deg);
+      }
+    }
+  }
+
+  .nickname {
+    margin: 3px 0 0 18px;
+    font-weight: 500;
+  }
+
+  .actions {
     margin: 0;
     font-size: 14px;
     color: var(--el-color-info);
@@ -120,6 +190,7 @@ const follow = async () => {
     width: inherit;
     height: 40px;
     display: flex;
+    justify-content: center;
 
     .follower,
     .schedule,
@@ -135,7 +206,7 @@ const follow = async () => {
       h6 {
         margin: 0;
         text-transform: uppercase;
-        color: #004a55;
+        color: #4c6e72;
       }
 
       p {
