@@ -38,7 +38,6 @@ const {
   inputPhMsg,
   beforeWritePhMsg,
 } = useMessageBox();
-
 const form = reactive<CommentEditor>(
   new CommentEditor(props.contentId, props.parentId)
 );
@@ -77,7 +76,7 @@ watch(
 <template>
   <el-form ref="ruleFormRef" :model="form" :rules="form.getRules()">
     <div class="d-flex justify-content-start">
-      <el-form-item prop="comment">
+      <el-form-item>
         <el-input
           class="comment-input"
           v-model="form.comment"
@@ -95,7 +94,7 @@ watch(
       </el-form-item>
       <el-button
         class="ms-2"
-        :disabled="!isLoggedIn"
+        :disabled="!isLoggedIn || !form.comment"
         color="#0f6778"
         @click="submitForm(ruleFormRef)"
       >
