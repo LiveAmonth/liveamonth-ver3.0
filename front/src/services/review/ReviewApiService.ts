@@ -125,12 +125,23 @@ class ReviewApiService {
 
   async getReview(reviewId: number) {
     return await http
-      .get(`reviews/${reviewId}/detail`)
+      .get(`/reviews/${reviewId}/detail`)
       .then((response) => {
         return response.data.data;
       })
       .catch((error) => {
         throw error.response.data;
+      });
+  }
+
+  viewCountUp(reviewId: number): Promise<void> {
+    return http
+      .patch(`/reviews/${reviewId}/count-up`, {})
+      .then((response) => {
+        console.log(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
       });
   }
 }

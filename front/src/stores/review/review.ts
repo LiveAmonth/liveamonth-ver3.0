@@ -105,5 +105,9 @@ export const useReviewStore = defineStore("review", {
           throw error;
         });
     },
+
+    viewCountUp: async function (id: number) {
+      await ReviewApiService.viewCountUp(id);
+    },
   },
 });

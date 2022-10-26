@@ -24,7 +24,7 @@ public class SecurityContextFinder {
         return memberRepository.findByLoginId(user).orElseThrow(MemberNotFound::new);
     }
 
-    public String getLoggedInMemberLoginId() {
+    public String getAuthenticationName() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
@@ -33,7 +33,7 @@ public class SecurityContextFinder {
     }
 
     public <T extends BaseEntity> void checkLegalWriterOfPost(T t) {
-        if (!Objects.equals(getLoggedInMemberLoginId(), t.getCreatedBy())) {
+        if (!Objects.equals(getAuthenticationName(), t.getCreatedBy())) {
             throw new IllegalWriterOfPost();
         }
     }
@@ -47,7 +47,7 @@ public class SecurityContextFinder {
     }
 
     public void checkLegalLoginId(String loginId) {
-        if (!Objects.equals(getLoggedInMemberLoginId(), loginId)) {
+        if (!Objects.equals(getAuthenticationName(), loginId)) {
             throw new IllegalLoggedInMember();
         }
     }

@@ -34,14 +34,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final ScheduleQueryRepository scheduleQueryRepository;
     private final DomainSpec<ScheduleSortType> spec = new DomainSpec<>(ScheduleSortType.class);
 
-    @Override
     @Transactional
     public void addSchedule(String loginId, ScheduleCreate request) {
         finder.checkLegalLoginId(loginId);
         scheduleRepository.save(request.toEntity(finder.getLoggedInMember()));
     }
 
-    @Override
     @Transactional
     public void editSchedule(Long scheduleId, ScheduleEdit request) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
@@ -59,7 +57,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.edit(editor);
     }
 
-    @Override
     @Transactional
     public void deleteSchedule(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
@@ -69,7 +66,6 @@ public class ScheduleServiceImpl implements ScheduleService {
         scheduleRepository.delete(schedule);
     }
 
-    @Override
     public CustomPage<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
         Page<ScheduleCardResponse> page =
                 scheduleQueryRepository.search(cond, spec.getPageable(pageableDTO))
@@ -80,7 +76,6 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .build();
     }
 
-    @Override
     public List<MyScheduleResponse> getMySchedules(String loginId, Integer size, Long lastId) {
         finder.checkLegalLoginId(loginId);
         return scheduleQueryRepository.getMySchedules(loginId, size, lastId)
@@ -89,14 +84,12 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
         return scheduleQueryRepository.getFollowedSchedules(loginId, size, lastId).stream()
                 .map(ScheduleCardResponse::of)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public List<EditableScheduleResponse> getEditableSchedules(String loginId) {
         finder.checkLegalLoginId(loginId);
         return scheduleRepository.getByCreatedBy(loginId)
@@ -105,9 +98,13 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    @Override
     public CountResponse getNumberOfFollowedPosts(String loginId) {
         return CountResponse.of(scheduleQueryRepository.getNumberOfFollowedPosts(loginId));
+    }
+
+    @Transactional
+    public void viewCountUp(Long scheduleId) {
+        scheduleRepository.viewCountUp(scheduleId);
     }
 
 }

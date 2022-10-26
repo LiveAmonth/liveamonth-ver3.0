@@ -72,7 +72,7 @@ const { labelMsg, categoryMsg } = useMessageBox();
       </el-row>
       <el-row class="count">
         <el-col class="icon-value">
-          <el-icon>
+          <el-icon class="mb-1">
             <View />
           </el-icon>
           <span class="value">

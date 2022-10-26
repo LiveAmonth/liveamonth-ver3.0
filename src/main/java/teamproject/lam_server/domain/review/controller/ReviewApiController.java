@@ -16,7 +16,6 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static teamproject.lam_server.global.constants.ResponseMessage.*;
@@ -60,9 +59,15 @@ public class ReviewApiController {
 
     @GetMapping("/list/{loginId}")
     public ResponseEntity<?> getReviewByMember(@PathVariable String loginId,
-                                            @RequestParam Integer size,
-                                            @RequestParam(name = "last_id", required = false) Long lastId) {
+                                               @RequestParam Integer size,
+                                               @RequestParam(name = "last_id", required = false) Long lastId) {
         List<ReviewListResponse> result = reviewService.getReviewByMember(loginId, size, lastId);
         return CustomResponse.success(READ_REVIEW, result);
+    }
+
+    @PatchMapping("/{reviewId}/count-up")
+    public ResponseEntity<?> viewCountUp(@PathVariable Long reviewId) {
+        reviewService.viewCountUp(reviewId);
+        return CustomResponse.success(READ_REVIEW);
     }
 }

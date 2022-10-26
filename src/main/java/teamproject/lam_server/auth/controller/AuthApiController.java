@@ -1,6 +1,7 @@
 package teamproject.lam_server.auth.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.auth.dto.response.AccessTokenResponse;
@@ -21,6 +22,7 @@ import static teamproject.lam_server.util.JwtUtil.extractAccessToken;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@Slf4j
 public class AuthApiController {
 
     private final AuthService authService;
@@ -35,9 +37,9 @@ public class AuthApiController {
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(
             @RequestHeader(value = "Authorization") String bearerToken,
-            @CookieValue(value = "Refresh-Token") String refreshToken, HttpServletResponse response) {
+            @CookieValue(value = "Refresh-Token") String refreshToken) {
         TokenResponse result = authService.reissue(extractAccessToken(bearerToken), refreshToken);
-        response.addCookie(addRefreshTokenCookie(result.getRefreshToken()));
+//        response.addCookie(addRefreshTokenCookie(result.getRefreshToken()));
         return CustomResponse.success(REISSUE_TOKEN_SUCCESS, AccessTokenResponse.of(result.getAccessToken()));
     }
 

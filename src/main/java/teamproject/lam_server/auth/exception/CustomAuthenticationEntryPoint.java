@@ -34,7 +34,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         else if (exception.equals(UNSUPPORTED_TOKEN.name())) {
             setResponse(response, UNSUPPORTED_TOKEN);
         } else {
-            setResponse(response, ARGUMENTS_NOT_VALID);
+            setResponse(response, ALREADY_USED_TOKEN);
         }
 
         if (authException instanceof BadCredentialsException) {

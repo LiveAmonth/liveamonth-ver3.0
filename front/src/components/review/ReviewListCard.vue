@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import ImageIcon from "@/components/common/ImageIcon.vue";
 import { View, Close } from "@element-plus/icons-vue";
+import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
 import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
 import type { PropType } from "vue";
@@ -17,7 +18,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["deleteReview"]);
-
+const { goReadReview, goReview } = useReview();
 const { buttonMsg, resultMsg, openConfirmMessageBox } = useMessageBox();
 
 const handleDelete = async () => {
@@ -34,9 +35,9 @@ const handleDelete = async () => {
   <el-row class="review-item">
     <el-col :span="18" class="review">
       <div class="title">
-        <router-link :to="{ name: 'read-review', params: { id: review.id } }">
+        <span @click="isMyPage ? goReadReview(review.id) : goReview(review.id)">
           {{ review.title }}
-        </router-link>
+        </span>
       </div>
       <div class="content">
         {{ review.content }}
@@ -98,13 +99,10 @@ const handleDelete = async () => {
       margin-bottom: 15px;
       font-size: 1.5rem;
 
-      a {
+      span {
         color: #383838;
         text-decoration: none;
-
-        .view-count {
-          font-size: 1rem;
-        }
+        cursor: pointer;
       }
     }
 

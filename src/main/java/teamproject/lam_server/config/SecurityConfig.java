@@ -101,6 +101,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/*/members/exists/**",
                         "/api/**/search",
                         "/api/**/detail",
+                        "/api/**/count-up",
                         "/api/*/city/**",
                         "/api/*/categories/**",
                         "/api/*/interactions/**",

@@ -130,6 +130,11 @@ public class ReviewServiceImpl implements ReviewService {
         );
     }
 
+    @Transactional
+    public void viewCountUp(Long id) {
+        reviewRepository.viewCountUp(id);
+    }
+
     private Set<ReviewTag> mapToReviewTags(Set<String> tags) {
         return tags.stream()
                 .map(tag -> ReviewTag.createReviewTag(findOrCreateTag(tag)))
