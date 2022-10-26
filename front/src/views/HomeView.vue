@@ -14,23 +14,15 @@ const { isLoggedIn } = useAuth();
 const { simpleProfile, getSimpleProfile } = useMember();
 const { titleMsg } = useMessageBox();
 const {
-  otherSchedules,
-  followedSchedules,
+  hasOtherSchedules,
+  hasFollowedSchedules,
   getPopularSchedules,
   getInfiniteSchedules,
 } = useSchedule();
-const { otherReviews, getPopularReviews } = useReview();
-const hasTopPosts = computed(
-  () =>
-    otherSchedules.value &&
-    otherReviews.value &&
-    otherSchedules.value.length &&
-    otherReviews.value.length
-);
+const { hasOtherReviews, getPopularReviews } = useReview();
+const hasTopPosts = computed(() => hasOtherSchedules && hasOtherReviews);
 const hasFollowedPosts = computed(() =>
-  isLoggedIn.value
-    ? followedSchedules.value && followedSchedules.value.length
-    : true
+  isLoggedIn.value ? hasFollowedSchedules : true
 );
 
 onMounted(async () => {

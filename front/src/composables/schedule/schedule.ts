@@ -36,6 +36,7 @@ export const useSchedule = () => {
   const hasEditedSchedule = computed(() => store.hasEditedSchedule);
   const hasMySchedules = computed(() => store.hasMySchedules);
   const hasFollowedSchedules = computed(() => store.hasFollowedSchedules);
+  const hasOtherSchedules = computed(() => store.hasOtherSchedules);
 
   // Schedule Global
   const getScheduleContents = async (id: number) => {
@@ -262,6 +263,7 @@ export const useSchedule = () => {
     hasEditedSchedule,
     hasMySchedules,
     hasFollowedSchedules,
+    hasOtherSchedules,
     getOtherScheduleCard,
     getOtherSchedules,
     getScheduleContents,

@@ -32,6 +32,7 @@ export const useScheduleStore = defineStore("schedule", {
     hasEditedSchedule: (state): boolean => !!state.editedSchedule.id,
     hasMySchedules: (state): boolean => !!state.mySchedules.length,
     hasFollowedSchedules: (state): boolean => !!state.followedSchedules.length,
+    hasOtherSchedules: (state): boolean => !!state.pageableSchedules,
   },
   actions: {
     getOtherSchedules: async function (pageable: PageableRequestType) {
