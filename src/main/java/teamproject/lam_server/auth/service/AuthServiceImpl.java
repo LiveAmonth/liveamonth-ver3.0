@@ -161,6 +161,10 @@ public class AuthServiceImpl implements AuthService {
      * 유효하지 않은 토큰인지 확인
      */
     private boolean isInvalidationToken(String token) {
-        return !jwtTokenProvider.validateToken(token);
+        try {
+            return !jwtTokenProvider.validateToken(token);
+        } catch (Exception e) {
+            throw new InvalidRefreshToken();
+        }
     }
 }
