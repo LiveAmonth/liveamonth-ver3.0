@@ -24,9 +24,9 @@ import static javax.persistence.FetchType.LAZY;
 @Slf4j
 public class Review extends BaseEntity {
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<ReviewComment> reviewComments = new ArrayList<>();
-    @OneToMany(mappedBy = "to")
+    @OneToMany(mappedBy = "to", orphanRemoval = true)
     private final Set<ReviewLike> likes = new HashSet<>();
     @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private Set<ReviewTag> tags = new HashSet<>();

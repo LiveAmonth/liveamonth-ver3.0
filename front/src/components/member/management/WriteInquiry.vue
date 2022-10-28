@@ -66,7 +66,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       label-width="80px"
       status-icon
     >
-      <el-form-item :label="labelMsg('inquiry.writer')" prop="writer">
+      <el-form-item :label="labelMsg('writer')" prop="writer">
         <el-input v-model="form.writer" disabled />
       </el-form-item>
       <el-form-item :label="labelMsg('title')" prop="title">

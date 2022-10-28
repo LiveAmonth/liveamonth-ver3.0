@@ -23,6 +23,11 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  isMain: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 const emits = defineEmits(["refresh"]);
 
@@ -109,6 +114,7 @@ const handleDelete = async (scheduleId: number) => {
               :is-my-page="isMyPage"
               :login-id="simpleProfile.loginId"
               :schedule="schedule"
+              :is-main="isMain"
               @delete-schedule="handleDelete(schedule.id)"
             />
           </el-col>

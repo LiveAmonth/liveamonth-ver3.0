@@ -20,6 +20,7 @@ const props = defineProps({
     required: true,
   },
 });
+
 const { isLoggedIn } = useAuth();
 const { type, currentSchedule, getScheduleContents } = useSchedule();
 const { isLiked, error, isPositiveInteraction, reactContent } =

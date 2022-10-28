@@ -27,11 +27,11 @@ import static javax.persistence.FetchType.LAZY;
 @AttributeOverride(name = "id", column = @Column(name = "schedule_id"))
 public class Schedule extends BaseEntity {
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<ScheduleContent> scheduleContents = new ArrayList<>();
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<ScheduleComment> scheduleComments = new ArrayList<>();
-    @OneToMany(mappedBy = "to", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "to", orphanRemoval = true)
     private final Set<ScheduleLike> likes = new HashSet<>();
     private String title;
     @Enumerated(EnumType.STRING)

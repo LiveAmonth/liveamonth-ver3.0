@@ -4,7 +4,7 @@ import TitleSlot from "@/components/common/TitleSlot.vue";
 import ImageIcon from "@/components/common/ImageIcon.vue";
 import { Back } from "@element-plus/icons-vue";
 import { View } from "@element-plus/icons-vue";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
@@ -34,6 +34,7 @@ const { isLiked, error, isPositiveInteraction, reactContent } =
 const { isLoggedIn } = useAuth();
 const router = useRouter();
 const commentKey = ref<number>(0);
+const quillKey = ref<number>(0);
 
 onMounted(async () => {
   await getReview(Number(props.id));
@@ -59,7 +60,7 @@ const handelLike = async () => {
 const deleteBtn = async () => {
   await openConfirmMessageBox(
     resultMsg("review.delete.title"),
-    resultMsg("review.delete.content")
+    resultMsg("review.delete.message")
   ).then(async () => {
     await deleteReview(Number(props.id)).then(() => {
       openMessage(resultMsg("review.delete.success"));
@@ -67,6 +68,13 @@ const deleteBtn = async () => {
     });
   });
 };
+
+watch(
+  () => currReview.value,
+  () => {
+    quillKey.value++;
+  }
+);
 </script>
 
 <template>
@@ -102,6 +110,7 @@ const deleteBtn = async () => {
             v-model:content="currReview.content"
             read-only
             contentType="html"
+            :key="quillKey"
           />
         </div>
         <div class="tags">
@@ -173,7 +182,7 @@ const deleteBtn = async () => {
       font-size: 1.8rem;
       font-weight: 600;
       color: #383838;
-      margin-bottom: 30px;
+      margin: 20px 0;
     }
 
     .sub {

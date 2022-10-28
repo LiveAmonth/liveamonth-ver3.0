@@ -17,6 +17,7 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -37,6 +38,7 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
                 .limit(pageable.getPageSize())
                 .orderBy(mapToOrderSpec(pageable.getSort(), Review.class, review))
                 .groupBy(review.id)
+                .distinct()
                 .fetch();
 
         JPAQuery<Long> countQuery = getSearchCountQuery(cond, tagInReviewIds);
@@ -86,12 +88,13 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
     private JPAQuery<Long> getSearchCountQuery(ReviewSearchCond cond, List<Long> reviewTagIds) {
         return queryFactory.select(review.count())
                 .from(review)
+                .join(review.member, member)
                 .where(getSearchPredicts(cond, reviewTagIds));
     }
 
     private Predicate[] getSearchPredicts(ReviewSearchCond cond, List<Long> reviewTagIds) {
         return new Predicate[]{
-                reviewContains(cond.getSearchWord()),
+                reviewSearchWordContains(cond.getSearchWord()),
                 categoryIn(cond.getType()),
                 tagContains(reviewTagIds),
                 categoryEq(cond.getCategory())
@@ -110,8 +113,18 @@ public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepos
         return lastId != null ? review.id.lt(lastId) : null;
     }
 
-    private BooleanExpression reviewContains(String word) {
-        return hasText(word) ? review.title.contains(word).or(review.content.contains(word)).or(member.nickname.eq(word)) : null;
+    private BooleanExpression tittleContains(String word) {
+        return hasText(word) ? review.title.contains(word): null;
+    }
+    private BooleanExpression contentContains(String word) {
+        return hasText(word) ? review.content.contains(word) : null;
+    }
+    private BooleanExpression nicknameEq(String word) {
+        return hasText(word) ? member.nickname.eq(word) : null;
+    }
+
+    private BooleanExpression reviewSearchWordContains(String word) {
+        return hasText(word) ? Objects.requireNonNull(tittleContains(word)).or(contentContains(word)).or(nicknameEq(word)) : null;
     }
 
     private BooleanExpression categoryIn(ReviewSearchType type) {

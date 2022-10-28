@@ -218,14 +218,17 @@ export const useSchedule = () => {
     }
   };
 
-  const setCurrentSchedule = async (selectedId: number) => {
+  const setCurrentSchedule = async (isMain: boolean, selectedId: number) => {
     error.value = null;
     try {
-      await store.setCurrentSchedule(
-        otherSchedules.value.find(
-          (value) => value.id == selectedId
-        ) as ScheduleCardType
-      );
+      const selectedSchedule = isMain
+        ? (followedSchedules.value.find(
+            (value) => value.id == selectedId
+          ) as ScheduleCardType)
+        : (otherSchedules.value.find(
+            (value) => value.id == selectedId
+          ) as ScheduleCardType);
+      await store.setCurrentSchedule(selectedSchedule);
       await store.viewCountUp(selectedId);
     } catch (err) {
       error.value = err;

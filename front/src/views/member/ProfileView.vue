@@ -86,7 +86,7 @@ const clickTab = (tab: string) => {
           <div v-for="tab in profileTabs" :key="tab.code" :class="tab.code">
             <span class="name"> {{ tab.value }} </span>
             <span class="count" @click="clickTab(tab.code)">
-              {{ getPostCount(tab.code, memberProfile) }}
+              {{ getPostCount(tab.code, memberProfile, null) }}
             </span>
           </div>
         </div>

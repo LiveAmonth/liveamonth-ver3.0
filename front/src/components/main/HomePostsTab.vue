@@ -19,12 +19,18 @@ const initialSize = ref<number>(20);
     :tabs="homePostsTabs"
   >
     <template v-slot:tab-1>
-      <ScheduleList v-if="activeName === homePostsTabs[0].code" />
+      <ScheduleList
+        v-if="activeName === homePostsTabs[0].code"
+        :is-main="true"
+      />
     </template>
     <template v-slot:tab-2>
       <el-row class="d-flex justify-content-center">
         <el-col :span="18">
-          <ReviewList v-if="activeName === homePostsTabs[1].code" />
+          <ReviewList
+            v-if="activeName === homePostsTabs[1].code"
+            :is-main="true"
+          />
         </el-col>
       </el-row>
     </template>

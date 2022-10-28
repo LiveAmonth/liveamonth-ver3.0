@@ -28,10 +28,7 @@ const goProfile = (post: string) => {
         </div>
       </div>
       <div class="name">
-        <router-link
-          :to="{ name: 'profile', params: { post: 'schedule' } }"
-          target="_blank"
-        >
+        <router-link :to="{ name: 'profile', params: { post: 'schedule' } }">
           {{ simpleProfile.nickname }}
         </router-link>
       </div>

@@ -3,6 +3,13 @@ import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 
+defineProps({
+  isMain: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 const { otherSchedules } = useSchedule();
 </script>
 
@@ -10,14 +17,17 @@ const { otherSchedules } = useSchedule();
   <div class="schedule-list">
     <ul class="list">
       <li
-        v-for="schedule in otherSchedules"
+        v-for="(schedule, idx) in otherSchedules"
         :key="schedule.id"
         class="list-item py-4"
       >
         <el-row class="d-flex justify-content-center">
           <SimpleCalendar class="me-3" :period="schedule.period" />
           <el-col :span="16" class="schedule-list-card">
-            <ScheduleInfoCard :schedule="schedule" />
+            <ScheduleInfoCard
+              :schedule="schedule"
+              :rank="isMain ? idx + 1 : 0"
+            />
           </el-col>
         </el-row>
       </li>
