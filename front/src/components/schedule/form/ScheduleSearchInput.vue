@@ -33,7 +33,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <el-form :model="form" class="form">
+  <el-form :model="form" class="form" @keydown.enter.prevent="submitForm">
     <el-row class="search-row">
       <el-col :span="20" class="mx-2 flex-column">
         <el-row class="form-item mb-3">

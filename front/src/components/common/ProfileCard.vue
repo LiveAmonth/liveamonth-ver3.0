@@ -35,7 +35,7 @@ const { buttonMsg, tabMsg, requireLoginMessageBox, openWarningMessage } =
 const numberOfFollowers = ref<number>(props.profile.numberOfFollowers);
 
 onMounted(async () => {
-  if (isLoggedIn.value) {
+  if (isLoggedIn.value && !props.isList) {
     await isPositiveInteraction(type, props.profile.id);
   }
 });

@@ -23,32 +23,36 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  rank: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  isMain: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 const emit = defineEmits(["deleteSchedule"]);
 
 const router = useRouter();
-const {
-  error,
-  hasCurrentSchedule,
-  hasEditedSchedule,
-  setCurrentSchedule,
-  setEditedSchedule,
-} = useSchedule();
+const { error, hasCurrentSchedule, setCurrentSchedule } = useSchedule();
 const { buttonMsg, resultMsg, openConfirmMessageBox } = useMessageBox();
 
 const goSchedule = async () => {
   if (props.isMyPage) {
-    await setEditedSchedule(props.schedule.id);
-    if (!error.value && hasEditedSchedule.value) {
-      await router.push({
-        name: "my-schedule",
-        params: {
-          loginId: props.loginId,
-        },
-      });
-    }
+    await router.push({
+      name: "my-schedule",
+      params: {
+        loginId: props.loginId,
+      },
+      query: {
+        initialId: props.schedule.id,
+      },
+    });
   } else {
-    await setCurrentSchedule(props.schedule.id);
+    await setCurrentSchedule(props.isMain, props.schedule.id);
     if (!error.value && hasCurrentSchedule.value) {
       await router.push({
         name: "read-schedule",
@@ -88,6 +92,11 @@ const handleDelete = async () => {
           :show-likes="true"
         >
           <template v-slot:title>
+            <el-badge
+              v-if="rank !== 0"
+              class="me-1 mb-3"
+              :value="`TOP ${rank}`"
+            />
             <SmallTitleSlot
               class="slot"
               @click="goSchedule"
@@ -118,6 +127,10 @@ const handleDelete = async () => {
   </div>
 </template>
 <style scoped lang="scss">
+.el-badge {
+  margin-left: -50px;
+}
+
 .nickname {
   font-size: 0.9rem;
 }

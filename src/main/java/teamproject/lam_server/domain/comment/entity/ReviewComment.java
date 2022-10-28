@@ -27,7 +27,7 @@ public class ReviewComment extends CommentEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private final List<ReviewComment> children = new ArrayList<>();
 
-    @OneToMany(mappedBy = "to")
+    @OneToMany(mappedBy = "to", orphanRemoval = true)
     private final Set<ReviewCommentReact> reacts = new HashSet<>();
 
     @ManyToOne(fetch = LAZY)

@@ -34,31 +34,31 @@ import static teamproject.lam_server.constants.SessionConstants.*;
 @AttributeOverride(name = "id", column = @Column(name = "member_id"))
 public class Member extends BaseTimeEntity {
 
-    @OneToMany(mappedBy = "to")
+    @OneToMany(mappedBy = "to", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final Set<Follower> followers = new HashSet<>();
     @OneToMany(mappedBy = "from")
     private final Set<Follower> following = new HashSet<>();
 
     // 스케줄
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Schedule> schedules = new ArrayList<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<ScheduleComment> scheduleComments = new ArrayList<>();
-    @OneToMany(mappedBy = "from")
+    @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
-    @OneToMany(mappedBy = "from")
+    @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ScheduleCommentReact> scheduleCommentReacts = new HashSet<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Inquiry> inquiries = new ArrayList<>();
 
     // 리뷰
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Review> reviews = new ArrayList<>();
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<ReviewComment> reviewComments = new ArrayList<>();
-    @OneToMany(mappedBy = "from")
+    @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ReviewLike> reviewLikes = new HashSet<>();
-    @OneToMany(mappedBy = "from")
+    @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ReviewCommentReact> reviewCommentReacts = new HashSet<>();
 
     @Column(unique = true, updatable = false)

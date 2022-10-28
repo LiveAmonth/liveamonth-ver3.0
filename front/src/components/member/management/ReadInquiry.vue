@@ -2,6 +2,7 @@
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useInquiry } from "@/composables/member/inquiry";
 import { useMessageBox } from "@/composables/common/messageBox";
+import { ref, watch } from "vue";
 
 defineProps({
   inquiryType: String,
@@ -11,6 +12,7 @@ const emits = defineEmits(["goEdit", "goBack", "delete"]);
 const { titleMsg, buttonMsg, resultMsg, openConfirmMessageBox } =
   useMessageBox();
 const { currInquiry } = useInquiry();
+const quillKey = ref<number>(0);
 
 const deleteBtn = async () => {
   await openConfirmMessageBox(
@@ -20,6 +22,13 @@ const deleteBtn = async () => {
     emits("delete", currInquiry.value.id);
   });
 };
+
+watch(
+  () => currInquiry.value,
+  () => {
+    quillKey.value++;
+  }
+);
 </script>
 
 <template>
@@ -48,6 +57,7 @@ const deleteBtn = async () => {
             v-model:content="currInquiry.content"
             read-only
             contentType="html"
+            :key="quillKey"
           />
         </div>
       </el-col>

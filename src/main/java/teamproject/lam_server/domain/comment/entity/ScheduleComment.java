@@ -26,7 +26,7 @@ public class ScheduleComment extends CommentEntity {
 
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private final List<ScheduleComment> children = new ArrayList<>();
-    @OneToMany(mappedBy = "to")
+    @OneToMany(mappedBy = "to", orphanRemoval = true)
     private final Set<ScheduleCommentReact> reacts = new HashSet<>();
 
     @ManyToOne(fetch = LAZY)

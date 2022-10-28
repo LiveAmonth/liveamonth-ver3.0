@@ -61,14 +61,6 @@ export interface ScheduleCardType {
   publicFlag: boolean;
 }
 
-export interface EditableScheduleType {
-  id: number;
-  title: string;
-  city: EnumType;
-  period: DatePeriodType;
-  publicFlag: boolean;
-}
-
 export interface MyScheduleType {
   id: number;
   title: string;
@@ -79,6 +71,14 @@ export interface MyScheduleType {
   numberOfHits: number;
   numberOfLikes: number;
   numberOfComments: number;
+}
+
+export interface EditableScheduleType {
+  id: number;
+  title: string;
+  city: EnumType;
+  period: DatePeriodType;
+  publicFlag: boolean;
 }
 
 export interface ScheduleContentType {

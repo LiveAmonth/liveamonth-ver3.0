@@ -2,13 +2,20 @@
 import ReviewListCard from "@/components/review/ReviewListCard.vue";
 import { useReview } from "@/composables/review/review";
 
+defineProps({
+  isMain: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+});
 const { otherReviews } = useReview();
 </script>
 
 <template>
   <ul v-if="otherReviews">
-    <li v-for="review in otherReviews" :key="review.id">
-      <ReviewListCard :review="review" />
+    <li v-for="(review, idx) in otherReviews" :key="review.id">
+      <ReviewListCard :review="review" :rank="isMain ? idx + 1 : 0" />
       <el-divider />
     </li>
   </ul>

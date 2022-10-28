@@ -12,6 +12,7 @@ import { useMessageBox } from "@/composables/common/messageBox";
 import { useCalendarEvent } from "@/composables/schedule/calendarEvent";
 import { useDate } from "@/composables/common/date";
 import type { DatePeriodType } from "@/modules/types/schedule/ScheduleTypes";
+import { useRoute } from "vue-router";
 
 const props = defineProps({
   loginId: {
@@ -41,6 +42,8 @@ const {
   openMessageBox,
 } = useMessageBox();
 
+const route = useRoute();
+const { initialId } = route.query;
 const isPending = ref<boolean>(true);
 const selectedId = ref<string | number>("");
 const initPeriod = ref<DatePeriodType>();
@@ -51,7 +54,7 @@ const defaultContentDate = ref<string>("");
 
 onMounted(async () => {
   await getEditableSchedules(props.loginId).then(() => {
-    selectedId.value = getInitialSelectedId();
+    selectedId.value = initialId ? Number(initialId) : getInitialSelectedId();
   });
   await changeSchedule().then(() => {
     isPending.value = false;

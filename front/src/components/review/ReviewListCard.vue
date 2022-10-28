@@ -16,10 +16,16 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  rank: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
 });
 const emit = defineEmits(["deleteReview"]);
 const { goReadReview, goReview } = useReview();
-const { buttonMsg, resultMsg, openConfirmMessageBox } = useMessageBox();
+const { buttonMsg, labelMsg, resultMsg, openConfirmMessageBox } =
+  useMessageBox();
 
 const handleDelete = async () => {
   await openConfirmMessageBox(
@@ -36,6 +42,11 @@ const handleDelete = async () => {
     <el-col :span="18" class="review">
       <div class="title">
         <span @click="isMyPage ? goReadReview(review.id) : goReview(review.id)">
+          <el-badge
+            v-if="rank !== 0"
+            class="me-1 mb-2"
+            :value="`TOP ${rank}`"
+          />
           {{ review.title }}
         </span>
       </div>
@@ -63,7 +74,7 @@ const handleDelete = async () => {
         <span class="count">
           {{ $count(review.numberOfComments) }}
         </span>
-        <span class="label"> 댓글 </span>
+        <span class="label"> {{ labelMsg("comment.title") }} </span>
       </div>
       <div class="like-count">
         <ImageIcon
