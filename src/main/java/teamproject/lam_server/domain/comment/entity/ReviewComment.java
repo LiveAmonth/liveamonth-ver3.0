@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
-import org.springframework.lang.Nullable;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.entity.Review;
@@ -46,7 +45,7 @@ public class ReviewComment extends CommentEntity {
 
 
     @Builder
-    public ReviewComment(String content, Member member, Review review, @Nullable ReviewComment parent) {
+    public ReviewComment(String content, Member member, Review review, ReviewComment parent) {
         this.comment = content;
         setUpWriter(member);
         setUpReview(review);

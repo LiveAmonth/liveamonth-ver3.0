@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
-import org.springframework.lang.Nullable;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
@@ -44,7 +43,7 @@ public class ScheduleComment extends CommentEntity {
     private int numberOfDislikes;
 
     @Builder
-    public ScheduleComment(String content, Member member, Schedule schedule, @Nullable ScheduleComment parent) {
+    public ScheduleComment(String content, Member member, Schedule schedule, ScheduleComment parent) {
         this.comment = content;
         setUpWriter(member);
         setUpSchedule(schedule);
