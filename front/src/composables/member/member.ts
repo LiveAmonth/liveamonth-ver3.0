@@ -196,6 +196,19 @@ export const useMember = () => {
     }
   };
 
+  const editProfileImage = async (form: FormData) => {
+    error.value = null;
+    isPending.value = true;
+    try {
+      await store.editProfileImage(form);
+      error.value = null;
+    } catch (err) {
+      error.value = err;
+    } finally {
+      isPending.value = false;
+    }
+  };
+
   const isLoggedInMemberPost = (writerId: number) => {
     return writerId == simpleProfile.value.id;
   };
@@ -218,6 +231,7 @@ export const useMember = () => {
     findPw,
     getMember,
     getSimpleProfile,
+    editProfileImage,
     isLoggedInMemberPost,
   };
 };

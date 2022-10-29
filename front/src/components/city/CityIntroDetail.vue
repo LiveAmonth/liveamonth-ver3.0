@@ -9,7 +9,7 @@ const { hasCityIntro, cityIntroDetail } = useCity();
     <template v-for="introDetail in cityIntroDetail" :key="introDetail">
       <el-col :span="6">
         <el-image
-          :src="`/src/assets/image/intro/${introDetail.image}`"
+          :src="introDetail.image"
           fit="cover"
           style="width: auto; height: auto; box-shadow: var(--el-box-shadow)"
         />

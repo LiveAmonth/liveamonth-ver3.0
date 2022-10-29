@@ -18,6 +18,8 @@ export const useInteraction = () => {
   const isLiked = computed(() => store.isLikedContent);
   const isFollowed = computed(() => store.isFollowedMember);
   const reactedComments = computed(() => store.reactedComments);
+  const heartImg = "https://i.ibb.co/zxHVVSS/love.png";
+  const heartFillImg = "https://i.ibb.co/p3x6KVk/love-fill.png";
 
   const getInteractionRequest = (id: number): InteractionType => {
     return {
@@ -108,6 +110,8 @@ export const useInteraction = () => {
   return {
     error,
     isPending,
+    heartImg,
+    heartFillImg,
     isLiked,
     isFollowed,
     reactedComments,

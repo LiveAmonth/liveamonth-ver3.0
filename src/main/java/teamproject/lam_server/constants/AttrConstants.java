@@ -7,4 +7,9 @@ public interface AttrConstants {
     String ADMIN_EMAIL = "TP.liveamonth@gmail.com";
     String ADMIN_NAME = "한달살기";
     String UTF_8 = "UTF-8";
+
+    /**
+     * Imagebb url
+     */
+    String IMAGEBB_URL = "https://i.ibb.co";
 }

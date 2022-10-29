@@ -1,19 +1,40 @@
 <script lang="ts" setup>
+import OpenModal from "@/components/common/OpenModal.vue";
+import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
+import { Avatar, Unlock, UserFilled, Lock } from "@element-plus/icons-vue";
+import { ref } from "vue";
 import { useAuth } from "@/composables/member/auth";
 import { useRouter } from "vue-router";
 import { useMember } from "@/composables/member/member";
-import { Avatar, Unlock, UserFilled, Lock } from "@element-plus/icons-vue";
 import { useMyPage } from "@/composables/member/mypage";
 import { useMessageBox } from "@/composables/common/messageBox";
+import { useUpload } from "@/composables/common/upload";
 
 const router = useRouter();
 const { isLoggedIn, logoutBtn } = useAuth();
-const { simpleProfile } = useMember();
+const { simpleProfile, editProfileImage } = useMember();
 const { profileTabs, getPostCount } = useMyPage();
-const { buttonMsg, menuMsg, labelMsg } = useMessageBox();
+const { buttonMsg, menuMsg, labelMsg, titleMsg } = useMessageBox();
 
+const editProfileModal = ref<boolean>(false);
 const goProfile = (post: string) => {
   router.push({ name: "profile", params: { post: post } });
+};
+
+const selectedFile = ref();
+const loadFile = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  if (target.files) {
+    selectedFile.value = target.files[0];
+  }
+};
+
+const onUpload = async () => {
+  const formData = new FormData();
+  formData.append("file", selectedFile.value);
+  await editProfileImage(formData);
+  // await uploadImage(simpleProfile.value.loginId, selectedFile.value);
+  console.log(selectedFile.value);
 };
 </script>
 
@@ -22,9 +43,11 @@ const goProfile = (post: string) => {
     <div class="ds-top"></div>
     <template v-if="isLoggedIn && simpleProfile.id">
       <div class="avatar-holder">
-        <el-avatar :size="100" :src="`/src/assets/image/default.jpg`" />
+        <el-avatar :size="100" :src="simpleProfile.image" />
         <div class="overlay">
-          <div class="text">{{ buttonMsg("member.image") }}</div>
+          <div class="text" @click="editProfileModal = true">
+            {{ buttonMsg("member.image") }}
+          </div>
         </div>
       </div>
       <div class="name">
@@ -67,7 +90,7 @@ const goProfile = (post: string) => {
     </template>
     <template v-else>
       <div class="logo-holder">
-        <el-image :size="100" :src="`/src/assets/image/logo.png`" />
+        <el-image :size="100" src="https://i.ibb.co/bLnhfXs/logo.png" />
       </div>
       <div class="name">
         <h5 class="m-0 p-0">{{ labelMsg("member.askLogin") }}</h5>
@@ -88,6 +111,13 @@ const goProfile = (post: string) => {
       </div>
     </template>
   </el-card>
+  <OpenModal @close="editProfileModal = false" v-if="editProfileModal">
+    <SmallTitleSlot :title="titleMsg('home.editProfile')"></SmallTitleSlot>
+    <div class="profile-pic">
+      <input type="file" @change="loadFile" />
+    </div>
+    <el-button @click="onUpload"></el-button>
+  </OpenModal>
 </template>
 
 <style lang="scss" scoped>

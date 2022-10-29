@@ -29,8 +29,14 @@ const {
   openConfirmMessageBox,
   requireLoginMessageBox,
 } = useMessageBox();
-const { isLiked, error, isPositiveInteraction, reactContent } =
-  useInteraction();
+const {
+  isLiked,
+  error,
+  heartImg,
+  heartFillImg,
+  isPositiveInteraction,
+  reactContent,
+} = useInteraction();
 const { isLoggedIn } = useAuth();
 const router = useRouter();
 const commentKey = ref<number>(0);
@@ -124,9 +130,7 @@ watch(
               <div class="icon">
                 <ImageIcon
                   :height="30"
-                  :url="`/src/assets/image/icon/love${
-                    !isLiked ? '' : '-fill'
-                  }.png`"
+                  :url="!isLiked ? heartImg : heartFillImg"
                   :width="30"
                 />
                 {{ $count(currReview.numberOfLikes) }}

@@ -16,10 +16,6 @@ const props = defineProps({
     type: Object as PropType<CommentType | BestCommentType>,
     required: true,
   },
-  avatarUrl: {
-    type: String,
-    required: true,
-  },
   isReply: {
     type: Boolean,
     required: true,
@@ -95,7 +91,7 @@ watch(
       <i v-if="isReply" class="bi bi-arrow-return-right me-2"></i>
       <el-badge v-if="isBest" class="me-1 mb-2" :value="`TOP ${rank}`" />
       <div :class="`avatar ${isReply ? 'pt-1' : ''}`">
-        <el-avatar :size="25" :src="avatarUrl" />
+        <el-avatar :size="25" :src="comment.profile.image" />
       </div>
       <div class="writer">
         {{ comment.profile.nickname }}

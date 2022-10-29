@@ -17,6 +17,7 @@
   },
   "title": {
     "home": {
+      "editProfile": "프로필이미지 변경",
       "posts": "인기 게시물"
     },
     "city": {

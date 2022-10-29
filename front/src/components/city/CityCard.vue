@@ -20,7 +20,7 @@ const score = ref(calcTransportScore(cityGridInfo.transportScore));
     <div class="flip-card-inner">
       <div class="flip-card-front">
         <el-image
-          :src="`/src/assets/image/intro/${cityGridInfo.image}`"
+          :src="cityGridInfo.image"
           alt="Avatar"
           fit="cover"
           sh
