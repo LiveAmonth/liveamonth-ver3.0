@@ -23,8 +23,14 @@ const props = defineProps({
 
 const { isLoggedIn } = useAuth();
 const { type, currentSchedule, getScheduleContents } = useSchedule();
-const { isLiked, error, isPositiveInteraction, reactContent } =
-  useInteraction();
+const {
+  isLiked,
+  error,
+  heartImg,
+  heartFillImg,
+  isPositiveInteraction,
+  reactContent,
+} = useInteraction();
 const { setContentCollapse } = useCalendarEvent();
 const { titleMsg, requireLoginMessageBox } = useMessageBox();
 const commentKey = ref<number>(0);
@@ -81,9 +87,7 @@ const handelLike = async () => {
                           <ImageIcon
                             :height="25"
                             :width="25"
-                            :url="`/src/assets/image/icon/love${
-                              !isLiked ? '' : '-fill'
-                            }.png`"
+                            :url="!isLiked ? heartImg : heartFillImg"
                           />
                           {{ $count(currentSchedule.numberOfLikes) }}
                         </div>

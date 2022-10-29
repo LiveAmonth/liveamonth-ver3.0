@@ -1,5 +1,6 @@
 package teamproject.lam_server.domain.city.repository.query;
 
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -16,7 +17,6 @@ import teamproject.lam_server.domain.city.dto.condition.CityIntroSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityTransportSearchCond;
 import teamproject.lam_server.domain.city.dto.condition.CityWeatherSearchCond;
 import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
-import teamproject.lam_server.domain.city.dto.response.api.QCityGridDataResponse;
 import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.entity.CityTransport;
 import teamproject.lam_server.domain.city.entity.CityWeather;
@@ -113,7 +113,7 @@ public class CityQueryRepository extends BasicRepository {
 
     public List<CityGridDataResponse> findCityGridInfo(CityIntroCategory category, MonthCategory month) {
         return queryFactory
-                .select(new QCityGridDataResponse(cityIntro.name,
+                .select(Projections.constructor(CityGridDataResponse.class,cityIntro.name,
                         cityIntro.image,
                         cityWeather.averageDegree,
                         cityTransport.score.sum().as("transportScore")))

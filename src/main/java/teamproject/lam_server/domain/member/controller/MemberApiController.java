@@ -1,6 +1,7 @@
 package teamproject.lam_server.domain.member.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.member.dto.request.*;
@@ -19,6 +20,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
+@Slf4j
 public class MemberApiController {
     private final MemberService memberService;
 
@@ -124,6 +126,11 @@ public class MemberApiController {
     public ResponseEntity<?> getSimpleProfile() {
         SimpleProfileResponse result = memberService.getSimpleProfile();
         return CustomResponse.success(READ_MEMBER, result);
+    }
+
+    @PostMapping("/profile/image")
+    public ResponseEntity<?> editProfileImage(@Valid @RequestBody ProfileImageEdit request) {
+        return CustomResponse.success(UPDATE_MEMBER);
     }
 
 //    @PostMapping("/editProfileImage")

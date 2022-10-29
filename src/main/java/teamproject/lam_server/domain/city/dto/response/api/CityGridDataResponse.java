@@ -1,20 +1,20 @@
 package teamproject.lam_server.domain.city.dto.response.api;
 
-import com.querydsl.core.annotations.QueryProjection;
-import lombok.Data;
+import lombok.Getter;
 import teamproject.lam_server.domain.city.constants.CityName;
 
-@Data
-public class CityGridDataResponse {
-    private CityName name;
-    private String image;
-    private float averageDegree;
-    private int transportScore;
+import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 
-    @QueryProjection
+@Getter
+public class CityGridDataResponse {
+    private final CityName name;
+    private final String image;
+    private final float averageDegree;
+    private final int transportScore;
+
     public CityGridDataResponse(CityName name, String image, float averageDegree, int transportScore) {
         this.name = name;
-        this.image = image;
+        this.image = IMAGEBB_URL + image;
         this.averageDegree = averageDegree;
         this.transportScore = transportScore;
     }

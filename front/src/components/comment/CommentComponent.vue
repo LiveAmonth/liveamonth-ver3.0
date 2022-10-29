@@ -191,7 +191,6 @@ const setEditInput = (isReply = false, id = "#0") => {
       <li v-for="comment in comments" :key="comment.commentId">
         <CommentSlot
           :comment="comment"
-          :avatar-url="'/src/assets/image/default.jpg'"
           :editable="comment.profile.nickname === simpleProfile.nickname"
           :is-reply="false"
           :is-writer="writer === comment.profile.nickname"
@@ -211,7 +210,6 @@ const setEditInput = (isReply = false, id = "#0") => {
               >
                 <CommentSlot
                   :comment="reply"
-                  :avatar-url="'/src/assets/image/default.jpg'"
                   :editable="reply.profile.nickname === simpleProfile.nickname"
                   :is-reply="true"
                   :is-writer="writer === reply.profile.nickname"

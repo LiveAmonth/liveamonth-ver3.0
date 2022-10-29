@@ -9,6 +9,8 @@ import teamproject.lam_server.domain.city.constants.CityName;
 
 import javax.persistence.*;
 
+import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,7 +34,12 @@ public class CityIntro extends City {
     }
 
     //==업데이트 로직==//
-    public void updateContent(String content){
+    public void updateContent(String content) {
         this.content = content;
+    }
+
+    //== Getter ==//
+    public String getImage() {
+        return IMAGEBB_URL + image;
     }
 }

@@ -53,7 +53,7 @@ const settingSchedules = async () => {
         @apply-option="pageClick(1)"
       />
     </el-col>
-    <el-col :span="18" v-if="!isPending">
+    <el-col :xl="18" :lg="24" v-if="!isPending">
       <SchedulePageList />
     </el-col>
   </el-row>

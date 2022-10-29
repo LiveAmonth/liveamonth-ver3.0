@@ -26,7 +26,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import static teamproject.lam_server.constants.SessionConstants.*;
+import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 
 @Entity
 @Getter
@@ -117,11 +117,6 @@ public class Member extends BaseTimeEntity {
         return Calendar.getInstance().get(Calendar.YEAR) - this.birth.getYear() + 1;
     }
 
-    public String getProfileImgPath() {
-        if (this.image == null) return S3_BUCKET_PATH + PROFILE_IMAGE_DIR + DEFAULT_IMAGE_NAME;
-        else return S3_BUCKET_PATH + PROFILE_IMAGE_DIR + this.image;
-    }
-
     /**
      * Update logic
      */
@@ -176,5 +171,9 @@ public class Member extends BaseTimeEntity {
 
     public void conferRole(Role role) {
         this.role = role;
+    }
+
+    public String getImage() {
+        return IMAGEBB_URL + image;
     }
 }

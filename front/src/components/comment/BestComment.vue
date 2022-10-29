@@ -24,7 +24,6 @@ const { bestComments } = useComment();
     v-for="(comment, idx) in bestComments"
     :key="comment"
     :comment="comment"
-    :avatar-url="'/src/assets/image/default.jpg'"
     :is-best="true"
     :is-reply="false"
     :rank="idx + 1"

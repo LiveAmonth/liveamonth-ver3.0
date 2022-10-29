@@ -3,6 +3,7 @@ import ImageIcon from "@/components/common/ImageIcon.vue";
 import { View, Close } from "@element-plus/icons-vue";
 import { useReview } from "@/composables/review/review";
 import { useMessageBox } from "@/composables/common/messageBox";
+import { useInteraction } from "@/composables/interaction/interaction";
 import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
 import type { PropType } from "vue";
 
@@ -26,6 +27,7 @@ const emit = defineEmits(["deleteReview"]);
 const { goReadReview, goReview } = useReview();
 const { buttonMsg, labelMsg, resultMsg, openConfirmMessageBox } =
   useMessageBox();
+const { heartFillImg } = useInteraction();
 
 const handleDelete = async () => {
   await openConfirmMessageBox(
@@ -80,7 +82,7 @@ const handleDelete = async () => {
         <ImageIcon
           :disable="true"
           :height="20"
-          :url="`/src/assets/image/icon/love-fill.png`"
+          :url="heartFillImg"
           :width="20"
           class="me-1"
         />

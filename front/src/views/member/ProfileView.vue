@@ -60,11 +60,7 @@ const clickTab = (tab: string) => {
     <el-row class="profile">
       <el-col :span="4"></el-col>
       <el-col :span="6" class="image">
-        <el-avatar
-          :size="150"
-          :src="`/src/assets/image/default.jpg`"
-          fit="cover"
-        />
+        <el-avatar :size="150" :src="memberProfile.image" fit="cover" />
       </el-col>
       <el-col :span="12" class="info">
         <div class="nickname">

@@ -27,9 +27,7 @@ const calcIdx = (idx: number, col: number) => idx * 4 + col - 5;
         <el-col v-for="col in 4" :key="col" :span="6">
           <el-card v-if="calcIdx(idx, col) < dataSize">
             <img
-              :src="`/src/assets/image/${props.dir}/${
-                data[calcIdx(idx, col)].image
-              }`"
+              :src="data[calcIdx(idx, col)].image"
               class="image"
               alt="card-image"
             />

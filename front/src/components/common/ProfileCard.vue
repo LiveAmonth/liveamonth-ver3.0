@@ -63,7 +63,7 @@ const follow = async () => {
       <div class="image" :class="!isList ? 'mt-3' : ''">
         <div class="circle-1"></div>
         <div class="circle-2"></div>
-        <el-avatar :size="70" :src="`/src/assets/image/default.jpg`" />
+        <el-avatar :size="70" :src="profile.image" />
       </div>
 
       <div class="name">{{ profile.nickname }}</div>

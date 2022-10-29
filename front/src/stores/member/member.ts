@@ -123,6 +123,16 @@ export const useMemberStore = defineStore("member", {
           throw error;
         });
     },
+
+    editProfileImage: async function (form: FormData) {
+      await MemberApiService.editProfileImage(form)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          throw error;
+        });
+    },
   },
   persist: {
     storage: sessionStorage,

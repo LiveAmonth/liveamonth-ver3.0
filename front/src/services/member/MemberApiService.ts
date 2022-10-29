@@ -134,6 +134,17 @@ class MemberApiService {
         throw error.response.data;
       });
   }
+
+  async editProfileImage(request: FormData): Promise<void> {
+    await http
+      .patch("/members/profile/image", JSON.stringify(request))
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
 }
 
 export default new MemberApiService();

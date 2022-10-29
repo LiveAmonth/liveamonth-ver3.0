@@ -61,7 +61,7 @@ const follow = async () => {
     <template #reference>
       <div class="d-flex justify-content-start">
         <div class="avatar me-1">
-          <el-avatar :size="20" :src="'/src/assets/image/default.jpg'" />
+          <el-avatar :size="20" :src="profile.image" />
         </div>
         <div class="writer pt-1">
           {{ profile.nickname }}
@@ -73,7 +73,7 @@ const follow = async () => {
         <div class="image">
           <div class="circle-1"></div>
           <div class="circle-2"></div>
-          <el-avatar :size="60" :src="`/src/assets/image/default.jpg`" />
+          <el-avatar :size="60" :src="profile.image" />
         </div>
         <p class="nickname">
           {{ profile.nickname }}
