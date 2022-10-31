@@ -6,8 +6,8 @@ import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
-@MappedSuperclass
 @Getter
+@MappedSuperclass
 public abstract class City extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)

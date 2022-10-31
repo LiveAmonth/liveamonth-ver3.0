@@ -1,0 +1,15 @@
+= 리버먼스 API
+:toc:
+
+== 메인 화면 도시 정보 조회
+
+=== 요청
+
+include::{snippets}/city-grid-contents/curl-request.adoc[]
+
+=== 응답
+include::{snippets}/city-grid-contents/http-response.adoc[]
+
+=== CURL
+include::{snippets}/city-grid-contents/http-request.adoc[]
+
