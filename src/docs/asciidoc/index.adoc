@@ -2,14 +2,30 @@
 :toc:
 
 == 메인 화면 도시 정보 조회
-
 === 요청
-
-include::{snippets}/city-grid-contents/curl-request.adoc[]
-
+include::{snippets}/get-city-grid-contents/http-request.adoc[]
 === 응답
-include::{snippets}/city-grid-contents/http-response.adoc[]
+include::{snippets}/get-city-grid-contents/http-response.adoc[]
+include::{snippets}/get-city-grid-contents/response-fields.adoc[]
 
-=== CURL
-include::{snippets}/city-grid-contents/http-request.adoc[]
+== [도시] 소개 정보 조회
+=== 요청
+include::{snippets}/get-city-intro/http-request.adoc[]
+
+include::{snippets}/get-city-intro/path-parameters.adoc[]
+=== 응답
+include::{snippets}/get-city-intro/http-response.adoc[]
+== [도시] 추가 정보 조회
+=== 요청
+include::{snippets}/get-extra-info/http-request.adoc[]
+include::{snippets}/get-extra-info/path-parameters.adoc[]
+=== 응답
+include::{snippets}/get-extra-info/http-response.adoc[]
+
+== [도시] 소개 정보 조회
+=== 요청
+include::{snippets}/get-food-and-view/http-request.adoc[]
+include::{snippets}/get-food-and-view/path-parameters.adoc[]
+=== 응답
+include::{snippets}/get-food-and-view/http-response.adoc[]
 

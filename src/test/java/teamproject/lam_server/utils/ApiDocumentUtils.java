@@ -10,14 +10,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 
 public interface ApiDocumentUtils {
     static OperationRequestPreprocessor getDocumentRequest() {
-//        return preprocessRequest(
-//                modifyUris()
-//                        .scheme("https")
-//                        .host("docs.api.com")
-//                        .removePort(),
-//                prettyPrint()
-//        );
         return preprocessRequest(
+                modifyUris()
+                        .scheme("https")
+                        .host("api.liveamonth.com")
+                        .removePort(),
                 prettyPrint()
         );
     }

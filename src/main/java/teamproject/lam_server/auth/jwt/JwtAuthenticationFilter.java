@@ -21,7 +21,6 @@ import java.io.IOException;
 
 import static teamproject.lam_server.exception.ErrorCode.*;
 import static teamproject.lam_server.util.JwtUtil.AUTHORIZATION_HEADER;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j

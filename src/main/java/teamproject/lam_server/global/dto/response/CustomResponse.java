@@ -1,5 +1,7 @@
 package teamproject.lam_server.global.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.google.gson.Gson;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,8 +26,10 @@ import static teamproject.lam_server.global.constants.ResponseMessage.SUCCESS;
 public class CustomResponse {
     @Data
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private static class Result<T> {
         private int status;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
         private LocalDateTime timeStamp;
         private String message;
         private T data;
