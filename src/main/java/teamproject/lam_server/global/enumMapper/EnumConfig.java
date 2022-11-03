@@ -27,20 +27,14 @@ public class EnumConfig {
         enumMapper.put(GENDER_TYPE, GenderType.class);
         enumMapper.put(ACCOUNT_STATE, AccountState.class);
         enumMapper.put(INQUIRY_CATEGORY, InquiryCategory.class);
-
-        // City
         enumMapper.put(CITY_INTRO_CATEGORY, CityIntroCategory.class);
         enumMapper.put(CITY_NAME, CityName.class);
         enumMapper.put(TRANSPORT_CATEGORY, TransportCategory.class);
         enumMapper.put(TRANSPORT_GRADE, TransportGrade.class);
         enumMapper.put(MONTH_CATEGORY, MonthCategory.class);
-
-        // Schedule
         enumMapper.put(SCHEDULE_SEARCH_TYPE, ScheduleSearchType.class);
         enumMapper.put(SCHEDULE_FILTER_TYPE, ScheduleFilterType.class);
         enumMapper.putMetaModelType(SCHEDULE_SORT_TYPE, ScheduleSortType.class);
-
-        // Review
         enumMapper.put(REVIEW_CATEGORY, ReviewCategory.class);
         enumMapper.put(REVIEW_MENU_GROUP, ReviewMenuGroup.class);
         enumMapper.put(REVIEW_SEARCH_TYPE, ReviewSearchType.class);

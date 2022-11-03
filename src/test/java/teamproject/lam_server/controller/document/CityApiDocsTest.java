@@ -1,4 +1,4 @@
-package teamproject.lam_server.document;
+package teamproject.lam_server.controller.document;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,14 +21,12 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.utils.ApiDocumentUtils.getDocumentRequest;
 import static teamproject.lam_server.utils.ApiDocumentUtils.getDocumentResponse;
-import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateTimeFormat;
 
 
 @SpringBootTest
@@ -51,32 +49,31 @@ class CityApiDocsTest {
     }
 
     @BeforeEach
-    public void setUpParam(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
+    public void setUpParam(
+            final WebApplicationContext context,
+            final RestDocumentationContextProvider provider) {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(documentationConfiguration(provider))
                 .build();
         cityName = CityName.values()[(new Random()).nextInt(CityName.values().length)];
     }
 
     @Test
-    @DisplayName("도시 그리드 이미지 조회")
-    void get_city_grid_info() throws Exception {
+    @DisplayName("도시 요약 정보 조회")
+    void get_city_summary() throws Exception {
         // expected
         this.mockMvc.perform(get("/api/v1/city/grid-infos")
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("get-city-grid-contents",
+                .andDo(document("city-summary-get",
                         getDocumentRequest(),
                         getDocumentResponse(),
-                        responseFields(
-                                fieldWithPath("status").type(NUMBER).description("HTTP 상태 코드"),
-                                fieldWithPath("message").type(STRING).description("결과 메시지"),
-                                fieldWithPath("timeStamp").type(STRING).attributes(getDateTimeFormat()).description("결과 시간"),
-                                fieldWithPath("data.[].name.code").type(STRING).description("도시 코드"),
-                                fieldWithPath("data.[].name.value").type(STRING).description("도시 이름"),
-                                fieldWithPath("data.[].image").type(STRING).description("이미지 주소(uri)"),
-                                fieldWithPath("data.[].averageDegree").type(NUMBER).description("평균 기온"),
-                                fieldWithPath("data.[].transportScore").type(NUMBER).description("교통 점수")
+                        responseFields(beneathPath("data[]").withSubsectionId("data"),
+                                fieldWithPath("name.code").type(STRING).description("도시 코드"),
+                                fieldWithPath("name.value").type(STRING).description("도시 이름"),
+                                fieldWithPath("image").type(STRING).description("이미지 주소(uri)"),
+                                fieldWithPath("averageDegree").type(NUMBER).description("평균 기온"),
+                                fieldWithPath("transportScore").type(NUMBER).description("교통 점수")
                         )
                 ));
     }
@@ -88,9 +85,16 @@ class CityApiDocsTest {
         this.mockMvc.perform(get("/api/v1/city/{cityName}", cityName)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("get-city-intro",
+                .andDo(document("city-intro-get",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("cityName").description("도시 이름")
+                        ),
+                        responseFields(
+                                beneathPath("data.FOOD[]").withSubsectionId("image-content"),
+                                fieldWithPath("content").type(STRING).description("이미지 설명"),
+                                fieldWithPath("image").type(STRING).description("이미지(uri)")
                         )
                 ));
     }
@@ -102,11 +106,35 @@ class CityApiDocsTest {
         this.mockMvc.perform(get("/api/v1/city/{cityName}/extra", cityName)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("get-extra-info",
+                .andDo(document("city-extra-get",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("cityName").description("도시 이름")
+                        ),
+                        responseFields(
+                                beneathPath("data.transports[]").withSubsectionId("transport"),
+                                fieldWithPath("id").type(NUMBER).description("id"),
+                                fieldWithPath("name.code").type(STRING).description("도시 코드"),
+                                fieldWithPath("name.value").type(STRING).description("도시 이름"),
+                                fieldWithPath("category.code").type(STRING).description("카테고리 코드"),
+                                fieldWithPath("category.value").type(STRING).description("카테고리 이름"),
+                                fieldWithPath("stationCount").type(NUMBER).description("개수"),
+                                fieldWithPath("score").type(NUMBER).description("점수")
+                        ),
+                        responseFields(
+                                beneathPath("data.weathers[]").withSubsectionId("weather"),
+                                fieldWithPath("id").type(NUMBER).description("id"),
+                                fieldWithPath("name.code").type(STRING).description("도시 코드"),
+                                fieldWithPath("name.value").type(STRING).description("도시 이름"),
+                                fieldWithPath("month").type(STRING).description("월"),
+                                fieldWithPath("maxDegree").type(NUMBER).description("최고 기온"),
+                                fieldWithPath("minDegree").type(NUMBER).description("최저 기온"),
+                                fieldWithPath("averageDegree").type(NUMBER).description("평균 기온")
                         )
+
                 ));
+
     }
 
     @Test
@@ -116,9 +144,16 @@ class CityApiDocsTest {
         this.mockMvc.perform(get("/api/v1/city/{cityName}/food-and-view", cityName)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("get-food-and-view",
+                .andDo(document("city-food-and-view-get",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("cityName").description("도시 이름")
+                        ),
+                        responseFields(
+                                beneathPath("data.foodInfos[]").withSubsectionId("image-content"),
+                                fieldWithPath("content").type(STRING).description("이미지 설명"),
+                                fieldWithPath("image").type(STRING).description("이미지(uri)")
                         )
                 ));
     }

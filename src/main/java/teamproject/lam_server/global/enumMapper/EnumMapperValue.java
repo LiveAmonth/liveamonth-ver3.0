@@ -14,7 +14,7 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-public class EnumMapperValue {
+public class EnumMapperValue{
 
     private final String code;
     private final String value;

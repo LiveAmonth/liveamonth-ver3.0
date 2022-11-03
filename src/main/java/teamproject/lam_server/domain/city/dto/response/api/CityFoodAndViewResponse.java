@@ -12,14 +12,14 @@ import static java.util.stream.Collectors.toList;
 @Builder
 public class CityFoodAndViewResponse {
 
-    private List<CityIntroImageResponse> foodInfos;
+    private List<ImageContentResponse> foodInfos;
 
-    private List<CityIntroImageResponse> viewInfos;
+    private List<ImageContentResponse> viewInfos;
 
     public static CityFoodAndViewResponse of(List<CityIntro> foodInfos, List<CityIntro> viewInfos) {
         return CityFoodAndViewResponse.builder()
-                .foodInfos(foodInfos.stream().map(CityIntroImageResponse::of).collect(toList()))
-                .viewInfos(viewInfos.stream().map(CityIntroImageResponse::of).collect(toList()))
+                .foodInfos(foodInfos.stream().map(ImageContentResponse::of).collect(toList()))
+                .viewInfos(viewInfos.stream().map(ImageContentResponse::of).collect(toList()))
                 .build();
     }
 }

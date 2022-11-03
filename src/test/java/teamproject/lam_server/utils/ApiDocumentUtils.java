@@ -3,7 +3,10 @@ package teamproject.lam_server.utils;
 import org.springframework.restdocs.operation.preprocess.OperationRequestPreprocessor;
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.restdocs.payload.FieldDescriptor;
-import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.restdocs.payload.PayloadSubsectionExtractor;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -23,9 +26,17 @@ public interface ApiDocumentUtils {
         return preprocessResponse(prettyPrint());
     }
 
+    static CustomResponseFieldsSnippet customResponseFields(String type,
+                                                                   PayloadSubsectionExtractor<?> subsectionExtractor,
+                                                                   Map<String, Object> attributes, FieldDescriptor... descriptors) {
+        return new CustomResponseFieldsSnippet(type, subsectionExtractor, List.of(descriptors), attributes
+                , true);
+    }
 
-    static FieldDescriptor[] getEnumTypeDescriptor(String name, String property) {
-        return new FieldDescriptor[]{fieldWithPath(property + ".code").type(JsonFieldType.OBJECT).description(name + "코드"),
-                fieldWithPath(property + ".value").type(JsonFieldType.STRING).description(name + "이름")};
+    static FieldDescriptor[] enumConvertFieldDescriptor(Map<String, String> enumValues) {
+
+        return enumValues.entrySet().stream()
+                .map(x -> fieldWithPath(x.getKey()).description(x.getValue()))
+                .toArray(FieldDescriptor[]::new);
     }
 }

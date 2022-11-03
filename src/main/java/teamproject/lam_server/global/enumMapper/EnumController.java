@@ -127,6 +127,10 @@ public class EnumController {
         EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.FILTER_TYPE_POSTFIX);
         return getCategories(eSortType);
     }
+
+    /**
+     * 엔티티 정렬 타입
+     */
     @GetMapping("/sort-types/{entityName}")
     public ResponseEntity<?> getEntitySortTypes(@PathVariable String entityName) {
         EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.SORT_TYPE_POSTFIX);

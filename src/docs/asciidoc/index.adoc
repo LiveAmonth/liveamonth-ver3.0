@@ -1,31 +1,49 @@
 = 리버먼스 API
-:toc:
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
 
-== 메인 화면 도시 정보 조회
-=== 요청
-include::{snippets}/get-city-grid-contents/http-request.adoc[]
-=== 응답
-include::{snippets}/get-city-grid-contents/http-response.adoc[]
-include::{snippets}/get-city-grid-contents/response-fields.adoc[]
+[[Category-API]]
+== Category-API
+=== Member Category
+include::{snippets}/member/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-gender-type.adoc[]
 
-== [도시] 소개 정보 조회
-=== 요청
-include::{snippets}/get-city-intro/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-account-state.adoc[]
+include::{snippets}/common/custom-response-fields-inquiry-category.adoc[]
 
-include::{snippets}/get-city-intro/path-parameters.adoc[]
-=== 응답
-include::{snippets}/get-city-intro/http-response.adoc[]
-== [도시] 추가 정보 조회
-=== 요청
-include::{snippets}/get-extra-info/http-request.adoc[]
-include::{snippets}/get-extra-info/path-parameters.adoc[]
-=== 응답
-include::{snippets}/get-extra-info/http-response.adoc[]
+=== City Category
+operation::common[snippets='custom-response-fields-city-name,custom-response-fields-city-intro-category,custom-response-fields-transport-category,custom-response-fields-transport-grade,custom-response-fields-month']
 
-== [도시] 소개 정보 조회
-=== 요청
-include::{snippets}/get-food-and-view/http-request.adoc[]
-include::{snippets}/get-food-and-view/path-parameters.adoc[]
-=== 응답
-include::{snippets}/get-food-and-view/http-response.adoc[]
+=== Schedule Category
+operation::common[snippets='custom-response-fields-schedule-filter-type,custom-response-fields-schedule-search-type,custom-response-fields-schedule-sort-type']
+
+=== Review Category
+operation::common[snippets='custom-response-fields-review-category,custom-response-fields-review-search-group,custom-response-fields-review-search-type,custom-response-fields-review-sort-type']
+
+
+
+===
+
+[[City-API]]
+== City-API
+
+[[City-요약-정보-조회]]
+=== City 요약 정보 조회
+operation::city-summary-get[snippets='http-request,http-response,response-fields-data']
+
+[[City-소개-정보-조회]]
+=== City 소개 정보 조회
+operation::city-intro-get[snippets='http-request,path-parameter,http-response,response-fields-image-content']
+
+[[City-추가-정보-조회]]
+=== City 소개 정보 조회
+operation::city-extra-get[snippets='http-request,path-parameter,http-response,response-fields-transport,response-fields-weather']
+
+[[City-먹거리-볼거리-정보-조회]]
+=== City 소개 정보 조회
+operation::city-food-and-view-get[snippets='http-request,path-parameter,http-response,response-fields-image-content']
 
