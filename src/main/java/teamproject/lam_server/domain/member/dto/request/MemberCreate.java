@@ -2,10 +2,7 @@ package teamproject.lam_server.domain.member.dto.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.entity.Member;
@@ -45,6 +42,17 @@ public class MemberCreate {
 
     @NotNull
     private GenderType gender;
+
+    @Builder
+    public MemberCreate(String loginId, String password, String name, String nickname, String email, LocalDate birth, GenderType gender) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.email = email;
+        this.birth = birth;
+        this.gender = gender;
+    }
 
     public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.basicBuilder()

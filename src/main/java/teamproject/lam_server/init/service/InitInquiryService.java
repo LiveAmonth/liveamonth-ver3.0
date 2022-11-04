@@ -30,7 +30,7 @@ public class InitInquiryService {
                             query)
                     .setParameter("created_by", member.getLoginId())
                     .setParameter("last_modified_by", member.getLoginId())
-                    .setParameter("category", request.getCategory().getCode())
+                    .setParameter("category", request.getCategory())
                     .setParameter("content", request.getContent())
                     .setParameter("title", request.getTitle())
                     .setParameter("member_id", member.getId())
