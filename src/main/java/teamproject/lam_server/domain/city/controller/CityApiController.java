@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
-import teamproject.lam_server.domain.city.dto.response.api.CityFoodAndViewResponse;
 import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
 import teamproject.lam_server.domain.city.dto.response.api.ExtraCityResponse;
 import teamproject.lam_server.domain.city.dto.response.api.ImageContentResponse;
@@ -51,15 +50,4 @@ public class CityApiController {
         ExtraCityResponse result = cityApiService.searchTotalCityInfo(cityName);
         return CustomResponse.success(result);
     }
-
-    /**
-     * dependence presentation layer::city(body)
-     * -> food & view image slide(bottom)
-     */
-    @GetMapping("/{cityName}/food-and-view")
-    public ResponseEntity<?> getCityFoodAndViewInfo(@PathVariable CityName cityName) {
-        CityFoodAndViewResponse result = cityApiService.searchCityFoodAndView(cityName);
-        return CustomResponse.success(result);
-    }
-
 }
