@@ -123,3 +123,17 @@ include::{snippets}/inquiry-post/http-request.adoc[]
 
 ===== HTTP 응답 예제
 include::{snippets}/inquiry-post/http-response.adoc[]
+
+=== 1:1 문의 다건 조회
+
+==== 요청
+include::{snippets}/inquiry-list-get/request-parameters.adoc[]
+
+===== Http 요청 예제
+include::{snippets}/inquiry-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/inquiry-list-get/response-fields-content.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/inquiry-list-get/http-response.adoc[]
