@@ -34,7 +34,6 @@ public interface ApiDocumentUtils {
     }
 
     static FieldDescriptor[] enumConvertFieldDescriptor(Map<String, String> enumValues) {
-
         return enumValues.entrySet().stream()
                 .map(x -> fieldWithPath(x.getKey()).description(x.getValue()))
                 .toArray(FieldDescriptor[]::new);
