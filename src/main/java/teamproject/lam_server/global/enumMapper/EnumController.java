@@ -120,7 +120,7 @@ public class EnumController {
     }
 
     /**
-     * 엔티티 검색 필터 타입
+     * 스케줄 검색 필터 타입
      */
     @GetMapping("/filter-types/{entityName}")
     public ResponseEntity<?> getEntityFilterTypes(@PathVariable String entityName) {

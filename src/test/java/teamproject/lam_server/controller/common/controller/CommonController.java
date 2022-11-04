@@ -1,6 +1,9 @@
 package teamproject.lam_server.controller.common.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.controller.common.Category;
@@ -16,10 +19,11 @@ import teamproject.lam_server.domain.review.constants.ReviewSortType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleFilterType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSearchType;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
-import teamproject.lam_server.global.enumMapper.EnumMapper;
 import teamproject.lam_server.global.enumMapper.EnumMapperType;
+import teamproject.lam_server.paging.CustomPage;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -27,12 +31,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CommonController {
 
-
-    private final EnumMapper enumMapper;
-
     @GetMapping("/docs")
-    public DocsResponse<Category> commons() {
-        return DocsResponse.success("모든 카테고리 조회", Category.testBuilder()
+    public DocsResponse<CustomPage<Category>> commons() {
+        Category result = Category.testBuilder()
                 .genderType(getDocs(GenderType.values()))
                 .accountState(getDocs(AccountState.values()))
                 .inquiryCategory(getDocs(InquiryCategory.values()))
@@ -48,8 +49,20 @@ public class CommonController {
                 .reviewSearchGroup(getDocs(ReviewMenuGroup.values()))
                 .reviewSearchType(getDocs(ReviewSearchType.values()))
                 .reviewSortType(getDocs(ReviewSortType.values()))
-                .build());
+                .build();
+
+        Page<Category> categories = new PageImpl<>(
+                List.of(result),
+                PageRequest.of(0, 10),
+                1
+        );
+
+        return DocsResponse.success("모든 카테고리 조회",
+                CustomPage.<Category>builder()
+                        .page(categories)
+                        .build());
     }
+
     private Map<String, String> getDocs(EnumMapperType[] enumTypes) {
         return Arrays.stream(enumTypes)
                 .collect(Collectors.toMap(EnumMapperType::getCode, EnumMapperType::getValue));

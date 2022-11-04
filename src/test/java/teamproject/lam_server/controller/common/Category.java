@@ -1,11 +1,14 @@
 package teamproject.lam_server.controller.common;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
 
     Map<String, String> genderType;

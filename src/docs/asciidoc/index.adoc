@@ -1,49 +1,125 @@
-= 리버먼스 API
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+= Liveamonth API Document
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
+:docinfo: shared-head
 
-[[Category-API]]
-== Category-API
-=== Member Category
-include::{snippets}/member/http-request.adoc[]
+[[common-response]]
+== 공통 응답 객체
+=== 커스텀 응답 객체
+include::{snippets}/common/custom-response-fields.adoc[]
+=== 커스텀 페이지 객체
+include::{snippets}/common/custom-response-fields-pageable.adoc[]
+
+[[category-api]]
+== Category API
+=== 회원
+include::{snippets}/gender-type/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-gender-type.adoc[]
 
+include::{snippets}/account-state/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-account-state.adoc[]
+
+include::{snippets}/inquiry/http-request.adoc[]
+include::{snippets}/inquiry/curl-request.adoc[]
 include::{snippets}/common/custom-response-fields-inquiry-category.adoc[]
 
-=== City Category
-operation::common[snippets='custom-response-fields-city-name,custom-response-fields-city-intro-category,custom-response-fields-transport-category,custom-response-fields-transport-grade,custom-response-fields-month']
+=== 도시
+include::{snippets}/city-name/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-city-name.adoc[]
 
-=== Schedule Category
-operation::common[snippets='custom-response-fields-schedule-filter-type,custom-response-fields-schedule-search-type,custom-response-fields-schedule-sort-type']
+include::{snippets}/city-intro-category/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-city-intro-category.adoc[]
 
-=== Review Category
-operation::common[snippets='custom-response-fields-review-category,custom-response-fields-review-search-group,custom-response-fields-review-search-type,custom-response-fields-review-sort-type']
+include::{snippets}/transport-category/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-transport-category.adoc[]
 
+include::{snippets}/transport-grade/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-transport-grade.adoc[]
 
+include::{snippets}/city-month/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-month.adoc[]
 
-===
+=== 스케줄
+include::{snippets}/schedule-filter-types/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-schedule-filter-type.adoc[]
+
+=== 후기글
+include::{snippets}/review-cateogry/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-review-category.adoc[]
+
+include::{snippets}/review-search-group/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-review-search-group.adoc[]
+
+=== 검색, 정렬
+include::{snippets}/review-search-types/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-schedule-search-type.adoc[]
+include::{snippets}/common/custom-response-fields-review-search-type.adoc[]
+include::{snippets}/schedule-sort-types/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-schedule-sort-type.adoc[]
+include::{snippets}/common/custom-response-fields-review-sort-type.adoc[]
+
 
 [[City-API]]
-== City-API
+== City API
 
-[[City-요약-정보-조회]]
+[[city-summary-get]]
 === City 요약 정보 조회
-operation::city-summary-get[snippets='http-request,http-response,response-fields-data']
+===== HTTP 요청 예제
+include::{snippets}/city-summary-get/http-request.adoc[]
 
-[[City-소개-정보-조회]]
+==== 응답
+include::{snippets}/city-summary-get/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/city-summary-get/http-response.adoc[]
+
+
+[[city-intro-get]]
+=== City 정보 조회
+==== 요청
+include::{snippets}/city-intro-get/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/city-intro-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/city-intro-get/response-fields-image-content.adoc[]
+
+===== HTTP 응답 예제
+link:city/city-intro-get.html[도시 정보 조회 응답 예제,role="popup"]
+
+
+[[city-extra-get]]
 === City 소개 정보 조회
-operation::city-intro-get[snippets='http-request,path-parameter,http-response,response-fields-image-content']
+==== 요청
+include::{snippets}/city-extra-get/path-parameters.adoc[]
 
-[[City-추가-정보-조회]]
-=== City 소개 정보 조회
-operation::city-extra-get[snippets='http-request,path-parameter,http-response,response-fields-transport,response-fields-weather']
+===== HTTP 요청 예제
+include::{snippets}/city-extra-get/http-request.adoc[]
 
-[[City-먹거리-볼거리-정보-조회]]
-=== City 소개 정보 조회
-operation::city-food-and-view-get[snippets='http-request,path-parameter,http-response,response-fields-image-content']
+==== 응답
+include::{snippets}/city-extra-get/response-fields-transport.adoc[]
+include::{snippets}/city-extra-get/response-fields-weather.adoc[]
 
+===== HTTP 응답 예제
+link:city/city-extra-get.html[도시 추가 정보 조회 응답 예제,role="popup"]
+
+[[Inquiry-API]]
+== Inquiry API
+=== 1:1 문의 작성
+
+==== 요청
+include::{snippets}/inquiry-post/request-fields.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/inquiry-post/http-request.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/inquiry-post/http-response.adoc[]
