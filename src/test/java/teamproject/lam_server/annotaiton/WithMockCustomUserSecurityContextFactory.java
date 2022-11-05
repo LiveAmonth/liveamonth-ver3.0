@@ -9,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 import teamproject.lam_server.auth.jwt.CustomUserDetailsService;
 import teamproject.lam_server.domain.member.constants.GenderType;
+import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
+import teamproject.lam_server.domain.member.service.MemberAdminService;
 import teamproject.lam_server.domain.member.service.MemberService;
 
 import java.time.LocalDate;
@@ -18,23 +20,28 @@ import java.time.LocalDate;
 public class WithMockCustomUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser> {
 
     private final MemberService memberService;
+    private final MemberAdminService memberAdminService;
     private final CustomUserDetailsService userDetailsService;
 
     @Override
     public SecurityContext createSecurityContext(WithMockCustomUser customUser) {
-        String loginId = customUser.loginId();
-        String password = customUser.password();
+        Role role = customUser.role();
+        MemberCreate memberCreate =
+                MemberCreate.builder()
+                        .loginId(customUser.loginId())
+                        .password(customUser.password())
+                        .name(customUser.name())
+                        .nickname(customUser.nickname())
+                        .email(customUser.email())
+                        .birth(LocalDate.now())
+                        .gender(GenderType.MALE)
+                        .build();
 
-        MemberCreate memberCreate = MemberCreate.builder()
-                .loginId(customUser.loginId())
-                .password(customUser.password())
-                .name(customUser.name())
-                .nickname(customUser.nickname())
-                .email(customUser.email())
-                .birth(LocalDate.now())
-                .gender(GenderType.MALE)
-                .build();
-        memberService.signUp(memberCreate);
+        if (role == Role.USER) {
+            memberService.signUp(memberCreate);
+        } else {
+            memberAdminService.createManager(memberCreate);
+        }
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(customUser.loginId());
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails

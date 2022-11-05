@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.domain.member.constants.GenderType;
+import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.validation.constraints.*;
@@ -63,6 +64,20 @@ public class MemberCreate {
                 .birth(this.birth)
                 .email(this.email)
                 .gender(this.gender)
+                .role(Role.USER)
+                .build();
+    }
+
+    public Member toManagerEntity(PasswordEncoder passwordEncoder) {
+        return Member.basicBuilder()
+                .loginId(this.loginId)
+                .password(passwordEncoder.encode(this.password))
+                .name(this.name)
+                .nickname(this.nickname)
+                .birth(this.birth)
+                .email(this.email)
+                .gender(this.gender)
+                .role(Role.MANAGER)
                 .build();
     }
 

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class InquiryAnswerResponse {
 
-    private String title;
+    private Long id;
     private String writer;
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
@@ -22,8 +22,8 @@ public class InquiryAnswerResponse {
 
     public static InquiryAnswerResponse of(InquiryAnswer answer) {
         return InquiryAnswerResponse.builder()
-                .title(answer.getTitle())
-                .writer(answer.getWriter())
+                .id(answer.getId())
+                .writer(answer.getLastModifiedBy())
                 .content(answer.getContent())
                 .dateTime(answer.getLastModifiedDate())
                 .build();

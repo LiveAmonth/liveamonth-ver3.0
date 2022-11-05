@@ -57,11 +57,6 @@ public interface MemberService{
     void dropUser();
 
     /**
-     * 회원 DB 삭제
-     */
-    void delete(Long id);
-
-    /**
      * 회원 정보 조회
      */
     MemberProfileResponse getMember();

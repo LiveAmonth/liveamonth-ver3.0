@@ -70,7 +70,8 @@ include::{snippets}/common/custom-response-fields-review-sort-type.adoc[]
 == City API
 
 [[city-summary-get]]
-=== City 요약 정보 조회
+=== 요약 정보 조회
+==== 요청
 ===== HTTP 요청 예제
 include::{snippets}/city-summary-get/http-request.adoc[]
 
@@ -82,7 +83,7 @@ include::{snippets}/city-summary-get/http-response.adoc[]
 
 
 [[city-intro-get]]
-=== City 정보 조회
+=== 소개 정보 조회
 ==== 요청
 include::{snippets}/city-intro-get/path-parameters.adoc[]
 
@@ -97,7 +98,7 @@ link:city/city-intro-get.html[도시 정보 조회 응답 예제,role="popup"]
 
 
 [[city-extra-get]]
-=== City 소개 정보 조회
+=== 추가 정보 조회
 ==== 요청
 include::{snippets}/city-extra-get/path-parameters.adoc[]
 
@@ -113,19 +114,21 @@ link:city/city-extra-get.html[도시 추가 정보 조회 응답 예제,role="po
 
 [[Inquiry-API]]
 == Inquiry API
-=== 1:1 문의 작성
 
+[[write-inquiry]]
+=== 작성
 ==== 요청
 include::{snippets}/inquiry-post/request-fields.adoc[]
 
 ===== HTTP 요청 예제
 include::{snippets}/inquiry-post/http-request.adoc[]
 
+==== 응답
 ===== HTTP 응답 예제
 include::{snippets}/inquiry-post/http-response.adoc[]
 
-=== 1:1 문의 다건 조회
-
+[[get-inquiry-list]]
+=== 다건 조회
 ==== 요청
 include::{snippets}/inquiry-list-get/request-parameters.adoc[]
 
@@ -137,3 +140,69 @@ include::{snippets}/inquiry-list-get/response-fields-content.adoc[]
 
 ===== HTTP 응답 예제
 include::{snippets}/inquiry-list-get/http-response.adoc[]
+
+[[get-inquiry]]
+=== 단건 조회
+==== 요청
+include::{snippets}/inquiry-get/path-parameters.adoc[]
+
+===== Http 요청 예제
+include::{snippets}/inquiry-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/inquiry-get/response-fields-data.adoc[]
+include::{snippets}/inquiry-get/response-fields-answer.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/inquiry-get/http-response.adoc[]
+
+[[edit-inquiry]]
+=== 수정
+==== 요청
+include::{snippets}/inquiry-patch/path-parameters.adoc[]
+include::{snippets}/inquiry-patch/request-fields.adoc
+
+===== Http 요청 예제
+include::{snippets}/inquiry-patch/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/inquiry-patch/http-response.adoc[]
+
+[[delete-inquiry]]
+=== 삭제
+==== 요청
+include::{snippets}/inquiry-delete/path-parameters.adoc[]
+
+===== Http 요청 예제
+include::{snippets}/inquiry-delete/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/inquiry-delete/http-response.adoc[]
+
+[[answer-inquiry]]
+=== 답변 작성
+==== 요청
+include::{snippets}/inquiry-answer-post/path-parameters.adoc[]
+include::{snippets}/inquiry-answer-post/request-fields.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/inquiry-answer-post/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/inquiry-answer-post/http-response.adoc[]
+
+[[edit-inquiry-answer]]
+=== 답변 수정
+==== 요청
+include::{snippets}/inquiry-answer-patch/path-parameters.adoc[]
+include::{snippets}/inquiry-answer-patch/request-fields.adoc
+
+===== Http 요청 예제
+include::{snippets}/inquiry-answer-patch/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/inquiry-answer-patch/http-response.adoc[]

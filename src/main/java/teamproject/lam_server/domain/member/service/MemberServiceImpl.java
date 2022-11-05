@@ -119,13 +119,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        Long queryCount = memberRepository.cleanDeleteById(id);
-        if (queryCount == 0) throw new NotDropMember();
-    }
-
-    @Override
     public FormCheckResponse checkDuplicateEmail(String email) {
         Boolean isDuplicated = memberRepository.existsByEmail(email);
         return isDuplicated

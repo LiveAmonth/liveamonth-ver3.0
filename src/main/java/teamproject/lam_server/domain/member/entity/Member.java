@@ -91,7 +91,7 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")
-    public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth) {
+    public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth, Role role) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
@@ -99,7 +99,7 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.gender = gender;
         this.birth = birth;
-        this.role = Role.USER;
+        this.role = role;
         this.status = AccountState.NORMAL;
     }
 

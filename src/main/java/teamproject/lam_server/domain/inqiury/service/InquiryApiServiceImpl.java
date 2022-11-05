@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
 import teamproject.lam_server.domain.inqiury.dto.request.InquiryCreate;
 import teamproject.lam_server.domain.inqiury.dto.request.InquiryEdit;
 import teamproject.lam_server.domain.inqiury.dto.response.InquiryListResponse;
@@ -20,7 +21,7 @@ import teamproject.lam_server.paging.PageableDTO;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class InquiryServiceImpl implements InquiryService {
+public class InquiryApiServiceImpl implements InquiryService {
 
     private final InquiryRepository inquiryRepository;
 
@@ -60,7 +61,7 @@ public class InquiryServiceImpl implements InquiryService {
         InquiryEditor editor = inquiry.toEditor()
                 .title(request.getTitle())
                 .content(request.getContent())
-                .category(request.getCategory())
+                .category(InquiryCategory.valueOf(request.getCategory()))
                 .build();
 
         inquiry.edit(editor);

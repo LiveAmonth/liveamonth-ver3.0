@@ -35,6 +35,10 @@ public abstract class ResponseMessage {
     public static final String CREATE_INQUIRY = "1:1 문의 저장 성공";
     public static final String DELETE_INQUIRY = "1:1 문의 삭제 성공";
     public static final String UPDATE_INQUIRY = "1:1 문의 업데이트 성공";
+    public static final String READ_INQUIRY_ANSWER = "1:1문의 답변 조회 성공";
+    public static final String CREATE_INQUIRY_ANSWER = "1:1문의 답변 저장 성공";
+    public static final String DELETE_INQUIRY_ANSWER = "1:1문의 답변 삭제 성공";
+    public static final String UPDATE_INQUIRY_ANSWER = "1:1문의 답변 업데이트 성공";
 
 
     /**

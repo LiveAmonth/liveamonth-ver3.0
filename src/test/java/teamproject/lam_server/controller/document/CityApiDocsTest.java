@@ -98,7 +98,7 @@ class CityApiDocsTest extends ApiDocsTest {
                         ),
                         responseFields(
                                 beneathPath("data.transports[]").withSubsectionId("transport"),
-                                fieldWithPath("id").type(NUMBER).description("id"),
+                                fieldWithPath("id").type(NUMBER).description("도시 id"),
                                 fieldWithPath("name.code").type(STRING).description(generateLinkCode(CITY_NAME)),
                                 fieldWithPath("name.value").type(STRING).description(generateValue(CITY_NAME)),
                                 fieldWithPath("category.code").type(STRING).description(generateLinkCode(TRANSPORT_CATEGORY)),
@@ -108,7 +108,7 @@ class CityApiDocsTest extends ApiDocsTest {
                         ),
                         responseFields(
                                 beneathPath("data.weathers[]").withSubsectionId("weather"),
-                                fieldWithPath("id").type(NUMBER).description("id"),
+                                fieldWithPath("id").type(NUMBER).description("도시 id"),
                                 fieldWithPath("name.code").type(STRING).description(generateLinkCode(CITY_NAME)),
                                 fieldWithPath("name.value").type(STRING).description(generateValue(CITY_NAME)),
                                 fieldWithPath("month.code").type(STRING).description(generateLinkCode(MONTH_CATEGORY)),

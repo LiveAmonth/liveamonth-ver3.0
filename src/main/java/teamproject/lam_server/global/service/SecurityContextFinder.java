@@ -2,8 +2,10 @@ package teamproject.lam_server.global.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.exception.badrequest.IllegalLoggedInMember;
@@ -11,6 +13,7 @@ import teamproject.lam_server.exception.badrequest.IllegalWriterOfPost;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.global.entity.BaseEntity;
 
+import java.util.Collection;
 import java.util.Objects;
 
 @Component
@@ -28,7 +31,7 @@ public class SecurityContextFinder {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public Authentication getAuthentication(){
+    public Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 

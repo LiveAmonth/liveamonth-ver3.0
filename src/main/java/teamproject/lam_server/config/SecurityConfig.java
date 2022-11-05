@@ -88,9 +88,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .expressionHandler(webExpressionHandler())
-                .antMatchers(
-                        "/docs/**"
-                ).permitAll()
                 .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
                 .antMatchers("/admin/**").hasRole(MANAGER.getCode())
                 .antMatchers("/api/*/interactions/**").hasRole(USER.getCode())
