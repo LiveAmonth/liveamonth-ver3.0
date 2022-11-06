@@ -1,12 +1,10 @@
 package teamproject.lam_server.domain.interaction.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 public class InteractionRequest {
 
     @NotNull
