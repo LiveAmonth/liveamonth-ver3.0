@@ -30,8 +30,8 @@ export const useAuth = () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.logout();
       memberStore.$reset();
+      await store.logout();
       error.value = null;
     } catch (err) {
       error.value = err;

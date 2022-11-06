@@ -57,6 +57,7 @@ apiClient.interceptors.response.use(
       }
       if (status == 401) {
         console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
+
         await logoutBtn();
         return Promise.reject(error);
       }
