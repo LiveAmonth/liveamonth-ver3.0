@@ -26,6 +26,9 @@ public class Category {
     Map<String, String> reviewSearchGroup;
     Map<String, String> reviewSearchType;
     Map<String, String> reviewSortType;
+    Map<String, String> interactionType;
+    Map<String, String> interactionState;
+    Map<String, String> commentType;
 
     @Builder(builderClassName = "TestBuilder", builderMethodName = "testBuilder")
     public Category(Map<String, String> genderType,
@@ -42,7 +45,11 @@ public class Category {
                     Map<String, String> reviewCategory,
                     Map<String, String> reviewSearchGroup,
                     Map<String, String> reviewSearchType,
-                    Map<String, String> reviewSortType) {
+                    Map<String, String> reviewSortType,
+                    Map<String, String> interactionType,
+                    Map<String, String> interactionState,
+                    Map<String, String> commentType
+                    ) {
         this.genderType = genderType;
         this.accountState = accountState;
         this.inquiryCategory = inquiryCategory;
@@ -58,5 +65,8 @@ public class Category {
         this.reviewSearchGroup = reviewSearchGroup;
         this.reviewSearchType = reviewSearchType;
         this.reviewSortType = reviewSortType;
+        this.interactionType = interactionType;
+        this.interactionState = interactionState;
+        this.commentType = commentType;
     }
 }

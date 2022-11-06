@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import teamproject.lam_server.controller.common.Category;
 import teamproject.lam_server.controller.common.DocsResponse;
 import teamproject.lam_server.domain.city.constants.*;
+import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
+import teamproject.lam_server.domain.interaction.constants.InteractionState;
+import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
@@ -49,6 +52,9 @@ public class CommonController {
                 .reviewSearchGroup(getDocs(ReviewMenuGroup.values()))
                 .reviewSearchType(getDocs(ReviewSearchType.values()))
                 .reviewSortType(getDocs(ReviewSortType.values()))
+                .interactionType(getDocs(InteractionType.values()))
+                .interactionState(getDocs(InteractionState.values()))
+                .commentType(getDocs(CommentType.values()))
                 .build();
 
         Page<Category> categories = new PageImpl<>(

@@ -463,19 +463,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#City-API">City API</a>
 <ul class="sectlevel2">
-<li><a href="#city-summary-get">City 요약 정보 조회</a>
+<li><a href="#city-summary-get">요약 정보 조회</a>
 <ul class="sectlevel3">
 <li><a href="#_요청">요청</a></li>
 <li><a href="#_응답">응답</a></li>
 </ul>
 </li>
-<li><a href="#city-intro-get">City 정보 조회</a>
+<li><a href="#city-intro-get">소개 정보 조회</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_2">요청</a></li>
 <li><a href="#_응답_2">응답</a></li>
 </ul>
 </li>
-<li><a href="#city-extra-get">City 소개 정보 조회</a>
+<li><a href="#city-extra-get">추가 정보 조회</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_3">요청</a></li>
 <li><a href="#_응답_3">응답</a></li>
@@ -485,43 +485,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#Inquiry-API">Inquiry API</a>
 <ul class="sectlevel2">
-<li><a href="#write-inquiry">1:1문의 작성</a>
+<li><a href="#write-inquiry">작성</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_4">요청</a></li>
 <li><a href="#_응답_4">응답</a></li>
 </ul>
 </li>
-<li><a href="#get-inquiry-list">1:1 문의 다건 조회</a>
+<li><a href="#get-inquiry-list">다건 조회</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_5">요청</a></li>
 <li><a href="#_응답_5">응답</a></li>
 </ul>
 </li>
-<li><a href="#get-inquiry">1:1문의 단건 조회</a>
+<li><a href="#get-inquiry">단건 조회</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_6">요청</a></li>
 <li><a href="#_응답_6">응답</a></li>
 </ul>
 </li>
-<li><a href="#edit-inquiry">1:1문의 수정</a>
+<li><a href="#edit-inquiry">수정</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_7">요청</a></li>
 <li><a href="#_응답_7">응답</a></li>
 </ul>
 </li>
-<li><a href="#delete-inquiry">1:1문의 삭제</a>
+<li><a href="#delete-inquiry">삭제</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_8">요청</a></li>
 <li><a href="#_응답_8">응답</a></li>
 </ul>
 </li>
-<li><a href="#answer-inquiry">1:1문의 답변 작성</a>
+<li><a href="#answer-inquiry">답변 작성</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_9">요청</a></li>
 <li><a href="#_응답_9">응답</a></li>
 </ul>
 </li>
-<li><a href="#edit-inquiry-answer">1:1문의 수정</a>
+<li><a href="#edit-inquiry-answer">답변 수정</a>
 <ul class="sectlevel3">
 <li><a href="#_요청_10">요청</a></li>
 <li><a href="#_응답_10">응답</a></li>
@@ -684,12 +684,6 @@ Host: api.liveamonth.com</code></pre>
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/inquiry HTTP/1.1
 Accept: application/json
 Host: api.liveamonth.com</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code data-lang="bash" class="language-bash hljs">$ curl 'https://api.liveamonth.com/api/v1/categories/inquiry' -i -X GET \
-    -H 'Accept: application/json'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1211,7 +1205,7 @@ Host: api.liveamonth.com</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>리뷰 정렬 방식</p>
+<p>댓글 타입</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1226,20 +1220,12 @@ Host: api.liveamonth.com</code></pre>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>VIEW_DESC</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">조회순</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>REVIEW</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">후기 댓글</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LIKE_DESC</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">인기순</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ID_DESC</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">최신순</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>COMMENTS_DESC</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">댓글순</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SCHEDULE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스케줄 댓글</p></td>
 </tr>
 </tbody>
 </table>
@@ -1250,7 +1236,7 @@ Host: api.liveamonth.com</code></pre>
 <h2 id="City-API"><a class="link" href="#City-API">City API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="city-summary-get"><a class="link" href="#city-summary-get">City 요약 정보 조회</a></h3>
+<h3 id="city-summary-get"><a class="link" href="#city-summary-get">요약 정보 조회</a></h3>
 <div class="sect3">
 <h4 id="_요청"><a class="link" href="#_요청">요청</a></h4>
 <div class="sect4">
@@ -1332,11 +1318,11 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 1283
+Content-Length: 1259
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:18",
+  "timeStamp" : "2022-11-06 19:15:01",
   "message" : "성공",
   "data" : [ {
     "name" : {
@@ -1345,7 +1331,7 @@ Content-Length: 1283
     },
     "image" : "https://i.ibb.co/CzgcCbX/INTRO-SE.png",
     "averageDegree" : 8.0,
-    "transportScore" : 7501410
+    "transportScore" : 240
   }, {
     "name" : {
       "value" : "강릉",
@@ -1353,7 +1339,7 @@ Content-Length: 1283
     },
     "image" : "https://i.ibb.co/87k8z99/INTRO-GN.png",
     "averageDegree" : 11.0,
-    "transportScore" : 3250611
+    "transportScore" : 104
   }, {
     "name" : {
       "value" : "경주",
@@ -1361,7 +1347,7 @@ Content-Length: 1283
     },
     "image" : "https://i.ibb.co/T0JVQrs/INTRO-GJ.png",
     "averageDegree" : 9.2,
-    "transportScore" : 3750705
+    "transportScore" : 120
   }, {
     "name" : {
       "value" : "부산",
@@ -1369,7 +1355,7 @@ Content-Length: 1283
     },
     "image" : "https://i.ibb.co/smMVfwW/INTRO-BS.png",
     "averageDegree" : 17.3,
-    "transportScore" : 6001128
+    "transportScore" : 192
   }, {
     "name" : {
       "value" : "여수",
@@ -1377,7 +1363,7 @@ Content-Length: 1283
     },
     "image" : "https://i.ibb.co/z79Ph5j/INTRO-YS.png",
     "averageDegree" : 12.1,
-    "transportScore" : 3750705
+    "transportScore" : 120
   }, {
     "name" : {
       "value" : "제주",
@@ -1385,7 +1371,7 @@ Content-Length: 1283
     },
     "image" : "https://i.ibb.co/DDftbBh/INTRO-JJ.png",
     "averageDegree" : 14.1,
-    "transportScore" : 4000752
+    "transportScore" : 128
   } ]
 }</code></pre>
 </div>
@@ -1394,7 +1380,7 @@ Content-Length: 1283
 </div>
 </div>
 <div class="sect2">
-<h3 id="city-intro-get"><a class="link" href="#city-intro-get">City 정보 조회</a></h3>
+<h3 id="city-intro-get"><a class="link" href="#city-intro-get">소개 정보 조회</a></h3>
 <div class="sect3">
 <h4 id="_요청_2"><a class="link" href="#_요청_2">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1420,7 +1406,7 @@ Content-Length: 1283
 <h5 id="_http_요청_예제_2"><a class="link" href="#_http_요청_예제_2">HTTP 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/city/YS HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/city/GN HTTP/1.1
 Accept: application/json
 Host: api.liveamonth.com</code></pre>
 </div>
@@ -1471,7 +1457,7 @@ Host: api.liveamonth.com</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="city-extra-get"><a class="link" href="#city-extra-get">City 소개 정보 조회</a></h3>
+<h3 id="city-extra-get"><a class="link" href="#city-extra-get">추가 정보 조회</a></h3>
 <div class="sect3">
 <h4 id="_요청_3"><a class="link" href="#_요청_3">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1652,7 +1638,7 @@ Host: api.liveamonth.com</code></pre>
 <h2 id="Inquiry-API"><a class="link" href="#Inquiry-API">Inquiry API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="write-inquiry"><a class="link" href="#write-inquiry">1:1문의 작성</a></h3>
+<h3 id="write-inquiry"><a class="link" href="#write-inquiry">작성</a></h3>
 <div class="sect3">
 <h4 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h4>
 <div class="sect4">
@@ -1739,7 +1725,7 @@ Content-Length: 122
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:05",
+  "timeStamp" : "2022-11-06 19:15:12",
   "message" : "1:1 문의 저장 성공",
   "data" : [ ]
 }</code></pre>
@@ -1749,7 +1735,7 @@ Content-Length: 122
 </div>
 </div>
 <div class="sect2">
-<h3 id="get-inquiry-list"><a class="link" href="#get-inquiry-list">1:1 문의 다건 조회</a></h3>
+<h3 id="get-inquiry-list"><a class="link" href="#get-inquiry-list">다건 조회</a></h3>
 <div class="sect3">
 <h4 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1873,28 +1859,28 @@ Content-Length: 780
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:06",
+  "timeStamp" : "2022-11-06 19:15:14",
   "message" : "1:1 문의 조회 성공",
   "data" : {
     "content" : [ {
-      "id" : 57,
+      "id" : 18,
       "title" : "1:1문의 테스트 제목2",
       "writer" : "testNickname",
       "category" : {
         "value" : "기타",
         "code" : "ETC"
       },
-      "date" : "2022-11-05",
+      "date" : "2022-11-06",
       "answered" : false
     }, {
-      "id" : 56,
+      "id" : 17,
       "title" : "1:1문의 테스트 제목1",
       "writer" : "testNickname",
       "category" : {
         "value" : "스케줄",
         "code" : "SCHEDULE"
       },
-      "date" : "2022-11-05",
+      "date" : "2022-11-06",
       "answered" : false
     } ],
     "pageable" : {
@@ -1911,7 +1897,7 @@ Content-Length: 780
 </div>
 </div>
 <div class="sect2">
-<h3 id="get-inquiry"><a class="link" href="#get-inquiry">1:1문의 단건 조회</a></h3>
+<h3 id="get-inquiry"><a class="link" href="#get-inquiry">단건 조회</a></h3>
 <div class="sect3">
 <h4 id="_요청_6"><a class="link" href="#_요청_6">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -1937,7 +1923,7 @@ Content-Length: 780
 <h5 id="_http_요청_예제_6"><a class="link" href="#_http_요청_예제_6">Http 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/inquiries/59 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/inquiries/20 HTTP/1.1
 Host: api.liveamonth.com</code></pre>
 </div>
 </div>
@@ -2080,14 +2066,14 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 562
+Content-Length: 561
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:06",
+  "timeStamp" : "2022-11-06 19:15:15",
   "message" : "1:1 문의 조회 성공",
   "data" : {
-    "id" : 59,
+    "id" : 20,
     "title" : "1:1문의 테스트 제목",
     "writer" : "testNickname",
     "content" : "1:1문의 테스트 내용",
@@ -2095,12 +2081,12 @@ Content-Length: 562
       "value" : "스케줄",
       "code" : "SCHEDULE"
     },
-    "dateTime" : "2022-11-05 18:58",
+    "dateTime" : "2022-11-06 19:15",
     "answer" : {
-      "id" : 24,
+      "id" : 3,
       "writer" : "inquiry",
       "content" : "1:1문의 답변",
-      "dateTime" : "2022-11-05 18:58"
+      "dateTime" : "2022-11-06 19:15"
     },
     "answered" : true
   }
@@ -2111,7 +2097,7 @@ Content-Length: 562
 </div>
 </div>
 <div class="sect2">
-<h3 id="edit-inquiry"><a class="link" href="#edit-inquiry">1:1문의 수정</a></h3>
+<h3 id="edit-inquiry"><a class="link" href="#edit-inquiry">수정</a></h3>
 <div class="sect3">
 <h4 id="_요청_7"><a class="link" href="#_요청_7">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -2140,7 +2126,7 @@ Content-Length: 562
 <h5 id="_http_요청_예제_7"><a class="link" href="#_http_요청_예제_7">Http 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/inquiries/54 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/inquiries/15 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 97
@@ -2176,7 +2162,7 @@ Content-Length: 128
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:05",
+  "timeStamp" : "2022-11-06 19:15:13",
   "message" : "1:1 문의 업데이트 성공",
   "data" : [ ]
 }</code></pre>
@@ -2186,7 +2172,7 @@ Content-Length: 128
 </div>
 </div>
 <div class="sect2">
-<h3 id="delete-inquiry"><a class="link" href="#delete-inquiry">1:1문의 삭제</a></h3>
+<h3 id="delete-inquiry"><a class="link" href="#delete-inquiry">삭제</a></h3>
 <div class="sect3">
 <h4 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -2212,7 +2198,7 @@ Content-Length: 128
 <h5 id="_http_요청_예제_8"><a class="link" href="#_http_요청_예제_8">Http 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/inquiries/52 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/inquiries/13 HTTP/1.1
 Host: api.liveamonth.com</code></pre>
 </div>
 </div>
@@ -2239,7 +2225,7 @@ Content-Length: 122
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:04",
+  "timeStamp" : "2022-11-06 19:15:12",
   "message" : "1:1 문의 삭제 성공",
   "data" : [ ]
 }</code></pre>
@@ -2249,7 +2235,7 @@ Content-Length: 122
 </div>
 </div>
 <div class="sect2">
-<h3 id="answer-inquiry"><a class="link" href="#answer-inquiry">1:1문의 답변 작성</a></h3>
+<h3 id="answer-inquiry"><a class="link" href="#answer-inquiry">답변 작성</a></h3>
 <div class="sect3">
 <h4 id="_요청_9"><a class="link" href="#_요청_9">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -2305,7 +2291,7 @@ Content-Length: 122
 <h5 id="_http_요청_예제_9"><a class="link" href="#_http_요청_예제_9">HTTP 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /admin/v1/inquiries/58 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /admin/v1/inquiries/19 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 38
@@ -2339,7 +2325,7 @@ Content-Length: 128
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:06",
+  "timeStamp" : "2022-11-06 19:15:14",
   "message" : "1:1문의 답변 저장 성공",
   "data" : [ ]
 }</code></pre>
@@ -2349,7 +2335,7 @@ Content-Length: 128
 </div>
 </div>
 <div class="sect2">
-<h3 id="edit-inquiry-answer"><a class="link" href="#edit-inquiry-answer">1:1문의 수정</a></h3>
+<h3 id="edit-inquiry-answer"><a class="link" href="#edit-inquiry-answer">답변 수정</a></h3>
 <div class="sect3">
 <h4 id="_요청_10"><a class="link" href="#_요청_10">요청</a></h4>
 <table class="tableblock frame-all grid-all stretch">
@@ -2378,7 +2364,7 @@ Content-Length: 128
 <h5 id="_http_요청_예제_10"><a class="link" href="#_http_요청_예제_10">Http 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /admin/v1/inquiries/22 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /admin/v1/inquiries/1 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Content-Length: 45
@@ -2412,7 +2398,7 @@ Content-Length: 128
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-05 18:58:05",
+  "timeStamp" : "2022-11-06 19:15:13",
   "message" : "1:1 문의 업데이트 성공",
   "data" : [ ]
 }</code></pre>
@@ -2427,7 +2413,7 @@ Content-Length: 128
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-11-05 18:56:26 +0900
+Last updated 2022-11-06 19:14:33 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

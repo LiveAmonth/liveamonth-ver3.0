@@ -93,6 +93,25 @@ public class CategoryDocsTest extends ApiDocsTest {
         getSearchPerform("sort-types", "schedule");
     }
 
+    @Test
+    @DisplayName("상호작용 타입 조회")
+    void get_interaction_type() throws Exception {
+        getPerform("/interaction/type", "interaction-type");
+    }
+
+    @Test
+    @DisplayName("상호작용 상태 조회")
+    void get_interaction_state() throws Exception {
+        getPerform("/interaction/state", "interaction-state");
+    }
+
+    @Test
+    @DisplayName("댓글 게시물 타입 조회")
+    void get_comment_type() throws Exception {
+        getPerform("/comment/type", "comment-type");
+    }
+
+
     private void getSearchPerform(String type, String entity) throws Exception {
         this.mockMvc.perform(get("/api/v1/categories/" + type + "/{entityName}", entity)
                         .accept(APPLICATION_JSON))

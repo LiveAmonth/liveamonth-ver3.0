@@ -102,6 +102,30 @@ public class EnumController {
     }
 
     /**
+     * 상호작용 엔티티 타입
+     */
+    @GetMapping("/interaction/type")
+    public ResponseEntity<?> getInteractionType(){
+        return getCategories(INTERACTION_TYPE);
+    }
+
+    /**
+     * 상호작용 상태
+     */
+    @GetMapping("/interaction/state")
+    public ResponseEntity<?> getInteractionState(){
+        return getCategories(INTERACTION_STATE);
+    }
+
+    /**
+     * 댓글 게시물 타입
+     */
+    @GetMapping("/comment/type")
+    public ResponseEntity<?> getCommentType(){
+        return getCategories(COMMENT_TYPE);
+    }
+
+    /**
      * 엔티티 상태 코드
      */
     @GetMapping("/status/{entityName}")

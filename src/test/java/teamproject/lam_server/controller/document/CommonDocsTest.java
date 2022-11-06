@@ -83,65 +83,95 @@ public class CommonDocsTest {
                                 fieldWithPath("totalElements").type(NUMBER).description("전체 컨텐츠 수"),
                                 fieldWithPath("totalPages").type(NUMBER).description("전체 페이지 수")
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].genderType").withSubsectionId("gender-type"),
+                        customResponseFields("custom-response", beneathPath("data.content[].genderType")
+                                        .withSubsectionId("gender-type"),
                                 attributes(key("title").value(GENDER_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getGenderType())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].accountState").withSubsectionId("account-state"),
+                        customResponseFields("custom-response", beneathPath("data.content[].accountState")
+                                        .withSubsectionId("account-state"),
                                 attributes(key("title").value(ACCOUNT_STATE.getValue())),
                                 enumConvertFieldDescriptor(category.getAccountState())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].inquiryCategory").withSubsectionId("inquiry-category"),
+                        customResponseFields("custom-response", beneathPath("data.content[].inquiryCategory")
+                                        .withSubsectionId("inquiry-category"),
                                 attributes(key("title").value(INQUIRY_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getInquiryCategory())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].cityIntroCategory").withSubsectionId("city-intro-category"),
+                        customResponseFields("custom-response", beneathPath("data.content[].cityIntroCategory")
+                                        .withSubsectionId("city-intro-category"),
                                 attributes(key("title").value(CITY_INTRO_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getCityIntroCategory())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].cityName").withSubsectionId("city-name"),
+                        customResponseFields("custom-response", beneathPath("data.content[].cityName")
+                                        .withSubsectionId("city-name"),
                                 attributes(key("title").value(CITY_NAME.getValue())),
                                 enumConvertFieldDescriptor(category.getCityName())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].transportCategory").withSubsectionId("transport-category"),
+                        customResponseFields("custom-response", beneathPath("data.content[].transportCategory")
+                                        .withSubsectionId("transport-category"),
                                 attributes(key("title").value(TRANSPORT_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getTransportCategory())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].transportGrade").withSubsectionId("transport-grade"),
+                        customResponseFields("custom-response", beneathPath("data.content[].transportGrade")
+                                        .withSubsectionId("transport-grade"),
                                 attributes(key("title").value(TRANSPORT_GRADE.getValue())),
                                 enumConvertFieldDescriptor(category.getTransportGrade())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].monthCategory").withSubsectionId("month"),
+                        customResponseFields("custom-response", beneathPath("data.content[].monthCategory")
+                                        .withSubsectionId("month"),
                                 attributes(key("title").value(MONTH_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getMonthCategory())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].scheduleSearchType").withSubsectionId("schedule-search-type"),
+                        customResponseFields("custom-response", beneathPath("data.content[].scheduleSearchType")
+                                        .withSubsectionId("schedule-search-type"),
                                 attributes(key("title").value(SCHEDULE_SEARCH_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getScheduleSearchType())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].scheduleFilterType").withSubsectionId("schedule-filter-type"),
+                        customResponseFields("custom-response", beneathPath("data.content[].scheduleFilterType")
+                                        .withSubsectionId("schedule-filter-type"),
                                 attributes(key("title").value(SCHEDULE_FILTER_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getScheduleFilterType())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].scheduleSortType").withSubsectionId("schedule-sort-type"),
+                        customResponseFields("custom-response", beneathPath("data.content[].scheduleSortType")
+                                        .withSubsectionId("schedule-sort-type"),
                                 attributes(key("title").value(SCHEDULE_SORT_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getScheduleSortType())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].reviewCategory").withSubsectionId("review-category"),
+                        customResponseFields("custom-response", beneathPath("data.content[].reviewCategory")
+                                        .withSubsectionId("review-category"),
                                 attributes(key("title").value(REVIEW_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewCategory())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].reviewSearchGroup").withSubsectionId("review-search-group"),
+                        customResponseFields("custom-response", beneathPath("data.content[].reviewSearchGroup")
+                                        .withSubsectionId("review-search-group"),
                                 attributes(key("title").value(REVIEW_MENU_GROUP.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewSearchGroup())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].reviewSearchType").withSubsectionId("review-search-type"),
+                        customResponseFields("custom-response", beneathPath("data.content[].reviewSearchType")
+                                        .withSubsectionId("review-search-type"),
                                 attributes(key("title").value(REVIEW_SEARCH_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewSearchType())
                         ),
-                        customResponseFields("custom-response", beneathPath("data.content[].reviewSortType").withSubsectionId("review-sort-type"),
+                        customResponseFields("custom-response", beneathPath("data.content[].reviewSortType")
+                                        .withSubsectionId("review-sort-type"),
                                 attributes(key("title").value(REVIEW_SORT_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewSortType())
+                        ),
+                        customResponseFields("custom-response", beneathPath("data.content[].interactionType")
+                                        .withSubsectionId("interaction-type"),
+                                attributes(key("title").value(INTERACTION_TYPE.getValue())),
+                                enumConvertFieldDescriptor(category.getInteractionType())
+                        ),
+                        customResponseFields("custom-response", beneathPath("data.content[].interactionState")
+                                        .withSubsectionId("interaction-state"),
+                                attributes(key("title").value(INTERACTION_STATE.getValue())),
+                                enumConvertFieldDescriptor(category.getInteractionState())
+                        ),
+                        customResponseFields("custom-response", beneathPath("data.content[].commentType")
+                                        .withSubsectionId("comment-type"),
+                                attributes(key("title").value(COMMENT_TYPE.getValue())),
+                                enumConvertFieldDescriptor(category.getCommentType())
                         )
                 ));
     }
