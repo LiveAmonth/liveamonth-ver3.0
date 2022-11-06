@@ -3,9 +3,9 @@ package teamproject.lam_server.domain.interaction.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import teamproject.lam_server.domain.interaction.constants.ReactType;
+import teamproject.lam_server.domain.interaction.constants.InteractionState;
+import teamproject.lam_server.domain.interaction.dto.InteractedCommentResponse;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
-import teamproject.lam_server.domain.interaction.dto.ReactedCommentResponse;
 import teamproject.lam_server.domain.interaction.service.InteractionServiceFinder;
 import teamproject.lam_server.global.dto.response.CustomResponse;
 
@@ -17,36 +17,37 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/interactions")
-public class InteractionApiController {
+public class
+InteractionApiController {
 
     private final InteractionServiceFinder interactionServiceFinder;
 
     @PostMapping("/contents/{type}/{loginId}")
-    public ResponseEntity<?> reactContent(
+    public ResponseEntity<?> interact(
             @PathVariable String type,
             @PathVariable String loginId,
-            @RequestParam("is_reacted") Boolean isReacted,
+            @RequestParam("is_interacted") Boolean isInteracted,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.find(type).react(loginId, isReacted, request);
+        interactionServiceFinder.find(type).interact(loginId, isInteracted, request);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
     @PostMapping("/comments/{commentType}/{loginId}")
-    public ResponseEntity<?> reactComment(
+    public ResponseEntity<?> interactComment(
             @PathVariable String commentType,
             @PathVariable String loginId,
-            @RequestParam(name = "react_type") ReactType reactType,
+            @RequestParam(name = "interaction_state") InteractionState interactionState,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.findComment(commentType).react(loginId, request, reactType);
+        interactionServiceFinder.findComment(commentType).interact(loginId, request, interactionState);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
     @PostMapping("/comments/{type}/{loginId}/cancel")
-    public ResponseEntity<?> cancelReactComment(
+    public ResponseEntity<?> cancelInteractComment(
             @PathVariable String type,
             @PathVariable String loginId,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.findComment(type).cancelReact(loginId, request);
+        interactionServiceFinder.findComment(type).cancelInteraction(loginId, request);
         return CustomResponse.success(DELETE_INTERACTION);
     }
 
@@ -58,12 +59,12 @@ public class InteractionApiController {
         return CustomResponse.success(READ_INTERACTION, result);
     }
 
-    @GetMapping("/member/{memberId}/reacted-comments/{type}")
-    public ResponseEntity<?> getMemberReactedComments(
+    @GetMapping("/member/{memberId}/interacted-comments/{type}")
+    public ResponseEntity<?> getInteractedCommentsByMember(
             @PathVariable Long memberId,
             @PathVariable String type,
             @RequestParam List<Long> ids) {
-        List<ReactedCommentResponse> result = interactionServiceFinder.findComment(type).getReactedComments(memberId, ids);
+        List<InteractedCommentResponse> result = interactionServiceFinder.findComment(type).getInteractedComments(memberId, ids);
         return CustomResponse.success(READ_INTERACTION, result);
     }
 }

@@ -35,7 +35,7 @@ const {
   heartImg,
   heartFillImg,
   isPositiveInteraction,
-  reactContent,
+  interactContent,
 } = useInteraction();
 const { isLoggedIn } = useAuth();
 const router = useRouter();
@@ -51,7 +51,7 @@ onMounted(async () => {
 
 const handelLike = async () => {
   if (isLoggedIn.value) {
-    await reactContent(type, currReview.value.id).then(() => {
+    await interactContent(type, currReview.value.id).then(() => {
       if (!error.value) {
         isLiked.value
           ? currReview.value.numberOfLikes++

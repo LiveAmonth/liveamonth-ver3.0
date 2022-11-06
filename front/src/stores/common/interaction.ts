@@ -1,11 +1,11 @@
 import InteractionApiService from "@/services/common/InteractionApiService";
 import { defineStore } from "pinia";
-import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
+import type { CommentInteractionType } from "@/modules/types/interaction/InteractionType";
 import type { InteractionType } from "@/modules/types/interaction/InteractionType";
 
 export const useInteractionStore = defineStore("interaction", {
   state: () => ({
-    reactedComments: [] as ReactedCommentType[],
+    interactedComments: [] as CommentInteractionType[],
     isLikedContent: false,
     isFollowedMember: false,
   }),
@@ -16,7 +16,7 @@ export const useInteractionStore = defineStore("interaction", {
       loginId: string,
       request: InteractionType
     ) {
-      await InteractionApiService.reactContent(
+      await InteractionApiService.interactContent(
         type,
         loginId,
         this.isTypeMember(type) ? this.isFollowedMember : this.isLikedContent,
@@ -31,14 +31,18 @@ export const useInteractionStore = defineStore("interaction", {
         });
     },
 
-    getMemberReactedComment: async function (
+    getInteractedCommentsByMember: async function (
       type: string,
       memberId: number,
       ids: number[]
     ) {
-      await InteractionApiService.getMemberReactedComment(type, memberId, ids)
+      await InteractionApiService.getInteractedCommentsByMember(
+        type,
+        memberId,
+        ids
+      )
         .then((response) => {
-          this.reactedComments = response;
+          this.interactedComments = response;
         })
         .catch((error) => {
           throw error;

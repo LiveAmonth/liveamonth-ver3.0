@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentInteraction;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 
@@ -26,7 +26,7 @@ public class ScheduleComment extends CommentEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private final List<ScheduleComment> children = new ArrayList<>();
     @OneToMany(mappedBy = "to", orphanRemoval = true)
-    private final Set<ScheduleCommentReact> reacts = new HashSet<>();
+    private final Set<ScheduleCommentInteraction> interactions = new HashSet<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "schedule_id")
@@ -37,9 +37,9 @@ public class ScheduleComment extends CommentEntity {
 
     @Formula("(select count(sc.parent_comment_id) from schedule_comment sc where sc.parent_comment_id = schedule_comment_id)")
     private int numberOfChildren;
-    @Formula("(select count(1) from schedule_comment_react scr where scr.to_schedule_comment_id = schedule_comment_id and scr.type = 'LIKE')")
+    @Formula("(select count(1) from schedule_comment_interaction scr where scr.to_schedule_comment_id = schedule_comment_id and scr.state = 'LIKE')")
     private int numberOfLikes;
-    @Formula("(select count(1) from schedule_comment_react scr where scr.to_schedule_comment_id = schedule_comment_id and scr.type = 'DISLIKE')")
+    @Formula("(select count(1) from schedule_comment_interaction scr where scr.to_schedule_comment_id = schedule_comment_id and scr.state = 'DISLIKE')")
     private int numberOfDislikes;
 
     @Builder

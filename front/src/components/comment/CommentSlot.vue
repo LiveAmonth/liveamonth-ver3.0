@@ -5,7 +5,7 @@ import { useAuth } from "@/composables/member/auth";
 import { useInteraction } from "@/composables/interaction/interaction";
 import { useMessageBox } from "@/composables/common/messageBox";
 import type { PropType, Ref, UnwrapRef } from "vue";
-import type { ReactedCommentType } from "@/modules/types/interaction/InteractionType";
+import type { CommentInteractionType } from "@/modules/types/interaction/InteractionType";
 import type {
   BestCommentType,
   CommentType,
@@ -40,30 +40,31 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(["reactComment", "edit", "delete"]);
+const emits = defineEmits(["interactComment", "edit", "delete"]);
 
 const { isLoggedIn } = useAuth();
-const { reactedComments, getReactedComment, checkReacted } = useInteraction();
+const { interactedComments, getInteractedComment, checkInteraction } =
+  useInteraction();
 const { buttonMsg, openMessageBox, labelMsg } = useMessageBox();
 
 const thumbsUp = ref<string>("bi-hand-thumbs-up");
 const thumbsDown = ref<string>("bi-hand-thumbs-down");
 const fillSuffix = "-fill";
-const reactedComment = ref<ReactedCommentType>();
+const interactedComment = ref<CommentInteractionType>();
 
 const fillThumbs = (thumbs: Ref<UnwrapRef<string>>) => {
   thumbs.value = thumbs.value.concat(fillSuffix);
 };
 
 const reactComment = (option: boolean) => {
-  checkReacted(option, reactedComment.value?.type)
+  checkInteraction(option, interactedComment.value?.state)
     .then(() => {
       option ? fillThumbs(thumbsUp) : fillThumbs(thumbsDown);
       emits(
-        "reactComment",
+        "interactComment",
         props.comment.commentId,
         option,
-        !!reactedComment.value
+        !!interactedComment.value
       );
     })
     .catch((error) => {
@@ -72,12 +73,12 @@ const reactComment = (option: boolean) => {
 };
 
 watch(
-  () => reactedComments.value,
+  () => interactedComments.value,
   async () => {
-    await getReactedComment(props.comment.commentId).then((response) => {
+    await getInteractedComment(props.comment.commentId).then((response) => {
       if (response) {
-        reactedComment.value = response;
-        reactedComment.value.type === "LIKE"
+        interactedComment.value = response;
+        interactedComment.value?.state === "LIKE"
           ? fillThumbs(thumbsUp)
           : fillThumbs(thumbsDown);
       }

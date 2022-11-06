@@ -3,7 +3,7 @@ export interface InteractionType {
   to: number;
 }
 
-export interface ReactedCommentType {
+export interface CommentInteractionType {
   id: number;
-  type: string;
+  state: string;
 }

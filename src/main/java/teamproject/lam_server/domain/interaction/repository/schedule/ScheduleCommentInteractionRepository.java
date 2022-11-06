@@ -5,44 +5,44 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.interaction.constants.ReactType;
+import teamproject.lam_server.domain.interaction.constants.InteractionState;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentInteraction;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ScheduleCommentReactRepository extends JpaRepository<ScheduleCommentReact, Long> {
+public interface ScheduleCommentInteractionRepository extends JpaRepository<ScheduleCommentInteraction, Long> {
     @Modifying
     @Transactional
     @Query(value = "" +
-            "insert into schedule_comment_react (created_date, last_modified_date, from_member_id, to_schedule_comment_id, type) " +
-            "values(now(), now(), :#{#request.from}, :#{#request.to}, :type);"
+            "insert into schedule_comment_interaction (created_date, last_modified_date, from_member_id, to_schedule_comment_id, state) " +
+            "values(now(), now(), :#{#request.from}, :#{#request.to}, :#{#state.name})"
             , nativeQuery = true)
-    void react(@Param("request") InteractionRequest request, @Param("type") String type);
+    void interact(@Param("request") InteractionRequest request, @Param("state") InteractionState state);
 
     @Modifying
     @Transactional
     @Query(value = "" +
-            "delete from schedule_comment_react scr " +
+            "delete from schedule_comment_interaction scr " +
             "where scr.from_member_id = :#{#request.from} " +
             "and scr.to_schedule_comment_id = :#{#request.to}"
             , nativeQuery = true)
-    void cancelReact(@Param("request") InteractionRequest request);
+    void cancelInteraction(@Param("request") InteractionRequest request);
 
     @Query(value = "" +
-            "select type from schedule_comment_react scr " +
+            "select scr.state from schedule_comment_interaction scr " +
             "where scr.from_member_id = :#{#request.from} " +
             "and scr.to_schedule_comment_id = :#{#request.to}"
             , nativeQuery = true)
-    Optional<ReactType> existsReact(@Param("request") InteractionRequest request);
+    Optional<InteractionState> existsInteraction(@Param("request") InteractionRequest request);
 
     @Query(value = "" +
-            "select * from schedule_comment_react scr " +
+            "select * from schedule_comment_interaction scr " +
             "inner join schedule_comment sc on scr.to_schedule_comment_id = sc.schedule_comment_id " +
             "where scr.from_member_id = :memberId " +
             "and scr.to_schedule_comment_id in :ids"
             , nativeQuery = true)
-    List<ScheduleCommentReact> getReactedComments(@Param("memberId")Long memberId, @Param("ids") List<Long> ids);
+    List<ScheduleCommentInteraction> getInteractedComments(@Param("memberId")Long memberId, @Param("ids") List<Long> ids);
 
 }

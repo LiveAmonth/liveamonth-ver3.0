@@ -9,9 +9,9 @@ import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.interaction.entity.member.Follower;
-import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentInteraction;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentInteraction;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleLike;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -26,6 +26,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import static teamproject.lam_server.constants.AttrConstants.DEFAULT_PROFILE_FILE_NAME;
 import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 
 @Entity
@@ -47,7 +48,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
     @OneToMany(mappedBy = "from", orphanRemoval = true)
-    private final Set<ScheduleCommentReact> scheduleCommentReacts = new HashSet<>();
+    private final Set<ScheduleCommentInteraction> scheduleCommentInteractions = new HashSet<>();
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Inquiry> inquiries = new ArrayList<>();
 
@@ -59,7 +60,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ReviewLike> reviewLikes = new HashSet<>();
     @OneToMany(mappedBy = "from", orphanRemoval = true)
-    private final Set<ReviewCommentReact> reviewCommentReacts = new HashSet<>();
+    private final Set<ReviewCommentInteraction> reviewCommentInteractions = new HashSet<>();
 
     @Column(unique = true, updatable = false)
     private String loginId;
@@ -101,6 +102,7 @@ public class Member extends BaseTimeEntity {
         this.birth = birth;
         this.role = role;
         this.status = AccountState.NORMAL;
+        this.image = DEFAULT_PROFILE_FILE_NAME;
     }
 
     @Builder(builderClassName = "socialBuilder", builderMethodName = "socialBuilder")
@@ -110,6 +112,7 @@ public class Member extends BaseTimeEntity {
         this.socialType = socialType;
         this.role = Role.GUEST;
         this.status = AccountState.NORMAL;
+        this.image = DEFAULT_PROFILE_FILE_NAME;
     }
 
     // => 비즈니스 로직

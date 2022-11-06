@@ -21,8 +21,8 @@ public class InitInquiryService {
     public void initInquiryData() {
         Member member = memberRepository.findAll().get(0);
         String query = "insert into inquiry" +
-                " (created_date, last_modified_date, created_by, last_modified_by, category, content, is_answered, is_removed, title, inquiry_answer_id, member_id)" +
-                " values (now(), now(), :created_by, :last_modified_by, :category, :content, false, false, :title, null, :member_id)";
+                " (created_date, last_modified_date, created_by, last_modified_by, category, content, is_answered, title, inquiry_answer_id, member_id)" +
+                " values (now(), now(), :created_by, :last_modified_by, :category, :content, false, :title, null, :member_id)";
 
         List<InquiryCreate> requests = JsonUtil.jsonArrayToList(INQUIRY, InquiryCreate.class);
         for (InquiryCreate request : requests) {

@@ -8,9 +8,9 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 @AllArgsConstructor
 public enum InteractionType implements EnumMapperType {
 
-    MEMBER("member"),
-    SCHEDULE("schedule"),
-    REVIEW("review");
+    MEMBER("회원"),
+    SCHEDULE("스케줄"),
+    REVIEW("후기");
 
     private final String value;
 

@@ -29,7 +29,7 @@ const {
   heartImg,
   heartFillImg,
   isPositiveInteraction,
-  reactContent,
+  interactContent,
 } = useInteraction();
 const { setContentCollapse } = useCalendarEvent();
 const { titleMsg, requireLoginMessageBox } = useMessageBox();
@@ -48,7 +48,7 @@ const changeCollapse = (id: number) => {
 
 const handelLike = async () => {
   if (isLoggedIn.value) {
-    await reactContent(type, currentSchedule.value.id).then(() => {
+    await interactContent(type, currentSchedule.value.id).then(() => {
       if (!error.value) {
         isLiked.value
           ? currentSchedule.value.numberOfLikes++

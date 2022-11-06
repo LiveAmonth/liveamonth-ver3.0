@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.comment.constants;
+package teamproject.lam_server.domain.interaction.constants;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,9 +6,10 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 
 @Getter
 @AllArgsConstructor
-public enum CommentType implements EnumMapperType {
-    SCHEDULE("스케줄 댓글"),
-    REVIEW("후기 댓글");
+public enum InteractionState implements EnumMapperType {
+    LIKE("추천"),
+    DISLIKE("비추천"),
+    ;
     private final String value;
 
     @Override

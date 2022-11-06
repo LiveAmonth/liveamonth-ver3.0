@@ -1,19 +1,19 @@
 package teamproject.lam_server.domain.interaction.service;
 
-import teamproject.lam_server.domain.interaction.constants.InteractionType;
-import teamproject.lam_server.domain.interaction.constants.ReactType;
+import teamproject.lam_server.domain.comment.constants.CommentType;
+import teamproject.lam_server.domain.interaction.constants.InteractionState;
+import teamproject.lam_server.domain.interaction.dto.InteractedCommentResponse;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
-import teamproject.lam_server.domain.interaction.dto.ReactedCommentResponse;
 
 import java.util.List;
 
 public interface CommentInteractionService {
 
-    InteractionType getType();
+    CommentType getType();
 
-    void react(String loginId, InteractionRequest request, ReactType type);
+    void interact(String loginId, InteractionRequest request, InteractionState state);
 
-    void cancelReact(String loginId, InteractionRequest request);
+    void cancelInteraction(String loginId, InteractionRequest request);
 
-    List<ReactedCommentResponse> getReactedComments(Long memberId, List<Long> request);
+    List<InteractedCommentResponse> getInteractedComments(Long memberId, List<Long> request);
 }

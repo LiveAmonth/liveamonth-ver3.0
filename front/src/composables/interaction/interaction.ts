@@ -5,7 +5,7 @@ import { useInteractionStore } from "@/stores/common/interaction";
 import { useMessageBox } from "@/composables/common/messageBox";
 import type {
   InteractionType,
-  ReactedCommentType,
+  CommentInteractionType,
 } from "@/modules/types/interaction/InteractionType";
 
 export const useInteraction = () => {
@@ -17,7 +17,7 @@ export const useInteraction = () => {
   const isPending = ref(false);
   const isLiked = computed(() => store.isLikedContent);
   const isFollowed = computed(() => store.isFollowedMember);
-  const reactedComments = computed(() => store.reactedComments);
+  const interactedComments = computed(() => store.interactedComments);
   const heartImg = "https://i.ibb.co/zxHVVSS/love.png";
   const heartFillImg = "https://i.ibb.co/p3x6KVk/love-fill.png";
 
@@ -28,7 +28,7 @@ export const useInteraction = () => {
     };
   };
 
-  const reactContent = async (type: string, toId: number) => {
+  const interactContent = async (type: string, toId: number) => {
     try {
       isPending.value = true;
       await store.doInteraction(
@@ -55,9 +55,13 @@ export const useInteraction = () => {
     }
   };
 
-  const getMemberReactedComment = async (type: string, ids: number[]) => {
+  const getInteractedCommentsByMember = async (type: string, ids: number[]) => {
     try {
-      await store.getMemberReactedComment(type, simpleProfile.value.id, ids);
+      await store.getInteractedCommentsByMember(
+        type,
+        simpleProfile.value.id,
+        ids
+      );
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -66,34 +70,37 @@ export const useInteraction = () => {
     }
   };
 
-  const reactComment = async (
+  const interactComment = async (
     commentType: string,
     commentId: number,
     option: boolean,
-    isReacted: boolean
+    isInteracted: boolean
   ) => {
-    await InteractionApiService.reactComment(
+    await InteractionApiService.interactComment(
       commentType,
       simpleProfile.value.loginId,
       option ? "LIKE" : "DISLIKE",
       getInteractionRequest(commentId),
-      isReacted
+      isInteracted
     )
       .then(() => {
-        console.log("react comment");
+        console.log("interact comment");
       })
       .catch((err) => {
         error.value = err;
       });
   };
 
-  const getReactedComment = async (
+  const getInteractedComment = async (
     id: number
-  ): Promise<ReactedCommentType | undefined> => {
-    return reactedComments.value.find((value) => value.id === id);
+  ): Promise<CommentInteractionType | undefined> => {
+    return interactedComments.value.find((value) => value.id === id);
   };
 
-  const checkReacted = async (option: boolean, type: string | undefined) => {
+  const checkInteraction = async (
+    option: boolean,
+    type: string | undefined
+  ) => {
     if (option && type && type === "DISLIKE") {
       error.value = validationMsg("interaction.alreadyDislikeComment");
       throw error.value;
@@ -114,13 +121,13 @@ export const useInteraction = () => {
     heartFillImg,
     isLiked,
     isFollowed,
-    reactedComments,
-    checkReacted,
-    getReactedComment,
-    reactContent,
-    reactComment,
+    interactedComments,
+    checkInteraction,
+    getInteractedComment,
+    interactContent,
+    interactComment,
     isPositiveInteraction,
-    getMemberReactedComment,
+    getInteractedCommentsByMember,
     isWriter,
   };
 };

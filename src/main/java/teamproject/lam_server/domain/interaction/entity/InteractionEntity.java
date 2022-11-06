@@ -1,7 +1,7 @@
 package teamproject.lam_server.domain.interaction.entity;
 
 import lombok.Getter;
-import teamproject.lam_server.domain.interaction.constants.ReactType;
+import teamproject.lam_server.domain.interaction.constants.InteractionState;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
 import javax.persistence.Enumerated;
@@ -11,10 +11,10 @@ import static javax.persistence.EnumType.STRING;
 
 @Getter
 @MappedSuperclass
-public abstract class ReactEntity extends BaseTimeEntity {
+public abstract class InteractionEntity extends BaseTimeEntity {
 
     @Enumerated(STRING)
-    protected ReactType type;
+    protected InteractionState state;
 
     public abstract Long getCommentId();
 }
