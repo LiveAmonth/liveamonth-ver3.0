@@ -1,5 +1,6 @@
-import { useMenuTab } from "@/composables/common/tabs";
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useMenuTab } from "@/composables/common/tabs";
 import { useReviewStore } from "@/stores/review/review";
 import { useCategory } from "@/composables/common/category";
 import type {
@@ -16,12 +17,11 @@ import type {
   ReviewListType,
 } from "@/modules/types/review/ReviewTypes";
 import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
-import { useRouter } from "vue-router";
 
 export const useReview = () => {
+  const type = "REVIEW";
   const store = useReviewStore();
   const error = ref();
-  const type = "review";
   const isPending = ref<boolean>(false);
   const router = useRouter();
   const { getMenuCategory } = useMenuTab();
