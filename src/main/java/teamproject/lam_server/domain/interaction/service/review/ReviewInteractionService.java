@@ -8,6 +8,7 @@ import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.repository.InteractionRepository;
 import teamproject.lam_server.domain.interaction.repository.review.ReviewLikeRepository;
 import teamproject.lam_server.domain.interaction.service.InteractionService;
+import teamproject.lam_server.global.dto.response.BooleanResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 
 @Service
@@ -33,7 +34,7 @@ public class ReviewInteractionService implements InteractionService {
     }
 
     @Override
-    public boolean isLiked(InteractionRequest request) {
-        return interactionRepository.isMemberLikeReview(request);
+    public BooleanResponse isLiked(InteractionRequest request) {
+        return BooleanResponse.of(interactionRepository.isMemberLikeReview(request));
     }
 }

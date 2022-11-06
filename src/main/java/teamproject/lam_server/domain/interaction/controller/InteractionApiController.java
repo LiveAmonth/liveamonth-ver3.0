@@ -3,10 +3,13 @@ package teamproject.lam_server.domain.interaction.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.interaction.constants.InteractionState;
+import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.dto.InteractedCommentResponse;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.service.InteractionServiceFinder;
+import teamproject.lam_server.global.dto.response.BooleanResponse;
 import teamproject.lam_server.global.dto.response.CustomResponse;
 
 import javax.validation.Valid;
@@ -22,49 +25,49 @@ InteractionApiController {
 
     private final InteractionServiceFinder interactionServiceFinder;
 
-    @PostMapping("/contents/{type}/{loginId}")
+    @PostMapping("/contents/{type}/{login_id}")
     public ResponseEntity<?> interact(
-            @PathVariable String type,
-            @PathVariable String loginId,
+            @PathVariable InteractionType type,
+            @PathVariable("login_id") String loginId,
             @RequestParam("is_interacted") Boolean isInteracted,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.find(type).interact(loginId, isInteracted, request);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/comments/{commentType}/{loginId}")
+    @PostMapping("/comments/{comment_type}/{login_id}")
     public ResponseEntity<?> interactComment(
-            @PathVariable String commentType,
-            @PathVariable String loginId,
-            @RequestParam(name = "interaction_state") InteractionState interactionState,
+            @PathVariable("comment_type") CommentType commentType,
+            @PathVariable("login_id") String loginId,
+            @RequestParam("interaction_state") InteractionState interactionState,
             @RequestBody @Valid InteractionRequest request) {
         interactionServiceFinder.findComment(commentType).interact(loginId, request, interactionState);
         return CustomResponse.success(CREATE_INTERACTION);
     }
 
-    @PostMapping("/comments/{type}/{loginId}/cancel")
+    @PostMapping("/comments/{comment_type}/{loginId}/cancel")
     public ResponseEntity<?> cancelInteractComment(
-            @PathVariable String type,
+            @PathVariable("comment_type") CommentType commentType,
             @PathVariable String loginId,
             @RequestBody @Valid InteractionRequest request) {
-        interactionServiceFinder.findComment(type).cancelInteraction(loginId, request);
+        interactionServiceFinder.findComment(commentType).cancelInteraction(loginId, request);
         return CustomResponse.success(DELETE_INTERACTION);
     }
 
     @GetMapping("/member/{type}/liked")
-    public ResponseEntity<?> isMemberLikedContent(
-            @PathVariable String type,
+    public ResponseEntity<?> isMemberInteractObject(
+            @PathVariable InteractionType type,
             InteractionRequest request) {
-        boolean result = interactionServiceFinder.find(type).isLiked(request);
+        BooleanResponse result = interactionServiceFinder.find(type).isLiked(request);
         return CustomResponse.success(READ_INTERACTION, result);
     }
 
-    @GetMapping("/member/{memberId}/interacted-comments/{type}")
+    @GetMapping("/member/{member_id}/interacted-comments/{comment_type}")
     public ResponseEntity<?> getInteractedCommentsByMember(
-            @PathVariable Long memberId,
-            @PathVariable String type,
+            @PathVariable("member_id") Long memberId,
+            @PathVariable("comment_type") CommentType commentType,
             @RequestParam List<Long> ids) {
-        List<InteractedCommentResponse> result = interactionServiceFinder.findComment(type).getInteractedComments(memberId, ids);
+        List<InteractedCommentResponse> result = interactionServiceFinder.findComment(commentType).getInteractedComments(memberId, ids);
         return CustomResponse.success(READ_INTERACTION, result);
     }
 }

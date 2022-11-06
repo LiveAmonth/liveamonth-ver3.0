@@ -1,9 +1,6 @@
 package teamproject.lam_server.domain.schedule.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
@@ -32,6 +29,14 @@ public class ScheduleCreate {
     @AssertTrue
     public boolean isValidPeriod() {
         return getPeriod().getStartDate().isBefore(getPeriod().getEndDate());
+    }
+
+    @Builder
+    public ScheduleCreate(String title, CityName city, PeriodRequest period, boolean publicFlag) {
+        this.title = title;
+        this.city = city;
+        this.period = period;
+        this.publicFlag = publicFlag;
     }
 
     public Schedule toEntity(Member member) {

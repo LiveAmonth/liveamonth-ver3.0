@@ -15,16 +15,16 @@ public class InteractionServiceFinder {
     private final List<InteractionService> interactionServices;
     private final List<CommentInteractionService> commentInteractionServices;
 
-    public InteractionService find(String type) {
+    public InteractionService find(InteractionType type) {
         return interactionServices.stream()
-                .filter(interactionService -> interactionService.getType() == InteractionType.valueOf(type.toUpperCase()))
+                .filter(interactionService -> interactionService.getType() == type)
                 .findAny()
                 .orElseThrow(ServiceNotFound::new);
     }
 
-    public CommentInteractionService findComment(String type) {
+    public CommentInteractionService findComment(CommentType type) {
         return commentInteractionServices.stream()
-                .filter(commentInteractionService -> commentInteractionService.getType() == CommentType.valueOf(type.toUpperCase()))
+                .filter(commentInteractionService -> commentInteractionService.getType() == type)
                 .findAny()
                 .orElseThrow(ServiceNotFound::new);
     }

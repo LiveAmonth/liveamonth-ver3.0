@@ -73,7 +73,7 @@ class InteractionApiService {
         params: { ids: request },
       })
       .then((response) => {
-        return response.data.data;
+        return response.data.data.result;
       })
       .catch((error) => {
         throw error.response.data;

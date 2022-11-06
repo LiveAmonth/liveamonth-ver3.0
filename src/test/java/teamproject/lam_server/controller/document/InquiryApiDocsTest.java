@@ -126,7 +126,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 ),
                 responseFields(
                         beneathPath("data.content[]").withSubsectionId("content"),
-                        fieldWithPath("id").type(NUMBER).description("아이디"),
+                        fieldWithPath("id").type(NUMBER).description("id"),
                         fieldWithPath("title").type(STRING).description("제목"),
                         fieldWithPath("writer").type(STRING).description("작성자"),
                         fieldWithPath("category.code").type(STRING).description(generateLinkCode(INQUIRY_CATEGORY)),
@@ -166,7 +166,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 ),
                 responseFields(
                         beneathPath("data").withSubsectionId("data"),
-                        fieldWithPath("id").type(NUMBER).description("아이디"),
+                        fieldWithPath("id").type(NUMBER).description("id"),
                         fieldWithPath("title").type(STRING).description("제목"),
                         fieldWithPath("writer").type(STRING).description("작성자"),
                         fieldWithPath("content").type(STRING).description("내용"),
@@ -179,7 +179,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 customResponseFields("response",
                         beneathPath("data.answer").withSubsectionId("answer"),
                         attributes(key("title").value("1:1문의 답변")),
-                        fieldWithPath("id").type(NUMBER).description("아이디"),
+                        fieldWithPath("id").type(NUMBER).description("id"),
                         fieldWithPath("writer").type(STRING).description("관리자"),
                         fieldWithPath("content").type(STRING).description("내용"),
                         fieldWithPath("dateTime").type(STRING).attributes(getDateTimeFormat()).description("작성 시간")
