@@ -8,35 +8,35 @@ import type {
   CityTransportType,
   CityWeatherType,
 } from "@/modules/types/city/CityTypes";
-import type { initDataType } from "@/modules/types/common/CommonTypes";
+import type { InitDataType } from "@/modules/types/common/CommonTypes";
 
 const storageGridInfo: CityCardType[] = localStorage["city-grid-info"]
   ? JSON.parse(localStorage["city-grid-info"])
   : null;
-const initCityGridInfo: initDataType = storageGridInfo
+const initCityGridInfo: InitDataType = storageGridInfo
   ? { state: true, data: storageGridInfo }
   : { state: false, data: {} as CityCardType[] };
 
 const storageIntro: CityIntroType = localStorage["intro"]
   ? JSON.parse(localStorage["intro"])
   : null;
-const initCityIntro: initDataType = storageIntro
+const initCityIntro: InitDataType = storageIntro
   ? { state: true, data: storageIntro }
   : { state: false, data: {} as CityIntroType };
 
 const storageExtraInfo: CityExtraType = localStorage["extra-info"]
   ? JSON.parse(localStorage["extra-info"])
   : null;
-const initCityExtraInfo: initDataType = storageExtraInfo
+const initCityExtraInfo: InitDataType = storageExtraInfo
   ? { state: true, data: storageExtraInfo }
   : { state: false, data: {} as CityExtraType };
 
 export const useCityStore = defineStore("city", {
   state: () => ({
-    cityGridInfo: initCityGridInfo as initDataType,
+    cityGridInfo: initCityGridInfo as InitDataType,
     cityCategory: ["intro", "transport", "weather"],
-    cityIntro: initCityIntro as initDataType,
-    cityExtraInfo: initCityExtraInfo as initDataType,
+    cityIntro: initCityIntro as InitDataType,
+    cityExtraInfo: initCityExtraInfo as InitDataType,
   }),
   getters: {
     gridInfo: (state): CityCardType[] =>

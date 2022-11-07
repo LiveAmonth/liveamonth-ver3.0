@@ -26,7 +26,12 @@ export interface ImageContentType {
   image: string;
 }
 
-export interface initDataType {
+export interface InitDataType {
   state: boolean;
   data: object;
+}
+
+export interface CheckType {
+  result: boolean;
+  message: string;
 }

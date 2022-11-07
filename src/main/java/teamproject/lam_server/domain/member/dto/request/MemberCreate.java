@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberCreate {
 
-    @NotEmpty
+    @NotBlank
     @Pattern(regexp = "[a-zA-Z\\d]{5,20}")
     private String loginId;
 

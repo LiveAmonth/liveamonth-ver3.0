@@ -2,6 +2,7 @@ import InteractionApiService from "@/services/common/InteractionApiService";
 import { defineStore } from "pinia";
 import type { CommentInteractionType } from "@/modules/types/interaction/InteractionType";
 import type { InteractionType } from "@/modules/types/interaction/InteractionType";
+import type { CheckType } from "@/modules/types/common/CommonTypes";
 
 export const useInteractionStore = defineStore("interaction", {
   state: () => ({
@@ -54,10 +55,10 @@ export const useInteractionStore = defineStore("interaction", {
       request: InteractionType
     ) {
       await InteractionApiService.isMemberLikeContent(type, request)
-        .then((response) => {
+        .then((response: CheckType) => {
           this.isTypeMember(type)
-            ? (this.isFollowedMember = response)
-            : (this.isLikedContent = response);
+            ? (this.isFollowedMember = response.result)
+            : (this.isLikedContent = response.result);
         })
         .catch((error) => {
           throw error;

@@ -37,7 +37,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -275,10 +274,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                         parameterWithName("from").description("보낸 회원 id"),
                         parameterWithName("to").description("확인할 객체 id")
                 ),
-                responseFields(
-                        beneathPath("data").withSubsectionId("data"),
-                        fieldWithPath("result").type(BOOLEAN).description("결과")
-                )
+                getCheckResponseFieldsSnippet()
         ));
     }
 

@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.service.MemberService;
+import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 
@@ -36,7 +36,7 @@ public class MemberApiController {
 
     @PostMapping("/reconfirm")
     public ResponseEntity<?> reconfirm(@Valid @RequestBody MemberReconfirm request) {
-        FormCheckResponse result = memberService.reconfirm(request);
+        BooleanCheckResponse result = memberService.reconfirm(request);
         return CustomResponse.success(RECONFIRM, result);
     }
 
@@ -92,7 +92,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/loginId/{loginId}")
     public ResponseEntity<?> duplicateCheckLoginId(@PathVariable String loginId) {
-        FormCheckResponse result = memberService.checkDuplicateLoginId(loginId);
+        BooleanCheckResponse result = memberService.checkDuplicateLoginId(loginId);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
@@ -102,7 +102,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/email/{email}")
     public ResponseEntity<?> duplicateCheckEmail(@PathVariable String email) {
-        FormCheckResponse result = memberService.checkDuplicateEmail(email);
+        BooleanCheckResponse result = memberService.checkDuplicateEmail(email);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
@@ -112,7 +112,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/nickname/{nickname}")
     public ResponseEntity<?> duplicateCheckNickname(@PathVariable String nickname) {
-        FormCheckResponse result = memberService.checkDuplicateNickname(nickname);
+        BooleanCheckResponse result = memberService.checkDuplicateNickname(nickname);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 

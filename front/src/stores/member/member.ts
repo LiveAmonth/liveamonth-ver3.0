@@ -1,7 +1,6 @@
 import MemberApiService from "@/services/member/MemberApiService";
 import { defineStore } from "pinia";
 import type {
-  ConfirmFormType,
   FindIdType,
   FindPwType,
   ReconfirmType,
@@ -12,16 +11,17 @@ import type {
   ChangePasswordEditor,
   MemberCreate,
 } from "@/modules/types/member/MemberTypes";
+import type { CheckType } from "@/modules/types/common/CommonTypes";
 
 export const useMemberStore = defineStore("member", {
   state: () => ({
-    confirmForm: {} as ConfirmFormType,
+    confirmResult: {} as CheckType,
     simpleProfile: {} as SimpleProfileType,
     memberProfile: {} as ProfileType,
     foundId: {} as FoundIdType,
   }),
   getters: {
-    isAvailable: (state): boolean => state.confirmForm.isAvailable,
+    isAvailable: (state): boolean => state.confirmResult.result,
   },
   actions: {
     signUp: async function (request: MemberCreate) {
@@ -36,8 +36,8 @@ export const useMemberStore = defineStore("member", {
 
     reconfirm: async function (request: ReconfirmType) {
       await MemberApiService.reconfirm(request)
-        .then((response: ConfirmFormType) => {
-          this.confirmForm = response;
+        .then((response: CheckType) => {
+          this.confirmResult = response;
         })
         .catch((error) => {
           throw error;
@@ -96,8 +96,8 @@ export const useMemberStore = defineStore("member", {
 
     duplicateCheck: async function (field: string, param: string) {
       await MemberApiService.duplicateCheck(field, param)
-        .then((response: ConfirmFormType) => {
-          this.confirmForm = response;
+        .then((response: CheckType) => {
+          this.confirmResult = response;
         })
         .catch((error) => {
           throw error;

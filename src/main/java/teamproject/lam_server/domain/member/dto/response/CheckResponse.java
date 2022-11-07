@@ -5,13 +5,13 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class FormCheckResponse {
+public class CheckResponse {
     private Boolean isAvailable;
     private String value;
     private String message;
 
-    public static FormCheckResponse of(boolean isAvailable, String value, String message) {
-        return FormCheckResponse.builder()
+    public static CheckResponse of(boolean isAvailable, String value, String message) {
+        return CheckResponse.builder()
                 .isAvailable(isAvailable)
                 .value(value)
                 .message(message)

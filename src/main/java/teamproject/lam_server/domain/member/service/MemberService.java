@@ -2,9 +2,9 @@ package teamproject.lam_server.domain.member.service;
 
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
+import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 
 public interface MemberService{
@@ -17,17 +17,17 @@ public interface MemberService{
     /**
      * 이메일 중복 체크
      */
-    FormCheckResponse checkDuplicateEmail(String email);
+    BooleanCheckResponse checkDuplicateEmail(String email);
 
     /**
      * 회원 아이디 중복 체크
      */
-    FormCheckResponse checkDuplicateLoginId(String LoginId);
+    BooleanCheckResponse checkDuplicateLoginId(String LoginId);
 
     /**
      * 닉네임 중복 체크
      */
-    FormCheckResponse checkDuplicateNickname(String nickname);
+    BooleanCheckResponse checkDuplicateNickname(String nickname);
 
     /**
      * 회원 아이디 찾기
@@ -42,7 +42,7 @@ public interface MemberService{
     /**
      * 비밀번호 재확인
      */
-    FormCheckResponse reconfirm(MemberReconfirm request);
+    BooleanCheckResponse reconfirm(MemberReconfirm request);
 
     /**
      * 회원 정보  수정

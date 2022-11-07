@@ -9,7 +9,7 @@ import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.dto.InteractedCommentResponse;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.service.InteractionServiceFinder;
-import teamproject.lam_server.global.dto.response.BooleanResponse;
+import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.dto.response.CustomResponse;
 
 import javax.validation.Valid;
@@ -58,7 +58,7 @@ InteractionApiController {
     public ResponseEntity<?> isMemberInteractObject(
             @PathVariable InteractionType type,
             InteractionRequest request) {
-        BooleanResponse result = interactionServiceFinder.find(type).isLiked(request);
+        BooleanCheckResponse result = interactionServiceFinder.find(type).isInteracted(request);
         return CustomResponse.success(READ_INTERACTION, result);
     }
 

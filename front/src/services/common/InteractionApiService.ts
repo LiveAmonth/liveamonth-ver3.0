@@ -3,6 +3,7 @@ import type {
   InteractionType,
   CommentInteractionType,
 } from "@/modules/types/interaction/InteractionType";
+import type { CheckType } from "@/modules/types/common/CommonTypes";
 
 class InteractionApiService {
   async interactContent(
@@ -52,7 +53,7 @@ class InteractionApiService {
   async isMemberLikeContent(
     type: string,
     request: InteractionType
-  ): Promise<boolean> {
+  ): Promise<CheckType> {
     return await http
       .get(`interactions/member/${type}/liked`, { params: request })
       .then((response) => {
@@ -73,7 +74,7 @@ class InteractionApiService {
         params: { ids: request },
       })
       .then((response) => {
-        return response.data.data.result;
+        return response.data.data;
       })
       .catch((error) => {
         throw error.response.data;

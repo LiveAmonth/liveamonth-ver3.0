@@ -8,8 +8,11 @@ import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.repository.InteractionRepository;
 import teamproject.lam_server.domain.interaction.repository.member.FollowRepository;
 import teamproject.lam_server.domain.interaction.service.InteractionService;
-import teamproject.lam_server.global.dto.response.BooleanResponse;
+import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
+
+import static teamproject.lam_server.global.constants.ResponseMessage.INTERACTED_OBJECT;
+import static teamproject.lam_server.global.constants.ResponseMessage.NOT_INTERACTED_OBJECT;
 
 @Service
 @RequiredArgsConstructor
@@ -34,8 +37,10 @@ public class MemberInteractionService implements InteractionService {
     }
 
     @Override
-    public BooleanResponse isLiked(InteractionRequest request) {
-        return BooleanResponse.of(interactionRepository.isMemberFollow(request));
+    public BooleanCheckResponse isInteracted(InteractionRequest request) {
+        return interactionRepository.isMemberFollow(request)
+                ? BooleanCheckResponse.of(true, INTERACTED_OBJECT)
+                : BooleanCheckResponse.of(false, NOT_INTERACTED_OBJECT);
     }
 
 }

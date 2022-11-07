@@ -5,6 +5,7 @@ import org.springframework.restdocs.operation.preprocess.OperationRequestPreproc
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.PayloadSubsectionExtractor;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.restdocs.request.RequestParametersSnippet;
 import org.springframework.restdocs.snippet.Attributes;
 import teamproject.lam_server.global.enumMapper.EnumClassConst;
@@ -13,9 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
-import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
@@ -48,6 +48,7 @@ public interface ApiDocumentUtils {
     static FieldDescriptor idFieldWithPath() {
         return fieldWithPath("id").type(NUMBER).description("id");
     }
+
     static FieldDescriptor idFieldWithPath(String id) {
         return fieldWithPath("id").type(NUMBER).description(id);
     }
@@ -80,6 +81,14 @@ public interface ApiDocumentUtils {
 
     static Attributes.Attribute getTitleAttributes(String title) {
         return key("title").value(title);
+    }
+
+    static ResponseFieldsSnippet getCheckResponseFieldsSnippet() {
+        return responseFields(
+                beneathPath("data").withSubsectionId("data"),
+                fieldWithPath("result").type(BOOLEAN).description("결과"),
+                fieldWithPath("message").type(STRING).description("결과 메시지")
+        );
     }
 
     static CustomResponseFieldsSnippet customResponseFields(String type,
