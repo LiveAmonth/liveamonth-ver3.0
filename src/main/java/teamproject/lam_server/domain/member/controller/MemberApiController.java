@@ -44,8 +44,8 @@ public class MemberApiController {
      * presentation layer::login
      * -> find user login id
      */
-    @PostMapping("/find-id")
-    public ResponseEntity<?> findLoginId(@Valid @RequestBody MemberFindId request) {
+    @GetMapping("/find-id")
+    public ResponseEntity<?> findLoginId(MemberFindId request) {
         FindIdResponse result = memberService.findLoginId(request);
         return CustomResponse.success(FIND_MEMBER_LOGIN_ID, result);
     }
@@ -90,8 +90,8 @@ public class MemberApiController {
      * presentation layer::sign up
      * -> login id duplicate check
      */
-    @GetMapping("/exists/loginId/{loginId}")
-    public ResponseEntity<?> duplicateCheckLoginId(@PathVariable String loginId) {
+    @GetMapping("/exists/loginId/{login_id}")
+    public ResponseEntity<?> duplicateCheckLoginId(@PathVariable("login_id") String loginId) {
         BooleanCheckResponse result = memberService.checkDuplicateLoginId(loginId);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
@@ -128,10 +128,10 @@ public class MemberApiController {
         return CustomResponse.success(READ_MEMBER, result);
     }
 
-    @PostMapping("/profile/image")
-    public ResponseEntity<?> editProfileImage(@Valid @RequestBody ProfileImageEdit request) {
-        return CustomResponse.success(UPDATE_MEMBER);
-    }
+//    @PostMapping("/profile/image")
+//    public ResponseEntity<?> editProfileImage(@Valid @RequestBody ProfileImageEdit request) {
+//        return CustomResponse.success(UPDATE_MEMBER);
+//    }
 
 //    @PostMapping("/editProfileImage")
 //    public String editProfileImage(@SessionAttribute(name = SessionConstants.LOGIN_USER, required = false) User loginUser, @RequestPart(FILE_NAME) MultipartFile mFile) throws Exception {

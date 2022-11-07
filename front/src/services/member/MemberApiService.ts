@@ -114,7 +114,7 @@ class MemberApiService {
 
   async findId(request: FindIdType): Promise<FoundIdType> {
     return await http
-      .post("/members/find-id", JSON.stringify(request))
+      .get("/members/find-id", { params: request })
       .then((response) => {
         return response.data.data;
       })
