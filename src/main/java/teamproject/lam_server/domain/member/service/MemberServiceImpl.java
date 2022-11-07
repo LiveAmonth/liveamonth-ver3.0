@@ -64,7 +64,6 @@ public class MemberServiceImpl implements MemberService {
         ProfileEditor editor = member.toProfileEditor()
                 .nickname(request.getNickname())
                 .email(request.getEmail())
-                .image(request.getImage())
                 .build();
 
         member.editProfile(editor);

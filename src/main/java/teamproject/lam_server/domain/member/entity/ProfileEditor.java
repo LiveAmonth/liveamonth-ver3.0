@@ -10,12 +10,9 @@ public class ProfileEditor {
 
     private final String email;
 
-    private final String image;
-
     @Builder
-    public ProfileEditor(String nickname, String email, String image) {
+    public ProfileEditor(String nickname, String email) {
         this.nickname = nickname;
         this.email = email;
-        this.image = image;
     }
 }

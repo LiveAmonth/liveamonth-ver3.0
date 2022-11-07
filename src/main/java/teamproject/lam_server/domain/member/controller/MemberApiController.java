@@ -80,7 +80,7 @@ public class MemberApiController {
      * presentation layer::my page
      * -> drop user(customer)
      */
-    @PostMapping("/drop")
+    @PatchMapping("/drop")
     public ResponseEntity<?> dropUser() {
         memberService.dropUser();
         return CustomResponse.success(DROP_MEMBER);

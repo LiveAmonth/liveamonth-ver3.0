@@ -126,7 +126,6 @@ public class Member extends BaseTimeEntity {
     public void editProfile(ProfileEditor editor) {
         nickname = editor.getNickname();
         email = editor.getEmail();
-        image = editor.getImage();
     }
 
     public void registerBasicInfo(OAuth2RegisterEditor editor) {
@@ -144,8 +143,7 @@ public class Member extends BaseTimeEntity {
     public ProfileEditor.ProfileEditorBuilder toProfileEditor() {
         return ProfileEditor.builder()
                 .nickname(nickname)
-                .email(email)
-                .image(image);
+                .email(email);
     }
 
     public OAuth2RegisterEditor.OAuth2RegisterEditorBuilder toOAuth2Editor() {
