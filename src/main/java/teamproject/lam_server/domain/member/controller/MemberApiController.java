@@ -54,7 +54,7 @@ public class MemberApiController {
      * presentation layer::login
      * -> find user password
      */
-    @PostMapping("/find-pw")
+    @PatchMapping("/find-pw")
     public ResponseEntity<?> findPassword(@Valid @RequestBody MemberFindPassword request) {
         memberService.findPassword(request);
         return CustomResponse.success(FIND_MEMBER_PASSWORD);

@@ -125,7 +125,7 @@ class MemberApiService {
 
   async findPw(request: FindPwType) {
     await http
-      .post("/members/find-pw", JSON.stringify(request))
+      .patch("/members/find-pw", JSON.stringify(request))
       .then((response) => {
         return response.data;
       })
