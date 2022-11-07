@@ -23,6 +23,7 @@ import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CityApiDocsTest extends ApiDocsTest {
+    static final String BASIC_URL = "/api/v1/city";
     @Autowired
     private InitCityService initCityService;
 
@@ -44,7 +45,7 @@ class CityApiDocsTest extends ApiDocsTest {
     @DisplayName("도시 요약 정보 조회")
     void get_city_summary() throws Exception {
         // expected
-        this.mockMvc.perform(get("/api/v1/city/grid-infos")
+        this.mockMvc.perform(get(BASIC_URL+"/grid-infos")
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("city-summary-get",
@@ -64,7 +65,7 @@ class CityApiDocsTest extends ApiDocsTest {
     @DisplayName("도시 소개 정보 조회")
     void get_city_intro() throws Exception {
         // expected
-        this.mockMvc.perform(get("/api/v1/city/{cityName}", cityName)
+        this.mockMvc.perform(get(BASIC_URL+"/{cityName}", cityName)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("city-intro-get",
@@ -85,7 +86,7 @@ class CityApiDocsTest extends ApiDocsTest {
     @DisplayName("도시 추가 정보 조회")
     void get_extra_city_info() throws Exception {
         // expected
-        this.mockMvc.perform(get("/api/v1/city/{cityName}/extra", cityName)
+        this.mockMvc.perform(get(BASIC_URL+"/{cityName}/extra", cityName)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("city-extra-get",

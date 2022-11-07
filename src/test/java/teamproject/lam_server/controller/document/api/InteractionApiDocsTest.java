@@ -49,7 +49,7 @@ import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class InteractionApiDocsTest extends ApiDocsTest {
-
+    static final String BASIC_URL = "/api/v1/interactions";
     @Autowired
     SecurityContextFinder finder;
     @Autowired
@@ -99,7 +99,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
         // when
         ResultActions result = this.mockMvc.perform(
-                post("/api/v1/interactions/contents/{type}/{login_id}",
+                post(BASIC_URL+"/contents/{type}/{login_id}",
                         InteractionType.MEMBER,
                         authMember.getLoginId()
                 )
@@ -159,7 +159,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 post(
-                        "/api/v1/interactions/comments/{comment_type}/{login_id}",
+                        BASIC_URL+"/comments/{comment_type}/{login_id}",
                         CommentType.SCHEDULE,
                         authMember.getLoginId()
                 )
@@ -221,7 +221,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 post(
-                        "/api/v1/interactions/comments/{comment_type}/{login_id}/cancel",
+                        BASIC_URL+"/comments/{comment_type}/{login_id}/cancel",
                         CommentType.SCHEDULE,
                         authMember.getLoginId()
                 )
@@ -257,7 +257,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 get(
-                        "/api/v1/interactions/member/{type}/liked",
+                        BASIC_URL+"/member/{type}/liked",
                         InteractionType.MEMBER
                 )
                         .param("from", String.valueOf(request.getFrom()))
@@ -330,7 +330,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 get(
-                        "/api/v1/interactions/member/{member_id}/interacted-comments/{comment_type}",
+                        BASIC_URL+"/member/{member_id}/interacted-comments/{comment_type}",
                         authMember.getId(),
                         CommentType.SCHEDULE
                 )
