@@ -1,6 +1,6 @@
 ===== Request Fields
 |===
-|필드명|타입|필수값|양식|설명
+|필드명|타입|필수값|양식|설명|제약조건
 
 {{#fields}}
 |{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
@@ -8,6 +8,7 @@
 |{{#tableCellContent}}{{^optional}}true{{/optional}}{{/tableCellContent}}
 |{{#tableCellContent}}{{#format}}{{.}}{{/format}}{{/tableCellContent}}
 |{{#tableCellContent}}{{description}}{{/tableCellContent}}
+|{{#tableCellContent}}`+{{constraints}}+`{{/tableCellContent}}
 
 {{/fields}}
 |===

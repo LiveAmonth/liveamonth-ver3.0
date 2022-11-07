@@ -1,4 +1,4 @@
-package teamproject.lam_server.controller.document;
+package teamproject.lam_server.controller.document.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +29,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.attributes;
-import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
@@ -46,7 +45,7 @@ public class CommonDocsTest {
     private ObjectMapper objectMapper;
 
     @BeforeEach
-    public void setUp(
+    void setUp(
             final WebApplicationContext context,
             final RestDocumentationContextProvider provider) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
@@ -69,7 +68,7 @@ public class CommonDocsTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         customResponseFields("custom-response", null,
-                                attributes(key("title").value("공통응답")),
+                                attributes(getTitleAttributes("공통 응답")),
                                 subsectionWithPath("data").description("데이터"),
                                 fieldWithPath("status").type(NUMBER).description("HTTP상태 코드"),
                                 fieldWithPath("timeStamp").type(STRING).description("호출 시간"),
@@ -77,7 +76,7 @@ public class CommonDocsTest {
                         ),
                         customResponseFields("custom-response",
                                 beneathPath("data.pageable").withSubsectionId("pageable"),
-                                attributes(key("title").value("페이지 응답")),
+                                attributes(getTitleAttributes("공통 페이지응답")),
                                 fieldWithPath("first").type(BOOLEAN).description("첫 페이지 여부"),
                                 fieldWithPath("last").type(BOOLEAN).description("마지막 페이지 여부"),
                                 fieldWithPath("totalElements").type(NUMBER).description("전체 컨텐츠 수"),
@@ -85,92 +84,92 @@ public class CommonDocsTest {
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].genderType")
                                         .withSubsectionId("gender-type"),
-                                attributes(key("title").value(GENDER_TYPE.getValue())),
+                                attributes(getTitleAttributes(GENDER_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getGenderType())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].accountState")
                                         .withSubsectionId("account-state"),
-                                attributes(key("title").value(ACCOUNT_STATE.getValue())),
+                                attributes(getTitleAttributes(ACCOUNT_STATE.getValue())),
                                 enumConvertFieldDescriptor(category.getAccountState())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].inquiryCategory")
                                         .withSubsectionId("inquiry-category"),
-                                attributes(key("title").value(INQUIRY_CATEGORY.getValue())),
+                                attributes(getTitleAttributes(INQUIRY_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getInquiryCategory())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].cityIntroCategory")
                                         .withSubsectionId("city-intro-category"),
-                                attributes(key("title").value(CITY_INTRO_CATEGORY.getValue())),
+                                attributes(getTitleAttributes(CITY_INTRO_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getCityIntroCategory())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].cityName")
                                         .withSubsectionId("city-name"),
-                                attributes(key("title").value(CITY_NAME.getValue())),
+                                attributes(getTitleAttributes(CITY_NAME.getValue())),
                                 enumConvertFieldDescriptor(category.getCityName())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].transportCategory")
                                         .withSubsectionId("transport-category"),
-                                attributes(key("title").value(TRANSPORT_CATEGORY.getValue())),
+                                attributes(getTitleAttributes(TRANSPORT_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getTransportCategory())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].transportGrade")
                                         .withSubsectionId("transport-grade"),
-                                attributes(key("title").value(TRANSPORT_GRADE.getValue())),
+                                attributes(getTitleAttributes(TRANSPORT_GRADE.getValue())),
                                 enumConvertFieldDescriptor(category.getTransportGrade())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].monthCategory")
                                         .withSubsectionId("month"),
-                                attributes(key("title").value(MONTH_CATEGORY.getValue())),
+                                attributes(getTitleAttributes(MONTH_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getMonthCategory())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].scheduleSearchType")
                                         .withSubsectionId("schedule-search-type"),
-                                attributes(key("title").value(SCHEDULE_SEARCH_TYPE.getValue())),
+                                attributes(getTitleAttributes(SCHEDULE_SEARCH_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getScheduleSearchType())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].scheduleFilterType")
                                         .withSubsectionId("schedule-filter-type"),
-                                attributes(key("title").value(SCHEDULE_FILTER_TYPE.getValue())),
+                                attributes(getTitleAttributes(SCHEDULE_FILTER_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getScheduleFilterType())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].scheduleSortType")
                                         .withSubsectionId("schedule-sort-type"),
-                                attributes(key("title").value(SCHEDULE_SORT_TYPE.getValue())),
+                                attributes(getTitleAttributes(SCHEDULE_SORT_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getScheduleSortType())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].reviewCategory")
                                         .withSubsectionId("review-category"),
-                                attributes(key("title").value(REVIEW_CATEGORY.getValue())),
+                                attributes(getTitleAttributes(REVIEW_CATEGORY.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewCategory())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].reviewSearchGroup")
                                         .withSubsectionId("review-search-group"),
-                                attributes(key("title").value(REVIEW_MENU_GROUP.getValue())),
+                                attributes(getTitleAttributes(REVIEW_MENU_GROUP.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewSearchGroup())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].reviewSearchType")
                                         .withSubsectionId("review-search-type"),
-                                attributes(key("title").value(REVIEW_SEARCH_TYPE.getValue())),
+                                attributes(getTitleAttributes(REVIEW_SEARCH_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewSearchType())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].reviewSortType")
                                         .withSubsectionId("review-sort-type"),
-                                attributes(key("title").value(REVIEW_SORT_TYPE.getValue())),
+                                attributes(getTitleAttributes(REVIEW_SORT_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getReviewSortType())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].interactionType")
                                         .withSubsectionId("interaction-type"),
-                                attributes(key("title").value(INTERACTION_TYPE.getValue())),
+                                attributes(getTitleAttributes(INTERACTION_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getInteractionType())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].interactionState")
                                         .withSubsectionId("interaction-state"),
-                                attributes(key("title").value(INTERACTION_STATE.getValue())),
+                                attributes(getTitleAttributes(INTERACTION_STATE.getValue())),
                                 enumConvertFieldDescriptor(category.getInteractionState())
                         ),
                         customResponseFields("custom-response", beneathPath("data.content[].commentType")
                                         .withSubsectionId("comment-type"),
-                                attributes(key("title").value(COMMENT_TYPE.getValue())),
+                                attributes(getTitleAttributes(COMMENT_TYPE.getValue())),
                                 enumConvertFieldDescriptor(category.getCommentType())
                         )
                 ));

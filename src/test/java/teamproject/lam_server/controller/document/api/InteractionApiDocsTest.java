@@ -1,7 +1,9 @@
-package teamproject.lam_server.controller.document;
+package teamproject.lam_server.controller.document.api;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
+import org.springframework.restdocs.payload.RequestFieldsSnippet;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,16 +37,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.domain.member.constants.Role.USER;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
-import static teamproject.lam_server.utils.ApiDocumentUtils.getDocumentRequest;
-import static teamproject.lam_server.utils.ApiDocumentUtils.getDocumentResponse;
+import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
-import static teamproject.lam_server.utils.DocsLinkGenerator.generateValue;
 
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -120,10 +120,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                 requestParameters(
                         parameterWithName("is_interacted").description("상호작용 여부")
                 ),
-                requestFields(
-                        fieldWithPath("from").type(NUMBER).description("보내는 회원 id"),
-                        fieldWithPath("to").type(NUMBER).description("받는 객체 id")
-                )
+                getInteractionRequestSnippet("받는 객체 id")
         ));
     }
 
@@ -183,10 +180,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                 requestParameters(
                         parameterWithName("interaction_state").description(generateLinkCode(INTERACTION_STATE))
                 ),
-                requestFields(
-                        fieldWithPath("from").type(NUMBER).description("보내는 회원 id"),
-                        fieldWithPath("to").type(NUMBER).description("받는 객체 id")
-                )
+                getInteractionRequestSnippet("받는 객체 id")
         ));
     }
 
@@ -244,10 +238,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                         parameterWithName("comment_type").description(generateLinkCode(COMMENT_TYPE)),
                         parameterWithName("login_id").description("로그인 회원 아이디")
                 ),
-                requestFields(
-                        fieldWithPath("from").type(NUMBER).description("보내는 회원 id"),
-                        fieldWithPath("to").type(NUMBER).description("취소할 객체 id")
-                )
+                getInteractionRequestSnippet("취소할 객체 id")
         ));
     }
 
@@ -359,10 +350,22 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                 ),
                 responseFields(
                         beneathPath("data[]").withSubsectionId("data"),
-                        fieldWithPath("id").type(NUMBER).description("id"),
-                        fieldWithPath("state.code").type(STRING).description(generateLinkCode(INTERACTION_STATE)),
-                        fieldWithPath("state.value").type(STRING).description(generateValue(INTERACTION_STATE))
+                        idFieldWithPath(),
+                        enumCodeFieldWithPath("state", INTERACTION_STATE),
+                        enumValueFieldWithPath("state", INTERACTION_STATE)
                 )
         ));
+    }
+
+    private RequestFieldsSnippet getInteractionRequestSnippet(String to) {
+        ConstraintDescriptions constraints = new ConstraintDescriptions(InteractionRequest.class);
+        return requestFields(
+                fieldWithPath("from")
+                        .description("보내는 회원 id")
+                        .attributes(getConstraintAttributes(constraints, "from")),
+                fieldWithPath("to")
+                        .description(to)
+                        .attributes(getConstraintAttributes(constraints, "to"))
+        );
     }
 }

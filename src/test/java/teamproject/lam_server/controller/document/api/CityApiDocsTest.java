@@ -1,4 +1,4 @@
-package teamproject.lam_server.controller.document;
+package teamproject.lam_server.controller.document.api;
 
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
-import static teamproject.lam_server.utils.ApiDocumentUtils.getDocumentRequest;
-import static teamproject.lam_server.utils.ApiDocumentUtils.getDocumentResponse;
+import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
-import static teamproject.lam_server.utils.DocsLinkGenerator.generateValue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CityApiDocsTest extends ApiDocsTest {
@@ -53,8 +51,8 @@ class CityApiDocsTest extends ApiDocsTest {
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(beneathPath("data[]").withSubsectionId("data"),
-                                fieldWithPath("name.code").type(STRING).description(generateLinkCode(CITY_NAME)),
-                                fieldWithPath("name.value").type(STRING).description(generateValue(CITY_NAME)),
+                                enumCodeFieldWithPath("name", CITY_NAME),
+                                enumValueFieldWithPath("name", CITY_NAME),
                                 fieldWithPath("image").type(STRING).description("이미지 주소(uri)"),
                                 fieldWithPath("averageDegree").type(NUMBER).description("평균 기온"),
                                 fieldWithPath("transportScore").type(NUMBER).description("교통 점수")
@@ -98,21 +96,21 @@ class CityApiDocsTest extends ApiDocsTest {
                         ),
                         responseFields(
                                 beneathPath("data.transports[]").withSubsectionId("transport"),
-                                fieldWithPath("id").type(NUMBER).description("도시 id"),
-                                fieldWithPath("name.code").type(STRING).description(generateLinkCode(CITY_NAME)),
-                                fieldWithPath("name.value").type(STRING).description(generateValue(CITY_NAME)),
-                                fieldWithPath("category.code").type(STRING).description(generateLinkCode(TRANSPORT_CATEGORY)),
-                                fieldWithPath("category.value").type(STRING).description(generateValue(TRANSPORT_CATEGORY)),
+                                idFieldWithPath("transport id"),
+                                enumCodeFieldWithPath("name", CITY_NAME),
+                                enumValueFieldWithPath("name", CITY_NAME),
+                                enumCodeFieldWithPath("category", TRANSPORT_CATEGORY),
+                                enumValueFieldWithPath("category", TRANSPORT_CATEGORY),
                                 fieldWithPath("stationCount").type(NUMBER).description("개수"),
                                 fieldWithPath("score").type(NUMBER).description("점수")
                         ),
                         responseFields(
                                 beneathPath("data.weathers[]").withSubsectionId("weather"),
-                                fieldWithPath("id").type(NUMBER).description("도시 id"),
-                                fieldWithPath("name.code").type(STRING).description(generateLinkCode(CITY_NAME)),
-                                fieldWithPath("name.value").type(STRING).description(generateValue(CITY_NAME)),
-                                fieldWithPath("month.code").type(STRING).description(generateLinkCode(MONTH_CATEGORY)),
-                                fieldWithPath("month.value").type(STRING).description(generateValue(MONTH_CATEGORY)),
+                                idFieldWithPath("weather id"),
+                                enumCodeFieldWithPath("name", CITY_NAME),
+                                enumValueFieldWithPath("name", CITY_NAME),
+                                enumCodeFieldWithPath("month", MONTH_CATEGORY),
+                                enumValueFieldWithPath("month", MONTH_CATEGORY),
                                 fieldWithPath("maxDegree").type(NUMBER).description("최고 기온"),
                                 fieldWithPath("minDegree").type(NUMBER).description("최저 기온"),
                                 fieldWithPath("averageDegree").type(NUMBER).description("평균 기온")
