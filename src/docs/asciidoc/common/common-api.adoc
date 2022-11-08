@@ -1,0 +1,16 @@
+[[custom-response]]
+=== 커스텀 응답
+include::{snippets}/common/custom-response-fields.adoc[]
+
+[[custom-page]]
+=== 커스텀 페이지
+include::{snippets}/common/custom-response-fields-pageable.adoc[]
+
+[[authentication-request-header]]
+=== Authentication
+
+==== 인증 요청 헤더
+include::{snippets}/auth-header/request-headers.adoc[]
+
+==== 인증 요청 헤더 예제
+include::{snippets}/auth-header/http-request.adoc[]

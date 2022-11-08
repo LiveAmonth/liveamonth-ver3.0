@@ -10,283 +10,35 @@ endif::[]
 :sectlinks:
 :docinfo: shared-head
 
-[[common-response]]
-== 공통 응답 객체
-=== 커스텀 응답 객체
-include::{snippets}/common/custom-response-fields.adoc[]
-=== 커스텀 페이지 객체
-include::{snippets}/common/custom-response-fields-pageable.adoc[]
+[[Common-Api]]
+== Common Api
+include::common/common-api.adoc[]
 
-[[category-api]]
+[[Category-Api]]
 == Category API
-=== 회원
-include::{snippets}/gender-type/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-gender-type.adoc[]
+include::common/category-api.adoc[]
 
-include::{snippets}/account-state/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-account-state.adoc[]
-
-include::{snippets}/inquiry/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-inquiry-category.adoc[]
-
-=== 도시
-include::{snippets}/city-name/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-city-name.adoc[]
-
-include::{snippets}/city-intro-category/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-city-intro-category.adoc[]
-
-include::{snippets}/transport-category/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-transport-category.adoc[]
-
-include::{snippets}/transport-grade/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-transport-grade.adoc[]
-
-include::{snippets}/city-month/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-month.adoc[]
-
-=== 스케줄
-include::{snippets}/schedule-filter-types/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-schedule-filter-type.adoc[]
-
-=== 후기글
-include::{snippets}/review-cateogry/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-review-category.adoc[]
-
-include::{snippets}/review-search-group/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-review-search-group.adoc[]
-
-=== 검색, 정렬
-include::{snippets}/review-search-types/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-schedule-search-type.adoc[]
-include::{snippets}/common/custom-response-fields-review-search-type.adoc[]
-include::{snippets}/schedule-sort-types/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-schedule-sort-type.adoc[]
-include::{snippets}/common/custom-response-fields-review-sort-type.adoc[]
-
-=== 상호작용
-include::{snippets}/interaction-type/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-interaction-type.adoc[]
-
-include::{snippets}/interaction-state/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-interaction-state.adoc[]
-
-=== 댓글
-include::{snippets}/comment-type/http-request.adoc[]
-include::{snippets}/common/custom-response-fields-comment-type.adoc[]
-
+[[Member-API]]
+== Member API
+include::member/member-api.adoc[]
 
 [[City-API]]
 == City API
-
-[[city-summary-get]]
-=== 요약 정보 조회
-==== 요청
-===== HTTP 요청 예제
-include::{snippets}/city-summary-get/http-request.adoc[]
-
-==== 응답
-include::{snippets}/city-summary-get/response-fields-data.adoc[]
-
-===== HTTP 응답 예제
-include::{snippets}/city-summary-get/http-response.adoc[]
-
-
-[[city-intro-get]]
-=== 소개 정보 조회
-==== 요청
-include::{snippets}/city-intro-get/path-parameters.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/city-intro-get/http-request.adoc[]
-
-==== 응답
-include::{snippets}/city-intro-get/response-fields-image-content.adoc[]
-
-===== HTTP 응답 예제
-link:city/city-intro-get.html[도시 정보 조회 응답 예제,role="popup"]
-
-
-[[city-extra-get]]
-=== 추가 정보 조회
-==== 요청
-include::{snippets}/city-extra-get/path-parameters.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/city-extra-get/http-request.adoc[]
-
-==== 응답
-include::{snippets}/city-extra-get/response-fields-transport.adoc[]
-include::{snippets}/city-extra-get/response-fields-weather.adoc[]
-
-===== HTTP 응답 예제
-link:city/city-extra-get.html[도시 추가 정보 조회 응답 예제,role="popup"]
+include::city/city-api.adoc[]
 
 [[Inquiry-API]]
 == Inquiry API
+include::inquiry/inquiry-api.adoc[]
 
-[[write-inquiry]]
-=== 작성
-==== 요청
-include::{snippets}/inquiry-post/request-fields.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/inquiry-post/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/inquiry-post/http-response.adoc[]
-
-[[get-inquiry-list]]
-=== 다건 조회
-==== 요청
-include::{snippets}/inquiry-list-get/request-parameters.adoc[]
-
-===== Http 요청 예제
-include::{snippets}/inquiry-list-get/http-request.adoc[]
-
-==== 응답
-include::{snippets}/inquiry-list-get/response-fields-content.adoc[]
-
-===== HTTP 응답 예제
-include::{snippets}/inquiry-list-get/http-response.adoc[]
-
-[[get-inquiry]]
-=== 단건 조회
-==== 요청
-include::{snippets}/inquiry-get/path-parameters.adoc[]
-
-===== Http 요청 예제
-include::{snippets}/inquiry-get/http-request.adoc[]
-
-==== 응답
-include::{snippets}/inquiry-get/response-fields-data.adoc[]
-include::{snippets}/inquiry-get/response-fields-answer.adoc[]
-
-===== HTTP 응답 예제
-include::{snippets}/inquiry-get/http-response.adoc[]
-
-[[edit-inquiry]]
-=== 수정
-==== 요청
-include::{snippets}/inquiry-patch/path-parameters.adoc[]
-include::{snippets}/inquiry-patch/request-fields.adoc
-
-===== Http 요청 예제
-include::{snippets}/inquiry-patch/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/inquiry-patch/http-response.adoc[]
-
-[[delete-inquiry]]
-=== 삭제
-==== 요청
-include::{snippets}/inquiry-delete/path-parameters.adoc[]
-
-===== Http 요청 예제
-include::{snippets}/inquiry-delete/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/inquiry-delete/http-response.adoc[]
-
-[[answer-inquiry]]
-=== 답변 작성
-==== 요청
-include::{snippets}/inquiry-answer-post/path-parameters.adoc[]
-include::{snippets}/inquiry-answer-post/request-fields.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/inquiry-answer-post/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/inquiry-answer-post/http-response.adoc[]
-
-[[edit-inquiry-answer]]
-=== 답변 수정
-==== 요청
-include::{snippets}/inquiry-answer-patch/path-parameters.adoc[]
-include::{snippets}/inquiry-answer-patch/request-fields.adoc
-
-===== Http 요청 예제
-include::{snippets}/inquiry-answer-patch/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/inquiry-answer-patch/http-response.adoc[]
 
 [[Interaction-API]]
 == Interaction API
+include::interaction/interaction-api.adoc[]
 
-[[interact-object]]
-=== 팔로우 & 좋아요
-==== 요청
-include::{snippets}/interact-object/path-parameters.adoc[]
-include::{snippets}/interact-object/request-parameters.adoc[]
-include::{snippets}/interact-object/request-fields.adoc[]
+[[Member-Admin-API]]
+== Member Admin API
+include::member/member-admin-api.adoc[]
 
-===== HTTP 요청 예제
-include::{snippets}/interact-object/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/interact-object/http-response.adoc[]
-
-[[interact-comment]]
-=== 댓글 추천&비추천
-==== 요청
-include::{snippets}/interact-comment/path-parameters.adoc[]
-include::{snippets}/interact-comment/request-parameters.adoc[]
-include::{snippets}/interact-comment/request-fields.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/interact-comment/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/interact-comment/http-response.adoc[]
-
-[[cancel-interact-comment]]
-=== 댓글 추천&비추천 취소
-==== 요청
-include::{snippets}/interact-comment-cancel/path-parameters.adoc[]
-include::{snippets}/interact-comment-cancel/request-fields.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/interact-comment-cancel/http-request.adoc[]
-
-==== 응답
-===== HTTP 응답 예제
-include::{snippets}/interact-comment-cancel/http-response.adoc[]
-
-[[is-member-interact-object]]
-=== 팔로우&게시물 상호작용 여부 조회
-==== 요청
-include::{snippets}/is-member-interact-object/path-parameters.adoc[]
-include::{snippets}/is-member-interact-object/request-parameters.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/is-member-interact-object/http-request.adoc[]
-
-==== 응답
-include::{snippets}/is-member-interact-object/response-fields-data.adoc[]
-
-===== HTTP 응답 예제
-include::{snippets}/is-member-interact-object/http-response.adoc[]
-
-[[get-member-interacted-comments]]
-=== 회원이 추천&비추천 한 댓글 조회
-==== 요청
-include::{snippets}/member-interacted-comments-get/path-parameters.adoc[]
-include::{snippets}/member-interacted-comments-get/request-parameters.adoc[]
-
-===== HTTP 요청 예제
-include::{snippets}/member-interacted-comments-get/http-request.adoc[]
-
-==== 응답
-include::{snippets}/member-interacted-comments-get/response-fields-data.adoc[]
-
-===== HTTP 응답 예제
-include::{snippets}/member-interacted-comments-get/http-response.adoc[]
+[[Inquiry-Admin-API]]
+== Inquiry Admin API
+include::inquiry/inquiry-admin-api.adoc[]

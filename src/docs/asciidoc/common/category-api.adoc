@@ -1,0 +1,62 @@
+[[member-category]]
+=== 회원
+include::{snippets}/gender-type/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-gender-type.adoc[]
+
+include::{snippets}/account-state/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-account-state.adoc[]
+
+include::{snippets}/inquiry/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-inquiry-category.adoc[]
+
+[[city-category]]
+=== 도시
+include::{snippets}/city-name/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-city-name.adoc[]
+
+include::{snippets}/city-intro-category/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-city-intro-category.adoc[]
+
+include::{snippets}/transport-category/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-transport-category.adoc[]
+
+include::{snippets}/transport-grade/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-transport-grade.adoc[]
+
+include::{snippets}/city-month/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-month.adoc[]
+
+[[schedule-category]]
+=== 스케줄
+include::{snippets}/schedule-filter-types/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-schedule-filter-type.adoc[]
+
+[[review-category]]
+=== 후기글
+include::{snippets}/review-cateogry/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-review-category.adoc[]
+
+include::{snippets}/review-search-group/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-review-search-group.adoc[]
+
+[[search-sort-category]]
+=== 검색, 정렬
+include::{snippets}/review-search-types/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-schedule-search-type.adoc[]
+include::{snippets}/common/custom-response-fields-review-search-type.adoc[]
+include::{snippets}/schedule-sort-types/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-schedule-sort-type.adoc[]
+include::{snippets}/common/custom-response-fields-review-sort-type.adoc[]
+
+[[interaction-category]]
+=== 상호작용
+include::{snippets}/interaction-type/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-interaction-type.adoc[]
+
+include::{snippets}/interaction-state/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-interaction-state.adoc[]
+
+[[comment-category]]
+=== 댓글
+include::{snippets}/comment-type/http-request.adoc[]
+include::{snippets}/common/custom-response-fields-comment-type.adoc[]

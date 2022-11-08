@@ -1,0 +1,65 @@
+[[write-inquiry]]
+=== 작성
+==== 요청
+include::{snippets}/inquiry-post/request-fields.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/inquiry-post/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/inquiry-post/http-response.adoc[]
+
+[[get-inquiry-list]]
+=== 다건 조회
+==== 요청
+include::{snippets}/inquiry-list-get/request-parameters.adoc[]
+
+===== Http 요청 예제
+include::{snippets}/inquiry-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/inquiry-list-get/response-fields-content.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/inquiry-list-get/http-response.adoc[]
+
+[[get-inquiry]]
+=== 단건 조회
+==== 요청
+include::{snippets}/inquiry-get/path-parameters.adoc[]
+
+===== Http 요청 예제
+include::{snippets}/inquiry-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/inquiry-get/response-fields-data.adoc[]
+include::{snippets}/inquiry-get/response-fields-answer.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/inquiry-get/http-response.adoc[]
+
+[[edit-inquiry]]
+=== 수정
+==== 요청
+include::{snippets}/inquiry-patch/path-parameters.adoc[]
+include::{snippets}/inquiry-patch/request-fields.adoc
+
+===== Http 요청 예제
+include::{snippets}/inquiry-patch/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/inquiry-patch/http-response.adoc[]
+
+[[delete-inquiry]]
+=== 삭제
+==== 요청
+include::{snippets}/inquiry-delete/path-parameters.adoc[]
+
+===== Http 요청 예제
+include::{snippets}/inquiry-delete/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/inquiry-delete/http-response.adoc[]
