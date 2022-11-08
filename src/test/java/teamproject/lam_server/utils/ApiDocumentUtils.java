@@ -34,7 +34,22 @@ public interface ApiDocumentUtils {
     }
 
     static OperationResponsePreprocessor getDocumentResponse() {
-        return preprocessResponse(prettyPrint());
+        return preprocessResponse(
+                removeHeaders(
+                        "Vary",
+                        "Transfer-Encoding",
+                        "Date",
+                        "Keep-Alive",
+                        "Connection",
+                        "X-Content-Type-Options",
+                        "Pragma",
+                        "Expires",
+                        "X-Frame-Options",
+                        "Cache-Control",
+                        "X-XSS-Protection"
+                ),
+                prettyPrint()
+        );
     }
 
     static RequestParametersSnippet getPageableRequestSnippet() {
