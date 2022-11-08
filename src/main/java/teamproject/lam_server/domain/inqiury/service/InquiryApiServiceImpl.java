@@ -14,6 +14,7 @@ import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.inqiury.entity.InquiryEditor;
 import teamproject.lam_server.domain.inqiury.repository.InquiryRepository;
 import teamproject.lam_server.exception.notfound.InquiryNotFound;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
@@ -29,8 +30,8 @@ public class InquiryApiServiceImpl implements InquiryService {
 
     @Override
     @Transactional
-    public void write(InquiryCreate request) {
-        inquiryRepository.save(request.toEntity(finder.getLoggedInMember()));
+    public PostIdResponse write(InquiryCreate request) {
+        return PostIdResponse.of(inquiryRepository.save(request.toEntity(finder.getLoggedInMember())).getId());
     }
 
     @Override

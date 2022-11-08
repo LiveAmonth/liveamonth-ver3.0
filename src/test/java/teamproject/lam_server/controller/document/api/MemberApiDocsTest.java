@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.annotaiton.WithMockCustomUser;
 import teamproject.lam_server.controller.ApiDocsTest;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -84,10 +83,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
                         fieldWithPath("gender").type(STRING).description(generateLinkCode(GENDER_TYPE))
                                 .attributes(getConstraintAttributes(constraints, "gender"))
                 ),
-                responseFields(
-                        beneathPath("data").withSubsectionId("data"),
-                        idFieldWithPath("저장된 id")
-                )
+                getPostResponseFieldsSnippet()
         ));
     }
 

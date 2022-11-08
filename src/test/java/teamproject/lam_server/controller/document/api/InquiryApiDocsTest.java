@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.annotaiton.WithMockCustomUser;
 import teamproject.lam_server.controller.ApiDocsTest;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
@@ -49,7 +48,6 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     PasswordEncoder passwordEncoder;
     @Autowired
     InquiryRepository inquiryRepository;
-
     @Autowired
     InquiryAnswerRepository inquiryAnswerRepository;
 
@@ -57,6 +55,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     @DisplayName("1:1문의 작성")
     @WithMockCustomUser
     void write_inquiry() throws Exception {
+        // given
         InquiryCreate inquiryCreate = InquiryCreate.builder()
                 .title("1:1문의 테스트 제목")
                 .category(InquiryCategory.ETC.name())
@@ -82,7 +81,8 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         fieldWithPath("category").type(STRING)
                                 .description(generateLinkCode(INQUIRY_CATEGORY))
                                 .attributes(getConstraintAttributes(constraints, "category"))
-                )
+                ),
+                getPostResponseFieldsSnippet()
         ));
     }
 

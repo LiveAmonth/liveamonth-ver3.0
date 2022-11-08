@@ -106,6 +106,13 @@ public interface ApiDocumentUtils {
         );
     }
 
+    static ResponseFieldsSnippet getPostResponseFieldsSnippet() {
+        return responseFields(
+                beneathPath("data").withSubsectionId("data"),
+                idFieldWithPath()
+        );
+    }
+
     static CustomResponseFieldsSnippet customResponseFields(String type,
                                                             PayloadSubsectionExtractor<?> subsectionExtractor,
                                                             Map<String, Object> attributes, FieldDescriptor... descriptors) {

@@ -7,6 +7,8 @@ include::{snippets}/inquiry-post/request-fields.adoc[]
 include::{snippets}/inquiry-post/http-request.adoc[]
 
 ==== 응답
+include::{snippets}/inquiry-post/response-fields-data.adoc[]
+
 ===== HTTP 응답 예제
 include::{snippets}/inquiry-post/http-response.adoc[]
 
