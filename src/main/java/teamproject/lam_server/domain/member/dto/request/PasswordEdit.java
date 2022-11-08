@@ -1,10 +1,7 @@
 package teamproject.lam_server.domain.member.dto.request;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -17,4 +14,9 @@ public class PasswordEdit {
     @NotBlank
     @Pattern(regexp = "(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]{8,20}")
     private String password;
+
+    @Builder
+    public PasswordEdit(String password) {
+        this.password = password;
+    }
 }

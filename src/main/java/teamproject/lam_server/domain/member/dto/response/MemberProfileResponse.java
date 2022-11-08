@@ -1,5 +1,6 @@
 package teamproject.lam_server.domain.member.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -16,8 +17,9 @@ public class MemberProfileResponse {
     private String image;
     private String name;
     private String email;
-    private GenderType gender;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate birth;
+    private GenderType gender;
     private long numberOfReviews;
     private long numberOfSchedules;
     private long numberOfFollowers;

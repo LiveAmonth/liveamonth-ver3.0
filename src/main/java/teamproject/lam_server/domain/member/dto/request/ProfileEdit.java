@@ -1,9 +1,6 @@
 package teamproject.lam_server.domain.member.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -19,6 +16,9 @@ public class ProfileEdit {
     @Pattern(regexp = "[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}")
     private String email;
 
-    private String image;
-
+    @Builder
+    public ProfileEdit(String nickname, String email, String image) {
+        this.nickname = nickname;
+        this.email = email;
+    }
 }

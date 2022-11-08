@@ -6,44 +6,48 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
-import teamproject.lam_server.auth.jwt.CustomUserDetailsService;
+import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
-import teamproject.lam_server.domain.member.service.MemberAdminService;
-import teamproject.lam_server.domain.member.service.MemberService;
+import teamproject.lam_server.domain.member.entity.Member;
+import teamproject.lam_server.domain.member.repository.MemberRepository;
 
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
+@Transactional
 public class WithMockCustomUserSecurityContextFactory implements WithSecurityContextFactory<WithMockCustomUser> {
 
-    private final MemberService memberService;
-    private final MemberAdminService memberAdminService;
-    private final CustomUserDetailsService userDetailsService;
+    private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public SecurityContext createSecurityContext(WithMockCustomUser customUser) {
-        Role role = customUser.role();
-        MemberCreate memberCreate =
-                MemberCreate.builder()
-                        .loginId(customUser.loginId())
-                        .password(customUser.password())
-                        .name(customUser.name())
-                        .nickname(customUser.nickname())
-                        .email(customUser.email())
-                        .birth(LocalDate.now())
-                        .gender(GenderType.MALE)
-                        .build();
+        Member member = memberRepository.findByLoginId(customUser.loginId()).orElseGet(
+                () -> {
+                    Role role = customUser.role();
+                    MemberCreate memberCreate =
+                            MemberCreate.builder()
+                                    .loginId(customUser.loginId())
+                                    .password(customUser.password())
+                                    .name(customUser.name())
+                                    .nickname(customUser.nickname())
+                                    .email(customUser.email())
+                                    .birth(LocalDate.now().minusDays(1))
+                                    .gender(GenderType.MALE.name())
+                                    .build();
 
-        if (role == Role.USER) {
-            memberService.signUp(memberCreate);
-        } else {
-            memberAdminService.createManager(memberCreate);
-        }
+                    return role == Role.USER
+                            ? memberRepository.save(memberCreate.toEntity(passwordEncoder))
+                            : memberRepository.save(memberCreate.toManagerEntity(passwordEncoder));
+                }
+        );
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(customUser.loginId());
+        UserDetails userDetails = new PrincipalDetails(member);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails
                 , userDetails.getPassword()
                 , userDetails.getAuthorities());

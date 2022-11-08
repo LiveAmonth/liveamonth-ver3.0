@@ -9,11 +9,11 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @WithSecurityContext(factory = WithMockCustomUserSecurityContextFactory.class)
 public @interface WithMockCustomUser {
-    String loginId();
-    String password() default "testPassword1!";
-    String name() default "testName";
-    String nickname() default "testNickname";
-    String email() default "test@gmail.com";
+    String loginId() default "customLoginId";
+    String password() default "customPassword1!";
+    String name() default "customName";
+    String nickname() default "customNickname";
+    String email() default "customEmail@liveamonth.com";
 
-    Role role();
+    Role role() default Role.USER;
 }

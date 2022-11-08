@@ -42,10 +42,10 @@ public class MemberCreate {
     private LocalDate birth;
 
     @NotNull
-    private GenderType gender;
+    private String gender;
 
     @Builder
-    public MemberCreate(String loginId, String password, String name, String nickname, String email, LocalDate birth, GenderType gender) {
+    public MemberCreate(String loginId, String password, String name, String nickname, String email, LocalDate birth, String gender) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
@@ -63,7 +63,7 @@ public class MemberCreate {
                 .nickname(this.nickname)
                 .birth(this.birth)
                 .email(this.email)
-                .gender(this.gender)
+                .gender(GenderType.valueOf(this.gender))
                 .role(Role.USER)
                 .build();
     }
@@ -76,7 +76,7 @@ public class MemberCreate {
                 .nickname(this.nickname)
                 .birth(this.birth)
                 .email(this.email)
-                .gender(this.gender)
+                .gender(GenderType.valueOf(this.gender))
                 .role(Role.MANAGER)
                 .build();
     }
