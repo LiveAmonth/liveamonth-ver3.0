@@ -30,7 +30,7 @@ public class CityApiController {
      * -> slide info(top)
      */
     @GetMapping("/grid-infos")
-    public ResponseEntity<?> searchCityGridInfo() {
+    public ResponseEntity<?> getCitySummaryInfo() {
         List<CityGridDataResponse> result = cityApiService.searchCurrentCityInfo();
         return CustomResponse.success(result);
     }
