@@ -37,6 +37,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.domain.member.constants.Role.MANAGER;
+import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.ApiDocumentUtils.getConstraintAttributes;
 
@@ -78,8 +79,8 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
                 .name("testMember")
                 .password("testMember1!")
                 .email("testMember@gmail.com")
-                .gender(GenderType.MALE)
-                .birth(LocalDate.now())
+                .gender(GenderType.MALE.name())
+                .birth(LocalDate.now().minusDays(1))
                 .build();
         Member saveUser = memberRepository.save(memberCreate.toEntity(passwordEncoder));
         Inquiry saveInquiry = inquiryRepository.save(inquiryCreate.toEntity(saveUser));
@@ -94,6 +95,8 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
         ResultActions result = this.mockMvc.perform(post(BASIC_URL + "/{inquiryId}", saveInquiry.getId())
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
                         .content(objectMapper.writeValueAsString(inquiryAnswerCreate)))
                 .andExpect(status().isOk());
 
@@ -127,8 +130,8 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
                 .name("testMember")
                 .password("testMember1!")
                 .email("testMember@gmail.com")
-                .gender(GenderType.MALE)
-                .birth(LocalDate.now())
+                .gender(GenderType.MALE.name())
+                .birth(LocalDate.now().minusDays(1))
                 .build();
         Member saveUser = memberRepository.save(memberCreate.toEntity(passwordEncoder));
         Inquiry saveInquiry = inquiryRepository.save(inquiryCreate.toEntity(saveUser));
@@ -147,6 +150,8 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
         ResultActions result = this.mockMvc.perform(patch(BASIC_URL+"/{answerId}", saveAnswer.getId())
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
                         .content(objectMapper.writeValueAsString(inquiryAnswerEdit)))
                 .andExpect(status().isOk());
 

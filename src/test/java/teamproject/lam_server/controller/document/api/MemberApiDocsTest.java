@@ -32,7 +32,6 @@ import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateFormat;
 
-@Transactional
 public class MemberApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/members";
 

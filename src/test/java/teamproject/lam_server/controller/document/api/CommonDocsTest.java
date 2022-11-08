@@ -2,20 +2,12 @@ package teamproject.lam_server.controller.document.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import teamproject.lam_server.controller.ApiDocsTest;
 import teamproject.lam_server.controller.common.Category;
 import teamproject.lam_server.controller.common.DocsResponse;
 import teamproject.lam_server.paging.CustomPage;
@@ -23,42 +15,31 @@ import teamproject.lam_server.paging.CustomPage;
 import java.io.IOException;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
+import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 
 
-@SpringBootTest
-@ExtendWith(RestDocumentationExtension.class)
-@ActiveProfiles("local")
-public class CommonDocsTest {
-
-    private MockMvc mockMvc;
+public class CommonDocsTest extends ApiDocsTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setUp(
-            final WebApplicationContext context,
-            final RestDocumentationContextProvider provider) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(documentationConfiguration(provider))
-                .build();
-    }
 
     @Test
     @DisplayName("공통 응답 객체")
     void get_common_response() throws Exception {
         // expected
         ResultActions result = this.mockMvc.perform(get("/docs")
-                .accept(APPLICATION_JSON));
+                .accept(APPLICATION_JSON)
+        );
         MvcResult mvcResult = result.andReturn();
         Category category = getData(mvcResult);
 
@@ -173,6 +154,27 @@ public class CommonDocsTest {
                                 enumConvertFieldDescriptor(category.getCommentType())
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("Auth Request Header")
+    void common_other_request_header() throws Exception {
+        ResultActions result = this.mockMvc.perform(get("/docs")
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+                .header("Authorization", "{access_token}")
+                .cookie(addRefreshTokenCookie("{refresh_token}"))
+        );
+
+        result.andDo(
+                document("auth-header",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("Authorization").description("로그인 시 발급 받은 엑세스 토큰")
+                        )
+                )
+        );
     }
 
     Category getData(MvcResult result) throws IOException {

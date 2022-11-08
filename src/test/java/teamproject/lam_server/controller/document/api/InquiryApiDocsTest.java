@@ -1,6 +1,5 @@
 package teamproject.lam_server.controller.document.api;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.inqiury.entity.InquiryAnswer;
 import teamproject.lam_server.domain.inqiury.repository.InquiryAnswerRepository;
 import teamproject.lam_server.domain.inqiury.repository.InquiryRepository;
-import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 
@@ -27,18 +25,20 @@ import java.util.List;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.JsonFieldType.*;
+import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
+import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.INQUIRY_CATEGORY;
+import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateValue;
 import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateTimeFormat;
 
-@Transactional
 public class InquiryApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/inquiries";
     @Autowired
@@ -53,14 +53,9 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     @Autowired
     InquiryAnswerRepository inquiryAnswerRepository;
 
-    @AfterEach
-    void afterEach() {
-        memberRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("1:1문의 작성")
-    @WithMockCustomUser(loginId = "inquiry", role = Role.USER)
+    @WithMockCustomUser
     void write_inquiry() throws Exception {
         InquiryCreate inquiryCreate = InquiryCreate.builder()
                 .title("1:1문의 테스트 제목")
@@ -93,7 +88,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("1:1문의 다건 조회")
-    @WithMockCustomUser(loginId = "inquiry", role = Role.USER)
+    @WithMockCustomUser
     void get_inquiry_list() throws Exception {
         Inquiry inquiry1 = InquiryCreate.builder()
                 .title("1:1문의 테스트 제목1")
@@ -109,12 +104,15 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 .toEntity(finder.getLoggedInMember());
         inquiryRepository.saveAll(List.of(inquiry1, inquiry2));
 
-        ResultActions result = this.mockMvc.perform(get(BASIC_URL + "/list")
+        ResultActions result = this.mockMvc.perform(
+                get(BASIC_URL + "/list")
                         .param("page", "0")
                         .param("size", "10")
                         .param("sorts", "id,desc")
-                        .accept(APPLICATION_JSON))
-                .andExpect(status().isOk());
+                        .accept(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
+        ).andExpect(status().isOk());
 
         result.andDo(document("inquiry-list-get",
                 getDocumentRequest(),
@@ -135,7 +133,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("1:1문의 단건 조회")
-    @WithMockCustomUser(loginId = "inquiry", role = Role.USER)
+    @WithMockCustomUser
     void get_inquiry() throws Exception {
         Inquiry inquiry = InquiryCreate.builder()
                 .title("1:1문의 테스트 제목")
@@ -153,8 +151,12 @@ public class InquiryApiDocsTest extends ApiDocsTest {
 
 
         // when
-        ResultActions result = this.mockMvc.perform(get(BASIC_URL + "/{id}", saveInquiry.getId()))
-                .andExpect(status().isOk());
+        ResultActions result = this.mockMvc.perform(
+                get(BASIC_URL + "/{id}", saveInquiry.getId())
+                        .accept(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
+        ).andExpect(status().isOk());
 
         // then
         result.andDo(document("inquiry-get",
@@ -188,7 +190,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("1:1문의 수정")
-    @WithMockCustomUser(loginId = "inquiry", role = Role.USER)
+    @WithMockCustomUser
     void edit_inquiry() throws Exception {
         // given
         Inquiry inquiry = InquiryCreate.builder()
@@ -208,11 +210,14 @@ public class InquiryApiDocsTest extends ApiDocsTest {
         ConstraintDescriptions constraints = new ConstraintDescriptions(InquiryEdit.class);
 
         // when
-        ResultActions result = this.mockMvc.perform(patch(BASIC_URL + "/{id}", saveInquiry.getId())
+        ResultActions result = this.mockMvc.perform(
+                patch(BASIC_URL + "/{id}", saveInquiry.getId())
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(editedInquiry)))
-                .andExpect(status().isOk());
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
+                        .content(objectMapper.writeValueAsString(editedInquiry))
+        ).andExpect(status().isOk());
 
         result.andDo(document("inquiry-patch",
                 getDocumentRequest(),
@@ -232,7 +237,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("1:1문의 삭제")
-    @WithMockCustomUser(loginId = "inquiry", role = Role.USER)
+    @WithMockCustomUser
     void delete_inquiry() throws Exception {
         // given
         Inquiry inquiry = InquiryCreate.builder()
@@ -243,11 +248,15 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 .toEntity(finder.getLoggedInMember());
         Inquiry saveInquiry = inquiryRepository.save(inquiry);
 
+
         // when
         ResultActions result =
-                this.mockMvc.perform(delete(BASIC_URL + "/{id}",
-                                saveInquiry.getId())).
-                        andExpect(status().isOk());
+                this.mockMvc.perform(
+                        delete(BASIC_URL + "/{id}", saveInquiry.getId())
+                                .accept(APPLICATION_JSON)
+                                .header("Authorization", "{access_token}")
+                                .cookie(addRefreshTokenCookie("{refresh_token}"))
+                ).andExpect(status().isOk());
 
         // then
         result.andDo(document("inquiry-delete",

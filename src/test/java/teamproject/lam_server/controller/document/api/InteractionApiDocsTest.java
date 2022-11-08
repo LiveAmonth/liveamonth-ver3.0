@@ -1,6 +1,9 @@
 package teamproject.lam_server.controller.document.api;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
@@ -40,70 +43,64 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static teamproject.lam_server.domain.member.constants.Role.USER;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
+import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 
-@Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class InteractionApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/interactions";
     @Autowired
     SecurityContextFinder finder;
     @Autowired
-    private MemberRepository memberRepository;
+    MemberRepository memberRepository;
     @Autowired
-    private FollowRepository followRepository;
+    FollowRepository followRepository;
     @Autowired
-    private ScheduleRepository scheduleRepository;
+    ScheduleRepository scheduleRepository;
     @Autowired
-    private ScheduleCommentRepository scheduleCommentRepository;
+    ScheduleCommentRepository scheduleCommentRepository;
     @Autowired
-    private ScheduleCommentInteractionRepository sCInteractionRepository;
+    ScheduleCommentInteractionRepository sCInteractionRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    Member toMember;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    private Member savedMember;
-
-    @BeforeEach
-    void set_up_member() {
+    @BeforeAll
+    void saveMember() {
         MemberCreate memberCreate = MemberCreate.builder()
                 .loginId("toMember")
                 .nickname("toMember")
                 .name("toMember")
                 .password("toMember1!")
                 .email("toMember@gmail.com")
-                .gender(GenderType.MALE)
-                .birth(LocalDate.now())
+                .gender(GenderType.MALE.name())
+                .birth(LocalDate.now().minusDays(1))
                 .build();
-        savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-    }
-
-    @AfterEach
-    void afterEach() {
-        memberRepository.deleteAll();
+        toMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
     }
 
     @Test
     @DisplayName("팔로우&게시물 상호작용")
-    @WithMockCustomUser(loginId = "interaction", role = USER)
+    @WithMockCustomUser
     void interact() throws Exception {
         Member authMember = finder.getLoggedInMember();
         // given
         InteractionRequest request = new InteractionRequest();
         request.setFrom(authMember.getId());
-        request.setTo(savedMember.getId());
+        request.setTo(toMember.getId());
 
         // when
         ResultActions result = this.mockMvc.perform(
-                post(BASIC_URL+"/contents/{type}/{login_id}",
+                post(BASIC_URL + "/contents/{type}/{login_id}",
                         InteractionType.MEMBER,
                         authMember.getLoginId()
                 )
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
                         .content(this.objectMapper.writeValueAsString(request))
                         .param("is_interacted", String.valueOf(false))
         ).andExpect(status().isOk());
@@ -125,7 +122,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("댓글 상호작용")
-    @WithMockCustomUser(loginId = "interaction", role = USER)
+    @WithMockCustomUser
     void interact_comment() throws Exception {
         Member authMember = finder.getLoggedInMember();
         // given
@@ -145,7 +142,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
         ScheduleComment scheduleComment = ScheduleComment.builder()
                 .content("테스트 댓글")
-                .member(savedMember)
+                .member(toMember)
                 .schedule(savedSchedule)
                 .build();
 
@@ -158,12 +155,14 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 post(
-                        BASIC_URL+"/comments/{comment_type}/{login_id}",
+                        BASIC_URL + "/comments/{comment_type}/{login_id}",
                         CommentType.SCHEDULE,
                         authMember.getLoginId()
                 )
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
                         .content(this.objectMapper.writeValueAsString(request))
                         .param("interaction_state", InteractionState.LIKE.name())
         ).andExpect(status().isOk());
@@ -185,9 +184,10 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("댓글 상호작용 취소")
-    @WithMockCustomUser(loginId = "interaction", role = USER)
+    @WithMockCustomUser
     void cancel_interact_comment() throws Exception {
         Member authMember = finder.getLoggedInMember();
+
         // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
                 .title("테스트 스케줄")
@@ -205,7 +205,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
         ScheduleComment scheduleComment = ScheduleComment.builder()
                 .content("테스트 댓글")
-                .member(savedMember)
+                .member(toMember)
                 .schedule(savedSchedule)
                 .build();
 
@@ -220,12 +220,14 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 post(
-                        BASIC_URL+"/comments/{comment_type}/{login_id}/cancel",
+                        BASIC_URL + "/comments/{comment_type}/{login_id}/cancel",
                         CommentType.SCHEDULE,
                         authMember.getLoginId()
                 )
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
                         .content(this.objectMapper.writeValueAsString(request))
         ).andExpect(status().isOk());
 
@@ -243,22 +245,25 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("팔로우&게시물 상호작용 여부 조회")
-    @WithMockCustomUser(loginId = "interaction", role = USER)
+    @WithMockCustomUser
     void is_member_interact_object() throws Exception {
         Member authMember = finder.getLoggedInMember();
+
         // given
         InteractionRequest request = new InteractionRequest();
         request.setFrom(authMember.getId());
-        request.setTo(savedMember.getId());
+        request.setTo(toMember.getId());
 
         followRepository.follow(request);
 
         // when
         ResultActions result = this.mockMvc.perform(
                 get(
-                        BASIC_URL+"/member/{type}/liked",
+                        BASIC_URL + "/member/{type}/liked",
                         InteractionType.MEMBER
                 )
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
                         .param("from", String.valueOf(request.getFrom()))
                         .param("to", String.valueOf(request.getTo()))
         ).andExpect(status().isOk());
@@ -280,9 +285,10 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("회원이 추천&비추천 한 댓글 조회")
-    @WithMockCustomUser(loginId = "interaction", role = USER)
+    @WithMockCustomUser
     void get_interacted_comments_by_member() throws Exception {
         Member authMember = finder.getLoggedInMember();
+
         // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
                 .title("테스트 스케줄")
@@ -299,13 +305,13 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         Schedule savedSchedule = scheduleRepository.save(scheduleCreate.toEntity(authMember));
         ScheduleComment scheduleComment1 = ScheduleComment.builder()
                 .content("테스트 댓글1")
-                .member(savedMember)
+                .member(toMember)
                 .schedule(savedSchedule)
                 .build();
 
         ScheduleComment scheduleComment2 = ScheduleComment.builder()
                 .content("테스트 댓글2")
-                .member(savedMember)
+                .member(toMember)
                 .schedule(savedSchedule)
                 .build();
 
@@ -326,10 +332,12 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // when
         ResultActions result = this.mockMvc.perform(
                 get(
-                        BASIC_URL+"/member/{member_id}/interacted-comments/{comment_type}",
+                        BASIC_URL + "/member/{member_id}/interacted-comments/{comment_type}",
                         authMember.getId(),
                         CommentType.SCHEDULE
                 )
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
                         .params(params)
         ).andExpect(status().isOk());
 

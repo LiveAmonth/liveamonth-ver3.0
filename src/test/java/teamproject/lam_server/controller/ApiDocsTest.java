@@ -9,17 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @ExtendWith(RestDocumentationExtension.class)
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@Transactional
 public abstract class ApiDocsTest {
 
     @Autowired
@@ -27,5 +24,6 @@ public abstract class ApiDocsTest {
 
     @Autowired
     protected ObjectMapper objectMapper;
+
 
 }
