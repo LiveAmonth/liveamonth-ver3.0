@@ -36,12 +36,14 @@ import teamproject.lam_server.global.service.SecurityContextFinder;
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
 import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
@@ -258,15 +260,17 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
         // when
         ResultActions result = this.mockMvc.perform(
-                get(
-                        BASIC_URL + "/member/{type}/liked",
-                        InteractionType.MEMBER
+                        get(
+                                BASIC_URL + "/member/{type}/liked",
+                                InteractionType.MEMBER
+                        )
+                                .header("Authorization", "{access_token}")
+                                .cookie(addRefreshTokenCookie("{refresh_token}"))
+                                .param("from", String.valueOf(request.getFrom()))
+                                .param("to", String.valueOf(request.getTo()))
                 )
-                        .header("Authorization", "{access_token}")
-                        .cookie(addRefreshTokenCookie("{refresh_token}"))
-                        .param("from", String.valueOf(request.getFrom()))
-                        .param("to", String.valueOf(request.getTo()))
-        ).andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.result").value(true));
 
         // then
         result.andDo(document("is-member-interact-object",
@@ -285,6 +289,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("회원이 추천&비추천 한 댓글 조회")
+    @Transactional
     @WithMockCustomUser
     void get_interacted_comments_by_member() throws Exception {
         Member authMember = finder.getLoggedInMember();
@@ -331,15 +336,19 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
         // when
         ResultActions result = this.mockMvc.perform(
-                get(
-                        BASIC_URL + "/member/{member_id}/interacted-comments/{comment_type}",
-                        authMember.getId(),
-                        CommentType.SCHEDULE
+                        get(
+                                BASIC_URL + "/member/{member_id}/interacted-comments/{comment_type}",
+                                authMember.getId(),
+                                CommentType.SCHEDULE
+                        )
+                                .header("Authorization", "{access_token}")
+                                .cookie(addRefreshTokenCookie("{refresh_token}"))
+                                .params(params)
                 )
-                        .header("Authorization", "{access_token}")
-                        .cookie(addRefreshTokenCookie("{refresh_token}"))
-                        .params(params)
-        ).andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(2)))
+                .andExpect(jsonPath("$..[?(@.id == '%d')]", savedComment1.getId()).exists())
+                .andExpect(jsonPath("$..state[?(@.code == '%s')]",InteractionState.LIKE.name()).exists());
 
         // then
         result.andDo(document("member-interacted-comments-get",

@@ -13,9 +13,11 @@ import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -24,9 +26,11 @@ import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.GENDER_TYPE;
 import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
+import static teamproject.lam_server.util.StringUtil.coverContent;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateFormat;
@@ -38,6 +42,8 @@ public class MemberApiDocsTest extends ApiDocsTest {
     MemberRepository memberRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    SecurityContextFinder finder;
 
     @Test
     @DisplayName("회원 가입")
@@ -105,9 +111,11 @@ public class MemberApiDocsTest extends ApiDocsTest {
 
         // when
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/exists/loginId/{login_id}", savedMember.getLoginId())
-                        .accept(APPLICATION_JSON)
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/exists/loginId/{login_id}", savedMember.getLoginId())
+                                .accept(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.result").value(true));
 
         // given
         result.andDo(document("login-id-duplicate-check",
@@ -126,9 +134,12 @@ public class MemberApiDocsTest extends ApiDocsTest {
         // given
         // when
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/exists/email/{email}", "test@gmail.com")
-                        .accept(APPLICATION_JSON)
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/exists/email/{email}", "test@gmail.com")
+                                .accept(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.result").value(false));
+
 
         // given
         result.andDo(document("email-duplicate-check",
@@ -159,9 +170,11 @@ public class MemberApiDocsTest extends ApiDocsTest {
 
         // when
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/exists/nickname/{nickname}", savedMember.getNickname())
-                        .accept(APPLICATION_JSON)
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/exists/nickname/{nickname}", savedMember.getNickname())
+                                .accept(APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.result").value(true));
 
         // given
         result.andDo(document("nickname-duplicate-check",
@@ -197,12 +210,15 @@ public class MemberApiDocsTest extends ApiDocsTest {
         ConstraintDescriptions constraints = new ConstraintDescriptions(MemberFindId.class);
         // when
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/find-id")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .accept(APPLICATION_JSON)
-                        .param("name", request.getName())
-                        .param("email", request.getEmail())
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/find-id")
+                                .characterEncoding(StandardCharsets.UTF_8)
+                                .accept(APPLICATION_JSON)
+                                .param("name", request.getName())
+                                .param("email", request.getEmail())
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$..loginId").value(coverContent(savedMember.getLoginId())))
+                .andExpect(jsonPath("$..created").value(savedMember.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))));
 
         // then
         result.andDo(document("member-find-id",
@@ -403,12 +419,18 @@ public class MemberApiDocsTest extends ApiDocsTest {
     void get_member_profile() throws Exception {
         // given
         // when
+        Member authMember = finder.getLoggedInMember();
+
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/profile")
-                        .accept(APPLICATION_JSON)
-                        .header("Authorization", "{access_token}")
-                        .cookie(addRefreshTokenCookie("{refresh_token}"))
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/profile")
+                                .accept(APPLICATION_JSON)
+                                .header("Authorization", "{access_token}")
+                                .cookie(addRefreshTokenCookie("{refresh_token}"))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id").value(authMember.getId()))
+                .andExpect(jsonPath("$.data.nickname").value(authMember.getNickname()))
+                .andExpect(jsonPath("$.data.email").value(authMember.getEmail()));
 
         // then
         result.andDo(document("member-profile-get",
@@ -439,12 +461,19 @@ public class MemberApiDocsTest extends ApiDocsTest {
     void get_simple_member_profile() throws Exception {
         // given
         // when
+        Member authMember = finder.getLoggedInMember();
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/profile/simple")
-                        .accept(APPLICATION_JSON)
-                        .header("Authorization", "{access_token}")
-                        .cookie(addRefreshTokenCookie("{refresh_token}"))
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/profile/simple")
+                                .accept(APPLICATION_JSON)
+                                .header("Authorization", "{access_token}")
+                                .cookie(addRefreshTokenCookie("{refresh_token}"))
+                )
+                .andExpect(status().isOk())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id").value(authMember.getId()))
+                .andExpect(jsonPath("$.data.loginId").value(authMember.getLoginId()))
+                .andExpect(jsonPath("$.data.nickname").value(authMember.getNickname()));
+
 
         // then
         result.andDo(document("member-simple-profile-get",

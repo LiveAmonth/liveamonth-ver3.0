@@ -1,11 +1,13 @@
 package teamproject.lam_server.controller.document.api;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.annotaiton.WithMockCustomUser;
 import teamproject.lam_server.controller.ApiDocsTest;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
@@ -21,6 +23,7 @@ import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
@@ -30,6 +33,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.attributes;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.INQUIRY_CATEGORY;
 import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
@@ -50,6 +54,11 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     InquiryRepository inquiryRepository;
     @Autowired
     InquiryAnswerRepository inquiryAnswerRepository;
+
+    @AfterEach
+    void clear() {
+        inquiryRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("1:1문의 작성")
@@ -105,14 +114,18 @@ public class InquiryApiDocsTest extends ApiDocsTest {
         inquiryRepository.saveAll(List.of(inquiry1, inquiry2));
 
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/list")
-                        .param("page", "0")
-                        .param("size", "10")
-                        .param("sorts", "id,desc")
-                        .accept(APPLICATION_JSON)
-                        .header("Authorization", "{access_token}")
-                        .cookie(addRefreshTokenCookie("{refresh_token}"))
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/list")
+                                .param("page", "0")
+                                .param("size", "10")
+                                .param("sorts", "id,desc")
+                                .accept(APPLICATION_JSON)
+                                .header("Authorization", "{access_token}")
+                                .cookie(addRefreshTokenCookie("{refresh_token}"))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.length()", is(2)))
+                .andExpect(jsonPath("$..[?(@.title == '%s')]", inquiry1.getTitle()).exists())
+                .andExpect(jsonPath("$..category[?(@.code == '%s')]", inquiry2.getCategory().getCode()).exists());
 
         result.andDo(document("inquiry-list-get",
                 getDocumentRequest(),
@@ -133,6 +146,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("1:1문의 단건 조회")
+    @Transactional
     @WithMockCustomUser
     void get_inquiry() throws Exception {
         Inquiry inquiry = InquiryCreate.builder()
@@ -149,14 +163,19 @@ public class InquiryApiDocsTest extends ApiDocsTest {
         InquiryAnswer saveAnswer = inquiryAnswerRepository.save(inquiryAnswerCreate.toEntity());
         saveInquiry.answerInquiry(saveAnswer);
 
-
         // when
         ResultActions result = this.mockMvc.perform(
-                get(BASIC_URL + "/{id}", saveInquiry.getId())
-                        .accept(APPLICATION_JSON)
-                        .header("Authorization", "{access_token}")
-                        .cookie(addRefreshTokenCookie("{refresh_token}"))
-        ).andExpect(status().isOk());
+                        get(BASIC_URL + "/{id}", saveInquiry.getId())
+                                .accept(APPLICATION_JSON)
+                                .header("Authorization", "{access_token}")
+                                .cookie(addRefreshTokenCookie("{refresh_token}"))
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.title").value(inquiry.getTitle()))
+                .andExpect(jsonPath("$.data.category.code").value(inquiry.getCategory().getCode()))
+                .andExpect(jsonPath("$.data.content").value(inquiry.getContent()))
+                .andExpect(jsonPath("$.data.answer.id").value(inquiry.getAnswer().getId()));
+
 
         // then
         result.andDo(document("inquiry-get",
