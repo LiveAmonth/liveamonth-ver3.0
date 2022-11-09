@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.service.MemberAdminService;
 import teamproject.lam_server.global.dto.response.CustomResponse;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 
 import javax.validation.Valid;
 
@@ -20,8 +21,8 @@ public class MemberAdminController {
 
     @PostMapping("/manager/create")
     public ResponseEntity<?> createManager(@Valid @RequestBody MemberCreate request) {
-        memberAdminService.createManager(request);
-        return CustomResponse.success(CREATED_MEMBER);
+        PostIdResponse result = memberAdminService.createManager(request);
+        return CustomResponse.success(CREATED_MEMBER, result);
     }
 
     /**

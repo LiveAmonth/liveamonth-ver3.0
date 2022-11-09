@@ -92,7 +92,7 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
         ConstraintDescriptions constraints = new ConstraintDescriptions(InquiryAnswerCreate.class);
 
         // when
-        ResultActions result = this.mockMvc.perform(post(BASIC_URL + "/{inquiryId}", saveInquiry.getId())
+        ResultActions result = this.mockMvc.perform(post(BASIC_URL + "/{inquiry_id}", saveInquiry.getId())
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
                         .header("Authorization", "{access_token}")
@@ -104,7 +104,7 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
                 getDocumentRequest(),
                 getDocumentResponse(),
                 pathParameters(
-                        parameterWithName("inquiryId").description("1:1문의 id")
+                        parameterWithName("inquiry_id").description("1:1문의 id")
                 ),
                 requestFields(
                         fieldWithPath("content").type(STRING)
@@ -147,7 +147,7 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
         ConstraintDescriptions constraints = new ConstraintDescriptions(InquiryAnswerEdit.class);
 
         // when
-        ResultActions result = this.mockMvc.perform(patch(BASIC_URL+"/{answerId}", saveAnswer.getId())
+        ResultActions result = this.mockMvc.perform(patch(BASIC_URL+"/{answer_id}", saveAnswer.getId())
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
                         .header("Authorization", "{access_token}")
@@ -160,7 +160,7 @@ public class InquiryAdminDocsTest extends ApiDocsTest {
                 getDocumentRequest(),
                 getDocumentResponse(),
                 pathParameters(
-                        parameterWithName("answerId").description("1:1문의 답변 id")
+                        parameterWithName("answer_id").description("1:1문의 답변 id")
                 ),
                 requestFields(
                         fieldWithPath("content").type(STRING)

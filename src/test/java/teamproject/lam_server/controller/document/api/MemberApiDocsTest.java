@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.annotaiton.WithMockCustomUser;
 import teamproject.lam_server.controller.ApiDocsTest;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -17,7 +18,6 @@ import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -35,6 +35,7 @@ import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateFormat;
 
+@Transactional
 public class MemberApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/members";
 
@@ -107,15 +108,15 @@ public class MemberApiDocsTest extends ApiDocsTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        Member savedMember = memberRepository.save(request.toEntity(passwordEncoder));
+        memberRepository.save(request.toEntity(passwordEncoder));
 
         // when
         ResultActions result = this.mockMvc.perform(
-                        get(BASIC_URL + "/exists/loginId/{login_id}", savedMember.getLoginId())
+                        get(BASIC_URL + "/exists/loginId/{login_id}", request.getLoginId())
                                 .accept(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.result").value(true));
+                .andExpect(jsonPath("$.data.result").value(false));
 
         // given
         result.andDo(document("login-id-duplicate-check",
@@ -138,7 +139,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
                                 .accept(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.result").value(false));
+                .andExpect(jsonPath("$.data.result").value(true));
 
 
         // given
@@ -174,7 +175,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
                                 .accept(APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.result").value(true));
+                .andExpect(jsonPath("$.data.result").value(false));
 
         // given
         result.andDo(document("nickname-duplicate-check",
@@ -201,11 +202,11 @@ public class MemberApiDocsTest extends ApiDocsTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        Member savedMember = memberRepository.save(create.toEntity(passwordEncoder));
+        memberRepository.save(create.toEntity(passwordEncoder));
 
         MemberFindId request = new MemberFindId();
-        request.setName(savedMember.getName());
-        request.setEmail(savedMember.getEmail());
+        request.setName(create.getName());
+        request.setEmail(create.getEmail());
 
         ConstraintDescriptions constraints = new ConstraintDescriptions(MemberFindId.class);
         // when
@@ -217,8 +218,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
                                 .param("email", request.getEmail())
                 )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$..loginId").value(coverContent(savedMember.getLoginId())))
-                .andExpect(jsonPath("$..created").value(savedMember.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd"))));
+                .andExpect(jsonPath("$..loginId").value(coverContent(create.getLoginId())));
 
         // then
         result.andDo(document("member-find-id",
@@ -257,11 +257,11 @@ public class MemberApiDocsTest extends ApiDocsTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        Member savedMember = memberRepository.save(create.toEntity(passwordEncoder));
+        memberRepository.save(create.toEntity(passwordEncoder));
 
         MemberFindPassword request = MemberFindPassword.builder()
-                .loginId(savedMember.getLoginId())
-                .email(savedMember.getEmail())
+                .loginId(create.getLoginId())
+                .email(create.getEmail())
                 .build();
 
         ConstraintDescriptions constraints = new ConstraintDescriptions(MemberFindPassword.class);

@@ -124,6 +124,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("댓글 상호작용")
+    @Transactional
     @WithMockCustomUser
     void interact_comment() throws Exception {
         Member authMember = finder.getLoggedInMember();
@@ -186,6 +187,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
 
     @Test
     @DisplayName("댓글 상호작용 취소")
+    @Transactional
     @WithMockCustomUser
     void cancel_interact_comment() throws Exception {
         Member authMember = finder.getLoggedInMember();

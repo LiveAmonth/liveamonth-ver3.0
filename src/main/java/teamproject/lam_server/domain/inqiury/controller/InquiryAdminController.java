@@ -19,14 +19,14 @@ public class InquiryAdminController {
 
     private final InquiryAdminService inquiryAdminService;
 
-    @PostMapping("/{inquiryId}")
-    public ResponseEntity<?> answerInquiry(@PathVariable Long inquiryId, @Valid @RequestBody InquiryAnswerCreate request) {
+    @PostMapping("/{inquiry_id}")
+    public ResponseEntity<?> answerInquiry(@PathVariable("inquiry_id") Long inquiryId, @Valid @RequestBody InquiryAnswerCreate request) {
         inquiryAdminService.answer(inquiryId, request);
         return CustomResponse.success(CREATE_INQUIRY_ANSWER);
     }
 
-    @PatchMapping("/{answerId}")
-    public ResponseEntity<?> editInquiry(@PathVariable Long answerId, @Valid @RequestBody InquiryAnswerEdit editor) {
+    @PatchMapping("/{answer_id}")
+    public ResponseEntity<?> editInquiry(@PathVariable("answer_id") Long answerId, @Valid @RequestBody InquiryAnswerEdit editor) {
         inquiryAdminService.edit(answerId, editor);
         return CustomResponse.success(UPDATE_INQUIRY);
     }

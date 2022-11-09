@@ -88,8 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .expressionHandler(webExpressionHandler())
-                .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
                 .antMatchers("/admin/**").hasRole(MANAGER.getCode())
+                .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
                 .antMatchers("/api/*/interactions/**").hasRole(USER.getCode())
                 .antMatchers(HttpMethod.POST, "/api/*/comments/**").hasRole(USER.getCode())
                 .antMatchers(
