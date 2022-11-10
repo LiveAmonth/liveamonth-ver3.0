@@ -19,11 +19,12 @@ public class ScheduleCreate {
     private String title;
 
     @NotNull
-    private CityName city;
+    private String city;
 
     @NotNull
     private PeriodRequest period;
 
+    @NotNull
     private boolean publicFlag;
 
     @AssertTrue
@@ -32,7 +33,7 @@ public class ScheduleCreate {
     }
 
     @Builder
-    public ScheduleCreate(String title, CityName city, PeriodRequest period, boolean publicFlag) {
+    public ScheduleCreate(String title, String city, PeriodRequest period, boolean publicFlag) {
         this.title = title;
         this.city = city;
         this.period = period;
@@ -42,7 +43,7 @@ public class ScheduleCreate {
     public Schedule toEntity(Member member) {
         return Schedule.builder()
                 .title(this.title)
-                .cityName(this.city)
+                .cityName(CityName.valueOf(this.city))
                 .period(this.period.toEntity())
                 .publicFlag(this.publicFlag)
                 .member(member)

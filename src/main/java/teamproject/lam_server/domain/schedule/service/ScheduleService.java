@@ -7,6 +7,7 @@ import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleRespo
 import teamproject.lam_server.domain.schedule.dto.response.MyScheduleResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.global.dto.response.CountResponse;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -14,7 +15,7 @@ import java.util.List;
 
 public interface ScheduleService {
 
-    void addSchedule(String loginId, ScheduleCreate request);
+    PostIdResponse addSchedule(String loginId, ScheduleCreate request);
 
     void editSchedule(Long scheduleId, ScheduleEdit request);
 

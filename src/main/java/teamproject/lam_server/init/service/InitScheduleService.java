@@ -36,7 +36,7 @@ public class InitScheduleService {
             em.createNativeQuery(query)
                     .setParameter("created_by", member.getLoginId())
                     .setParameter("last_modified_by", member.getLoginId())
-                    .setParameter("city_name", request.getCity().getCode())
+                    .setParameter("city_name", request.getCity())
                     .setParameter("end_date", request.getPeriod().getEndDate())
                     .setParameter("start_date", request.getPeriod().getStartDate())
                     .setParameter("public_flag", request.isPublicFlag())

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.schedule.constants.ScheduleSortType;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
@@ -17,6 +18,7 @@ import teamproject.lam_server.domain.schedule.repository.ScheduleQueryRepository
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
 import teamproject.lam_server.global.dto.response.CountResponse;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
@@ -35,9 +37,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     private final DomainSpec<ScheduleSortType> spec = new DomainSpec<>(ScheduleSortType.class);
 
     @Transactional
-    public void addSchedule(String loginId, ScheduleCreate request) {
+    public PostIdResponse addSchedule(String loginId, ScheduleCreate request) {
         finder.checkLegalLoginId(loginId);
-        scheduleRepository.save(request.toEntity(finder.getLoggedInMember()));
+        return PostIdResponse.of(
+                scheduleRepository.save(
+                        request.toEntity(
+                                finder.getLoggedInMember())
+                ).getId());
     }
 
     @Transactional
@@ -51,7 +57,7 @@ public class ScheduleServiceImpl implements ScheduleService {
                 .title(request.getTitle())
                 .period(request.getPeriod().toEntity())
                 .publicFlag(request.isPublicFlag())
-                .city(request.getCity())
+                .city(CityName.valueOf(request.getCity()))
                 .build();
 
         schedule.edit(editor);
