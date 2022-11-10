@@ -43,6 +43,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.*;
@@ -363,8 +364,9 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                 requestParameters(
                         parameterWithName("ids").description("확인할 댓글 id 리스트")
                 ),
-                responseFields(
+                customResponseFields("response",
                         beneathPath("data[]").withSubsectionId("data"),
+                        attributes(getTitleAttributes("Interacted Comment Response Fields")),
                         idFieldWithPath(),
                         enumCodeFieldWithPath("state", INTERACTION_STATE),
                         enumValueFieldWithPath("state", INTERACTION_STATE)

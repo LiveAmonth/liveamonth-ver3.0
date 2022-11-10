@@ -20,6 +20,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.domain.city.constants.CityIntroCategory.*;
@@ -71,7 +72,9 @@ class CityApiDocsTest extends ApiDocsTest {
         result.andDo(document("city-summary-get",
                 getDocumentRequest(),
                 getDocumentResponse(),
-                responseFields(beneathPath("data[]").withSubsectionId("data"),
+                customResponseFields("response",
+                        beneathPath("data[]").withSubsectionId("data"),
+                        attributes(getTitleAttributes("City Summary Response Fields")),
                         enumCodeFieldWithPath("name", CITY_NAME),
                         enumValueFieldWithPath("name", CITY_NAME),
                         fieldWithPath("image").type(STRING).description("이미지 주소(uri)"),
@@ -100,8 +103,9 @@ class CityApiDocsTest extends ApiDocsTest {
                 pathParameters(
                         parameterWithName("cityName").description(generateLinkCode(CITY_NAME))
                 ),
-                responseFields(
+                customResponseFields("response",
                         beneathPath("data.FOOD[]").withSubsectionId("image-content"),
+                        attributes(getTitleAttributes("City Image-Content Response Fields")),
                         fieldWithPath("content").type(STRING).description("이미지 설명"),
                         fieldWithPath("image").type(STRING).description("이미지(uri)")
                 )
@@ -127,8 +131,9 @@ class CityApiDocsTest extends ApiDocsTest {
                 pathParameters(
                         parameterWithName("cityName").description(generateLinkCode(CITY_NAME))
                 ),
-                responseFields(
+                customResponseFields("response",
                         beneathPath("data.transports[]").withSubsectionId("transport"),
+                        attributes(getTitleAttributes("City Transport Response Fields")),
                         idFieldWithPath("transport id"),
                         enumCodeFieldWithPath("name", CITY_NAME),
                         enumValueFieldWithPath("name", CITY_NAME),
@@ -137,8 +142,9 @@ class CityApiDocsTest extends ApiDocsTest {
                         fieldWithPath("stationCount").type(NUMBER).description("개수"),
                         fieldWithPath("score").type(NUMBER).description("점수")
                 ),
-                responseFields(
+                customResponseFields("response",
                         beneathPath("data.weathers[]").withSubsectionId("weather"),
+                        attributes(getTitleAttributes("City Weather Response Fields")),
                         idFieldWithPath("weather id"),
                         enumCodeFieldWithPath("name", CITY_NAME),
                         enumValueFieldWithPath("name", CITY_NAME),

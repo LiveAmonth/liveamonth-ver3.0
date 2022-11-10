@@ -133,7 +133,7 @@ HTTP 요청 예제 ::
 include::{snippets}/member-find-id/http-request.adoc[]
 
 ==== 응답(Response)
-include::{snippets}/member-find-id/response-fields-data.adoc[]
+include::{snippets}/member-find-id/format-response-fields-data.adoc[]
 
 HTTP 응답 예제 ::
 include::{snippets}/member-find-id/http-response.adoc[]
@@ -205,7 +205,7 @@ HTTP 요청 예제 ::
 include::{snippets}/member-profile-get/http-request.adoc[]
 
 ==== 응답(Response)
-include::{snippets}/member-profile-get/response-fields-data.adoc[]
+include::{snippets}/member-profile-get/format-response-fields-data.adoc[]
 
 HTTP 응답 예제 ::
 include::{snippets}/member-profile-get/http-response.adoc[]
@@ -267,6 +267,67 @@ include::{snippets}/city-extra-get/response-fields-weather.adoc[]
 HTTP 응답 예제 ::
 link:city/city-extra-get.html[도시 추가 정보 조회 응답 예제,role="popup"]
 
+[[Schedule-API]]
+== Schedule APi
+
+[[add-schedule]]
+=== 스케줄 추가
+==== 요청
+include::{snippets}/schedule-add/path-parameters.adoc[]
+include::{snippets}/schedule-add/request-fields.adoc[]
+include::{snippets}/schedule-edit/request-fields-period.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-add/http-request.adoc[]
+
+==== 응답
+include::{snippets}/schedule-add/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/schedule-add/http-response.adoc[]
+
+[[schedule-edit]]
+=== 스케줄 수정
+==== 요청
+include::{snippets}/schedule-edit/path-parameters.adoc[]
+include::{snippets}/schedule-edit/request-fields.adoc[]
+include::{snippets}/schedule-edit/request-fields-period.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-edit/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/schedule-edit/http-response.adoc[]
+
+[[schedule-drop]]
+=== 스케줄 삭제
+==== 요청
+include::{snippets}/schedule-delete/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-delete/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/schedule-delete/http-response.adoc[]
+
+[[schedule-search]]
+=== 스케줄 검색
+==== 요청
+include::{snippets}/schedule-search/request-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-search/http-request.adoc[]
+
+==== 응답
+include::{snippets}/common/custom-response-fields-pageable.adoc[]
+include::{snippets}/schedule-search/response-fields-data.adoc[]
+include::{snippets}/schedule-search/response-fields-profile.adoc[]
+include::{snippets}/schedule-search/format-response-fields-period.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/schedule-search/http-response.adoc[]
 
 [[Inquiry-API]]
 == Inquiry API
@@ -293,10 +354,12 @@ HTTP 요청 예제 ::
 include::{snippets}/inquiry-list-get/http-request.adoc[]
 
 ==== 응답(Response)
-include::{snippets}/inquiry-list-get/response-fields-content.adoc[]
+include::{snippets}/common/custom-response-fields-pageable.adoc[]
+include::{snippets}/inquiry-list-get/format-response-fields-content.adoc[]
 
 HTTP 응답 예제 ::
 include::{snippets}/inquiry-list-get/http-response.adoc[]
+
 
 [[get-inquiry]]
 === 단건 조회
@@ -307,8 +370,8 @@ HTTP 요청 예제 ::
 include::{snippets}/inquiry-get/http-request.adoc[]
 
 ==== 응답(Response)
-include::{snippets}/inquiry-get/response-fields-data.adoc[]
-include::{snippets}/inquiry-get/response-fields-answer.adoc[]
+include::{snippets}/inquiry-get/format-response-fields-data.adoc[]
+include::{snippets}/inquiry-get/format-response-fields-answer.adoc[]
 
 HTTP 응답 예제 ::
 include::{snippets}/inquiry-get/http-response.adoc[]

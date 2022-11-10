@@ -26,6 +26,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static teamproject.lam_server.global.enumMapper.EnumClassConst.GENDER_TYPE;
@@ -232,8 +233,9 @@ public class MemberApiDocsTest extends ApiDocsTest {
                                 .description("이메일")
                                 .attributes(getConstraintAttributes(constraints, "email"))
                 ),
-                responseFields(
+                customResponseFields("format-response",
                         beneathPath("data").withSubsectionId("data"),
+                        attributes(getTitleAttributes("Find LoginID Response Fields")),
                         fieldWithPath("loginId").type(STRING)
                                 .description("찾은 아이디"),
                         fieldWithPath("created").type(STRING)
@@ -436,15 +438,16 @@ public class MemberApiDocsTest extends ApiDocsTest {
         result.andDo(document("member-profile-get",
                 getDocumentRequest(),
                 getDocumentResponse(),
-                responseFields(
+                customResponseFields("format-response",
                         beneathPath("data").withSubsectionId("data"),
+                        attributes(getTitleAttributes("Member Profile Response Fields")),
                         idFieldWithPath(),
                         fieldWithPath("loginId").type(STRING).description("로그인 아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("image").type(STRING).description("이미지(URL)"),
                         fieldWithPath("name").type(STRING).description("이름"),
                         fieldWithPath("email").type(STRING).description("이메일"),
-                        fieldWithPath("birth").type(STRING).description("생년월일").attributes(getDateFormat()),
+                        dateFieldWithPath("birth", "생년월일"),
                         enumCodeFieldWithPath("gender", GENDER_TYPE),
                         enumValueFieldWithPath("gender", GENDER_TYPE),
                         fieldWithPath("numberOfReviews").type(NUMBER).description("후기글 수"),
@@ -479,8 +482,9 @@ public class MemberApiDocsTest extends ApiDocsTest {
         result.andDo(document("member-simple-profile-get",
                 getDocumentRequest(),
                 getDocumentResponse(),
-                responseFields(
+                customResponseFields("response",
                         beneathPath("data").withSubsectionId("data"),
+                        attributes(getTitleAttributes("Member Simple Profile Response Fields")),
                         idFieldWithPath(),
                         fieldWithPath("loginId").type(STRING).description("로그인 아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),

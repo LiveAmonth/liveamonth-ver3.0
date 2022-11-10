@@ -5,7 +5,6 @@ import org.springframework.restdocs.operation.preprocess.OperationRequestPreproc
 import org.springframework.restdocs.operation.preprocess.OperationResponsePreprocessor;
 import org.springframework.restdocs.payload.FieldDescriptor;
 import org.springframework.restdocs.payload.PayloadSubsectionExtractor;
-import org.springframework.restdocs.payload.ResponseFieldsSnippet;
 import org.springframework.restdocs.request.RequestParametersSnippet;
 import org.springframework.restdocs.snippet.Attributes;
 import teamproject.lam_server.global.enumMapper.EnumClassConst;
@@ -15,9 +14,11 @@ import java.util.Map;
 
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.JsonFieldType.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.beneathPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateValue;
@@ -89,9 +90,11 @@ public interface ApiDocumentUtils {
     static FieldDescriptor enumValueFieldWithPath(String name, EnumClassConst type) {
         return fieldWithPath(name + ".value").type(STRING).description(generateValue(type));
     }
+
     static FieldDescriptor dateFieldWithPath(String field, String description) {
         return fieldWithPath(field).type(STRING).attributes(getDateFormat()).description(description);
     }
+
     static FieldDescriptor dateTimeFieldWithPath(String field, String description) {
         return fieldWithPath(field).type(STRING).attributes(getDateTimeFormat()).description(description);
     }
@@ -106,17 +109,19 @@ public interface ApiDocumentUtils {
         return key("title").value(title);
     }
 
-    static ResponseFieldsSnippet getCheckResponseFieldsSnippet() {
-        return responseFields(
+    static CustomResponseFieldsSnippet getCheckResponseFieldsSnippet() {
+        return customResponseFields("response",
                 beneathPath("data").withSubsectionId("data"),
+                attributes(getTitleAttributes("Check Response Fields")),
                 fieldWithPath("result").type(BOOLEAN).description("결과"),
                 fieldWithPath("message").type(STRING).description("결과 메시지")
         );
     }
 
-    static ResponseFieldsSnippet getPostResponseFieldsSnippet() {
-        return responseFields(
+    static CustomResponseFieldsSnippet getPostResponseFieldsSnippet() {
+        return customResponseFields("response",
                 beneathPath("data").withSubsectionId("data"),
+                attributes(getTitleAttributes("Post ID Response Fields")),
                 idFieldWithPath()
         );
     }

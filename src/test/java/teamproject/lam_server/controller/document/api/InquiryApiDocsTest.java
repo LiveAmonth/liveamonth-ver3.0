@@ -133,8 +133,9 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 getDocumentRequest(),
                 getDocumentResponse(),
                 getPageableRequestSnippet(),
-                responseFields(
+                customResponseFields("format-response",
                         beneathPath("data.content[]").withSubsectionId("content"),
+                        attributes(getTitleAttributes("Inquiry List Response Fields")),
                         idFieldWithPath(),
                         titleFieldWithPath(),
                         writerFieldWithPath(),
@@ -186,8 +187,9 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 pathParameters(
                         parameterWithName("id").description("1:1문의 id")
                 ),
-                responseFields(
+                customResponseFields("format-response",
                         beneathPath("data").withSubsectionId("data"),
+                        attributes(getTitleAttributes("Inquiry Response Fields")),
                         idFieldWithPath(),
                         titleFieldWithPath(),
                         writerFieldWithPath(),
@@ -198,7 +200,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         dateTimeFieldWithPath("dateTime", "작성 시간"),
                         subsectionWithPath("answer").description("답변")
                 ),
-                customResponseFields("response",
+                customResponseFields("format-response",
                         beneathPath("data.answer").withSubsectionId("answer"),
                         attributes(getTitleAttributes("1:1문의 답변")),
                         idFieldWithPath(),
