@@ -131,7 +131,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
                 .title("테스트 스케줄")
-                .city(CityName.SE)
+                .city(CityName.SE.name())
                 .period(
                         PeriodRequest.builder()
                                 .startDate(LocalDate.now())
@@ -195,7 +195,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
                 .title("테스트 스케줄")
-                .city(CityName.SE)
+                .city(CityName.SE.name())
                 .period(
                         PeriodRequest.builder()
                                 .startDate(LocalDate.now())
@@ -299,7 +299,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
         // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
                 .title("테스트 스케줄")
-                .city(CityName.SE)
+                .city(CityName.SE.name())
                 .period(
                         PeriodRequest.builder()
                                 .startDate(LocalDate.now())

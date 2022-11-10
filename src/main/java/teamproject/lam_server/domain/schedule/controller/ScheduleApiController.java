@@ -12,6 +12,7 @@ import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleRespo
 import teamproject.lam_server.domain.schedule.service.ScheduleService;
 import teamproject.lam_server.global.dto.response.CountResponse;
 import teamproject.lam_server.global.dto.response.CustomResponse;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -26,22 +27,24 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 public class ScheduleApiController {
     private final ScheduleService scheduleApiService;
 
-    @PostMapping("/{loginId}")
-    public ResponseEntity<?> addSchedule(@PathVariable String loginId, @RequestBody @Valid ScheduleCreate request) {
-        scheduleApiService.addSchedule(loginId, request);
-        return CustomResponse.success(CREATE_SCHEDULE);
+    @PostMapping("/{login_id}")
+    public ResponseEntity<?> addSchedule(
+            @PathVariable("login_id") String loginId,
+            @RequestBody @Valid ScheduleCreate request) {
+        PostIdResponse result = scheduleApiService.addSchedule(loginId, request);
+        return CustomResponse.success(CREATE_SCHEDULE,result);
     }
 
-    @PatchMapping("/{scheduleId}")
+    @PatchMapping("/{schedule_id}")
     public ResponseEntity<?> editSchedule(
-            @PathVariable Long scheduleId,
+            @PathVariable("schedule_id") Long scheduleId,
             @RequestBody @Valid ScheduleEdit request) {
         scheduleApiService.editSchedule(scheduleId, request);
         return CustomResponse.success(UPDATE_SCHEDULE);
     }
 
-    @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<?> deleteSchedule(@PathVariable Long scheduleId) {
+    @DeleteMapping("/{schedule_id}")
+    public ResponseEntity<?> deleteSchedule(@PathVariable("schedule_id") Long scheduleId) {
         scheduleApiService.deleteSchedule(scheduleId);
         return CustomResponse.success(DELETE_SCHEDULE);
     }
@@ -52,38 +55,38 @@ public class ScheduleApiController {
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/list/{loginId}/edit")
-    public ResponseEntity<?> getMySchedulesToEdit(@PathVariable String loginId) {
+    @GetMapping("/list/{login_id}/edit")
+    public ResponseEntity<?> getMySchedulesToEdit(@PathVariable("login_id") String loginId) {
         List<EditableScheduleResponse> result = scheduleApiService.getEditableSchedules(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/list/{loginId}")
+    @GetMapping("/list/{login_id}")
     public ResponseEntity<?> getMySchedules(
-            @PathVariable String loginId,
+            @PathVariable("login_id") String loginId,
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
         List<MyScheduleResponse> result = scheduleApiService.getMySchedules(loginId, size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/list/{loginId}/followed")
+    @GetMapping("/list/{login_id}/followed")
     public ResponseEntity<?> searchFollowedSchedules(
-            @PathVariable String loginId,
+            @PathVariable("login_id") String loginId,
             @RequestParam(required = false) Integer size,
             @RequestParam(name = "last_id", required = false) Long lastId) {
         List<ScheduleCardResponse> result = scheduleApiService.getFollowedSchedules(loginId, size, lastId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @GetMapping("/count/{loginId}/followed")
-    public ResponseEntity<?> getFollowedScheduleCounts(@PathVariable String loginId) {
+    @GetMapping("/count/{login_id}/followed")
+    public ResponseEntity<?> getFollowedScheduleCounts(@PathVariable("login_id") String loginId) {
         CountResponse result = scheduleApiService.getNumberOfFollowedPosts(loginId);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
 
-    @PatchMapping("/{scheduleId}/count-up")
-    public ResponseEntity<?> viewCountUp(@PathVariable Long scheduleId) {
+    @PatchMapping("/{schedule_id}/count-up")
+    public ResponseEntity<?> viewCountUp(@PathVariable("schedule_id") Long scheduleId) {
         scheduleApiService.viewCountUp(scheduleId);
         return CustomResponse.success(READ_SCHEDULE);
     }
