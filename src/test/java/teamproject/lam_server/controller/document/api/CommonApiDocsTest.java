@@ -28,7 +28,7 @@ import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 
 
-public class CommonDocsTest extends ApiDocsTest {
+public class CommonApiDocsTest extends ApiDocsTest {
 
     @Autowired
     private ObjectMapper objectMapper;

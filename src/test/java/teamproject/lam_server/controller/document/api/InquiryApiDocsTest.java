@@ -40,7 +40,6 @@ import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateValue;
-import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateTimeFormat;
 
 public class InquiryApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/inquiries";
@@ -65,7 +64,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     @WithMockCustomUser
     void write_inquiry() throws Exception {
         // given
-        InquiryCreate inquiryCreate = InquiryCreate.builder()
+        InquiryCreate request = InquiryCreate.builder()
                 .title("1:1문의 테스트 제목")
                 .category(InquiryCategory.ETC.name())
                 .content("1:1문의 테스트 내용")
@@ -77,7 +76,9 @@ public class InquiryApiDocsTest extends ApiDocsTest {
         ResultActions result = this.mockMvc.perform(post(BASIC_URL)
                         .accept(APPLICATION_JSON)
                         .contentType(APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(inquiryCreate)))
+                        .content(objectMapper.writeValueAsString(request))
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}")))
                 .andExpect(status().isOk());
 
         // then
@@ -85,7 +86,8 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                 getDocumentRequest(),
                 getDocumentResponse(),
                 requestFields(
-                        titleFieldWithPath().attributes(getConstraintAttributes(constraints, "title")),
+                        titleFieldWithPath()
+                                .attributes(getConstraintAttributes(constraints, "title")),
                         contentFieldWithPath().attributes(getConstraintAttributes(constraints, "content")),
                         fieldWithPath("category").type(STRING)
                                 .description(generateLinkCode(INQUIRY_CATEGORY))
@@ -139,7 +141,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         fieldWithPath("category.code").type(STRING).description(generateLinkCode(INQUIRY_CATEGORY)),
                         fieldWithPath("category.value").type(STRING).description(generateValue(INQUIRY_CATEGORY)),
                         fieldWithPath("answered").type(BOOLEAN).description("답변 여부"),
-                        fieldWithPath("date").type(STRING).attributes(getDateTimeFormat()).description("작성 시간")
+                        dateTimeFieldWithPath("date", "작성 시간")
                 )
         ));
     }
@@ -193,7 +195,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         enumCodeFieldWithPath("category", INQUIRY_CATEGORY),
                         enumValueFieldWithPath("category", INQUIRY_CATEGORY),
                         fieldWithPath("answered").type(BOOLEAN).description("답변 여부"),
-                        fieldWithPath("dateTime").type(STRING).attributes(getDateTimeFormat()).description("작성 시간"),
+                        dateTimeFieldWithPath("dateTime", "작성 시간"),
                         subsectionWithPath("answer").description("답변")
                 ),
                 customResponseFields("response",
@@ -202,7 +204,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         idFieldWithPath(),
                         writerFieldWithPath(),
                         contentFieldWithPath(),
-                        fieldWithPath("dateTime").type(STRING).attributes(getDateTimeFormat()).description("작성 시간")
+                        dateTimeFieldWithPath("dateTime", "작성 시간")
                 )
         ));
     }

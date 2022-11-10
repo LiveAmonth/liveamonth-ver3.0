@@ -21,6 +21,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateValue;
+import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateFormat;
+import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateTimeFormat;
 
 public interface ApiDocumentUtils {
     static OperationRequestPreprocessor getDocumentRequest() {
@@ -86,6 +88,12 @@ public interface ApiDocumentUtils {
 
     static FieldDescriptor enumValueFieldWithPath(String name, EnumClassConst type) {
         return fieldWithPath(name + ".value").type(STRING).description(generateValue(type));
+    }
+    static FieldDescriptor dateFieldWithPath(String field, String description) {
+        return fieldWithPath(field).type(STRING).attributes(getDateFormat()).description(description);
+    }
+    static FieldDescriptor dateTimeFieldWithPath(String field, String description) {
+        return fieldWithPath(field).type(STRING).attributes(getDateTimeFormat()).description(description);
     }
 
     static Attributes.Attribute getConstraintAttributes(ConstraintDescriptions constraints, String property) {

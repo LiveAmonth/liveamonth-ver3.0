@@ -446,121 +446,191 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#common-response">공통 응답 객체</a>
+<li><a href="#common-api">1. 공통, 커스텀 API</a>
 <ul class="sectlevel2">
-<li><a href="#_커스텀_응답_객체">커스텀 응답 객체</a></li>
-<li><a href="#_커스텀_페이지_객체">커스텀 페이지 객체</a></li>
+<li><a href="#_공통">1.1. 공통</a></li>
+<li><a href="#authentication-request-header">1.2. 인증(Authentication)</a></li>
 </ul>
 </li>
-<li><a href="#category-api">Category API</a>
+<li><a href="#Category-Api">2. Category API</a>
 <ul class="sectlevel2">
-<li><a href="#_회원">회원</a></li>
-<li><a href="#_도시">도시</a></li>
-<li><a href="#_스케줄">스케줄</a></li>
-<li><a href="#_후기글">후기글</a></li>
-<li><a href="#_검색_정렬">검색, 정렬</a></li>
-<li><a href="#_상호작용">상호작용</a></li>
-<li><a href="#_댓글">댓글</a></li>
+<li><a href="#member-category">2.1. 회원</a></li>
+<li><a href="#city-category">2.2. 도시</a></li>
+<li><a href="#schedule-category">2.3. 스케줄</a></li>
+<li><a href="#review-category">2.4. 후기글</a></li>
+<li><a href="#search-sort-category">2.5. 검색, 정렬</a></li>
+<li><a href="#interaction-category">2.6. 상호작용</a></li>
+<li><a href="#comment-category">2.7. 댓글</a></li>
 </ul>
 </li>
-<li><a href="#City-API">City API</a>
+<li><a href="#Member-API">3. Member API</a>
 <ul class="sectlevel2">
-<li><a href="#city-summary-get">요약 정보 조회</a>
+<li><a href="#member-sign-up">3.1. 회원 가입</a>
 <ul class="sectlevel3">
-<li><a href="#_요청">요청</a></li>
-<li><a href="#_응답">응답</a></li>
+<li><a href="#_요청request">3.1.1. 요청(Request)</a></li>
+<li><a href="#_응답response">3.1.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#city-intro-get">소개 정보 조회</a>
+<li><a href="#duplicate-check">3.2. 중복 확인(아이디, 닉네임, 이메일)</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_2">요청</a></li>
-<li><a href="#_응답_2">응답</a></li>
+<li><a href="#_요청request_2">3.2.1. 요청(Request)</a></li>
+<li><a href="#_응답response_2">3.2.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#city-extra-get">추가 정보 조회</a>
+<li><a href="#member-find-id">3.3. 아이디 찾기</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_3">요청</a></li>
-<li><a href="#_응답_3">응답</a></li>
+<li><a href="#_요청request_3">3.3.1. 요청(Request)</a></li>
+<li><a href="#_응답response_3">3.3.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#member-find-passwrod">3.4. 비밀번호 찾기</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_4">3.4.1. 요청(Request)</a></li>
+<li><a href="#_응답response_4">3.4.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#member-reconfirm-password">3.5. 비밀번호 재확인</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_5">3.5.1. 요청(Request)</a></li>
+<li><a href="#_응답response_5">3.5.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#member-profile-edit">3.6. 프로필 변경</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_6">3.6.1. 요청(Request)</a></li>
+<li><a href="#_응답response_6">3.6.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#member-password-change">3.7. 비밀번호 변경</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_7">3.7.1. 요청(Request)</a></li>
+<li><a href="#_응답response_7">3.7.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#member-drop">3.8. 회원 탈퇴</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_8">3.8.1. 요청(Request)</a></li>
+<li><a href="#_응답response_8">3.8.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#member-profile-get">3.9. 회원 프로필 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_9">3.9.1. 요청(Request)</a></li>
+<li><a href="#_응답response_9">3.9.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#member-simple-profile-get">3.10. 회원 약식 프로필 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_10">3.10.1. 요청(Request)</a></li>
+<li><a href="#_응답response_10">3.10.2. 응답(Response)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#Inquiry-API">Inquiry API</a>
+<li><a href="#City-API">4. City API</a>
 <ul class="sectlevel2">
-<li><a href="#write-inquiry">작성</a>
+<li><a href="#city-summary-get">4.1. 요약 정보 조회</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_4">요청</a></li>
-<li><a href="#_응답_4">응답</a></li>
+<li><a href="#_요청request_11">4.1.1. 요청(Request)</a></li>
+<li><a href="#_응답response_11">4.1.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#get-inquiry-list">다건 조회</a>
+<li><a href="#city-intro-get">4.2. 소개 정보 조회</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_5">요청</a></li>
-<li><a href="#_응답_5">응답</a></li>
+<li><a href="#_요청request_12">4.2.1. 요청(Request)</a></li>
+<li><a href="#_응답response_12">4.2.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#get-inquiry">단건 조회</a>
+<li><a href="#city-extra-get">4.3. 추가 정보 조회</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_6">요청</a></li>
-<li><a href="#_응답_6">응답</a></li>
-</ul>
-</li>
-<li><a href="#edit-inquiry">수정</a>
-<ul class="sectlevel3">
-<li><a href="#_요청_7">요청</a></li>
-<li><a href="#_응답_7">응답</a></li>
-</ul>
-</li>
-<li><a href="#delete-inquiry">삭제</a>
-<ul class="sectlevel3">
-<li><a href="#_요청_8">요청</a></li>
-<li><a href="#_응답_8">응답</a></li>
-</ul>
-</li>
-<li><a href="#answer-inquiry">답변 작성</a>
-<ul class="sectlevel3">
-<li><a href="#_요청_9">요청</a></li>
-<li><a href="#_응답_9">응답</a></li>
-</ul>
-</li>
-<li><a href="#edit-inquiry-answer">답변 수정</a>
-<ul class="sectlevel3">
-<li><a href="#_요청_10">요청</a></li>
-<li><a href="#_응답_10">응답</a></li>
+<li><a href="#_요청request_13">4.3.1. 요청(Request)</a></li>
+<li><a href="#_응답response_13">4.3.2. 응답(Response)</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#Interaction-API">Interaction API</a>
+<li><a href="#Inquiry-API">5. Inquiry API</a>
 <ul class="sectlevel2">
-<li><a href="#interact-object">팔로우 &amp; 좋아요</a>
+<li><a href="#write-inquiry">5.1. 작성</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_11">요청</a></li>
-<li><a href="#_응답_11">응답</a></li>
+<li><a href="#_요청request_14">5.1.1. 요청(Request)</a></li>
+<li><a href="#_응답response_14">5.1.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#interact-comment">댓글 추천&amp;비추천</a>
+<li><a href="#get-inquiry-list">5.2. 다건 조회</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_12">요청</a></li>
-<li><a href="#_응답_12">응답</a></li>
+<li><a href="#_요청request_15">5.2.1. 요청(Request)</a></li>
+<li><a href="#_응답response_15">5.2.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#cancel-interact-comment">댓글 추천&amp;비추천 취소</a>
+<li><a href="#get-inquiry">5.3. 단건 조회</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_13">요청</a></li>
-<li><a href="#_응답_13">응답</a></li>
+<li><a href="#_요청request_16">5.3.1. 요청(Request)</a></li>
+<li><a href="#_응답response_16">5.3.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#is-member-interact-object">팔로우&amp;게시물 상호작용 여부 조회</a>
+<li><a href="#edit-inquiry">5.4. 수정</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_14">요청</a></li>
-<li><a href="#_응답_14">응답</a></li>
+<li><a href="#_요청request_17">5.4.1. 요청(Request)</a></li>
+<li><a href="#_응답response_17">5.4.2. 응답(Response)</a></li>
 </ul>
 </li>
-<li><a href="#get-member-interacted-comments">회원이 추천&amp;비추천 한 댓글 조회</a>
+<li><a href="#delete-inquiry">5.5. 삭제</a>
 <ul class="sectlevel3">
-<li><a href="#_요청_15">요청</a></li>
-<li><a href="#_응답_15">응답</a></li>
+<li><a href="#_요청request_18">5.5.1. 요청(Request)</a></li>
+<li><a href="#_응답response_18">5.5.2. 응답(Response)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#Interaction-API">6. Interaction API</a>
+<ul class="sectlevel2">
+<li><a href="#interact-object">6.1. 팔로우 &amp; 좋아요</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_19">6.1.1. 요청(Request)</a></li>
+<li><a href="#_응답response_19">6.1.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#interact-comment">6.2. 댓글 추천&amp;비추천</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_20">6.2.1. 요청(Request)</a></li>
+<li><a href="#_응답response_20">6.2.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#cancel-interact-comment">6.3. 댓글 추천&amp;비추천 취소</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_21">6.3.1. 요청(Request)</a></li>
+<li><a href="#_응답response_21">6.3.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#is-member-interact-object">6.4. 팔로우&amp;게시물 상호작용 여부 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_22">6.4.1. 요청(Request)</a></li>
+<li><a href="#_응답response_22">6.4.2. 응답(Response)</a></li>
+</ul>
+</li>
+<li><a href="#get-member-interacted-comments">6.5. 사용자가 추천&amp;비추천 한 댓글 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_23">6.5.1. 요청(Request)</a></li>
+<li><a href="#_응답response_23">6.5.2. 응답(Response)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_admin_api">Admin API</a>
+<ul class="sectlevel1">
+<li><a href="#Member-Admin-API">7. 회원(Member)</a></li>
+<li><a href="#Inquiry-Admin-API">8. 1:1문의(Inquiry)</a></li>
+<li><a href="#answer-inquiry">9. 답변 작성</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_24">9.1. 요청(Request)</a></li>
+<li><a href="#_응답response_24">9.2. 응답(Response)</a></li>
+<li><a href="#edit-inquiry-answer">9.3. 답변 수정</a>
+<ul class="sectlevel3">
+<li><a href="#_요청request_25">9.3.1. 요청(Request)</a></li>
+<li><a href="#_응답response_25">9.3.2. 응답(Response)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -570,10 +640,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="common-response"><a class="link" href="#common-response">공통 응답 객체</a></h2>
+<h2 id="common-api"><a class="link" href="#common-api">1. 공통, 커스텀 API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_커스텀_응답_객체"><a class="link" href="#_커스텀_응답_객체">커스텀 응답 객체</a></h3>
+<h3 id="_공통"><a class="link" href="#_공통">1.1. 공통</a></h3>
 <div class="paragraph">
 <p>공통 응답</p>
 </div>
@@ -607,9 +677,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tr>
 </tbody>
 </table>
-</div>
-<div class="sect2">
-<h3 id="_커스텀_페이지_객체"><a class="link" href="#_커스텀_페이지_객체">커스텀 페이지 객체</a></h3>
 <div class="paragraph">
 <p>공통 페이지응답</p>
 </div>
@@ -644,13 +711,54 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </tbody>
 </table>
 </div>
+<div class="sect2">
+<h3 id="authentication-request-header"><a class="link" href="#authentication-request-header">1.2. 인증(Authentication)</a></h3>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">인증 요청 헤더 </dt>
+</dl>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Authorization</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 시 발급 받은 엑세스 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">인증 요청 헤더 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /docs HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="category-api"><a class="link" href="#category-api">Category API</a></h2>
+<h2 id="Category-Api"><a class="link" href="#Category-Api">2. Category API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_회원"><a class="link" href="#_회원">회원</a></h3>
+<h3 id="member-category"><a class="link" href="#member-category">2.1. 회원</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/gender-type HTTP/1.1
@@ -757,7 +865,7 @@ Host: api.liveamonth.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_도시"><a class="link" href="#_도시">도시</a></h3>
+<h3 id="city-category"><a class="link" href="#city-category">2.2. 도시</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/city/names HTTP/1.1
@@ -1000,7 +1108,7 @@ Host: api.liveamonth.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_스케줄"><a class="link" href="#_스케줄">스케줄</a></h3>
+<h3 id="schedule-category"><a class="link" href="#schedule-category">2.3. 스케줄</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/filter-types/schedule HTTP/1.1
@@ -1035,7 +1143,7 @@ Host: api.liveamonth.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_후기글"><a class="link" href="#_후기글">후기글</a></h3>
+<h3 id="review-category"><a class="link" href="#review-category">2.4. 후기글</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/review HTTP/1.1
@@ -1130,7 +1238,7 @@ Host: api.liveamonth.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_검색_정렬"><a class="link" href="#_검색_정렬">검색, 정렬</a></h3>
+<h3 id="search-sort-category"><a class="link" href="#search-sort-category">2.5. 검색, 정렬</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/search-types/review HTTP/1.1
@@ -1275,7 +1383,7 @@ Host: api.liveamonth.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_상호작용"><a class="link" href="#_상호작용">상호작용</a></h3>
+<h3 id="interaction-category"><a class="link" href="#interaction-category">2.6. 상호작용</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/interaction/type HTTP/1.1
@@ -1346,7 +1454,7 @@ Host: api.liveamonth.com</code></pre>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_댓글"><a class="link" href="#_댓글">댓글</a></h3>
+<h3 id="comment-category"><a class="link" href="#comment-category">2.7. 댓글</a></h3>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/categories/comment/type HTTP/1.1
@@ -1383,14 +1491,1177 @@ Host: api.liveamonth.com</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="City-API"><a class="link" href="#City-API">City API</a></h2>
+<h2 id="Member-API"><a class="link" href="#Member-API">3. Member API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="city-summary-get"><a class="link" href="#city-summary-get">요약 정보 조회</a></h3>
+<h3 id="member-sign-up"><a class="link" href="#member-sign-up">3.1. 회원 가입</a></h3>
 <div class="sect3">
-<h4 id="_요청"><a class="link" href="#_요청">요청</a></h4>
-<div class="sect4">
-<h5 id="_http_요청_예제"><a class="link" href="#_http_요청_예제">HTTP 요청 예제</a></h5>
+<h4 id="_요청request"><a class="link" href="#_요청request">3.1.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>loginId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `[a-zA-Z\d]{5,20}</code>
+Must not be blank+`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `(?=.<strong>[A-Za-z])(?=.</strong>\d)(?=.<strong>[$@!%</strong><mark>?&amp;])[A-Za-z\d$@!%*</mark>?&amp;]{8,20}</code>
+Must not be blank+`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `[a-zA-Z가-힣]{2,20}</code>
+Must not be blank+`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Must not be blank
+Size must be between 0 and 20 inclusive</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `[0-9a-zA-Z]([-<em>\.]?[0-9a-zA-Z])<strong>@[0-9a-zA-Z]([-</em>\.]?[0-9a-zA-Z])</strong>\.[a-zA-Z]{2,3}</code>
+Must not be blank+`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생년월일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Must be in the past
+Must not be null</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="common/gender-type.html" class="popup">성별 코드</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Must not be null</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/members/sign-up HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 201
+Host: api.liveamonth.com
+
+{
+  "loginId" : "testID",
+  "password" : "testPassword1!",
+  "name" : "테스트",
+  "nickname" : "테스트",
+  "email" : "testEmail@gmail.com",
+  "birth" : "2022-11-08",
+  "gender" : "MALE"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response"><a class="link" href="#_응답response">3.1.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 136
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:50",
+  "message" : "회원 가입 성공",
+  "data" : {
+    "id" : 11
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="duplicate-check"><a class="link" href="#duplicate-check">3.2. 중복 확인(아이디, 닉네임, 이메일)</a></h3>
+<div class="sect3">
+<h4 id="_요청request_2"><a class="link" href="#_요청request_2">3.2.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/members/exists/loginId/{login_id}</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>login_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>/api/v1/members/exists/nickname/{nickname}</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>/api/v1/members/exists/email/{email}</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/members/exists/loginId/testID HTTP/1.1
+Accept: application/json
+Host: api.liveamonth.com</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/members/exists/nickname/duplicateNickname HTTP/1.1
+Accept: application/json
+Host: api.liveamonth.com</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/members/exists/email/test@gmail.com HTTP/1.1
+Accept: application/json
+Host: api.liveamonth.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_2"><a class="link" href="#_응답response_2">3.2.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 211
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "회원 정보 중복 확인",
+  "data" : {
+    "result" : false,
+    "message" : "이미 사용중인 아이디 입니다."
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 211
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "회원 정보 중복 확인",
+  "data" : {
+    "result" : false,
+    "message" : "이미 사용중인 닉네임 입니다."
+  }
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Disposition: inline;filename=f.txt
+Content-Type: application/json;charset=UTF-8
+Content-Length: 207
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:44",
+  "message" : "회원 정보 중복 확인",
+  "data" : {
+    "result" : true,
+    "message" : "사용 가능한 이메일 입니다."
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-find-id"><a class="link" href="#member-find-id">3.3. 아이디 찾기</a></h3>
+<div class="sect3">
+<h4 id="_요청request_3"><a class="link" href="#_요청request_3">3.3.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Reqeust Parameters</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/members/find-id?name=memberName&amp;email=findId%40liveamonth.com HTTP/1.1
+Accept: application/json
+Host: api.liveamonth.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_3"><a class="link" href="#_응답response_3">3.3.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>loginId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">찾은 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>created</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy.MM.dd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생성 날짜</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 188
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:44",
+  "message" : "회원 아이디 찾기 성공",
+  "data" : {
+    "loginId" : "fin***",
+    "created" : "2022.11.09"
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-find-passwrod"><a class="link" href="#member-find-passwrod">3.4. 비밀번호 찾기</a></h3>
+<div class="sect3">
+<h4 id="_요청request_4"><a class="link" href="#_요청request_4">3.4.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>loginId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `[a-zA-Z0-9]{3,20}</code>
+Must not be null+`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `<strong class="a-z0-9A-Z._-">@[a-z0-9A-Z]</strong>.[a-zA-Z.]*</code>
+Must not be null+`</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/members/find-pw HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Content-Length: 72
+Host: api.liveamonth.com
+
+{
+  "loginId" : "findPassword",
+  "email" : "findPw@liveamonth.com"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_4"><a class="link" href="#_응답response_4">3.4.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 134
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "회원 비밀번호 재발급 성공",
+  "data" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-reconfirm-password"><a class="link" href="#member-reconfirm-password">3.5. 비밀번호 재확인</a></h3>
+<div class="sect3">
+<h4 id="_요청request_5"><a class="link" href="#_요청request_5">3.5.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Must not be blank</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/members/reconfirm HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: {access_token}
+Content-Length: 36
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
+
+{
+  "password" : "reconfirmPW1!"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_5"><a class="link" href="#_응답response_5">3.5.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>result</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 195
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "비밀번호 재확인",
+  "data" : {
+    "result" : false,
+    "message" : "비밀번호가 다릅니다."
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-profile-edit"><a class="link" href="#member-profile-edit">3.6. 프로필 변경</a></h3>
+<div class="sect3">
+<h4 id="_요청request_6"><a class="link" href="#_요청request_6">3.6.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Size must be between 0 and 20 inclusive</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `[0-9a-zA-Z]([-<em>\.]?[0-9a-zA-Z])<strong>@[0-9a-zA-Z]([-</em>\.]?[0-9a-zA-Z])</strong>\.[a-zA-Z]{2,3}</code>+`</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/members/profile HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: {access_token}
+Content-Length: 78
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
+
+{
+  "nickname" : "afterNickname",
+  "email" : "afterEmail@liveamonth.com"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_6"><a class="link" href="#_응답response_6">3.6.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 125
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "회원 정보 수정 성공",
+  "data" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-password-change"><a class="link" href="#member-password-change">3.7. 비밀번호 변경</a></h3>
+<div class="sect3">
+<h4 id="_요청request_7"><a class="link" href="#_요청request_7">3.7.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">변경할 비밀번호</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>+Must match the regular expression `(?=.<strong>[A-Za-z])(?=.</strong>\d)(?=.<strong>[$@!%</strong><mark>?&amp;])[A-Za-z\d$@!%*</mark>?&amp;]{8,20}</code>
+Must not be blank+`</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/members/password HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: {access_token}
+Content-Length: 32
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
+
+{
+  "password" : "afterPw1!"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_7"><a class="link" href="#_응답response_7">3.7.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 125
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:44",
+  "message" : "회원 정보 수정 성공",
+  "data" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-drop"><a class="link" href="#member-drop">3.8. 회원 탈퇴</a></h3>
+<div class="sect3">
+<h4 id="_요청request_8"><a class="link" href="#_요청request_8">3.8.1. 요청(Request)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/members/drop HTTP/1.1
+Accept: application/json
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_8"><a class="link" href="#_응답response_8">3.8.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 118
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "회원 탈퇴 성공",
+  "data" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-profile-get"><a class="link" href="#member-profile-get">3.9. 회원 프로필 조회</a></h3>
+<div class="sect3">
+<h4 id="_요청request_9"><a class="link" href="#_요청request_9">3.9.1. 요청(Request)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/members/profile HTTP/1.1
+Accept: application/json
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_9"><a class="link" href="#_응답response_9">3.9.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>loginId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>image</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지(URL)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이메일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>birth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">yyyy-MM-dd</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">생년월일</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender.code</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="common/gender-type.html" class="popup">성별 코드</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender.value</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성별 코드명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfReviews</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">후기글 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfSchedules</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스케줄 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfFollowers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팔로워 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfFollows</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팔로우 수</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 561
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "회원 정보 조회 성공",
+  "data" : {
+    "id" : 5,
+    "loginId" : "customLoginId",
+    "nickname" : "customNickname",
+    "image" : "https://i.ibb.co/YpGzLR3/default.jpg",
+    "name" : "customName",
+    "email" : "customEmail@liveamonth.com",
+    "birth" : "2022-11-08",
+    "gender" : {
+      "value" : "남성",
+      "code" : "MALE"
+    },
+    "numberOfReviews" : 0,
+    "numberOfSchedules" : 0,
+    "numberOfFollowers" : 0,
+    "numberOfFollows" : 0
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="member-simple-profile-get"><a class="link" href="#member-simple-profile-get">3.10. 회원 약식 프로필 조회</a></h3>
+<div class="sect3">
+<h4 id="_요청request_10"><a class="link" href="#_요청request_10">3.10.1. 요청(Request)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/members/profile/simple HTTP/1.1
+Accept: application/json
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_10"><a class="link" href="#_응답response_10">3.10.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>loginId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">로그인 아이디</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>nickname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">닉네임</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>image</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지(URL)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfReviews</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">후기글 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfSchedules</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스케줄 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfFollowers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팔로워 수</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>numberOfFollows</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">팔로우 수</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 383
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:49",
+  "message" : "회원 정보 조회 성공",
+  "data" : {
+    "id" : 5,
+    "loginId" : "customLoginId",
+    "nickname" : "customNickname",
+    "image" : "https://i.ibb.co/YpGzLR3/default.jpg",
+    "numberOfReviews" : 0,
+    "numberOfSchedules" : 0,
+    "numberOfFollowers" : 0,
+    "numberOfFollows" : 0
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="City-API"><a class="link" href="#City-API">4. City API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="city-summary-get"><a class="link" href="#city-summary-get">4.1. 요약 정보 조회</a></h3>
+<div class="sect3">
+<h4 id="_요청request_11"><a class="link" href="#_요청request_11">4.1.1. 요청(Request)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/city/grid-infos HTTP/1.1
@@ -1399,11 +2670,11 @@ Host: api.liveamonth.com</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답"><a class="link" href="#_응답">응답</a></h4>
-<div class="sect4">
-<h5 id="_response_fields"><a class="link" href="#_response_fields">Response Fields</a></h5>
+<h4 id="_응답response_11"><a class="link" href="#_응답response_11">4.1.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1452,44 +2723,29 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_응답_예제"><a class="link" href="#_http_응답_예제">HTTP 응답 예제</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 1270
+Content-Type: application/json;charset=UTF-8
+Content-Length: 1253
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:03",
+  "timeStamp" : "2022-11-09 19:46:42",
   "message" : "성공",
   "data" : [ {
     "name" : {
-      "value" : "서울",
-      "code" : "SE"
+      "value" : "부산",
+      "code" : "BS"
     },
-    "image" : "https://i.ibb.co/CzgcCbX/INTRO-SE.png",
-    "averageDegree" : 8.0,
-    "transportScore" : 21870
-  }, {
-    "name" : {
-      "value" : "강릉",
-      "code" : "GN"
-    },
-    "image" : "https://i.ibb.co/87k8z99/INTRO-GN.png",
-    "averageDegree" : 11.0,
-    "transportScore" : 9477
+    "image" : "https://i.ibb.co/smMVfwW/INTRO-BS.png",
+    "averageDegree" : 17.3,
+    "transportScore" : 24
   }, {
     "name" : {
       "value" : "경주",
@@ -1497,23 +2753,15 @@ Content-Length: 1270
     },
     "image" : "https://i.ibb.co/T0JVQrs/INTRO-GJ.png",
     "averageDegree" : 9.2,
-    "transportScore" : 10935
+    "transportScore" : 15
   }, {
     "name" : {
-      "value" : "부산",
-      "code" : "BS"
+      "value" : "강릉",
+      "code" : "GN"
     },
-    "image" : "https://i.ibb.co/smMVfwW/INTRO-BS.png",
-    "averageDegree" : 17.3,
-    "transportScore" : 17496
-  }, {
-    "name" : {
-      "value" : "여수",
-      "code" : "YS"
-    },
-    "image" : "https://i.ibb.co/z79Ph5j/INTRO-YS.png",
-    "averageDegree" : 12.1,
-    "transportScore" : 10935
+    "image" : "https://i.ibb.co/87k8z99/INTRO-GN.png",
+    "averageDegree" : 11.0,
+    "transportScore" : 13
   }, {
     "name" : {
       "value" : "제주",
@@ -1521,28 +2769,45 @@ Content-Length: 1270
     },
     "image" : "https://i.ibb.co/DDftbBh/INTRO-JJ.png",
     "averageDegree" : 14.1,
-    "transportScore" : 11664
+    "transportScore" : 16
+  }, {
+    "name" : {
+      "value" : "서울",
+      "code" : "SE"
+    },
+    "image" : "https://i.ibb.co/CzgcCbX/INTRO-SE.png",
+    "averageDegree" : 8.0,
+    "transportScore" : 30
+  }, {
+    "name" : {
+      "value" : "여수",
+      "code" : "YS"
+    },
+    "image" : "https://i.ibb.co/z79Ph5j/INTRO-YS.png",
+    "averageDegree" : 12.1,
+    "transportScore" : 15
   } ]
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="city-intro-get"><a class="link" href="#city-intro-get">소개 정보 조회</a></h3>
+<h3 id="city-intro-get"><a class="link" href="#city-intro-get">4.2. 소개 정보 조회</a></h3>
 <div class="sect3">
-<h4 id="_요청_2"><a class="link" href="#_요청_2">요청</a></h4>
+<h4 id="_요청request_12"><a class="link" href="#_요청request_12">4.2.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/city/{cityName}</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 1. /api/v1/city/{cityName}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -1552,21 +2817,24 @@ Content-Length: 1270
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_http_요청_예제_2"><a class="link" href="#_http_요청_예제_2">HTTP 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/city/GJ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/city/BS HTTP/1.1
 Accept: application/json
 Host: api.liveamonth.com</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답_2"><a class="link" href="#_응답_2">응답</a></h4>
-<div class="sect4">
-<h5 id="_response_fields_2"><a class="link" href="#_response_fields_2">Response Fields</a></h5>
+<h4 id="_응답response_12"><a class="link" href="#_응답response_12">4.2.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1597,29 +2865,32 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="sect4">
-<h5 id="_http_응답_예제_2"><a class="link" href="#_http_응답_예제_2">HTTP 응답 예제</a></h5>
-<div class="paragraph">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+<dd>
 <p><a href="city/city-intro-get.html" class="popup">도시 정보 조회 응답 예제</a></p>
-</div>
+</dd>
+</dl>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="city-extra-get"><a class="link" href="#city-extra-get">추가 정보 조회</a></h3>
+<h3 id="city-extra-get"><a class="link" href="#city-extra-get">4.3. 추가 정보 조회</a></h3>
 <div class="sect3">
-<h4 id="_요청_3"><a class="link" href="#_요청_3">요청</a></h4>
+<h4 id="_요청request_13"><a class="link" href="#_요청request_13">4.3.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/city/{cityName}/extra</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 2. /api/v1/city/{cityName}/extra</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -1629,21 +2900,24 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_http_요청_예제_3"><a class="link" href="#_http_요청_예제_3">HTTP 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/city/GJ/extra HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/city/BS/extra HTTP/1.1
 Accept: application/json
 Host: api.liveamonth.com</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답_3"><a class="link" href="#_응답_3">응답</a></h4>
-<div class="sect4">
-<h5 id="_response_fields_3"><a class="link" href="#_response_fields_3">Response Fields</a></h5>
+<h4 id="_응답response_13"><a class="link" href="#_응답response_13">4.3.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1704,9 +2978,9 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
 </div>
-<div class="sect4">
-<h5 id="_response_fields_4"><a class="link" href="#_response_fields_4">Response Fields</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1773,34 +3047,36 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="sect4">
-<h5 id="_http_응답_예제_3"><a class="link" href="#_http_응답_예제_3">HTTP 응답 예제</a></h5>
-<div class="paragraph">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+<dd>
 <p><a href="city/city-extra-get.html" class="popup">도시 추가 정보 조회 응답 예제</a></p>
-</div>
+</dd>
+</dl>
 </div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="Inquiry-API"><a class="link" href="#Inquiry-API">Inquiry API</a></h2>
+<h2 id="Inquiry-API"><a class="link" href="#Inquiry-API">5. Inquiry API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="write-inquiry"><a class="link" href="#write-inquiry">작성</a></h3>
+<h3 id="write-inquiry"><a class="link" href="#write-inquiry">5.1. 작성</a></h3>
 <div class="sect3">
-<h4 id="_요청_4"><a class="link" href="#_요청_4">요청</a></h4>
-<div class="sect4">
-<h5 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h5>
+<h4 id="_요청request_14"><a class="link" href="#_요청request_14">5.1.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
 </colgroup>
 <thead>
 <tr>
@@ -1839,9 +3115,11 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_요청_예제_4"><a class="link" href="#_http_요청_예제_4">HTTP 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/inquiries HTTP/1.1
@@ -1858,41 +3136,65 @@ Host: api.liveamonth.com
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답_4"><a class="link" href="#_응답_4">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_4"><a class="link" href="#_http_응답_예제_4">HTTP 응답 예제</a></h5>
+<h4 id="_응답response_14"><a class="link" href="#_응답response_14">5.1.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">id</p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 122
+Content-Type: application/json;charset=UTF-8
+Content-Length: 139
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:11",
+  "timeStamp" : "2022-11-09 19:46:43",
   "message" : "1:1 문의 저장 성공",
-  "data" : [ ]
+  "data" : {
+    "id" : 4
+  }
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="get-inquiry-list"><a class="link" href="#get-inquiry-list">다건 조회</a></h3>
+<h3 id="get-inquiry-list"><a class="link" href="#get-inquiry-list">5.2. 다건 조회</a></h3>
 <div class="sect3">
-<h4 id="_요청_5"><a class="link" href="#_요청_5">요청</a></h4>
+<h4 id="_요청request_15"><a class="link" href="#_요청request_15">5.2.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>Reqeust Parameters</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1900,8 +3202,8 @@ Content-Length: 122
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -1919,21 +3221,26 @@ Content-Length: 122
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_http_요청_예제_5"><a class="link" href="#_http_요청_예제_5">Http 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/inquiries/list?page=0&amp;size=10&amp;sorts=id%2Cdesc HTTP/1.1
 Accept: application/json
-Host: api.liveamonth.com</code></pre>
-</div>
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_5"><a class="link" href="#_응답_5">응답</a></h4>
-<div class="sect4">
-<h5 id="_response_fields_5"><a class="link" href="#_response_fields_5">Response Fields</a></h5>
+<h4 id="_응답response_15"><a class="link" href="#_응답response_15">5.2.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -1994,48 +3301,41 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_응답_예제_5"><a class="link" href="#_http_응답_예제_5">HTTP 응답 예제</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 780
+Content-Type: application/json;charset=UTF-8
+Content-Length: 782
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:12",
+  "timeStamp" : "2022-11-09 19:46:43",
   "message" : "1:1 문의 조회 성공",
   "data" : {
     "content" : [ {
-      "id" : 75,
+      "id" : 7,
       "title" : "1:1문의 테스트 제목2",
-      "writer" : "testNickname",
+      "writer" : "customNickname",
       "category" : {
         "value" : "기타",
         "code" : "ETC"
       },
-      "date" : "2022-11-07",
+      "date" : "2022-11-09",
       "answered" : false
     }, {
-      "id" : 74,
+      "id" : 6,
       "title" : "1:1문의 테스트 제목1",
-      "writer" : "testNickname",
+      "writer" : "customNickname",
       "category" : {
         "value" : "스케줄",
         "code" : "SCHEDULE"
       },
-      "date" : "2022-11-07",
+      "date" : "2022-11-09",
       "answered" : false
     } ],
     "pageable" : {
@@ -2050,21 +3350,22 @@ Content-Length: 780
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="get-inquiry"><a class="link" href="#get-inquiry">단건 조회</a></h3>
+<h3 id="get-inquiry"><a class="link" href="#get-inquiry">5.3. 단건 조회</a></h3>
 <div class="sect3">
-<h4 id="_요청_6"><a class="link" href="#_요청_6">요청</a></h4>
+<h4 id="_요청request_16"><a class="link" href="#_요청request_16">5.3.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/inquiries/{id}</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 3. /api/v1/inquiries/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2074,20 +3375,26 @@ Content-Length: 780
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_http_요청_예제_6"><a class="link" href="#_http_요청_예제_6">Http 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/inquiries/76 HTTP/1.1
-Host: api.liveamonth.com</code></pre>
-</div>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/inquiries/8 HTTP/1.1
+Accept: application/json
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_6"><a class="link" href="#_응답_6">응답</a></h4>
-<div class="sect4">
-<h5 id="_response_fields_6"><a class="link" href="#_response_fields_6">Response Fields</a></h5>
+<h4 id="_응답response_16"><a class="link" href="#_응답response_16">5.3.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2160,9 +3467,9 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
 </div>
-<div class="sect4">
-<h5 id="_11문의_답변"><a class="link" href="#_11문의_답변">1:1문의 답변</a></h5>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -2205,43 +3512,36 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_응답_예제_6"><a class="link" href="#_http_응답_예제_6">HTTP 응답 예제</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 562
+Content-Type: application/json;charset=UTF-8
+Content-Length: 568
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:13",
+  "timeStamp" : "2022-11-09 19:46:43",
   "message" : "1:1 문의 조회 성공",
   "data" : {
-    "id" : 76,
+    "id" : 8,
     "title" : "1:1문의 테스트 제목",
-    "writer" : "testNickname",
+    "writer" : "customNickname",
     "content" : "1:1문의 테스트 내용",
     "category" : {
       "value" : "스케줄",
       "code" : "SCHEDULE"
     },
-    "dateTime" : "2022-11-07 16:00",
+    "dateTime" : "2022-11-09 19:46",
     "answer" : {
-      "id" : 24,
-      "writer" : "inquiry",
+      "id" : 3,
+      "writer" : "customLoginId",
       "content" : "1:1문의 답변",
-      "dateTime" : "2022-11-07 16:00"
+      "dateTime" : "2022-11-09 19:46"
     },
     "answered" : true
   }
@@ -2250,21 +3550,22 @@ Content-Length: 562
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="edit-inquiry"><a class="link" href="#edit-inquiry">수정</a></h3>
+<h3 id="edit-inquiry"><a class="link" href="#edit-inquiry">5.4. 수정</a></h3>
 <div class="sect3">
-<h4 id="_요청_7"><a class="link" href="#_요청_7">요청</a></h4>
+<h4 id="_요청request_17"><a class="link" href="#_요청request_17">5.4.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/inquiries/{id}</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 4. /api/v1/inquiries/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2277,15 +3578,20 @@ Content-Length: 562
 <div class="paragraph">
 <p>include::C:\Users\rbdus\Desktop\liveamonth\liveamonth-server\build\generated-snippets/inquiry-patch/request-fields.adoc</p>
 </div>
-<div class="sect4">
-<h5 id="_http_요청_예제_7"><a class="link" href="#_http_요청_예제_7">Http 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/inquiries/73 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /api/v1/inquiries/5 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
+Authorization: {access_token}
 Content-Length: 97
 Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
 
 {
   "title" : "변경된 제목",
@@ -2295,29 +3601,22 @@ Host: api.liveamonth.com
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답_7"><a class="link" href="#_응답_7">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_7"><a class="link" href="#_http_응답_예제_7">HTTP 응답 예제</a></h5>
+<h4 id="_응답response_17"><a class="link" href="#_응답response_17">5.4.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
+Content-Type: application/json;charset=UTF-8
 Content-Length: 128
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:11",
+  "timeStamp" : "2022-11-09 19:46:43",
   "message" : "1:1 문의 업데이트 성공",
   "data" : [ ]
 }</code></pre>
@@ -2325,21 +3624,22 @@ Content-Length: 128
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="delete-inquiry"><a class="link" href="#delete-inquiry">삭제</a></h3>
+<h3 id="delete-inquiry"><a class="link" href="#delete-inquiry">5.5. 삭제</a></h3>
 <div class="sect3">
-<h4 id="_요청_8"><a class="link" href="#_요청_8">요청</a></h4>
+<h4 id="_요청request_18"><a class="link" href="#_요청request_18">5.5.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/inquiries/{id}</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 5. /api/v1/inquiries/{id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2349,38 +3649,37 @@ Content-Length: 128
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_http_요청_예제_8"><a class="link" href="#_http_요청_예제_8">Http 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/inquiries/71 HTTP/1.1
-Host: api.liveamonth.com</code></pre>
-</div>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /api/v1/inquiries/3 HTTP/1.1
+Accept: application/json
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_8"><a class="link" href="#_응답_8">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_8"><a class="link" href="#_http_응답_예제_8">HTTP 응답 예제</a></h5>
+<h4 id="_응답response_18"><a class="link" href="#_응답response_18">5.5.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
+Content-Type: application/json;charset=UTF-8
 Content-Length: 122
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:10",
+  "timeStamp" : "2022-11-09 19:46:43",
   "message" : "1:1 문의 삭제 성공",
   "data" : [ ]
 }</code></pre>
@@ -2389,201 +3688,26 @@ Content-Length: 122
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="answer-inquiry"><a class="link" href="#answer-inquiry">답변 작성</a></h3>
-<div class="sect3">
-<h4 id="_요청_9"><a class="link" href="#_요청_9">요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 6. /admin/v1/inquiries/{inquiryId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>inquiryId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1:1문의 id</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect4">
-<h5 id="_request_fields_2"><a class="link" href="#_request_fields_2">Request Fields</a></h5>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">필드명</th>
-<th class="tableblock halign-left valign-top">타입</th>
-<th class="tableblock halign-left valign-top">필수값</th>
-<th class="tableblock halign-left valign-top">양식</th>
-<th class="tableblock halign-left valign-top">설명</th>
-<th class="tableblock halign-left valign-top">제약조건</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Must not be blank</code></p></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="sect4">
-<h5 id="_http_요청_예제_9"><a class="link" href="#_http_요청_예제_9">HTTP 요청 예제</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /admin/v1/inquiries/70 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Accept: application/json
-Content-Length: 38
-Host: api.liveamonth.com
-
-{
-  "content" : "1:1문의 답변"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_9"><a class="link" href="#_응답_9">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_9"><a class="link" href="#_http_응답_예제_9">HTTP 응답 예제</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 128
-
-{
-  "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:01",
-  "message" : "1:1문의 답변 저장 성공",
-  "data" : [ ]
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="edit-inquiry-answer"><a class="link" href="#edit-inquiry-answer">답변 수정</a></h3>
-<div class="sect3">
-<h4 id="_요청_10"><a class="link" href="#_요청_10">요청</a></h4>
-<table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 7. /admin/v1/inquiries/{answerId}</caption>
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>answerId</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1:1문의 답변 id</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>include::C:\Users\rbdus\Desktop\liveamonth\liveamonth-server\build\generated-snippets/inquiry-answer-patch/request-fields.adoc</p>
-</div>
-<div class="sect4">
-<h5 id="_http_요청_예제_10"><a class="link" href="#_http_요청_예제_10">Http 요청 예제</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /admin/v1/inquiries/22 HTTP/1.1
-Content-Type: application/json;charset=UTF-8
-Accept: application/json
-Content-Length: 45
-Host: api.liveamonth.com
-
-{
-  "content" : "1:1문의 답변 수정"
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_응답_10"><a class="link" href="#_응답_10">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_10"><a class="link" href="#_http_응답_예제_10">HTTP 응답 예제</a></h5>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 128
-
-{
-  "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:00",
-  "message" : "1:1 문의 업데이트 성공",
-  "data" : [ ]
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div class="sect1">
-<h2 id="Interaction-API"><a class="link" href="#Interaction-API">Interaction API</a></h2>
+<h2 id="Interaction-API"><a class="link" href="#Interaction-API">6. Interaction API</a></h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="interact-object"><a class="link" href="#interact-object">팔로우 &amp; 좋아요</a></h3>
+<h3 id="interact-object"><a class="link" href="#interact-object">6.1. 팔로우 &amp; 좋아요</a></h3>
 <div class="sect3">
-<h4 id="_요청_11"><a class="link" href="#_요청_11">요청</a></h4>
+<h4 id="_요청request_19"><a class="link" href="#_요청request_19">6.1.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/interactions/contents/{type}/{login_id}</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 8. /api/v1/interactions/contents/{type}/{login_id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2597,6 +3721,9 @@ Content-Length: 128
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><em>Reqeust Parameters</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2604,8 +3731,8 @@ Content-Length: 128
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2615,16 +3742,17 @@ Content-Length: 128
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_request_fields_3"><a class="link" href="#_request_fields_3">Request Fields</a></h5>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
 </colgroup>
 <thead>
 <tr>
@@ -2655,69 +3783,67 @@ Content-Length: 128
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_요청_예제_11"><a class="link" href="#_http_요청_예제_11">HTTP 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/interactions/contents/MEMBER/interaction?is_interacted=false HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/interactions/contents/MEMBER/customLoginId?is_interacted=false HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 35
+Authorization: {access_token}
+Content-Length: 31
 Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
 
 {
-  "from" : 188,
-  "to" : 189
+  "from" : 5,
+  "to" : 6
 }</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답_11"><a class="link" href="#_응답_11">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_11"><a class="link" href="#_http_응답_예제_11">HTTP 응답 예제</a></h5>
+<h4 id="_응답response_19"><a class="link" href="#_응답response_19">6.1.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 121
+Content-Type: application/json;charset=UTF-8
+Content-Length: 117
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:15",
-  "message" : "좋아요 저장 성공",
+  "timeStamp" : "2022-11-09 19:46:43",
+  "message" : "상호작용 성공",
   "data" : [ ]
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="interact-comment"><a class="link" href="#interact-comment">댓글 추천&amp;비추천</a></h3>
+<h3 id="interact-comment"><a class="link" href="#interact-comment">6.2. 댓글 추천&amp;비추천</a></h3>
 <div class="sect3">
-<h4 id="_요청_12"><a class="link" href="#_요청_12">요청</a></h4>
+<h4 id="_요청request_20"><a class="link" href="#_요청request_20">6.2.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/interactions/comments/{comment_type}/{login_id}</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 9. /api/v1/interactions/comments/{comment_type}/{login_id}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2731,6 +3857,9 @@ Content-Length: 121
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><em>Reqeust Parameters</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2738,8 +3867,8 @@ Content-Length: 121
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2749,16 +3878,17 @@ Content-Length: 121
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_request_fields_4"><a class="link" href="#_request_fields_4">Request Fields</a></h5>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
 </colgroup>
 <thead>
 <tr>
@@ -2789,69 +3919,67 @@ Content-Length: 121
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_요청_예제_12"><a class="link" href="#_http_요청_예제_12">HTTP 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/interactions/comments/SCHEDULE/interaction?interaction_state=LIKE HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/interactions/comments/SCHEDULE/customLoginId?interaction_state=LIKE HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 35
+Authorization: {access_token}
+Content-Length: 31
 Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
 
 {
-  "from" : 186,
-  "to" : 173
+  "from" : 5,
+  "to" : 1
 }</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답_12"><a class="link" href="#_응답_12">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_12"><a class="link" href="#_http_응답_예제_12">HTTP 응답 예제</a></h5>
+<h4 id="_응답response_20"><a class="link" href="#_응답response_20">6.2.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 121
+Content-Type: application/json;charset=UTF-8
+Content-Length: 117
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:14",
-  "message" : "좋아요 저장 성공",
+  "timeStamp" : "2022-11-09 19:46:43",
+  "message" : "상호작용 성공",
   "data" : [ ]
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="cancel-interact-comment"><a class="link" href="#cancel-interact-comment">댓글 추천&amp;비추천 취소</a></h3>
+<h3 id="cancel-interact-comment"><a class="link" href="#cancel-interact-comment">6.3. 댓글 추천&amp;비추천 취소</a></h3>
 <div class="sect3">
-<h4 id="_요청_13"><a class="link" href="#_요청_13">요청</a></h4>
+<h4 id="_요청request_21"><a class="link" href="#_요청request_21">6.3.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/interactions/comments/{comment_type}/{login_id}/cancel</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 10. /api/v1/interactions/comments/{comment_type}/{login_id}/cancel</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2865,16 +3993,17 @@ Content-Length: 121
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_request_fields_5"><a class="link" href="#_request_fields_5">Request Fields</a></h5>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.6666%;">
-<col style="width: 16.667%;">
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
 </colgroup>
 <thead>
 <tr>
@@ -2905,69 +4034,67 @@ Content-Length: 121
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_요청_예제_13"><a class="link" href="#_http_요청_예제_13">HTTP 요청 예제</a></h5>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/interactions/comments/SCHEDULE/interaction/cancel HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /api/v1/interactions/comments/SCHEDULE/customLoginId/cancel HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-Content-Length: 35
+Authorization: {access_token}
+Content-Length: 31
 Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
 
 {
-  "from" : 194,
-  "to" : 176
+  "from" : 5,
+  "to" : 4
 }</code></pre>
 </div>
 </div>
 </div>
-</div>
 <div class="sect3">
-<h4 id="_응답_13"><a class="link" href="#_응답_13">응답</a></h4>
-<div class="sect4">
-<h5 id="_http_응답_예제_13"><a class="link" href="#_http_응답_예제_13">HTTP 응답 예제</a></h5>
+<h4 id="_응답response_21"><a class="link" href="#_응답response_21">6.3.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 121
+Content-Type: application/json;charset=UTF-8
+Content-Length: 124
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:16",
-  "message" : "좋아요 삭제 성공",
+  "timeStamp" : "2022-11-09 19:46:44",
+  "message" : "상호작용 취소 성공",
   "data" : [ ]
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="is-member-interact-object"><a class="link" href="#is-member-interact-object">팔로우&amp;게시물 상호작용 여부 조회</a></h3>
+<h3 id="is-member-interact-object"><a class="link" href="#is-member-interact-object">6.4. 팔로우&amp;게시물 상호작용 여부 조회</a></h3>
 <div class="sect3">
-<h4 id="_요청_14"><a class="link" href="#_요청_14">요청</a></h4>
+<h4 id="_요청request_22"><a class="link" href="#_요청request_22">6.4.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/interactions/member/{type}/liked</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 11. /api/v1/interactions/member/{type}/liked</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2977,6 +4104,9 @@ Content-Length: 121
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><em>Reqeust Parameters</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -2984,8 +4114,8 @@ Content-Length: 121
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -2999,20 +4129,25 @@ Content-Length: 121
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_http_요청_예제_14"><a class="link" href="#_http_요청_예제_14">HTTP 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/interactions/member/MEMBER/liked?from=192&amp;to=193 HTTP/1.1
-Host: api.liveamonth.com</code></pre>
-</div>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/interactions/member/MEMBER/liked?from=5&amp;to=6 HTTP/1.1
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_14"><a class="link" href="#_응답_14">응답</a></h4>
-<div class="sect4">
-<h5 id="_response_fields_7"><a class="link" href="#_response_fields_7">Response Fields</a></h5>
+<h4 id="_응답response_22"><a class="link" href="#_응답response_22">6.4.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3035,53 +4170,54 @@ Host: api.liveamonth.com</code></pre>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">결과</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메시지</p></td>
+</tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_응답_예제_14"><a class="link" href="#_http_응답_예제_14">HTTP 응답 예제</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 145
+Content-Type: application/json;charset=UTF-8
+Content-Length: 191
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:16",
-  "message" : "좋아요 조회 성공",
+  "timeStamp" : "2022-11-09 19:46:44",
+  "message" : "상호작용 조회 성공",
   "data" : {
-    "result" : true
+    "result" : true,
+    "message" : "상호작용한 객체"
   }
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-</div>
 <div class="sect2">
-<h3 id="get-member-interacted-comments"><a class="link" href="#get-member-interacted-comments">회원이 추천&amp;비추천 한 댓글 조회</a></h3>
+<h3 id="get-member-interacted-comments"><a class="link" href="#get-member-interacted-comments">6.5. 사용자가 추천&amp;비추천 한 댓글 조회</a></h3>
 <div class="sect3">
-<h4 id="_요청_15"><a class="link" href="#_요청_15">요청</a></h4>
+<h4 id="_요청request_23"><a class="link" href="#_요청request_23">6.5.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/api/v1/interactions/member/{member_id}/interacted-comments/{comment_type}</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
-<caption class="title">Table 12. /api/v1/interactions/member/{member_id}/interacted-comments/{comment_type}</caption>
 <colgroup>
 <col style="width: 50%;">
 <col style="width: 50%;">
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -3095,6 +4231,9 @@ Content-Length: 145
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p><em>Reqeust Parameters</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -3102,8 +4241,8 @@ Content-Length: 145
 </colgroup>
 <thead>
 <tr>
-<th class="tableblock halign-left valign-top">Parameter</th>
-<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -3113,20 +4252,25 @@ Content-Length: 145
 </tr>
 </tbody>
 </table>
-<div class="sect4">
-<h5 id="_http_요청_예제_15"><a class="link" href="#_http_요청_예제_15">HTTP 요청 예제</a></h5>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/interactions/member/190/interacted-comments/SCHEDULE?ids=174&amp;ids=175 HTTP/1.1
-Host: api.liveamonth.com</code></pre>
-</div>
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/v1/interactions/member/5/interacted-comments/SCHEDULE?ids=2&amp;ids=3 HTTP/1.1
+Authorization: {access_token}
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_응답_15"><a class="link" href="#_응답_15">응답</a></h4>
-<div class="sect4">
-<h5 id="_response_fields_8"><a class="link" href="#_response_fields_8">Response Fields</a></h5>
+<h4 id="_응답response_23"><a class="link" href="#_응답response_23">6.5.2. 응답(Response)</a></h4>
+<div class="paragraph">
+<p><em>Response Fields</em></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 25%;">
@@ -3163,36 +4307,29 @@ Host: api.liveamonth.com</code></pre>
 </tr>
 </tbody>
 </table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
 </div>
-<div class="sect4">
-<h5 id="_http_응답_예제_15"><a class="link" href="#_http_응답_예제_15">HTTP 응답 예제</a></h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Content-Type: application/json
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-Content-Length: 318
+Content-Type: application/json;charset=UTF-8
+Content-Length: 317
 
 {
   "status" : 200,
-  "timeStamp" : "2022-11-07 16:00:15",
-  "message" : "좋아요 조회 성공",
+  "timeStamp" : "2022-11-09 19:46:44",
+  "message" : "상호작용 조회 성공",
   "data" : [ {
-    "id" : 174,
+    "id" : 2,
     "state" : {
       "value" : "추천",
       "code" : "LIKE"
     }
   }, {
-    "id" : 175,
+    "id" : 3,
     "state" : {
       "value" : "추천",
       "code" : "LIKE"
@@ -3205,12 +4342,230 @@ Content-Length: 318
 </div>
 </div>
 </div>
+<h1 id="_admin_api" class="sect0"><a class="link" href="#_admin_api">Admin API</a></h1>
+<div class="sect1">
+<h2 id="Member-Admin-API"><a class="link" href="#Member-Admin-API">7. 회원(Member)</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="Inquiry-Admin-API"><a class="link" href="#Inquiry-Admin-API">8. 1:1문의(Inquiry)</a></h2>
+<div class="sectionbody">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="answer-inquiry"><a class="link" href="#answer-inquiry">9. 답변 작성</a></h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_요청request_24"><a class="link" href="#_요청request_24">9.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/admin/v1/inquiries/{inquiry_id}</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>inquiry_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1:1문의 id</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Must not be blank</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /admin/v1/inquiries/2 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: {access_token}
+Content-Length: 38
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
+
+{
+  "content" : "1:1문의 답변"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_24"><a class="link" href="#_응답response_24">9.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 128
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:40",
+  "message" : "1:1문의 답변 저장 성공",
+  "data" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="edit-inquiry-answer"><a class="link" href="#edit-inquiry-answer">9.3. 답변 수정</a></h3>
+<div class="sect3">
+<h4 id="_요청request_25"><a class="link" href="#_요청request_25">9.3.1. 요청(Request)</a></h4>
+<div class="paragraph">
+<p><em>/admin/v1/inquiries/{answer_id}</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">파라미터</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>answer_id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1:1문의 답변 id</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><em>Request Fields</em></p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 18.1818%;">
+<col style="width: 9.0909%;">
+<col style="width: 9.0909%;">
+<col style="width: 18.1818%;">
+<col style="width: 18.1818%;">
+<col style="width: 27.2728%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+<th class="tableblock halign-left valign-top">제약조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Must not be blank</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 요청 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /admin/v1/inquiries/1 HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Accept: application/json
+Authorization: {access_token}
+Content-Length: 45
+Host: api.liveamonth.com
+Cookie: Refresh-Token={refresh_token}
+
+{
+  "content" : "1:1문의 답변 수정"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_응답response_25"><a class="link" href="#_응답response_25">9.3.2. 응답(Response)</a></h4>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">HTTP 응답 예제 </dt>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 128
+
+{
+  "status" : 200,
+  "timeStamp" : "2022-11-09 19:46:39",
+  "message" : "1:1 문의 업데이트 성공",
+  "data" : [ ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-11-06 21:49:50 +0900
+Last updated 2022-11-09 19:42:09 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
