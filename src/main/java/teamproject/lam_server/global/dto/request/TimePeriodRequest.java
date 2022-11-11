@@ -3,10 +3,7 @@ package teamproject.lam_server.global.dto.request;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import teamproject.lam_server.global.entity.TimePeriod;
 
 import javax.validation.constraints.NotNull;
@@ -26,6 +23,12 @@ public class TimePeriodRequest {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime endDateTime;
+
+    @Builder
+    public TimePeriodRequest(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+    }
 
     public TimePeriod toEntity(){
         return TimePeriod.builder()
