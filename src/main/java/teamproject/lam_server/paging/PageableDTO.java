@@ -9,10 +9,11 @@ import java.util.List;
 @Getter
 @Builder
 @ToString
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
-@AllArgsConstructor
 public class PageableDTO {
-    private Integer page;
-    private Integer size;
+
+    @Builder.Default
+    private Integer page = 0;
+    @Builder.Default
+    private Integer size = 10;
     private List<SortPair<String, SortOption>> sorts;
 }

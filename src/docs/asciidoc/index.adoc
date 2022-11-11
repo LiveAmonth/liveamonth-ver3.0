@@ -329,6 +329,80 @@ include::{snippets}/schedule-search/format-response-fields-period.adoc[]
 ===== HTTP 응답 예제
 include::{snippets}/schedule-search/http-response.adoc[]
 
+[[schedule-list-to-edit]]
+=== 수정할 내 스케줄 다건 조회
+==== 요청
+include::{snippets}/my-schedule-list-edit/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/my-schedule-list-edit/http-request.adoc[]
+
+==== 응답
+include::{snippets}/my-schedule-list-edit/response-fields-data.adoc[]
+include::{snippets}/my-schedule-list-edit/format-response-fields-period.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/my-schedule-list-edit/http-response.adoc[]
+
+[[my-schedule-list-get]]
+=== 내 스케줄 다건 조회
+==== 요청
+include::{snippets}/my-schedule-list-get/path-parameters.adoc[]
+include::{snippets}/my-schedule-list-get/request-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/my-schedule-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/my-schedule-list-get/response-fields-data.adoc[]
+include::{snippets}/my-schedule-list-get/format-response-fields-period.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/my-schedule-list-get/http-response.adoc[]
+
+[[followed-schedule-list-get]]
+=== 팔로우한 스케줄 다건 조회
+==== 요청
+include::{snippets}/followed-schedule-list-get/path-parameters.adoc[]
+include::{snippets}/followed-schedule-list-get/request-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/followed-schedule-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/followed-schedule-list-get/response-fields-data.adoc[]
+include::{snippets}/followed-schedule-list-get/response-fields-profile.adoc[]
+include::{snippets}/followed-schedule-list-get/format-response-fields-period.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/followed-schedule-list-get/http-response.adoc[]
+
+[[followed-schedule-counts]]
+=== 팔로우한 스케줄 총 갯수
+==== 요청
+include::{snippets}/followed-schedule-count-get/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/followed-schedule-count-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/followed-schedule-count-get/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/followed-schedule-count-get/http-response.adoc[]
+
+[[schedule-view-count-up]]
+=== 스케줄 조회수 증가
+==== 요청
+include::{snippets}/schedule-view-count-up/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-view-count-up/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/schedule-view-count-up/http-response.adoc[]
+
 [[Inquiry-API]]
 == Inquiry API
 [[write-inquiry]]

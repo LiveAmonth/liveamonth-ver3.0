@@ -8,9 +8,8 @@ import java.time.LocalDate;
 
 
 @Getter
-@ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
+@Builder
 public class ScheduleSearchCond{
 
     private String memberNickname;

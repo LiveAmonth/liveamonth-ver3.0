@@ -97,7 +97,7 @@ public class ScheduleQueryRepository extends BasicRepository {
         return queryFactory.select(toMember.numberOfSchedules.sum())
                 .from(follower)
                 .leftJoin(follower.from, fromMember)
-                .leftJoin(follower.to, toMember).fetchJoin()
+                .leftJoin(follower.to, toMember)
                 .where(fromMember.loginId.eq(loginId))
                 .fetchOne();
     }
