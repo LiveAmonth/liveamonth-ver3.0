@@ -403,6 +403,63 @@ include::{snippets}/schedule-view-count-up/http-request.adoc[]
 ===== HTTP 응답 예제
 include::{snippets}/schedule-view-count-up/http-response.adoc[]
 
+[[schedule-content-add]]
+=== 스케줄 컨텐츠 추가
+==== 요청
+include::{snippets}/schedule-content-add/path-parameters.adoc[]
+include::{snippets}/schedule-content-add/request-fields.adoc[]
+include::{snippets}/schedule-content-add/request-fields-time-period.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-content-add/http-request.adoc[]
+
+==== 응답
+include::{snippets}/schedule-content-add/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/schedule-content-add/http-response.adoc[]
+
+[[schedule-content-edit]]
+=== 스케줄 컨텐츠 수정
+==== 요청
+include::{snippets}/schedule-content-edit/path-parameters.adoc[]
+include::{snippets}/schedule-content-edit/request-fields.adoc[]
+include::{snippets}/schedule-content-edit/request-fields-time-period.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-content-edit/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/schedule-content-edit/http-response.adoc[]
+
+[[schedule-content-delete]]
+=== 스케줄 컨텐츠 삭제
+==== 요청
+include::{snippets}/schedule-content-delete/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-content-delete/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/schedule-content-delete/http-response.adoc[]
+
+[[schedule-content-list-get]]
+=== 스케줄 컨텐츠 다건 조회
+==== 요청
+include::{snippets}/schedule-content-list-get/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/schedule-content-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/schedule-content-list-get/response-fields-data.adoc[]
+include::{snippets}/schedule-content-list-get/format-response-fields-time-period.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/schedule-content-list-get/http-response.adoc[]
+
 [[Inquiry-API]]
 == Inquiry API
 [[write-inquiry]]

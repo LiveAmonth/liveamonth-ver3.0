@@ -13,6 +13,7 @@ import teamproject.lam_server.domain.schedule.repository.ScheduleContentReposito
 import teamproject.lam_server.domain.schedule.repository.ScheduleQueryRepository;
 import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
+import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.util.List;
@@ -28,12 +29,12 @@ public class ScheduleContentServiceImpl implements ScheduleContentService {
     private final ScheduleRepository scheduleRepository;
 
     @Transactional
-    public void addScheduleContent(Long scheduleId, ScheduleContentCreate request) {
+    public PostIdResponse addScheduleContent(Long scheduleId, ScheduleContentCreate request) {
         Schedule schedule = scheduleRepository
                 .findById(scheduleId)
                 .orElseThrow(ScheduleNotFound::new);
         finder.checkLegalWriterOfPost(schedule);
-        scheduleContentRepository.save(request.toEntity(schedule));
+        return PostIdResponse.of(scheduleContentRepository.save(request.toEntity(schedule)).getId());
     }
 
 

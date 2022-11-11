@@ -1,9 +1,6 @@
 package teamproject.lam_server.domain.schedule.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import teamproject.lam_server.global.dto.request.TimePeriodRequest;
 
 import javax.validation.constraints.AssertTrue;
@@ -27,6 +24,14 @@ public class ScheduleContentEdit {
 
     @Min(0)
     private int cost;
+
+    @Builder
+    public ScheduleContentEdit(String title, String content, TimePeriodRequest timePeriod, int cost) {
+        this.title = title;
+        this.content = content;
+        this.timePeriod = timePeriod;
+        this.cost = cost;
+    }
 
     @AssertTrue
     public boolean isValidTimePeriod() {

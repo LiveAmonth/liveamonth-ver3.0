@@ -120,9 +120,9 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
                 ),
                 requestFields(
                         beneathPath("period").withSubsectionId("period"),
-                        dateTimeFieldWithPath("startDate", "시작 날짜")
+                        dateFieldWithPath("startDate", "시작 날짜")
                                 .attributes(getConstraintAttributes(periodCD, "startDate")),
-                        dateTimeFieldWithPath("endDate", "종료 날짜")
+                        dateFieldWithPath("endDate", "종료 날짜")
                                 .attributes(getConstraintAttributes(periodCD, "endDate"))
                 ),
                 getPostResponseFieldsSnippet()
@@ -198,9 +198,9 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
                 ),
                 requestFields(
                         beneathPath("period").withSubsectionId("period"),
-                        dateTimeFieldWithPath("startDate", "시작 날짜")
+                        dateFieldWithPath("startDate", "시작 날짜")
                                 .attributes(getConstraintAttributes(periodCD, "startDate")),
-                        dateTimeFieldWithPath("endDate", "종료 날짜")
+                        dateFieldWithPath("endDate", "종료 날짜")
                                 .attributes(getConstraintAttributes(periodCD, "endDate"))
                 )
         ));
@@ -559,7 +559,6 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
         ));
     }
 
-    @Transactional
     Member createMember() {
         MemberCreate memberCreate =
                 MemberCreate.builder()
@@ -574,7 +573,6 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
         return memberRepository.save(memberCreate.toEntity(passwordEncoder));
     }
 
-    @Transactional
     List<Schedule> createSchedules(Member member) {
         List<ScheduleCreate> creates = List.of(
                 ScheduleCreate.builder()
