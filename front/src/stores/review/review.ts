@@ -12,6 +12,7 @@ import ReviewApiService from "@/services/review/ReviewApiService";
 import type {
   ReviewListType,
   ReviewDetailType,
+  TagType,
 } from "@/modules/types/review/ReviewTypes";
 import type { IdResponseType } from "@/modules/types/common/CommonTypes";
 
@@ -22,7 +23,7 @@ export const useReviewStore = defineStore("review", {
     currReview: {} as ReviewDetailType,
     myReviews: [] as ReviewListType[],
     addedReviewId: 0,
-    recommendationTags: [] as string[],
+    recommendationTags: [] as TagType[],
   }),
   getters: {
     otherReviews: (state): ReviewListType[] =>
@@ -114,7 +115,7 @@ export const useReviewStore = defineStore("review", {
 
     getRecommendationTags: async function () {
       await ReviewApiService.getRecommendationTags()
-        .then((response: string[]) => {
+        .then((response: TagType[]) => {
           this.recommendationTags = response;
         })
         .catch((error) => {

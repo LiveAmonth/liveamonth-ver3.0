@@ -13,12 +13,15 @@ endif::[]
 
 [[common-api]]
 == 공통, 커스텀 API
+
 === 공통
+
 include::{snippets}/common/custom-response-fields.adoc[]
 include::{snippets}/common/custom-response-fields-pageable.adoc[]
 
 [[authentication-request-header]]
 === 인증(Authentication)
+
 인증 요청 헤더 ::
 include::{snippets}/auth-header/request-headers.adoc[]
 인증 요청 헤더 예제 ::
@@ -26,8 +29,10 @@ include::{snippets}/auth-header/http-request.adoc[]
 
 [[Category-Api]]
 == Category API
+
 [[member-category]]
 === 회원
+
 include::{snippets}/gender-type/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-gender-type.adoc[]
 
@@ -39,6 +44,7 @@ include::{snippets}/common/custom-response-fields-inquiry-category.adoc[]
 
 [[city-category]]
 === 도시
+
 include::{snippets}/city-name/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-city-name.adoc[]
 
@@ -56,11 +62,13 @@ include::{snippets}/common/custom-response-fields-month.adoc[]
 
 [[schedule-category]]
 === 스케줄
+
 include::{snippets}/schedule-filter-types/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-schedule-filter-type.adoc[]
 
 [[review-category]]
 === 후기글
+
 include::{snippets}/review-cateogry/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-review-category.adoc[]
 
@@ -69,6 +77,7 @@ include::{snippets}/common/custom-response-fields-review-search-group.adoc[]
 
 [[search-sort-category]]
 === 검색, 정렬
+
 include::{snippets}/review-search-types/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-schedule-search-type.adoc[]
 include::{snippets}/common/custom-response-fields-review-search-type.adoc[]
@@ -78,6 +87,7 @@ include::{snippets}/common/custom-response-fields-review-sort-type.adoc[]
 
 [[interaction-category]]
 === 상호작용
+
 include::{snippets}/interaction-type/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-interaction-type.adoc[]
 
@@ -86,32 +96,37 @@ include::{snippets}/common/custom-response-fields-interaction-state.adoc[]
 
 [[comment-category]]
 === 댓글
+
 include::{snippets}/comment-type/http-request.adoc[]
 include::{snippets}/common/custom-response-fields-comment-type.adoc[]
 
-
 [[Member-API]]
 == Member API
+
 [[member-sign-up]]
 === 회원 가입
+
 ==== 요청(Request)
 include::{snippets}/member-sign-up/request-fields.adoc[]
-HTTP 요청 예제 ::
+
+===== HTTP 요청 예제
 include::{snippets}/member-sign-up/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/member-sign-up/response-fields-data.adoc[]
-HTTP 응답 예제 ::
+
+===== HTTP 응답 예제
 include::{snippets}/member-sign-up/http-response.adoc[]
 
 [[duplicate-check]]
 === 중복 확인(아이디, 닉네임, 이메일)
+
 ==== 요청(Request)
 include::{snippets}/login-id-duplicate-check/path-parameters.adoc[]
 include::{snippets}/nickname-duplicate-check/path-parameters.adoc[]
 include::{snippets}/email-duplicate-check/path-parameters.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/login-id-duplicate-check/http-request.adoc[]
 include::{snippets}/nickname-duplicate-check/http-request.adoc[]
 include::{snippets}/email-duplicate-check/http-request.adoc[]
@@ -119,152 +134,163 @@ include::{snippets}/email-duplicate-check/http-request.adoc[]
 ==== 응답(Response)
 include::{snippets}/login-id-duplicate-check/response-fields-data.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/login-id-duplicate-check/http-response.adoc[]
 include::{snippets}/nickname-duplicate-check/http-response.adoc[]
 include::{snippets}/email-duplicate-check/http-response.adoc[]
 
 [[member-find-id]]
 === 아이디 찾기
+
 ==== 요청(Request)
 include::{snippets}/member-find-id/request-parameters.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/member-find-id/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/member-find-id/format-response-fields-data.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/member-find-id/http-response.adoc[]
 
 [[member-find-passwrod]]
 === 비밀번호 찾기
+
 ==== 요청(Request)
 include::{snippets}/member-find-password/request-fields.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/member-find-password/http-request.adoc[]
 
 ==== 응답(Response)
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/member-find-password/http-response.adoc[]
 
 [[member-reconfirm-password]]
 === 비밀번호 재확인
+
 ==== 요청(Request)
 include::{snippets}/password-reconfirm/request-fields.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/password-reconfirm/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/password-reconfirm/response-fields-data.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/password-reconfirm/http-response.adoc[]
 
 [[member-profile-edit]]
 === 프로필 변경
+
 ==== 요청(Request)
 include::{snippets}/member-profile-edit/request-fields.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/member-profile-edit/http-request.adoc[]
 
 ==== 응답(Response)
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/member-profile-edit/http-response.adoc[]
 
 [[member-password-change]]
 === 비밀번호 변경
+
 ==== 요청(Request)
 include::{snippets}/member-password-change/request-fields.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/member-password-change/http-request.adoc[]
 
 ==== 응답(Response)
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/member-password-change/http-response.adoc[]
 
 [[member-drop]]
 === 회원 탈퇴
+
 ==== 요청(Request)
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/member-drop/http-request.adoc[]
 
 ==== 응답(Response)
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/member-drop/http-response.adoc[]
 
 [[member-profile-get]]
 === 회원 프로필 조회
+
 ==== 요청(Request)
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/member-profile-get/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/member-profile-get/format-response-fields-data.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/member-profile-get/http-response.adoc[]
 
 [[member-simple-profile-get]]
 === 회원 약식 프로필 조회
+
 ==== 요청(Request)
-HTTP 요청 예제 ::
+
+===== HTTP 요청 예제
 include::{snippets}/member-simple-profile-get/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/member-simple-profile-get/response-fields-data.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/member-simple-profile-get/http-response.adoc[]
 
 [[City-API]]
 == City API
+
 [[city-summary-get]]
 === 요약 정보 조회
+
 ==== 요청(Request)
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/city-summary-get/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/city-summary-get/response-fields-data.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 include::{snippets}/city-summary-get/http-response.adoc[]
-
 
 [[city-intro-get]]
 === 소개 정보 조회
+
 ==== 요청(Request)
 include::{snippets}/city-intro-get/path-parameters.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/city-intro-get/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/city-intro-get/response-fields-image-content.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 link:city/city-intro-get.html[도시 정보 조회 응답 예제,role="popup"]
-
 
 [[city-extra-get]]
 === 추가 정보 조회
+
 ==== 요청(Request)
 include::{snippets}/city-extra-get/path-parameters.adoc[]
 
-HTTP 요청 예제 ::
+===== HTTP 요청 예제
 include::{snippets}/city-extra-get/http-request.adoc[]
 
 ==== 응답(Response)
 include::{snippets}/city-extra-get/response-fields-transport.adoc[]
 include::{snippets}/city-extra-get/response-fields-weather.adoc[]
 
-HTTP 응답 예제 ::
+===== HTTP 응답 예제
 link:city/city-extra-get.html[도시 추가 정보 조회 응답 예제,role="popup"]
 
 [[Schedule-API]]
@@ -272,6 +298,7 @@ link:city/city-extra-get.html[도시 추가 정보 조회 응답 예제,role="po
 
 [[add-schedule]]
 === 스케줄 추가
+
 ==== 요청
 include::{snippets}/schedule-add/path-parameters.adoc[]
 include::{snippets}/schedule-add/request-fields.adoc[]
@@ -288,6 +315,7 @@ include::{snippets}/schedule-add/http-response.adoc[]
 
 [[schedule-edit]]
 === 스케줄 수정
+
 ==== 요청
 include::{snippets}/schedule-edit/path-parameters.adoc[]
 include::{snippets}/schedule-edit/request-fields.adoc[]
@@ -302,6 +330,7 @@ include::{snippets}/schedule-edit/http-response.adoc[]
 
 [[schedule-drop]]
 === 스케줄 삭제
+
 ==== 요청
 include::{snippets}/schedule-delete/path-parameters.adoc[]
 
@@ -314,6 +343,7 @@ include::{snippets}/schedule-delete/http-response.adoc[]
 
 [[schedule-search]]
 === 스케줄 검색
+
 ==== 요청
 include::{snippets}/schedule-search/request-parameters.adoc[]
 
@@ -331,6 +361,7 @@ include::{snippets}/schedule-search/http-response.adoc[]
 
 [[schedule-list-to-edit]]
 === 수정할 내 스케줄 다건 조회
+
 ==== 요청
 include::{snippets}/my-schedule-list-edit/path-parameters.adoc[]
 
@@ -346,6 +377,7 @@ include::{snippets}/my-schedule-list-edit/http-response.adoc[]
 
 [[my-schedule-list-get]]
 === 내 스케줄 다건 조회
+
 ==== 요청
 include::{snippets}/my-schedule-list-get/path-parameters.adoc[]
 include::{snippets}/my-schedule-list-get/request-parameters.adoc[]
@@ -362,6 +394,7 @@ include::{snippets}/my-schedule-list-get/http-response.adoc[]
 
 [[followed-schedule-list-get]]
 === 팔로우한 스케줄 다건 조회
+
 ==== 요청
 include::{snippets}/followed-schedule-list-get/path-parameters.adoc[]
 include::{snippets}/followed-schedule-list-get/request-parameters.adoc[]
@@ -379,6 +412,7 @@ include::{snippets}/followed-schedule-list-get/http-response.adoc[]
 
 [[followed-schedule-counts]]
 === 팔로우한 스케줄 총 갯수
+
 ==== 요청
 include::{snippets}/followed-schedule-count-get/path-parameters.adoc[]
 
@@ -393,6 +427,7 @@ include::{snippets}/followed-schedule-count-get/http-response.adoc[]
 
 [[schedule-view-count-up]]
 === 스케줄 조회수 증가
+
 ==== 요청
 include::{snippets}/schedule-view-count-up/path-parameters.adoc[]
 
@@ -405,6 +440,7 @@ include::{snippets}/schedule-view-count-up/http-response.adoc[]
 
 [[schedule-content-add]]
 === 스케줄 컨텐츠 추가
+
 ==== 요청
 include::{snippets}/schedule-content-add/path-parameters.adoc[]
 include::{snippets}/schedule-content-add/request-fields.adoc[]
@@ -421,6 +457,7 @@ include::{snippets}/schedule-content-add/http-response.adoc[]
 
 [[schedule-content-edit]]
 === 스케줄 컨텐츠 수정
+
 ==== 요청
 include::{snippets}/schedule-content-edit/path-parameters.adoc[]
 include::{snippets}/schedule-content-edit/request-fields.adoc[]
@@ -435,6 +472,7 @@ include::{snippets}/schedule-content-edit/http-response.adoc[]
 
 [[schedule-content-delete]]
 === 스케줄 컨텐츠 삭제
+
 ==== 요청
 include::{snippets}/schedule-content-delete/path-parameters.adoc[]
 
@@ -447,6 +485,7 @@ include::{snippets}/schedule-content-delete/http-response.adoc[]
 
 [[schedule-content-list-get]]
 === 스케줄 컨텐츠 다건 조회
+
 ==== 요청
 include::{snippets}/schedule-content-list-get/path-parameters.adoc[]
 
@@ -460,10 +499,131 @@ include::{snippets}/schedule-content-list-get/format-response-fields-time-period
 ===== HTTP 응답 예제
 include::{snippets}/schedule-content-list-get/http-response.adoc[]
 
+[[Review-API]]
+== Review API
+
+[[review-write]]
+=== 후기글 작성
+
+==== 요청
+include::{snippets}/review-write/path-parameters.adoc[]
+include::{snippets}/review-write/request-fields.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/review-write/http-request.adoc[]
+
+==== 응답
+include::{snippets}/review-write/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/review-write/http-response.adoc[]
+
+[[review-edit]]
+=== 후기글 수정
+
+==== 요청
+include::{snippets}/review-edit/path-parameters.adoc[]
+include::{snippets}/review-edit/request-fields.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/review-edit/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/review-edit/http-response.adoc[]
+
+[[review-delete]]
+=== 후기글 삭제
+
+==== 요청
+include::{snippets}/review-delete/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/review-delete/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/review-delete/http-response.adoc[]
+
+[[review-get]]
+=== 후기글 단건 조회
+
+==== 요청
+include::{snippets}/review-get/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/review-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/review-get/format-response-fields-data.adoc[]
+include::{snippets}/review-get/response-fields-profile.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/review-get/http-response.adoc[]
+
+[[review-search]]
+=== 후기글 검색
+
+==== 요청
+include::{snippets}/review-search/request-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/review-search/http-request.adoc[]
+
+==== 응답
+include::{snippets}/review-search/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/review-search/http-response.adoc[]
+
+[[my-review-list-get]]
+=== 사용자 후기글 다건 조회
+
+==== 요청
+include::{snippets}/my-review-list-get/path-parameters.adoc[]
+include::{snippets}/my-review-list-get/request-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/my-review-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/my-review-list-get/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/my-review-list-get/http-response.adoc[]
+
+[[review-view-count-up]]
+=== 후기글 조회수 증가
+
+==== 요청
+include::{snippets}/review-view-count-up/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/review-view-count-up/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/review-view-count-up/http-response.adoc[]
+
+[[recommendation-tag-list-get]]
+=== 추천 태그 다건 조회
+
+==== 요청
+===== HTTP 요청 예제
+include::{snippets}/recommendation-tags-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/recommendation-tags-get/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/recommendation-tags-get/http-response.adoc[]
+
 [[Inquiry-API]]
 == Inquiry API
-[[write-inquiry]]
+
+[[inquiry-write]]
 === 작성
+
 ==== 요청(Request)
 include::{snippets}/inquiry-post/request-fields.adoc[]
 
@@ -476,68 +636,80 @@ include::{snippets}/inquiry-post/response-fields-data.adoc[]
 HTTP 응답 예제 ::
 include::{snippets}/inquiry-post/http-response.adoc[]
 
-[[get-inquiry-list]]
-=== 다건 조회
-==== 요청(Request)
-include::{snippets}/inquiry-list-get/request-parameters.adoc[]
+[[inquiry-edit]]
+=== 수정 ==== 요청(Request)
 
-HTTP 요청 예제 ::
-include::{snippets}/inquiry-list-get/http-request.adoc[]
-
-==== 응답(Response)
-include::{snippets}/common/custom-response-fields-pageable.adoc[]
-include::{snippets}/inquiry-list-get/format-response-fields-content.adoc[]
-
-HTTP 응답 예제 ::
-include::{snippets}/inquiry-list-get/http-response.adoc[]
-
-
-[[get-inquiry]]
-=== 단건 조회
-==== 요청(Request)
-include::{snippets}/inquiry-get/path-parameters.adoc[]
-
-HTTP 요청 예제 ::
-include::{snippets}/inquiry-get/http-request.adoc[]
-
-==== 응답(Response)
-include::{snippets}/inquiry-get/format-response-fields-data.adoc[]
-include::{snippets}/inquiry-get/format-response-fields-answer.adoc[]
-
-HTTP 응답 예제 ::
-include::{snippets}/inquiry-get/http-response.adoc[]
-
-[[edit-inquiry]]
-=== 수정
-==== 요청(Request)
 include::{snippets}/inquiry-patch/path-parameters.adoc[]
+
 include::{snippets}/inquiry-patch/request-fields.adoc
 
 HTTP 요청 예제 ::
 include::{snippets}/inquiry-patch/http-request.adoc[]
 
 ==== 응답(Response)
+
 HTTP 응답 예제 ::
 include::{snippets}/inquiry-patch/http-response.adoc[]
 
-[[delete-inquiry]]
+[[inquiry-delete]]
 === 삭제
+
 ==== 요청(Request)
+
 include::{snippets}/inquiry-delete/path-parameters.adoc[]
 
 HTTP 요청 예제 ::
 include::{snippets}/inquiry-delete/http-request.adoc[]
 
 ==== 응답(Response)
+
 HTTP 응답 예제 ::
 include::{snippets}/inquiry-delete/http-response.adoc[]
 
+[[inquiry-list-get]]
+=== 다건 조회
+
+==== 요청(Request)
+
+include::{snippets}/inquiry-list-get/request-parameters.adoc[]
+
+HTTP 요청 예제 ::
+include::{snippets}/inquiry-list-get/http-request.adoc[]
+
+==== 응답(Response)
+
+include::{snippets}/common/custom-response-fields-pageable.adoc[]
+include::{snippets}/inquiry-list-get/format-response-fields-content.adoc[]
+
+HTTP 응답 예제 ::
+include::{snippets}/inquiry-list-get/http-response.adoc[]
+
+[[inquiry-get]]
+=== 단건 조회
+
+==== 요청(Request)
+
+include::{snippets}/inquiry-get/path-parameters.adoc[]
+
+HTTP 요청 예제 ::
+include::{snippets}/inquiry-get/http-request.adoc[]
+
+==== 응답(Response)
+
+include::{snippets}/inquiry-get/format-response-fields-data.adoc[]
+include::{snippets}/inquiry-get/format-response-fields-answer.adoc[]
+
+HTTP 응답 예제 ::
+include::{snippets}/inquiry-get/http-response.adoc[]
 
 [[Interaction-API]]
 == Interaction API
+
 [[interact-object]]
 === 팔로우 & 좋아요
+
 ==== 요청(Request)
+
 include::{snippets}/interact-object/path-parameters.adoc[]
 include::{snippets}/interact-object/request-parameters.adoc[]
 include::{snippets}/interact-object/request-fields.adoc[]
@@ -546,12 +718,15 @@ HTTP 요청 예제 ::
 include::{snippets}/interact-object/http-request.adoc[]
 
 ==== 응답(Response)
+
 HTTP 응답 예제 ::
 include::{snippets}/interact-object/http-response.adoc[]
 
 [[interact-comment]]
 === 댓글 추천&비추천
+
 ==== 요청(Request)
+
 include::{snippets}/interact-comment/path-parameters.adoc[]
 include::{snippets}/interact-comment/request-parameters.adoc[]
 include::{snippets}/interact-comment/request-fields.adoc[]
@@ -560,12 +735,15 @@ HTTP 요청 예제 ::
 include::{snippets}/interact-comment/http-request.adoc[]
 
 ==== 응답(Response)
+
 HTTP 응답 예제 ::
 include::{snippets}/interact-comment/http-response.adoc[]
 
-[[cancel-interact-comment]]
+[[comment-interaction-cancel]]
 === 댓글 추천&비추천 취소
+
 ==== 요청(Request)
+
 include::{snippets}/interact-comment-cancel/path-parameters.adoc[]
 include::{snippets}/interact-comment-cancel/request-fields.adoc[]
 
@@ -573,12 +751,15 @@ HTTP 요청 예제 ::
 include::{snippets}/interact-comment-cancel/http-request.adoc[]
 
 ==== 응답(Response)
+
 HTTP 응답 예제 ::
 include::{snippets}/interact-comment-cancel/http-response.adoc[]
 
 [[is-member-interact-object]]
 === 팔로우&게시물 상호작용 여부 조회
+
 ==== 요청(Request)
+
 include::{snippets}/is-member-interact-object/path-parameters.adoc[]
 include::{snippets}/is-member-interact-object/request-parameters.adoc[]
 
@@ -586,6 +767,7 @@ HTTP 요청 예제 ::
 include::{snippets}/is-member-interact-object/http-request.adoc[]
 
 ==== 응답(Response)
+
 include::{snippets}/is-member-interact-object/response-fields-data.adoc[]
 
 HTTP 응답 예제 ::
@@ -593,7 +775,9 @@ include::{snippets}/is-member-interact-object/http-response.adoc[]
 
 [[get-member-interacted-comments]]
 === 사용자가 추천&비추천 한 댓글 조회
+
 ==== 요청(Request)
+
 include::{snippets}/member-interacted-comments-get/path-parameters.adoc[]
 include::{snippets}/member-interacted-comments-get/request-parameters.adoc[]
 
@@ -601,6 +785,7 @@ HTTP 요청 예제 ::
 include::{snippets}/member-interacted-comments-get/http-request.adoc[]
 
 ==== 응답(Response)
+
 include::{snippets}/member-interacted-comments-get/response-fields-data.adoc[]
 
 HTTP 응답 예제 ::
@@ -610,30 +795,41 @@ include::{snippets}/member-interacted-comments-get/http-response.adoc[]
 
 [[Member-Admin-API]]
 == 회원(Member)
+
 [[create-manager]]
 === 매니저 계정 생성
+
 ==== 요청
+
 include::{snippets}/manager-create/request-fields.adoc[]
 
 ===== HTTP 요청 예제
+
 include::{snippets}/manager-create/http-request.adoc[]
 
 ==== 응답
+
 include::{snippets}/manager-create/response-fields-data.adoc[]
 
 ===== HTTP 응답 예제
+
 include::{snippets}/manager-create/http-response.adoc[]
 
 [[delete-member-data]]
 === 회원 데이터 삭제
+
 ==== 요청
+
 include::{snippets}/member-delete/path-parameters.adoc[]
 
 ===== HTTP 요청 예제
+
 include::{snippets}/member-delete/http-request.adoc[]
 
 ==== 응답
+
 ===== HTTP 응답 예제
+
 include::{snippets}/member-delete/http-response.adoc[]
 
 [[Inquiry-Admin-API]]
@@ -641,7 +837,9 @@ include::{snippets}/member-delete/http-response.adoc[]
 
 [[answer-inquiry]]
 === 답변 작성
+
 ==== 요청(Request)
+
 include::{snippets}/inquiry-answer-post/path-parameters.adoc[]
 include::{snippets}/inquiry-answer-post/request-fields.adoc[]
 
@@ -649,12 +847,15 @@ HTTP 요청 예제 ::
 include::{snippets}/inquiry-answer-post/http-request.adoc[]
 
 ==== 응답(Response)
+
 HTTP 응답 예제 ::
 include::{snippets}/inquiry-answer-post/http-response.adoc[]
 
 [[edit-inquiry-answer]]
 === 답변 수정
+
 ==== 요청(Request)
+
 include::{snippets}/inquiry-answer-patch/path-parameters.adoc[]
 include::{snippets}/inquiry-answer-patch/request-fields.adoc[]
 
@@ -662,5 +863,6 @@ HTTP 요청 예제 ::
 include::{snippets}/inquiry-answer-patch/http-request.adoc[]
 
 ==== 응답(Response)
+
 HTTP 응답 예제 ::
 include::{snippets}/inquiry-answer-patch/http-response.adoc[]

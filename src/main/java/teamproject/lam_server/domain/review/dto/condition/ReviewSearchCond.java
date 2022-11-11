@@ -7,9 +7,8 @@ import teamproject.lam_server.domain.review.constants.ReviewSearchType;
 import java.util.Set;
 
 @Getter
-@ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Setter
+@Builder
 public class ReviewSearchCond {
 
     private String searchWord;

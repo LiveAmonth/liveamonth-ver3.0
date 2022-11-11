@@ -6,12 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.constants.ReviewSortType;
 import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewEdit;
 import teamproject.lam_server.domain.review.dto.response.ReviewDetailResponse;
 import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
+import teamproject.lam_server.domain.review.dto.response.TagResponse;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewEditor;
 import teamproject.lam_server.domain.review.entity.ReviewTag;
@@ -82,7 +84,7 @@ public class ReviewServiceImpl implements ReviewService {
         // 나머지 내용 수정
         ReviewEditor.ReviewEditorBuilder editorBuilder = review.toEditor();
         ReviewEditor reviewEditor = editorBuilder.title(request.getTitle())
-                .category(request.getCategory())
+                .category(ReviewCategory.valueOf(request.getCategory()))
                 .content(request.getContent())
                 .build();
 
@@ -122,8 +124,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
-    public List<String> getRecommendationTags() {
-        return reviewRepository.getRecommendationTags();
+    public List<TagResponse> getRecommendationTags() {
+        return reviewRepository.getRecommendationTags().stream()
+                .map(TagResponse::of)
+                .collect(Collectors.toList());
     }
 
     public ReviewDetailResponse getReview(Long id) {

@@ -2,7 +2,7 @@ import http, { getSortTypes, getSearchTypes } from "@/http-common";
 import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
 import type {
   ReviewEditor,
-  ReviewSearchCond,
+  ReviewSearchCond, TagType,
 } from "@/modules/types/review/ReviewTypes";
 import type { IdResponseType } from "@/modules/types/common/CommonTypes";
 
@@ -145,7 +145,7 @@ class ReviewApiService {
       });
   }
 
-  getRecommendationTags(): Promise<string[]> {
+  getRecommendationTags(): Promise<TagType[]> {
     return http
       .get("/reviews/recommendation-tags")
       .then((response) => {

@@ -31,6 +31,10 @@ export interface ReviewDetailType {
   numberOfComments: number;
 }
 
+export interface TagType {
+  name: string;
+}
+
 /**
  * request
  */

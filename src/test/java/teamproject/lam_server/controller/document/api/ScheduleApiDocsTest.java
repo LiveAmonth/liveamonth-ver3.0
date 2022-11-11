@@ -58,7 +58,6 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     MemberRepository memberRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     FollowRepository followRepository;
 
@@ -265,7 +264,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
                         get(BASIC_URL + "/search")
                                 .accept(APPLICATION_JSON)
                                 .param("memberNickname", cond.getMemberNickname())
-                                .param("cityName", cond.getCityName().name())
+                                .param("cityName", cond.getCityName().getCode())
                                 .param("title", cond.getTitle())
                                 .param("startDate", cond.getStartDate() != null ? String.format(cond.getStartDate().toString(), "yyyy-MM-dd") : "")
                                 .param("page", pageable.getPage().toString())
@@ -311,10 +310,10 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
                         fieldWithPath("loginId").type(STRING).description("로그인 아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("image").type(STRING).description("프로필 이미지(URL)"),
-                        fieldWithPath("numberOfReviews").type(NUMBER).description("후기글수"),
-                        fieldWithPath("numberOfSchedules").type(NUMBER).description("스케줄수"),
-                        fieldWithPath("numberOfFollowers").type(NUMBER).description("팔로워수"),
-                        fieldWithPath("numberOfFollows").type(NUMBER).description("팔로우수")
+                        fieldWithPath("numberOfReviews").type(NUMBER).description("후기글 갯수"),
+                        fieldWithPath("numberOfSchedules").type(NUMBER).description("스케줄 갯수"),
+                        fieldWithPath("numberOfFollowers").type(NUMBER).description("팔로워 갯수"),
+                        fieldWithPath("numberOfFollows").type(NUMBER).description("팔로우 갯수")
                 ),
                 customResponseFields("format-response",
                         beneathPath("data.content[].period").withSubsectionId("period"),
@@ -483,10 +482,10 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
                         fieldWithPath("loginId").type(STRING).description("로그인 아이디"),
                         fieldWithPath("nickname").type(STRING).description("닉네임"),
                         fieldWithPath("image").type(STRING).description("프로필 이미지(URL)"),
-                        fieldWithPath("numberOfReviews").type(NUMBER).description("후기글수"),
-                        fieldWithPath("numberOfSchedules").type(NUMBER).description("스케줄수"),
-                        fieldWithPath("numberOfFollowers").type(NUMBER).description("팔로워수"),
-                        fieldWithPath("numberOfFollows").type(NUMBER).description("팔로우수")
+                        fieldWithPath("numberOfReviews").type(NUMBER).description("후기글 갯수"),
+                        fieldWithPath("numberOfSchedules").type(NUMBER).description("스케줄 갯수"),
+                        fieldWithPath("numberOfFollowers").type(NUMBER).description("팔로워 갯수"),
+                        fieldWithPath("numberOfFollows").type(NUMBER).description("팔로우 갯수")
                 ),
                 customResponseFields("format-response",
                         beneathPath("data[].period").withSubsectionId("period"),

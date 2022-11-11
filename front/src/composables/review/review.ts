@@ -15,6 +15,7 @@ import type { EnumType } from "@/modules/types/common/CommonTypes";
 import type {
   ReviewDetailType,
   ReviewListType,
+  TagType,
 } from "@/modules/types/review/ReviewTypes";
 import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
 
@@ -33,7 +34,9 @@ export const useReview = () => {
   const currReview = computed((): ReviewDetailType => store.currReview);
   const myReviews = computed((): ReviewListType[] => store.myReviews);
   const addedReviewId = computed((): number => store.addedReviewId);
-  const recommendationTags = computed((): string[] => store.recommendationTags);
+  const recommendationTags = computed(
+    (): TagType[] => store.recommendationTags
+  );
 
   const hasMyReviews = computed(() => store.hasMyReviews);
   const hasOtherReviews = computed(() => store.hasOtherReviews);
