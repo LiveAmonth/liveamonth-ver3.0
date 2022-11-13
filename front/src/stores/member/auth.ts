@@ -3,18 +3,18 @@ import jwtDecode from "jwt-decode";
 import { defineStore } from "pinia";
 import type { LoginType } from "@/modules/types/member/MemberTypes";
 import type { JWTType, TokenType } from "@/modules/types/auth/AuthType";
-import type { initDataType } from "@/modules/types/common/CommonTypes";
+import type { InitDataType } from "@/modules/types/common/CommonTypes";
 
 const storageToken: TokenType = localStorage["token-info"]
   ? JSON.parse(localStorage["token-info"])
   : null;
-const initTokenInfo: initDataType = storageToken
+const initTokenInfo: InitDataType = storageToken
   ? { state: true, data: storageToken }
   : { state: false, data: {} as TokenType };
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    tokenInfo: initTokenInfo as initDataType,
+    tokenInfo: initTokenInfo as InitDataType,
   }),
   getters: {
     accessToken: (state): string =>

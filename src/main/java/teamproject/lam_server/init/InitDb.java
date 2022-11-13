@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import teamproject.lam_server.init.service.*;
 
 
-@Profile({"local", "test"})
+@Profile("local")
 @Component
 @RequiredArgsConstructor
 public class InitDb {

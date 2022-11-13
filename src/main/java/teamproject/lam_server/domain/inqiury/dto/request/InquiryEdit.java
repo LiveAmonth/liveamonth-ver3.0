@@ -1,10 +1,6 @@
 package teamproject.lam_server.domain.inqiury.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,5 +15,12 @@ public class InquiryEdit {
     @NotBlank
     private String content;
     @NotNull
-    private InquiryCategory category;
+    private String category;
+
+    @Builder
+    public InquiryEdit(String title, String content, String category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+    }
 }

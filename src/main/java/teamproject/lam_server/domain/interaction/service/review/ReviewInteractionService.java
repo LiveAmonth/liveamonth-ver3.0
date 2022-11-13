@@ -8,7 +8,11 @@ import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
 import teamproject.lam_server.domain.interaction.repository.InteractionRepository;
 import teamproject.lam_server.domain.interaction.repository.review.ReviewLikeRepository;
 import teamproject.lam_server.domain.interaction.service.InteractionService;
+import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
+
+import static teamproject.lam_server.global.constants.ResponseMessage.INTERACTED_OBJECT;
+import static teamproject.lam_server.global.constants.ResponseMessage.NOT_INTERACTED_OBJECT;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +29,18 @@ public class ReviewInteractionService implements InteractionService {
 
     @Override
     @Transactional
-    public void react(String loginId, Boolean isReacted, InteractionRequest request) {
+    public void interact(String loginId, Boolean isInteracted, InteractionRequest request) {
         finder.checkLegalLoginId(loginId);
 
-        if (isReacted) reviewLikeRepository.cancelLike(request);
+        if (isInteracted) reviewLikeRepository.cancelLike(request);
         else reviewLikeRepository.like(request);
     }
 
     @Override
-    public boolean isLiked(InteractionRequest request) {
-        return interactionRepository.isMemberLikeReview(request);
+    public BooleanCheckResponse isInteracted(InteractionRequest request) {
+        return interactionRepository.isMemberLikeReview(request)
+                ? BooleanCheckResponse.of(true, INTERACTED_OBJECT)
+                : BooleanCheckResponse.of(false, NOT_INTERACTED_OBJECT);
+
     }
 }

@@ -109,7 +109,7 @@ watch(
           v-for="tag in recommendationTags"
           :key="tag"
           class="me-1"
-          @click="searchTag(tag)"
+          @click="searchTag(tag.name)"
         >
           {{ `#${tag}` }}
         </el-tag>

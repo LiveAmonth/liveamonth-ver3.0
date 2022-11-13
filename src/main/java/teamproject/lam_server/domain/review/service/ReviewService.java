@@ -5,6 +5,7 @@ import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewEdit;
 import teamproject.lam_server.domain.review.dto.response.ReviewDetailResponse;
 import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
+import teamproject.lam_server.domain.review.dto.response.TagResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
@@ -27,5 +28,5 @@ public interface ReviewService {
 
     List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId);
 
-    List<String> getRecommendationTags();
+    List<TagResponse> getRecommendationTags();
 }

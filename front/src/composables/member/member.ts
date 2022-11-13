@@ -16,7 +16,7 @@ import type {
 import type { FormInstance } from "element-plus";
 
 export const useMember = () => {
-  const type = "member";
+  const type = "MEMBER";
   const store = useMemberStore();
   const { isAvailable, duplicateCheck } = useFormValidate();
   const { openMessageBox, labelMsg, validationMsg } = useMessageBox();

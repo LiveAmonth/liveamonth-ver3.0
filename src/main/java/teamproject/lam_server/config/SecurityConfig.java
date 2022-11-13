@@ -88,8 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .expressionHandler(webExpressionHandler())
-                .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
                 .antMatchers("/admin/**").hasRole(MANAGER.getCode())
+                .antMatchers("/admin/**/create").hasRole(ADMIN.getCode())
                 .antMatchers("/api/*/interactions/**").hasRole(USER.getCode())
                 .antMatchers(HttpMethod.POST, "/api/*/comments/**").hasRole(USER.getCode())
                 .antMatchers(
@@ -114,13 +114,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
-                .addFilterBefore(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity webSecurity) {
-        webSecurity.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
+        webSecurity
+                .ignoring()
+                .requestMatchers(
+                        PathRequest.toStaticResources().atCommonLocations()
+                );
+        webSecurity.ignoring().mvcMatchers("/docs/**");
     }
 
     private SecurityExpressionHandler<FilterInvocation> webExpressionHandler() {

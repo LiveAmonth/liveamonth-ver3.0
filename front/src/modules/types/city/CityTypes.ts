@@ -28,7 +28,7 @@ export interface CityTransportType {
 export interface CityWeatherType {
   id: number;
   name: EnumType;
-  month: string;
+  month: EnumType;
   maxDegree: number;
   minDegree: number;
   averageDegree: number;

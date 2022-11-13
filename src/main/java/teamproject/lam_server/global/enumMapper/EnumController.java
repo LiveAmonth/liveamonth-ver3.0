@@ -102,6 +102,30 @@ public class EnumController {
     }
 
     /**
+     * 상호작용 엔티티 타입
+     */
+    @GetMapping("/interaction/type")
+    public ResponseEntity<?> getInteractionType(){
+        return getCategories(INTERACTION_TYPE);
+    }
+
+    /**
+     * 상호작용 상태
+     */
+    @GetMapping("/interaction/state")
+    public ResponseEntity<?> getInteractionState(){
+        return getCategories(INTERACTION_STATE);
+    }
+
+    /**
+     * 댓글 게시물 타입
+     */
+    @GetMapping("/comment/type")
+    public ResponseEntity<?> getCommentType(){
+        return getCategories(COMMENT_TYPE);
+    }
+
+    /**
      * 엔티티 상태 코드
      */
     @GetMapping("/status/{entityName}")
@@ -120,13 +144,17 @@ public class EnumController {
     }
 
     /**
-     * 엔티티 검색 필터 타입
+     * 스케줄 검색 필터 타입
      */
     @GetMapping("/filter-types/{entityName}")
     public ResponseEntity<?> getEntityFilterTypes(@PathVariable String entityName) {
         EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.FILTER_TYPE_POSTFIX);
         return getCategories(eSortType);
     }
+
+    /**
+     * 엔티티 정렬 타입
+     */
     @GetMapping("/sort-types/{entityName}")
     public ResponseEntity<?> getEntitySortTypes(@PathVariable String entityName) {
         EnumClassConst eSortType = getEnumClassConst(entityName, EnumMapper.SORT_TYPE_POSTFIX);

@@ -1,152 +1,416 @@
-# LiveAmonth
+# Liveamonth ver.2.0.0
+
+### [Liveavmonth Ver 1.0](https://github.com/LiveAmonth/LiveAmonth-ver.1.0.0)
+
+1. 📢 프로젝트 기획
+2. 📃 프로그램 요구사항
+3. 🔎 애플리케이션 기능
+4. 🖥 소프트웨어 아키텍처
+
+___
+
 ## Contents
-1. [📢 프로젝트 기획](#-프로젝트-기획)   
-2. [📃 프로그램 요구사항](#-프로그램-요구사항)   
-3. [🔎 애플리케이션 기능](#-애플리케이션-기능)
-4. [🖥 소프트웨어 아키텍처](#-소프트웨어-아키텍처)
 
+1. [🎞 리버먼스 시연](#-리버먼스-시연)
+    - [🏠 메인 화면](#-메인-화면)
+    - [🏞 도시 소개](#-도시-소개)
+    - [🔨 계정](#-계정)
+    - [🔨 마이페이지](#-마이페이지)
+    - [📅 스케줄](#-스케줄)
+    - [📑 후기글](#-후기글)
+    - [👍 좋아요&팔로우](#-좋아요&팔로우)
+    - [✏ 댓글](#-댓글)
+
+## 🎞 리버먼스 시연
+
+### 🏠 메인 화면
+<details>
+   <summary>
+      <span style="font-style: italic">
+         도시 요약 정보        
+      </span>
+   </summary>
+
+   ```
+   - '리버먼스' 도시 요약 정보 카드(평균 기온, 교통 점수)
+   ```
    
-# 📢 프로젝트 기획
-### 1. 한 달 살기에 대한 선호도 증가
->설문조사 결과 10명중 8명은 살아보는 여행을 꿈꾸고, 15일 이상의 장기 여행을 선호
+   ![Home 도시 정보](https://user-images.githubusercontent.com/48740872/199435645-e600e894-7401-44cd-bd6f-328335574272.gif)
 
-<details><summary> <strong> 한 달 살기를 시작한 이유</strong>
-</summary>
-
-*자연경관이 좋은 곳에서 휴식하고 싶다. (24.8%)<br>나를 돌아보는 시간을 갖기 위해서 (22.3%)
-<br>현지인처럼 살아보고 싶어서 (17.4%)
-<br>짧은 여행으로는 여행지를 제대로 보기 힘들어서 (14.0%)
-<br> 새로운 곳에서 새로운 것들을 배우고 싶어서 (14.0%)*
 </details>
 
-<details><summary> <strong>  한 달 살기를 하면서 힘들었던 점</strong>
-</summary>
+<details>
+   <summary>
+      <span style="font-style: italic">
+         인기 게시물
+      </span>
+   </summary>
 
-*한 달 동안  생활을 하는 비용이 많이들고 관리가 힘듦* 
+   ```
+   - 인기 스케줄(Top5), 후기글(Top7) 탭
+   - 로그인 시 팔로우한 멤버 스케줄 탭 추가
+   ```
+   
+   ![Home 인기게시물](https://user-images.githubusercontent.com/48740872/199434476-a54050e5-cfa0-47e5-be91-4ba97c68d526.gif)
+
 </details>
 
-<details><summary> <strong>  한 달 동안 한 것</strong>
-</summary>
 
-*주로 주변 여행지를 다니거나, 자연속에서 휴식을 즐기며, 지역의 특색에 관련된 활동*
+### 🏞 도시 소개
+<details>
+   <summary>
+      <span style="font-style: italic">
+         도시 소개
+      </span>
+   </summary>
+
+   ```
+   - '리버먼스' 도시별 소개, 기온, 교통 정보 탭
+   - 먹거리&볼거리 슬라이드
+   ```
+   
+   ![도시 소개](https://user-images.githubusercontent.com/48740872/199474304-bacf9ff2-b304-4928-804f-1c985f71c82e.gif)
+
 </details>
 
-<details><summary> <strong>  한 달 살기를 해보고 싶은 지역</strong>
-</summary>
+### 🔨 계정
 
-*제주가 앞도적으로 높은 응답을 보였지만, 전국 곳곳의 여행지도 선호*
+<details>
+   <summary>
+      <span style="font-style: italic">
+         회원가입
+      </span>
+   </summary>  
+
+   ```
+   - 아이디, 닉네임, 이메일 중복확인
+   - 비밀번호 재확인
+   ```
+
+   ![Member 회원가입](https://user-images.githubusercontent.com/48740872/199478350-feaf83c0-7369-4d3c-81cd-6a8eeb5e69b4.gif)
+
 </details>
 
-### 2. 사용자들이 원하는 핵심 요소 파악
-<details><summary> <strong>장소</strong>
-</summary><br>
+<details>
+   <summary>
+      <span style="font-style: italic">
+         아이디 찾기
+      </span>
+   </summary>
+   
+   ![Member 아이디 찾기](https://user-images.githubusercontent.com/48740872/199478346-f4ad6f9c-743d-4af4-99fe-c357828b1360.gif)
 
-*스스로 의미있는 시간을 보내고, 충분히 휴식을 하기 위한 장소*
 </details>
 
-<details><summary><strong>비용</strong>
-</summary><br>
 
-*한 달 동안 생활하기 위한 비용*
+<details>
+   <summary>
+      <span style="font-style: italic">
+         비밀번호 찾기
+      </span>
+
+   </summary>
+
+   ![Member 비밀번호찾기](https://user-images.githubusercontent.com/48740872/199478325-284728e9-14a1-4365-a83b-e38cec1afce4.gif)
+
 </details>
 
-<details><summary><strong>계획</strong>
-</summary><br>
+<details>
+   <summary>
+      <span style="font-style: italic">
+         회원정보 수정
+      </span>
+   </summary>
 
-*한 달 살기 기간 동안의 생활을 계획*
-</details><br>
+   ```
+   - 비밀번호 재확인
+   - 닉네임, 이메일 수정가능
+   ```
+   
+   ![Member 회원정보 수정](https://user-images.githubusercontent.com/48740872/199478358-1b9205ef-68cd-4576-ad1c-2bf65943e646.gif)
 
-# 📃 프로그램 요구사항
-- 장소를 위해 여행지를 점수화 하여 직관적으로 표시
-- 각 지역별로 유명한 관광정보를 정리
-- 위해 개인 별 한달 살기 비용을 업로드
-- 원하는 조건을 선택해 확인 할 수 있게 하고, 계획을 위해 공유 가능한 캘린더 작성 기능
+</details>
 
- # 🔎 애플리케이션 기능
-### 1. City 
-- 서울, 강릉, 경주, 부산, 여수, 제주 총 6개의 대표적인 도시 안내
-- 각 도시의 간략한 설명, 유명한 볼거리와 먹을거리들을 소개
-- 정류장 및 노선 개수를 바탕으로 알고리즘을 사용해 점수화한 교통 정보를 제공
-- 전년도 기온 정보를 제공해 대략적인 기온 예측에 도움
-  
-### 2. Schedule
-- 한 달 살기 계획을 작성하거나, 한 달 살기 기록을 할 수 있는 캘린더를 제공
-- 자신의 일정을 도시 별로 캘린더에 등록하고, 사용한 비용을 기록
-- 다른 사용자의 캘린더를 원하는 성별, 나이대 와 관심있는 도시로 추천순, 최신순, 조회순으로 검색 가능
-- 좋아요와 댓글 기능
-  
-### 3. Review
-- 게시판을 통해 사용자들은 주제별, 도시별로 각자의 경험을 게시글로 작성
-- 검색, 좋아요, 댓글 기능
-    
-### 4. My Page
-- 사용자 자신의 회원정보 확인 및 수정
-- 프로필 또한 단순한 이름이 아닌 닉네임, 프로필 사진 등 자유롭게 자신을 표현
-- 자신의 게시물(shcedule, review)을 확인, 관리
-- 1:1문의 기능
-- 네이버 로그인 기능
 
- # 🖥 소프트웨어 아키텍처
- ### 1. 인프라
-![image](https://user-images.githubusercontent.com/48740872/170974926-3d7fd3bb-f6de-4ee0-ab26-50cad63b79b1.png)
+<details>
+   <summary>
+      <span style="font-style: italic">
+         비밀번호 변경
+      </span>
+   </summary>
+   
+   ```
+   - 비밀번호 재확인
+   - 비밀번호 변경 후 재 로그인
+   ```
+   
+   ![MyPage 비밀번호변경](https://user-images.githubusercontent.com/48740872/199483160-14756639-454e-47fc-93eb-73f707364771.gif)
 
-- 부족한 기술을 보완하기 위해 웹 애플리케이션 및 서비스를 간편하게 배포, 조정 할 수 있는 서비스인 AWS의 Elastic Beanstalk 사용해 간편하게 구축했습니다
-- 코드 작성에 더욱 집중해서 개발을 할 수 있었으며 애플리케이션 짧은 기간, 인력 대비 생산성을 높였습니다.
+</details>
 
-![image](https://user-images.githubusercontent.com/48740872/170976542-f01c8576-a1cd-48b6-817d-abde64248467.png)
-- 로드 밸런싱을 통한 여러 대의 서버를 분산처리하고 오토 스케일링을 사용해 서버의 사이즈를 탄력적으로 운영했습니다.
-- S3 Bucket을 사용해 사이트의 애플리케이션 버전과 사이트에서 사용되는 이미지를 저장해 애플리케이션의 크기를 줄였습니다. 
+<details>
+   <summary>
+      <span style="font-style: italic">
+         1대1 문의
+      </span>
+   </summary>
 
-### 2. 운영 및 배포
-![image](https://user-images.githubusercontent.com/48740872/170976843-13c87393-0d06-4d47-8a0d-a976b07bd57c.png)
-- 젠킨스, AWS S3 Bucket을 사용해 자동 빌드, 배포 환경을 구축했으며 이로 인해 개발자는 직접 서버 환경에 애플리케이션 코드를 올리지 않아도 Github에 코드만 Push해 애플리케이션을 배포했습니다.
-- Rolling 방식으로 배포해 서버를 하나씩 버전업을 시켜 실제 서비스가 중단되지 않고 계속 유지되도록 했습니다.
- 
-### 3. 개발 환경
-![image](https://user-images.githubusercontent.com/48740872/170979903-544c62f9-2a65-43ef-8c6e-e2f4e2c94f9d.png)
+   ```
+   - 문의글 작성 및 수정, 삭제
+   - 내가 쓴 문의 리스트 확인
+   ```
+   
+   ![MyPage 1대1 문의](https://user-images.githubusercontent.com/48740872/199483147-af6cc97a-1b3e-487a-a48f-2dd1b1d71c46.gif)
 
-- Java를 기반으로 스프링 프레임워크를 사용했습니다 
+</details>
 
-- Presentation Layer는 jsp언어로 jquery, bootstrap 등 여러 오픈소스 라이브러리를 사용했습니다.
+### 🔨 마이페이지
 
-- 데이터 베이스는 mysql를 사용했으며 SQL작성을 위해 myBatis를 사용했습니다.
+<details>
+   <summary>
+      <span style="font-style: italic">
+         내 스케줄 관리
+      </span>
+   </summary>
 
-### 4. 디자인 패턴
-![image](https://user-images.githubusercontent.com/48740872/170980509-c76dce30-dd0b-4ab7-9cfe-6c485f2b023b.png)
+   ```
+   - 내가 작성한 스케줄 리스트 표시
+   - 삭제 및 내 스케줄 페이지(선택한 스케줄이 초기값)로 이동 가능
+   ```
+   
+   ![MyPage 스케줄 관리](https://user-images.githubusercontent.com/48740872/199483166-daf95357-a09d-4d05-8968-4c71b965785c.gif)
+   
+</details>
 
-### 5. 코드
-#### 1) Presentation Layer
-- JSP 소스의 가동성을 높이고 유지 보수성을 향상시키기 위해 JSTL을 사용했습니다.
- - Ajax를 사용해 좋아요와 댓글 기능 서버쪽의 랜더링 없이 화면 전환이 가능하도록 했습니다.
-- Tiles Framework를 사용해 반복된 레이아웃을 한 곳에서 관리해 중복된 코드 및 리펙터링시 효율성을 높였습니다. 
-#### 2) Business Logic Layer
-**🔑 *지속적인 리펙토링을 위해 유지보수, 생산성을 높이는 것에 중점을 두어 개발***
+<details>
+   <summary>
+      <span style="font-style: italic">
+         내 후기글 관리
+      </span>
+   </summary>
 
-![image](https://user-images.githubusercontent.com/48740872/171129010-15aa5838-4e7e-48fa-a2be-812807d4643e.png)
+   ```
+   - 내가 작성한 후기글 리스트 표시
+   - 삭제 및 해당 후기글로 이동 가능
+   ```
+   
+   ![MyPage 후기글 관리](https://user-images.githubusercontent.com/48740872/199483173-09969a29-e446-4749-ad09-d0045c931a87.gif)
 
-- 전체 코드 내에 상수에 대해 constant package를 만들어 enum 클래스를 사용해 한 곳에서 관리했습니다.
+</details>
 
-- 메시지, 파일 이름 등 고정적인 상수에 대해 변경이 있더라도 전체 코드를 고치는 것이 아닌, 만들어둔 constant package의 enum클래스의 값만 변경해 사용할 수 있도록 했습니다.
+### 📅 스케줄
 
-![image](https://user-images.githubusercontent.com/48740872/171129035-597a5c13-17aa-4d5c-a440-eb7eea203673.png)
-- 중복되는 함수를 일반화하여 하나의 부모 클래스를 생성했습니다. <br>
-- 코드의 가독성을 높이는 효과를 보였습니다.
+<details>
+   <summary>
+      <span style="font-style: italic">
+         다른 사람 스케줄 - 검색
+      </span>
+   </summary>
+   
+   ```
+   - 닉네임, 제목으로 검색 가능
+   - 스케줄 도시, 시작 날짜로 필터 가능
+   ```
+   
+   ![Schedule 검색](https://user-images.githubusercontent.com/48740872/199483943-6c3d562a-e071-4d96-a6c2-f2bf4530c504.gif)
+   ![Schedule 검색2](https://user-images.githubusercontent.com/48740872/199483956-458fcbec-90b1-4e6f-b09c-bdcf2f5eab52.gif)
 
-![image](https://user-images.githubusercontent.com/48740872/171129076-3af03f20-bfd1-432c-b5ed-79f1d574ee74.png)
-- 각 계층 사이 인터페이스 타입을 사용했습니다.
-- 객체의 교환성이 높아져 컴퓨터의 부품을 교체하듯이 변경점이 있다면 해당 인터페이스의 구현체만 바꾸어 사용할 수 있어서 유지보수성이 향상되는 효과를 보았습니다.
+</details>
 
-#### 3) Data Access Layer
-***🔑 MyBatis를 사용해 DB에 접근을 했습니다.***
-- 소스코드와 SQL을 분리하여 사용가능 했고, SQL의 세부적인 내용 변경에 유리했으며 동적 쿼리 사용시 JAP와 같은 ORM에 비해 간편하게 구현이 가능했습니다.
+<details>
+   <summary>
+      <span style="font-style: italic">
+         다른 사람 스케줄 - 정렬
+      </span>
+   </summary>
 
- 
-### 6. 데이터베이스 디자인
-- E-R Diagram
+   ```
+   - 정렬 기능(최신순, 조회순, 인기순, 댓글순, 비용순)
+   ```
+   
+   ![Schedule 정렬](https://user-images.githubusercontent.com/48740872/199483989-78f71768-4460-46c5-961b-f0888088042d.gif)
 
-![image](https://user-images.githubusercontent.com/48740872/171134276-d5bc6ea8-0179-401b-a469-f74ccd033885.png)
+</details>
 
-- 정보 제공 및 사용자 간의 의사소통 및 사용자 중심 일정 작성이 핵심 기능이기 때문에, 복잡한 비즈니스 로직보다는 입출력 구조가 더 많이 존재해 OR Mapping이 아닌, SQL Mapping을 적용했습니다.
+<details>
+   <summary>
+      <span style="font-style: italic">
+         내 스케줄 - 생성&수정
+      </span>
+   </summary>
 
-- 데이터 추출 시, 트레픽 과부하를 최소화하기 위해, 쿼리문을 최대한 깨끗하게 작성하려고 노력했습니다.
-> *한 SQL 스테이트먼트가 한 테이블에서 하나, 혹은 두 개의 필드를 선택하고 다른 SQL 스테이트먼트가 이 정보를 이용해서 다른 테이블의 데이터를 가져온다면, 이 두 가지를 두 테이블에서 데이터를 돌려보내는 하나의 스테이트먼트로 작성했습니다.*
+   ```
+   - 제목, 도시, 기간, 공개 여부 설정 및 수정
+   ```
+   ![Schedule 생성 수정](https://user-images.githubusercontent.com/48740872/199483976-554e73e6-dc7c-4cfb-8281-f0bb0e745182.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         내 스케줄 - 컨텐츠 추가
+      </span>
+   </summary>
+
+   ```
+   - 오른쪽 컨텐츠 추가를 눌러 컨텐츠 추가
+   - 달력 칸을 눌러 컨텐츠 추가
+   - 제목, 내용, 시작, 종료시간, 금액 설정
+   ```
+   ![Schedule 컨텐츠 추가1](https://user-images.githubusercontent.com/48740872/199484008-0ddd95fd-9a37-44ba-af6e-a8a628e1e839.gif)
+   ![Schedule 컨텐츠 추가2](https://user-images.githubusercontent.com/48740872/199484016-04f88da9-4d7c-4d6c-8b71-94fe801de5a8.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         내 스케줄 - 컨텐츠 수정&삭제
+      </span>
+   </summary>
+   
+   ![Schedule 컨텐츠 수정](https://user-images.githubusercontent.com/48740872/199484002-1e34c93d-5879-4c00-9fb0-aca75c216faf.gif)
+   ![Schedule 컨텐츠 삭제](https://user-images.githubusercontent.com/48740872/199483996-f906b60b-f091-4cf0-a06b-ae4e24228712.gif)
+
+</details>
+
+### 📑 후기글
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+       후기글 검색
+      </span>
+   </summary>
+
+   ```
+   - 리버먼스 지역 카테고리의 경우 도시 이름으로 필터링 가능
+   ```
+   
+   ![Review 검색3](https://user-images.githubusercontent.com/48740872/199486817-20d9a87b-42c0-4860-9e11-caf053b0e14a.gif)
+   ![Review 검색_리버먼스지역](https://user-images.githubusercontent.com/48740872/199486835-e7761e5b-164f-4171-b4e8-fe0972ae2170.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         후기글 검색 - 태그
+      </span>
+   </summary>
+
+   ```
+   - 검색 창 아래 태그 추가 버튼으로 태그 검색
+   - 오른쪽 카드의 추천 태그로 태그 검색
+   ```
+
+   ![Review 검색_태그](https://user-images.githubusercontent.com/48740872/199486809-93ad56fb-9910-4ac9-929b-1ce6f0138b91.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         후기글 작성
+      </span>
+   </summary>
+
+   ```
+   - 제목, 카테고리, 태그, 내용 작성
+   ```
+
+   ![Review 작성](https://user-images.githubusercontent.com/48740872/199486829-464cbdb8-68aa-47c3-a839-cae147d578a8.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         후기글 수정
+      </span>
+   </summary>
+
+   ![Review 수정](https://user-images.githubusercontent.com/48740872/199486823-740177fe-df81-4f7e-99bf-adea6b5c0f52.gif)
+
+</details>
+
+### 👍 좋아요&팔로우
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         스케줄
+      </span>
+   </summary>
+
+   ```
+   - 작성자 프로필 아래 팔로우
+   - 제목 오른쪽 하트 좋아요
+   ```
+
+   ![Interaction 스케줄](https://user-images.githubusercontent.com/48740872/199488036-1ef5b3a3-ca76-48cc-ba2f-53f314a7ee97.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         후기글
+      </span>
+   </summary>
+
+   ```
+   - 제목 아래 작성자 마우스 호버시 popover 프로필팔로우
+   - 본문 아래 중앙 하트 좋아요
+   ```
+
+   ![Interaction 후기글](https://user-images.githubusercontent.com/48740872/199488039-67b8f8ff-473c-4435-b08b-3f7ec082c493.gif)
+
+</details>
+
+### ✏ 댓글
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         댓글 작성 - 스케줄
+      </span>
+   </summary>
+
+   ![Comment 작성_스케줄](https://user-images.githubusercontent.com/48740872/199488605-ca6ca5c5-29b9-40ff-8dd8-ee2779299cd4.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         댓글 작성 - 후기글
+      </span>
+   </summary>
+
+   ![Comment 작성_후기글](https://user-images.githubusercontent.com/48740872/199488612-6b31f63f-73bf-4c92-ba3c-1497e85b6ab2.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         댓글 수정 & 삭제
+      </span>
+   </summary>
+
+   ![Comment 수정 삭제](https://user-images.githubusercontent.com/48740872/199488593-429d4d1b-e2f0-4430-8d27-9a9ef5e848f8.gif)
+
+</details>
+
+<details>
+   <summary>
+      <span style="font-style: italic">
+         베스트 댓글 & 추천,비추천
+      </span>
+   </summary>
+
+   ![Comment 배댓 추천](https://user-images.githubusercontent.com/48740872/199488584-82bc9ccd-f980-4df1-91ba-fdc74da120dd.gif)
+
+</details>

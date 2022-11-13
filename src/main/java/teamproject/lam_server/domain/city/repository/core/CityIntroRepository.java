@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.entity.CityIntro;
 
@@ -14,8 +13,6 @@ import java.util.List;
 public interface CityIntroRepository extends JpaRepository<CityIntro, Long> {
 
     List<CityIntro> findByName(CityName cityName);
-
-    List<CityIntro> findByNameAndCityInfoCat(CityName name, CityIntroCategory cityInfoCat);
 
     @Transactional
     @Modifying

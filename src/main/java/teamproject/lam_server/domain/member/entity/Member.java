@@ -9,9 +9,9 @@ import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.interaction.entity.member.Follower;
-import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentInteraction;
 import teamproject.lam_server.domain.interaction.entity.review.ReviewLike;
-import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentReact;
+import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleCommentInteraction;
 import teamproject.lam_server.domain.interaction.entity.schedule.ScheduleLike;
 import teamproject.lam_server.domain.member.constants.AccountState;
 import teamproject.lam_server.domain.member.constants.GenderType;
@@ -26,6 +26,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import static teamproject.lam_server.constants.AttrConstants.DEFAULT_PROFILE_FILE_NAME;
 import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 
 @Entity
@@ -47,7 +48,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ScheduleLike> scheduleLikes = new HashSet<>();
     @OneToMany(mappedBy = "from", orphanRemoval = true)
-    private final Set<ScheduleCommentReact> scheduleCommentReacts = new HashSet<>();
+    private final Set<ScheduleCommentInteraction> scheduleCommentInteractions = new HashSet<>();
     @OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Inquiry> inquiries = new ArrayList<>();
 
@@ -59,7 +60,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "from", orphanRemoval = true)
     private final Set<ReviewLike> reviewLikes = new HashSet<>();
     @OneToMany(mappedBy = "from", orphanRemoval = true)
-    private final Set<ReviewCommentReact> reviewCommentReacts = new HashSet<>();
+    private final Set<ReviewCommentInteraction> reviewCommentInteractions = new HashSet<>();
 
     @Column(unique = true, updatable = false)
     private String loginId;
@@ -91,7 +92,7 @@ public class Member extends BaseTimeEntity {
 
 
     @Builder(builderClassName = "basicBuilder", builderMethodName = "basicBuilder")
-    public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth) {
+    public Member(String loginId, String password, String name, String nickname, String email, GenderType gender, LocalDate birth, Role role) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
@@ -99,8 +100,9 @@ public class Member extends BaseTimeEntity {
         this.email = email;
         this.gender = gender;
         this.birth = birth;
-        this.role = Role.USER;
+        this.role = role;
         this.status = AccountState.NORMAL;
+        this.image = DEFAULT_PROFILE_FILE_NAME;
     }
 
     @Builder(builderClassName = "socialBuilder", builderMethodName = "socialBuilder")
@@ -110,6 +112,7 @@ public class Member extends BaseTimeEntity {
         this.socialType = socialType;
         this.role = Role.GUEST;
         this.status = AccountState.NORMAL;
+        this.image = DEFAULT_PROFILE_FILE_NAME;
     }
 
     // => 비즈니스 로직
@@ -123,7 +126,6 @@ public class Member extends BaseTimeEntity {
     public void editProfile(ProfileEditor editor) {
         nickname = editor.getNickname();
         email = editor.getEmail();
-        image = editor.getImage();
     }
 
     public void registerBasicInfo(OAuth2RegisterEditor editor) {
@@ -141,8 +143,7 @@ public class Member extends BaseTimeEntity {
     public ProfileEditor.ProfileEditorBuilder toProfileEditor() {
         return ProfileEditor.builder()
                 .nickname(nickname)
-                .email(email)
-                .image(image);
+                .email(email);
     }
 
     public OAuth2RegisterEditor.OAuth2RegisterEditorBuilder toOAuth2Editor() {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewTag;
@@ -51,7 +52,7 @@ public class InitReviewService {
                     .member(member)
                     .title(request.getTitle())
                     .content(request.getContent())
-                    .category(request.getCategory())
+                    .category(ReviewCategory.valueOf(request.getCategory()))
                     .tags(tags)
                     .build();
 

@@ -54,7 +54,7 @@ const {
   setEditableComment,
   extractIds,
 } = useComment();
-const { getMemberReactedComment, reactComment } = useInteraction();
+const { getInteractedCommentsByMember, interactComment } = useInteraction();
 const { isLoggedIn } = useAuth();
 const { simpleProfile } = useMember();
 const { pageable, mappingPagination, movePage, setSize } =
@@ -76,7 +76,7 @@ onMounted(async () => {
   await settingComments();
   await getBestComments(props.type, props.contentId);
   if (isLoggedIn.value && comments.value.length) {
-    await getMemberReactedComment(props.type, extractIds(comments.value));
+    await getInteractedCommentsByMember(props.type, extractIds(comments.value));
   }
 });
 
@@ -90,13 +90,13 @@ const pageClick = async (page: number) => {
   await settingComments();
 };
 
-const react = async (
+const interact = async (
   commentId: number,
   option: boolean,
-  isReacted: boolean
+  isInteracted: boolean
 ) => {
   if (isLoggedIn.value) {
-    await reactComment(props.type, commentId, option, isReacted);
+    await interactComment(props.type, commentId, option, isInteracted);
     await emits("refresh");
   } else {
     await requireLoginMessageBox();
@@ -196,7 +196,7 @@ const setEditInput = (isReply = false, id = "#0") => {
           :is-writer="writer === comment.profile.nickname"
           @delete="handleDelete(comment.commentId)"
           @edit="handleEdit(comment)"
-          @react-comment="react"
+          @interact-comment="interact"
         />
         <el-collapse class="comment-reply">
           <el-collapse-item
@@ -215,7 +215,7 @@ const setEditInput = (isReply = false, id = "#0") => {
                   :is-writer="writer === reply.profile.nickname"
                   @delete="handleDelete(reply.commentId)"
                   @edit="handleEdit(reply, true)"
-                  @react-comment="react"
+                  @interact-comment="interact"
                 />
               </li>
             </ul>

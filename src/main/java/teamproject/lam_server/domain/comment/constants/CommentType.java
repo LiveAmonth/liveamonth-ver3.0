@@ -7,8 +7,8 @@ import teamproject.lam_server.global.enumMapper.EnumMapperType;
 @Getter
 @AllArgsConstructor
 public enum CommentType implements EnumMapperType {
-    SCHEDULE("schedule"),
-    REVIEW("review");
+    SCHEDULE("스케줄 댓글"),
+    REVIEW("후기 댓글");
     private final String value;
 
     @Override

@@ -2,12 +2,10 @@ package teamproject.lam_server.domain.member.dto.request;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import teamproject.lam_server.domain.member.constants.GenderType;
+import teamproject.lam_server.domain.member.constants.Role;
 import teamproject.lam_server.domain.member.entity.Member;
 
 import javax.validation.constraints.*;
@@ -18,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberCreate {
 
-    @NotEmpty
+    @NotBlank
     @Pattern(regexp = "[a-zA-Z\\d]{5,20}")
     private String loginId;
 
@@ -44,7 +42,18 @@ public class MemberCreate {
     private LocalDate birth;
 
     @NotNull
-    private GenderType gender;
+    private String gender;
+
+    @Builder
+    public MemberCreate(String loginId, String password, String name, String nickname, String email, LocalDate birth, String gender) {
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.email = email;
+        this.birth = birth;
+        this.gender = gender;
+    }
 
     public Member toEntity(PasswordEncoder passwordEncoder) {
         return Member.basicBuilder()
@@ -54,7 +63,21 @@ public class MemberCreate {
                 .nickname(this.nickname)
                 .birth(this.birth)
                 .email(this.email)
-                .gender(this.gender)
+                .gender(GenderType.valueOf(this.gender))
+                .role(Role.USER)
+                .build();
+    }
+
+    public Member toManagerEntity(PasswordEncoder passwordEncoder) {
+        return Member.basicBuilder()
+                .loginId(this.loginId)
+                .password(passwordEncoder.encode(this.password))
+                .name(this.name)
+                .nickname(this.nickname)
+                .birth(this.birth)
+                .email(this.email)
+                .gender(GenderType.valueOf(this.gender))
+                .role(Role.MANAGER)
                 .build();
     }
 

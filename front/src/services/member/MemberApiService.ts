@@ -1,7 +1,6 @@
 import http from "@/http-common";
-import type { EnumType } from "@/modules/types/common/CommonTypes";
+import type { CheckType, EnumType } from "@/modules/types/common/CommonTypes";
 import type {
-  ConfirmFormType,
   FindIdType,
   FindPwType,
   ReconfirmType,
@@ -25,7 +24,7 @@ class MemberApiService {
       });
   }
 
-  async duplicateCheck(field: string, param: string): Promise<ConfirmFormType> {
+  async duplicateCheck(field: string, param: string): Promise<CheckType> {
     return await http
       .get(`/members/exists/${field}/${param}`)
       .then((response) => {
@@ -36,7 +35,7 @@ class MemberApiService {
       });
   }
 
-  async reconfirm(request: ReconfirmType): Promise<ConfirmFormType> {
+  async reconfirm(request: ReconfirmType): Promise<CheckType> {
     return await http
       .post("/members/reconfirm", JSON.stringify(request))
       .then((response) => {
@@ -115,7 +114,7 @@ class MemberApiService {
 
   async findId(request: FindIdType): Promise<FoundIdType> {
     return await http
-      .post("/members/find-id", JSON.stringify(request))
+      .get("/members/find-id", { params: request })
       .then((response) => {
         return response.data.data;
       })
@@ -126,7 +125,7 @@ class MemberApiService {
 
   async findPw(request: FindPwType) {
     await http
-      .post("/members/find-pw", JSON.stringify(request))
+      .patch("/members/find-pw", JSON.stringify(request))
       .then((response) => {
         return response.data;
       })

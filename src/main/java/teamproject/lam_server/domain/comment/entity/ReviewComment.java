@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
-import org.springframework.lang.Nullable;
-import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentReact;
+import teamproject.lam_server.domain.interaction.entity.review.ReviewCommentInteraction;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.review.entity.Review;
 
@@ -28,7 +27,7 @@ public class ReviewComment extends CommentEntity {
     private final List<ReviewComment> children = new ArrayList<>();
 
     @OneToMany(mappedBy = "to", orphanRemoval = true)
-    private final Set<ReviewCommentReact> reacts = new HashSet<>();
+    private final Set<ReviewCommentInteraction> interactions = new HashSet<>();
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "review_id")
@@ -39,14 +38,14 @@ public class ReviewComment extends CommentEntity {
 
     @Formula("(select count(rc.parent_comment_id) from review_comment rc where rc.parent_comment_id = review_comment_id)")
     private int numberOfChildren;
-    @Formula("(select count(1) from review_comment_react rcr where rcr.to_review_comment_id = review_comment_id and rcr.type = 'LIKE')")
+    @Formula("(select count(1) from review_comment_interaction rcr where rcr.to_review_comment_id = review_comment_id and rcr.state = 'LIKE')")
     private int numberOfLikes;
-    @Formula("(select count(1) from review_comment_react rcr where rcr.to_review_comment_id = review_comment_id and rcr.type = 'DISLIKE')")
+    @Formula("(select count(1) from review_comment_interaction rcr where rcr.to_review_comment_id = review_comment_id and rcr.state = 'DISLIKE')")
     private int numberOfDislikes;
 
 
     @Builder
-    public ReviewComment(String content, Member member, Review review, @Nullable ReviewComment parent) {
+    public ReviewComment(String content, Member member, Review review, ReviewComment parent) {
         this.comment = content;
         setUpWriter(member);
         setUpReview(review);

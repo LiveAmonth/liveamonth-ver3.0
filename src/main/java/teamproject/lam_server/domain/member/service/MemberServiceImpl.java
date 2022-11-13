@@ -6,15 +6,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.entity.PasswordEditor;
 import teamproject.lam_server.domain.member.entity.ProfileEditor;
 import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.exception.badrequest.NotDropMember;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
+import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.mail.dto.TempPasswordSendMailInfo;
@@ -51,10 +50,10 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public FormCheckResponse reconfirm(MemberReconfirm request) {
+    public BooleanCheckResponse reconfirm(MemberReconfirm request) {
         return passwordEncoder.matches(request.getPassword(), finder.getLoggedInMember().getPassword())
-                ? FormCheckResponse.of(true, "", SUCCESS_RECONFIRM)
-                : FormCheckResponse.of(false, "", FAIL_RECONFIRM);
+                ? BooleanCheckResponse.of(true, SUCCESS_RECONFIRM)
+                : BooleanCheckResponse.of(false, FAIL_RECONFIRM);
     }
 
     @Override
@@ -65,7 +64,6 @@ public class MemberServiceImpl implements MemberService {
         ProfileEditor editor = member.toProfileEditor()
                 .nickname(request.getNickname())
                 .email(request.getEmail())
-                .image(request.getImage())
                 .build();
 
         member.editProfile(editor);
@@ -119,33 +117,26 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    @Transactional
-    public void delete(Long id) {
-        Long queryCount = memberRepository.cleanDeleteById(id);
-        if (queryCount == 0) throw new NotDropMember();
-    }
-
-    @Override
-    public FormCheckResponse checkDuplicateEmail(String email) {
+    public BooleanCheckResponse checkDuplicateEmail(String email) {
         Boolean isDuplicated = memberRepository.existsByEmail(email);
         return isDuplicated
-                ? FormCheckResponse.of(false, email, DUPLICATE_EMAIL)
-                : FormCheckResponse.of(true, email, AVAILABLE_EMAIL);
+                ? BooleanCheckResponse.of(false, DUPLICATE_EMAIL)
+                : BooleanCheckResponse.of(true, AVAILABLE_EMAIL);
     }
 
     @Override
-    public FormCheckResponse checkDuplicateLoginId(String LoginId) {
+    public BooleanCheckResponse checkDuplicateLoginId(String LoginId) {
         Boolean isDuplicated = memberRepository.existsByLoginId(LoginId);
         return isDuplicated
-                ? FormCheckResponse.of(false, LoginId, DUPLICATE_LOGIN_ID)
-                : FormCheckResponse.of(true, LoginId, AVAILABLE_LOGIN_ID);
+                ? BooleanCheckResponse.of(false, DUPLICATE_LOGIN_ID)
+                : BooleanCheckResponse.of(true, AVAILABLE_LOGIN_ID);
     }
 
     @Override
-    public FormCheckResponse checkDuplicateNickname(String nickname) {
+    public BooleanCheckResponse checkDuplicateNickname(String nickname) {
         Boolean isDuplicated = memberRepository.existsByNickname(nickname);
         return isDuplicated
-                ? FormCheckResponse.of(false, nickname, DUPLICATE_NICKNAME)
-                : FormCheckResponse.of(true, nickname, AVAILABLE_NICKNAME);
+                ? BooleanCheckResponse.of(false, DUPLICATE_NICKNAME)
+                : BooleanCheckResponse.of(true, AVAILABLE_NICKNAME);
     }
 }

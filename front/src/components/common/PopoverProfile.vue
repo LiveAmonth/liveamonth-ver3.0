@@ -22,7 +22,7 @@ const {
   isPending,
   isFollowed,
   isPositiveInteraction,
-  reactContent,
+  interactContent,
   isWriter,
 } = useInteraction();
 const { buttonMsg, requireLoginMessageBox, openWarningMessage } =
@@ -38,7 +38,7 @@ onMounted(async () => {
 
 const follow = async () => {
   if (isLoggedIn.value) {
-    await reactContent(type, props.profile.id);
+    await interactContent(type, props.profile.id);
     if (error.value) {
       openWarningMessage(error.value.message);
     }

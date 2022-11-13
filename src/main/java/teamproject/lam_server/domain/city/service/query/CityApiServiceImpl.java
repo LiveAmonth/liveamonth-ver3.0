@@ -6,10 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.city.constants.CityIntroCategory;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.city.constants.MonthCategory;
-import teamproject.lam_server.domain.city.dto.response.api.CityFoodAndViewResponse;
 import teamproject.lam_server.domain.city.dto.response.api.CityGridDataResponse;
-import teamproject.lam_server.domain.city.dto.response.api.ImageContentResponse;
 import teamproject.lam_server.domain.city.dto.response.api.ExtraCityResponse;
+import teamproject.lam_server.domain.city.dto.response.api.ImageContentResponse;
 import teamproject.lam_server.domain.city.entity.CityIntro;
 import teamproject.lam_server.domain.city.repository.core.CityIntroRepository;
 import teamproject.lam_server.domain.city.repository.core.CityTransportRepository;
@@ -19,7 +18,7 @@ import teamproject.lam_server.domain.city.repository.query.CityQueryRepository;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static teamproject.lam_server.domain.city.constants.CityIntroCategory.*;
+import static teamproject.lam_server.domain.city.constants.CityIntroCategory.INTRO;
 
 @Service
 @Transactional(readOnly = true)
@@ -43,20 +42,12 @@ public class CityApiServiceImpl implements CityApiService {
     }
 
     @Override
-    public CityFoodAndViewResponse searchCityFoodAndView(CityName cityName) {
-        return CityFoodAndViewResponse.of(
-                cityIntroRepository.findByNameAndCityInfoCat(cityName, FOOD),
-                cityIntroRepository.findByNameAndCityInfoCat(cityName, VIEW)
-        );
-    }
-
-    @Override
     public Map<CityIntroCategory, List<ImageContentResponse>> getCity(CityName cityName) {
         List<CityIntro> cityIntros = cityIntroRepository.findByName(cityName);
         Map<CityIntroCategory, List<ImageContentResponse>> introMap = new HashMap<>();
         for (CityIntro cityIntro : cityIntros) {
             CityIntroCategory category = cityIntro.getCityInfoCat();
-            if (introMap.containsKey(cityIntro.getCityInfoCat())){
+            if (introMap.containsKey(cityIntro.getCityInfoCat()) && category != INTRO){
                 introMap.get(category).add(ImageContentResponse.of(cityIntro));
             }else {
                 introMap.put(category, new ArrayList<>(Collections.singletonList(ImageContentResponse.of(cityIntro))));

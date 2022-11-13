@@ -19,7 +19,7 @@ const { categoryMsg, labelMsg } = useMessageBox();
           v-if="scope.row.month !== undefined"
           style="display: flex; align-items: center"
         >
-          <span>{{ categoryMsg("city.month", scope.row.month) }}</span>
+          <span>{{ categoryMsg("city.month", scope.row.month.code) }}</span>
         </div>
       </template>
     </el-table-column>

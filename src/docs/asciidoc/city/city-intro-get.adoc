@@ -1,0 +1,1 @@
+include::{snippets}/city-intro-get/http-response.adoc[]

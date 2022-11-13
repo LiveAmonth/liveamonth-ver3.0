@@ -1,23 +1,13 @@
-buildscript {
-    ext {
-        queryDslVersion = "5.0.0"
-    }
-}
-
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.6.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    //querydsl 추가
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
     id "org.asciidoctor.jvm.convert" version "3.3.2"
-
 }
 
-group = 'teamproject'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+group = "project"
+version = "0.0.1-SNAPSHOT"
+sourceCompatibility = "11"
 
 configurations {
     compileOnly {
@@ -55,13 +45,14 @@ dependencies {
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    testImplementation 'org.springframework.security:spring-security-test'
 
     // JWT
-    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
-    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     implementation 'com.google.code.gson:gson'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.6.1'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     // 메일
@@ -75,63 +66,40 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'mysql:mysql-connector-java'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    runtimeOnly 'com.h2database:h2'
 
     //querydsl
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-jpa"
+    implementation "com.querydsl:querydsl-apt"
+
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
-test {
+
+tasks.named('test') {
     useJUnitPlatform()
+}
+
+test {
     outputs.dir snippetsDir
 }
 
 asciidoctor {
-    inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
-    dependsOn test
+    inputs.dir snippetsDir // snippetsDir 를 입력으로 구성
+    configurations 'asciidoctorExt' // 위에서 작성한 configuration 적용
+    dependsOn test // test 작업 이후에 작동하도록 하는 설정
 }
+
 
 bootJar {
-    archiveBaseName = 'liveAmonth'
-    archiveFileName = 'liveAmonth.jar'
-    archiveVersion = "1.0.0"
+    archiveFileName = 'liveamonth.jar'
 
     dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/html5") {
-        into 'static/docs'
+    copy {
+        from asciidoctor.outputDir
+        into "src/main/resources/static/docs"
     }
-}
-
-//querydsl 추가 시작
-// querydsl 에서 사용할 경로
-def querydslDir = "$buildDir/generated/querydsl"
-// JPA 사용 여부, 사용할 경로
-querydsl {
-    library = "com.querydsl:querydsl-apt"
-    jpa = true
-    querydslSourcesDir = querydslDir
-}
-// build 시 사용할 sourceSEt 추가
-sourceSets {
-    main.java.srcDir querydslDir
-}
-
-// querydsl 컴파일시 사용할 옵션 설정
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
-}
-// querydsl 이 complileClassPath를 상속하도록 설정
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-    querydsl.extendsFrom compileClasspath
-}
-
-project.afterEvaluate {
-    project.tasks.compileQuerydsl.options.compilerArgs = [
-            "-proc:only",
-            "-processor", project.querydsl.processors() +
-                    ',lombok.launch.AnnotationProcessorHider$AnnotationProcessor'
-    ]
 }

@@ -1,5 +1,6 @@
-import { useMenuTab } from "@/composables/common/tabs";
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useMenuTab } from "@/composables/common/tabs";
 import { useReviewStore } from "@/stores/review/review";
 import { useCategory } from "@/composables/common/category";
 import type {
@@ -14,14 +15,14 @@ import type { EnumType } from "@/modules/types/common/CommonTypes";
 import type {
   ReviewDetailType,
   ReviewListType,
+  TagType,
 } from "@/modules/types/review/ReviewTypes";
 import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
-import { useRouter } from "vue-router";
 
 export const useReview = () => {
+  const type = "REVIEW";
   const store = useReviewStore();
   const error = ref();
-  const type = "review";
   const isPending = ref<boolean>(false);
   const router = useRouter();
   const { getMenuCategory } = useMenuTab();
@@ -33,7 +34,9 @@ export const useReview = () => {
   const currReview = computed((): ReviewDetailType => store.currReview);
   const myReviews = computed((): ReviewListType[] => store.myReviews);
   const addedReviewId = computed((): number => store.addedReviewId);
-  const recommendationTags = computed((): string[] => store.recommendationTags);
+  const recommendationTags = computed(
+    (): TagType[] => store.recommendationTags
+  );
 
   const hasMyReviews = computed(() => store.hasMyReviews);
   const hasOtherReviews = computed(() => store.hasOtherReviews);

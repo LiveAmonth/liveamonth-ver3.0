@@ -1,0 +1,1 @@
+include::{snippets}/city-extra-get/http-response.adoc[]

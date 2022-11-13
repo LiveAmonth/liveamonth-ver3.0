@@ -1,9 +1,6 @@
 package teamproject.lam_server.domain.member.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
@@ -14,4 +11,9 @@ public class MemberReconfirm {
 
     @NotBlank
     private String password;
+
+    @Builder
+    public MemberReconfirm(String password) {
+        this.password = password;
+    }
 }

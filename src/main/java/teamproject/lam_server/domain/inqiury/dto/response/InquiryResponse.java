@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.inqiury.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import lombok.Builder;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class InquiryResponse {
     private Long id;
     private String title;

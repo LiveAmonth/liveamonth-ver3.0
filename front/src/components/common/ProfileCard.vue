@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { PropType } from "vue";
-import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
+import { onMounted, ref } from "vue";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useInteraction } from "@/composables/interaction/interaction";
 import { useMember } from "@/composables/member/member";
-import { onMounted, ref } from "vue";
 import { useAuth } from "@/composables/member/auth";
+import type { PropType } from "vue";
+import type { SimpleProfileType } from "@/modules/types/member/MemberTypes";
 
 const props = defineProps({
   profile: {
@@ -26,7 +26,7 @@ const {
   isPending,
   isFollowed,
   isPositiveInteraction,
-  reactContent,
+  interactContent,
   isWriter,
 } = useInteraction();
 const { buttonMsg, tabMsg, requireLoginMessageBox, openWarningMessage } =
@@ -42,7 +42,7 @@ onMounted(async () => {
 
 const follow = async () => {
   if (isLoggedIn.value) {
-    await reactContent(type, props.profile.id);
+    await interactContent(type, props.profile.id);
     if (error.value) {
       openWarningMessage(error.value.message);
     }

@@ -35,6 +35,10 @@ public abstract class ResponseMessage {
     public static final String CREATE_INQUIRY = "1:1 문의 저장 성공";
     public static final String DELETE_INQUIRY = "1:1 문의 삭제 성공";
     public static final String UPDATE_INQUIRY = "1:1 문의 업데이트 성공";
+    public static final String READ_INQUIRY_ANSWER = "1:1문의 답변 조회 성공";
+    public static final String CREATE_INQUIRY_ANSWER = "1:1문의 답변 저장 성공";
+    public static final String DELETE_INQUIRY_ANSWER = "1:1문의 답변 삭제 성공";
+    public static final String UPDATE_INQUIRY_ANSWER = "1:1문의 답변 업데이트 성공";
 
 
     /**
@@ -77,10 +81,15 @@ public abstract class ResponseMessage {
     /**
      * Domain: Interaction
      */
-    public static final String CREATE_INTERACTION = "좋아요 저장 성공";
-    public static final String UPDATE_INTERACTION = "좋아요 변경 성공";
-    public static final String DELETE_INTERACTION = "좋아요 삭제 성공";
-    public static final String READ_INTERACTION = "좋아요 조회 성공";
+    public static final String CREATE_INTERACTION = "상호작용 성공";
+    public static final String UPDATE_INTERACTION = "상호작용 변경 성공";
+    public static final String DELETE_INTERACTION = "상호작용 취소 성공";
+    public static final String READ_INTERACTION = "상호작용 조회 성공";
+
+    public static final String INTERACTED_OBJECT = "상호작용한 객체";
+    public static final String NOT_INTERACTED_OBJECT = "상호작용하지 않은 객체";
+
+
 
     /**
      * Category

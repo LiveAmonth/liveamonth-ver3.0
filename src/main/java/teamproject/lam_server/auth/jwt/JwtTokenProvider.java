@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private final AppProperties appProperties;
-    private Key key;
+    private final Key key;
 
     public JwtTokenProvider(AppProperties appProperties) {
         this.appProperties = appProperties;

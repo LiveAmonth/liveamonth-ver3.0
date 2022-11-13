@@ -1,14 +1,15 @@
 import http from "@/http-common";
 import type {
   InteractionType,
-  ReactedCommentType,
+  CommentInteractionType,
 } from "@/modules/types/interaction/InteractionType";
+import type { CheckType } from "@/modules/types/common/CommonTypes";
 
 class InteractionApiService {
-  async reactContent(
+  async interactContent(
     type: string,
     loginId: string,
-    isReacted: boolean,
+    isInteracted: boolean,
     request: InteractionType
   ): Promise<string> {
     return await http
@@ -16,7 +17,7 @@ class InteractionApiService {
         `interactions/contents/${type}/${loginId}`,
         JSON.stringify(request),
         {
-          params: { is_reacted: isReacted },
+          params: { is_interacted: isInteracted },
         }
       )
       .then((response) => {
@@ -27,17 +28,17 @@ class InteractionApiService {
       });
   }
 
-  async reactComment(
+  async interactComment(
     commentType: string,
     loginId: string,
     option: string,
     request: InteractionType,
-    isReacted: boolean
+    isInteracted: boolean
   ): Promise<void> {
     return await http
       .post(
         `interactions/comments/${commentType}/${loginId}${
-          isReacted ? "/cancel" : `?react_type=${option}`
+          isInteracted ? "/cancel" : `?interaction_state=${option}`
         }`,
         JSON.stringify(request)
       )
@@ -52,7 +53,7 @@ class InteractionApiService {
   async isMemberLikeContent(
     type: string,
     request: InteractionType
-  ): Promise<boolean> {
+  ): Promise<CheckType> {
     return await http
       .get(`interactions/member/${type}/liked`, { params: request })
       .then((response) => {
@@ -63,13 +64,13 @@ class InteractionApiService {
       });
   }
 
-  async getMemberReactedComment(
+  async getInteractedCommentsByMember(
     type: string,
     memberId: number,
     request: number[]
-  ): Promise<ReactedCommentType[]> {
+  ): Promise<CommentInteractionType[]> {
     return await http
-      .get(`interactions/member/${memberId}/reacted-comments/${type}`, {
+      .get(`interactions/member/${memberId}/interacted-comments/${type}`, {
         params: { ids: request },
       })
       .then((response) => {

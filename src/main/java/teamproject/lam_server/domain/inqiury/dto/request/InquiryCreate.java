@@ -18,13 +18,20 @@ public class InquiryCreate {
     @NotBlank
     private String content;
     @NotNull
-    private InquiryCategory category;
+    private String category;
+
+    @Builder
+    public InquiryCreate(String title, String content, String category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+    }
 
     public Inquiry toEntity(Member member){
         return Inquiry.builder()
                 .title(this.title)
                 .content(this.content)
-                .category(this.category)
+                .category(InquiryCategory.valueOf(this.category))
                 .member(member)
                 .build();
     }

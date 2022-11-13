@@ -2,6 +2,7 @@ package teamproject.lam_server.domain.interaction.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.exception.notfound.ServiceNotFound;
 
@@ -14,16 +15,16 @@ public class InteractionServiceFinder {
     private final List<InteractionService> interactionServices;
     private final List<CommentInteractionService> commentInteractionServices;
 
-    public InteractionService find(String type) {
+    public InteractionService find(InteractionType type) {
         return interactionServices.stream()
-                .filter(interactionService -> interactionService.getType() == InteractionType.valueOf(type.toUpperCase()))
+                .filter(interactionService -> interactionService.getType() == type)
                 .findAny()
                 .orElseThrow(ServiceNotFound::new);
     }
 
-    public CommentInteractionService findComment(String type) {
+    public CommentInteractionService findComment(CommentType type) {
         return commentInteractionServices.stream()
-                .filter(commentInteractionService -> commentInteractionService.getType() == InteractionType.valueOf(type.toUpperCase()))
+                .filter(commentInteractionService -> commentInteractionService.getType() == type)
                 .findAny()
                 .orElseThrow(ServiceNotFound::new);
     }

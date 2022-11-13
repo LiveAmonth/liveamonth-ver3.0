@@ -3,6 +3,7 @@ package teamproject.lam_server.domain.city.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 import teamproject.lam_server.domain.city.constants.CityName;
+import teamproject.lam_server.domain.city.constants.MonthCategory;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 
 @Getter
@@ -10,7 +11,7 @@ import teamproject.lam_server.domain.city.entity.CityWeather;
 public class CityWeatherResponse {
     private Long id;
     private CityName name;
-    private String month;
+    private MonthCategory month;
     private float maxDegree;
     private float minDegree;
     private float averageDegree;
@@ -19,7 +20,7 @@ public class CityWeatherResponse {
         return CityWeatherResponse.builder()
                 .id(cityWeather.getId())
                 .name(cityWeather.getName())
-                .month(cityWeather.getMonth().getCode())
+                .month(cityWeather.getMonth())
                 .maxDegree(cityWeather.getMaxDegree())
                 .minDegree(cityWeather.getMinDegree())
                 .averageDegree(cityWeather.getAverageDegree())

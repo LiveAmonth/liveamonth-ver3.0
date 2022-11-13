@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
-
 @Component
 @Slf4j
 public class OAuth2AuthenticationFilter extends AbstractAuthenticationProcessingFilter {

@@ -109,12 +109,6 @@ export interface SignUpCheckType {
   [key: string]: boolean;
 }
 
-export interface ConfirmFormType {
-  isAvailable: boolean;
-  value: string;
-  message: string;
-}
-
 export interface MemberCreateType {
   loginId: string;
   password: string;

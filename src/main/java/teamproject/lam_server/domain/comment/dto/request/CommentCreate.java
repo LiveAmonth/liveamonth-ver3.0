@@ -1,9 +1,6 @@
 package teamproject.lam_server.domain.comment.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -18,4 +15,12 @@ public class CommentCreate {
     private String comment;
 
     private Long parentId;
+
+    @Builder
+    public CommentCreate(String comment, Long parentId) {
+        this.comment = comment;
+        if (parentId != null) {
+            this.parentId = parentId;
+        }
+    }
 }

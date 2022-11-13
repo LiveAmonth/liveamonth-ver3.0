@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.member.dto.request.*;
 import teamproject.lam_server.domain.member.dto.response.FindIdResponse;
-import teamproject.lam_server.domain.member.dto.response.FormCheckResponse;
 import teamproject.lam_server.domain.member.dto.response.MemberProfileResponse;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.service.MemberService;
+import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.dto.response.CustomResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 
@@ -36,7 +36,7 @@ public class MemberApiController {
 
     @PostMapping("/reconfirm")
     public ResponseEntity<?> reconfirm(@Valid @RequestBody MemberReconfirm request) {
-        FormCheckResponse result = memberService.reconfirm(request);
+        BooleanCheckResponse result = memberService.reconfirm(request);
         return CustomResponse.success(RECONFIRM, result);
     }
 
@@ -44,8 +44,8 @@ public class MemberApiController {
      * presentation layer::login
      * -> find user login id
      */
-    @PostMapping("/find-id")
-    public ResponseEntity<?> findLoginId(@Valid @RequestBody MemberFindId request) {
+    @GetMapping("/find-id")
+    public ResponseEntity<?> findLoginId(MemberFindId request) {
         FindIdResponse result = memberService.findLoginId(request);
         return CustomResponse.success(FIND_MEMBER_LOGIN_ID, result);
     }
@@ -54,7 +54,7 @@ public class MemberApiController {
      * presentation layer::login
      * -> find user password
      */
-    @PostMapping("/find-pw")
+    @PatchMapping("/find-pw")
     public ResponseEntity<?> findPassword(@Valid @RequestBody MemberFindPassword request) {
         memberService.findPassword(request);
         return CustomResponse.success(FIND_MEMBER_PASSWORD);
@@ -80,7 +80,7 @@ public class MemberApiController {
      * presentation layer::my page
      * -> drop user(customer)
      */
-    @PostMapping("/drop")
+    @PatchMapping("/drop")
     public ResponseEntity<?> dropUser() {
         memberService.dropUser();
         return CustomResponse.success(DROP_MEMBER);
@@ -90,9 +90,9 @@ public class MemberApiController {
      * presentation layer::sign up
      * -> login id duplicate check
      */
-    @GetMapping("/exists/loginId/{loginId}")
-    public ResponseEntity<?> duplicateCheckLoginId(@PathVariable String loginId) {
-        FormCheckResponse result = memberService.checkDuplicateLoginId(loginId);
+    @GetMapping("/exists/loginId/{login_id}")
+    public ResponseEntity<?> duplicateCheckLoginId(@PathVariable("login_id") String loginId) {
+        BooleanCheckResponse result = memberService.checkDuplicateLoginId(loginId);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
@@ -102,7 +102,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/email/{email}")
     public ResponseEntity<?> duplicateCheckEmail(@PathVariable String email) {
-        FormCheckResponse result = memberService.checkDuplicateEmail(email);
+        BooleanCheckResponse result = memberService.checkDuplicateEmail(email);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
@@ -112,7 +112,7 @@ public class MemberApiController {
      */
     @GetMapping("/exists/nickname/{nickname}")
     public ResponseEntity<?> duplicateCheckNickname(@PathVariable String nickname) {
-        FormCheckResponse result = memberService.checkDuplicateNickname(nickname);
+        BooleanCheckResponse result = memberService.checkDuplicateNickname(nickname);
         return CustomResponse.success(DUPLICATE_CHECK, result);
     }
 
@@ -128,10 +128,10 @@ public class MemberApiController {
         return CustomResponse.success(READ_MEMBER, result);
     }
 
-    @PostMapping("/profile/image")
-    public ResponseEntity<?> editProfileImage(@Valid @RequestBody ProfileImageEdit request) {
-        return CustomResponse.success(UPDATE_MEMBER);
-    }
+//    @PostMapping("/profile/image")
+//    public ResponseEntity<?> editProfileImage(@Valid @RequestBody ProfileImageEdit request) {
+//        return CustomResponse.success(UPDATE_MEMBER);
+//    }
 
 //    @PostMapping("/editProfileImage")
 //    public String editProfileImage(@SessionAttribute(name = SessionConstants.LOGIN_USER, required = false) User loginUser, @RequestPart(FILE_NAME) MultipartFile mFile) throws Exception {
