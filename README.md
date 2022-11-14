@@ -5,9 +5,10 @@
 ___
 
 ## 목차
-1. [📢 프로젝트 기획](#-프로젝트-기획)
+1. [📢 프로젝트 기획](#-프로젝트-기획) 
 2. [🛠 기술 스택](#-기술-스택)
-3. [🎞 리버먼스 시연](#-리버먼스-시연)
+3. [📝 E-R 다이어그램](#-E-R-다이어그램)
+4. [🎞 구현 기능](#-구현-기능)
     - [🏠 메인 화면](#-메인-화면)
     - [🏞 도시 소개](#-도시-소개)
     - [🔨 계정](#-계정)
@@ -16,8 +17,7 @@ ___
     - [📑 후기글](#-후기글)
     - [👍 좋아요&팔로우](#-좋아요&팔로우)
     - [✏ 댓글](#-댓글)
-
-
+    - [🏷 게시물 리스트](#-게시물-리스트)
 
 
 # 📢 프로젝트 기획
@@ -95,7 +95,7 @@ ___
 [redis]: /images/stack/redis.svg
 [java]: /images/stack/java.svg
 
-# E-R 다이어그램
+# 📝 E-R 다이어그램
 ### 전체
 ![liveamonth](https://user-images.githubusercontent.com/48740872/201522000-beee8697-ad81-4be6-a8f9-2f73f3de71f6.png)
 
@@ -113,7 +113,6 @@ ___
 
 ### FOLLOW
 ![follow-erd](https://user-images.githubusercontent.com/48740872/201522546-589c2303-8a78-4500-a442-34f4b536f7d7.png)
-
 
 # 🎞 구현 기능
 ### 🏠 메인 화면
@@ -145,7 +144,6 @@ ___
       ![Home 인기게시물](https://user-images.githubusercontent.com/48740872/199434476-a54050e5-cfa0-47e5-be91-4ba97c68d526.gif)
    
    </details>
-
 
 ### 🏞 도시 소개
 1. #### '리버먼스'의 추천 도시 6곳에 대한 정보 및 사진을 볼 수 있습니다.
@@ -184,7 +182,6 @@ ___
    
       ![Member 회원가입](https://user-images.githubusercontent.com/48740872/199478350-feaf83c0-7369-4d3c-81cd-6a8eeb5e69b4.gif)
    </details>
-
 2. #### 아이디 찾기
    - '로그인 -> 아이디 찾기'를 통해 진입합니다.
    - 사용자의 이름, 이메일을 입력하면 아이디를 찾을 수 있습니다.
@@ -198,7 +195,6 @@ ___
       
       ![Member 아이디 찾기](https://user-images.githubusercontent.com/48740872/199478346-f4ad6f9c-743d-4af4-99fe-c357828b1360.gif)
    </details>
-
 3. #### 비밀번호 찾기
    - '로그인 -> 비밀번호 찾기' 또는 '로그인 -> 아이디 찾기 -> 찾기 결과 -> 비밀번호 찾기'를 통해 진입합니다.
    - 사용자의 아이디와 이메일을 입력하면 비밀번호를 찾을 수 있습니다.
@@ -213,8 +209,20 @@ ___
    
       ![Member 비밀번호찾기](https://user-images.githubusercontent.com/48740872/199478325-284728e9-14a1-4365-a83b-e38cec1afce4.gif)
    </details>
+4. #### 로그인, 로그아웃
+   - 홈화면 우측 상단 혹은 프로필 카드의 버튼을 통해 로그인, 로그아웃을 할 수 있습니다.
+   - 로그인을 하지 않은 상태에서 사용자 정보가 필요한 컨텐츠를 이용하면 로그인 창으로 이동됩니다.
+     - ex) 내 스케줄 관리, 내정보, 글쓰기, 댓글 달기 등..
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            로그인 로그아웃 화면보기
+         </span>
+      </summary>
 
-4. #### 회원정보 수정
+   ![Member 로그인,로그아웃](https://user-images.githubusercontent.com/48740872/201579808-72737498-2c4d-49e0-9ff2-dfa1a5e06f4e.gif)
+   </details>
+5. #### 회원정보 수정
    - '내 정보 -> 프로필 편집' 또는 '내 정보 -> 톱니바퀴 버튼 -> 프로필 편집' 으로 진입합니다.
    - 사용자의 비밀번호를 재확인 한 후 확인되면 프로필 편집을 할 수 있습니다.
    - 변경할 수 있는 항목은 닉네임, 이메일이며 회원가입과 마찬가지로 중복 확인, 유효성 검사를 마친 뒤 변경 가능합니다.
@@ -227,8 +235,7 @@ ___
       
       ![Member 회원정보 수정](https://user-images.githubusercontent.com/48740872/199478358-1b9205ef-68cd-4576-ad1c-2bf65943e646.gif)
    </details>
-
-5. #### 비밀번호 변경
+6. #### 비밀번호 변경
    - '내 정보 -> 톱니바퀴 버튼 -> 비밀번호 변경'으로 진입합니다.
    - 사용자의 비밀번호를 재확인 한 후 확인되면 비밀번호 변경을 할 수 있습니다.
    - 비밀번호가 변경되면 해당 사용자는 로그아웃 되고 변경된 비밀번호로 다시 로그인을 해야합니다.
@@ -241,8 +248,7 @@ ___
       
       ![MyPage 비밀번호변경](https://user-images.githubusercontent.com/48740872/199483160-14756639-454e-47fc-93eb-73f707364771.gif)
    </details>
-
-6. #### 1대1 문의
+7. #### 1대1 문의
    - '내 정보 -> 톱니바퀴 버튼 -> 문의하기 or 문의목록'으로 진입합니다.
    - '문의 하기'에서는 관리자에게 문의할 내용을 작성할 수 있습니다.
      - 제목, 카테고리, 내용을 입력해야 합니다.
@@ -262,254 +268,328 @@ ___
    </details>
 
 ### 🔨 마이페이지
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         내 스케줄 관리
-      </span>
-   </summary>
-
-   ```
-   - 내가 작성한 스케줄 리스트 표시
-   - 삭제 및 내 스케줄 페이지(선택한 스케줄이 초기값)로 이동 가능
-   ```
+1. #### 내 스케줄 관리
+   - '홈화면' 상단의 메뉴 혹은 우측의 프로필 카드의 스케줄을 눌러 진입할 수 있습니다.
+   - 사용자의 스케줄 리스트가 Infinite Scroll 형식으로 표시되며 해당 페이지에서 '삭제'할 수 있습니다.
+   - 리스트 우측 하단의 '스케줄 관리->' 혹은 스케줄 제목을 클릭해 '내 스케줄 관리'로 이동할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            내 스케줄 관리 화면보기
+         </span>
+      </summary>
    
-   ![MyPage 스케줄 관리](https://user-images.githubusercontent.com/48740872/199483166-daf95357-a09d-4d05-8968-4c71b965785c.gif)
-   
-</details>
+      ![MyPage 스케줄 관리](https://user-images.githubusercontent.com/48740872/199483166-daf95357-a09d-4d05-8968-4c71b965785c.gif)
+   </details>
 
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         내 후기글 관리
-      </span>
-   </summary>
-
-   ```
-   - 내가 작성한 후기글 리스트 표시
-   - 삭제 및 해당 후기글로 이동 가능
-   ```
+2. #### 내 후기글 관리
+   - '홈화면' 상단의 메뉴 혹은 우측의 프로필 카드의 후기글을 눌러 진입할 수 있습니다.
+   - 사용자의 후기글 리스트가 Infinite Scroll 형식으로 표시되며 해당 페이지에서 '삭제'할 수 있습니다.
+   - 후기글 제목을 클릭해 해당 후기글로 이동할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            내 후기글 관리 화면보기
+         </span>
+      </summary>
    
    ![MyPage 후기글 관리](https://user-images.githubusercontent.com/48740872/199483173-09969a29-e446-4749-ad09-d0045c931a87.gif)
-
-</details>
+   </details>
 
 ### 📅 스케줄
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         다른 사람 스케줄 - 검색
-      </span>
-   </summary>
+1. #### 다른 사람 스케줄 - 검색
+   - '검색' & '필터' 기능을 사용할 수 있습니다.
+     - '검색'은 작성자 닉네임 혹은 스케줄 제목을 검색할 수 있습니다.
+     - '필터'는 도시이름(select) 혹은 스케줄 시작날짜(date select)로 필터링 할 수 있습니다.
+   - 검색 버튼 아래의 초기화 버튼을 통해 검색 또는 필터 입력창의 내용을 초기화 할 수 있습니다.
    
-   ```
-   - 닉네임, 제목으로 검색 가능
-   - 스케줄 도시, 시작 날짜로 필터 가능
-   ```
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            다른 사람 스케줄 - 검색 화면보기
+         </span>
+      </summary>
+      
+      ![Schedule 검색](https://user-images.githubusercontent.com/48740872/199483943-6c3d562a-e071-4d96-a6c2-f2bf4530c504.gif)
+      ![Schedule 검색2](https://user-images.githubusercontent.com/48740872/199483956-458fcbec-90b1-4e6f-b09c-bdcf2f5eab52.gif)
+   </details>
+
+2. #### 다른 사람 스케줄 검색 - 정렬
+   - 표시된 스케줄 리스트를 '정렬'할 수 있습니다.
+   - 라디오 버튼으로 표시되어 있으며 최신순, 조회순, 인기순, 댓글순, 비용순으로 정렬할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            다른 사람 스케줄 - 정렬 화면보기
+         </span>
+      </summary>
    
-   ![Schedule 검색](https://user-images.githubusercontent.com/48740872/199483943-6c3d562a-e071-4d96-a6c2-f2bf4530c504.gif)
-   ![Schedule 검색2](https://user-images.githubusercontent.com/48740872/199483956-458fcbec-90b1-4e6f-b09c-bdcf2f5eab52.gif)
+      ![Schedule 정렬](https://user-images.githubusercontent.com/48740872/199483989-78f71768-4460-46c5-961b-f0888088042d.gif)
+   </details>
+3. #### 다른 사람 스케줄 보기
+   - 다른 사람 스케줄 보기에서는 스케줄표에 있는 컨텐츠 제목을 선택하거나 우측의 컨텐츠 제목을 선택해 컨텐츠 내용을 확인할 수 있습니다.
+     - 컨텐츠 카드 상단에 있는 모두 보기 버튼을 눌러 모든 컨텐츠 내용을 확인할 수 있습니다.
+     - 반대로 모두 닫기를 눌러 모든 컨텐츠 내용을 최소화 할 수 있습니다.
+     - 보고 있는 스케줄이 사용자의 스케줄일 경우 프로필 하단에 팔로우 하기 버튼이 사라집니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            다른 사람 스케줄 화면보기
+         </span>
+      </summary>
 
-</details>
+   ![Schedule 보기](https://user-images.githubusercontent.com/48740872/201579820-5749a141-ef4e-4e19-9502-1f7aac57cb65.gif)
+   </details>
 
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         다른 사람 스케줄 - 정렬
-      </span>
-   </summary>
-
-   ```
-   - 정렬 기능(최신순, 조회순, 인기순, 댓글순, 비용순)
-   ```
+4. #### 내 스케줄 관리 - 생성 & 수정
+   - 우측 상단에 있는 스케줄 추가 버튼을 통해 새 스케줄을 추가할 수 있습니다.
+   - 공개 여부, 제목, 도시, 스케줄 기간 항목을 입력 후 스케줄을 생성합니다.
+   - 초기화 버튼을 통해 입력중이던 항목을 초기화할 수 있습니다.
+   - 스케줄표 상단에 있는 스케줄을 선택하면 우측 스케줄 카드에서 스케줄 정보를 확인할 수 있습니다.
+   - 수정 및 삭제를 할 수 있습니다.
+     - 수정 버튼을 눌러 내용을 변경하고 업데이트 버튼을 눌러 수정을 완료합니다.
+     - 삭제 버튼을 눌러 스케줄을 삭제할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            내 스케줄 - 생성&수정 화면보기
+         </span>
+      </summary>
    
-   ![Schedule 정렬](https://user-images.githubusercontent.com/48740872/199483989-78f71768-4460-46c5-961b-f0888088042d.gif)
+      ![Schedule 생성 수정](https://user-images.githubusercontent.com/48740872/199483976-554e73e6-dc7c-4cfb-8281-f0bb0e745182.gif)
+   </details>
 
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         내 스케줄 - 생성&수정
-      </span>
-   </summary>
-
-   ```
-   - 제목, 도시, 기간, 공개 여부 설정 및 수정
-   ```
-   ![Schedule 생성 수정](https://user-images.githubusercontent.com/48740872/199483976-554e73e6-dc7c-4cfb-8281-f0bb0e745182.gif)
-
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         내 스케줄 - 컨텐츠 추가
-      </span>
-   </summary>
-
-   ```
-   - 오른쪽 컨텐츠 추가를 눌러 컨텐츠 추가
-   - 달력 칸을 눌러 컨텐츠 추가
-   - 제목, 내용, 시작, 종료시간, 금액 설정
-   ```
-   ![Schedule 컨텐츠 추가1](https://user-images.githubusercontent.com/48740872/199484008-0ddd95fd-9a37-44ba-af6e-a8a628e1e839.gif)
-   ![Schedule 컨텐츠 추가2](https://user-images.githubusercontent.com/48740872/199484016-04f88da9-4d7c-4d6c-8b71-94fe801de5a8.gif)
-
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         내 스케줄 - 컨텐츠 수정&삭제
-      </span>
-   </summary>
+5. #### 내 스케줄 관리 - 컨텐츠 추가
+   - 스케줄 카드 하단에 있는 컨텐츠 추가 버튼 혹은 스케줄표의 날짜를 선택해서 컨텐츠를 추가할 수 있습니다.
+   - 제목, 내용, 비용, 시작 및 종료 시간을 입력 후 컨텐츠를 추가합니다.
+   - 초기화 버튼을 통해 입력중인 내용을 초기화할 수 있습니다.
+   - 스케줄표에 있는 컨텐츠 제목을 선택해 컨텐츠 정보를 확인할 수 있습니다.
+     - 스케줄표 우측 상단에 있는 일정 목록을 클릭해 컨텐츠를 선택할 수도 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            내 스케줄 - 컨텐츠 추가 화면보기
+         </span>
+      </summary>
    
-   ![Schedule 컨텐츠 수정](https://user-images.githubusercontent.com/48740872/199484002-1e34c93d-5879-4c00-9fb0-aca75c216faf.gif)
-   ![Schedule 컨텐츠 삭제](https://user-images.githubusercontent.com/48740872/199483996-f906b60b-f091-4cf0-a06b-ae4e24228712.gif)
+      ![Schedule 컨텐츠 추가1](https://user-images.githubusercontent.com/48740872/199484008-0ddd95fd-9a37-44ba-af6e-a8a628e1e839.gif)
+      ![Schedule 컨텐츠 추가2](https://user-images.githubusercontent.com/48740872/199484016-04f88da9-4d7c-4d6c-8b71-94fe801de5a8.gif)
+   </details>
 
-</details>
+6. #### 내 스케줄 관리 - 컨텐츠 수정&삭제
+   - 선택된 컨텐츠의 정보가 컨텐츠 정보 카드에 표시되며 하단의 수정 및 삭제 버튼을 통해 컨텐츠를 관리할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            내 스케줄 - 컨텐츠 수정&삭제 화면보기
+         </span>
+      </summary>
+      
+      ![Schedule 컨텐츠 수정](https://user-images.githubusercontent.com/48740872/199484002-1e34c93d-5879-4c00-9fb0-aca75c216faf.gif)
+      ![Schedule 컨텐츠 삭제](https://user-images.githubusercontent.com/48740872/199483996-f906b60b-f091-4cf0-a06b-ae4e24228712.gif)
+   </details>
 
 ### 📑 후기글
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-       후기글 검색
-      </span>
-   </summary>
-
-   ```
-   - 리버먼스 지역 카테고리의 경우 도시 이름으로 필터링 가능
-   ```
+1. #### 후기글 검색
+   - '리버먼스 지역', '다른 지역', '질문 게시판', '자유 게시판' 총 4개의 카테고리가 있습니다.
+     - '리버먼스 지역'의 경우 검색시 '리버먼스'6개 도시와 전체 총 7개의 소분류로 필터링할 수 있습니다.
+   - 후기글 제목과 내용, 작성자 닉네임으로 검색할 수 있습니다.
+   - 검색 버튼 하단의 초기화 버튼을 통해 입력중이던 모든 내용을 초기화할 수 있습니다.
+   - 검색 레이아웃 하단의 라디오 버튼을 통해 최신순, 조회순, 인기순, 댓글순으로 정렬할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+          후기글 검색 화면보기
+         </span>
+      </summary>
    
-   ![Review 검색3](https://user-images.githubusercontent.com/48740872/199486817-20d9a87b-42c0-4860-9e11-caf053b0e14a.gif)
-   ![Review 검색_리버먼스지역](https://user-images.githubusercontent.com/48740872/199486835-e7761e5b-164f-4171-b4e8-fe0972ae2170.gif)
+      ![Review 검색3](https://user-images.githubusercontent.com/48740872/199486817-20d9a87b-42c0-4860-9e11-caf053b0e14a.gif)
+      ![Review 검색_리버먼스지역](https://user-images.githubusercontent.com/48740872/199486835-e7761e5b-164f-4171-b4e8-fe0972ae2170.gif)
+   </details>
 
-</details>
+2. #### 후기글 검색 - 태그
+   - 검색 입력창 하단에 있는 태그 추가 버튼을 눌러 후기글을 태그로 검색할 수 있습니다.
+     - 태그 추가는 10개 까지 가능합니다.
+   - 화면 우측에 있는 추천태그를 선택해 해당 태그로 바로 검색할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            후기글 검색 - 태그 화면보기
+         </span>
+      </summary>
+   
+      ![Review 검색_태그](https://user-images.githubusercontent.com/48740872/199486809-93ad56fb-9910-4ac9-929b-1ce6f0138b91.gif)
+   </details>
 
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         후기글 검색 - 태그
-      </span>
-   </summary>
+3. #### 후기글 작성
+   - 글쓰기 버튼으로 후기글을 작성할 수 있습니다.
+      - 제목, 카테고리, 태그, 본문 내용을 입력해 작성합니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            후기글 작성 화면보기
+         </span>
+      </summary>
+   
+      ![Review 작성](https://user-images.githubusercontent.com/48740872/199486829-464cbdb8-68aa-47c3-a839-cae147d578a8.gif)
+   </details>
 
-   ```
-   - 검색 창 아래 태그 추가 버튼으로 태그 검색
-   - 오른쪽 카드의 추천 태그로 태그 검색
-   ```
+4. #### 후기글 보기
+   - 후기글 리스트에서 보고 싶은 후기글을 선택해 내용을 확인할 수 있습니다.
+   - 작성자의 후기글인 경우 본문 하단에 수정, 삭제 버튼이 생깁니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            후기글 화면보기
+         </span>
+      </summary>
 
-   ![Review 검색_태그](https://user-images.githubusercontent.com/48740872/199486809-93ad56fb-9910-4ac9-929b-1ce6f0138b91.gif)
-
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         후기글 작성
-      </span>
-   </summary>
-
-   ```
-   - 제목, 카테고리, 태그, 내용 작성
-   ```
-
-   ![Review 작성](https://user-images.githubusercontent.com/48740872/199486829-464cbdb8-68aa-47c3-a839-cae147d578a8.gif)
-
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         후기글 수정
-      </span>
-   </summary>
-
-   ![Review 수정](https://user-images.githubusercontent.com/48740872/199486823-740177fe-df81-4f7e-99bf-adea6b5c0f52.gif)
-
-</details>
+   ![후기글 보기](https://user-images.githubusercontent.com/48740872/201579828-f3262091-97b7-4a9e-81d9-8b06dc087a40.gif)
+   </details>
+5. #### 후기글 수정 & 삭제
+   - 수정버튼을 누르면 글을 수정할 수 있는 화면이 나오고 기존의 내용을 수정할 수 있습니다.
+   - 본문 내용 우측 상단에 목록으로 돌아가기 버튼을 통해 후기글 목록으로 돌아갈 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            후기글 수정 화면보기
+         </span>
+      </summary>
+   
+      ![Review 수정](https://user-images.githubusercontent.com/48740872/199486823-740177fe-df81-4f7e-99bf-adea6b5c0f52.gif)
+   </details>
 
 ### 👍 좋아요&팔로우
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         스케줄
-      </span>
-   </summary>
-
-   ```
-   - 작성자 프로필 아래 팔로우
-   - 제목 오른쪽 하트 좋아요
-   ```
-
-   ![Interaction 스케줄](https://user-images.githubusercontent.com/48740872/199488036-1ef5b3a3-ca76-48cc-ba2f-53f314a7ee97.gif)
-
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         후기글
-      </span>
-   </summary>
-
-   ```
-   - 제목 아래 작성자 마우스 호버시 popover 프로필팔로우
-   - 본문 아래 중앙 하트 좋아요
-   ```
-
-   ![Interaction 후기글](https://user-images.githubusercontent.com/48740872/199488039-67b8f8ff-473c-4435-b08b-3f7ec082c493.gif)
-
-</details>
+1. #### 스케줄
+   - 스케줄 보기에서 제목 옆 하트를 눌러 해당 스케줄에 '좋아요'를 할 수 있습니다.
+   - 작성자 프로필 하단에 있는 팔로우 하기 버튼을 눌러 작성자를 팔로우 할 수 있습니다.
+   - 좋아요와 팔로우 모두 다시 한 번 클릭하면 취소할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            스케줄 화면보기
+         </span>
+      </summary>
+   
+      ![Interaction 스케줄](https://user-images.githubusercontent.com/48740872/199488036-1ef5b3a3-ca76-48cc-ba2f-53f314a7ee97.gif)
+   </details>
+2. #### 후기글
+   - 후기글 보기에서 본문 내용 하단에 하트를 눌러 '좋아요'를 할 수 있습니다.
+   - 후기글 제목 아래 작성자 닉네임에 마우스를 올려 표시되는 프로필창에서 팔로우, 언팔로우를 할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            후기글 화면보기
+         </span>
+      </summary>
+   
+      ![Interaction 후기글](https://user-images.githubusercontent.com/48740872/199488039-67b8f8ff-473c-4435-b08b-3f7ec082c493.gif)
+   </details>
 
 ### ✏ 댓글
+1. #### 댓글 작성
+   - 게시물 하단에 있는 댓글 레이아웃에서 TOP3 및 댓글, 대댓글을 쓸 수 있습니다.
+   - 프로필 이미지, 닉네임, 댓글 생성 경과시간, 추천, 비추천 수를 확인할 수 있습니다.
+   - 사용자 자신의 게시물에 댓글을 달 경우 '작성자 댓글' 태그가 달립니다.
+   - 댓글 아래의 '대댓글' 을 눌러 대댓글을 작성할 수 있으며 기능은 댓글과 동일합니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            댓글 작성 화면보기
+         </span>
+      </summary>
+   
+      ![Comment 작성_스케줄](https://user-images.githubusercontent.com/48740872/199488605-ca6ca5c5-29b9-40ff-8dd8-ee2779299cd4.gif)
+      ![Comment 작성_후기글](https://user-images.githubusercontent.com/48740872/199488612-6b31f63f-73bf-4c92-ba3c-1497e85b6ab2.gif)
+   </details>
+2. #### 댓글 수정 & 삭제
+   - '수정' 버튼 클릭 시 댓글 입력창에 해당 댓글 내용이 입력되고 댓글을 수정할 수 있습니다.
+   - '삭제' 버튼 클릭시 해당 댓글을 삭제할 수 있습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            댓글 수정 & 삭제 화면보기
+         </span>
+      </summary>
+   
+      ![Comment 수정 삭제](https://user-images.githubusercontent.com/48740872/199488593-429d4d1b-e2f0-4430-8d27-9a9ef5e848f8.gif)
+   
+   </details>
+3. #### 베스트 댓글 & 추천, 비추천
+   - 대댓글을 제외하고 댓글 중에서 추천수가 가장 높은 순으로 TOP3가 표시 됩니다.
+   - 엄지 아이콘을 클릭해 해당 댓글, 대댓글에 추천, 비추천할 수 있습니다.
+   - 추천한 댓글은 비추천 할 수 없으며 마찬가지로 비추천한 댓글은 추천할 수 없습니다.
+   - 추천 및 비추천을 한 댓글의 경우 엄지아이콘에 색이 칠해지며 다시 한 번 누를 경우 취소할 수 있습니다.
+   <details>
+     <summary>
+        <span style="font-style: italic;cursor: pointer">
+           베스트 댓글 & 추천,비추천
+        </span>
+     </summary>
+ 
+     ![Comment 배댓 추천](https://user-images.githubusercontent.com/48740872/199488584-82bc9ccd-f980-4df1-91ba-fdc74da120dd.gif)
+   </details>
+### 🏷 게시물 리스트
+1. #### 스케줄 카드
+   - 스케줄 카드 좌측에는 해당 스케줄의 기간이 달력에 표시되어 있습니다.
+   - 스케줄 기간
+      - 스케줄 시작, 종료 날짜
+   - 작성자 프로필
+      - 프로필 이미지, 닉네임, 스케줄, 후기글, 팔로워 수
+   - 스케줄 종합 정보
+      - 제목, 댓글수
+      - 기간, 총 비용, 지역
+      - 조회수, 좋아요수
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            스케줄 카드 화면보기
+         </span>
+      </summary>
 
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         댓글 작성 - 스케줄
-      </span>
-   </summary>
+   ![image](https://user-images.githubusercontent.com/48740872/201597524-01529bfb-538a-49c1-ba9c-2e4fc32373e3.png)
+   </details>
+2. #### 후기글 카드
+   - 후기글 카드에는 제목, 내용, 닉네임, 작성 경과 시간, 조회수, 댓글 수, 좋아요 수가 표시됩니다.
+   - 본문 내용은 2줄만 표시되며 뒷 부분은 ... 으로 처리했습니다.
+   <details>
+      <summary>
+         <span style="font-style: italic;cursor: pointer">
+            후기글 카드 화면보기
+         </span>
+      </summary>
 
-   ![Comment 작성_스케줄](https://user-images.githubusercontent.com/48740872/199488605-ca6ca5c5-29b9-40ff-8dd8-ee2779299cd4.gif)
+   ![image](https://user-images.githubusercontent.com/48740872/201595859-fe3d395c-3f41-405a-b00b-29a72d3e9945.png)
+   </details>
+3. #### 페이지
+   - 스케줄, 후기글, 댓글 리스트에서는 페이지 방식을 사용했습니다.
+      - '<<' : 맨 앞으로
+      - '<' : 이전 페이지
+      - '>' : 다음 페이지
+      - '>>' : 맨 마지막으로
+   <details>
+     <summary>
+        <span style="font-style: italic;cursor: pointer">
+           베스트 댓글 & 추천,비추천
+        </span>
+     </summary>
 
-</details>
+   ![List 스케줄_페이지](https://user-images.githubusercontent.com/48740872/201593430-b241100d-d6e5-4858-bf50-00a1fd94fead.gif)
+   ![List 후기글_페이지](https://user-images.githubusercontent.com/48740872/201593435-757c52be-fec9-4c7c-a1e8-83274e7fa8f9.gif)
+   </details>
+4. #### 무한 스크롤
+   - '팔로우 스케줄', '내정보 게시물'에서는 무한 스크롤을 사용해 목록을 표시했습니다.
+      - 초기 게시물의 갯수: 10개
+      - 추가로 불러오는 게시물 수: 10개
+   - 게시물을 불러올 때와 모든 게시물을 불러왔을 때 마지막 리스트 아래에 상태를 표시했습니다.
+   
+   <details>
+     <summary>
+        <span style="font-style: italic;cursor: pointer">
+           베스트 댓글 & 추천,비추천
+        </span>
+     </summary>
 
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         댓글 작성 - 후기글
-      </span>
-   </summary>
-
-   ![Comment 작성_후기글](https://user-images.githubusercontent.com/48740872/199488612-6b31f63f-73bf-4c92-ba3c-1497e85b6ab2.gif)
-
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         댓글 수정 & 삭제
-      </span>
-   </summary>
-
-   ![Comment 수정 삭제](https://user-images.githubusercontent.com/48740872/199488593-429d4d1b-e2f0-4430-8d27-9a9ef5e848f8.gif)
-
-</details>
-
-<details>
-   <summary>
-      <span style="font-style: italic;cursor: pointer">
-         베스트 댓글 & 추천,비추천
-      </span>
-   </summary>
-
-   ![Comment 배댓 추천](https://user-images.githubusercontent.com/48740872/199488584-82bc9ccd-f980-4df1-91ba-fdc74da120dd.gif)
-
-</details>
-
-
+   ![List 스케줄_무한_스크롤](https://user-images.githubusercontent.com/48740872/201593421-11d19a8a-6331-4e2b-8fbc-7834f7aeac5d.gif)
+   ![List 후기글_무한_스크롤](https://user-images.githubusercontent.com/48740872/201593433-6821339b-e2e7-4045-b903-e8385da72667.gif)
+   </details>
