@@ -25,7 +25,7 @@ const { memberProfile } = useMember();
 const { myReviews, hasMyReviews, getMyReviews, deleteReview } = useReview();
 const { labelMsg, buttonMsg } = useMessageBox();
 
-const size = ref<number>(2);
+const size = ref<number>(10);
 const count = ref<number>(
   myReviews.value.length < props.initialCount
     ? myReviews.value.length
@@ -39,18 +39,18 @@ const disabled = computed(() => loading.value || noMore.value);
 
 const load = async () => {
   loading.value = true;
-  await getMyReviews(
-    memberProfile.value.loginId,
-    size.value,
-    myReviews.value[count.value - 1].id
-  );
-  setTimeout(() => {
+  await setTimeout(async () => {
+    await getMyReviews(
+      memberProfile.value.loginId,
+      size.value,
+      myReviews.value[count.value - 1].id
+    );
     count.value =
       myReviews.value.length - count.value < size.value
         ? myReviews.value.length
         : count.value + size.value;
     loading.value = false;
-  }, 500);
+  }, 1000);
 };
 
 const handleDelete = async (reviewId: number) => {
@@ -81,6 +81,10 @@ const handleDelete = async (reviewId: number) => {
             <el-divider />
           </li>
         </ul>
+        <div class="d-flex justify-content-center">
+          <span v-if="loading">{{ labelMsg("review.loading") }}</span>
+          <span v-if="noMore">{{ labelMsg("review.noMore") }}</span>
+        </div>
       </el-col>
     </el-row>
   </div>

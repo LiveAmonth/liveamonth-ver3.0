@@ -203,13 +203,17 @@
           "cost": "비용",
           "start": "시작 시간",
           "end": "종료 시간"
-        }
+        },
+        "noMore": "마지막 스케줄입니다.",
+        "loading": "스케줄 불러오는 중..."
       },
       "review": {
         "empty": "등록된 게시물이 없습니다",
         "tags": "태그",
         "tags-pl": "최대 10개",
-        "recommendation": "추천 태그"
+        "recommendation": "추천 태그",
+        "noMore": "마지막 후기글입니다.",
+        "loading": "후기글 불러오는 중..."
       },
       "comment": {
         "title": "댓글",

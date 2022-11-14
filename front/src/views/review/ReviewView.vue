@@ -111,7 +111,7 @@ watch(
           class="me-1"
           @click="searchTag(tag.name)"
         >
-          {{ `#${tag}` }}
+          {{ `#${tag.name}` }}
         </el-tag>
       </el-card>
     </el-col>

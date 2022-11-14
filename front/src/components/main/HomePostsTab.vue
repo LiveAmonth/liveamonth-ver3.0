@@ -8,7 +8,7 @@ import { useHome } from "@/composables/home/home";
 
 const { homePostsTabs } = useHome();
 const activeName = ref(homePostsTabs.value[0].code);
-const initialSize = ref<number>(20);
+const initialSize = ref<number>(10);
 </script>
 
 <template>

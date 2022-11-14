@@ -65,19 +65,19 @@ const hasSchedules = computed(() =>
 
 const load = async () => {
   loading.value = true;
-  await getInfiniteSchedules(
-    simpleProfile.value.loginId,
-    size.value,
-    schedules.value[count.value - 1].id,
-    props.isMyPage
-  );
-  setTimeout(() => {
+  await setTimeout(async () => {
+    await getInfiniteSchedules(
+      simpleProfile.value.loginId,
+      size.value,
+      schedules.value[count.value - 1].id,
+      props.isMyPage
+    );
     count.value =
       schedules.value.length - count.value < size.value
         ? schedules.value.length
         : count.value + size.value;
     loading.value = false;
-  }, 500);
+  }, 1000);
 };
 
 const handleDelete = async (scheduleId: number) => {
@@ -121,6 +121,8 @@ const handleDelete = async (scheduleId: number) => {
         </el-row>
       </li>
     </ul>
+    <span v-show="loading">{{ labelMsg("schedule.loading") }}</span>
+    <span v-show="noMore">{{ labelMsg("schedule.noMore") }}</span>
   </div>
   <div v-else class="empty-post">
     <SmallTitleSlot
