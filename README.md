@@ -5,16 +5,18 @@
 ___
 
 ## 목차
-1. [📢 프로젝트 기획](#-프로젝트-기획) 
+1. [📢 프로젝트 기획](#-프로젝트-기획)
 2. [🛠 기술 스택](#-기술-스택)
-3. [📝 E-R 다이어그램](#-e-r-다이어그램)
+3. [📝 E-R 다이어그램](#-E-R-다이어그램)
    - [전체](#전체)
    - [CITY](#city)
    - [MEMBER & INQUIRY](#member--inquiry)
    - [SCHEDULE](#schedule)
    - [REVIEW](#review)
    - [FOLLOW](#follow)
-4. [🎞 구현 기능](#-구현-기능)
+4. [🔑구현 기능](#-구현-기능)
+   - [보안](#보안)
+5. [🎞 UI 기능 및 화면](#-ui-기능-및-화면)
    - [🏠 메인 화면](#-메인-화면)
    - [🏞 도시 소개](#-도시-소개)
    - [🔨 계정](#-계정)
@@ -77,29 +79,21 @@ ___
 </details><br>
 
 # 🛠 기술 스택
-### BackEnd
-|  Spring   |  Java   |
-|:---------:|:-------:|
-| ![spring] | ![java] |
+### Language
+*Java, Typescript, SQL*
 
-### DataBase
-|  MySql   |  Redis   |
-|:--------:|:--------:|
-| ![mysql] | ![redis] |
+### Web FE
+*HTML, CSS, Vue.js3, Element Plus*
 
-### Front End
-| vue.js3 | Typescript |
-|:-------:|:----------:|
-| ![vue]  |   ![ts]    |
+### Web BE
+*Spring Framework, Spring Security, Spring Rest Docs, JPA*
 
+### DB
+*MySQL, Redis*
 
-[spring]: /images/stack/spring.svg
-[ts]: /images/stack/typescript.svg
-[vue]: /images/stack/vuedotjs.svg
-[mysql]: /images/stack/mysql.svg
-[security]: /images/stack/springsecurity.svg
-[redis]: /images/stack/redis.svg
-[java]: /images/stack/java.svg
+### Tool
+*IntelliJ, MySQL WorkBench, Git*
+
 
 # 📝 E-R 다이어그램
 ### 전체
@@ -120,7 +114,30 @@ ___
 ### FOLLOW
 ![follow-erd](https://user-images.githubusercontent.com/48740872/201522546-589c2303-8a78-4500-a442-34f4b536f7d7.png)
 
-# 🎞 구현 기능
+# 🔑구현 기능
+### 1. 보안
+- Spring Security를 사용하여 인증 및 인가 처리를 하였습니다.
+  - 서버의 안정성과 확장성을 고려하여 JWT와 Redis를 사용하여 인증, 인가 처리를 했습니다.
+  - 클라이언트가 로그인을 하면 서버에서 해당 사용자의 아이디를 담은 access token을 생성해 응답하도록 구현했습니다.
+    - 토큰이 탈취당했을 경우를 대비하여 access token의 만료시간을 짧게 하고 refresh token을 만들어 토큰 만료시 재발급을 할 수 있도록 구현했습니다.
+    - refresh token은 쿠키로 전달하며 HttpOnly, Secure 옵션을 주어 Http 공격에도 대비하였습니다.
+  - 로그인시 Redis에 {key: 로그인아이디, value: refresh token} 데이터를 저장합니다.(만료시간 : refresh token의 만료시간)
+    - 토큰 재발급 시, 쿠키에 담겨 있는 refresh token과 Redis에 저장되어 있는 refresh token을 비교하여 일치하면 새로운 access token을 생성하여 응답하도록 했습니다.
+    - 만약, refresh token도 만료되었거나 인증이 되지 않은 경우 클라이언트가 로그아웃 되도록 구현하였습니다.
+  - 로그아웃시 요청으로 들어온 access token을 블랙리스트로 관리하였습니다.
+    - refresh token이 담긴 쿠키를 삭제했습니다.
+    - Redis에 로그인 아이디를 key값으로 하는 데이터를 삭제했습니다.
+    - (key: access token, value: 'LOGOUT_TOKEN') 데이터를 저장해 블랙리스트를 구현했습니다.
+
+### 2. 유효성 검증
+- Spring Validation과 async-validator를 사용하여 폼 데이터 요청시 데이터가 조작을 방지하고 회원의 사용성을 증대시켰습니다.
+  - 일차적으로 element plus에서 지원하는 form을 사용해 폼 데이터 입력시 잘못된 값에 대해 화면에 출력했습니다.
+  - 서버에서는 spring validation을 사용해 response body로 사용되는 모든 객체에 검증로직을 구현했습니다.
+
+### 3. 
+
+
+# 🎞 UI 기능 및 화면
 ### 🏠 메인 화면
 1. #### '리버먼스'의 도시 6곳의 요약 정보를 볼 수 있습니다.
    - 도시 이미지, 교통 점수, 평균 기온
@@ -599,3 +616,5 @@ ___
    ![List 스케줄_무한_스크롤](https://user-images.githubusercontent.com/48740872/201593421-11d19a8a-6331-4e2b-8fbc-7834f7aeac5d.gif)
    ![List 후기글_무한_스크롤](https://user-images.githubusercontent.com/48740872/201593433-6821339b-e2e7-4045-b903-e8385da72667.gif)
    </details>
+
+5. 
