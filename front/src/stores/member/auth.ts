@@ -47,9 +47,7 @@ export const useAuthStore = defineStore("auth", {
     logout: async function () {
       await AuthApiService.logout()
         .then(() => {
-          localStorage.removeItem("token-info");
-          this.tokenInfo.state = false;
-          this.tokenInfo.data = {} as TokenType;
+          this.clearAuth();
         })
         .catch((error) => {
           throw error;
@@ -66,6 +64,12 @@ export const useAuthStore = defineStore("auth", {
         .catch((error) => {
           throw error;
         });
+    },
+
+    clearAuth: function () {
+      localStorage.removeItem("token-info");
+      this.tokenInfo.state = false;
+      this.tokenInfo.data = {} as TokenType;
     },
   },
 });

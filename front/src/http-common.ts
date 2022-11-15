@@ -50,7 +50,6 @@ apiClient.interceptors.response.use(
             return apiClient(axiosRequest);
           })
           .catch(async (error) => {
-            console.log("refresh token이 만료되었습니다. 다시 로그인 해주세요");
             return Promise.reject(error);
           });
         return Promise.reject(error);

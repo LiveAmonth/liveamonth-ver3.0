@@ -53,6 +53,9 @@ export const useAuth = () => {
     isPending.value = true;
     try {
       await store.reissue();
+      if (!memberStore.simpleProfile.id) {
+        store.clearAuth();
+      }
       error.value = null;
     } catch (err) {
       error.value = err;

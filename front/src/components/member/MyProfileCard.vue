@@ -8,7 +8,6 @@ import { useRouter } from "vue-router";
 import { useMember } from "@/composables/member/member";
 import { useMyPage } from "@/composables/member/mypage";
 import { useMessageBox } from "@/composables/common/messageBox";
-import { useUpload } from "@/composables/common/upload";
 
 const router = useRouter();
 const { isLoggedIn, logoutBtn } = useAuth();
