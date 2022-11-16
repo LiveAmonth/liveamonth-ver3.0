@@ -11,7 +11,7 @@ import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.entity.PasswordEditor;
 import teamproject.lam_server.domain.member.entity.ProfileEditor;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;

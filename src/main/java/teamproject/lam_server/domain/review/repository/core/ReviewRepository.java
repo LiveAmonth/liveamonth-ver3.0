@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.review.repository;
+package teamproject.lam_server.domain.review.repository.core;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.review.entity.Review;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRepositoryCustom {
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Transactional
     @Modifying

@@ -15,7 +15,7 @@ import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 
 @Repository
 @RequiredArgsConstructor
-public class InteractionRepository {
+public class InteractionQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 

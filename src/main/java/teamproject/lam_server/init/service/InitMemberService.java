@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.util.JsonUtil;
 
 import java.util.stream.Collectors;

@@ -8,11 +8,11 @@ import teamproject.lam_server.domain.interaction.repository.member.FollowReposit
 import teamproject.lam_server.domain.interaction.repository.review.ReviewLikeRepository;
 import teamproject.lam_server.domain.interaction.repository.schedule.ScheduleLikeRepository;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.domain.review.entity.Review;
-import teamproject.lam_server.domain.review.repository.ReviewRepository;
+import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
 
 import java.util.List;
 

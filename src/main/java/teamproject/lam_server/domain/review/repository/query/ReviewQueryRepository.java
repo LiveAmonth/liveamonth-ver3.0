@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.review.repository;
+package teamproject.lam_server.domain.review.repository.query;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -29,7 +29,7 @@ import static teamproject.lam_server.domain.review.entity.QTag.tag;
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class ReviewRepositoryImpl extends BasicRepository implements ReviewRepositoryCustom {
+public class ReviewQueryRepository extends BasicRepository{
     private final JPAQueryFactory queryFactory;
 
     public Page<Review> search(ReviewSearchCond cond, List<Long> tagInReviewIds, Pageable pageable) {

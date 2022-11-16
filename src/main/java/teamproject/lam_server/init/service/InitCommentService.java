@@ -7,9 +7,9 @@ import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentRepository;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
-import teamproject.lam_server.domain.review.repository.ReviewRepository;
-import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
+import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
+import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
 import teamproject.lam_server.util.JsonUtil;
 
 import java.util.List;

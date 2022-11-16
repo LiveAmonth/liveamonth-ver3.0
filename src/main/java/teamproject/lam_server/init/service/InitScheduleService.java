@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
 import teamproject.lam_server.init.dto.InitScheduleContentRequest;
 import teamproject.lam_server.util.JsonUtil;
 

@@ -12,7 +12,7 @@ import teamproject.lam_server.domain.inqiury.dto.response.InquiryListResponse;
 import teamproject.lam_server.domain.inqiury.dto.response.InquiryResponse;
 import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.inqiury.entity.InquiryEditor;
-import teamproject.lam_server.domain.inqiury.repository.InquiryRepository;
+import teamproject.lam_server.domain.inqiury.repository.core.InquiryRepository;
 import teamproject.lam_server.exception.notfound.InquiryNotFound;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;

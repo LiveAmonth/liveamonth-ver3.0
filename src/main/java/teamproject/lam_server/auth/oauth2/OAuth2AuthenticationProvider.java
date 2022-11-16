@@ -13,7 +13,7 @@ import teamproject.lam_server.auth.dto.CustomOAuth2AuthenticationToken;
 import teamproject.lam_server.auth.dto.PrincipalDetails;
 import teamproject.lam_server.domain.member.constants.SocialType;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 
 @RequiredArgsConstructor
 @Component

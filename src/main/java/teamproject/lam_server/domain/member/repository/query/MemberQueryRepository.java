@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.member.repository;
+package teamproject.lam_server.domain.member.repository.query;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,11 +11,10 @@ import static teamproject.lam_server.domain.member.entity.QMember.member;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRepositoryImpl implements MemberRepositoryCustom {
+public class MemberQueryRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    @Override
     public Long cleanDeleteById(Long id) {
         return queryFactory
                 .delete(member)

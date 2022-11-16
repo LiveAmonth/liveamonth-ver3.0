@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.schedule.repository;
+package teamproject.lam_server.domain.schedule.repository.query;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;

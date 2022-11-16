@@ -8,8 +8,8 @@ import teamproject.lam_server.domain.inqiury.dto.request.InquiryAnswerEdit;
 import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.inqiury.entity.InquiryAnswer;
 import teamproject.lam_server.domain.inqiury.entity.InquiryAnswerEditor;
-import teamproject.lam_server.domain.inqiury.repository.InquiryAnswerRepository;
-import teamproject.lam_server.domain.inqiury.repository.InquiryRepository;
+import teamproject.lam_server.domain.inqiury.repository.core.InquiryAnswerRepository;
+import teamproject.lam_server.domain.inqiury.repository.core.InquiryRepository;
 import teamproject.lam_server.exception.notfound.InquiryNotFound;
 
 @Service

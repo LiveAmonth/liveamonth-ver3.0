@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.review.repository;
+package teamproject.lam_server.domain.review.repository.core;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.interaction.constants.InteractionType;
 import teamproject.lam_server.domain.interaction.dto.InteractionRequest;
-import teamproject.lam_server.domain.interaction.repository.InteractionRepository;
+import teamproject.lam_server.domain.interaction.repository.InteractionQueryRepository;
 import teamproject.lam_server.domain.interaction.repository.review.ReviewLikeRepository;
 import teamproject.lam_server.domain.interaction.service.InteractionService;
 import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
@@ -20,7 +20,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.NOT_INTERA
 public class ReviewInteractionService implements InteractionService {
     private final SecurityContextFinder finder;
     private final ReviewLikeRepository reviewLikeRepository;
-    private final InteractionRepository interactionRepository;
+    private final InteractionQueryRepository interactionQueryRepository;
 
     @Override
     public InteractionType getType() {
@@ -38,7 +38,7 @@ public class ReviewInteractionService implements InteractionService {
 
     @Override
     public BooleanCheckResponse isInteracted(InteractionRequest request) {
-        return interactionRepository.isMemberLikeReview(request)
+        return interactionQueryRepository.isMemberLikeReview(request)
                 ? BooleanCheckResponse.of(true, INTERACTED_OBJECT)
                 : BooleanCheckResponse.of(false, NOT_INTERACTED_OBJECT);
 

@@ -1,4 +1,4 @@
-package teamproject.lam_server.domain.member.repository;
+package teamproject.lam_server.domain.member.repository.core;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -7,7 +7,7 @@ import teamproject.lam_server.domain.member.entity.Member;
 import java.util.Optional;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+public interface MemberRepository extends JpaRepository<Member, Long>{
     Optional<Member> findByLoginId(String loginId);
 
     Optional<Member> findByNameAndEmail(String name, String email);

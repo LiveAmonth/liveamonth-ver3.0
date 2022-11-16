@@ -5,15 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewTag;
 import teamproject.lam_server.domain.review.entity.Tag;
-import teamproject.lam_server.domain.review.repository.ReviewRepository;
-import teamproject.lam_server.domain.review.repository.ReviewTagRepository;
-import teamproject.lam_server.domain.review.repository.TagRepository;
+import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
+import teamproject.lam_server.domain.review.repository.core.TagRepository;
 import teamproject.lam_server.util.JsonUtil;
 
 import javax.persistence.EntityManager;
@@ -29,7 +28,6 @@ public class InitReviewService {
     private static final String REVIEW = "review";
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
-    private final ReviewTagRepository reviewTagRepository;
     private final TagRepository tagRepository;
     private final EntityManager em;
 

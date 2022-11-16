@@ -16,7 +16,7 @@ import teamproject.lam_server.domain.member.dto.request.MemberLogin;
 import teamproject.lam_server.domain.member.dto.request.OAuth2RegisterEdit;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.entity.OAuth2RegisterEditor;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.exception.badrequest.AlreadyUsedToken;
 import teamproject.lam_server.exception.badrequest.InvalidRefreshToken;
 import teamproject.lam_server.exception.forbidden.DroppedMember;

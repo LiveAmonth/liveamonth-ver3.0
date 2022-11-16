@@ -18,9 +18,10 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewEditor;
 import teamproject.lam_server.domain.review.entity.ReviewTag;
 import teamproject.lam_server.domain.review.entity.Tag;
-import teamproject.lam_server.domain.review.repository.ReviewRepository;
-import teamproject.lam_server.domain.review.repository.ReviewTagRepository;
-import teamproject.lam_server.domain.review.repository.TagRepository;
+import teamproject.lam_server.domain.review.repository.query.ReviewQueryRepository;
+import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
+import teamproject.lam_server.domain.review.repository.core.ReviewTagRepository;
+import teamproject.lam_server.domain.review.repository.core.TagRepository;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
@@ -40,6 +41,7 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService {
     private final SecurityContextFinder finder;
     private final ReviewRepository reviewRepository;
+    private final ReviewQueryRepository reviewQueryRepository;
     private final ReviewTagRepository reviewTagRepository;
     private final TagRepository tagRepository;
     private final DomainSpec<ReviewSortType> spec = new DomainSpec<>(ReviewSortType.class);
@@ -107,7 +109,7 @@ public class ReviewServiceImpl implements ReviewService {
                 : Collections.emptyList();
         Pageable pageable = spec.getPageable(pageableDTO);
         Page<ReviewListResponse> page =
-                reviewRepository
+                reviewQueryRepository
                         .search(cond, reviewTagIds, pageable)
                         .map(ReviewListResponse::of);
 
@@ -118,21 +120,21 @@ public class ReviewServiceImpl implements ReviewService {
 
     public List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId) {
         finder.checkLegalLoginId(loginId);
-        return reviewRepository.getReviewByMember(loginId, size, lastId).stream()
+        return reviewQueryRepository.getReviewByMember(loginId, size, lastId).stream()
                 .map(ReviewListResponse::of)
                 .collect(Collectors.toList());
 
     }
 
     public List<TagResponse> getRecommendationTags() {
-        return reviewRepository.getRecommendationTags().stream()
+        return reviewQueryRepository.getRecommendationTags().stream()
                 .map(TagResponse::of)
                 .collect(Collectors.toList());
     }
 
     public ReviewDetailResponse getReview(Long id) {
         return ReviewDetailResponse.of(
-                reviewRepository.getReview(id)
+                reviewQueryRepository.getReview(id)
                         .orElseThrow(ReviewNotFound::new),
                 reviewTagRepository.findTagNamesById(id)
         );

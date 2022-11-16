@@ -26,10 +26,10 @@ import teamproject.lam_server.domain.interaction.repository.schedule.ScheduleCom
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.repository.ScheduleRepository;
+import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
 import teamproject.lam_server.global.dto.request.PeriodRequest;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 

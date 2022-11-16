@@ -16,9 +16,9 @@ import teamproject.lam_server.domain.inqiury.dto.request.InquiryCreate;
 import teamproject.lam_server.domain.inqiury.dto.request.InquiryEdit;
 import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.inqiury.entity.InquiryAnswer;
-import teamproject.lam_server.domain.inqiury.repository.InquiryAnswerRepository;
-import teamproject.lam_server.domain.inqiury.repository.InquiryRepository;
-import teamproject.lam_server.domain.member.repository.MemberRepository;
+import teamproject.lam_server.domain.inqiury.repository.core.InquiryAnswerRepository;
+import teamproject.lam_server.domain.inqiury.repository.core.InquiryRepository;
+import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.util.List;
