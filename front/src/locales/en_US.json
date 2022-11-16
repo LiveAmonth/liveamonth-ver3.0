@@ -1,226 +1,512 @@
 {
-  "hello": {
-    "name": "Hello! {user}"
-  },
-  "common": {
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "select": "Select",
-    "application": "Application",
-    "please-input": "Please input",
-    "pick-day": "Pick a Day"
-  },
-  "menu": {
-    "city": "CITY",
-    "schedule": "SCHEDULE",
-    "otherSchedule": "OTHER SCHEDULE",
-    "mySchedule": "MY SCHEDULE",
-    "review": "REVIEW",
-    "myPage": "MY PAGE",
-    "customerCenter": "CUSTOMER CENTER"
-  },
-  "home": {
-    "popularReview": "TOP REVIEW",
-    "moreSchedule": "MORE DETAIL",
-    "moreReview": "MORE DETAIL",
-    "title": "TITLE",
-    "profile": "PROFILE"
-  },
-  "member": {
-    "signUp": "SIGN UP",
-    "login": "LOGIN",
-    "logout": "LOGOUT",
-    "notMember": "Aren't you a member yet?",
-    "askLogin": "Enjoy the various services of 'LiveAmonth'!!",
-    "reconfirm": "RECHECK PW",
-    "findId": "Find ID",
-    "findPw": "Find PW",
-    "loginId": "ID",
-    "password": "PASSWORD",
-    "passwordCheck": "PASSWORD CHECK",
-    "name": "NAME",
-    "nickname": "NICKNAME",
-    "email": "E-MAIL",
-    "gender": {
-      "title": "GENDER",
-      "M": "MALE",
-      "F": "FEMALE"
-    },
-    "age": {
-      "start": "AGE",
-      "end": ""
-    },
-    "birth": "BIRTH",
-    "follower": "follower",
-    "schedule": "my schedule",
-    "review": "my review",
-    "imageChange": "change image"
-  },
-  "city": {
-    "name": {
-      "SE": "SEOUL",
-      "GN": "GANGNEUNG",
-      "GJ": "GYEUNGJU",
-      "BS": "BUSAN",
-      "YS": "YEOSU",
-      "JJ": "JEJU"
-    },
-    "tab": {
-      "category": {
-        "intro": "Intro",
-        "transport": "Transport",
-        "weather": "Temperature"
-      }
-    },
-    "intro": {
-      "title": "'Live A Month' City",
-      "category": {
-        "INTRO": "Introduction",
-        "food": "Food",
-        "view": "View"
-      }
-    },
-    "transport": {
-      "category": {
-        "T_SUBWAY": "subway",
-        "T_BUS": "bus",
-        "T_BICYCLE": "bicycle",
-        "T_BUS_TERMINAL": "bus terminal",
-        "T_TRAIN": "train station",
-        "T_AIRPORT": "airport"
+  "banner": {
+    "schedule": {
+      "other": {
+        "title": "Other Schedules",
+        "content": "Let's experience many people's schedules."
       },
-      "kind": "category",
-      "infoTitle": "Number of stops and routes",
-      "score": "Score",
-      "source": "Source: Traffic Information"
-    },
-    "weather": {
-      "source": "Source: Meteorological Agency website",
-      "infoTitle": "average monthly temperature",
-      "high": "highest",
-      "avg": "average",
-      "low": "lowest",
-      "month": {
-        "JAN": "JAN",
-        "FEB": "FEB",
-        "MAR": "MAR",
-        "APR": "APR",
-        "MAY": "MAY",
-        "JUN": "JUN",
-        "JUL": "JUL",
-        "AUG": "AUG",
-        "SEP": "SEP",
-        "OCT": "OCT",
-        "NOV": "NOV",
-        "DEC": "DEC"
+      "my": {
+        "title": "Make Your Own Schedule",
+        "content": "Let's make a unique 'LIVEAMONTH' schedule."
       }
+    },
+    "review": {
+      "title": "Share A Variety Of Reviews",
+      "content": "Let's take a look at a lot of people's 'LIVEAMONTH' reviews. Tell us about your precious experiences!"
     }
   },
-  "myPage": {
-    "account": {
-      "title": "ACCOUNT",
-      "modify": "MODIFY",
-      "drop": "DROP"
+  "title": {
+    "home": {
+      "editProfile": "Change Profile Image",
+      "posts": "A Popular Post"
     },
-    "community": {
-      "title": "COMMUNITY",
-      "review": "Manage Review",
-      "schedule": "Manage Schedule"
+    "city": {
+      "Intro": "Recommended City for LIVEAMONTH",
+      "weather": "Monthly AVG TEMP(last year)",
+      "transport": "Stops and Routes"
     },
-    "inquiry": {
-      "title": "1:1 INQUIRY",
-      "writeInquiry": "Make an inquiry",
-      "inquiryAnswer": "Answers to inquiries"
+    "schedule": {
+      "own": "My Schedule",
+      "other": "Other Person's Schedule",
+      "info": "Schedule Information",
+      "manage": "Manage My Schedule",
+      "new": "Add new schedule",
+      "content": {
+        "info": "Content Info",
+        "new": "Add new content"
+      }
+    },
+    "review": {
+      "main": "Review Board",
+      "write": "Write"
+    },
+    "member": {
+      "myPage": "My Page",
+      "reconfirm": "Confirm Password",
+      "editProfile": "Edit Profile",
+      "changePassword": "Change Password",
+      "dropMember": "Resign Membership",
+      "inquiry": {
+        "write": "1:1 Inquiry",
+        "list": "1:1 Inquiry List",
+        "answer": "Answer",
+        "detail": "Content"
+      }
+    },
+    "comment": {
+      "count": "{count} comments in total",
+      "write": "Write",
+      "reply": "Reply({count})"
     }
   },
-  "customerCenter": {
-    "faq": "FAQ",
-    "personalTerms": "PERSONAM TERMS",
-    "termsAndConditions": "TERMS & CONDITIONS",
-    "notice": "NOTICE"
+  "placeholder": {
+    "please-input": "Please enter {field}",
+    "please-select": "please-select {field}",
+    "pick-day": "Please select a date",
+    "before-input": "Please log in to create {field}.",
+    "select": "select"
   },
   "footer": {
-    "info": "We are a site that shares information for 'Living for a Month.'",
+    "info": "This is a site that shares information for a month's live.",
     "menu": {
-      "help": "Help",
-      "link": "Links",
+      "help": "Customer Center",
+      "link": "Shortcut",
       "news": {
-        "letter": "News Letter",
-        "info": "Get more information about living a month through e-mail~!",
+        "Letter": "Newsletter",
+        "info": "Get more information about living a month by email~!",
         "subscribe": "Subscribe"
       }
     }
   },
-  "validation": {
-    "duplication": {
-      "button": "duplication check",
-      "check": "Please check duplication",
-      "duplicated": "{value} is duplicated {field}.",
-      "confirm": "Do you want to use that {field}?"
-    },
-    "reset": "reset",
-    "require": {
-      "text": "Please input {field}.",
-      "select": "Please select {field}."
-    },
-    "pattern": {
-      "loginId": "The ID is 3 to 20 characters in English and the number.",
-      "password": "The password is 8 to 20 characters including English, numbers, and special characters.",
-      "name": "The name must be between 2 and 20 characters.",
-      "nickname": "Nickname must be within 20 characters.",
-      "email": "This doesn't fit the email form."
-    },
-    "range": "The {field} must be between {min} and {max} characters.",
-    "password": {
-      "recheck": "Password doesn't match."
-    },
-    "birth": "Please select a date again."
-  },
   "form": {
-    "message": {
-      "reWrite": "Please enter it again.",
-      "noMember": "No matching member information found.",
-      "wrongIdPw": "The ID or password is incorrect.",
+    "button": {
+      "add": "ADD",
+      "application": "APPLY",
+      "update": "UPDATE",
+      "reset": "RESET",
+      "search": "SEARCH",
+      "newTag": "+ Add Tag",
+      "modify": "CHANGE",
+      "edit": "EDIT",
+      "write": "WRITE",
+      "delete": "DELETE",
+      "back": "Back to List",
+      "cancel": "CANCEL",
+      "follow": "FOLLOW",
+      "unfollow": "UNFOLLOW",
+      "member": {
+        "login": "LOGIN",
+        "goLogin": "Going to Log In",
+        "logout": "LOGOUT",
+        "signUp": "SIGN UP",
+        "reconfirm": "Confirm Password",
+        "findId": "Find ID",
+        "findPw": "Find Password",
+        "duplication": "Confirm Redundancy",
+        "edit": "Change Profile",
+        "changePassword": "Change Password",
+        "dropMember": "Resign Membership",
+        "image": "Change Image"
+      },
+      "schedule": {
+        "goOther": "Going to My Schedule",
+        "go": "Register",
+        "manage": "Schedule Management",
+        "add": "Add Schedule",
+        "edit": "Modify Schedule",
+        "select": "Select Schedule",
+        "content": {
+          "add": "Add Content"
+        },
+        "open": "Open",
+        "Hide": "Hidden",
+        "collapse": {
+          "open": "Open All",
+          "close": "Close all"
+        },
+        "search": "Schedule Search"
+      },
+      "review": {
+        "go": "Go to Register Posts",
+        "search": "Search for posts"
+      }
+    },
+    "label": {
+      "search": "search",
+      "sort": "Sort",
+      "select": "select",
+      "submit": "Create",
+      "open": "Open",
+      "Hide": "Hidden",
+      "title": "Title",
+      "writer": "Writer",
+      "content": "Content",
+      "category": "category",
+      "filter": "Filter",
+      "view": "View count",
+      "like": "Like",
+      "city": {
+        "title": "City",
+        "transport": {
+          "score": "Traffic score",
+          "kind": "Type",
+          "source": "Source: Traffic Information"
+        },
+        "weather": {
+          "source": "Source: Meteorological Agency Home Page",
+          "high": "You're the best",
+          "avg": "Average",
+          "low": "low"
+        }
+      },
+      "member": {
+        "name": "Name",
+        "loginId": "ID",
+        "password": "Password",
+        "passwordCheck": "Confirm password",
+        "nickname": "Nickname",
+        "email": "email",
+        "image": "",
+        "gender": {
+          "title": "Gender",
+          "MALE": "Men",
+          "FEMALE": "Women"
+        },
+        "age": {
+          "start": "Age",
+          "end": "Se"
+        },
+        "birth": "Birthday",
+        "askLogin": "Enjoy the variety of services from LIVEAMONTH"
+      },
       "findId": {
-        "title": "ID that matches your information.",
         "created": "Join"
+      },
+      "inquiry": {
+        "date": "Date of Inquiry",
+        "state": "Status",
+        "standBy": "Standby",
+        "complete": "Complete"
+      },
+      "schedule": {
+        "empty": "There are no schedules to display",
+        "title": "Title",
+        "cost": "Total cost",
+        "won": "Won",
+        "start": "Start Date",
+        "end": "End Date",
+        "period": "Period",
+        "location": "Region",
+        "content": {
+          "title": "Content Title",
+          "content": "Content",
+          "cost": "cost",
+          "start": "Start Time",
+          "end": "End time"
+        },
+        "noMore": "This is the last schedule.",
+        "loading": "Loading schedules..."
+      },
+      "review": {
+        "empty": "No registered posts",
+        "Tags": "Tags",
+        "tags-pl": "Up to 10",
+        "recommendation": "Recommendation Tag",
+        "noMore": "Last review.",
+        "loading": "Bringing reviews..."
+      },
+      "comment": {
+        "title": "Comments",
+        "writer": "Writer Comment",
+        "Best": "Best comment"
+      }
+    },
+    "message": {
+      "reWrite": "Please re-enter",
+      "noMember": "No matching member information found",
+      "wrongIdPw": "The ID or password is incorrect",
+      "wrongPw": "Password mismatch",
+      "unknown": "An unknown error occurred",
+      "login": "Do you want to log in? Click OK to go to the login page",
+      "findId": {
+        "title": "ID that matches your information."
+      },
+      "reconfirm": {
+        "success": "Password reconfirmed",
+        "announce": "Please re-enter your password to verify yourself."
+      },
+      "edit": "Member information has been modified.",
+      "signup": "Member registration completed",
+      "changePassword": {
+        "success": "Password changed. Please log in again.",
+        "announce": "Please enter a password to change."
+      },
+      "dropMember": {
+        "success": "Thank you for using 'Livermance' in the meantime.",
+        "announce": "You cannot rejoin with the same information when you withdraw from the membership. Do you want to leave?"
       },
       "findPw": {
         "title": "A temporary password has been issued to your email.",
-        "content": "Please check the mail and reset the password."
+        "Content": "Please check your mail and reset your password."
+      },
+      "signUp": {
+        "title": "Membership registration completed. Please log in."
+      },
+      "inquiry": {
+        "success": "1:1 inquiry received. We'll get back to you as soon as possible.",
+        "noAnswer": "No response registered",
+        "edit": "The statement has been modified.",
+        "delete": {
+          "title": "1:1 Delete Statement",
+          "content": "Are you sure you want to delete 1:1 inquiries?",
+          "success": "1:1 inquiry deleted."
+        }
+      },
+      "schedule": {
+        "add": "New schedule added",
+        "update": "Schedule information updated",
+        "delete": {
+          "title": "Delete schedule",
+          "message": "Are you sure you want to delete this schedule? Deleted information cannot be recovered.",
+          "exception": "No schedule selected."
+        },
+        "empty": {
+          "content": "Please select content from the schedule",
+          "schedule": "No registered schedule"
+        }
+      },
+      "content": {
+        "add": "New content added",
+        "update": "Content information has been updated.",
+        "delete": {
+          "title": "Delete content",
+          "message": "Are you sure you want to delete this content? Deleted information cannot be recovered.",
+          "exception": "No content selected."
+        },
+        "new": {
+          "title": "Add New Content",
+          "empty": "No content registered. Do you want to add?",
+          "message": "Do you want to add new content?"
+        },
+        "periodOut": "Not a fixed schedule period."
+      },
+      "comment": {
+        "empty": "No comments created",
+        "delete": {
+          "title": "Delete Comments",
+          "message": "Are you sure you want to delete this comment?"
+        }
+      },
+      "review": {
+        "write": {
+          "success": "Writing completed",
+          "exception": "Writing was not successful. Please fill it out again."
+        },
+        "delete": {
+          "title": "Delete post",
+          "message": "Are you sure you want to delete the post?",
+          "success": "The post has been deleted."
+        }
       }
     }
   },
-  "auth": {
-    "reissue": {
-      "login": "Please log in again."
+  "menu": {
+    "header": {
+      "City": "CITY",
+      "schedule": "SCHEDULE",
+      "otherSchedule": "OTHER SCHEDULE",
+      "mySchedule": "MY SCHEDULE",
+      "myPage": "MY PAGE",
+      "review": "REVIEW",
+      "recommend": "RECOMMENDATION & REVIEW",
+      "etc": "COMMUNITY"
+    },
+    "myPage": {
+      "menu": "MY PAGE MENU",
+      "account": {
+        "title": "ACCOUNT",
+        "editProfile": "Edit Profile",
+        "changePassword": "Change Password",
+        "dropMember": "Resign Membership"
+      },
+      "inquiry": {
+        "title": "INQUIRY",
+        "write": "Ask",
+        "answer": "List of inquiries"
+      }
+    },
+    "review": {
+      "review": {
+        "title": "RECOMMENDATION & REVIEW",
+        "review_liveamonth": "LIVEAMONTH Region",
+        "review_other": "Other Regions"
+      },
+      "etc": {
+        "Title": "COMMUNITY",
+        "etc_question": "Question Board",
+        "etc_free": "Free Board"
+      }
     }
   },
-  "schedule": {
-    "tooltip": {
-      "date": "A month's period of living",
-      "cost": "A month's cost of living",
-      "location": "A month's city of living",
-      "view": "view",
-      "like": "like"
+  "tabs": {
+    "profile": {
+      "follower": "Followers",
+      "schedule": "Schedule",
+      "review": "Review"
     },
-    "search": {
-      "member_nickname": "Nickname",
-      "city_name": "City",
-      "start_date": "Start Date",
-      "title": "Title"
+    "myPage": {
+      "schedule": "My Schedule",
+      "review": "My Review"
     },
-    "sort": {
-      "id_desc": "latest order",
-      "id_asc": "oldest order",
-      "cost_desc": "Highest Cost",
-      "cost_asc": "Lowest Cost",
-      "like_desc": "likes count",
-      "view_desc": "view count"
+    "home": {
+      "followed": "Follow Schedule",
+      "schedule": "Popular Schedule",
+      "review": "Popular Review"
     },
-    "popover": {
-      "link": "Go To Schedule List"
+    "city": {
+      "Intro": "Intro to the City",
+      "transport": "Traffic Information",
+      "weather": "Previous year's temperature information"
+    },
+    "review": {
+      "total": "All",
+      "se_review": "Seoul",
+      "gn_review": "Gangneung",
+      "gj_review": "Gyeongju",
+      "bs_review": "Busan",
+      "ys_review": "Yeosu",
+      "jj_review": "Jeju"
+    }
+  },
+  "validation": {
+    "duplication": {
+      "Check": "Please check redundancy.",
+      "duplicated": "{value} is already present {field}",
+      "confirm": "Do you want to use this {field}?"
+    },
+    "require": {
+      "text": "Please enter {field}",
+      "select": "Please select {field}"
+    },
+    "pattern": {
+      "loginId": "ID is 5 to 20 alphanumeric characters",
+      "password": "The password is 8 to 20 characters, including English, numbers, and special characters.",
+      "name": "Name must be 2 to 20 characters long.",
+      "nickname": "Nickname cannot be more than 20 characters long.",
+      "email": "The email form does not fit."
+    },
+    "range": "{field} must be within {min}~{max}.",
+    "min": "{field} must be at least {min}",
+    "password": {
+      "recheck": "Password does not match."
+    },
+    "birth": "Please select a date again.",
+    "period": {
+      "date": "The start date cannot be equal to or later than the end date.",
+      "time": "The start time cannot be equal to or later than the end time.",
+      "range": "The content schedule must be within the schedule period.",
+      "sameDate": "The date of the content start and end times is different."
+    },
+    "number": "Number only allowed",
+    "interaction": {
+      "alreadyLikeComment": "This comment has already been recommended.",
+      "alreadyDislikeComment": "It's already a deprecated comment."
+    },
+    "comment": {
+      "alreadyEdit": "Already being modified."
+    }
+  },
+  "category": {
+    "member": {
+      "gender": {
+        "Male": "Male",
+        "female": "Female"
+      }
+    },
+    "city": {
+      "intro": {
+        "Intro": "Intro",
+        "food": "Food",
+        "view": "View"
+      },
+      "name": {
+        "se": "Seoul",
+        "gn": "Gangneung",
+        "gj": "Gyeongju",
+        "bs": "Busan",
+        "ys": "Yeosu",
+        "jj": "Jeju"
+      },
+      "transport": {
+        "t_subway": "Subway Station",
+        "t_bus": "Bus Stop",
+        "t_bicycle": "Public Bicycle",
+        "t_bus_terminal": "Bus Terminal",
+        "t_train": "Train Station",
+        "t_airport": "Airport"
+      },
+      "month": {
+        "Jan": "January",
+        "feb": "February",
+        "mar": "March",
+        "apr": "April",
+        "may": "May",
+        "jun": "June",
+        "jul": "July",
+        "aug": "August",
+        "sep": "September",
+        "oct": "October",
+        "nov": "November",
+        "dec": "December"
+      }
+    },
+    "schedule": {
+      "search": {
+        "member_nickname": "Nickname",
+        "city_name": "City name",
+        "start_date": "Start Date",
+        "title": "Title"
+      },
+      "sort": {
+        "id_desc": "latest",
+        "comments_desc": "by comments",
+        "like_desc": "in order of popularity",
+        "view_desc": "in order of view",
+        "cost_desc": "in cost order"
+      },
+      "filter": {
+        "city_name": "city name",
+        "start_date": "start date"
+      }
+    },
+    "review": {
+      "sort": {
+        "id_desc": "latest",
+        "comments_desc": "by comments",
+        "like_desc": "in order of popularity",
+        "view_desc": "in order of view"
+      },
+      "category": {
+        "se_review": "Seoul",
+        "gn_review": "Gangneung",
+        "gj_review": "Gyeongju",
+        "bs_review": "Busan",
+        "ys_review": "Yeosu",
+        "jj_review": "Jeju",
+        "other": "Other Regions",
+        "question": "Question Board",
+        "Free": "Free Board"
+      },
+      "menu": {
+        "review": "Recommendation & Review",
+        "etc": "Community"
+      },
+      "search": {
+        "review_liveamonth": "LIVEAMONTH Region",
+        "review_other": "Other Regions",
+        "etc_question": "Question Board",
+        "etc_free": "Free Board"
+      }
     }
   }
 }
