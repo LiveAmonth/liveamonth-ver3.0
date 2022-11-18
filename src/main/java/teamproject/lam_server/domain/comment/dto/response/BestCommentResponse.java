@@ -1,31 +1,15 @@
 package teamproject.lam_server.domain.comment.dto.response;
 
-import lombok.Builder;
 import lombok.Getter;
-import teamproject.lam_server.domain.comment.entity.CommentEntity;
+import lombok.NoArgsConstructor;
 
-import static teamproject.lam_server.util.DateTimeUtil.calcTimeBefore;
+import java.time.LocalDateTime;
 
 @Getter
-@Builder
-public class BestCommentResponse {
+@NoArgsConstructor
+public class BestCommentResponse extends BaseCommentResponse {
 
-    private Long commentId;
-    private String comment;
-    private CommentProfileResponse profile;
-    private String elapsedTime;
-    private long numberOfLikes;
-    private long numberOfDislikes;
-
-    public static <T extends CommentEntity> BestCommentResponse of(T t) {
-        return BestCommentResponse.builder()
-                .commentId(t.getId())
-                .comment(t.getComment())
-                .profile(CommentProfileResponse.of(t.getMember()))
-                .elapsedTime(calcTimeBefore(t.getCreatedDate()))
-                .numberOfLikes(t.getNumberOfLikes())
-                .numberOfDislikes(t.getNumberOfDislikes())
-                .build();
+    public BestCommentResponse(Long commentId, String comment, CommentProfileResponse profile, LocalDateTime createdDate, Integer numberOfLikes, Integer numberOfDislikes) {
+        super(commentId, comment, profile, createdDate, numberOfLikes, numberOfDislikes);
     }
-
 }

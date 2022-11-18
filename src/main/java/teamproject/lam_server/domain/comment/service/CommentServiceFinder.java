@@ -13,9 +13,9 @@ public class CommentServiceFinder {
 
     private final List<CommentService> commentServices;
 
-    public CommentService find(String type) {
+    public CommentService find(CommentType type) {
         return commentServices.stream()
-                .filter(commentService -> commentService.getType() == CommentType.valueOf(type.toUpperCase()))
+                .filter(commentService -> commentService.getType() == type)
                 .findAny()
                 .orElseThrow(ServiceNotFound::new);
     }

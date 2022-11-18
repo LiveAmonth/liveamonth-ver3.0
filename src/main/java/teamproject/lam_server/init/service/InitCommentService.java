@@ -36,7 +36,7 @@ public class InitCommentService {
                     ? scheduleRepository.findAll().get((int) ((scheduleSize - 1) * Math.random())).getId()
                     : scheduleCommentRepository.findById(request.getParentId()).get().getSchedule().getId();
 
-            scheduleCommentRepository.write(member, scheduleId, request);
+            scheduleCommentRepository.write(member.getLoginId(), member.getId(), scheduleId, request);
         }
     }
 
@@ -52,7 +52,7 @@ public class InitCommentService {
                     ? reviewRepository.findAll().get((int) ((reviewSize - 1) * Math.random())).getId()
                     : reviewCommentRepository.findById(request.getParentId()).get().getReview().getId();
 
-            reviewCommentRepository.write(member, scheduleId, request);
+            reviewCommentRepository.write(member.getLoginId(), member.getId(), scheduleId, request);
         }
     }
 }

@@ -11,24 +11,26 @@ import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
 import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
+import teamproject.lam_server.domain.comment.repository.ReviewCommentQueryRepository;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentRepository;
+import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.exception.notfound.CommentNotFound;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 public class ReviewCommentService extends CommentService {
     private final ReviewCommentRepository reviewCommentRepository;
+    private final ReviewCommentQueryRepository reviewCommentQueryRepository;
 
-    public ReviewCommentService(SecurityContextFinder finder, ReviewCommentRepository reviewCommentRepository) {
+    public ReviewCommentService(SecurityContextFinder finder, ReviewCommentRepository reviewCommentRepository, ReviewCommentQueryRepository reviewCommentQueryRepository) {
         super(finder);
         this.reviewCommentRepository = reviewCommentRepository;
+        this.reviewCommentQueryRepository = reviewCommentQueryRepository;
     }
 
     @Override
@@ -39,7 +41,8 @@ public class ReviewCommentService extends CommentService {
     @Override
     @Transactional
     public void writeComment(Long contentId, CommentCreate request) {
-        reviewCommentRepository.write(finder.getLoggedInMember(), contentId, request);
+        Member writer = finder.getLoggedInMember();
+        reviewCommentRepository.write(writer.getLoginId(), writer.getId(), contentId, request);
     }
 
     @Override
@@ -66,32 +69,15 @@ public class ReviewCommentService extends CommentService {
     @Override
     public CustomPage<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO) {
         Pageable pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
-
-        Page<ReviewComment> reviewComments = reviewCommentRepository.getComments(contentId, pageable);
-
-        List<ReviewComment> reviewCommentReplies = reviewComments.getNumberOfElements() != 0
-                ? getReviewCommentReplies(contentId, reviewComments.getContent())
-                : Collections.emptyList();
-
-        Page<CommentResponse> page = reviewComments.map(comment -> mapToCommentResponse(
-                CommentResponse.of(comment),
-                comment.getId(),
-                reviewCommentReplies));
+        Page<CommentResponse> reviewComments = reviewCommentQueryRepository.getComments(contentId, pageable);
 
         return CustomPage.<CommentResponse>builder()
-                .page(page)
+                .page(reviewComments)
                 .build();
     }
+
     @Override
     public List<BestCommentResponse> getBestComments(Long contentId) {
-        return reviewCommentRepository.getBestComments(contentId).stream()
-                .map(BestCommentResponse::of)
-                .collect(Collectors.toList());
-    }
-
-    private List<ReviewComment> getReviewCommentReplies(Long reviewId, List<ReviewComment> comments) {
-        Long from = comments.get(comments.size() - 1).getId();
-        Long to = comments.get(0).getId();
-        return reviewCommentRepository.getCommentReplies(reviewId, from, to);
+        return reviewCommentQueryRepository.getBestComments(contentId);
     }
 }

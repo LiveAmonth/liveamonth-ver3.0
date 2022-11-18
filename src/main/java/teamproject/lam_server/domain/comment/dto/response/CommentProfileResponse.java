@@ -1,20 +1,19 @@
 package teamproject.lam_server.domain.comment.dto.response;
 
-import lombok.Builder;
 import lombok.Getter;
-import teamproject.lam_server.domain.member.entity.Member;
+import lombok.NoArgsConstructor;
+
+import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 
 @Getter
-@Builder
+@NoArgsConstructor
 public class CommentProfileResponse {
 
     private String nickname;
     private String image;
 
-    public static CommentProfileResponse of(Member member){
-        return CommentProfileResponse.builder()
-                .nickname(member.getNickname())
-                .image(member.getImage())
-                .build();
+    public CommentProfileResponse(String nickname, String image) {
+        this.nickname = nickname;
+        this.image = IMAGEBB_URL + image;
     }
 }

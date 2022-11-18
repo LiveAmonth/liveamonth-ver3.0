@@ -1,9 +1,9 @@
 package teamproject.lam_server.domain.comment.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
 import teamproject.lam_server.domain.comment.dto.request.CommentEdit;
 import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
@@ -21,14 +21,13 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/comments")
-@Slf4j
 public class CommentApiController {
 
     private final CommentServiceFinder commentServiceFinder;
 
     @PostMapping("/{type}/{contentId}")
     public ResponseEntity<?> writeComment(
-            @PathVariable String type,
+            @PathVariable CommentType type,
             @PathVariable Long contentId,
             @RequestBody @Valid CommentCreate request) {
         commentServiceFinder.find(type).writeComment(contentId, request);
@@ -37,7 +36,7 @@ public class CommentApiController {
 
     @PatchMapping("/{type}/{commentId}")
     public ResponseEntity<?> editComment(
-            @PathVariable String type,
+            @PathVariable CommentType type,
             @PathVariable Long commentId,
             @RequestBody @Valid CommentEdit request) {
         commentServiceFinder.find(type).editComment(commentId, request);
@@ -46,7 +45,7 @@ public class CommentApiController {
 
     @DeleteMapping("/{type}/{commentId}")
     public ResponseEntity<?> deleteComment(
-            @PathVariable String type,
+            @PathVariable CommentType type,
             @PathVariable Long commentId) {
         commentServiceFinder.find(type).deleteComment(commentId);
         return CustomResponse.success(DELETE_COMMENT);
@@ -54,7 +53,7 @@ public class CommentApiController {
 
     @GetMapping("/{type}/{content_id}")
     public ResponseEntity<?> getComments(
-            @PathVariable String type,
+            @PathVariable CommentType type,
             @PathVariable("content_id") Long contentId,
             PageableDTO pageableDTO) {
         CustomPage<CommentResponse> result =
@@ -63,8 +62,8 @@ public class CommentApiController {
     }
 
     @GetMapping("/{type}/{content_id}/best")
-    public ResponseEntity<?> getComments(
-            @PathVariable String type,
+    public ResponseEntity<?> getBestComments(
+            @PathVariable CommentType type,
             @PathVariable("content_id") Long contentId) {
         List<BestCommentResponse> result =
                 commentServiceFinder.find(type).getBestComments(contentId);

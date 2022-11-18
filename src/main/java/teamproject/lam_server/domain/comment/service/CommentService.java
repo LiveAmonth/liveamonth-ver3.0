@@ -15,24 +15,12 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public abstract class CommentService{
 
     protected final SecurityContextFinder finder;
-
-    protected <T extends CommentEntity> CommentResponse mapToCommentResponse(CommentResponse.CommentResponseBuilder builder,
-                                                                             Long parentId,
-                                                                             List<T> children) {
-        return builder.commentReplies(
-                children.stream()
-                        .filter(comment -> comment.getParent().getId().equals(parentId))
-                        .map(comment -> CommentResponse.ofReply(parentId, comment))
-                        .collect(Collectors.toList())
-        ).build();
-    }
 
     public abstract CommentType getType();
     public abstract void writeComment(Long contentId, CommentCreate request);

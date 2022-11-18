@@ -1,31 +1,25 @@
 package teamproject.lam_server.domain.comment.dto.response;
 
-import lombok.Builder;
 import lombok.Getter;
-import teamproject.lam_server.domain.comment.entity.CommentEntity;
-import teamproject.lam_server.util.DateTimeUtil;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@Builder
-public class CommentReplyResponse {
+@NoArgsConstructor
+public class CommentReplyResponse extends BaseCommentResponse {
 
-    private Long commentId;
     private Long parentId;
-    private String comment;
-    private CommentProfileResponse profile;
-    private String elapsedTime;
-    private long numberOfLikes;
-    private long numberOfDislikes;
 
-    public static <T extends CommentEntity> CommentReplyResponse of(T comment) {
-        return CommentReplyResponse.builder()
-                .commentId(comment.getId())
-                .parentId(comment.getParent().getId())
-                .comment(comment.getComment())
-                .profile(CommentProfileResponse.of(comment.getMember()))
-                .elapsedTime(DateTimeUtil.calcTimeBefore(comment.getCreatedDate()))
-                .numberOfLikes(comment.getNumberOfLikes())
-                .numberOfDislikes(comment.getNumberOfDislikes())
-                .build();
+    public CommentReplyResponse(
+            Long commentId,
+            String comment,
+            CommentProfileResponse profile,
+            LocalDateTime createdDate,
+            Integer numberOfLikes,
+            Integer numberOfDislikes,
+            Long parentId) {
+        super(commentId, comment, profile, createdDate, numberOfLikes, numberOfDislikes);
+        this.parentId = parentId;
     }
 }
