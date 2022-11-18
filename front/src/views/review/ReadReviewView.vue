@@ -163,7 +163,7 @@ watch(
         <CommentComponent
           :key="commentKey"
           :content-id="Number(id)"
-          :type="'review'"
+          :type="type"
           :writer="currReview.profile.nickname"
           @refresh="commentKey++"
         />

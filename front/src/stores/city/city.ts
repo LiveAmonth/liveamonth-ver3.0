@@ -9,23 +9,26 @@ import type {
   CityWeatherType,
 } from "@/modules/types/city/CityTypes";
 import type { InitDataType } from "@/modules/types/common/CommonTypes";
+import { CityType, StorageNames } from "@/modules/enums/constants";
 
-const storageGridInfo: CityCardType[] = localStorage["city-grid-info"]
-  ? JSON.parse(localStorage["city-grid-info"])
+const storageGridInfo: CityCardType[] = localStorage[
+  StorageNames.CITY_GRID_INFO
+]
+  ? JSON.parse(localStorage[StorageNames.CITY_GRID_INFO])
   : null;
 const initCityGridInfo: InitDataType = storageGridInfo
   ? { state: true, data: storageGridInfo }
   : { state: false, data: {} as CityCardType[] };
 
-const storageIntro: CityIntroType = localStorage["intro"]
-  ? JSON.parse(localStorage["intro"])
+const storageIntro: CityIntroType = localStorage[StorageNames.INTRO]
+  ? JSON.parse(localStorage[StorageNames.INTRO])
   : null;
 const initCityIntro: InitDataType = storageIntro
   ? { state: true, data: storageIntro }
   : { state: false, data: {} as CityIntroType };
 
-const storageExtraInfo: CityExtraType = localStorage["extra-info"]
-  ? JSON.parse(localStorage["extra-info"])
+const storageExtraInfo: CityExtraType = localStorage[StorageNames.EXTRA_INTRO]
+  ? JSON.parse(localStorage[StorageNames.EXTRA_INTRO])
   : null;
 const initCityExtraInfo: InitDataType = storageExtraInfo
   ? { state: true, data: storageExtraInfo }
@@ -34,7 +37,6 @@ const initCityExtraInfo: InitDataType = storageExtraInfo
 export const useCityStore = defineStore("city", {
   state: () => ({
     cityGridInfo: initCityGridInfo as InitDataType,
-    cityCategory: ["intro", "transport", "weather"],
     cityIntro: initCityIntro as InitDataType,
     cityExtraInfo: initCityExtraInfo as InitDataType,
   }),
@@ -42,11 +44,17 @@ export const useCityStore = defineStore("city", {
     gridInfo: (state): CityCardType[] =>
       state.cityGridInfo.data as CityCardType[],
     introDetail: (state): ImageContentType[] =>
-      (state.cityIntro.data as CityIntroType)["INTRO"] as ImageContentType[],
+      (state.cityIntro.data as CityIntroType)[
+        CityType.INTRO
+      ] as ImageContentType[],
     foods: (state): ImageContentType[] =>
-      (state.cityIntro.data as CityIntroType)["FOOD"] as ImageContentType[],
+      (state.cityIntro.data as CityIntroType)[
+        CityType.FOOD
+      ] as ImageContentType[],
     views: (state): ImageContentType[] =>
-      (state.cityIntro.data as CityIntroType)["VIEW"] as ImageContentType[],
+      (state.cityIntro.data as CityIntroType)[
+        CityType.VIEW
+      ] as ImageContentType[],
     transports: (state): CityTransportType[] =>
       (state.cityExtraInfo.data as CityExtraType)
         .transports as CityTransportType[],
@@ -57,7 +65,7 @@ export const useCityStore = defineStore("city", {
     getCityIntro: async function (cityName: string) {
       try {
         const response = await CityApiService.getCityIntro(cityName);
-        localStorage.setItem("intro", JSON.stringify(response));
+        localStorage.setItem(StorageNames.INTRO, JSON.stringify(response));
         this.cityIntro.state = true;
         this.cityIntro.data = response;
       } catch (error) {
@@ -68,7 +76,10 @@ export const useCityStore = defineStore("city", {
     getExtraCityInfo: async function (cityName: string) {
       try {
         const response = await CityApiService.getExtraCityInfo(cityName);
-        localStorage.setItem("extra-info", JSON.stringify(response));
+        localStorage.setItem(
+          StorageNames.EXTRA_INTRO,
+          JSON.stringify(response)
+        );
         this.cityExtraInfo.state = true;
         this.cityExtraInfo.data = response;
       } catch (error) {
@@ -79,7 +90,10 @@ export const useCityStore = defineStore("city", {
     getCityGridInfo: async function () {
       try {
         const response = await CityApiService.getCityGridInfo();
-        localStorage.setItem("city-grid-info", JSON.stringify(response));
+        localStorage.setItem(
+          StorageNames.CITY_GRID_INFO,
+          JSON.stringify(response)
+        );
         this.cityGridInfo.state = true;
         this.cityGridInfo.data = response;
       } catch (error) {

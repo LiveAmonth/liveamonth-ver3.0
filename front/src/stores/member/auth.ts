@@ -1,12 +1,13 @@
 import AuthApiService from "@/services/member/AuthApiService";
 import jwtDecode from "jwt-decode";
 import { defineStore } from "pinia";
+import { StorageNames } from "@/modules/enums/constants";
 import type { LoginType } from "@/modules/types/member/MemberTypes";
 import type { JWTType, TokenType } from "@/modules/types/auth/AuthType";
 import type { InitDataType } from "@/modules/types/common/CommonTypes";
 
-const storageToken: TokenType = localStorage["token-info"]
-  ? JSON.parse(localStorage["token-info"])
+const storageToken: TokenType = localStorage[StorageNames.TOKEN_INFO]
+  ? JSON.parse(localStorage[StorageNames.TOKEN_INFO])
   : null;
 const initTokenInfo: InitDataType = storageToken
   ? { state: true, data: storageToken }
@@ -35,7 +36,10 @@ export const useAuthStore = defineStore("auth", {
     login: async function (data: LoginType) {
       await AuthApiService.login(data)
         .then((response: TokenType) => {
-          localStorage.setItem("token-info", JSON.stringify(response));
+          localStorage.setItem(
+            StorageNames.TOKEN_INFO,
+            JSON.stringify(response)
+          );
           this.tokenInfo.state = true;
           this.tokenInfo.data = response;
         })
@@ -57,7 +61,10 @@ export const useAuthStore = defineStore("auth", {
     reissue: async function () {
       await AuthApiService.reissue()
         .then((response: TokenType) => {
-          localStorage.setItem("token-info", JSON.stringify(response));
+          localStorage.setItem(
+            StorageNames.TOKEN_INFO,
+            JSON.stringify(response)
+          );
           this.tokenInfo.state = true;
           this.tokenInfo.data = response;
         })
@@ -67,7 +74,7 @@ export const useAuthStore = defineStore("auth", {
     },
 
     clearAuth: function () {
-      localStorage.removeItem("token-info");
+      localStorage.removeItem(StorageNames.TOKEN_INFO);
       this.tokenInfo.state = false;
       this.tokenInfo.data = {} as TokenType;
     },

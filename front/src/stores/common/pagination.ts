@@ -4,14 +4,15 @@ import type {
   PageableRequestType,
   PageableType,
 } from "@/modules/types/pagination/PaginationTypes";
+import { DomainType } from "@/modules/enums/constants";
 
 export const usePageableStore = defineStore("pageable", {
   state: () => ({
     pagination: [
-      new Pagination(5, "SCHEDULE"),
-      new Pagination(5, "COMMENT"),
-      new Pagination(10, "INQUIRY"),
-      new Pagination(10, "REVIEW"),
+      new Pagination(5, DomainType.SCHEDULE),
+      new Pagination(20, DomainType.COMMENT),
+      new Pagination(10, DomainType.INQUIRY),
+      new Pagination(10, DomainType.REVIEW),
     ] as Pagination[],
   }),
   getters: {},

@@ -10,11 +10,13 @@ import type {
   InquiryType,
   InquiryEditor,
 } from "@/modules/types/member/MemberTypes";
+import { DomainType } from "@/modules/enums/constants";
 
 export const useInquiry = () => {
   const store = useInquiryStore();
   const error = ref();
   const isPending = ref(false);
+  const type = DomainType.INQUIRY;
 
   const category = computed((): EnumType[] => store.inquiryCategory);
   const inquiries = computed((): InquiryListType[] => store.inquiries);
@@ -100,6 +102,7 @@ export const useInquiry = () => {
   };
 
   return {
+    type,
     error,
     isPending,
     category,

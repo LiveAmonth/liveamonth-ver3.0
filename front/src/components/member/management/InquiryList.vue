@@ -7,13 +7,14 @@ import { onMounted, ref } from "vue";
 import { useInquiry } from "@/composables/member/inquiry";
 import { usePagination } from "@/composables/common/pagination";
 import { useMessageBox } from "@/composables/common/messageBox";
+import { InquiryType } from "@/modules/enums/constants";
 import type {
   InquiryEditor,
   InquiryTableType,
 } from "@/modules/types/member/MemberTypes";
 
-const type = "INQUIRY";
 const {
+  type,
   inquiryPage,
   inquiries,
   getInquires,
@@ -24,7 +25,7 @@ const {
 const { pageable, mappingPagination, movePage } = usePagination(type);
 const { titleMsg, labelMsg, resultMsg, openMessage } = useMessageBox();
 const tableData = ref<InquiryTableType[]>([]);
-const inquiryTypes = ["list", "detail", "edit"];
+const inquiryTypes = [InquiryType.LIST, InquiryType.DETAIL, InquiryType.EDIT];
 const inquiryType = ref<string>(inquiryTypes[0]);
 
 onMounted(async () => {
@@ -61,7 +62,7 @@ const pageClick = async (page: number) => {
 
 const select = async (cell?: InquiryTableType) => {
   await getInquiry(Number(cell?.id)).then(() => {
-    inquiryType.value = "detail";
+    inquiryType.value = InquiryType.DETAIL;
   });
 };
 
@@ -69,36 +70,36 @@ const editBtn = async (id: number, form: InquiryEditor) => {
   await editInquiry(id, form);
   await pageClick(pageable.value.page);
   openMessage(resultMsg("inquiry.edit"));
-  inquiryType.value = "list";
+  inquiryType.value = InquiryType.LIST;
 };
 
 const deleteBtn = async (id: number) => {
   await deleteInquiry(id);
   await pageClick(pageable.value.page);
   openMessage(resultMsg("inquiry.delete.success"));
-  inquiryType.value = "list";
+  inquiryType.value = InquiryType.LIST;
 };
 
 const goBackBtn = () => {
-  inquiryType.value = "list";
+  inquiryType.value = InquiryType.LIST;
 };
 </script>
 
 <template>
   <div class="my-4">
     <ReadInquiry
-      v-if="inquiryType === 'detail'"
+      v-if="inquiryType === InquiryType.DETAIL"
       @delete="deleteBtn"
-      @go-edit="inquiryType = 'edit'"
+      @go-edit="inquiryType = InquiryType.EDIT"
       @go-back="goBackBtn"
     />
     <WriteInquiry
-      v-else-if="inquiryType === 'edit'"
+      v-else-if="inquiryType === InquiryType.EDIT"
       :is-edit="true"
       @edit="editBtn"
       @go-back="goBackBtn"
     />
-    <div v-else-if="inquiryType === 'list'" class="list-container">
+    <div v-else-if="inquiryType === InquiryType.LIST" class="list-container">
       <SmallTitleSlot :title="titleMsg('member.inquiry.list')" />
       <div class="inquiry-list">
         <el-table

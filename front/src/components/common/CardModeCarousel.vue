@@ -6,9 +6,6 @@ const props = defineProps({
   dir: {
     type: String,
     required: true,
-    validator: function (value) {
-      return value === "food" || value === "view";
-    },
   },
 });
 

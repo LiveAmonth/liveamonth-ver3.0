@@ -1,3 +1,5 @@
+import type { EnumType } from "@/modules/types/common/CommonTypes";
+
 export interface InteractionType {
   from: number;
   to: number;
@@ -5,5 +7,5 @@ export interface InteractionType {
 
 export interface CommentInteractionType {
   id: number;
-  state: string;
+  state: EnumType;
 }

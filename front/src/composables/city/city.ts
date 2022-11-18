@@ -6,11 +6,15 @@ import type {
   CityTransportType,
   CityWeatherType,
 } from "@/modules/types/city/CityTypes";
+import { CityType } from "@/modules/enums/constants";
 
 export const useCity = () => {
   const store = useCityStore();
   const error = ref();
   const isPending = ref(false);
+  const food = CityType.FOOD;
+  const view = CityType.VIEW;
+  const intro = CityType.INTRO;
 
   const cityGridInfos = computed((): CityCardType[] => store.gridInfo);
   const cityIntroDetail = computed((): ImageContentType[] => store.introDetail);
@@ -22,7 +26,7 @@ export const useCity = () => {
   const hasCityGridInfos = computed(() => store.cityGridInfo.state);
 
   const carouselData = (dir: string) => {
-    return dir === "food"
+    return dir === food
       ? computed((): ImageContentType[] => store.foods)
       : computed((): ImageContentType[] => store.views);
   };
@@ -75,6 +79,9 @@ export const useCity = () => {
   return {
     error,
     isPending,
+    intro,
+    food,
+    view,
     cityGridInfos,
     cityIntroDetail,
     cityTransport,

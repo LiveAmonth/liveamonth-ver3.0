@@ -14,9 +14,10 @@ import type {
   MemberCreate,
 } from "@/modules/types/member/MemberTypes";
 import type { FormInstance } from "element-plus";
+import { DomainType } from "@/modules/enums/constants";
 
 export const useMember = () => {
-  const type = "MEMBER";
+  const type: string = DomainType.MEMBER;
   const store = useMemberStore();
   const { isAvailable, duplicateCheck } = useFormValidate();
   const { openMessageBox, labelMsg, validationMsg } = useMessageBox();

@@ -57,7 +57,7 @@ const fillThumbs = (thumbs: Ref<UnwrapRef<string>>) => {
 };
 
 const reactComment = (option: boolean) => {
-  checkInteraction(option, interactedComment.value?.state)
+  checkInteraction(option, interactedComment.value?.state.code)
     .then(() => {
       option ? fillThumbs(thumbsUp) : fillThumbs(thumbsDown);
       emits(
@@ -78,7 +78,7 @@ watch(
     await getInteractedComment(props.comment.commentId).then((response) => {
       if (response) {
         interactedComment.value = response;
-        interactedComment.value?.state === "LIKE"
+        interactedComment.value?.state.code === "LIKE"
           ? fillThumbs(thumbsUp)
           : fillThumbs(thumbsDown);
       }

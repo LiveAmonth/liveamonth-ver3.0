@@ -22,7 +22,7 @@ export interface CommentType {
   parentId: number | null;
   comment: string;
   profile: CommentProfileType;
-  commentReplies: CommentType[];
+  commentReplies: CommentType[] | null;
   elapsedTime: string;
   numberOfLikes: number;
   numberOfDislikes: number;

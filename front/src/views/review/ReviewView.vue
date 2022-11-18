@@ -19,11 +19,10 @@ const props = defineProps({
   },
 });
 
-const category = "REVIEW";
 const { isLoggedIn } = useAuth();
 const { hasReviewCategory, getReviewCategories } = useCategory();
-const { pageable, mappingPagination, movePage } = usePagination(category);
 const {
+  type,
   isPending,
   request,
   reviewPage,
@@ -31,6 +30,7 @@ const {
   getReviews,
   getRecommendationTags,
 } = useReview();
+const { pageable, mappingPagination, movePage } = usePagination(type);
 const { labelMsg, requireLoginMessageBox } = useMessageBox();
 const route = useRoute();
 const router = useRouter();
@@ -100,7 +100,7 @@ watch(
           <ReviewList v-if="!isPending" />
         </el-col>
       </el-row>
-      <CustomPagination :pagination-type="category" @click="pageClick" />
+      <CustomPagination :pagination-type="type" @click="pageClick" />
     </el-col>
     <el-col :span="4" class="px-0">
       <el-card>

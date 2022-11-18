@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import type { CommentInteractionType } from "@/modules/types/interaction/InteractionType";
 import type { InteractionType } from "@/modules/types/interaction/InteractionType";
 import type { CheckType } from "@/modules/types/common/CommonTypes";
+import { DomainType } from "@/modules/enums/constants";
 
 export const useInteractionStore = defineStore("interaction", {
   state: () => ({
@@ -72,7 +73,7 @@ export const useInteractionStore = defineStore("interaction", {
     },
 
     isTypeMember: function (type: string) {
-      return type === "member";
+      return type === DomainType.MEMBER;
     },
   },
 });

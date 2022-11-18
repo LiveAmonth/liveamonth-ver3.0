@@ -115,7 +115,7 @@ const handelLike = async () => {
       <CommentComponent
         :key="commentKey"
         :content-id="Number(id)"
-        :type="'schedule'"
+        :type="type"
         :writer="currentSchedule.profile.nickname"
         @refresh="commentKey++"
       />

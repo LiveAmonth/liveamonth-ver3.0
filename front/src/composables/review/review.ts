@@ -18,9 +18,10 @@ import type {
   TagType,
 } from "@/modules/types/review/ReviewTypes";
 import type { ReviewEditor } from "@/modules/types/review/ReviewTypes";
+import { DomainType } from "@/modules/enums/constants";
 
 export const useReview = () => {
-  const type = "REVIEW";
+  const type: string = DomainType.REVIEW;
   const store = useReviewStore();
   const error = ref();
   const isPending = ref<boolean>(false);

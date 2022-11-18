@@ -7,9 +7,10 @@ import type {
   ScheduleEditor,
 } from "@/modules/types/schedule/ScheduleTypes";
 import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
+import { DomainType } from "@/modules/enums/constants";
 
 export const useSchedule = () => {
-  const type = "SCHEDULE";
+  const type: string = DomainType.SCHEDULE;
   const store = useScheduleStore();
   const contentStore = useScheduleContentStore();
 

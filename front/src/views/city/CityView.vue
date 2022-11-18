@@ -8,7 +8,7 @@ import { useCategory } from "@/composables/common/category";
 import { useMessageBox } from "@/composables/common/messageBox";
 
 const { cityNames, hasCityNames, getCityNames } = useCategory();
-const { getCityIntro, getExtraCityInfo } = useCity();
+const { food, view, getCityIntro, getExtraCityInfo } = useCity();
 const { titleMsg, categoryMsg } = useMessageBox();
 
 const activeName = ref<string>();
@@ -50,7 +50,7 @@ const cityChange = async () => {
       <div class="mt-3 px-0">
         <CityIntroTab />
         <div class="mt-5">
-          <el-row v-for="cat in ['food', 'view']" :key="cat">
+          <el-row v-for="cat in [food, view]" :key="cat">
             <el-col>
               <TitleSlot :title="categoryMsg('city.intro', cat)" />
               <CardModeCarousel :dir="cat" />

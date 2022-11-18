@@ -3,6 +3,9 @@ import CustomPagination from "@/components/common/CustomPagination.vue";
 import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import CommentInput from "@/components/comment/CommentInput.vue";
 import CommentSlot from "@/components/comment/CommentSlot.vue";
+import BestComment from "@/components/comment/BestComment.vue";
+import LinkSlot from "@/components/common/LinkSlot.vue";
+import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import { usePagination } from "@/composables/common/pagination";
 import { useComment } from "@/composables/common/comment";
@@ -10,13 +13,11 @@ import { useAuth } from "@/composables/member/auth";
 import { useMember } from "@/composables/member/member";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { useInteraction } from "@/composables/interaction/interaction";
+import { DomainType } from "@/modules/enums/constants";
 import type {
   CommentEditor,
   CommentType,
 } from "@/modules/types/comment/CommentTypes";
-import BestComment from "@/components/comment/BestComment.vue";
-import LinkSlot from "@/components/common/LinkSlot.vue";
-import { useRoute } from "vue-router";
 
 const props = defineProps({
   contentId: {
@@ -27,7 +28,7 @@ const props = defineProps({
     type: String,
     required: true,
     validator(value: string): boolean {
-      return value === "schedule" || value === "review";
+      return value === DomainType.SCHEDULE || value === DomainType.REVIEW;
     },
   },
   writer: {
@@ -38,9 +39,9 @@ const props = defineProps({
 
 const emits = defineEmits(["refresh"]);
 
-const category = "COMMENT";
 const route = useRoute();
 const {
+  commentType,
   error,
   commentPageable,
   comments,
@@ -58,7 +59,7 @@ const { getInteractedCommentsByMember, interactComment } = useInteraction();
 const { isLoggedIn } = useAuth();
 const { simpleProfile } = useMember();
 const { pageable, mappingPagination, movePage, setSize } =
-  usePagination(category);
+  usePagination(commentType);
 const {
   resultMsg,
   titleMsg,
@@ -97,6 +98,7 @@ const interact = async (
 ) => {
   if (isLoggedIn.value) {
     await interactComment(props.type, commentId, option, isInteracted);
+    console.log(isInteracted);
     await emits("refresh");
   } else {
     await requireLoginMessageBox();
@@ -155,6 +157,14 @@ const setEditInput = (isReply = false, id = "#0") => {
   }
   window.location.href = id;
 };
+
+const getReplySize = (comment: CommentType) => {
+  if (comment.commentReplies) {
+    return !comment.commentReplies[0].commentId
+      ? 0
+      : comment.commentReplies.length;
+  }
+};
 </script>
 
 <template>
@@ -200,9 +210,9 @@ const setEditInput = (isReply = false, id = "#0") => {
         />
         <el-collapse class="comment-reply">
           <el-collapse-item
-            :title="titleMsg('comment.reply', comment.commentReplies.length)"
+            :title="titleMsg('comment.reply', getReplySize(comment))"
           >
-            <ul>
+            <ul v-if="comment.commentReplies[0].commentId">
               <li
                 v-for="reply in comment.commentReplies"
                 :key="reply.commentId"
@@ -232,7 +242,7 @@ const setEditInput = (isReply = false, id = "#0") => {
         </el-collapse>
       </li>
     </ul>
-    <CustomPagination :pagination-type="category" @click="pageClick" />
+    <CustomPagination :pagination-type="commentType" @click="pageClick" />
   </div>
 </template>
 

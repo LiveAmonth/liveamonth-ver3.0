@@ -9,11 +9,13 @@ import type {
   CommentEditor,
   BestCommentType,
 } from "@/modules/types/comment/CommentTypes";
+import { DomainType } from "@/modules/enums/constants";
 
 export const useComment = () => {
   const store = useCommentStore();
   const error = ref();
   const isPending = ref<boolean>(false);
+  const commentType = DomainType.COMMENT;
 
   const comments = computed((): CommentType[] => store.comments);
   const commentPageable = computed((): PageableType => store.commentPage);
@@ -61,9 +63,11 @@ export const useComment = () => {
   const extractIds = (arrays: CommentType[]) => {
     const ids: number[] = [];
     arrays.forEach((value) => ids.push(value.commentId));
-    arrays.map((value) =>
-      value.commentReplies.forEach((reply) => ids.push(reply.commentId))
-    );
+    arrays.map((value) => {
+      return value.commentReplies?.forEach((reply) =>
+        ids.push(reply.commentId)
+      );
+    });
     return ids;
   };
 
@@ -101,6 +105,7 @@ export const useComment = () => {
     store.setEditableComment(data);
   };
   return {
+    commentType,
     error,
     isPending,
     comments,
