@@ -1,9 +1,6 @@
 package teamproject.lam_server.domain.comment.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -16,4 +13,9 @@ public class CommentEdit {
     @NotEmpty
     @Length(max = 1000)
     private String comment;
+
+    @Builder
+    public CommentEdit(String comment) {
+        this.comment = comment;
+    }
 }
