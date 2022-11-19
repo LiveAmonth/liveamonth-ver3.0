@@ -4,12 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
+import teamproject.lam_server.domain.comment.entity.ReviewComment;
+import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentRepository;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
+import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
+import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
+import teamproject.lam_server.exception.notfound.CommentNotFound;
 import teamproject.lam_server.util.JsonUtil;
 
 import java.util.List;
@@ -31,12 +36,13 @@ public class InitCommentService {
         long memberSize = memberRepository.count();
         for (CommentCreate request : editors) {
             Member member = memberRepository.findAll().get((int) ((memberSize - 1) * Math.random()));
+            Schedule schedule = scheduleRepository.findAll().get((int) ((scheduleSize - 1) * Math.random()));
 
-            Long scheduleId = request.getParentId() == null
-                    ? scheduleRepository.findAll().get((int) ((scheduleSize - 1) * Math.random())).getId()
-                    : scheduleCommentRepository.findById(request.getParentId()).get().getSchedule().getId();
+            ScheduleComment comment = request.getParentId() == null
+                    ? request.toScheduleEntity(member, schedule)
+                    : request.toScheduleEntity(member, schedule, scheduleCommentRepository.findById(request.getParentId()).orElseThrow(CommentNotFound::new));
 
-            scheduleCommentRepository.write(member.getLoginId(), member.getId(), scheduleId, request);
+            scheduleCommentRepository.save(comment);
         }
     }
 
@@ -47,12 +53,13 @@ public class InitCommentService {
         long memberSize = memberRepository.count();
         for (CommentCreate request : editors) {
             Member member = memberRepository.findAll().get((int) ((memberSize - 1) * Math.random()));
+            Review review = reviewRepository.findAll().get((int) ((reviewSize - 1) * Math.random()));
 
-            Long scheduleId = request.getParentId() == null
-                    ? reviewRepository.findAll().get((int) ((reviewSize - 1) * Math.random())).getId()
-                    : reviewCommentRepository.findById(request.getParentId()).get().getReview().getId();
+            ReviewComment comment = request.getParentId() == null
+                    ? request.toReviewEntity(member, review)
+                    : request.toReviewEntity(member, review, reviewCommentRepository.findById(request.getParentId()).orElseThrow(CommentNotFound::new));
 
-            reviewCommentRepository.write(member.getLoginId(), member.getId(), scheduleId, request);
+            reviewCommentRepository.save(comment);
         }
     }
 }

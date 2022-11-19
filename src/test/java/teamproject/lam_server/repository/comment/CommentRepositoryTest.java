@@ -7,16 +7,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,10 +35,13 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
+import teamproject.lam_server.repository.jdbc.member.JdbcMemberRepository;
+import teamproject.lam_server.repository.jdbc.review.JdbcReviewRepository;
 import teamproject.lam_server.util.DateTimeUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +55,7 @@ import static teamproject.lam_server.domain.review.entity.QReview.review;
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
-public class CommentTest {
+public class CommentRepositoryTest {
 
     @Autowired
     ReviewCommentQueryRepository reviewCommentQueryRepository;
@@ -67,8 +69,13 @@ public class CommentTest {
     PasswordEncoder passwordEncoder;
     @Autowired
     JPAQueryFactory queryFactory;
+    @Autowired
+    JdbcMemberRepository jdbcMemberRepository;
+    @Autowired
+    JdbcReviewRepository jdbcReviewRepository;
 
     Review savedReview;
+    Member savedMember;
 
     @BeforeAll
     void setUp() {
@@ -82,7 +89,7 @@ public class CommentTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        Member member = memberRepository.save(memberCreate.toEntity(passwordEncoder));
+        savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
 
         ReviewCreate create = ReviewCreate.builder()
                 .title("review title")
@@ -90,33 +97,136 @@ public class CommentTest {
                 .category(ReviewCategory.SE_REVIEW.getCode())
                 .tags(Collections.emptySet())
                 .build();
-        savedReview = reviewRepository.save(create.toEntity(member, Collections.emptySet()));
-        for (int i = 0; i < 10000; i++) {
-            CommentCreate request = CommentCreate.builder()
-                    .comment("댓글" + i)
-                    .build();
-            commentRepository.write(member.getLoginId(), member.getId(), savedReview.getId(), request);
-        }
-
-        for (int i = 1; i < 1000; i++) {
-            for (int j = 1; j < 11; j++) {
-                CommentCreate request = CommentCreate.builder()
-                        .comment("대댓글" + j)
-                        .parentId((long) i)
-                        .build();
-                commentRepository.write(member.getLoginId(), member.getId(), savedReview.getId(), request);
-            }
-        }
+        savedReview = reviewRepository.save(create.toEntity(savedMember, Collections.emptySet()));
     }
 
     @Test
-    @DisplayName("댓글, 대댓글 따로 조회 후 매핑")
-    void get_comment_mapping() {
+    @DisplayName("댓글 저장 성능 비교")
+    void compare_write_comment() {
+        List<String> methods = new ArrayList<>();
+        List<Long> times = new ArrayList<>();
+        int iterations = 50;
+        List<MemberCreate> memberCreates = new ArrayList<>();
+        List<ReviewCreate> reviewCreates = new ArrayList<>();
+        for (int i = 0; i < 50000; i++) {
+            MemberCreate memberCreate =
+                    MemberCreate.builder()
+                            .loginId("member" + i)
+                            .password("memberPassword1!")
+                            .name("memberName" + i)
+                            .nickname("memberNickname" + i)
+                            .email("member" + i + "@liveamonth.com")
+                            .birth(LocalDate.now().minusDays(1))
+                            .gender(GenderType.MALE.name())
+                            .build();
+            memberCreates.add(memberCreate);
+
+            ReviewCreate reviewCreate = ReviewCreate.builder()
+                    .title("review title")
+                    .content("review content")
+                    .category(ReviewCategory.SE_REVIEW.getCode())
+                    .tags(Collections.emptySet())
+                    .build();
+            reviewCreates.add(reviewCreate);
+        }
+        jdbcMemberRepository.batchInsert(memberCreates);
+        jdbcReviewRepository.batchInsert(reviewCreates, savedMember.getId());
+        log.info("member 사이즈={}", memberRepository.count());
+        log.info("review 사이즈={}", reviewRepository.count());
+        log.info("member ={}", memberRepository.findAll().get(100).getName());
+
+        for (int i = 0; i < iterations; i++) {
+            long startTime = System.currentTimeMillis();
+
+                    Member findMember = memberRepository.findById(savedMember.getId()).get();
+            Review findReview = reviewRepository.findById(savedReview.getId()).get();
+            ReviewComment reviewComment = ReviewComment.builder()
+                    .content("crud repository comment")
+                    .member(findMember)
+                    .review(findReview)
+                    .build();
+            commentRepository.save(reviewComment);
+            long stopTime = System.currentTimeMillis();
+            long crudTime = stopTime - startTime;
+
+            startTime = System.currentTimeMillis();
+            CommentCreate request = CommentCreate.builder()
+                    .comment("native query comment")
+                    .build();
+            commentRepository.write(savedMember.getLoginId(), savedMember.getId(), savedReview.getId(), request);
+            stopTime = System.currentTimeMillis();
+            long queryTime = stopTime - startTime;
+
+            methods.add(crudTime < queryTime ? "CRUD" : "Native");
+            times.add(Math.abs(crudTime - queryTime));
+        }
+
+        log.info("============== 결과 ================");
+        for (int i = 0; i < iterations; i++) {
+            log.info("더 빠른 방식={}, 시간차={}", methods.get(i), times.get(i));
+        }
+
+    }
+
+    @Test
+    @DisplayName("댓글 조회 성능 비교")
+    void compare_get_comment() {
         // given
-        long startTime = System.currentTimeMillis();
+        List<String> methods = new ArrayList<>();
+        List<Long> times = new ArrayList<>();
+        int iterations = 50;
+        long startTime;
+        long stopTime;
+        long streamTime;
+        long indexTime;
+
+//        for (int i = 0; i < 10000; i++) {
+//            CommentCreate request = CommentCreate.builder()
+//                    .comment("댓글" + i)
+//                    .build();
+//            commentRepository.save(request.toReviewEntity(savedMember, savedReview));
+//        }
+//
+//        for (int i = 1; i < 1000; i++) {
+//            for (int j = 1; j < 11; j++) {
+//                CommentCreate request = CommentCreate.builder()
+//                        .comment("대댓글" + j)
+//                        .parentId((long) i)
+//                        .build();
+//                ReviewComment parent = commentRepository.findById((long) i).orElseThrow(CommentNotFound::new);
+//                commentRepository.save(request.toReviewEntity(savedMember, savedReview, parent));
+//            }
+//        }
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<ReviewComment> elements = queryFactory.select(reviewComment)
+        // when
+        for (int i = 0; i < iterations; i++) {
+            // 스트림을 이용한 방식
+            startTime = System.currentTimeMillis();
+            List<TestCommentResponse> commentsByStream = getCommentsByStream(pageable);
+            stopTime = System.currentTimeMillis();
+            streamTime = stopTime - startTime;
+
+            // 인덱스를 이용한 방식
+            startTime = System.currentTimeMillis();
+            List<CommentDto> commentsByIndex = getCommentsByIndex(pageable);
+            stopTime = System.currentTimeMillis();
+            indexTime = stopTime - startTime;
+
+            // then
+            Assertions.assertThat(commentsByStream.size()).isEqualTo(commentsByIndex.size());
+            methods.add(streamTime < indexTime ? "Stream" : "Covering Index");
+            times.add(Math.abs(streamTime - indexTime));
+        }
+
+        log.info("============== 결과 ================");
+        for (int i = 0; i < iterations; i++) {
+            log.info("더 빠른 방식={}, 시간차={}", methods.get(i), times.get(i));
+        }
+    }
+
+    private List<TestCommentResponse> getCommentsByStream(Pageable pageable) {
+        List<ReviewComment> contents = queryFactory.select(reviewComment)
                 .from(reviewComment)
                 .leftJoin(reviewComment.review, review).fetchJoin()
                 .leftJoin(reviewComment.member, member).fetchJoin()
@@ -135,39 +245,17 @@ public class CommentTest {
                         reviewComment.parent.id.isNull()
                 );
 
-        Page<ReviewComment> result = PageableExecutionUtils.getPage(
-                elements,
-                pageable,
-                countQuery::fetchOne);
 
+        List<ReviewComment> reviewCommentReplies = getReviewCommentReplies(contents);
 
-        List<ReviewComment> reviewCommentReplies = result.getNumberOfElements() != 0
-                ? getReviewCommentReplies(result.getContent())
-                : Collections.emptyList();
-
-        Page<TestCommentResponse> page = result.map(comment -> mapToCommentResponse(
-                TestCommentResponse.of(comment),
-                comment.getId(),
-                reviewCommentReplies));
-
-        long stopTime = System.currentTimeMillis();
-
-        // when
-        log.info("경과시간={}", stopTime - startTime);
-
-        // then
+        return contents.stream().map(comment -> mapToCommentResponse(
+                        TestCommentResponse.of(comment),
+                        comment.getId(),
+                        reviewCommentReplies))
+                .collect(Collectors.toList());
     }
 
-
-
-    @Test
-    @DisplayName("댓글 조회 인덱싱 방법")
-    void get_comment_index() {
-        // given
-        long startTime = System.currentTimeMillis();
-
-        Pageable pageable = PageRequest.of(0, 10);
-
+    private List<CommentDto> getCommentsByIndex(Pageable pageable) {
         List<Long> ids = queryFactory.select(reviewComment.id)
                 .from(reviewComment)
                 .join(reviewComment.review, review)
@@ -182,7 +270,7 @@ public class CommentTest {
 
         QReviewComment replyComment = new QReviewComment("replyComment");
 
-        List<CommentDto> contents = queryFactory.select(
+        return queryFactory.select(
                         Projections.constructor(CommentDto.class,
                                 reviewComment.id,
                                 reviewComment.comment,
@@ -213,12 +301,6 @@ public class CommentTest {
                 .join(reviewComment.children, replyComment)
                 .where(reviewComment.id.in(ids))
                 .fetch();
-
-        // when
-        long stopTime = System.currentTimeMillis();
-        log.info("[INDEX 방법] 경과시간={}", stopTime - startTime);
-
-        // then
     }
 
     List<ReviewComment> getReviewCommentReplies(List<ReviewComment> comments) {

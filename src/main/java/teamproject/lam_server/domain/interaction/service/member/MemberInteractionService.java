@@ -43,4 +43,5 @@ public class MemberInteractionService implements InteractionService {
                 : BooleanCheckResponse.of(false, NOT_INTERACTED_OBJECT);
     }
 
+
 }
