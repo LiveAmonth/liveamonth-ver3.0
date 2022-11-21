@@ -617,6 +617,79 @@ include::{snippets}/recommendation-tags-get/response-fields-data.adoc[]
 
 ===== HTTP 응답 예제
 include::{snippets}/recommendation-tags-get/http-response.adoc[]
+[[Comment-API]]
+== Comment API
+
+[[comment-write]]
+=== 작성
+==== 요청
+include::{snippets}/comment-write/path-parameters.adoc[]
+include::{snippets}/comment-write/request-fields.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/comment-write/http-request.adoc[]
+
+==== 응답
+include::{snippets}/comment-write/response-fields-data.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/comment-write/http-response.adoc[]
+
+[[comment-edit]]
+=== 수정
+==== 요청
+include::{snippets}/comment-edit/path-parameters.adoc[]
+include::{snippets}/comment-edit/request-fields.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/comment-edit/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/comment-edit/http-response.adoc[]
+
+[[comment-delete]]
+=== 삭제
+==== 요청
+include::{snippets}/comment-delete/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/comment-delete/http-request.adoc[]
+
+==== 응답
+===== HTTP 응답 예제
+include::{snippets}/comment-delete/http-response.adoc[]
+
+[[comment-list-get]]
+=== 댓글 다건 조회
+==== 요청
+include::{snippets}/comment-list-get/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/comment-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/comment-list-get/response-fields-data.adoc[]
+include::{snippets}/comment-list-get/response-fields-profile.adoc[]
+include::{snippets}/comment-list-get/response-fields-commentReplies.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/comment-list-get/http-response.adoc[]
+
+[[best-comment-list-get]]
+=== 베스트 댓글 다건 조회
+==== 요청
+include::{snippets}/best-comment-list-get/path-parameters.adoc[]
+
+===== HTTP 요청 예제
+include::{snippets}/best-comment-list-get/http-request.adoc[]
+
+==== 응답
+include::{snippets}/best-comment-list-get/response-fields-data.adoc[]
+include::{snippets}/best-comment-list-get/response-fields-profile.adoc[]
+
+===== HTTP 응답 예제
+include::{snippets}/best-comment-list-get/http-response.adoc[]
 
 [[Inquiry-API]]
 == Inquiry API
