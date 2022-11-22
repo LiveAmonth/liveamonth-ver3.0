@@ -35,8 +35,8 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
-import teamproject.lam_server.repository.jdbc.member.JdbcMemberRepository;
-import teamproject.lam_server.repository.jdbc.review.JdbcReviewRepository;
+import teamproject.lam_server.repository.jdbc.member.MemberJdbcRepository;
+import teamproject.lam_server.repository.jdbc.review.ReviewJdbcRepository;
 import teamproject.lam_server.util.DateTimeUtil;
 
 import java.time.LocalDate;
@@ -60,6 +60,8 @@ public class CommentRepositoryTest {
     @Autowired
     ReviewCommentQueryRepository reviewCommentQueryRepository;
     @Autowired
+    ReviewCommentTestRepository reviewCommentTestRepository;
+    @Autowired
     ReviewCommentRepository commentRepository;
     @Autowired
     MemberRepository memberRepository;
@@ -70,9 +72,9 @@ public class CommentRepositoryTest {
     @Autowired
     JPAQueryFactory queryFactory;
     @Autowired
-    JdbcMemberRepository jdbcMemberRepository;
+    MemberJdbcRepository memberJdbcRepository;
     @Autowired
-    JdbcReviewRepository jdbcReviewRepository;
+    ReviewJdbcRepository reviewJdbcRepository;
 
     Review savedReview;
     Member savedMember;
@@ -129,16 +131,13 @@ public class CommentRepositoryTest {
                     .build();
             reviewCreates.add(reviewCreate);
         }
-        jdbcMemberRepository.batchInsert(memberCreates);
-        jdbcReviewRepository.batchInsert(reviewCreates, savedMember.getId());
-        log.info("member 사이즈={}", memberRepository.count());
-        log.info("review 사이즈={}", reviewRepository.count());
-        log.info("member ={}", memberRepository.findAll().get(100).getName());
+        memberJdbcRepository.batchInsert(memberCreates);
+        reviewJdbcRepository.batchReviewInsert(reviewCreates, savedMember.getId());
 
         for (int i = 0; i < iterations; i++) {
             long startTime = System.currentTimeMillis();
 
-                    Member findMember = memberRepository.findById(savedMember.getId()).get();
+            Member findMember = memberRepository.findById(savedMember.getId()).get();
             Review findReview = reviewRepository.findById(savedReview.getId()).get();
             ReviewComment reviewComment = ReviewComment.builder()
                     .content("crud repository comment")
@@ -153,7 +152,7 @@ public class CommentRepositoryTest {
             CommentCreate request = CommentCreate.builder()
                     .comment("native query comment")
                     .build();
-            commentRepository.write(savedMember.getLoginId(), savedMember.getId(), savedReview.getId(), request);
+            reviewCommentTestRepository.write(savedMember.getLoginId(), savedMember.getId(), savedReview.getId(), request);
             stopTime = System.currentTimeMillis();
             long queryTime = stopTime - startTime;
 
@@ -180,23 +179,6 @@ public class CommentRepositoryTest {
         long streamTime;
         long indexTime;
 
-//        for (int i = 0; i < 10000; i++) {
-//            CommentCreate request = CommentCreate.builder()
-//                    .comment("댓글" + i)
-//                    .build();
-//            commentRepository.save(request.toReviewEntity(savedMember, savedReview));
-//        }
-//
-//        for (int i = 1; i < 1000; i++) {
-//            for (int j = 1; j < 11; j++) {
-//                CommentCreate request = CommentCreate.builder()
-//                        .comment("대댓글" + j)
-//                        .parentId((long) i)
-//                        .build();
-//                ReviewComment parent = commentRepository.findById((long) i).orElseThrow(CommentNotFound::new);
-//                commentRepository.save(request.toReviewEntity(savedMember, savedReview, parent));
-//            }
-//        }
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
