@@ -18,10 +18,9 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewEditor;
 import teamproject.lam_server.domain.review.entity.ReviewTag;
 import teamproject.lam_server.domain.review.entity.Tag;
-import teamproject.lam_server.domain.review.repository.query.ReviewQueryRepository;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
-import teamproject.lam_server.domain.review.repository.core.ReviewTagRepository;
 import teamproject.lam_server.domain.review.repository.core.TagRepository;
+import teamproject.lam_server.domain.review.repository.query.ReviewQueryRepository;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
@@ -29,7 +28,6 @@ import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,7 +40,6 @@ public class ReviewServiceImpl implements ReviewService {
     private final SecurityContextFinder finder;
     private final ReviewRepository reviewRepository;
     private final ReviewQueryRepository reviewQueryRepository;
-    private final ReviewTagRepository reviewTagRepository;
     private final TagRepository tagRepository;
     private final DomainSpec<ReviewSortType> spec = new DomainSpec<>(ReviewSortType.class);
 
@@ -73,7 +70,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 리뷰 태그 삭제
         if (request.getRemovedTags() != null) {
-            review.removeTags(reviewTagRepository.findByReviewIdAndTag(id, request.getRemovedTags()));
+            review.removeTags(reviewQueryRepository.findReviewTagsByIdAndTag(id, request.getRemovedTags()));
         }
 
         // 리뷰 태그 추가
@@ -104,14 +101,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     public CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
-        List<Long> reviewTagIds = cond.getTags() != null
-                ? reviewTagRepository.findReviewTagsByTags(cond.getTags())
-                : Collections.emptyList();
         Pageable pageable = spec.getPageable(pageableDTO);
-        Page<ReviewListResponse> page =
-                reviewQueryRepository
-                        .search(cond, reviewTagIds, pageable)
-                        .map(ReviewListResponse::of);
+        Page<ReviewListResponse> page =reviewQueryRepository.search(cond, pageable);
 
         return CustomPage.<ReviewListResponse>builder()
                 .page(page)
@@ -120,9 +111,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     public List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId) {
         finder.checkLegalLoginId(loginId);
-        return reviewQueryRepository.getReviewByMember(loginId, size, lastId).stream()
-                .map(ReviewListResponse::of)
-                .collect(Collectors.toList());
+        return reviewQueryRepository.getReviewByMember(loginId, size, lastId);
 
     }
 
@@ -136,7 +125,7 @@ public class ReviewServiceImpl implements ReviewService {
         return ReviewDetailResponse.of(
                 reviewQueryRepository.getReview(id)
                         .orElseThrow(ReviewNotFound::new),
-                reviewTagRepository.findTagNamesById(id)
+                reviewQueryRepository.findTagNames(id)
         );
     }
 
