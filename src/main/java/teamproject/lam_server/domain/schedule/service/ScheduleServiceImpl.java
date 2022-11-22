@@ -2,6 +2,7 @@ package teamproject.lam_server.domain.schedule.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.city.constants.CityName;
@@ -14,8 +15,8 @@ import teamproject.lam_server.domain.schedule.dto.response.MyScheduleResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleEditor;
-import teamproject.lam_server.domain.schedule.repository.query.ScheduleQueryRepository;
 import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
+import teamproject.lam_server.domain.schedule.repository.query.ScheduleQueryRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
 import teamproject.lam_server.global.dto.response.CountResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
@@ -25,7 +26,6 @@ import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -73,9 +73,8 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     public CustomPage<ScheduleCardResponse> search(ScheduleSearchCond cond, PageableDTO pageableDTO) {
-        Page<ScheduleCardResponse> page =
-                scheduleQueryRepository.search(cond, spec.getPageable(pageableDTO))
-                        .map(ScheduleCardResponse::of);
+        Pageable pageable = spec.getPageable(pageableDTO);
+        Page<ScheduleCardResponse> page = scheduleQueryRepository.search(cond, pageable);
 
         return CustomPage.<ScheduleCardResponse>builder()
                 .page(page)
@@ -84,24 +83,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     public List<MyScheduleResponse> getMySchedules(String loginId, Integer size, Long lastId) {
         finder.checkLegalLoginId(loginId);
-        return scheduleQueryRepository.getMySchedules(loginId, size, lastId)
-                .stream()
-                .map(MyScheduleResponse::of)
-                .collect(Collectors.toList());
+        return scheduleQueryRepository.getMySchedules(loginId, size, lastId);
     }
 
     public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
-        return scheduleQueryRepository.getFollowedSchedules(loginId, size, lastId).stream()
-                .map(ScheduleCardResponse::of)
-                .collect(Collectors.toList());
+        return scheduleQueryRepository.getFollowedSchedules(loginId, size, lastId);
     }
 
     public List<EditableScheduleResponse> getEditableSchedules(String loginId) {
         finder.checkLegalLoginId(loginId);
-        return scheduleRepository.getByCreatedBy(loginId)
-                .stream()
-                .map(EditableScheduleResponse::of)
-                .collect(Collectors.toList());
+        return scheduleQueryRepository.getEditableSchedules(loginId);
     }
 
     public CountResponse getNumberOfFollowedPosts(String loginId) {

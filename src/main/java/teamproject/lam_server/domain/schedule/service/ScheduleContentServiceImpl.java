@@ -3,21 +3,20 @@ package teamproject.lam_server.domain.schedule.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import teamproject.lam_server.domain.schedule.entity.ScheduleContentEditor;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentCreate;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleContentEdit;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
+import teamproject.lam_server.domain.schedule.entity.ScheduleContentEditor;
 import teamproject.lam_server.domain.schedule.repository.core.ScheduleContentRepository;
-import teamproject.lam_server.domain.schedule.repository.query.ScheduleQueryRepository;
 import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
+import teamproject.lam_server.domain.schedule.repository.query.ScheduleQueryRepository;
 import teamproject.lam_server.exception.notfound.ScheduleNotFound;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,10 +65,7 @@ public class ScheduleContentServiceImpl implements ScheduleContentService {
     }
 
     @Override
-    @Transactional
     public List<ScheduleContentResponse> getScheduleContents(Long scheduleId) {
-        return scheduleQueryRepository.getScheduleContents(scheduleId).stream()
-                .map(ScheduleContentResponse::of)
-                .collect(Collectors.toList());
+        return scheduleQueryRepository.getScheduleContents(scheduleId);
     }
 }

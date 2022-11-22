@@ -1,24 +1,30 @@
 package teamproject.lam_server.domain.schedule.repository.query;
 
-import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.city.constants.CityName;
+import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.QMember;
 import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
-import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
+import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleResponse;
+import teamproject.lam_server.domain.schedule.dto.response.MyScheduleResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
+import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
+import teamproject.lam_server.global.dto.response.PeriodResponse;
+import teamproject.lam_server.global.dto.response.TimePeriodResponse;
 import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.querydsl.core.types.Projections.constructor;
 import static com.querydsl.jpa.JPAExpressions.select;
 import static org.springframework.util.StringUtils.hasText;
 import static teamproject.lam_server.domain.interaction.entity.member.QFollower.follower;
@@ -32,49 +38,82 @@ public class ScheduleQueryRepository extends BasicRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    public Page<Schedule> search(ScheduleSearchCond cond, Pageable pageable) {
-        List<Schedule> elements = getSearchElementsQuery(cond)
+    public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, Pageable pageable) {
+        List<Long> ids = queryFactory.select(schedule.id)
+                .from(schedule)
+                .join(schedule.member, member)
+                .where(
+                        memberNicknameEq(cond.getMemberNickname()),
+                        cityNameEq(cond.getCityName()),
+                        startDateGoe(cond.getStartDate()),
+                        titleContain(cond.getTitle()),
+                        publicFlag()
+                )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
+                .orderBy(schedule.id.desc())
                 .fetch();
 
-        JPAQuery<Long> countQuery = getSearchCountQuery(cond);
+        List<ScheduleCardResponse> contents = queryFactory.select(getScheduleCardProjection())
+                .from(schedule)
+                .join(schedule.member, member)
+                .where(schedule.id.in(ids))
+                .fetch();
 
-        return PageableExecutionUtils.getPage(
-                elements,
-                pageable,
-                countQuery::fetchOne);
+        return new PageImpl<>(contents, pageable, ids.size());
     }
 
-    public List<ScheduleContent> getScheduleContents(Long scheduleId) {
-        return queryFactory.selectFrom(scheduleContent)
-                .join(scheduleContent.schedule, schedule).fetchJoin()
-                .join(schedule.member, member).fetchJoin()
-                .where(
-                        scheduleIdEq(scheduleId)
-                )
+    public List<ScheduleContentResponse> getScheduleContents(Long scheduleId) {
+        return queryFactory
+                .select(constructor(ScheduleContentResponse.class,
+                        scheduleContent.id,
+                        scheduleContent.title,
+                        scheduleContent.cost,
+                        constructor(TimePeriodResponse.class,
+                                scheduleContent.timePeriod.startDateTime,
+                                scheduleContent.timePeriod.endDateTime
+                        )
+                ))
+                .from(scheduleContent)
+                .where(scheduleIdEqAtContent(scheduleId))
                 .fetch();
     }
 
-    public List<Schedule> getMySchedules(String loginId, Integer size, Long lastId) {
-        JPAQuery<Schedule> query = queryFactory.selectFrom(schedule)
-                .leftJoin(schedule.member, member).fetchJoin()
+    public List<MyScheduleResponse> getMySchedules(String loginId, Integer size, Long lastId) {
+        JPAQuery<MyScheduleResponse> query = queryFactory
+                .select(constructor(MyScheduleResponse.class,
+                        schedule.id,
+                        schedule.title,
+                        schedule.cityName,
+                        schedule.totalCost,
+                        constructor(PeriodResponse.class,
+                                schedule.period.startDate,
+                                schedule.period.endDate
+                        ),
+                        schedule.publicFlag,
+                        schedule.numberOfHits,
+                        schedule.numberOfLikes,
+                        schedule.numberOfComments
+                ))
+                .from(schedule)
                 .where(
                         createdIdEq(loginId),
                         scheduleIdLt(lastId)
                 )
                 .orderBy(schedule.id.desc());
+
         return size != null
                 ? query.limit(size).fetch()
                 : query.fetch();
     }
 
-    public List<Schedule> getFollowedSchedules(String loginId, Integer size, Long lastId) {
-        JPAQuery<Schedule> query = queryFactory.selectFrom(schedule)
-                .join(schedule.member, member).fetchJoin()
+    public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
+        JPAQuery<ScheduleCardResponse> query = queryFactory
+                .select(getScheduleCardProjection())
+                .from(schedule)
+                .join(schedule.member, member)
                 .where(
-                        schedule.member.in(
+                        member.in(
                                 select(follower.to)
                                         .from(follower)
                                         .leftJoin(follower.from, member)
@@ -90,6 +129,23 @@ public class ScheduleQueryRepository extends BasicRepository {
                 : query.fetch();
     }
 
+    public List<EditableScheduleResponse> getEditableSchedules(String loginId) {
+        return queryFactory.select(
+                        constructor(EditableScheduleResponse.class,
+                                schedule.id,
+                                schedule.title,
+                                schedule.cityName,
+                                constructor(PeriodResponse.class,
+                                        schedule.period.startDate,
+                                        schedule.period.endDate
+                                ),
+                                schedule.publicFlag
+                        )
+                ).from(schedule)
+                .where(createdIdEq(loginId))
+                .fetch();
+    }
+
     public Long getNumberOfFollowedPosts(String loginId) {
         QMember toMember = new QMember("toMember");
         QMember fromMember = new QMember("fromMember");
@@ -102,31 +158,35 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .fetchOne();
     }
 
-    private JPAQuery<Schedule> getSearchElementsQuery(ScheduleSearchCond cond) {
-        return queryFactory.selectFrom(schedule)
-                .join(schedule.member, member).fetchJoin()
-                .where(getSearchPredicts(cond));
+    private ConstructorExpression<ScheduleCardResponse> getScheduleCardProjection() {
+        return constructor(ScheduleCardResponse.class,
+                schedule.id,
+                schedule.title,
+                schedule.cityName,
+                constructor(SimpleProfileResponse.class,
+                        member.id,
+                        member.loginId,
+                        member.nickname,
+                        member.image,
+                        member.numberOfReviews,
+                        member.numberOfSchedules,
+                        member.numberOfFollowers,
+                        member.numberOfFollows
+                ),
+                schedule.totalCost,
+                schedule.numberOfHits,
+                schedule.numberOfLikes,
+                schedule.numberOfComments,
+                constructor(PeriodResponse.class,
+                        schedule.period.startDate,
+                        schedule.period.endDate
+                ),
+                schedule.publicFlag
+        );
     }
 
-    private JPAQuery<Long> getSearchCountQuery(ScheduleSearchCond cond) {
-        return queryFactory.select(schedule.count())
-                .from(schedule)
-                .leftJoin(schedule.member, member)
-                .where(getSearchPredicts(cond));
-    }
-
-    private Predicate[] getSearchPredicts(ScheduleSearchCond cond) {
-        return new Predicate[]{
-                memberNicknameEq(cond.getMemberNickname()),
-                cityNameEq(cond.getCityName()),
-                startDateGoe(cond.getStartDate()),
-                titleContain(cond.getTitle()),
-                publicFlag()
-        };
-    }
-
-    private BooleanExpression scheduleIdEq(Long id) {
-        return id != null ? schedule.id.eq(id) : null;
+    private BooleanExpression scheduleIdEqAtContent(Long id) {
+        return id != null ? scheduleContent.schedule.id.eq(id) : null;
     }
 
     private BooleanExpression memberNicknameEq(String nickname) {

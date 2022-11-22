@@ -1,12 +1,11 @@
 package teamproject.lam_server.domain.schedule.dto.response;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import teamproject.lam_server.domain.schedule.entity.ScheduleContent;
 import teamproject.lam_server.global.dto.response.TimePeriodResponse;
 
 @Getter
-@Builder
+@AllArgsConstructor
 public class ScheduleContentResponse {
 
     private Long id;
@@ -14,15 +13,4 @@ public class ScheduleContentResponse {
     private String content;
     private long cost;
     private TimePeriodResponse timePeriod;
-
-    public static ScheduleContentResponse of(ScheduleContent schedulecontent) {
-        return ScheduleContentResponse.builder()
-                .id(schedulecontent.getId())
-                .title(schedulecontent.getTitle())
-                .content(schedulecontent.getContent())
-                .cost(schedulecontent.getCost())
-                .timePeriod(TimePeriodResponse.of(schedulecontent.getTimePeriod()))
-                .build();
-    }
-
 }
