@@ -1,4 +1,4 @@
-package teamproject.lam_server.repository.jdbc.review;
+package teamproject.lam_server.jdbc.review;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

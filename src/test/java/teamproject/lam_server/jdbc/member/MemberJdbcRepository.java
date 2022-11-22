@@ -1,4 +1,4 @@
-package teamproject.lam_server.repository.jdbc.member;
+package teamproject.lam_server.jdbc.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;

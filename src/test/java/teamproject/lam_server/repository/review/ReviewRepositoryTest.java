@@ -26,7 +26,7 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
 import teamproject.lam_server.domain.review.repository.core.TagRepository;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
-import teamproject.lam_server.repository.jdbc.review.ReviewJdbcRepository;
+import teamproject.lam_server.jdbc.review.ReviewJdbcRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

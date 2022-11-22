@@ -23,7 +23,7 @@ import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
-import teamproject.lam_server.repository.jdbc.inquiry.InquiryJdbcRepository;
+import teamproject.lam_server.jdbc.inquiry.InquiryJdbcRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

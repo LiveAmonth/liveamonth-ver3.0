@@ -35,8 +35,8 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
-import teamproject.lam_server.repository.jdbc.member.MemberJdbcRepository;
-import teamproject.lam_server.repository.jdbc.review.ReviewJdbcRepository;
+import teamproject.lam_server.jdbc.member.MemberJdbcRepository;
+import teamproject.lam_server.jdbc.review.ReviewJdbcRepository;
 import teamproject.lam_server.util.DateTimeUtil;
 
 import java.time.LocalDate;
