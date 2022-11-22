@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
-import teamproject.lam_server.repository.jdbc.member.JdbcMemberRepository;
+import teamproject.lam_server.domain.member.repository.query.MemberQueryRepository;
+import teamproject.lam_server.global.service.SecurityContextFinder;
+import teamproject.lam_server.repository.jdbc.member.MemberJdbcRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,16 +25,19 @@ import java.util.List;
 @Slf4j
 public class MemberRepositoryTest {
     @Autowired
-    JdbcMemberRepository jdbcMemberRepository;
+    MemberJdbcRepository memberJdbcRepository;
     @Autowired
     MemberRepository memberRepository;
-
+    @Autowired
+    MemberQueryRepository memberQueryRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    SecurityContextFinder finder;
 
     @Test
     @DisplayName("JDBC Bulk Insert 성능")
-    void jdbc_bulk_insert(){
+    void jdbc_bulk_insert() {
         // given
         List<MemberCreate> memberList = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
@@ -51,11 +56,10 @@ public class MemberRepositoryTest {
 
         // when
         long start = System.currentTimeMillis();
-        jdbcMemberRepository.batchInsert(memberList);
+        memberJdbcRepository.batchInsert(memberList);
         long end = System.currentTimeMillis();
 
         // then
         log.info("[jdbc bulk insert]경과 시간={}", end - start);
     }
-
 }

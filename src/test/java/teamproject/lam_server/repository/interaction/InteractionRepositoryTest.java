@@ -18,7 +18,7 @@ import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
-import teamproject.lam_server.repository.jdbc.member.JdbcMemberRepository;
+import teamproject.lam_server.repository.jdbc.member.MemberJdbcRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class InteractionRepositoryTest {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    JdbcMemberRepository jdbcMemberRepository;
+    MemberJdbcRepository memberJdbcRepository;
 
     Member toMember;
     Member fromMember;
@@ -82,18 +82,13 @@ public class InteractionRepositoryTest {
                             .build();
             memberList.add(memberCreate);
         }
-        jdbcMemberRepository.batchInsert(memberList);
+        memberJdbcRepository.batchInsert(memberList);
     }
 
     @Test
     @DisplayName("상호작용(팔로우) 저장 성능 비교")
     void compare_follow_member() throws Exception {
         // given
-//        List<String> saveMethods = new ArrayList<>();
-//        List<Long> saveTimes = new ArrayList<>();
-//        List<String> deleteMethods = new ArrayList<>();
-//        List<Long> deleteTimes = new ArrayList<>();
-//        int iterations = 50;
         long startTime;
         long stopTime;
         long queryTime;
@@ -120,8 +115,6 @@ public class InteractionRepositoryTest {
         stopTime = System.currentTimeMillis();
         crudTime = stopTime - startTime;
 
-//        saveMethods.add(queryTime < crudTime ? "Native Query" : "CRUD");
-//        saveTimes.add(Math.abs(queryTime - crudTime));
 
         log.info("더 빠른 방식={}, 시간차={}", queryTime < crudTime ? "Native Query" : "CRUD", Math.abs(queryTime - crudTime));
     }

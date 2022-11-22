@@ -15,11 +15,10 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class JdbcMemberRepository{
+public class MemberJdbcRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public void batchInsert(List<MemberCreate> subItems) {
-        System.out.println("시ㅏ작??");
         this.jdbcTemplate.batchUpdate(
                 "insert into member (created_date, last_modified_date, birth, email, gender, image, login_id, name, nickname, password, role, social_type, status) values " +
                         "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
