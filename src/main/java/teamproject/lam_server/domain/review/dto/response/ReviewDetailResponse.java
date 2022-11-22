@@ -1,17 +1,16 @@
 package teamproject.lam_server.domain.review.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
-import teamproject.lam_server.domain.review.entity.Review;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Builder
+@AllArgsConstructor
 public class ReviewDetailResponse {
     private Long id;
     private String title;
@@ -24,19 +23,4 @@ public class ReviewDetailResponse {
     private long numberOfHits;
     private long numberOfComments;
     private long numberOfLikes;
-
-    public static ReviewDetailResponse of(Review review, List<String> tagNames) {
-        return ReviewDetailResponse.builder()
-                .id(review.getId())
-                .title(review.getTitle())
-                .profile(SimpleProfileResponse.of(review.getMember()))
-                .content(review.getContent())
-                .category(review.getCategory())
-                .tags(tagNames)
-                .createDateTime(review.getCreatedDate())
-                .numberOfHits(review.getNumberOfHits())
-                .numberOfLikes(review.getNumberOfLikes())
-                .numberOfComments(review.getNumberOfComments())
-                .build();
-    }
 }

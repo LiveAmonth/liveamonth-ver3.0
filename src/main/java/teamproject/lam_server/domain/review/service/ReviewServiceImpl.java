@@ -122,11 +122,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     public ReviewDetailResponse getReview(Long id) {
-        return ReviewDetailResponse.of(
-                reviewQueryRepository.getReview(id)
-                        .orElseThrow(ReviewNotFound::new),
-                reviewQueryRepository.findTagNames(id)
-        );
+        return reviewQueryRepository.getReview(id);
     }
 
     @Transactional

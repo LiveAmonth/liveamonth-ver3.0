@@ -25,6 +25,7 @@ import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
 import teamproject.lam_server.domain.review.repository.core.TagRepository;
+import teamproject.lam_server.domain.review.repository.query.ReviewQueryRepository;
 import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.jdbc.review.ReviewJdbcRepository;
 
@@ -35,8 +36,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static com.querydsl.core.types.Projections.constructor;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
 import static teamproject.lam_server.domain.review.entity.QReviewTag.reviewTag;
@@ -61,6 +60,8 @@ public class ReviewRepositoryTest {
     ReviewJdbcRepository reviewJdbcRepository;
     @Autowired
     ReviewTagTestRepository reviewTagTestRepository;
+    @Autowired
+    ReviewQueryRepository reviewQueryRepository;
     @Autowired
     TagRepository tagRepository;
 
@@ -126,20 +127,19 @@ public class ReviewRepositoryTest {
         long dtoTime;
 
         // when
+        long count = reviewRepository.count();
         for (int i = 0; i < iterations; i++) {
+            long id = (long) ((Math.random() * count) + 1);
             startTime = System.currentTimeMillis();
-            ReviewDetailDto reviewWithEntity = getReviewWithEntity(1L);
-            log.info("entity={}", reviewWithEntity);
+            getReviewWithEntity(id);
             stopTime = System.currentTimeMillis();
             entityTime = stopTime - startTime;
 
             startTime = System.currentTimeMillis();
-            ReviewDetailDto reviewWithDto = getReviewWithDto(1L);
-            log.info("dto={}", reviewWithDto);
+            reviewQueryRepository.getReview(id);
             stopTime = System.currentTimeMillis();
             dtoTime = stopTime - startTime;
 
-            assertEquals(reviewWithEntity.getTitle(), reviewWithDto.getTitle());
             methods.add(entityTime < dtoTime ? "Entity" : "DTO");
             times.add(Math.abs(entityTime - dtoTime));
         }
@@ -175,7 +175,6 @@ public class ReviewRepositoryTest {
             stopTime = System.currentTimeMillis();
             queryDslTime = stopTime - startTime;
 
-            assertEquals(tagNamesByNativeQuery, tagNamesByQueryDsl);
             methods.add(nativeQueryTime < queryDslTime ? "Native Query" : "Querydsl");
             times.add(Math.abs(nativeQueryTime - queryDslTime));
         }
@@ -195,34 +194,6 @@ public class ReviewRepositoryTest {
 
         List<String> tags = reviewTagTestRepository.findTagNamesById(id);
         return ReviewDetailDto.of(findReview, tags);
-    }
-
-    ReviewDetailDto getReviewWithDto(Long id) {
-        return queryFactory
-                .select(constructor(ReviewDetailDto.class,
-                        review.id,
-                        review.title,
-                        constructor(SimpleProfileResponse.class,
-                                member.id,
-                                member.loginId,
-                                member.nickname,
-                                member.image,
-                                member.numberOfReviews,
-                                member.numberOfSchedules,
-                                member.numberOfFollowers,
-                                member.numberOfFollows
-                        ),
-                        review.content,
-                        review.category,
-                        review.createdDate,
-                        review.numberOfHits,
-                        review.numberOfComments,
-                        review.numberOfLikes
-                ))
-                .from(review)
-                .where(review.id.eq(id))
-                .join(review.member, member)
-                .fetchOne();
     }
 
     List<String> findTagNames(Long reviewId) {
