@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 public class InquiryAnswerResponse {
 
     private Long id;
-    private String writer;
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -23,7 +22,6 @@ public class InquiryAnswerResponse {
     public static InquiryAnswerResponse of(InquiryAnswer answer) {
         return InquiryAnswerResponse.builder()
                 .id(answer.getId())
-                .writer(answer.getLastModifiedBy())
                 .content(answer.getContent())
                 .dateTime(answer.getLastModifiedDate())
                 .build();

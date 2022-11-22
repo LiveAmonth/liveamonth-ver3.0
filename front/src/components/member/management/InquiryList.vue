@@ -41,7 +41,6 @@ const setTableData = (): InquiryTableType[] => {
     data.push({
       id: value.id,
       title: value.title,
-      writer: value.writer,
       category: value.category.value,
       date: value.date,
       state: value.isAnswered
@@ -121,12 +120,6 @@ const goBackBtn = () => {
             header-align="center"
             prop="title"
             width="280"
-          />
-          <el-table-column
-            :label="labelMsg('writer')"
-            align="center"
-            prop="writer"
-            width="100"
           />
           <el-table-column
             :label="labelMsg('inquiry.date')"

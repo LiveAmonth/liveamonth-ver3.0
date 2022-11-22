@@ -13,6 +13,7 @@ import teamproject.lam_server.domain.inqiury.dto.response.InquiryResponse;
 import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.inqiury.entity.InquiryEditor;
 import teamproject.lam_server.domain.inqiury.repository.core.InquiryRepository;
+import teamproject.lam_server.domain.inqiury.repository.query.InquiryQueryRepository;
 import teamproject.lam_server.exception.notfound.InquiryNotFound;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
@@ -25,7 +26,7 @@ import teamproject.lam_server.paging.PageableDTO;
 public class InquiryApiServiceImpl implements InquiryService {
 
     private final InquiryRepository inquiryRepository;
-
+    private final InquiryQueryRepository inquiryQueryRepository;
     private final SecurityContextFinder finder;
 
     @Override
@@ -36,10 +37,8 @@ public class InquiryApiServiceImpl implements InquiryService {
 
     @Override
     public CustomPage<InquiryListResponse> getInquires(PageableDTO pageableDTO) {
-        PageRequest request = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
-
-        Page<InquiryListResponse> inquiries = inquiryRepository.getInquiries(finder.getLoggedInMember().getId(), request)
-                .map(InquiryListResponse::of);
+        PageRequest pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
+        Page<InquiryListResponse> inquiries = inquiryQueryRepository.getInquiries(finder.getLoggedInMember().getId(), pageable);
 
         return CustomPage.<InquiryListResponse>builder()
                 .page(inquiries)

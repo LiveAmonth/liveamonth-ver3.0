@@ -40,7 +40,6 @@ export interface FoundIdType {
 export interface InquiryListType {
   id: number;
   title: string;
-  writer: string;
   category: EnumType;
   isAnswered: boolean;
   date: string;
@@ -49,7 +48,6 @@ export interface InquiryListType {
 export interface InquiryType {
   id: number;
   title: string;
-  writer: string;
   content: string;
   category: EnumType;
   isAnswered: boolean;
@@ -60,7 +58,6 @@ export interface InquiryType {
 export interface InquiryTableType {
   id: number;
   title: string;
-  writer: string;
   category: string;
   date: string;
   state: string;
@@ -68,7 +65,6 @@ export interface InquiryTableType {
 
 export interface InquiryAnswerType {
   title: string;
-  writer: string;
   content: string;
   dateTime: string;
 }
@@ -450,7 +446,6 @@ export class InquiryEditor implements InquiryWriteFormType {
     this.title = data.title;
     this.category = data.category.code;
     this.content = data.content;
-    this.writer = data.writer;
   }
 
   getCreateData(): InquiryRequestType {

@@ -3,13 +3,16 @@ import SmallTitleSlot from "@/components/common/SmallTitleSlot.vue";
 import { useInquiry } from "@/composables/member/inquiry";
 import { useMessageBox } from "@/composables/common/messageBox";
 import { ref, watch } from "vue";
+import { useMember } from "@/composables/member/member";
 
 defineProps({
   inquiryType: String,
 });
 
 const emits = defineEmits(["goEdit", "goBack", "delete"]);
-const { titleMsg, buttonMsg, resultMsg, openConfirmMessageBox } =
+
+const { simpleProfile } = useMember();
+const { labelMsg, titleMsg, buttonMsg, resultMsg, openConfirmMessageBox } =
   useMessageBox();
 const { currInquiry } = useInquiry();
 const quillKey = ref<number>(0);
@@ -40,7 +43,7 @@ watch(
         </h2>
         <div class="sub d-flex">
           <div class="writer">
-            {{ currInquiry.writer }}
+            {{ simpleProfile.nickname }}
           </div>
           <div class="regDate">
             {{ currInquiry.dateTime }}
@@ -84,14 +87,14 @@ watch(
         <el-row class="title-content">
           <el-col class="mt-4">
             <h2 class="title">
-              {{ currInquiry.title }}
+              {{ currInquiry.answer.title }}
             </h2>
             <div class="sub d-flex">
               <div class="writer">
-                {{ currInquiry.writer }}
+                {{ labelMsg("inquiry.manager") }}
               </div>
               <div class="regDate">
-                {{ currInquiry.dateTime }}
+                {{ currInquiry.answer.dateTime }}
               </div>
             </div>
           </el-col>
@@ -102,7 +105,7 @@ watch(
             <div class="content">
               <QuillEditor
                 theme="bubble"
-                v-model:content="currInquiry.content"
+                v-model:content="currInquiry.answer.content"
                 read-only
                 contentType="html"
               />

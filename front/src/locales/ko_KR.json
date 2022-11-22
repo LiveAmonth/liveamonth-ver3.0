@@ -186,7 +186,8 @@
         "date": "문의 날짜",
         "state": "상태",
         "standBy": "대기",
-        "complete": "완료"
+        "complete": "완료",
+        "manager": "관리자"
       },
       "schedule": {
         "empty": "표시할 스케줄이 없습니다",

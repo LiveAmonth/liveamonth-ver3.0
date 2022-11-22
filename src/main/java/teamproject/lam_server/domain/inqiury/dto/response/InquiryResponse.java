@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 public class InquiryResponse {
     private Long id;
     private String title;
-    private String writer;
     private String content;
     private InquiryCategory category;
     private boolean isAnswered;
@@ -29,7 +28,6 @@ public class InquiryResponse {
         return InquiryResponse.builder()
                 .id(inquiry.getId())
                 .title(inquiry.getTitle())
-                .writer(inquiry.getMember().getNickname())
                 .content(inquiry.getContent())
                 .category(inquiry.getCategory())
                 .isAnswered(inquiry.isAnswered())
