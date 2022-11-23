@@ -41,6 +41,5 @@ public class ReviewInteractionService implements InteractionService {
         return interactionQueryRepository.isMemberLikeReview(request)
                 ? BooleanCheckResponse.of(true, INTERACTED_OBJECT)
                 : BooleanCheckResponse.of(false, NOT_INTERACTED_OBJECT);
-
     }
 }

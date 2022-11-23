@@ -12,6 +12,7 @@ import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.entity.PasswordEditor;
 import teamproject.lam_server.domain.member.entity.ProfileEditor;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
+import teamproject.lam_server.domain.member.repository.query.MemberQueryRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.global.dto.response.BooleanCheckResponse;
 import teamproject.lam_server.global.dto.response.PostIdResponse;
@@ -32,6 +33,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final MemberQueryRepository memberQueryRepository;
+
     @Override
     @Transactional
     public PostIdResponse signUp(MemberCreate request) {
@@ -41,12 +44,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberProfileResponse getMember() {
-        return MemberProfileResponse.of(finder.getLoggedInMember());
+        return memberQueryRepository.getMemberProfile(finder.getAuthenticationName()).
+                orElseThrow(MemberNotFound::new);
     }
 
     @Override
     public SimpleProfileResponse getSimpleProfile() {
-        return SimpleProfileResponse.of(finder.getLoggedInMember());
+        return memberQueryRepository.getSimpleProfile(finder.getAuthenticationName())
+                .orElseThrow(MemberNotFound::new);
     }
 
     @Override
@@ -89,10 +94,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public FindIdResponse findLoginId(MemberFindId request) {
-        Member findMember = memberRepository.findByNameAndEmail(
-                        request.getName(), request.getEmail())
-                .orElseThrow(MemberNotFound::new);
-        return FindIdResponse.of(findMember);
+        return memberQueryRepository.findLoginId(request).orElseThrow(MemberNotFound::new);
     }
 
     @Override

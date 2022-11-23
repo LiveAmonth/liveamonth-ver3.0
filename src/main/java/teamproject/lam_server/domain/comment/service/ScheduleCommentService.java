@@ -13,12 +13,7 @@ import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ScheduleComment;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentQueryRepository;
 import teamproject.lam_server.domain.comment.repository.ScheduleCommentRepository;
-import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.schedule.entity.Schedule;
-import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
 import teamproject.lam_server.exception.notfound.CommentNotFound;
-import teamproject.lam_server.exception.notfound.ScheduleNotFound;
-import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
@@ -30,14 +25,13 @@ import java.util.List;
 public class ScheduleCommentService extends CommentService {
     private final ScheduleCommentRepository scheduleCommentRepository;
     private final ScheduleCommentQueryRepository scheduleCommentQueryRepository;
-    private final ScheduleRepository scheduleRepository;
 
     public ScheduleCommentService(SecurityContextFinder finder,
-                                  ScheduleCommentRepository scheduleCommentRepository, ScheduleCommentQueryRepository scheduleCommentQueryRepository, ScheduleRepository scheduleRepository) {
+                                  ScheduleCommentRepository scheduleCommentRepository,
+                                  ScheduleCommentQueryRepository scheduleCommentQueryRepository) {
         super(finder);
         this.scheduleCommentRepository = scheduleCommentRepository;
         this.scheduleCommentQueryRepository = scheduleCommentQueryRepository;
-        this.scheduleRepository = scheduleRepository;
     }
 
     @Override
@@ -47,14 +41,10 @@ public class ScheduleCommentService extends CommentService {
 
     @Override
     @Transactional
-    public PostIdResponse writeComment(Long contentId, CommentCreate request) {
-        Member writer = finder.getLoggedInMember();
-        Schedule schedule = scheduleRepository.findById(contentId).orElseThrow(ScheduleNotFound::new);
-
-        ScheduleComment comment = request.getParentId() == null
-                ? request.toScheduleEntity(writer, schedule)
-                : request.toScheduleEntity(writer, schedule, scheduleCommentRepository.findById(request.getParentId()).orElseThrow(CommentNotFound::new));
-        return PostIdResponse.of(scheduleCommentRepository.save(comment).getId());
+    public void writeComment(Long contentId, CommentCreate request) {
+        scheduleCommentRepository.write(
+                finder.getAuthenticationName(), finder.getLoggedInMemberId(), contentId, request
+        );
     }
 
     @Override

@@ -12,12 +12,7 @@ import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.ReviewComment;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentQueryRepository;
 import teamproject.lam_server.domain.comment.repository.ReviewCommentRepository;
-import teamproject.lam_server.domain.member.entity.Member;
-import teamproject.lam_server.domain.review.entity.Review;
-import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
 import teamproject.lam_server.exception.notfound.CommentNotFound;
-import teamproject.lam_server.exception.notfound.ReviewNotFound;
-import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
@@ -27,17 +22,14 @@ import java.util.List;
 public class ReviewCommentService extends CommentService {
     private final ReviewCommentRepository reviewCommentRepository;
     private final ReviewCommentQueryRepository reviewCommentQueryRepository;
-    private final ReviewRepository reviewRepository;
 
     public ReviewCommentService(
             SecurityContextFinder finder,
             ReviewCommentRepository reviewCommentRepository,
-            ReviewCommentQueryRepository reviewCommentQueryRepository,
-            ReviewRepository reviewRepository) {
+            ReviewCommentQueryRepository reviewCommentQueryRepository) {
         super(finder);
         this.reviewCommentRepository = reviewCommentRepository;
         this.reviewCommentQueryRepository = reviewCommentQueryRepository;
-        this.reviewRepository = reviewRepository;
     }
 
     @Override
@@ -47,14 +39,10 @@ public class ReviewCommentService extends CommentService {
 
     @Override
     @Transactional
-    public PostIdResponse writeComment(Long contentId, CommentCreate request) {
-        Member writer = finder.getLoggedInMember();
-        Review review = reviewRepository.findById(contentId).orElseThrow(ReviewNotFound::new);
-
-        ReviewComment comment = request.getParentId() == null
-                ? request.toReviewEntity(writer, review)
-                : request.toReviewEntity(writer, review, reviewCommentRepository.findById(request.getParentId()).orElseThrow(CommentNotFound::new));
-        return PostIdResponse.of(reviewCommentRepository.save(comment).getId());
+    public void writeComment(Long contentId, CommentCreate request) {
+        reviewCommentRepository.write(
+                finder.getAuthenticationName(), finder.getLoggedInMemberId(), contentId, request
+        );
     }
 
     @Override

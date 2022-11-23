@@ -32,13 +32,17 @@ public class InquiryApiServiceImpl implements InquiryService {
     @Override
     @Transactional
     public PostIdResponse write(InquiryCreate request) {
-        return PostIdResponse.of(inquiryRepository.save(request.toEntity(finder.getLoggedInMember())).getId());
+        return PostIdResponse.of(
+                inquiryRepository.save(
+                                request.toEntity(finder.getLoggedInMember())
+                        )
+                        .getId());
     }
 
     @Override
     public CustomPage<InquiryListResponse> getInquires(PageableDTO pageableDTO) {
         PageRequest pageable = PageRequest.of(pageableDTO.getPage(), pageableDTO.getSize());
-        Page<InquiryListResponse> inquiries = inquiryQueryRepository.getInquiries(finder.getLoggedInMember().getId(), pageable);
+        Page<InquiryListResponse> inquiries = inquiryQueryRepository.getInquiries(finder.getLoggedInMemberId(), pageable);
 
         return CustomPage.<InquiryListResponse>builder()
                 .page(inquiries)

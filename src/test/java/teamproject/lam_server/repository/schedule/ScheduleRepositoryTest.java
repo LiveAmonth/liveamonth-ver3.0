@@ -10,7 +10,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -23,7 +22,6 @@ import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
-import teamproject.lam_server.domain.schedule.dto.condition.ScheduleSearchCond;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
@@ -37,8 +35,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.querydsl.core.types.Projections.constructor;
+import static com.querydsl.core.types.dsl.Expressions.asString;
+import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
+import static teamproject.lam_server.utils.ResultUtils.getPerformanceImprovementRate;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -72,49 +73,31 @@ public class ScheduleRepositoryTest {
                         .gender(GenderType.MALE.name())
                         .build();
         savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-
-        for (int i = 0; i < 10; i++) {
-            List<ScheduleCreate> scheduleCreates = new ArrayList<>();
-            for (int j = 0; j < 100000; j++) {
-                scheduleCreates.add(ScheduleCreate.builder()
-                        .title("title" + (i * 100000) + j)
-                        .publicFlag(true)
-                        .city(CityName.SE.name())
-                        .period(PeriodRequest.builder()
-                                .startDate(LocalDate.now())
-                                .endDate(LocalDate.now().plusDays(20))
-                                .build())
-                        .build());
-            }
-            scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
-        }
-
-        scheduleRepository.save(
-                ScheduleCreate.builder()
-                        .title("title as")
-                        .publicFlag(true)
-                        .city(CityName.SE.name())
-                        .period(PeriodRequest.builder()
-                                .startDate(LocalDate.now())
-                                .endDate(LocalDate.now().plusDays(20))
-                                .build())
-                        .build().toEntity(savedMember)
-        );
-
     }
 
     @Test
     @DisplayName("스케줄 조회 성능 비교 인덱스")
     void compare_get_schedule_index() {
         // given
-        long startTime;
-        long stopTime;
-        long pagingTime;
-        long indexTime;
+        int count = 1000;
         Pageable pageable = PageRequest.of(0, 10);
 
+        List<ScheduleCreate> scheduleCreates = new ArrayList<>();
+        for (int j = 0; j < count; j++) {
+            scheduleCreates.add(ScheduleCreate.builder()
+                    .title("title" + j)
+                    .publicFlag(true)
+                    .city(CityName.SE.name())
+                    .period(PeriodRequest.builder()
+                            .startDate(LocalDate.now())
+                            .endDate(LocalDate.now().plusDays(20))
+                            .build())
+                    .build());
+        }
+        scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
+
         // when
-        startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         List<Schedule> elements = queryFactory.selectFrom(schedule)
                 .join(schedule.member, member).fetchJoin()
                 .offset(pageable.getOffset())
@@ -130,8 +113,8 @@ public class ScheduleRepositoryTest {
                 elements,
                 pageable,
                 countQuery::fetchOne);
-        stopTime = System.currentTimeMillis();
-        pagingTime = stopTime - startTime;
+        long stopTime = System.currentTimeMillis();
+        long pagingTime = stopTime - startTime;
 
         startTime = System.currentTimeMillis();
         List<Long> ids = queryFactory.select(schedule.id)
@@ -142,32 +125,40 @@ public class ScheduleRepositoryTest {
                 .orderBy(schedule.id.desc())
                 .fetch();
 
-        List<Schedule> contents = queryFactory.selectFrom(schedule)
+        queryFactory.selectFrom(schedule)
                 .where(schedule.id.in(ids))
                 .fetch();
-        Page<Schedule> resultByIndex = new PageImpl<>(contents, pageable, ids.size());
         stopTime = System.currentTimeMillis();
-        indexTime = stopTime - startTime;
+        long indexTime = stopTime - startTime;
 
-
-        // then
-        log.info("============== 결과 ================");
-        log.info("더 빠른 방식={}, 시간차={}", pagingTime < indexTime ? "Paging" : "Index", Math.abs(pagingTime - indexTime));
+        // thenF
+        log.info("============== 결과(" + count + "건 기준) ================");
+        log.info("기존 페이징={}s", pagingTime);
+        log.info("커버링 인덱스={}s", indexTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}", pagingTime < indexTime ? "Paging" : "Index", getPerformanceImprovementRate(pagingTime, indexTime));
     }
 
     @Test
     @DisplayName("스케줄 조회 성능 비교 Projection")
     void compare_get_schedule_projection() {
         // given
-        long startTime;
-        long stopTime;
-        long entityTime;
-        long projectionTime;
-        ScheduleSearchCond cond = ScheduleSearchCond.builder().build();
         Pageable pageable = PageRequest.of(0, 10);
-
+        List<ScheduleCreate> scheduleCreates = new ArrayList<>();
+        int count = 1000000;
+        for (int j = 0; j < count; j++) {
+            scheduleCreates.add(ScheduleCreate.builder()
+                    .title("title" + j)
+                    .publicFlag(true)
+                    .city(CityName.SE.name())
+                    .period(PeriodRequest.builder()
+                            .startDate(LocalDate.now())
+                            .endDate(LocalDate.now().plusDays(20))
+                            .build())
+                    .build());
+        }
+        scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
         // when
-        startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         List<Long> ids = queryFactory.select(schedule.id)
                 .from(schedule)
                 .join(schedule.member, member)
@@ -176,13 +167,13 @@ public class ScheduleRepositoryTest {
                 .orderBy(schedule.id.desc())
                 .fetch();
 
-        List<Schedule> result = queryFactory.selectFrom(schedule)
+        queryFactory.selectFrom(schedule)
                 .where(schedule.id.in(ids))
                 .join(schedule.member, member).fetchJoin()
                 .fetch();
 
-        stopTime = System.currentTimeMillis();
-        entityTime = stopTime - startTime;
+        long stopTime = System.currentTimeMillis();
+        long entityTime = stopTime - startTime;
 
         startTime = System.currentTimeMillis();
         ids = queryFactory.select(schedule.id)
@@ -193,7 +184,7 @@ public class ScheduleRepositoryTest {
                 .orderBy(schedule.id.desc())
                 .fetch();
 
-        List<ScheduleCardResponse> contents = queryFactory.select(
+        queryFactory.select(
                         constructor(ScheduleCardResponse.class,
                                 schedule.id,
                                 schedule.title,
@@ -202,7 +193,7 @@ public class ScheduleRepositoryTest {
                                         member.id,
                                         member.loginId,
                                         member.nickname,
-                                        member.image,
+                                        asString(IMAGEBB_URL + member.image),
                                         member.numberOfReviews,
                                         member.numberOfSchedules,
                                         member.numberOfFollowers,
@@ -224,10 +215,12 @@ public class ScheduleRepositoryTest {
                 .where(schedule.id.in(ids))
                 .fetch();
         stopTime = System.currentTimeMillis();
-        projectionTime = stopTime - startTime;
+        long projectionTime = stopTime - startTime;
 
         // then
-        log.info("============== 결과 ================");
-        log.info("더 빠른 방식={}, 시간차={}", entityTime < projectionTime ? "Entity" : "Projection", Math.abs(entityTime - projectionTime));
+        log.info("============== 결과(" + count + "건 기준) ================");
+        log.info("엔티티 조회={}ms", entityTime);
+        log.info("DTO 조회={}ms", projectionTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}", entityTime < projectionTime ? "Entity" : "DTO", getPerformanceImprovementRate(entityTime, projectionTime));
     }
 }

@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
@@ -35,10 +35,12 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
+import teamproject.lam_server.jdbc.comment.CommentJdbcRepository;
 import teamproject.lam_server.jdbc.member.MemberJdbcRepository;
 import teamproject.lam_server.jdbc.review.ReviewJdbcRepository;
 import teamproject.lam_server.util.DateTimeUtil;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -50,10 +52,12 @@ import static teamproject.lam_server.domain.comment.entity.QReviewComment.review
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
 
+
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Rollback
 @Slf4j
 public class CommentRepositoryTest {
 
@@ -75,7 +79,10 @@ public class CommentRepositoryTest {
     MemberJdbcRepository memberJdbcRepository;
     @Autowired
     ReviewJdbcRepository reviewJdbcRepository;
-
+    @Autowired
+    CommentJdbcRepository commentJdbcRepository;
+    @Autowired
+    EntityManager em;
     Review savedReview;
     Member savedMember;
 
@@ -110,7 +117,7 @@ public class CommentRepositoryTest {
         int iterations = 50;
         List<MemberCreate> memberCreates = new ArrayList<>();
         List<ReviewCreate> reviewCreates = new ArrayList<>();
-        for (int i = 0; i < 50000; i++) {
+        for (int i = 0; i < 100000; i++) {
             MemberCreate memberCreate =
                     MemberCreate.builder()
                             .loginId("member" + i)
@@ -158,6 +165,7 @@ public class CommentRepositoryTest {
 
             methods.add(crudTime < queryTime ? "CRUD" : "Native");
             times.add(Math.abs(crudTime - queryTime));
+            em.clear();
         }
 
         log.info("============== 결과 ================");
@@ -171,40 +179,31 @@ public class CommentRepositoryTest {
     @DisplayName("댓글 조회 성능 비교")
     void compare_get_comment() {
         // given
-        List<String> methods = new ArrayList<>();
-        List<Long> times = new ArrayList<>();
-        int iterations = 50;
-        long startTime;
-        long stopTime;
-        long streamTime;
-        long indexTime;
-
         Pageable pageable = PageRequest.of(0, 10);
 
+        List<CommentCreate> commentCreates = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            commentCreates.add(CommentCreate.builder()
+                    .comment("native query comment")
+                    .build());
+        }
+        commentJdbcRepository.batchInsert(commentCreates, savedMember.getId(), savedReview.getId());
+
         // when
-        for (int i = 0; i < iterations; i++) {
-            // 스트림을 이용한 방식
-            startTime = System.currentTimeMillis();
-            List<TestCommentResponse> commentsByStream = getCommentsByStream(pageable);
-            stopTime = System.currentTimeMillis();
-            streamTime = stopTime - startTime;
+        // 스트림을 이용한 방식
+        long startTime = System.currentTimeMillis();
+        getCommentsByStream(pageable);
+        long stopTime = System.currentTimeMillis();
+        long streamTime = stopTime - startTime;
 
-            // 인덱스를 이용한 방식
-            startTime = System.currentTimeMillis();
-            List<CommentDto> commentsByIndex = getCommentsByIndex(pageable);
-            stopTime = System.currentTimeMillis();
-            indexTime = stopTime - startTime;
+        // 인덱스를 이용한 방식
+        startTime = System.currentTimeMillis();
+        getCommentsByIndex(pageable);
+        stopTime = System.currentTimeMillis();
+        long indexTime = stopTime - startTime;
 
-            // then
-            Assertions.assertThat(commentsByStream.size()).isEqualTo(commentsByIndex.size());
-            methods.add(streamTime < indexTime ? "Stream" : "Covering Index");
-            times.add(Math.abs(streamTime - indexTime));
-        }
-
-        log.info("============== 결과 ================");
-        for (int i = 0; i < iterations; i++) {
-            log.info("더 빠른 방식={}, 시간차={}", methods.get(i), times.get(i));
-        }
+        // then
+        log.info("더 빠른 방식={}, 시간차={}", streamTime < indexTime ? "Stream" : "Covering Index", Math.abs(streamTime - indexTime));
     }
 
     private List<TestCommentResponse> getCommentsByStream(Pageable pageable) {
@@ -226,7 +225,6 @@ public class CommentRepositoryTest {
                         review.id.eq(savedReview.getId()),
                         reviewComment.parent.id.isNull()
                 );
-
 
         List<ReviewComment> reviewCommentReplies = getReviewCommentReplies(contents);
 

@@ -10,7 +10,6 @@ import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.service.CommentServiceFinder;
 import teamproject.lam_server.global.dto.response.CustomResponse;
-import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
@@ -31,8 +30,8 @@ public class CommentApiController {
             @PathVariable CommentType type,
             @PathVariable("content_id") Long contentId,
             @RequestBody @Valid CommentCreate request) {
-        PostIdResponse result = commentServiceFinder.find(type).writeComment(contentId, request);
-        return CustomResponse.success(CREATE_COMMENT, result);
+        commentServiceFinder.find(type).writeComment(contentId, request);
+        return CustomResponse.success(CREATE_COMMENT);
     }
 
     @PatchMapping("/{type}/{comment_id}")

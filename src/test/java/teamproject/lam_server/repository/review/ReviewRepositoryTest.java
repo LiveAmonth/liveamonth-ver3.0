@@ -17,7 +17,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
-import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
@@ -210,7 +209,7 @@ public class ReviewRepositoryTest {
     static class ReviewDetailDto {
         private Long id;
         private String title;
-        private SimpleProfileResponse profile;
+        private ProfileDto profile;
         private String content;
         private ReviewCategory category;
         private List<String> tags;
@@ -224,7 +223,7 @@ public class ReviewRepositoryTest {
             return ReviewDetailDto.builder()
                     .id(review.getId())
                     .title(review.getTitle())
-                    .profile(SimpleProfileResponse.of(review.getMember()))
+                    .profile(ProfileDto.of(review.getMember()))
                     .content(review.getContent())
                     .category(review.getCategory())
                     .tags(tagNames)
@@ -232,6 +231,32 @@ public class ReviewRepositoryTest {
                     .numberOfHits(review.getNumberOfHits())
                     .numberOfLikes(review.getNumberOfLikes())
                     .numberOfComments(review.getNumberOfComments())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    static class ProfileDto {
+        private Long id;
+        private String loginId;
+        private String nickname;
+        private String image;
+        private long numberOfReviews;
+        private long numberOfSchedules;
+        private long numberOfFollowers;
+        private long numberOfFollows;
+
+        public static ProfileDto of(Member member) {
+            return ProfileDto.builder()
+                    .id(member.getId())
+                    .loginId(member.getLoginId())
+                    .nickname(member.getNickname())
+                    .image(member.getImage())
+                    .numberOfReviews(member.getNumberOfReviews())
+                    .numberOfSchedules(member.getNumberOfSchedules())
+                    .numberOfFollowers(member.getNumberOfFollowers())
+                    .numberOfFollows(member.getNumberOfFollows())
                     .build();
         }
     }

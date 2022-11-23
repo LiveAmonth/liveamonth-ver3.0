@@ -25,7 +25,9 @@ import java.util.*;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.types.Projections.constructor;
+import static com.querydsl.core.types.dsl.Expressions.asString;
 import static org.springframework.util.StringUtils.hasText;
+import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
 import static teamproject.lam_server.domain.review.entity.QReviewTag.reviewTag;
@@ -106,8 +108,7 @@ public class ReviewQueryRepository extends BasicRepository {
                                                 member.id,
                                                 member.loginId,
                                                 member.nickname,
-                                                member.image,
-                                                member.numberOfReviews,
+                                                asString(IMAGEBB_URL + member.image),                                                member.numberOfReviews,
                                                 member.numberOfSchedules,
                                                 member.numberOfFollowers,
                                                 member.numberOfFollows

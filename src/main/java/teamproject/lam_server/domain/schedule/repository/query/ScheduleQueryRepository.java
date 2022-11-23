@@ -25,8 +25,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.querydsl.core.types.Projections.constructor;
+import static com.querydsl.core.types.dsl.Expressions.asString;
 import static com.querydsl.jpa.JPAExpressions.select;
 import static org.springframework.util.StringUtils.hasText;
+import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 import static teamproject.lam_server.domain.interaction.entity.member.QFollower.follower;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
@@ -167,7 +169,7 @@ public class ScheduleQueryRepository extends BasicRepository {
                         member.id,
                         member.loginId,
                         member.nickname,
-                        member.image,
+                        asString(IMAGEBB_URL + member.image),
                         member.numberOfReviews,
                         member.numberOfSchedules,
                         member.numberOfFollowers,

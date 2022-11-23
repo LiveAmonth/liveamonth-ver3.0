@@ -134,9 +134,11 @@ ___
   - 일차적으로 element plus에서 지원하는 form을 사용해 폼 데이터 입력시 잘못된 값에 대해 화면에 출력했습니다.
   - 서버에서는 spring validation을 사용해 response body로 사용되는 모든 객체에 검증로직을 구현했습니다.
 
-### 3. JPA
-- 
-
+### 3. Querydsl-JPA
+- 대용량의 데이터가 쌓인 테이블 환경에서도 사용할 수 있도록 Querydsl-JPA 성능을 개선했습니다.
+  - 커버링 인덱스를 사용해 페이징 조회의 성능을 개선 시켰습니다.
+    ![image](https://user-images.githubusercontent.com/48740872/203514666-122b6198-2d2e-417f-ba83-98f966b3d5c8.png)
+   - 
 
 # 🎞 UI 기능 및 화면
 ### 🏠 메인 화면

@@ -1,12 +1,9 @@
 package teamproject.lam_server.domain.member.dto.response;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import teamproject.lam_server.domain.member.entity.Member;
 
 @Getter
-@Builder
 @AllArgsConstructor
 public class SimpleProfileResponse {
     private Long id;
@@ -17,17 +14,4 @@ public class SimpleProfileResponse {
     private long numberOfSchedules;
     private long numberOfFollowers;
     private long numberOfFollows;
-
-    public static SimpleProfileResponse of(Member member) {
-        return SimpleProfileResponse.builder()
-                .id(member.getId())
-                .loginId(member.getLoginId())
-                .nickname(member.getNickname())
-                .image(member.getImage())
-                .numberOfReviews(member.getNumberOfReviews())
-                .numberOfSchedules(member.getNumberOfSchedules())
-                .numberOfFollowers(member.getNumberOfFollowers())
-                .numberOfFollows(member.getNumberOfFollows())
-                .build();
-    }
 }

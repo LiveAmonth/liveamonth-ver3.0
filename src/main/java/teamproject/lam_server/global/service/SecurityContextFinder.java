@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
+import teamproject.lam_server.domain.member.repository.query.MemberQueryRepository;
 import teamproject.lam_server.exception.badrequest.IllegalLoggedInMember;
 import teamproject.lam_server.exception.badrequest.IllegalWriterOfPost;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
@@ -18,10 +19,15 @@ import java.util.Objects;
 public class SecurityContextFinder {
 
     private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
 
     public Member getLoggedInMember() {
         String user = SecurityContextHolder.getContext().getAuthentication().getName();
         return memberRepository.findByLoginId(user).orElseThrow(MemberNotFound::new);
+    }
+
+    public Long getLoggedInMemberId() {
+        return memberQueryRepository.getIdByLoginId(getAuthenticationName()).orElseThrow(MemberNotFound::new);
     }
 
     public String getAuthenticationName() {

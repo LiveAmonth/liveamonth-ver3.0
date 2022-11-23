@@ -10,7 +10,6 @@ import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.CommentEditor;
 import teamproject.lam_server.domain.comment.entity.CommentEntity;
-import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.global.service.SecurityContextFinder;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
@@ -24,7 +23,7 @@ public abstract class CommentService{
     protected final SecurityContextFinder finder;
 
     public abstract CommentType getType();
-    public abstract PostIdResponse writeComment(Long contentId, CommentCreate request);
+    public abstract void writeComment(Long contentId, CommentCreate request);
     public abstract void editComment(Long commentId, CommentEdit request);
     public abstract void deleteComment(Long commentId);
     public abstract CustomPage<CommentResponse> getComments(Long contentId, PageableDTO pageableDTO);

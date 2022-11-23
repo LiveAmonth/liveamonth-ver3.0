@@ -111,7 +111,6 @@ public class ReviewCommentQueryRepository {
                 .where(commentIdIn(ids))
                 .fetch();
     }
-
     private BooleanExpression reviewIdEq(Long id) {
         return id != null ? review.id.eq(id) : null;
     }
