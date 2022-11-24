@@ -36,10 +36,13 @@ public class ReviewComment extends CommentEntity {
     @JoinColumn(name = "parent_comment_id")
     private ReviewComment parent;
 
+    @Basic(fetch= LAZY)
     @Formula("(select count(rc.parent_comment_id) from review_comment rc where rc.parent_comment_id = review_comment_id)")
     private int numberOfChildren;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from review_comment_interaction rcr where rcr.to_review_comment_id = review_comment_id and rcr.state = 'LIKE')")
     private int numberOfLikes;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from review_comment_interaction rcr where rcr.to_review_comment_id = review_comment_id and rcr.state = 'DISLIKE')")
     private int numberOfDislikes;
 

@@ -35,10 +35,13 @@ public class ScheduleComment extends CommentEntity {
     @JoinColumn(name = "parent_comment_id")
     private ScheduleComment parent;
 
+    @Basic(fetch= LAZY)
     @Formula("(select count(sc.parent_comment_id) from schedule_comment sc where sc.parent_comment_id = schedule_comment_id)")
     private int numberOfChildren;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from schedule_comment_interaction scr where scr.to_schedule_comment_id = schedule_comment_id and scr.state = 'LIKE')")
     private int numberOfLikes;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from schedule_comment_interaction scr where scr.to_schedule_comment_id = schedule_comment_id and scr.state = 'DISLIKE')")
     private int numberOfDislikes;
 

@@ -26,6 +26,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import static javax.persistence.FetchType.LAZY;
 import static teamproject.lam_server.constants.AttrConstants.DEFAULT_PROFILE_FILE_NAME;
 import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 
@@ -79,14 +80,19 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private AccountState status;
 
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from follower f where f.to_member_id = member_id)")
     private long numberOfFollowers;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from schedule s join follower f on s.member_id = f.to_member_id where f.from_member_id = member_id)")
     private long numberOfFollows;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from review r where r.member_id = member_id)")
     private long numberOfReviews;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from schedule s where s.member_id = member_id)")
     private long numberOfSchedules;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from inquiry i where i.member_id = member_id)")
     private long numberOfInquiries;
 

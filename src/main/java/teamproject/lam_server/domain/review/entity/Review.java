@@ -41,8 +41,10 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from review_like rl where rl.to_review_id = review_id)")
     private long numberOfLikes;
+    @Basic(fetch= LAZY)
     @Formula("(select count(1) from review_comment rc where rc.review_id = review_id and rc.parent_comment_id is null)")
     private long numberOfComments;
 
