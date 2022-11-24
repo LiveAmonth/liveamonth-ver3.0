@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useCity } from "@/composables/city/city";
 import { useMessageBox } from "@/composables/common/messageBox";
 
@@ -13,7 +13,7 @@ const props = defineProps({
 const { categoryMsg, titleMsg, labelMsg } = useMessageBox();
 const { cityGridInfos, calcTransportScore } = useCity();
 const cityGridInfo = cityGridInfos.value[props.index];
-const score = ref(calcTransportScore(cityGridInfo.transportScore));
+const score = computed(() => calcTransportScore(cityGridInfo.transportScore));
 </script>
 <template>
   <div class="flip-card">

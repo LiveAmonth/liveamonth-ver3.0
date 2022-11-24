@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.comment.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.constants.CommentType;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
@@ -16,9 +15,7 @@ import teamproject.lam_server.paging.PageableDTO;
 
 import java.util.List;
 
-@Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public abstract class CommentService{
     protected final SecurityContextFinder finder;
 

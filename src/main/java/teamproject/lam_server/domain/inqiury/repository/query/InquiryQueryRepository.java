@@ -2,11 +2,12 @@ package teamproject.lam_server.domain.inqiury.repository.query;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.inqiury.dto.response.InquiryListResponse;
 
@@ -21,12 +22,15 @@ public class InquiryQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     public Page<InquiryListResponse> getInquiries(Long memberId, Pageable pageable) {
+        JPAQuery<Long> countQuery = queryFactory.select(inquiry.count())
+                .from(inquiry)
+                .where(memberIdEq(memberId));
+
         List<Long> ids = queryFactory.select(inquiry.id)
                 .from(inquiry)
                 .where(memberIdEq(memberId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(inquiry.id.desc())
                 .fetch();
 
         List<InquiryListResponse> contents = queryFactory.select(
@@ -39,9 +43,10 @@ public class InquiryQueryRepository {
                         )
                 ).from(inquiry)
                 .where(idIn(ids))
+                .orderBy(inquiry.id.desc())
                 .fetch();
 
-        return new PageImpl<>(contents, pageable, ids.size());
+        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
     }
 
     private BooleanExpression memberIdEq(Long id) {

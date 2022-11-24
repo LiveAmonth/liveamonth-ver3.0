@@ -6,8 +6,8 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.city.constants.CityName;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
@@ -17,6 +17,7 @@ import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleRespo
 import teamproject.lam_server.domain.schedule.dto.response.MyScheduleResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleContentResponse;
+import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.global.dto.response.PeriodResponse;
 import teamproject.lam_server.global.dto.response.TimePeriodResponse;
 import teamproject.lam_server.global.repository.BasicRepository;
@@ -25,10 +26,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.querydsl.core.types.Projections.constructor;
-import static com.querydsl.core.types.dsl.Expressions.asString;
 import static com.querydsl.jpa.JPAExpressions.select;
 import static org.springframework.util.StringUtils.hasText;
-import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 import static teamproject.lam_server.domain.interaction.entity.member.QFollower.follower;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
@@ -41,6 +40,17 @@ public class ScheduleQueryRepository extends BasicRepository {
     private final JPAQueryFactory queryFactory;
 
     public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, Pageable pageable) {
+        JPAQuery<Long> countQuery = queryFactory.select(schedule.count())
+                .from(schedule)
+                .join(schedule.member, member)
+                .where(
+                        memberNicknameEq(cond.getMemberNickname()),
+                        cityNameEq(cond.getCityName()),
+                        startDateGoe(cond.getStartDate()),
+                        titleContain(cond.getTitle()),
+                        publicFlag()
+                );
+
         List<Long> ids = queryFactory.select(schedule.id)
                 .from(schedule)
                 .join(schedule.member, member)
@@ -53,16 +63,17 @@ public class ScheduleQueryRepository extends BasicRepository {
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(schedule.id.desc())
+                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
                 .fetch();
 
         List<ScheduleCardResponse> contents = queryFactory.select(getScheduleCardProjection())
                 .from(schedule)
                 .join(schedule.member, member)
                 .where(schedule.id.in(ids))
+                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
                 .fetch();
 
-        return new PageImpl<>(contents, pageable, ids.size());
+        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
     }
 
     public List<ScheduleContentResponse> getScheduleContents(Long scheduleId) {
@@ -170,7 +181,7 @@ public class ScheduleQueryRepository extends BasicRepository {
                         member.id,
                         member.loginId,
                         member.nickname,
-                        asString(IMAGEBB_URL + member.image),
+                        member.image,
                         member.numberOfReviews,
                         member.numberOfSchedules,
                         member.numberOfFollowers,

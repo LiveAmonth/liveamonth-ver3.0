@@ -46,6 +46,7 @@ class CommentApiService {
     contentId: number,
     pageable: PageableRequestType
   ) {
+    console.log(type);
     return await http
       .get(`/comments/${type}/${contentId}`, {
         params: {
@@ -62,6 +63,7 @@ class CommentApiService {
   }
 
   async getBestComments(type: string, contentId: number) {
+    console.log(type);
     return await http
       .get(`/comments/${type}/${contentId}/best`)
       .then((response) => {

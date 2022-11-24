@@ -102,7 +102,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     public CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
-        Page<ReviewListResponse> page =reviewQueryRepository.search(cond, pageable);
+        Page<ReviewListResponse> page = reviewQueryRepository.search(cond, pageable);
 
         return CustomPage.<ReviewListResponse>builder()
                 .page(page)

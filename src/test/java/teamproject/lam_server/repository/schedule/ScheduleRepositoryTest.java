@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.querydsl.core.types.Projections.constructor;
-import static com.querydsl.core.types.dsl.Expressions.asString;
-import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 import static teamproject.lam_server.utils.ResultUtils.getPerformanceImprovementRate;
@@ -201,7 +199,7 @@ public class ScheduleRepositoryTest {
                                         member.id,
                                         member.loginId,
                                         member.nickname,
-                                        asString(IMAGEBB_URL + member.image),
+                                        member.image,
                                         member.numberOfReviews,
                                         member.numberOfSchedules,
                                         member.numberOfFollowers,

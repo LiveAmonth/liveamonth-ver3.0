@@ -5,11 +5,13 @@ import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.review.constants.ReviewCategory;
@@ -25,9 +27,7 @@ import java.util.*;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.types.Projections.constructor;
-import static com.querydsl.core.types.dsl.Expressions.asString;
 import static org.springframework.util.StringUtils.hasText;
-import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
 import static teamproject.lam_server.domain.review.entity.QReviewTag.reviewTag;
@@ -35,10 +35,21 @@ import static teamproject.lam_server.domain.review.entity.QTag.tag;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewQueryRepository extends BasicRepository {
     private final JPAQueryFactory queryFactory;
 
     public Page<ReviewListResponse> search(ReviewSearchCond cond, Pageable pageable) {
+        // count query
+        JPAQuery<Long> countQuery = queryFactory.select(review.count())
+                .from(review)
+                .join(review.member, member)
+                .where(reviewSearchWordContains(cond.getSearchWord()),
+                        categoryIn(cond.getType()),
+                        tagContains(findReviewTags(cond.getTags())),
+                        categoryEq(cond.getCategory())
+                );
+
         List<Long> ids = queryFactory.select(review.id)
                 .from(review)
                 .join(review.member, member)
@@ -58,22 +69,10 @@ public class ReviewQueryRepository extends BasicRepository {
                         .from(review)
                         .where(reviewIdIn(ids))
                         .join(review.member, member)
+                        .orderBy(mapToOrderSpec(pageable.getSort(), Review.class, review))
                         .fetch();
 
-        return new PageImpl<>(contents, pageable, ids.size());
-    }
-
-    private ConstructorExpression<ReviewListResponse> getReviewListProjection() {
-        return Projections.constructor(ReviewListResponse.class,
-                review.id,
-                member.nickname,
-                review.title,
-                review.content,
-                review.createdDate,
-                review.numberOfHits,
-                review.numberOfComments,
-                review.numberOfLikes
-        );
+        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
     }
 
     public List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId) {
@@ -98,7 +97,7 @@ public class ReviewQueryRepository extends BasicRepository {
         Map<Long, ReviewDetailResponse> transform = queryFactory.from(review)
                 .join(review.member, member)
                 .leftJoin(review.tags, reviewTag)
-                .join(reviewTag.tag, tag)
+                .leftJoin(reviewTag.tag, tag)
                 .where(reviewIdEq(id))
                 .transform(
                         groupBy(review.id).as(
@@ -109,7 +108,8 @@ public class ReviewQueryRepository extends BasicRepository {
                                                 member.id,
                                                 member.loginId,
                                                 member.nickname,
-                                                asString(IMAGEBB_URL + member.image),                                                member.numberOfReviews,
+                                                member.image,
+                                                member.numberOfReviews,
                                                 member.numberOfSchedules,
                                                 member.numberOfFollowers,
                                                 member.numberOfFollows
@@ -124,7 +124,8 @@ public class ReviewQueryRepository extends BasicRepository {
                                 )
                         )
                 );
-
+        log.info("result={}", transform);
+        log.info("result={}", transform.get(id));
         return transform.get(id);
     }
 
@@ -155,6 +156,19 @@ public class ReviewQueryRepository extends BasicRepository {
                         tagNameIn(tags))
                 .fetch();
 
+    }
+
+    private ConstructorExpression<ReviewListResponse> getReviewListProjection() {
+        return Projections.constructor(ReviewListResponse.class,
+                review.id,
+                member.nickname,
+                review.title,
+                review.content,
+                review.createdDate,
+                review.numberOfHits,
+                review.numberOfComments,
+                review.numberOfLikes
+        );
     }
 
     private BooleanExpression createdIdEq(String loginId) {

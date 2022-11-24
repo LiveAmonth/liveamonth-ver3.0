@@ -15,7 +15,6 @@ import java.util.Optional;
 import static com.querydsl.core.types.Projections.constructor;
 import static com.querydsl.core.types.dsl.Expressions.asString;
 import static org.springframework.util.StringUtils.hasText;
-import static teamproject.lam_server.constants.AttrConstants.IMAGEBB_URL;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 
 
@@ -49,7 +48,7 @@ public class MemberQueryRepository {
                                         member.id,
                                         asString(loginId),
                                         member.nickname,
-                                        asString(IMAGEBB_URL + member.image),
+                                        member.image,
                                         member.name,
                                         member.email,
                                         member.birth,
@@ -72,7 +71,7 @@ public class MemberQueryRepository {
                                         member.id,
                                         asString(loginId),
                                         member.nickname,
-                                        asString(IMAGEBB_URL + member.image),
+                                        member.image,
                                         member.numberOfReviews,
                                         member.numberOfSchedules,
                                         member.numberOfFollowers,
