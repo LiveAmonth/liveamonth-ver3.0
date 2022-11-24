@@ -1,4 +1,4 @@
-package teamproject.lam_server.global.audit;
+package teamproject.lam_server.auth.audit;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
