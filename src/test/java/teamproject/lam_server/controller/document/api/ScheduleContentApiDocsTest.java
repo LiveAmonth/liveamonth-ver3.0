@@ -44,7 +44,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 
-@Transactional
 public class ScheduleContentApiDocsTest extends ApiDocsTest {
 
     static final String BASIC_URL = "/api/v1/schedules";
@@ -61,6 +60,7 @@ public class ScheduleContentApiDocsTest extends ApiDocsTest {
     ScheduleContentRepository scheduleContentRepository;
 
     @Test
+    @Transactional
     @DisplayName("스케줄 컨텐츠 추가")
     @WithMockCustomUser
     void add_schedule_content() throws Exception {
@@ -124,6 +124,7 @@ public class ScheduleContentApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("스케줄 컨텐츠 수정")
     @WithMockCustomUser
     void edit_schedule_content() throws Exception {
@@ -187,6 +188,7 @@ public class ScheduleContentApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("스케줄 컨텐츠 삭제")
     @WithMockCustomUser
     void delete_schedule_content() throws Exception {
@@ -215,6 +217,7 @@ public class ScheduleContentApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("스케줄 컨텐츠 다건 조회")
     void get_schedule_content_list() throws Exception {
         // given

@@ -1,10 +1,8 @@
 package teamproject.lam_server.repository.interaction;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,32 +18,33 @@ import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
 import teamproject.lam_server.jdbc.member.MemberJdbcRepository;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static teamproject.lam_server.utils.ResultUtils.getPerformanceImprovementRate;
+
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
 public class InteractionRepositoryTest {
     @Autowired
     FollowRepository followRepository;
-
     @Autowired
     MemberRepository memberRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
-
     @Autowired
     MemberJdbcRepository memberJdbcRepository;
+    @Autowired
+    EntityManager em;
 
-    Member toMember;
-    Member fromMember;
-
-    @BeforeAll
-    void setUp() {
+    @Test
+    @DisplayName("상호작용(팔로우) 저장 성능 비교")
+    void compare_follow_member(){
+        // given
         MemberCreate createTo =
                 MemberCreate.builder()
                         .loginId("toMember")
@@ -56,7 +55,7 @@ public class InteractionRepositoryTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        toMember = memberRepository.save(createTo.toEntity(passwordEncoder));
+        Member toMember = memberRepository.save(createTo.toEntity(passwordEncoder));
         MemberCreate createFrom =
                 MemberCreate.builder()
                         .loginId("fromMember")
@@ -67,9 +66,10 @@ public class InteractionRepositoryTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        fromMember = memberRepository.save(createFrom.toEntity(passwordEncoder));
+        Member fromMember = memberRepository.save(createFrom.toEntity(passwordEncoder));
+        int count = 100000;
         List<MemberCreate> memberList = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < count; i++) {
             MemberCreate memberCreate =
                     MemberCreate.builder()
                             .loginId("member" + i)
@@ -83,26 +83,17 @@ public class InteractionRepositoryTest {
             memberList.add(memberCreate);
         }
         memberJdbcRepository.batchInsert(memberList);
-    }
-
-    @Test
-    @DisplayName("상호작용(팔로우) 저장 성능 비교")
-    void compare_follow_member() throws Exception {
-        // given
-        long startTime;
-        long stopTime;
-        long queryTime;
-        long crudTime;
+        em.clear();
 
         // when
         InteractionRequest request = new InteractionRequest();
         request.setTo(toMember.getId());
         request.setFrom(fromMember.getId());
 
-        startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         followRepository.follow(request);
-        stopTime = System.currentTimeMillis();
-        queryTime = stopTime - startTime;
+        long stopTime = System.currentTimeMillis();
+        long queryTime = stopTime - startTime;
 
         startTime = System.currentTimeMillis();
         Member to = memberRepository
@@ -113,10 +104,14 @@ public class InteractionRepositoryTest {
                 .orElseThrow(MemberNotFound::new);
         followRepository.save(Follower.builder().from(from).to(to).build());
         stopTime = System.currentTimeMillis();
-        crudTime = stopTime - startTime;
+        long crudTime = stopTime - startTime;
 
-
-        log.info("더 빠른 방식={}, 시간차={}", queryTime < crudTime ? "Native Query" : "CRUD", Math.abs(queryTime - crudTime));
+        log.info("== 결과(" + count + "건 기준) ==");
+        log.info("dirty checking={}ms", crudTime);
+        log.info("native query={}ms", queryTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}",
+                crudTime < queryTime ? "dirty checking" : "native query",
+                getPerformanceImprovementRate(crudTime, queryTime));
     }
 
 }

@@ -36,7 +36,7 @@ public class MemberQueryRepository {
         return queryFactory
                 .delete(member)
                 .where(
-                        IdEq(id),
+                        idEq(id),
                         isDropMember()
                 )
                 .execute();
@@ -98,20 +98,20 @@ public class MemberQueryRepository {
         );
     }
 
-    private BooleanExpression IdEq(Long id) {
+    private BooleanExpression idEq(Long id) {
         return id != null ? member.id.eq(id) : null;
     }
 
     private BooleanExpression loginIdEq(String loginId) {
-        return !hasText(loginId) ? member.loginId.eq(loginId) : null;
+        return hasText(loginId) ? member.loginId.eq(loginId) : null;
     }
 
     private BooleanExpression nameEq(String name) {
-        return !hasText(name) ? member.name.eq(name) : null;
+        return hasText(name) ? member.name.eq(name) : null;
     }
 
     private BooleanExpression emailEq(String email) {
-        return !hasText(email) ? member.email.eq(email) : null;
+        return hasText(email) ? member.email.eq(email) : null;
     }
 
     private BooleanExpression isDropMember() {

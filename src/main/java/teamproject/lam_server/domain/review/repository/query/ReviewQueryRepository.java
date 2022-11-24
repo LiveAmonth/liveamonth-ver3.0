@@ -41,6 +41,7 @@ public class ReviewQueryRepository extends BasicRepository {
     public Page<ReviewListResponse> search(ReviewSearchCond cond, Pageable pageable) {
         List<Long> ids = queryFactory.select(review.id)
                 .from(review)
+                .join(review.member, member)
                 .where(
                         reviewSearchWordContains(cond.getSearchWord()),
                         categoryIn(cond.getType()),

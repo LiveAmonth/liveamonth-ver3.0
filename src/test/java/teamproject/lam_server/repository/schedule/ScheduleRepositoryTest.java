@@ -3,10 +3,8 @@ package teamproject.lam_server.repository.schedule;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -44,7 +42,6 @@ import static teamproject.lam_server.utils.ResultUtils.getPerformanceImprovement
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
 public class ScheduleRepositoryTest {
 
@@ -58,10 +55,11 @@ public class ScheduleRepositoryTest {
     ScheduleJdbcRepository scheduleJdbcRepository;
     @Autowired
     ScheduleRepository scheduleRepository;
-    Member savedMember;
 
-    @BeforeAll
-    void setUp() {
+    @Test
+    @DisplayName("스케줄 조회 성능 비교 인덱스")
+    void compare_get_schedule_index() {
+        // given
         MemberCreate memberCreate =
                 MemberCreate.builder()
                         .loginId("member")
@@ -72,16 +70,9 @@ public class ScheduleRepositoryTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-    }
+        Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
 
-    @Test
-    @DisplayName("스케줄 조회 성능 비교 인덱스")
-    void compare_get_schedule_index() {
-        // given
-        int count = 1000;
-        Pageable pageable = PageRequest.of(0, 10);
-
+        int count = 10000;
         List<ScheduleCreate> scheduleCreates = new ArrayList<>();
         for (int j = 0; j < count; j++) {
             scheduleCreates.add(ScheduleCreate.builder()
@@ -96,6 +87,7 @@ public class ScheduleRepositoryTest {
         }
         scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
 
+        Pageable pageable = PageRequest.of(0, 10);
         // when
         long startTime = System.currentTimeMillis();
         List<Schedule> elements = queryFactory.selectFrom(schedule)
@@ -131,20 +123,33 @@ public class ScheduleRepositoryTest {
         stopTime = System.currentTimeMillis();
         long indexTime = stopTime - startTime;
 
-        // thenF
-        log.info("============== 결과(" + count + "건 기준) ================");
-        log.info("기존 페이징={}s", pagingTime);
-        log.info("커버링 인덱스={}s", indexTime);
-        log.info("더 빠른 방식={}, 성능 개선율={}", pagingTime < indexTime ? "Paging" : "Index", getPerformanceImprovementRate(pagingTime, indexTime));
+        // then
+        log.info("== 결과(" + count + "건 기준) ==");
+        log.info("기존 페이징 조회={}s", pagingTime);
+        log.info("커버링 인덱스 조회={}s", indexTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}",
+                pagingTime < indexTime ? "기존 페이징 조회" : "커버링 인덱스 조회",
+                getPerformanceImprovementRate(pagingTime, indexTime));
     }
 
     @Test
     @DisplayName("스케줄 조회 성능 비교 Projection")
     void compare_get_schedule_projection() {
         // given
-        Pageable pageable = PageRequest.of(0, 10);
+        MemberCreate memberCreate =
+                MemberCreate.builder()
+                        .loginId("member")
+                        .password("memberPassword1!")
+                        .name("memberName")
+                        .nickname("memberNickname")
+                        .email("member@liveamonth.com")
+                        .birth(LocalDate.now().minusDays(1))
+                        .gender(GenderType.MALE.name())
+                        .build();
+        Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
+
         List<ScheduleCreate> scheduleCreates = new ArrayList<>();
-        int count = 1000000;
+        int count = 100000;
         for (int j = 0; j < count; j++) {
             scheduleCreates.add(ScheduleCreate.builder()
                     .title("title" + j)
@@ -157,6 +162,9 @@ public class ScheduleRepositoryTest {
                     .build());
         }
         scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
+
+        Pageable pageable = PageRequest.of(0, 10);
+
         // when
         long startTime = System.currentTimeMillis();
         List<Long> ids = queryFactory.select(schedule.id)
@@ -218,9 +226,11 @@ public class ScheduleRepositoryTest {
         long projectionTime = stopTime - startTime;
 
         // then
-        log.info("============== 결과(" + count + "건 기준) ================");
+        log.info("== 결과(" + count + "건 기준) ==");
         log.info("엔티티 조회={}ms", entityTime);
         log.info("DTO 조회={}ms", projectionTime);
-        log.info("더 빠른 방식={}, 성능 개선율={}", entityTime < projectionTime ? "Entity" : "DTO", getPerformanceImprovementRate(entityTime, projectionTime));
+        log.info("더 빠른 방식={}, 성능 개선율={}",
+                entityTime < projectionTime ? "Entity 조회" : "DTO 조회",
+                getPerformanceImprovementRate(entityTime, projectionTime));
     }
 }

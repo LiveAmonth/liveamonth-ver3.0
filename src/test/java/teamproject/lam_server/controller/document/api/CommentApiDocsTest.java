@@ -1,10 +1,8 @@
 package teamproject.lam_server.controller.document.api;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,8 +48,6 @@ import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 
-@Transactional
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
 public class CommentApiDocsTest extends ApiDocsTest {
 
@@ -69,40 +65,15 @@ public class CommentApiDocsTest extends ApiDocsTest {
     @Autowired
     ScheduleCommentRepository commentRepository;
 
-    Schedule schedule;
-
-    @BeforeAll
-    void saveSchedule() {
-        MemberCreate memberCreate = MemberCreate.builder()
-                .loginId("defaultMember")
-                .nickname("defaultMember")
-                .name("defaultMember")
-                .password("defaultMember1!")
-                .email("defaultMember@liveamonth.com")
-                .gender(GenderType.MALE.name())
-                .birth(LocalDate.now().minusDays(1))
-                .build();
-        Member member = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-
-        ScheduleCreate scheduleCreate = ScheduleCreate.builder()
-                .title("defaultSchedule")
-                .city(CityName.SE.name())
-                .period(
-                        PeriodRequest.builder()
-                                .startDate(LocalDate.now())
-                                .endDate(LocalDate.now().plusDays(30))
-                                .build()
-                )
-                .publicFlag(true)
-                .build();
-        schedule = scheduleRepository.save(scheduleCreate.toEntity(member));
-    }
-
     @Test
+    @Transactional
     @DisplayName("댓글 작성")
     @WithMockCustomUser
     void write_comment() throws Exception {
         // given
+        Member member = createMember();
+        Schedule schedule = createSchedule(member);
+
         CommentCreate request = CommentCreate.builder()
                 .comment("comment")
                 .build();
@@ -136,16 +107,55 @@ public class CommentApiDocsTest extends ApiDocsTest {
                         fieldWithPath("parentId").type(NUMBER).description("댓글 id(대댓글 작성)")
                                 .attributes(getConstraintAttributes(constraint, "parentId"))
                                 .optional()
-                ),
-                getPostResponseFieldsSnippet()
+                )
+        ));
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("댓글 삭제")
+    @WithMockCustomUser
+    void delete_comment() throws Exception {
+        // given
+        Member member = createMember();
+        Schedule schedule = createSchedule(member);
+        Member authMember = finder.getLoggedInMember();
+        CommentCreate create = CommentCreate.builder()
+                .comment("comment")
+                .build();
+        ScheduleComment savedComment = commentRepository.save(create.toScheduleEntity(authMember, schedule));
+
+        // when
+        ResultActions result = this.mockMvc.perform(
+                delete(BASIC_URL + "/{type}/{comment_id}",
+                        CommentType.SCHEDULE.name(),
+                        savedComment.getId()
+                )
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .header("Authorization", "{access_token}")
+                        .cookie(addRefreshTokenCookie("{refresh_token}"))
+        ).andExpect(status().isOk());
+
+        // then
+        result.andDo(document("comment-delete",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                pathParameters(
+                        parameterWithName("type").description(generateLinkCode(COMMENT_TYPE)),
+                        parameterWithName("comment_id").description("댓글 id")
+                )
         ));
     }
 
     @Test
     @DisplayName("댓글 수정")
+    @Transactional
     @WithMockCustomUser
     void edit_comment() throws Exception {
         // given
+        Member member = createMember();
+        Schedule schedule = createSchedule(member);
         Member authMember = finder.getLoggedInMember();
         CommentCreate create = CommentCreate.builder()
                 .comment("comment")
@@ -186,49 +196,17 @@ public class CommentApiDocsTest extends ApiDocsTest {
         ));
     }
 
-    @Test
-    @DisplayName("댓글 삭제")
-    @WithMockCustomUser
-    void delete_comment() throws Exception {
-        // given
-        Member authMember = finder.getLoggedInMember();
-        CommentCreate create = CommentCreate.builder()
-                .comment("comment")
-                .build();
-        ScheduleComment savedComment = commentRepository.save(create.toScheduleEntity(authMember, schedule));
-
-        // when
-        ResultActions result = this.mockMvc.perform(
-                delete(BASIC_URL + "/{type}/{comment_id}",
-                        CommentType.SCHEDULE.name(),
-                        savedComment.getId()
-                )
-                        .accept(APPLICATION_JSON)
-                        .contentType(APPLICATION_JSON)
-                        .header("Authorization", "{access_token}")
-                        .cookie(addRefreshTokenCookie("{refresh_token}"))
-        ).andExpect(status().isOk());
-
-        // then
-        result.andDo(document("comment-delete",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                pathParameters(
-                        parameterWithName("type").description(generateLinkCode(COMMENT_TYPE)),
-                        parameterWithName("comment_id").description("댓글 id")
-                )
-        ));
-    }
-
 
     @Test
+    @Transactional
     @DisplayName("댓글 다건 조회")
     void get_comment_list() throws Exception {
         // given
+        Member member = createMember();
+        Schedule schedule = createSchedule(member);
         PageableDTO pageable = PageableDTO.builder().build();
-        List<Member> members = createMembers();
-        List<ScheduleComment> comments = createComments(members.get(0));
-        createCommentReplies(members.get(0), comments);
+        List<ScheduleComment> comments = createComments(schedule, member);
+        createCommentReplies(member, comments);
 
         // when
         ResultActions result = this.mockMvc.perform(
@@ -276,22 +254,22 @@ public class CommentApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("베스트 댓글 다건 조회")
     void get_best_comment_list() throws Exception {
         // given
+        Member member = createMember();
+        Schedule schedule = createSchedule(member);
+        List<ScheduleComment> comments = createComments(schedule, member);
         List<Member> members = createMembers();
-        List<ScheduleComment> comments = createComments(members.get(0));
-
         InteractionRequest request = new InteractionRequest();
         for (int i = 0; i < comments.size(); i++) {
-            request.setFrom(comments.get(i).getId());
-            for (int j = 1; j <= 3 - i; j++) {
-                request.setTo((long) j);
-                log.info("to={}, from={}", request.getTo(), request.getFrom());
+            request.setTo(comments.get(i).getId());
+            for (int j = 0; j < 3 - i; j++) {
+                request.setFrom(members.get(j).getId());
                 interactionRepository.interact(request, InteractionState.LIKE);
             }
         }
-
 
         // when
         ResultActions result = this.mockMvc.perform(
@@ -330,7 +308,7 @@ public class CommentApiDocsTest extends ApiDocsTest {
         ));
     }
 
-    List<ScheduleComment> createComments(Member member) {
+    List<ScheduleComment> createComments(Schedule schedule, Member member) {
         List<CommentCreate> creates = List.of(
                 CommentCreate.builder()
                         .comment("comment one")
@@ -342,14 +320,15 @@ public class CommentApiDocsTest extends ApiDocsTest {
                         .comment("comment three")
                         .build()
         );
-
         return commentRepository.saveAll(
                 creates.stream()
                         .map(commentCreate -> commentCreate.toScheduleEntity(member, schedule))
                         .collect(Collectors.toList()));
     }
 
-    List<ScheduleComment> createCommentReplies(Member member, List<ScheduleComment> parents) {
+    void createCommentReplies(Member member, List<ScheduleComment> parents) {
+        Schedule schedule = createSchedule(member);
+
         List<CommentCreate> creates = List.of(
                 CommentCreate.builder()
                         .comment("comment one")
@@ -364,10 +343,38 @@ public class CommentApiDocsTest extends ApiDocsTest {
                         .parentId(parents.get(2).getId())
                         .build()
         );
-        return commentRepository.saveAll(
+        commentRepository.saveAll(
                 creates.stream()
                         .map(commentCreate -> commentCreate.toScheduleEntity(member, schedule, commentRepository.findById(commentCreate.getParentId()).orElseThrow(CommentNotFound::new)))
                         .collect(Collectors.toList()));
+    }
+
+    Schedule createSchedule(Member member) {
+        ScheduleCreate scheduleCreate = ScheduleCreate.builder()
+                .title("defaultSchedule")
+                .city(CityName.SE.name())
+                .period(
+                        PeriodRequest.builder()
+                                .startDate(LocalDate.now())
+                                .endDate(LocalDate.now().plusDays(30))
+                                .build()
+                )
+                .publicFlag(true)
+                .build();
+        return scheduleRepository.save(scheduleCreate.toEntity(member));
+    }
+
+    private Member createMember() {
+        MemberCreate memberCreate = MemberCreate.builder()
+                .loginId("defaultMember")
+                .nickname("defaultMember")
+                .name("defaultMember")
+                .password("defaultMember1!")
+                .email("defaultMember@liveamonth.com")
+                .gender(GenderType.MALE.name())
+                .birth(LocalDate.now().minusDays(1))
+                .build();
+        return memberRepository.save(memberCreate.toEntity(passwordEncoder));
     }
 
     List<Member> createMembers() {
@@ -404,5 +411,4 @@ public class CommentApiDocsTest extends ApiDocsTest {
                 .map(create -> create.toEntity(passwordEncoder))
                 .collect(Collectors.toList()));
     }
-
 }

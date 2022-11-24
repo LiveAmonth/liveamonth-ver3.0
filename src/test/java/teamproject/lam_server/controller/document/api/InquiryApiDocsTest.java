@@ -1,6 +1,5 @@
 package teamproject.lam_server.controller.document.api;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,12 +53,8 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     @Autowired
     InquiryAnswerRepository inquiryAnswerRepository;
 
-    @AfterEach
-    void clear() {
-        inquiryRepository.deleteAll();
-    }
-
     @Test
+    @Transactional
     @DisplayName("1:1문의 작성")
     @WithMockCustomUser
     void write_inquiry() throws Exception {
@@ -98,6 +93,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("1:1문의 다건 조회")
     @WithMockCustomUser
     void get_inquiry_list() throws Exception {
@@ -138,7 +134,6 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         attributes(getTitleAttributes("Inquiry List Response Fields")),
                         idFieldWithPath(),
                         titleFieldWithPath(),
-                        writerFieldWithPath(),
                         fieldWithPath("category.code").type(STRING).description(generateLinkCode(INQUIRY_CATEGORY)),
                         fieldWithPath("category.value").type(STRING).description(generateValue(INQUIRY_CATEGORY)),
                         fieldWithPath("answered").type(BOOLEAN).description("답변 여부"),
@@ -148,8 +143,8 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     }
 
     @Test
-    @DisplayName("1:1문의 단건 조회")
     @Transactional
+    @DisplayName("1:1문의 단건 조회")
     @WithMockCustomUser
     void get_inquiry() throws Exception {
         Inquiry inquiry = InquiryCreate.builder()
@@ -192,7 +187,6 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         attributes(getTitleAttributes("Inquiry Response Fields")),
                         idFieldWithPath(),
                         titleFieldWithPath(),
-                        writerFieldWithPath(),
                         contentFieldWithPath(),
                         enumCodeFieldWithPath("category", INQUIRY_CATEGORY),
                         enumValueFieldWithPath("category", INQUIRY_CATEGORY),
@@ -204,7 +198,6 @@ public class InquiryApiDocsTest extends ApiDocsTest {
                         beneathPath("data.answer").withSubsectionId("answer"),
                         attributes(getTitleAttributes("1:1문의 답변")),
                         idFieldWithPath(),
-                        writerFieldWithPath(),
                         contentFieldWithPath(),
                         dateTimeFieldWithPath("dateTime", "작성 시간")
                 )
@@ -212,6 +205,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("1:1문의 수정")
     @WithMockCustomUser
     void edit_inquiry() throws Exception {
@@ -259,6 +253,7 @@ public class InquiryApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("1:1문의 삭제")
     @WithMockCustomUser
     void delete_inquiry() throws Exception {

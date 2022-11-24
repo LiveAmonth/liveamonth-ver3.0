@@ -70,6 +70,7 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .select(constructor(ScheduleContentResponse.class,
                         scheduleContent.id,
                         scheduleContent.title,
+                        scheduleContent.content,
                         scheduleContent.cost,
                         constructor(TimePeriodResponse.class,
                                 scheduleContent.timePeriod.startDateTime,

@@ -41,6 +41,7 @@ public class MemberRepositoryTest {
     SecurityContextFinder finder;
     @Autowired
     JPAQueryFactory queryFactory;
+
     @Test
     @DisplayName("JDBC Bulk Insert 성능")
     void jdbc_bulk_insert() {

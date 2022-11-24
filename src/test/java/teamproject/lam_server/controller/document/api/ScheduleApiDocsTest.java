@@ -46,7 +46,6 @@ import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateFormat;
 
-@Transactional
 public class ScheduleApiDocsTest extends ApiDocsTest {
 
     static final String BASIC_URL = "/api/v1/schedules";
@@ -61,12 +60,8 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     @Autowired
     FollowRepository followRepository;
 
-    @BeforeEach
-    void clean() {
-        scheduleRepository.deleteAll();
-    }
-
     @Test
+    @Transactional
     @DisplayName("스케줄 추가")
     @WithMockCustomUser
     void add_schedule() throws Exception {
@@ -130,6 +125,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("스케줄 수정")
     @WithMockCustomUser
     void edit_schedule() throws Exception {
@@ -206,6 +202,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("스케줄 삭제")
     @WithMockCustomUser
     void delete_schedule() throws Exception {
@@ -246,6 +243,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("스케줄 검색")
     void search_schedule() throws Exception {
         // given
@@ -326,6 +324,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("수정할 스케줄 다건 조회")
     @WithMockCustomUser
     void get_my_schedules_to_edit() throws Exception {
@@ -374,6 +373,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
 
 
     @Test
+    @Transactional
     @DisplayName("내 스케줄 다건 조회")
     @WithMockCustomUser
     void get_my_schedule_list() throws Exception {
@@ -426,6 +426,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("팔로우 스케줄 다건 조회")
     @WithMockCustomUser
     void search_followed_schedule_list() throws Exception {
@@ -497,6 +498,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("팔로우 스케줄 모든 갯수 조회")
     @WithMockCustomUser
     void get_followed_schedule_count() throws Exception {
@@ -536,6 +538,7 @@ public class ScheduleApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("스케줄 조회수 증가")
     void schedule_view_count_up() throws Exception {
         // given

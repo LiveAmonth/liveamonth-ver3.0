@@ -50,7 +50,6 @@ import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 
-@Transactional
 public class ReviewApiDocsTest extends ApiDocsTest {
 
     static final String BASIC_URL = "/api/v1/reviews";
@@ -68,6 +67,7 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     PasswordEncoder passwordEncoder;
 
     @Test
+    @Transactional
     @DisplayName("후기글 작성")
     @WithMockCustomUser
     void review_write() throws Exception {
@@ -114,6 +114,7 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("후기글 수정")
     @WithMockCustomUser
     void edit_review() throws Exception {
@@ -163,6 +164,7 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("후기글 삭제")
     @WithMockCustomUser
     void delete_review() throws Exception {
@@ -189,6 +191,7 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("후기글 단건 조회")
     void get_review() throws Exception {
         // given
@@ -243,11 +246,12 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("후기글 검색")
     void search_review() throws Exception {
         // given
         Member member = createMember();
-        List<Review> reviews = createReviews(member);
+        createReviews(member);
         ReviewSearchCond cond = ReviewSearchCond.builder()
                 .type(ReviewSearchType.REVIEW_LIVEAMONTH)
                 .category(ReviewCategory.SE_REVIEW)
@@ -301,6 +305,7 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("사용자 후기글 조회")
     @WithMockCustomUser
     void get_review_by_member() throws Exception {
@@ -347,6 +352,7 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("후기글 조회수 증가")
     void review_view_count_up() throws Exception {
         // given
@@ -371,6 +377,7 @@ public class ReviewApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("추천 태그 다건 조회")
     void get_recommendation_tag_list() throws Exception {
         // given

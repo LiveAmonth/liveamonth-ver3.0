@@ -1,9 +1,7 @@
 package teamproject.lam_server.controller.document.api;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.RequestFieldsSnippet;
@@ -51,7 +49,6 @@ import static teamproject.lam_server.util.CookieUtil.addRefreshTokenCookie;
 import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class InteractionApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/interactions";
     @Autowired
@@ -68,27 +65,15 @@ public class InteractionApiDocsTest extends ApiDocsTest {
     ScheduleCommentInteractionRepository sCInteractionRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
-    Member toMember;
-
-    @BeforeAll
-    void saveMember() {
-        MemberCreate memberCreate = MemberCreate.builder()
-                .loginId("toMember")
-                .nickname("toMember")
-                .name("toMember")
-                .password("toMember1!")
-                .email("toMember@gmail.com")
-                .gender(GenderType.MALE.name())
-                .birth(LocalDate.now().minusDays(1))
-                .build();
-        toMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-    }
 
     @Test
+    @Transactional
     @DisplayName("팔로우&게시물 상호작용")
     @WithMockCustomUser
     void interact() throws Exception {
         Member authMember = finder.getLoggedInMember();
+        Member toMember = createMember();
+
         // given
         InteractionRequest request = new InteractionRequest();
         request.setFrom(authMember.getId());
@@ -124,10 +109,11 @@ public class InteractionApiDocsTest extends ApiDocsTest {
     }
 
     @Test
-    @DisplayName("댓글 상호작용")
     @Transactional
+    @DisplayName("댓글 상호작용")
     @WithMockCustomUser
     void interact_comment() throws Exception {
+        Member toMember = createMember();
         Member authMember = finder.getLoggedInMember();
         // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
@@ -187,13 +173,14 @@ public class InteractionApiDocsTest extends ApiDocsTest {
     }
 
     @Test
-    @DisplayName("댓글 상호작용 취소")
     @Transactional
+    @DisplayName("댓글 상호작용 취소")
     @WithMockCustomUser
     void cancel_interact_comment() throws Exception {
+        // given
+        Member toMember = createMember();
         Member authMember = finder.getLoggedInMember();
 
-        // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
                 .title("테스트 스케줄")
                 .city(CityName.SE.name())
@@ -249,12 +236,14 @@ public class InteractionApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("팔로우&게시물 상호작용 여부 조회")
     @WithMockCustomUser
     void is_member_interact_object() throws Exception {
+        // given
+        Member toMember = createMember();
         Member authMember = finder.getLoggedInMember();
 
-        // given
         InteractionRequest request = new InteractionRequest();
         request.setFrom(authMember.getId());
         request.setTo(toMember.getId());
@@ -291,13 +280,14 @@ public class InteractionApiDocsTest extends ApiDocsTest {
     }
 
     @Test
-    @DisplayName("회원이 추천&비추천 한 댓글 조회")
     @Transactional
+    @DisplayName("회원이 추천&비추천 한 댓글 조회")
     @WithMockCustomUser
     void get_interacted_comments_by_member() throws Exception {
+        // given
+        Member toMember = createMember();
         Member authMember = finder.getLoggedInMember();
 
-        // given
         ScheduleCreate scheduleCreate = ScheduleCreate.builder()
                 .title("테스트 스케줄")
                 .city(CityName.SE.name())
@@ -351,7 +341,7 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.length()", is(2)))
                 .andExpect(jsonPath("$..[?(@.id == '%d')]", savedComment1.getId()).exists())
-                .andExpect(jsonPath("$..state[?(@.code == '%s')]",InteractionState.LIKE.name()).exists());
+                .andExpect(jsonPath("$..state[?(@.code == '%s')]", InteractionState.LIKE.name()).exists());
 
         // then
         result.andDo(document("member-interacted-comments-get",
@@ -372,6 +362,19 @@ public class InteractionApiDocsTest extends ApiDocsTest {
                         enumValueFieldWithPath("state", INTERACTION_STATE)
                 )
         ));
+    }
+
+    private Member createMember() {
+        MemberCreate memberCreate = MemberCreate.builder()
+                .loginId("toMember")
+                .nickname("toMember")
+                .name("toMember")
+                .password("toMember1!")
+                .email("toMember@gmail.com")
+                .gender(GenderType.MALE.name())
+                .birth(LocalDate.now().minusDays(1))
+                .build();
+        return memberRepository.save(memberCreate.toEntity(passwordEncoder));
     }
 
     private RequestFieldsSnippet getInteractionRequestSnippet(String to) {

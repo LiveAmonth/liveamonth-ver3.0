@@ -6,10 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,13 +35,11 @@ import java.util.Optional;
 
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
-import static teamproject.lam_server.domain.review.entity.QReviewTag.reviewTag;
-import static teamproject.lam_server.domain.review.entity.QTag.tag;
+import static teamproject.lam_server.utils.ResultUtils.getPerformanceImprovementRate;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Slf4j
 public class ReviewRepositoryTest {
 
@@ -64,10 +60,10 @@ public class ReviewRepositoryTest {
     @Autowired
     TagRepository tagRepository;
 
-    Member savedMember;
-
-    @BeforeAll
-    void setUp() {
+    @Test
+    @DisplayName("후기글 조회 성능 비교")
+    void compare_get_review() {
+        // given
         MemberCreate memberCreate =
                 MemberCreate.builder()
                         .loginId("member")
@@ -78,16 +74,18 @@ public class ReviewRepositoryTest {
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
+        Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
+        ReviewCreate reviewCreate = ReviewCreate.builder()
+                .title("title")
+                .content("content")
+                .category(ReviewCategory.SE_REVIEW.getCode())
+                .tags(Collections.emptySet())
+                .build();
+        reviewRepository.save(reviewCreate.toEntity(savedMember, Collections.emptySet()));
 
-        List<String> tags = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
-            tags.add("tag" + i);
-        }
-        reviewJdbcRepository.batchTagInsert(tags);
+        int count = 10000;
         List<ReviewCreate> reviewCreates = new ArrayList<>();
-
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < count; i++) {
             reviewCreates.add(ReviewCreate.builder()
                     .title("title" + i)
                     .content("content" + i)
@@ -97,110 +95,29 @@ public class ReviewRepositoryTest {
         }
         reviewJdbcRepository.batchReviewInsert(reviewCreates, savedMember.getId());
 
-        List<Long> reviewIds = new ArrayList<>();
-        List<Long> tagIds = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
-            long randomId = (long) ((Math.random() * 10000) + 1);
-            for (int j = 0; j < 5; j++) {
-                long temp = (long) ((Math.random() * 10000) + 1);
-                if (randomId != temp) {
-                    reviewIds.add((long) (i + 1));
-                    tagIds.add(temp);
-                }
-                randomId = temp;
-            }
-        }
-        reviewJdbcRepository.batchReviewTagInsert(reviewIds, tagIds);
-    }
-
-    @Test
-    @DisplayName("후기글 조회 성능 비교")
-    void compare_get_review() {
-        // given
-        List<String> methods = new ArrayList<>();
-        List<Long> times = new ArrayList<>();
-        int iterations = 50;
-        long startTime;
-        long stopTime;
-        long entityTime;
-        long dtoTime;
-
         // when
-        long count = reviewRepository.count();
-        for (int i = 0; i < iterations; i++) {
-            long id = (long) ((Math.random() * count) + 1);
-            startTime = System.currentTimeMillis();
-            getReviewWithEntity(id);
-            stopTime = System.currentTimeMillis();
-            entityTime = stopTime - startTime;
-
-            startTime = System.currentTimeMillis();
-            reviewQueryRepository.getReview(id);
-            stopTime = System.currentTimeMillis();
-            dtoTime = stopTime - startTime;
-
-            methods.add(entityTime < dtoTime ? "Entity" : "DTO");
-            times.add(Math.abs(entityTime - dtoTime));
-        }
-
-        // then
-        log.info("============== 결과 ================");
-        for (int i = 0; i < iterations; i++) {
-            log.info("더 빠른 방식={}, 시간차={}", methods.get(i), times.get(i));
-        }
-    }
-
-    @Test
-    @DisplayName("태그 조회 성능 비교")
-    void compare_get_tags() {
-        // given
-        List<String> methods = new ArrayList<>();
-        List<Long> times = new ArrayList<>();
-        int iterations = 50;
-        long startTime;
-        long stopTime;
-        long nativeQueryTime;
-        long queryDslTime;
-
-        // when
-        for (int i = 0; i < iterations; i++) {
-            startTime = System.currentTimeMillis();
-            List<String> tagNamesByNativeQuery = reviewTagTestRepository.findTagNamesById(1L);
-            stopTime = System.currentTimeMillis();
-            nativeQueryTime = stopTime - startTime;
-
-            startTime = System.currentTimeMillis();
-            List<String> tagNamesByQueryDsl = findTagNames(1L);
-            stopTime = System.currentTimeMillis();
-            queryDslTime = stopTime - startTime;
-
-            methods.add(nativeQueryTime < queryDslTime ? "Native Query" : "Querydsl");
-            times.add(Math.abs(nativeQueryTime - queryDslTime));
-        }
-
-        // then
-        log.info("============== 결과 ================");
-        for (int i = 0; i < iterations; i++) {
-            log.info("더 빠른 방식={}, 시간차={}", methods.get(i), times.get(i));
-        }
-    }
-
-    ReviewDetailDto getReviewWithEntity(Long id) {
-        Review findReview = Optional.ofNullable(queryFactory.selectFrom(review)
+        long id = 1L;
+        long startTime = System.currentTimeMillis();
+        Optional.ofNullable(queryFactory.selectFrom(review)
                 .join(review.member, member).fetchJoin()
                 .where(review.id.eq(id))
                 .fetchOne()).orElseThrow(ReviewNotFound::new);
 
-        List<String> tags = reviewTagTestRepository.findTagNamesById(id);
-        return ReviewDetailDto.of(findReview, tags);
-    }
+        reviewTagTestRepository.findTagNamesById(id);
+        long stopTime = System.currentTimeMillis();
+        long entityTime = stopTime - startTime;
 
-    List<String> findTagNames(Long reviewId) {
-        return queryFactory.select(tag.name)
-                .from(reviewTag)
-                .join(reviewTag.tag, tag)
-                .where(reviewTag.review.id.eq(reviewId))
-                .fetch();
+        startTime = System.currentTimeMillis();
+        reviewQueryRepository.getReview(id);
+        stopTime = System.currentTimeMillis();
+        long dtoTime = stopTime - startTime;
+
+        log.info("== 결과(" + count + "건 기준) ==");
+        log.info("Entity 조회={}ms", entityTime);
+        log.info("DTO 조회={}ms", dtoTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}",
+                entityTime < dtoTime ? "Entity 조회" : "DTO 조회",
+                getPerformanceImprovementRate(entityTime, dtoTime));
     }
 
     @Getter

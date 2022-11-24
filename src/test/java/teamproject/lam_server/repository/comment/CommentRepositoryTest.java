@@ -7,16 +7,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.comment.dto.request.CommentCreate;
@@ -35,6 +32,8 @@ import teamproject.lam_server.domain.review.constants.ReviewCategory;
 import teamproject.lam_server.domain.review.dto.reqeust.ReviewCreate;
 import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.repository.core.ReviewRepository;
+import teamproject.lam_server.exception.notfound.MemberNotFound;
+import teamproject.lam_server.exception.notfound.ReviewNotFound;
 import teamproject.lam_server.jdbc.comment.CommentJdbcRepository;
 import teamproject.lam_server.jdbc.member.MemberJdbcRepository;
 import teamproject.lam_server.jdbc.review.ReviewJdbcRepository;
@@ -51,13 +50,12 @@ import java.util.stream.Collectors;
 import static teamproject.lam_server.domain.comment.entity.QReviewComment.reviewComment;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
 import static teamproject.lam_server.domain.review.entity.QReview.review;
+import static teamproject.lam_server.utils.ResultUtils.getPerformanceImprovementRate;
 
 
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Rollback
 @Slf4j
 public class CommentRepositoryTest {
 
@@ -83,136 +81,97 @@ public class CommentRepositoryTest {
     CommentJdbcRepository commentJdbcRepository;
     @Autowired
     EntityManager em;
-    Review savedReview;
-    Member savedMember;
-
-    @BeforeAll
-    void setUp() {
-        MemberCreate memberCreate =
-                MemberCreate.builder()
-                        .loginId("member")
-                        .password("memberPassword1!")
-                        .name("memberName")
-                        .nickname("memberNickname")
-                        .email("member@liveamonth.com")
-                        .birth(LocalDate.now().minusDays(1))
-                        .gender(GenderType.MALE.name())
-                        .build();
-        savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-
-        ReviewCreate create = ReviewCreate.builder()
-                .title("review title")
-                .content("review content")
-                .category(ReviewCategory.SE_REVIEW.getCode())
-                .tags(Collections.emptySet())
-                .build();
-        savedReview = reviewRepository.save(create.toEntity(savedMember, Collections.emptySet()));
-    }
 
     @Test
     @DisplayName("댓글 저장 성능 비교")
     void compare_write_comment() {
-        List<String> methods = new ArrayList<>();
-        List<Long> times = new ArrayList<>();
-        int iterations = 50;
+        // given
+        Member member = createMember();
+        Review review = createReview(member);
+
         List<MemberCreate> memberCreates = new ArrayList<>();
         List<ReviewCreate> reviewCreates = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
-            MemberCreate memberCreate =
-                    MemberCreate.builder()
-                            .loginId("member" + i)
-                            .password("memberPassword1!")
-                            .name("memberName" + i)
-                            .nickname("memberNickname" + i)
-                            .email("member" + i + "@liveamonth.com")
-                            .birth(LocalDate.now().minusDays(1))
-                            .gender(GenderType.MALE.name())
-                            .build();
-            memberCreates.add(memberCreate);
+        int count = 100000;
+        for (int i = 0; i < count; i++) {
+            memberCreates.add(MemberCreate.builder()
+                    .loginId("member" + i)
+                    .password("memberPassword1!")
+                    .name("memberName" + i)
+                    .nickname("memberNickname" + i)
+                    .email("member" + i + "@liveamonth.com")
+                    .birth(LocalDate.now().minusDays(1))
+                    .gender(GenderType.MALE.name())
+                    .build());
 
-            ReviewCreate reviewCreate = ReviewCreate.builder()
+            reviewCreates.add(ReviewCreate.builder()
                     .title("review title")
                     .content("review content")
                     .category(ReviewCategory.SE_REVIEW.getCode())
                     .tags(Collections.emptySet())
-                    .build();
-            reviewCreates.add(reviewCreate);
+                    .build());
         }
         memberJdbcRepository.batchInsert(memberCreates);
-        reviewJdbcRepository.batchReviewInsert(reviewCreates, savedMember.getId());
+        reviewJdbcRepository.batchReviewInsert(reviewCreates, member.getId());
 
-        for (int i = 0; i < iterations; i++) {
-            long startTime = System.currentTimeMillis();
+        em.clear();
+        // when
+        long startTime = System.currentTimeMillis();
+        Member findMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFound::new);
+        Review findReview = reviewRepository.findById(review.getId()).orElseThrow(ReviewNotFound::new);
+        ReviewComment reviewComment = ReviewComment.builder()
+                .content("crud repository comment")
+                .member(findMember)
+                .review(findReview)
+                .build();
+        commentRepository.save(reviewComment);
+        long stopTime = System.currentTimeMillis();
+        long crudTime = stopTime - startTime;
 
-            Member findMember = memberRepository.findById(savedMember.getId()).get();
-            Review findReview = reviewRepository.findById(savedReview.getId()).get();
-            ReviewComment reviewComment = ReviewComment.builder()
-                    .content("crud repository comment")
-                    .member(findMember)
-                    .review(findReview)
-                    .build();
-            commentRepository.save(reviewComment);
-            long stopTime = System.currentTimeMillis();
-            long crudTime = stopTime - startTime;
+        startTime = System.currentTimeMillis();
+        CommentCreate request = CommentCreate.builder()
+                .comment("native query comment")
+                .build();
+        reviewCommentTestRepository.write(member.getLoginId(), member.getId(), review.getId(), request);
+        stopTime = System.currentTimeMillis();
+        long queryTime = stopTime - startTime;
 
-            startTime = System.currentTimeMillis();
-            CommentCreate request = CommentCreate.builder()
-                    .comment("native query comment")
-                    .build();
-            reviewCommentTestRepository.write(savedMember.getLoginId(), savedMember.getId(), savedReview.getId(), request);
-            stopTime = System.currentTimeMillis();
-            long queryTime = stopTime - startTime;
-
-            methods.add(crudTime < queryTime ? "CRUD" : "Native");
-            times.add(Math.abs(crudTime - queryTime));
-            em.clear();
-        }
-
-        log.info("============== 결과 ================");
-        for (int i = 0; i < iterations; i++) {
-            log.info("더 빠른 방식={}, 시간차={}", methods.get(i), times.get(i));
-        }
-
+        // then
+        log.info("== 결과(" + count + "건 기준) ==");
+        log.info("dirty checking={}ms", crudTime);
+        log.info("native query={}ms", queryTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}",
+                crudTime < queryTime ? "dirty checking" : "native query",
+                getPerformanceImprovementRate(crudTime, queryTime));
     }
+
 
     @Test
     @DisplayName("댓글 조회 성능 비교")
     void compare_get_comment() {
         // given
-        Pageable pageable = PageRequest.of(0, 10);
+        Member memberEntity = createMember();
+        Review reviewEntity = createReview(memberEntity);
 
+        int count = 10000;
         List<CommentCreate> commentCreates = new ArrayList<>();
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < count; i++) {
             commentCreates.add(CommentCreate.builder()
                     .comment("native query comment")
                     .build());
         }
-        commentJdbcRepository.batchInsert(commentCreates, savedMember.getId(), savedReview.getId());
+        commentJdbcRepository.batchInsert(commentCreates, memberEntity.getId(), reviewEntity.getId());
+
+        Pageable pageable = PageRequest.of(0, 10);
 
         // when
         // 스트림을 이용한 방식
         long startTime = System.currentTimeMillis();
-        getCommentsByStream(pageable);
-        long stopTime = System.currentTimeMillis();
-        long streamTime = stopTime - startTime;
-
-        // 인덱스를 이용한 방식
-        startTime = System.currentTimeMillis();
-        getCommentsByIndex(pageable);
-        stopTime = System.currentTimeMillis();
-        long indexTime = stopTime - startTime;
-
-        // then
-        log.info("더 빠른 방식={}, 시간차={}", streamTime < indexTime ? "Stream" : "Covering Index", Math.abs(streamTime - indexTime));
-    }
-
-    private List<TestCommentResponse> getCommentsByStream(Pageable pageable) {
         List<ReviewComment> contents = queryFactory.select(reviewComment)
                 .from(reviewComment)
                 .leftJoin(reviewComment.review, review).fetchJoin()
                 .leftJoin(reviewComment.member, member).fetchJoin()
                 .where(
-                        review.id.eq(savedReview.getId()),
+                        review.id.eq(reviewEntity.getId()),
                         reviewComment.parent.id.isNull()
                 )
                 .offset(pageable.getOffset())
@@ -222,26 +181,29 @@ public class CommentRepositoryTest {
         JPAQuery<Long> countQuery = queryFactory.select(reviewComment.count())
                 .from(reviewComment)
                 .where(
-                        review.id.eq(savedReview.getId()),
+                        review.id.eq(reviewEntity.getId()),
                         reviewComment.parent.id.isNull()
                 );
 
-        List<ReviewComment> reviewCommentReplies = getReviewCommentReplies(contents);
+        List<ReviewComment> reviewCommentReplies = getReviewCommentReplies(contents, reviewEntity.getId());
 
-        return contents.stream().map(comment -> mapToCommentResponse(
+        List<TestCommentResponse> collect = contents.stream().map(comment -> mapToCommentResponse(
                         TestCommentResponse.of(comment),
                         comment.getId(),
                         reviewCommentReplies))
                 .collect(Collectors.toList());
-    }
 
-    private List<CommentDto> getCommentsByIndex(Pageable pageable) {
+        long stopTime = System.currentTimeMillis();
+        long streamTime = stopTime - startTime;
+
+        // 인덱스를 이용한 방식
+        startTime = System.currentTimeMillis();
         List<Long> ids = queryFactory.select(reviewComment.id)
                 .from(reviewComment)
                 .join(reviewComment.review, review)
                 .where(
                         reviewComment.parent.id.isNull(),
-                        review.id.eq(savedReview.getId())
+                        review.id.eq(reviewEntity.getId())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -250,7 +212,7 @@ public class CommentRepositoryTest {
 
         QReviewComment replyComment = new QReviewComment("replyComment");
 
-        return queryFactory.select(
+        queryFactory.select(
                         Projections.constructor(CommentDto.class,
                                 reviewComment.id,
                                 reviewComment.comment,
@@ -281,9 +243,43 @@ public class CommentRepositoryTest {
                 .join(reviewComment.children, replyComment)
                 .where(reviewComment.id.in(ids))
                 .fetch();
+        stopTime = System.currentTimeMillis();
+        long indexTime = stopTime - startTime;
+
+        // then
+        log.info("== 결과(" + count + "건 기준) ==");
+        log.info("basic paging={}ms", streamTime);
+        log.info("covering index={}ms", indexTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}",
+                streamTime < indexTime ? "basic paging" : "covering index",
+                getPerformanceImprovementRate(streamTime, indexTime));
     }
 
-    List<ReviewComment> getReviewCommentReplies(List<ReviewComment> comments) {
+    Review createReview(Member member) {
+        ReviewCreate create = ReviewCreate.builder()
+                .title("review title")
+                .content("review content")
+                .category(ReviewCategory.SE_REVIEW.getCode())
+                .tags(Collections.emptySet())
+                .build();
+        return reviewRepository.save(create.toEntity(member, Collections.emptySet()));
+    }
+
+    Member createMember() {
+        MemberCreate memberCreate =
+                MemberCreate.builder()
+                        .loginId("member")
+                        .password("memberPassword1!")
+                        .name("memberName")
+                        .nickname("memberNickname")
+                        .email("member@liveamonth.com")
+                        .birth(LocalDate.now().minusDays(1))
+                        .gender(GenderType.MALE.name())
+                        .build();
+        return memberRepository.save(memberCreate.toEntity(passwordEncoder));
+    }
+
+    List<ReviewComment> getReviewCommentReplies(List<ReviewComment> comments, Long reviewId) {
         Long from = comments.get(comments.size() - 1).getId();
         Long to = comments.get(0).getId();
         return queryFactory.selectFrom(reviewComment)
@@ -291,7 +287,7 @@ public class CommentRepositoryTest {
                 .leftJoin(reviewComment.member, member).fetchJoin()
                 .leftJoin(reviewComment.parent).fetchJoin()
                 .where(
-                        review.id.eq(savedReview.getId()),
+                        review.id.eq(reviewId),
                         reviewComment.parent.id.isNotNull(),
                         reviewComment.parent.id.between(from, to)
                 )
@@ -309,7 +305,6 @@ public class CommentRepositoryTest {
                         .collect(Collectors.toList())
         ).build();
     }
-
 
     @Getter
     @Builder
@@ -364,7 +359,6 @@ public class CommentRepositoryTest {
             this.commentReplies = commentReplies;
         }
     }
-
 
     @Getter
     @NoArgsConstructor

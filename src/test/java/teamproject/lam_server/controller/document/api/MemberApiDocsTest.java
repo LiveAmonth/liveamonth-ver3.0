@@ -36,7 +36,6 @@ import static teamproject.lam_server.utils.ApiDocumentUtils.*;
 import static teamproject.lam_server.utils.DocsLinkGenerator.generateLinkCode;
 import static teamproject.lam_server.utils.DocumentFormatGenerator.getDateFormat;
 
-@Transactional
 public class MemberApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/members";
 
@@ -48,6 +47,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     SecurityContextFinder finder;
 
     @Test
+    @Transactional
     @DisplayName("회원 가입")
     void sign_up() throws Exception {
         MemberCreate request =
@@ -96,6 +96,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("로그인 아이디 중복 확인")
     void duplicate_check_loginId() throws Exception {
         // given
@@ -131,6 +132,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("이메일 중복 확인")
     void duplicate_check_email() throws Exception {
         // given
@@ -155,6 +157,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("닉네임 중복 확인")
     void duplicate_check_nickname() throws Exception {
         // given
@@ -190,6 +193,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("아이디 찾기")
     void find_id() throws Exception {
         // given
@@ -246,6 +250,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("비밀번호 찾기")
     void find_password() throws Exception {
         // given
@@ -292,6 +297,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("비밀번호 재확인")
     @WithMockCustomUser(password = "reconfirmPW1!", role = Role.USER)
     void reconfirm_password() throws Exception {
@@ -325,6 +331,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("프로필 변경")
     @WithMockCustomUser
     void edit_profile() throws Exception {
@@ -363,6 +370,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
 
 
     @Test
+    @Transactional
     @DisplayName("비밀번호 변경")
     @WithMockCustomUser
     void change_password() throws Exception {
@@ -396,6 +404,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("회원 탈퇴")
     @WithMockCustomUser
     void drop_member() throws Exception {
@@ -416,6 +425,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("회원 프로필 조회")
     @WithMockCustomUser
     void get_member_profile() throws Exception {
@@ -459,6 +469,7 @@ public class MemberApiDocsTest extends ApiDocsTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("회원 약식 프로필 조회")
     @WithMockCustomUser
     void get_simple_member_profile() throws Exception {
