@@ -671,7 +671,6 @@ include::{snippets}/comment-list-get/http-request.adoc[]
 ==== 응답
 include::{snippets}/comment-list-get/response-fields-data.adoc[]
 include::{snippets}/comment-list-get/response-fields-profile.adoc[]
-include::{snippets}/comment-list-get/response-fields-commentReplies.adoc[]
 
 ===== HTTP 응답 예제
 include::{snippets}/comment-list-get/http-response.adoc[]

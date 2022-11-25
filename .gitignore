@@ -4,8 +4,6 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-src/main/resources/application.yml
-src/main/resources/oauth2.yml.yml
 
 ### IntelliJ IDEA ###
 .idea
@@ -16,8 +14,6 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-application.yml
-oauth2.yml
 .gradle\
 /bin
 /build

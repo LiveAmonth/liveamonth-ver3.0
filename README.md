@@ -7,14 +7,14 @@ ___
 ## 목차
 1. [📢 프로젝트 기획](#-프로젝트-기획)
 2. [🛠 기술 스택](#-기술-스택)
-3. [📝 E-R 다이어그램](#-E-R-다이어그램)
+3. [📝 E-R 다이어그램](#-e-r-다이어그램)
    - [전체](#전체)
    - [CITY](#city)
    - [MEMBER & INQUIRY](#member--inquiry)
    - [SCHEDULE](#schedule)
    - [REVIEW](#review)
    - [FOLLOW](#follow)
-4. [🔑구현 기능](#-구현-기능)
+4. [🔑 구현 기능](#-구현-기능)
    - [보안](#보안)
    - [유효성 검증](#유효성-검즘)
    - [Querydsl-JPA](#querydsl-jpa)
@@ -116,7 +116,7 @@ ___
 ![follow-erd](https://user-images.githubusercontent.com/48740872/201522546-589c2303-8a78-4500-a442-34f4b536f7d7.png)
 
 # 🔑구현 기능
-### 1. 보안
+### 보안
 - Spring Security를 사용하여 인증 및 인가 처리를 하였습니다.
   - 서버의 안정성과 확장성을 고려하여 JWT와 Redis를 사용하여 인증, 인가 처리를 했습니다.
   - 클라이언트가 로그인을 하면 서버에서 해당 사용자의 아이디를 담은 access token을 생성해 응답하도록 구현했습니다.
@@ -130,13 +130,13 @@ ___
     - Redis에 로그인 아이디를 key값으로 하는 데이터를 삭제했습니다.
     - (key: access token, value: 'LOGOUT_TOKEN') 데이터를 저장해 블랙리스트를 구현했습니다.
 
-### 2. 유효성 검증
+### 유효성 검증
 - Spring Validation과 async-validator를 사용하여 폼 데이터 요청시 데이터가 조작을 방지하고 회원의 사용성을 증대시켰습니다.
   - 일차적으로 element plus에서 지원하는 form을 사용해 폼 데이터 입력시 잘못된 값에 대해 화면에 출력했습니다.
   - 서버에서는 spring validation을 사용해 response body로 사용되는 모든 객체에 검증로직을 구현했습니다.
 
-### 3. Querydsl-JPA
-- 대용량의 데이터가 쌓인 테이블 환경에서도 사용ㅡㄸ할 수 있도록 Querydsl-JPA 성능을 개선했습니다.
+### Querydsl-JPA
+- 대용량의 데이터가 쌓인 테이블 환경에서도 사용할 수 있도록 Querydsl-JPA 성능을 개선했습니다.
   - 커버링 인덱스를 사용해 페이징 조회의 성능을 개선 시켰습니다.
     ![image](https://user-images.githubusercontent.com/48740872/203697546-95ea4e8c-b6a0-40e3-95f9-f8062a689296.png)
   - 엔티티보다 DTO조회를 우선적으로 고려했습니다.
