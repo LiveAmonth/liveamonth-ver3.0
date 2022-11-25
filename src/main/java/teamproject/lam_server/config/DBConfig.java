@@ -5,11 +5,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 @Configuration
 public class DBConfig {
+
+    @PersistenceContext
+    private EntityManager em;
+
     @Bean
-    public JPAQueryFactory queryFactory(EntityManager em) {
+    public JPAQueryFactory queryFactory() {
         return new JPAQueryFactory(em);
     }
 }

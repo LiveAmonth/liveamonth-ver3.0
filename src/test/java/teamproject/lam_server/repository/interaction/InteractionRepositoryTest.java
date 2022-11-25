@@ -67,7 +67,7 @@ public class InteractionRepositoryTest {
                         .gender(GenderType.MALE.name())
                         .build();
         Member fromMember = memberRepository.save(createFrom.toEntity(passwordEncoder));
-        int count = 100000;
+        int count = 1000;
         List<MemberCreate> memberList = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             MemberCreate memberCreate =

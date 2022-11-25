@@ -83,7 +83,7 @@ public class ReviewRepositoryTest {
                 .build();
         reviewRepository.save(reviewCreate.toEntity(savedMember, Collections.emptySet()));
 
-        int count = 10000;
+        int count = 1000;
         List<ReviewCreate> reviewCreates = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             reviewCreates.add(ReviewCreate.builder()
@@ -96,14 +96,14 @@ public class ReviewRepositoryTest {
         reviewJdbcRepository.batchReviewInsert(reviewCreates, savedMember.getId());
 
         // when
-        long id = 1L;
+        long id = 10L;
         long startTime = System.currentTimeMillis();
         Optional.ofNullable(queryFactory.selectFrom(review)
                 .join(review.member, member).fetchJoin()
                 .where(review.id.eq(id))
                 .fetchOne()).orElseThrow(ReviewNotFound::new);
 
-        reviewTagTestRepository.findTagNamesById(id);
+        List<String> tagNamesById = reviewTagTestRepository.findTagNamesById(id);
         long stopTime = System.currentTimeMillis();
         long entityTime = stopTime - startTime;
 

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import teamproject.lam_server.domain.inqiury.constants.InquiryCategory;
 import teamproject.lam_server.domain.inqiury.dto.request.InquiryCreate;
+import teamproject.lam_server.domain.inqiury.entity.Inquiry;
 import teamproject.lam_server.domain.inqiury.repository.query.InquiryQueryRepository;
 import teamproject.lam_server.domain.member.constants.GenderType;
 import teamproject.lam_server.domain.member.dto.request.MemberCreate;
@@ -59,7 +61,7 @@ public class InquiryRepositoryTest {
         Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
 
         // when
-        int count = 100000;
+        int count = 1000;
         List<InquiryCreate> inquiryCreates = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             inquiryCreates.add(InquiryCreate.builder()
@@ -74,7 +76,7 @@ public class InquiryRepositoryTest {
         // then
         // native query 방식
         long startTime = System.currentTimeMillis();
-        inquiryTestRepository.getInquiries(savedMember.getId(), pageable);
+        Page<Inquiry> inquiries = inquiryTestRepository.getInquiries(savedMember.getId(), pageable);
         long stopTime = System.currentTimeMillis();
         long pagingTime = stopTime - startTime;
 

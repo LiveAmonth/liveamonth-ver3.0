@@ -70,7 +70,7 @@ public class ScheduleRepositoryTest {
                         .build();
         Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
 
-        int count = 10000;
+        int count = 1000;
         List<ScheduleCreate> scheduleCreates = new ArrayList<>();
         for (int j = 0; j < count; j++) {
             scheduleCreates.add(ScheduleCreate.builder()
@@ -147,7 +147,7 @@ public class ScheduleRepositoryTest {
         Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
 
         List<ScheduleCreate> scheduleCreates = new ArrayList<>();
-        int count = 100000;
+        int count = 1000;
         for (int j = 0; j < count; j++) {
             scheduleCreates.add(ScheduleCreate.builder()
                     .title("title" + j)

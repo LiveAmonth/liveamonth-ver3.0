@@ -152,7 +152,7 @@ public class CommentRepositoryTest {
         Member memberEntity = createMember();
         Review reviewEntity = createReview(memberEntity);
 
-        int count = 10000;
+        int count = 1000;
         List<CommentCreate> commentCreates = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             commentCreates.add(CommentCreate.builder()
