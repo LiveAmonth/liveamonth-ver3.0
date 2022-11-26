@@ -1,8 +1,8 @@
 # Liveamonth ver.2.0.0
 
-### [Liveavmonth Ver 1.0](https://github.com/LiveAmonth/LiveAmonth-ver.1.0.0)
-
-___
+### [API 명세](https://www.notion.so/Liveamonth-API-Document-61d433570cff433a941f1d071a2b7156)
+#### [Liveavmonth Ver 1.0](https://github.com/LiveAmonth/LiveAmonth-ver.1.0.0)
+<br>
 
 ## 목차
 1. [📢 프로젝트 기획](#-프로젝트-기획)
