@@ -51,7 +51,7 @@ public class InquiryApiServiceImpl implements InquiryService {
 
     @Override
     public InquiryResponse getInquiry(Long id) {
-        return InquiryResponse.of(inquiryRepository.findById(id).orElseThrow(InquiryNotFound::new));
+        return inquiryQueryRepository.getInquiry(id).orElseThrow(InquiryNotFound::new);
     }
 
     @Override

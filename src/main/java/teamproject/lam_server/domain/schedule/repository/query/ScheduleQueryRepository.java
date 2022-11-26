@@ -1,6 +1,7 @@
 package teamproject.lam_server.domain.schedule.repository.query;
 
 import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -40,44 +41,51 @@ public class ScheduleQueryRepository extends BasicRepository {
     private final JPAQueryFactory queryFactory;
 
     public Page<ScheduleCardResponse> search(ScheduleSearchCond cond, Pageable pageable) {
+        // predicates
+        Predicate[] predicates = {
+                memberNicknameEq(cond.getMemberNickname()),
+                cityNameEq(cond.getCityName()),
+                startDateGoe(cond.getStartDate()),
+                titleContain(cond.getTitle()),
+                publicFlag()
+        };
+
+        // count query
         JPAQuery<Long> countQuery = queryFactory.select(schedule.count())
                 .from(schedule)
                 .join(schedule.member, member)
-                .where(
-                        memberNicknameEq(cond.getMemberNickname()),
-                        cityNameEq(cond.getCityName()),
-                        startDateGoe(cond.getStartDate()),
-                        titleContain(cond.getTitle()),
-                        publicFlag()
-                );
+                .where(predicates);
 
-        List<Long> ids = queryFactory.select(schedule.id)
-                .from(schedule)
+        // covering index
+        List<Long> ids = scheduleIndexQuery()
                 .join(schedule.member, member)
-                .where(
-                        memberNicknameEq(cond.getMemberNickname()),
-                        cityNameEq(cond.getCityName()),
-                        startDateGoe(cond.getStartDate()),
-                        titleContain(cond.getTitle()),
-                        publicFlag()
-                )
+                .where(predicates)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
                 .fetch();
 
-        List<ScheduleCardResponse> contents = queryFactory.select(getScheduleCardProjection())
+        // contents query
+        JPAQuery<ScheduleCardResponse> resultQuery = queryFactory.select(getScheduleCardProjection())
                 .from(schedule)
                 .join(schedule.member, member)
-                .where(schedule.id.in(ids))
-                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule))
-                .fetch();
+                .where(scheduleIdIn(ids))
+                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule));
 
-        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(
+                fetchIndexingQuery(ids.isEmpty(), resultQuery),
+                pageable,
+                countQuery::fetchOne);
     }
 
     public List<ScheduleContentResponse> getScheduleContents(Long scheduleId) {
-        return queryFactory
+        // covering index
+        List<Long> ids = contentIndexQuery()
+                .where(scheduleIdEqAtContent(scheduleId))
+                .fetch();
+
+        // result query
+        JPAQuery<ScheduleContentResponse> resultQuery = queryFactory
                 .select(constructor(ScheduleContentResponse.class,
                         scheduleContent.id,
                         scheduleContent.title,
@@ -89,12 +97,26 @@ public class ScheduleQueryRepository extends BasicRepository {
                         )
                 ))
                 .from(scheduleContent)
-                .where(scheduleIdEqAtContent(scheduleId))
-                .fetch();
+                .where(scheduleContentIdIn(ids));
+
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
     }
 
     public List<MyScheduleResponse> getMySchedules(String loginId, Integer size, Long lastId) {
-        JPAQuery<MyScheduleResponse> query = queryFactory
+        // covering index
+        JPAQuery<Long> idQuery = scheduleIndexQuery()
+                .where(
+                        createdIdEq(loginId),
+                        scheduleIdLt(lastId)
+                )
+                .orderBy(schedule.id.desc());
+
+        List<Long> ids = size != null
+                ? idQuery.limit(size).fetch()
+                : idQuery.fetch();
+
+        // result query
+        JPAQuery<MyScheduleResponse> resultQuery = queryFactory
                 .select(constructor(MyScheduleResponse.class,
                         schedule.id,
                         schedule.title,
@@ -110,21 +132,15 @@ public class ScheduleQueryRepository extends BasicRepository {
                         schedule.numberOfComments
                 ))
                 .from(schedule)
-                .where(
-                        createdIdEq(loginId),
-                        scheduleIdLt(lastId)
-                )
+                .where(scheduleIdIn(ids))
                 .orderBy(schedule.id.desc());
 
-        return size != null
-                ? query.limit(size).fetch()
-                : query.fetch();
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
     }
 
     public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
-        JPAQuery<ScheduleCardResponse> query = queryFactory
-                .select(getScheduleCardProjection())
-                .from(schedule)
+        // covering index
+        JPAQuery<Long> idQuery = scheduleIndexQuery()
                 .join(schedule.member, member)
                 .where(
                         member.in(
@@ -138,13 +154,29 @@ public class ScheduleQueryRepository extends BasicRepository {
                 )
                 .orderBy(schedule.id.desc());
 
-        return size != null
-                ? query.limit(size).fetch()
-                : query.fetch();
+        List<Long> ids = size != null
+                ? idQuery.limit(size).fetch()
+                : idQuery.fetch();
+
+        // result query
+        JPAQuery<ScheduleCardResponse> resultQuery = queryFactory
+                .select(getScheduleCardProjection())
+                .from(schedule)
+                .join(schedule.member, member)
+                .where(scheduleIdIn(ids))
+                .orderBy(schedule.id.desc());
+
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
     }
 
     public List<EditableScheduleResponse> getEditableSchedules(String loginId) {
-        return queryFactory.select(
+        // covering index
+        List<Long> ids = scheduleIndexQuery()
+                .where(createdIdEq(loginId))
+                .fetch();
+
+        // result query
+        JPAQuery<EditableScheduleResponse> resultQuery = queryFactory.select(
                         constructor(EditableScheduleResponse.class,
                                 schedule.id,
                                 schedule.title,
@@ -156,8 +188,9 @@ public class ScheduleQueryRepository extends BasicRepository {
                                 schedule.publicFlag
                         )
                 ).from(schedule)
-                .where(createdIdEq(loginId))
-                .fetch();
+                .where(scheduleIdIn(ids));
+
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
     }
 
     public Long getNumberOfFollowedPosts(String loginId) {
@@ -197,6 +230,24 @@ public class ScheduleQueryRepository extends BasicRepository {
                 ),
                 schedule.publicFlag
         );
+    }
+
+    private JPAQuery<Long> scheduleIndexQuery() {
+        return queryFactory.select(schedule.id)
+                .from(schedule);
+    }
+
+    private JPAQuery<Long> contentIndexQuery() {
+        return queryFactory.select(scheduleContent.id)
+                .from(scheduleContent);
+    }
+
+    private BooleanExpression scheduleIdIn(List<Long> ids) {
+        return ids != null ? schedule.id.in(ids) : null;
+    }
+
+    private BooleanExpression scheduleContentIdIn(List<Long> ids) {
+        return ids != null ? scheduleContent.id.in(ids) : null;
     }
 
     private BooleanExpression scheduleIdEqAtContent(Long id) {

@@ -1,13 +1,15 @@
 package teamproject.lam_server.domain.comment.repository;
 
 import com.querydsl.core.group.GroupBy;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import teamproject.lam_server.domain.comment.dto.response.BestCommentResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentProfileResponse;
@@ -15,7 +17,9 @@ import teamproject.lam_server.domain.comment.dto.response.CommentReplyResponse;
 import teamproject.lam_server.domain.comment.dto.response.CommentResponse;
 import teamproject.lam_server.domain.comment.entity.QScheduleComment;
 import teamproject.lam_server.domain.member.entity.QMember;
+import teamproject.lam_server.global.repository.BasicRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
@@ -25,26 +29,37 @@ import static teamproject.lam_server.domain.schedule.entity.QSchedule.schedule;
 
 @Repository
 @RequiredArgsConstructor
-public class ScheduleCommentQueryRepository {
+public class ScheduleCommentQueryRepository extends BasicRepository {
 
     private final JPAQueryFactory queryFactory;
 
     public Page<CommentResponse> getComments(Long scheduleId, Pageable pageable) {
-        List<Long> ids = queryFactory.select(scheduleComment.id)
+        // predicates
+        Predicate[] predicates = {
+                parentIdNull(),
+                scheduleIdEq(scheduleId)
+        };
+
+        // count query
+        JPAQuery<Long> countQuery = queryFactory.select(scheduleComment.count())
                 .from(scheduleComment)
                 .join(scheduleComment.schedule, schedule)
-                .where(
-                        parentIdNull(),
-                        scheduleIdEq(scheduleId)
-                )
+                .where(predicates);
+
+        // covering index
+        List<Long> ids = commentIndexQuery()
+                .join(scheduleComment.schedule, schedule)
+                .where(predicates)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(scheduleComment.id.desc())
                 .fetch();
+
+        // contents query
         QScheduleComment replyComment = new QScheduleComment("replyComment");
         QMember replyMember = new QMember("replyMember");
-
-        List<CommentResponse> contents = queryFactory.from(scheduleComment)
+        List<CommentResponse> contents = ids.isEmpty() ? Collections.emptyList()
+                : queryFactory.from(scheduleComment)
                 .join(scheduleComment.member, member)
                 .leftJoin(scheduleComment.children, replyComment)
                 .leftJoin(replyComment.member, replyMember)
@@ -78,12 +93,12 @@ public class ScheduleCommentQueryRepository {
                                 )
                         ));
 
-        return new PageImpl<>(contents, pageable, ids.size());
+        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
     }
 
     public List<BestCommentResponse> getBestComments(Long scheduleId) {
-        List<Long> ids = queryFactory.select(scheduleComment.id)
-                .from(scheduleComment)
+        // covering index
+        List<Long> ids = commentIndexQuery()
                 .join(scheduleComment.schedule, schedule)
                 .where(
                         parentIdNull(),
@@ -94,21 +109,28 @@ public class ScheduleCommentQueryRepository {
                 .limit(3)
                 .fetch();
 
+        // result query
+        JPAQuery<BestCommentResponse> resultQuery =
+                queryFactory.select(Projections.constructor(BestCommentResponse.class,
+                                scheduleComment.id,
+                                scheduleComment.comment,
+                                Projections.constructor(CommentProfileResponse.class,
+                                        member.nickname,
+                                        member.image
+                                ),
+                                scheduleComment.createdDate,
+                                scheduleComment.numberOfLikes,
+                                scheduleComment.numberOfDislikes))
+                        .from(scheduleComment)
+                        .leftJoin(scheduleComment.member, member)
+                        .where(commentIdIn(ids));
 
-        return queryFactory.select(Projections.constructor(BestCommentResponse.class,
-                        scheduleComment.id,
-                        scheduleComment.comment,
-                        Projections.constructor(CommentProfileResponse.class,
-                                member.nickname,
-                                member.image
-                        ),
-                        scheduleComment.createdDate,
-                        scheduleComment.numberOfLikes,
-                        scheduleComment.numberOfDislikes))
-                .from(scheduleComment)
-                .leftJoin(scheduleComment.member, member)
-                .where(commentIdIn(ids))
-                .fetch();
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
+    }
+
+    private JPAQuery<Long> commentIndexQuery() {
+        return queryFactory.select(scheduleComment.id)
+                .from(scheduleComment);
     }
 
     private BooleanExpression scheduleIdEq(Long id) {

@@ -21,6 +21,7 @@ import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
+import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
@@ -58,32 +59,9 @@ public class ScheduleRepositoryTest {
     @DisplayName("스케줄 조회 성능 비교 인덱스")
     void compare_get_schedule_index() {
         // given
-        MemberCreate memberCreate =
-                MemberCreate.builder()
-                        .loginId("member")
-                        .password("memberPassword1!")
-                        .name("memberName")
-                        .nickname("memberNickname")
-                        .email("member@liveamonth.com")
-                        .birth(LocalDate.now().minusDays(1))
-                        .gender(GenderType.MALE.name())
-                        .build();
-        Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-
-        int count = 1000;
-        List<ScheduleCreate> scheduleCreates = new ArrayList<>();
-        for (int j = 0; j < count; j++) {
-            scheduleCreates.add(ScheduleCreate.builder()
-                    .title("title" + j)
-                    .publicFlag(true)
-                    .city(CityName.SE.name())
-                    .period(PeriodRequest.builder()
-                            .startDate(LocalDate.now())
-                            .endDate(LocalDate.now().plusDays(20))
-                            .build())
-                    .build());
-        }
-        scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
+        int count = 10000;
+        Member savedMember = saveMember();
+        saveScheduleWithBulk(savedMember, count);
 
         Pageable pageable = PageRequest.of(0, 10);
         // when
@@ -134,32 +112,9 @@ public class ScheduleRepositoryTest {
     @DisplayName("스케줄 조회 성능 비교 Projection")
     void compare_get_schedule_projection() {
         // given
-        MemberCreate memberCreate =
-                MemberCreate.builder()
-                        .loginId("member")
-                        .password("memberPassword1!")
-                        .name("memberName")
-                        .nickname("memberNickname")
-                        .email("member@liveamonth.com")
-                        .birth(LocalDate.now().minusDays(1))
-                        .gender(GenderType.MALE.name())
-                        .build();
-        Member savedMember = memberRepository.save(memberCreate.toEntity(passwordEncoder));
-
-        List<ScheduleCreate> scheduleCreates = new ArrayList<>();
-        int count = 1000;
-        for (int j = 0; j < count; j++) {
-            scheduleCreates.add(ScheduleCreate.builder()
-                    .title("title" + j)
-                    .publicFlag(true)
-                    .city(CityName.SE.name())
-                    .period(PeriodRequest.builder()
-                            .startDate(LocalDate.now())
-                            .endDate(LocalDate.now().plusDays(20))
-                            .build())
-                    .build());
-        }
-        scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
+        int count = 10000;
+        Member savedMember = saveMember();
+        saveScheduleWithBulk(savedMember, count);
 
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -231,4 +186,92 @@ public class ScheduleRepositoryTest {
                 entityTime < projectionTime ? "Entity 조회" : "DTO 조회",
                 getPerformanceImprovementRate(entityTime, projectionTime));
     }
+
+    @Test
+    @DisplayName("커버링 인덱스 성능 비교")
+    void compare_covering_index(){
+        // given
+        int count = 100000;
+        Member savedMember = saveMember();
+        saveScheduleWithBulk(savedMember, count);
+
+        // when
+        long startTime = System.currentTimeMillis();
+        queryFactory.select(
+                        constructor(EditableScheduleResponse.class,
+                                schedule.id,
+                                schedule.title,
+                                schedule.cityName,
+                                constructor(PeriodResponse.class,
+                                        schedule.period.startDate,
+                                        schedule.period.endDate
+                                ),
+                                schedule.publicFlag
+                        )
+                ).from(schedule)
+                .where(schedule.createdBy.eq(savedMember.getLoginId()))
+                .fetch();
+        long stopTime = System.currentTimeMillis();
+        long basicQueryTime = stopTime - startTime;
+
+        startTime = System.currentTimeMillis();
+        List<Long> ids = queryFactory.select(schedule.id)
+                .from(schedule)
+                .where(schedule.createdBy.eq(savedMember.getLoginId()))
+                .fetch();
+
+        queryFactory.select(constructor(EditableScheduleResponse.class,
+                        schedule.id,
+                        schedule.title,
+                        schedule.cityName,
+                        constructor(PeriodResponse.class,
+                                schedule.period.startDate,
+                                schedule.period.endDate
+                        ),
+                        schedule.publicFlag))
+                .from(schedule)
+                .where(schedule.id.in(ids))
+                .fetch();
+        stopTime = System.currentTimeMillis();
+        long indexTime = stopTime - startTime;
+
+        // then
+        log.info("== 결과(" + count + "건 기준) ==");
+        log.info("기본 조회={}ms", basicQueryTime);
+        log.info("커버링 인덱스={}ms", indexTime);
+        log.info("더 빠른 방식={}, 성능 개선율={}",
+                basicQueryTime < indexTime ? "기본 조회" : "커버링 인덱스",
+                getPerformanceImprovementRate(basicQueryTime, indexTime));
+    }
+
+    private void saveScheduleWithBulk(Member savedMember, int count) {
+        List<ScheduleCreate> scheduleCreates = new ArrayList<>();
+        for (int j = 0; j < count; j++) {
+            scheduleCreates.add(ScheduleCreate.builder()
+                    .title("title" + j)
+                    .publicFlag(true)
+                    .city(CityName.SE.name())
+                    .period(PeriodRequest.builder()
+                            .startDate(LocalDate.now())
+                            .endDate(LocalDate.now().plusDays(20))
+                            .build())
+                    .build());
+        }
+        scheduleJdbcRepository.batchScheduleInsert(scheduleCreates, savedMember.getId());
+    }
+
+    private Member saveMember() {
+        MemberCreate memberCreate =
+                MemberCreate.builder()
+                        .loginId("member")
+                        .password("memberPassword1!")
+                        .name("memberName")
+                        .nickname("memberNickname")
+                        .email("member@liveamonth.com")
+                        .birth(LocalDate.now().minusDays(1))
+                        .gender(GenderType.MALE.name())
+                        .build();
+        return memberRepository.save(memberCreate.toEntity(passwordEncoder));
+    }
+
 }

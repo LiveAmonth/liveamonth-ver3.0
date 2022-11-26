@@ -81,7 +81,7 @@ public class ReviewRepositoryTest {
                 .category(ReviewCategory.SE_REVIEW.getCode())
                 .tags(Collections.emptySet())
                 .build();
-        reviewRepository.save(reviewCreate.toEntity(savedMember, Collections.emptySet()));
+        Review savedReview = reviewRepository.save(reviewCreate.toEntity(savedMember, Collections.emptySet()));
 
         int count = 1000;
         List<ReviewCreate> reviewCreates = new ArrayList<>();
@@ -96,7 +96,7 @@ public class ReviewRepositoryTest {
         reviewJdbcRepository.batchReviewInsert(reviewCreates, savedMember.getId());
 
         // when
-        long id = 10L;
+        long id = savedReview.getId();
         long startTime = System.currentTimeMillis();
         Optional.ofNullable(queryFactory.selectFrom(review)
                 .join(review.member, member).fetchJoin()

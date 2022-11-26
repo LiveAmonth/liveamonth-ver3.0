@@ -10,6 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import teamproject.lam_server.global.entity.BaseTimeEntity;
 
+import java.util.Collections;
+import java.util.List;
+
 import static com.querydsl.core.types.Order.ASC;
 import static com.querydsl.core.types.Order.DESC;
 
@@ -27,4 +30,9 @@ public abstract class BasicRepository {
     protected <T extends EntityPathBase> JPAQuery<Long> count(JPAQueryFactory queryFactory, T t, Predicate... predicate) {
         return (JPAQuery<Long>) queryFactory.select(t.count()).from(t).where(predicate);
     }
+
+    protected <T> List<T> fetchIndexingQuery(boolean isEmpty, JPAQuery<T> query) {
+        return isEmpty ? Collections.emptyList() : query.fetch();
+    }
+
 }

@@ -25,19 +25,17 @@ public class MemberQueryRepository {
     private final JPAQueryFactory queryFactory;
 
     public Optional<Long> getIdByLoginId(String loginId) {
-        return Optional.ofNullable(queryFactory.select(member.id)
-                .from(member)
-                .where(loginIdEq(loginId), isNotDrop())
-                .fetchOne());
+        return Optional.ofNullable(
+                queryFactory.select(member.id)
+                        .from(member)
+                        .where(loginIdEq(loginId), isNotDrop())
+                        .fetchOne());
     }
 
     public Long cleanDeleteById(Long id) {
         return queryFactory
                 .delete(member)
-                .where(
-                        idEq(id),
-                        isDropMember()
-                )
+                .where(idEq(id), isDropMember())
                 .execute();
     }
 

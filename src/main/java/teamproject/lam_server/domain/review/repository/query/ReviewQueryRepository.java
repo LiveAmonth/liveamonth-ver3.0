@@ -2,13 +2,13 @@ package teamproject.lam_server.domain.review.repository.query;
 
 import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.ConstructorExpression;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
@@ -23,7 +23,10 @@ import teamproject.lam_server.domain.review.entity.Review;
 import teamproject.lam_server.domain.review.entity.ReviewTag;
 import teamproject.lam_server.global.repository.BasicRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.types.Projections.constructor;
@@ -35,49 +38,49 @@ import static teamproject.lam_server.domain.review.entity.QTag.tag;
 
 @Repository
 @RequiredArgsConstructor
-@Slf4j
 public class ReviewQueryRepository extends BasicRepository {
     private final JPAQueryFactory queryFactory;
 
     public Page<ReviewListResponse> search(ReviewSearchCond cond, Pageable pageable) {
+        // predicates
+        Predicate[] predicates = {
+                reviewSearchWordContains(cond.getSearchWord()),
+                categoryIn(cond.getType()),
+                tagContains(findReviewTags(cond.getTags())),
+                categoryEq(cond.getCategory())
+        };
+
         // count query
         JPAQuery<Long> countQuery = queryFactory.select(review.count())
                 .from(review)
                 .join(review.member, member)
-                .where(reviewSearchWordContains(cond.getSearchWord()),
-                        categoryIn(cond.getType()),
-                        tagContains(findReviewTags(cond.getTags())),
-                        categoryEq(cond.getCategory())
-                );
+                .where(predicates);
 
-        List<Long> ids = queryFactory.select(review.id)
-                .from(review)
+        // covering index
+        List<Long> ids = reviewIndexQuery()
                 .join(review.member, member)
-                .where(
-                        reviewSearchWordContains(cond.getSearchWord()),
-                        categoryIn(cond.getType()),
-                        tagContains(findReviewTags(cond.getTags())),
-                        categoryEq(cond.getCategory())
-                )
+                .where(predicates)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(mapToOrderSpec(pageable.getSort(), Review.class, review))
                 .fetch();
 
-        List<ReviewListResponse> contents =
-                queryFactory.select(getReviewListProjection())
-                        .from(review)
-                        .where(reviewIdIn(ids))
-                        .join(review.member, member)
-                        .orderBy(mapToOrderSpec(pageable.getSort(), Review.class, review))
-                        .fetch();
+        // contents query
+        JPAQuery<ReviewListResponse> resultQuery = queryFactory.select(getReviewListProjection())
+                .from(review)
+                .where(reviewIdIn(ids))
+                .join(review.member, member)
+                .orderBy(mapToOrderSpec(pageable.getSort(), Review.class, review));
 
-        return PageableExecutionUtils.getPage(contents, pageable, countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(
+                fetchIndexingQuery(ids.isEmpty(), resultQuery),
+                pageable,
+                countQuery::fetchOne);
     }
 
     public List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId) {
-        List<Long> ids = queryFactory.select(review.id)
-                .from(review)
+        // covering index
+        List<Long> ids = reviewIndexQuery()
                 .where(
                         createdIdEq(loginId),
                         reviewIdLt(lastId)
@@ -86,11 +89,14 @@ public class ReviewQueryRepository extends BasicRepository {
                 .orderBy(review.id.desc())
                 .fetch();
 
-        return queryFactory.select(getReviewListProjection())
-                .from(review)
-                .join(review.member, member)
-                .where(reviewIdIn(ids))
-                .fetch();
+        // result query
+        JPAQuery<ReviewListResponse> resultQuery =
+                queryFactory.select(getReviewListProjection())
+                        .from(review)
+                        .join(review.member, member)
+                        .where(reviewIdIn(ids));
+
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
     }
 
     public ReviewDetailResponse getReview(Long id) {
@@ -124,8 +130,6 @@ public class ReviewQueryRepository extends BasicRepository {
                                 )
                         )
                 );
-        log.info("result={}", transform);
-        log.info("result={}", transform.get(id));
         return transform.get(id);
     }
 
@@ -140,13 +144,12 @@ public class ReviewQueryRepository extends BasicRepository {
     }
 
     public List<Long> findReviewTags(Set<String> tags) {
-        return tags == null
-                ? Collections.emptyList()
-                : queryFactory.select(reviewTag.id)
-                .from(review)
-                .join(reviewTag.tag, tag)
-                .where(tagNameIn(tags))
-                .fetch();
+        JPAQuery<Long> resultQuery =
+                queryFactory.select(reviewTag.id)
+                        .from(review)
+                        .join(reviewTag.tag, tag)
+                        .where(tagNameIn(tags));
+        return fetchIndexingQuery(tags.isEmpty(), resultQuery);
     }
 
     public List<ReviewTag> findReviewTagsByIdAndTag(Long reviewId, Set<String> tags) {
@@ -169,6 +172,11 @@ public class ReviewQueryRepository extends BasicRepository {
                 review.numberOfComments,
                 review.numberOfLikes
         );
+    }
+
+    private JPAQuery<Long> reviewIndexQuery() {
+        return queryFactory.select(review.id)
+                .from(review);
     }
 
     private BooleanExpression createdIdEq(String loginId) {
