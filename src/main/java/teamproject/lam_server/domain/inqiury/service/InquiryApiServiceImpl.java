@@ -23,7 +23,7 @@ import teamproject.lam_server.paging.PageableDTO;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class InquiryApiServiceImpl implements InquiryService {
+public class InquiryApiServiceImpl implements InquiryApiService {
 
     private final InquiryRepository inquiryRepository;
     private final InquiryQueryRepository inquiryQueryRepository;
@@ -82,3 +82,4 @@ public class InquiryApiServiceImpl implements InquiryService {
         inquiryRepository.delete(inquiry);
     }
 }
+

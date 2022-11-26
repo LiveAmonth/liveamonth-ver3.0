@@ -8,7 +8,7 @@ import teamproject.lam_server.global.dto.response.PostIdResponse;
 import teamproject.lam_server.paging.CustomPage;
 import teamproject.lam_server.paging.PageableDTO;
 
-public interface InquiryService {
+public interface InquiryApiService {
 
     PostIdResponse write(InquiryCreate request);
     CustomPage<InquiryListResponse> getInquires(PageableDTO pageableDTO);

@@ -13,13 +13,15 @@ import teamproject.lam_server.domain.inqiury.repository.core.InquiryRepository;
 import teamproject.lam_server.exception.notfound.InquiryNotFound;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class InquiryAdminServiceImpl implements InquiryAdminService {
 
     private final InquiryAnswerRepository inquiryAnswerRepository;
     private final InquiryRepository inquiryRepository;
 
+    @Override
+    @Transactional
     public void answer(Long inquiryId, InquiryAnswerCreate request) {
         InquiryAnswer answer = inquiryAnswerRepository.save(request.toEntity());
 
@@ -27,6 +29,8 @@ public class InquiryAdminServiceImpl implements InquiryAdminService {
         inquiry.answerInquiry(answer);
     }
 
+    @Override
+    @Transactional
     public void edit(Long answerId, InquiryAnswerEdit request) {
         InquiryAnswer inquiryAnswer = inquiryAnswerRepository.findById(answerId)
                 .orElseThrow(InquiryNotFound::new);

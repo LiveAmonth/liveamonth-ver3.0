@@ -30,8 +30,8 @@ import teamproject.lam_server.paging.DomainSpec;
 import teamproject.lam_server.paging.PageableDTO;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CityAdminServiceImpl implements CityAdminService {
 
     private final CityIntroRepository cityIntroRepository;

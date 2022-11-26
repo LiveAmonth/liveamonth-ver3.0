@@ -18,12 +18,13 @@ public class MemberAdminServiceImpl implements MemberAdminService {
     private final MemberRepository memberRepository;
     private final MemberQueryRepository memberQueryRepository;
     private final PasswordEncoder passwordEncoder;
-
+    @Override
     @Transactional
     public PostIdResponse createManager(MemberCreate create) {
         return PostIdResponse.of(memberRepository.save(create.toManagerEntity(passwordEncoder)).getId());
     }
 
+    @Override
     @Transactional
     public void delete(Long id) {
         Long queryCount = memberQueryRepository.cleanDeleteById(id);

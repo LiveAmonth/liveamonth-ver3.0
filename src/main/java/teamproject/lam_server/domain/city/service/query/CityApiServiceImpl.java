@@ -21,8 +21,8 @@ import java.util.*;
 import static teamproject.lam_server.domain.city.constants.CityIntroCategory.INTRO;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CityApiServiceImpl implements CityApiService {
     private final CityIntroRepository cityIntroRepository;
     private final CityWeatherRepository cityWeatherRepository;

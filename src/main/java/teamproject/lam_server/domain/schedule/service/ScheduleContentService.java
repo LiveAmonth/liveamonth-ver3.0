@@ -8,6 +8,7 @@ import teamproject.lam_server.global.dto.response.PostIdResponse;
 import java.util.List;
 
 public interface ScheduleContentService {
+
     PostIdResponse addScheduleContent(Long scheduleId, ScheduleContentCreate request);
 
     void editScheduleContent(Long id, ScheduleContentEdit request);

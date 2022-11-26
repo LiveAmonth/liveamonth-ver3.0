@@ -27,6 +27,7 @@ public class ScheduleContentServiceImpl implements ScheduleContentService {
     private final ScheduleQueryRepository scheduleQueryRepository;
     private final ScheduleRepository scheduleRepository;
 
+    @Override
     @Transactional
     public PostIdResponse addScheduleContent(Long scheduleId, ScheduleContentCreate request) {
         Schedule schedule = scheduleRepository

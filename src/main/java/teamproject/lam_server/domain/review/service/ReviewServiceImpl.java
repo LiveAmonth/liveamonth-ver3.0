@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-@Slf4j
 public class ReviewServiceImpl implements ReviewService {
     private final SecurityContextFinder finder;
     private final ReviewRepository reviewRepository;
@@ -43,6 +41,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final TagRepository tagRepository;
     private final DomainSpec<ReviewSortType> spec = new DomainSpec<>(ReviewSortType.class);
 
+    @Override
     @Transactional
     public PostIdResponse write(String loginId, ReviewCreate request) {
         finder.checkLegalLoginId(loginId);
@@ -52,16 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
         return PostIdResponse.of(save.getId());
     }
 
-    @Transactional
-    public Tag findOrCreateTag(String tag) {
-        return tagRepository.findByName(tag)
-                .orElseGet(
-                        () -> tagRepository.save(
-                                Tag.builder().name(tag).build()
-                        )
-                );
-    }
-
+    @Override
     @Transactional
     public void edit(Long id, ReviewEdit request) {
         Review review = reviewRepository.findById(id)
@@ -90,6 +80,7 @@ public class ReviewServiceImpl implements ReviewService {
         review.edit(reviewEditor);
     }
 
+    @Override
     @Transactional
     public void delete(Long id) {
         Review review = reviewRepository.findById(id)
@@ -100,6 +91,7 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.delete(review);
     }
 
+    @Override
     public CustomPage<ReviewListResponse> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
         Pageable pageable = spec.getPageable(pageableDTO);
         Page<ReviewListResponse> page = reviewQueryRepository.search(cond, pageable);
@@ -109,25 +101,39 @@ public class ReviewServiceImpl implements ReviewService {
                 .build();
     }
 
+    @Override
     public List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId) {
         finder.checkLegalLoginId(loginId);
         return reviewQueryRepository.getReviewByMember(loginId, size, lastId);
 
     }
 
+    @Override
     public List<TagResponse> getRecommendationTags() {
         return reviewQueryRepository.getRecommendationTags().stream()
                 .map(TagResponse::of)
                 .collect(Collectors.toList());
     }
 
+    @Override
     public ReviewDetailResponse getReview(Long id) {
         return reviewQueryRepository.getReview(id);
     }
 
+    @Override
     @Transactional
     public void viewCountUp(Long id) {
         reviewRepository.viewCountUp(id);
+    }
+
+    @Transactional
+    public Tag findOrCreateTag(String tag) {
+        return tagRepository.findByName(tag)
+                .orElseGet(
+                        () -> tagRepository.save(
+                                Tag.builder().name(tag).build()
+                        )
+                );
     }
 
     private Set<ReviewTag> mapToReviewTags(Set<String> tags) {

@@ -32,7 +32,6 @@ public class MemberServiceImpl implements MemberService {
     private final MailService mailService;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final MemberQueryRepository memberQueryRepository;
 
     @Override

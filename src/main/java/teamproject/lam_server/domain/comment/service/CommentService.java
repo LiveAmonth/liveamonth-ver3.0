@@ -17,6 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 public abstract class CommentService{
+
     protected final SecurityContextFinder finder;
 
     public abstract CommentType getType();
