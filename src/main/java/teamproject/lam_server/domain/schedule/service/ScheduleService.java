@@ -25,6 +25,8 @@ public interface ScheduleService {
 
     List<MyScheduleResponse> getMySchedules(String loginId, Integer size, Long lastId);
 
+    List<ScheduleCardResponse> getBestSchedules();
+
     List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId);
 
     List<EditableScheduleResponse> getEditableSchedules(String loginId);
@@ -32,4 +34,5 @@ public interface ScheduleService {
     CountResponse getNumberOfFollowedPosts(String loginId);
 
     void viewCountUp(Long scheduleId);
+
 }

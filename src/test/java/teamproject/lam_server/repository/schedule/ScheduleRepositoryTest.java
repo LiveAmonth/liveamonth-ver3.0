@@ -2,15 +2,15 @@ package teamproject.lam_server.repository.schedule;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +29,11 @@ import teamproject.lam_server.global.dto.request.PeriodRequest;
 import teamproject.lam_server.global.dto.response.PeriodResponse;
 import teamproject.lam_server.jdbc.schedule.ScheduleJdbcRepository;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.querydsl.core.types.Projections.constructor;
 import static teamproject.lam_server.domain.member.entity.QMember.member;
@@ -54,58 +56,67 @@ public class ScheduleRepositoryTest {
     ScheduleJdbcRepository scheduleJdbcRepository;
     @Autowired
     ScheduleRepository scheduleRepository;
+    @Autowired
+    EntityManager em;
 
     @Test
     @DisplayName("스케줄 조회 성능 비교 인덱스")
     void compare_get_schedule_index() {
         // given
-        int count = 10000;
+        int count = 1000;
         Member savedMember = saveMember();
         saveScheduleWithBulk(savedMember, count);
 
         Pageable pageable = PageRequest.of(0, 10);
+
         // when
-        long startTime = System.currentTimeMillis();
-        List<Schedule> elements = queryFactory.selectFrom(schedule)
-                .join(schedule.member, member).fetchJoin()
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(schedule.id.desc())
-                .fetch();
+        List<Long> pagingTimes = new ArrayList<>();
+        List<Long> indexTimes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            long startTime = System.currentTimeMillis();
+            JPAQuery<Long> countQuery = queryFactory.select(schedule.count())
+                    .from(schedule)
+                    .join(schedule.member, member);
 
-        JPAQuery<Long> countQuery = queryFactory.select(schedule.count())
-                .from(schedule)
-                .join(schedule.member, member);
+            List<Schedule> elements = queryFactory.selectFrom(schedule)
+                    .join(schedule.member, member).fetchJoin()
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .orderBy(schedule.id.desc())
+                    .fetch();
+            long stopTime = System.currentTimeMillis();
+            long pagingTime = stopTime - startTime;
+            pagingTimes.add(pagingTime);
+            em.clear();
 
-        Page<Schedule> resultByPaging = PageableExecutionUtils.getPage(
-                elements,
-                pageable,
-                countQuery::fetchOne);
-        long stopTime = System.currentTimeMillis();
-        long pagingTime = stopTime - startTime;
+            startTime = System.currentTimeMillis();
+            List<Long> ids = queryFactory.select(schedule.id)
+                    .from(schedule)
+                    .join(schedule.member, member)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .orderBy(schedule.id.desc())
+                    .fetch();
 
-        startTime = System.currentTimeMillis();
-        List<Long> ids = queryFactory.select(schedule.id)
-                .from(schedule)
-                .join(schedule.member, member)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(schedule.id.desc())
-                .fetch();
+            queryFactory.selectFrom(schedule)
+                    .where(schedule.id.in(ids))
+                    .fetch();
+            stopTime = System.currentTimeMillis();
+            long indexTime = stopTime - startTime;
+            indexTimes.add(indexTime);
+            em.clear();
+        }
 
-        queryFactory.selectFrom(schedule)
-                .where(schedule.id.in(ids))
-                .fetch();
-        stopTime = System.currentTimeMillis();
-        long indexTime = stopTime - startTime;
 
         // then
+        double avgPagingTime = pagingTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
+        double avgIndexTime = indexTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
         log.info("== 결과(" + count + "건 기준) ==");
-        log.info("기존 페이징 조회={}s", pagingTime);
-        log.info("커버링 인덱스 조회={}s", indexTime);
-        log.info("더 빠른 방식={}, 성능 개선율={}",
-                pagingTime < indexTime ? "기존 페이징 조회" : "커버링 인덱스 조회",
-                getPerformanceImprovementRate(pagingTime, indexTime));
+        log.info("기존 페이징 조회 평균 속도={}ms", String.format("%.0f", avgPagingTime));
+        log.info("커버링 인덱스 조회 평균 속도={}ms", String.format("%.0f", avgIndexTime));
+        log.info("높은 성능={}, 성능 개선율={}",
+                avgPagingTime < avgIndexTime ? "기존 페이징" : "커버링 인덱스",
+                getPerformanceImprovementRate(avgPagingTime, avgIndexTime));
     }
 
     @Test
@@ -119,129 +130,154 @@ public class ScheduleRepositoryTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         // when
-        long startTime = System.currentTimeMillis();
-        List<Long> ids = queryFactory.select(schedule.id)
-                .from(schedule)
-                .join(schedule.member, member)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(schedule.id.desc())
-                .fetch();
+        List<Long> entityTimes = new ArrayList<>();
+        List<Long> projectionTimes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            long startTime = System.currentTimeMillis();
+            List<Long> ids = queryFactory.select(schedule.id)
+                    .from(schedule)
+                    .join(schedule.member, member)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .orderBy(schedule.id.desc())
+                    .fetch();
 
-        queryFactory.selectFrom(schedule)
-                .where(schedule.id.in(ids))
-                .join(schedule.member, member).fetchJoin()
-                .fetch();
+            List<Schedule> list = queryFactory.selectFrom(schedule)
+                    .where(schedule.id.in(ids))
+                    .join(schedule.member, member).fetchJoin()
+                    .fetch();
 
-        long stopTime = System.currentTimeMillis();
-        long entityTime = stopTime - startTime;
+            List<ScheduleCardDto> result = list.stream().map(ScheduleCardDto::of).collect(Collectors.toList());
 
-        startTime = System.currentTimeMillis();
-        ids = queryFactory.select(schedule.id)
-                .from(schedule)
-                .join(schedule.member, member)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(schedule.id.desc())
-                .fetch();
+            long stopTime = System.currentTimeMillis();
+            long entityTime = stopTime - startTime;
+            entityTimes.add(entityTime);
+            em.clear();
 
-        queryFactory.select(
-                        constructor(ScheduleCardResponse.class,
-                                schedule.id,
-                                schedule.title,
-                                schedule.cityName,
-                                constructor(SimpleProfileResponse.class,
-                                        member.id,
-                                        member.loginId,
-                                        member.nickname,
-                                        member.image,
-                                        member.numberOfReviews,
-                                        member.numberOfSchedules,
-                                        member.numberOfFollowers,
-                                        member.numberOfFollows
-                                ),
-                                schedule.totalCost,
-                                schedule.numberOfHits,
-                                schedule.numberOfLikes,
-                                schedule.numberOfComments,
-                                constructor(PeriodResponse.class,
-                                        schedule.period.startDate,
-                                        schedule.period.endDate
-                                ),
-                                schedule.publicFlag
-                        )
-                )
-                .from(schedule)
-                .join(schedule.member, member)
-                .where(schedule.id.in(ids))
-                .fetch();
-        stopTime = System.currentTimeMillis();
-        long projectionTime = stopTime - startTime;
+            startTime = System.currentTimeMillis();
+            ids = queryFactory.select(schedule.id)
+                    .from(schedule)
+                    .join(schedule.member, member)
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize())
+                    .orderBy(schedule.id.desc())
+                    .fetch();
+
+            queryFactory.select(
+                            constructor(ScheduleCardResponse.class,
+                                    schedule.id,
+                                    schedule.title,
+                                    schedule.cityName,
+                                    constructor(SimpleProfileResponse.class,
+                                            member.id,
+                                            member.loginId,
+                                            member.nickname,
+                                            member.image,
+                                            member.numberOfReviews,
+                                            member.numberOfSchedules,
+                                            member.numberOfFollowers,
+                                            member.numberOfFollows
+                                    ),
+                                    schedule.totalCost,
+                                    schedule.numberOfHits,
+                                    schedule.numberOfLikes,
+                                    schedule.numberOfComments,
+                                    constructor(PeriodResponse.class,
+                                            schedule.period.startDate,
+                                            schedule.period.endDate
+                                    ),
+                                    schedule.publicFlag
+                            )
+                    )
+                    .from(schedule)
+                    .join(schedule.member, member)
+                    .where(schedule.id.in(ids))
+                    .fetch();
+            stopTime = System.currentTimeMillis();
+            long projectionTime = stopTime - startTime;
+            projectionTimes.add(projectionTime);
+            em.clear();
+        }
+
 
         // then
+        double avgEntityTime = entityTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
+        double avgProjectionTime = projectionTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
         log.info("== 결과(" + count + "건 기준) ==");
-        log.info("엔티티 조회={}ms", entityTime);
-        log.info("DTO 조회={}ms", projectionTime);
-        log.info("더 빠른 방식={}, 성능 개선율={}",
-                entityTime < projectionTime ? "Entity 조회" : "DTO 조회",
-                getPerformanceImprovementRate(entityTime, projectionTime));
+        log.info("Entity 조회 평균 속도={}ms", String.format("%.0f", avgEntityTime));
+        log.info("DTO 조회 평균 속도={}ms", String.format("%.0f", avgProjectionTime));
+        log.info("높은 성능={}, 성능 개선율={}",
+                avgEntityTime < avgProjectionTime ? "Entity 조회" : "DTO 조회",
+                getPerformanceImprovementRate(avgEntityTime, avgProjectionTime));
     }
 
     @Test
     @DisplayName("커버링 인덱스 성능 비교")
-    void compare_covering_index(){
+    void compare_covering_index() {
         // given
-        int count = 100000;
+        int count = 10000;
         Member savedMember = saveMember();
         saveScheduleWithBulk(savedMember, count);
 
         // when
-        long startTime = System.currentTimeMillis();
-        queryFactory.select(
-                        constructor(EditableScheduleResponse.class,
-                                schedule.id,
-                                schedule.title,
-                                schedule.cityName,
-                                constructor(PeriodResponse.class,
-                                        schedule.period.startDate,
-                                        schedule.period.endDate
-                                ),
-                                schedule.publicFlag
-                        )
-                ).from(schedule)
-                .where(schedule.createdBy.eq(savedMember.getLoginId()))
-                .fetch();
-        long stopTime = System.currentTimeMillis();
-        long basicQueryTime = stopTime - startTime;
+        List<Long> basicTimes = new ArrayList<>();
+        List<Long> indexTimes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            long startTime = System.currentTimeMillis();
+            queryFactory.select(
+                            constructor(EditableScheduleResponse.class,
+                                    schedule.id,
+                                    schedule.title,
+                                    schedule.cityName,
+                                    constructor(PeriodResponse.class,
+                                            schedule.period.startDate,
+                                            schedule.period.endDate
+                                    ),
+                                    schedule.publicFlag
+                            )
+                    ).from(schedule)
+                    .where(schedule.createdBy.eq(savedMember.getLoginId()))
+                    .fetch();
 
-        startTime = System.currentTimeMillis();
-        List<Long> ids = queryFactory.select(schedule.id)
-                .from(schedule)
-                .where(schedule.createdBy.eq(savedMember.getLoginId()))
-                .fetch();
+            long stopTime = System.currentTimeMillis();
+            long basicQueryTime = stopTime - startTime;
+            basicTimes.add(basicQueryTime);
+            em.clear();
 
-        queryFactory.select(constructor(EditableScheduleResponse.class,
-                        schedule.id,
-                        schedule.title,
-                        schedule.cityName,
-                        constructor(PeriodResponse.class,
-                                schedule.period.startDate,
-                                schedule.period.endDate
-                        ),
-                        schedule.publicFlag))
-                .from(schedule)
-                .where(schedule.id.in(ids))
-                .fetch();
-        stopTime = System.currentTimeMillis();
-        long indexTime = stopTime - startTime;
+            startTime = System.currentTimeMillis();
+            List<Long> ids = queryFactory.select(schedule.id)
+                    .from(schedule)
+                    .where(schedule.createdBy.eq(savedMember.getLoginId()))
+                    .fetch();
+
+            queryFactory.select(constructor(EditableScheduleResponse.class,
+                            schedule.id,
+                            schedule.title,
+                            schedule.cityName,
+                            constructor(PeriodResponse.class,
+                                    schedule.period.startDate,
+                                    schedule.period.endDate
+                            ),
+                            schedule.publicFlag))
+                    .from(schedule)
+                    .where(schedule.id.in(ids))
+                    .fetch();
+            stopTime = System.currentTimeMillis();
+            long indexTime = stopTime - startTime;
+            indexTimes.add(indexTime);
+            em.clear();
+        }
+
 
         // then
-        log.info("== 결과(" + count + "건 기준) ==");
-        log.info("기본 조회={}ms", basicQueryTime);
-        log.info("커버링 인덱스={}ms", indexTime);
-        log.info("더 빠른 방식={}, 성능 개선율={}",
-                basicQueryTime < indexTime ? "기본 조회" : "커버링 인덱스",
-                getPerformanceImprovementRate(basicQueryTime, indexTime));
+        double avgBasicQueryTime = basicTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
+        double avgIndexTime = indexTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
+        log.info("== 결과(" + 10000000 + "건 기준) ==");
+        log.info("기존 리스트 조회 평균 속도={}ms", String.format("%.0f", avgBasicQueryTime));
+        log.info("커버링 인덱스 조회 평균 속도={}ms", String.format("%.0f", avgIndexTime));
+        log.info("높은 성능={}, 성능 개선율={}",
+                avgBasicQueryTime < avgIndexTime ? "기존 리스트 조회" : "커버링 인덱스",
+                getPerformanceImprovementRate(avgBasicQueryTime, avgIndexTime));
     }
 
     private void saveScheduleWithBulk(Member savedMember, int count) {
@@ -272,6 +308,64 @@ public class ScheduleRepositoryTest {
                         .gender(GenderType.MALE.name())
                         .build();
         return memberRepository.save(memberCreate.toEntity(passwordEncoder));
+    }
+
+
+    @Getter
+    @Builder
+    static class ScheduleCardDto {
+
+        private Long id;
+        private String title;
+        private CityName city;
+        private SimpleProfileDto profile;
+        private long cost;
+        private long numberOfHits;
+        private long numberOfLikes;
+        private long numberOfComments;
+        private PeriodResponse period;
+        private boolean publicFlag;
+
+        static ScheduleCardDto of(Schedule schedule) {
+            return ScheduleCardDto.builder()
+                    .id(schedule.getId())
+                    .title(schedule.getTitle())
+                    .city(schedule.getCityName())
+                    .profile(SimpleProfileDto.of(schedule.getMember()))
+                    .cost(schedule.getTotalCost())
+                    .numberOfHits(schedule.getNumberOfHits())
+                    .numberOfLikes(schedule.getNumberOfLikes())
+                    .numberOfComments(schedule.getNumberOfComments())
+                    .period(new PeriodResponse(schedule.getPeriod().getStartDate(), schedule.getPeriod().getEndDate()))
+                    .publicFlag(schedule.getPublicFlag())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    static class SimpleProfileDto {
+        private Long id;
+        private String loginId;
+        private String nickname;
+        private String image;
+        private long numberOfReviews;
+        private long numberOfSchedules;
+        private long numberOfFollowers;
+        private long numberOfFollows;
+
+        static SimpleProfileDto of(Member member) {
+            return SimpleProfileDto.builder()
+                    .id(member.getId())
+                    .nickname(member.getNickname())
+                    .image(member.getImage())
+                    .loginId(member.getLoginId())
+                    .numberOfReviews(member.getNumberOfReviews())
+                    .numberOfSchedules(member.getNumberOfSchedules())
+                    .numberOfFollowers(member.getNumberOfFollowers())
+                    .numberOfFollows(member.getNumberOfFollows())
+                    .build();
+        }
     }
 
 }

@@ -1,20 +1,28 @@
 <script lang="ts" setup>
 import ReviewListCard from "@/components/review/ReviewListCard.vue";
 import { useReview } from "@/composables/review/review";
+import type { ReviewListType } from "@/modules/types/review/ReviewTypes";
 
-defineProps({
+const props = defineProps({
   isMain: {
     type: Boolean,
     required: false,
     default: false,
   },
 });
-const { otherReviews } = useReview();
+const { bestReviews, otherReviews, hasBestReviews, hasOtherReviews } =
+  useReview();
+const hasData: boolean = props.isMain
+  ? hasBestReviews.value
+  : hasOtherReviews.value;
+const reviews: ReviewListType[] = props.isMain
+  ? bestReviews.value
+  : otherReviews.value;
 </script>
 
 <template>
-  <ul v-if="otherReviews">
-    <li v-for="(review, idx) in otherReviews" :key="review.id">
+  <ul v-if="hasData">
+    <li v-for="(review, idx) in reviews" :key="review.id">
       <ReviewListCard :review="review" :rank="isMain ? idx + 1 : 0" />
       <el-divider />
     </li>

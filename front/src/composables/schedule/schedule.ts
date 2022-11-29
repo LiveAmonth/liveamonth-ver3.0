@@ -19,6 +19,7 @@ export const useSchedule = () => {
 
   const request = computed(() => store.searchCond);
   const otherSchedules = computed(() => store.otherScheduleCards);
+  const bestSchedules = computed(() => store.bestSchedules);
   const followedSchedules = computed(() => store.followedSchedules);
   const currentSchedule = computed(() => store.currentSchedule);
   const schedulePage = computed(() => store.schedulePage);
@@ -38,6 +39,7 @@ export const useSchedule = () => {
   const hasMySchedules = computed(() => store.hasMySchedules);
   const hasFollowedSchedules = computed(() => store.hasFollowedSchedules);
   const hasOtherSchedules = computed(() => store.hasOtherSchedules);
+  const hasBestSchedules = computed(() => store.hasBestSchedules);
 
   // Schedule Global
   const getScheduleContents = async (id: number) => {
@@ -67,15 +69,11 @@ export const useSchedule = () => {
     }
   };
 
-  const getPopularSchedules = async () => {
+  const getBestSchedules = async () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getPopularSchedules({
-        size: 5,
-        sort: "like,desc",
-        page: 1,
-      });
+      await store.getBestSchedules();
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -256,6 +254,7 @@ export const useSchedule = () => {
     request,
     schedulePage,
     otherSchedules,
+    bestSchedules,
     currentSchedule,
     currScheduleContents,
     contentCollapse,
@@ -268,12 +267,13 @@ export const useSchedule = () => {
     hasMySchedules,
     hasFollowedSchedules,
     hasOtherSchedules,
+    hasBestSchedules,
     getOtherScheduleCard,
     getOtherSchedules,
     getScheduleContents,
     getEditableSchedules,
     getInfiniteSchedules,
-    getPopularSchedules,
+    getBestSchedules,
     addSchedule,
     editSchedule,
     deleteSchedule,

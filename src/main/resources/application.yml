@@ -83,12 +83,12 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        format_sql: true
         default_batch_fetch_size: 100
-        show_sql: true
         jdbc:
           batch_size: 500
+        format_sql: true
     open-in-view: true
+    show-sql: true
 
   redis:
     host: localhost

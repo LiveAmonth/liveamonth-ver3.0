@@ -29,4 +29,7 @@ public interface ReviewService {
     List<ReviewListResponse> getReviewByMember(String loginId, Integer size, Long lastId);
 
     List<TagResponse> getRecommendationTags();
+
+    List<ReviewListResponse> getBestReview();
+
 }

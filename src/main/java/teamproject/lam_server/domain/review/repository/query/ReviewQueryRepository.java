@@ -20,12 +20,10 @@ import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
 import teamproject.lam_server.domain.review.dto.response.ReviewDetailResponse;
 import teamproject.lam_server.domain.review.dto.response.ReviewListResponse;
 import teamproject.lam_server.domain.review.entity.Review;
-import teamproject.lam_server.domain.review.entity.ReviewTag;
 import teamproject.lam_server.global.repository.BasicRepository;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
@@ -99,6 +97,25 @@ public class ReviewQueryRepository extends BasicRepository {
         return fetchIndexingQuery(ids.isEmpty(), resultQuery);
     }
 
+    public List<ReviewListResponse> getBestReviews() {
+        // covering index
+        List<Long> ids = queryFactory.select(review.id)
+                .from(review)
+                .limit(7)
+                .orderBy(review.numberOfLikes.desc())
+                .fetch();
+
+        // result query
+        JPAQuery<ReviewListResponse> resultQuery = queryFactory.select(getReviewListProjection())
+                .from(review)
+                .join(review.member, member)
+                .where(reviewIdIn(ids))
+                .orderBy(review.numberOfLikes.desc());
+
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
+
+    }
+
     public ReviewDetailResponse getReview(Long id) {
         Map<Long, ReviewDetailResponse> transform = queryFactory.from(review)
                 .join(review.member, member)
@@ -146,19 +163,26 @@ public class ReviewQueryRepository extends BasicRepository {
     public List<Long> findReviewTags(Set<String> tags) {
         JPAQuery<Long> resultQuery =
                 queryFactory.select(reviewTag.id)
-                        .from(review)
+                        .from(reviewTag)
                         .join(reviewTag.tag, tag)
                         .where(tagNameIn(tags));
-        return fetchIndexingQuery(tags.isEmpty(), resultQuery);
+        return tags != null ? resultQuery.fetch() : null;
     }
 
-    public List<ReviewTag> findReviewTagsByIdAndTag(Long reviewId, Set<String> tags) {
-        return queryFactory.selectFrom(reviewTag)
-                .join(reviewTag.tag, tag).fetchJoin()
-                .where(reviewTag.review.id.eq(reviewId),
-                        tagNameIn(tags))
+    public void deleteReviewTag(Long reviewId, Set<String> tags) {
+        List<Long> ids = queryFactory.select(reviewTag.id)
+                .from(reviewTag)
+                .join(reviewTag.review, review)
+                .join(reviewTag.tag, tag)
+                .where(
+                        reviewIdEq(reviewId),
+                        tagNameIn(tags)
+                )
                 .fetch();
 
+        queryFactory.delete(reviewTag)
+                .where(reviewTag.id.in(ids))
+                .execute();
     }
 
     private ConstructorExpression<ReviewListResponse> getReviewListProjection() {
@@ -195,20 +219,8 @@ public class ReviewQueryRepository extends BasicRepository {
         return lastId != null ? review.id.lt(lastId) : null;
     }
 
-    private BooleanExpression tittleContains(String word) {
-        return hasText(word) ? review.title.contains(word) : null;
-    }
-
-    private BooleanExpression contentContains(String word) {
-        return hasText(word) ? review.content.contains(word) : null;
-    }
-
-    private BooleanExpression nicknameEq(String word) {
-        return hasText(word) ? member.nickname.eq(word) : null;
-    }
-
     private BooleanExpression reviewSearchWordContains(String word) {
-        return hasText(word) ? Objects.requireNonNull(tittleContains(word)).or(contentContains(word)).or(nicknameEq(word)) : null;
+        return hasText(word) ? review.title.contains(word).or(review.content.contains(word).or(member.nickname.eq(word))) : null;
     }
 
     private BooleanExpression categoryIn(ReviewSearchType type) {
@@ -220,10 +232,10 @@ public class ReviewQueryRepository extends BasicRepository {
     }
 
     private BooleanExpression tagContains(List<Long> ids) {
-        return !ids.isEmpty() ? review.id.in(ids) : null;
+        return ids != null ? review.id.in(ids) : null;
     }
 
     private BooleanExpression tagNameIn(Set<String> tags) {
-        return !tags.isEmpty() ? tag.name.in(tags) : null;
+        return tags != null ? tag.name.in(tags) : null;
     }
 }

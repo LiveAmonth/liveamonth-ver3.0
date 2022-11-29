@@ -60,7 +60,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         // 리뷰 태그 삭제
         if (request.getRemovedTags() != null) {
-            review.removeTags(reviewQueryRepository.findReviewTagsByIdAndTag(id, request.getRemovedTags()));
+            reviewQueryRepository.deleteReviewTag(id, request.getRemovedTags());
         }
 
         // 리뷰 태그 추가
@@ -113,6 +113,11 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewQueryRepository.getRecommendationTags().stream()
                 .map(TagResponse::of)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReviewListResponse> getBestReview() {
+        return reviewQueryRepository.getBestReviews();
     }
 
     @Override

@@ -138,6 +138,23 @@ public class ScheduleQueryRepository extends BasicRepository {
         return fetchIndexingQuery(ids.isEmpty(), resultQuery);
     }
 
+    public List<ScheduleCardResponse> getBestSchedules() {
+        // covering index
+        List<Long> ids = scheduleIndexQuery()
+                .limit(5)
+                .orderBy(schedule.numberOfLikes.desc())
+                .fetch();
+
+        // result query
+        JPAQuery<ScheduleCardResponse> resultQuery = queryFactory.select(getScheduleCardProjection())
+                .from(schedule)
+                .join(schedule.member, member)
+                .where(scheduleIdIn(ids))
+                .orderBy(schedule.numberOfLikes.desc());
+
+        return fetchIndexingQuery(ids.isEmpty(), resultQuery);
+    }
+
     public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
         // covering index
         JPAQuery<Long> idQuery = scheduleIndexQuery()

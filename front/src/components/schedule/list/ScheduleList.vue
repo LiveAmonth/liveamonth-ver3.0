@@ -3,21 +3,22 @@ import SimpleCalendar from "@/components/schedule/calendar/SimpleCalendar.vue";
 import ScheduleInfoCard from "@/components/schedule/card/ScheduleInfoCard.vue";
 import { useSchedule } from "@/composables/schedule/schedule";
 
-defineProps({
+const props = defineProps({
   isMain: {
     type: Boolean,
     required: false,
     default: false,
   },
 });
-const { otherSchedules } = useSchedule();
+const { otherSchedules, bestSchedules } = useSchedule();
+const schedules = props.isMain ? bestSchedules.value : otherSchedules.value;
 </script>
 
 <template>
   <div class="schedule-list">
     <ul class="list">
       <li
-        v-for="(schedule, idx) in otherSchedules"
+        v-for="(schedule, idx) in schedules"
         :key="schedule.id"
         class="list-item py-4"
       >

@@ -71,10 +71,6 @@ public class Review extends BaseEntity {
         tag.connectReview(this);
     }
 
-    public void removeTags(List<ReviewTag> tags) {
-        tags.forEach(this.tags::remove);
-    }
-
     public ReviewEditor.ReviewEditorBuilder toEditor() {
         return ReviewEditor.builder()
                 .title(title)

@@ -32,6 +32,7 @@ export const useReview = () => {
   const request = computed(() => store.searchCond);
   const reviewPage = computed((): PageableType => store.reviewPage);
   const otherReviews = computed((): ReviewListType[] => store.otherReviews);
+  const bestReviews = computed((): ReviewListType[] => store.bestReviews);
   const currReview = computed((): ReviewDetailType => store.currReview);
   const myReviews = computed((): ReviewListType[] => store.myReviews);
   const addedReviewId = computed((): number => store.addedReviewId);
@@ -41,6 +42,7 @@ export const useReview = () => {
 
   const hasMyReviews = computed(() => store.hasMyReviews);
   const hasOtherReviews = computed(() => store.hasOtherReviews);
+  const hasBestReviews = computed(() => store.hasBestReviews);
 
   const cityReviewTabs: string[] = ["TOTAL"];
   cityNames.value.forEach((value) =>
@@ -111,15 +113,11 @@ export const useReview = () => {
     }
   };
 
-  const getPopularReviews = async () => {
+  const getBestReviews = async () => {
     error.value = null;
     isPending.value = true;
     try {
-      await store.getPopularReviews({
-        size: 7,
-        sort: "like,desc",
-        page: 1,
-      });
+      await store.getBestReviews();
       error.value = null;
     } catch (err) {
       error.value = err;
@@ -216,18 +214,20 @@ export const useReview = () => {
     reviewPage,
     cityReviewTabs,
     otherReviews,
+    bestReviews,
     currReview,
     recommendationTags,
     myReviews,
     addedReviewId,
     hasMyReviews,
     hasOtherReviews,
+    hasBestReviews,
     getReviewMenu,
     addReview,
     editReview,
     deleteReview,
     getReviews,
-    getPopularReviews,
+    getBestReviews,
     getMyReviews,
     getReview,
     goReadReview,

@@ -1,7 +1,6 @@
 package teamproject.lam_server.domain.review.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teamproject.lam_server.domain.review.dto.condition.ReviewSearchCond;
@@ -24,7 +23,6 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/reviews")
-@Slf4j
 public class ReviewApiController {
     private final ReviewService reviewService;
 
@@ -53,13 +51,18 @@ public class ReviewApiController {
     @GetMapping("/{review_id}/detail")
     public ResponseEntity<?> getReview(@PathVariable("review_id") Long reviewId) {
         ReviewDetailResponse result = reviewService.getReview(reviewId);
-        log.info("result={}", result);
         return CustomResponse.success(READ_REVIEW, result);
     }
 
     @GetMapping("/search")
     public ResponseEntity<?> search(ReviewSearchCond cond, PageableDTO pageableDTO) {
         CustomPage<ReviewListResponse> result = reviewService.search(cond, pageableDTO);
+        return CustomResponse.success(READ_REVIEW, result);
+    }
+
+    @GetMapping("/best")
+    public ResponseEntity<?> getBestReviews() {
+        List<ReviewListResponse> result = reviewService.getBestReview();
         return CustomResponse.success(READ_REVIEW, result);
     }
 

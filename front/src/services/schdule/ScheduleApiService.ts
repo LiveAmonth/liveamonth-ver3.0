@@ -52,7 +52,7 @@ class ScheduleApiService {
 
   async addSchedule(loginId: string, request: ScheduleEditor): Promise<string> {
     return await http
-      .post(`/schedules/${loginId}`, JSON.stringify(request.getCreateData()))
+      .post(`/schedules/${ loginId }`, JSON.stringify(request.getCreateData()))
       .then((response) => {
         return response.data;
       })
@@ -66,7 +66,7 @@ class ScheduleApiService {
     request: ScheduleEditor
   ): Promise<string> {
     return await http
-      .patch(`/schedules/${scheduleId}`, JSON.stringify(request.getEditData()))
+      .patch(`/schedules/${ scheduleId }`, JSON.stringify(request.getEditData()))
       .then((response) => {
         return response.data;
       })
@@ -77,7 +77,7 @@ class ScheduleApiService {
 
   async deleteSchedule(scheduleId: number): Promise<string> {
     return await http
-      .delete(`/schedules/${scheduleId}`)
+      .delete(`/schedules/${ scheduleId }`)
       .then((response) => {
         return response.data;
       })
@@ -92,13 +92,24 @@ class ScheduleApiService {
   ): Promise<PageableResponseType> {
     return await http
       .get(
-        `/schedules/search?page=${pageable.page - 1}&size=${
+        `/schedules/search?page=${ pageable.page - 1 }&size=${
           pageable.size
-        }&sort=${pageable.sort}`,
+        }&sort=${ pageable.sort }`,
         {
           params: request.getSearchData(),
         }
       )
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  async getBestSchedules(): Promise<ScheduleCardType[]> {
+    return await http
+      .get("/schedules/best")
       .then((response) => {
         return response.data.data;
       })
@@ -113,7 +124,7 @@ class ScheduleApiService {
     lastId: number | null = null
   ): Promise<MyScheduleType[]> {
     return await http
-      .get(`/schedules/list/${loginId}`, {
+      .get(`/schedules/list/${ loginId }`, {
         params: {
           size: size != null ? size : null,
           last_id: lastId != null ? lastId : null,
@@ -129,7 +140,7 @@ class ScheduleApiService {
 
   async getEditableSchedules(loginId: string): Promise<EditableScheduleType[]> {
     return await http
-      .get(`/schedules/list/${loginId}/edit`)
+      .get(`/schedules/list/${ loginId }/edit`)
       .then((response) => {
         return response.data.data;
       })
@@ -144,7 +155,7 @@ class ScheduleApiService {
     lastId: number | null = null
   ): Promise<ScheduleCardType[]> {
     return await http
-      .get(`/schedules/list/${loginId}/followed`, {
+      .get(`/schedules/list/${ loginId }/followed`, {
         params: {
           size: size != null ? size : null,
           last_id: lastId != null ? lastId : null,
@@ -160,7 +171,7 @@ class ScheduleApiService {
 
   async getFollowedPostsCount(loginId: string): Promise<number> {
     return await http
-      .get(`schedules/count/${loginId}/followed`)
+      .get(`schedules/count/${ loginId }/followed`)
       .then((response) => {
         return response.data.data.counts;
       })
@@ -175,7 +186,7 @@ class ScheduleApiService {
   ): Promise<string> {
     return await http
       .post(
-        `/schedules/${scheduleId}/contents`,
+        `/schedules/${ scheduleId }/contents`,
         JSON.stringify(request.getCreateData())
       )
       .then((response) => {
@@ -192,7 +203,7 @@ class ScheduleApiService {
   ): Promise<string> {
     return await http
       .patch(
-        `/schedules/contents/${contentId}`,
+        `/schedules/contents/${ contentId }`,
         JSON.stringify(request.getEditData())
       )
       .then((response) => {
@@ -205,7 +216,7 @@ class ScheduleApiService {
 
   async deleteScheduleContent(contentId: number): Promise<string> {
     return await http
-      .delete(`/schedules/contents/${contentId}`)
+      .delete(`/schedules/contents/${ contentId }`)
       .then((response) => {
         return response.data;
       })
@@ -218,7 +229,7 @@ class ScheduleApiService {
     scheduleId: number
   ): Promise<ScheduleContentType[]> {
     return await http
-      .get(`/schedules/${scheduleId}/detail`)
+      .get(`/schedules/${ scheduleId }/detail`)
       .then((response) => {
         return response.data.data;
       })
@@ -229,7 +240,7 @@ class ScheduleApiService {
 
   viewCountUp(scheduleId: number): Promise<void> {
     return http
-      .patch(`/schedules/${scheduleId}/count-up`, {})
+      .patch(`/schedules/${ scheduleId }/count-up`, {})
       .then((response) => {
         console.log(response.data.message);
       })

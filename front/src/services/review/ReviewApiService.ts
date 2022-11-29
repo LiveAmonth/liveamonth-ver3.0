@@ -2,7 +2,8 @@ import http, { getSortTypes, getSearchTypes } from "@/http-common";
 import type { PageableRequestType } from "@/modules/types/pagination/PaginationTypes";
 import type {
   ReviewEditor,
-  ReviewSearchCond, TagType,
+  ReviewSearchCond,
+  TagType,
 } from "@/modules/types/review/ReviewTypes";
 import type { IdResponseType } from "@/modules/types/common/CommonTypes";
 
@@ -54,7 +55,7 @@ class ReviewApiService {
     form: ReviewEditor
   ): Promise<IdResponseType> {
     return await http
-      .post(`/reviews/${loginId}`, JSON.stringify(form.getCreateData()))
+      .post(`/reviews/${ loginId }`, JSON.stringify(form.getCreateData()))
       .then((response) => {
         return response.data.data;
       })
@@ -65,7 +66,7 @@ class ReviewApiService {
 
   async editReview(reviewId: number, form: ReviewEditor): Promise<string> {
     return await http
-      .patch(`/reviews/${reviewId}`, JSON.stringify(form.getEditData()))
+      .patch(`/reviews/${ reviewId }`, JSON.stringify(form.getEditData()))
       .then((response) => {
         return response.data;
       })
@@ -76,7 +77,7 @@ class ReviewApiService {
 
   async deleteReview(reviewId: number): Promise<string> {
     return await http
-      .delete(`/reviews/${reviewId}`)
+      .delete(`/reviews/${ reviewId }`)
       .then((response) => {
         return response.data;
       })
@@ -88,7 +89,7 @@ class ReviewApiService {
   async getReviews(request: ReviewSearchCond, pageable: PageableRequestType) {
     return await http
       .get(
-        `/reviews/search?page=${pageable.page - 1}&size=${pageable.size}&sort=${
+        `/reviews/search?page=${ pageable.page - 1 }&size=${ pageable.size }&sort=${
           pageable.sort
         }`,
         {
@@ -109,7 +110,7 @@ class ReviewApiService {
     lastId: number | null = null
   ) {
     return await http
-      .get(`/reviews/list/${loginId}`, {
+      .get(`/reviews/list/${ loginId }`, {
         params: {
           size: size,
           last_id: lastId != null ? lastId : null,
@@ -125,7 +126,7 @@ class ReviewApiService {
 
   async getReview(reviewId: number) {
     return await http
-      .get(`/reviews/${reviewId}/detail`)
+      .get(`/reviews/${ reviewId }/detail`)
       .then((response) => {
         return response.data.data;
       })
@@ -136,7 +137,7 @@ class ReviewApiService {
 
   viewCountUp(reviewId: number): Promise<void> {
     return http
-      .patch(`/reviews/${reviewId}/count-up`, {})
+      .patch(`/reviews/${ reviewId }/count-up`, {})
       .then((response) => {
         console.log(response.data.message);
       })
@@ -148,6 +149,17 @@ class ReviewApiService {
   getRecommendationTags(): Promise<TagType[]> {
     return http
       .get("/reviews/recommendation-tags")
+      .then((response) => {
+        return response.data.data;
+      })
+      .catch((error) => {
+        throw error.response.data;
+      });
+  }
+
+  getBestReviews() {
+    return http
+      .get("/reviews/best")
       .then((response) => {
         return response.data.data;
       })

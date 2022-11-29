@@ -54,6 +54,11 @@ public class ScheduleApiController {
         CustomPage<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
+    @GetMapping("/best")
+    public ResponseEntity<?> getBestSchedules() {
+        List<ScheduleCardResponse> result = scheduleApiService.getBestSchedules();
+        return CustomResponse.success(READ_SCHEDULE, result);
+    }
 
     @GetMapping("/list/{login_id}/edit")
     public ResponseEntity<?> getMySchedulesToEdit(@PathVariable("login_id") String loginId) {

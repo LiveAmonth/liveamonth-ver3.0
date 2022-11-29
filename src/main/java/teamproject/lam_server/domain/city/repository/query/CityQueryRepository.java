@@ -22,6 +22,7 @@ import teamproject.lam_server.domain.city.entity.CityTransport;
 import teamproject.lam_server.domain.city.entity.CityWeather;
 import teamproject.lam_server.domain.city.entity.QCity;
 import teamproject.lam_server.global.repository.BasicRepository;
+import teamproject.lam_server.global.repository.OrderByNull;
 
 import java.util.List;
 
@@ -127,6 +128,7 @@ public class CityQueryRepository extends BasicRepository {
                         infoCatEq(category)
                 )
                 .groupBy(cityTransport.name)
+                .orderBy(OrderByNull.DEFAULT)
                 .fetch();
     }
 

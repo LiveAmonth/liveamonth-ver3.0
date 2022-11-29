@@ -92,6 +92,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
+    public List<ScheduleCardResponse> getBestSchedules() {
+        return scheduleQueryRepository.getBestSchedules();
+
+    }
+
+    @Override
     public List<ScheduleCardResponse> getFollowedSchedules(String loginId, Integer size, Long lastId) {
         return scheduleQueryRepository.getFollowedSchedules(loginId, size, lastId);
     }

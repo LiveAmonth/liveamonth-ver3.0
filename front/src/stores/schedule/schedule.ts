@@ -18,6 +18,7 @@ export const useScheduleStore = defineStore("schedule", {
   state: () => ({
     searchCond: new ScheduleSearchCond(),
     pageableSchedules: {} as PageableResponseType,
+    bestSchedules: [] as ScheduleCardType[],
     mySchedules: [] as MyScheduleType[],
     editableSchedules: [] as EditableScheduleType[],
     followedSchedules: [] as ScheduleCardType[],
@@ -33,6 +34,7 @@ export const useScheduleStore = defineStore("schedule", {
     hasMySchedules: (state): boolean => !!state.mySchedules.length,
     hasFollowedSchedules: (state): boolean => !!state.followedSchedules.length,
     hasOtherSchedules: (state): boolean => !!state.pageableSchedules,
+    hasBestSchedules: (state): boolean => !!state.bestSchedules.length,
   },
   actions: {
     getOtherSchedules: async function (pageable: PageableRequestType) {
@@ -45,13 +47,10 @@ export const useScheduleStore = defineStore("schedule", {
         });
     },
 
-    getPopularSchedules: async function (pageable: PageableRequestType) {
-      await ScheduleApiService.getOtherSchedules(
-        new ScheduleSearchCond(),
-        pageable
-      )
-        .then((response: PageableResponseType) => {
-          this.pageableSchedules = response;
+    getBestSchedules: async function () {
+      await ScheduleApiService.getBestSchedules()
+        .then((response: ScheduleCardType[]) => {
+          this.bestSchedules = response;
         })
         .catch((error) => {
           throw error;

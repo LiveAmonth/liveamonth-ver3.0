@@ -20,6 +20,7 @@ export const useReviewStore = defineStore("review", {
   state: () => ({
     searchCond: new ReviewSearchCond(),
     pageableReviews: {} as PageableResponseType,
+    bestReviews: {} as ReviewListType[],
     currReview: {} as ReviewDetailType,
     myReviews: [] as ReviewListType[],
     addedReviewId: 0,
@@ -31,6 +32,7 @@ export const useReviewStore = defineStore("review", {
     reviewPage: (state): PageableType => state.pageableReviews.pageable,
     hasMyReviews: (state): boolean => !!state.myReviews.length,
     hasOtherReviews: (state): boolean => !!state.pageableReviews,
+    hasBestReviews: (state): boolean => !!state.bestReviews.length,
   },
   actions: {
     addReview: async function (loginId: string, form: ReviewEditor) {
@@ -73,10 +75,10 @@ export const useReviewStore = defineStore("review", {
         });
     },
 
-    getPopularReviews: async function (pageable: PageableRequestType) {
-      await ReviewApiService.getReviews(new ReviewSearchCond(), pageable)
-        .then((response: PageableResponseType) => {
-          this.pageableReviews = response;
+    getBestReviews: async function () {
+      await ReviewApiService.getBestReviews()
+        .then((response: ReviewListType[]) => {
+          this.bestReviews = response;
         })
         .catch((error) => {
           throw error;
