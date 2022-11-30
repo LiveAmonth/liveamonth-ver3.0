@@ -1,6 +1,6 @@
 package teamproject.lam_server.repository.schedule;
 
-import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.core.types.ConstructorExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +21,6 @@ import teamproject.lam_server.domain.member.dto.response.SimpleProfileResponse;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.domain.schedule.dto.request.ScheduleCreate;
-import teamproject.lam_server.domain.schedule.dto.response.EditableScheduleResponse;
 import teamproject.lam_server.domain.schedule.dto.response.ScheduleCardResponse;
 import teamproject.lam_server.domain.schedule.entity.Schedule;
 import teamproject.lam_server.domain.schedule.repository.core.ScheduleRepository;
@@ -63,7 +62,7 @@ public class ScheduleRepositoryTest {
     @DisplayName("스케줄 조회 성능 비교 인덱스")
     void compare_get_schedule_index() {
         // given
-        int count = 1000;
+        int count = 10000;
         Member savedMember = saveMember();
         saveScheduleWithBulk(savedMember, count);
 
@@ -74,31 +73,45 @@ public class ScheduleRepositoryTest {
         List<Long> indexTimes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             long startTime = System.currentTimeMillis();
-            JPAQuery<Long> countQuery = queryFactory.select(schedule.count())
+            queryFactory.select(schedule.count())
                     .from(schedule)
-                    .join(schedule.member, member);
+                    .join(schedule.member, member)
+                    .where(member.nickname.eq(savedMember.getNickname()))
+                    .fetch();
 
-            List<Schedule> elements = queryFactory.selectFrom(schedule)
-                    .join(schedule.member, member).fetchJoin()
+            queryFactory.select(getScheduleCardProjection())
+                    .from(schedule)
+                    .join(schedule.member, member)
+                    .where(member.nickname.eq(savedMember.getNickname()))
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())
                     .orderBy(schedule.id.desc())
                     .fetch();
+
             long stopTime = System.currentTimeMillis();
             long pagingTime = stopTime - startTime;
             pagingTimes.add(pagingTime);
             em.clear();
 
             startTime = System.currentTimeMillis();
+            queryFactory.select(schedule.count())
+                    .from(schedule)
+                    .join(schedule.member, member)
+                    .where(member.nickname.eq(savedMember.getNickname()))
+                    .fetch();
+
             List<Long> ids = queryFactory.select(schedule.id)
                     .from(schedule)
                     .join(schedule.member, member)
+                    .where(member.nickname.eq(savedMember.getNickname()))
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize())
                     .orderBy(schedule.id.desc())
                     .fetch();
 
-            queryFactory.selectFrom(schedule)
+            queryFactory.select(getScheduleCardProjection())
+                    .from(schedule)
+                    .join(schedule.member, member)
                     .where(schedule.id.in(ids))
                     .fetch();
             stopTime = System.currentTimeMillis();
@@ -106,7 +119,6 @@ public class ScheduleRepositoryTest {
             indexTimes.add(indexTime);
             em.clear();
         }
-
 
         // then
         double avgPagingTime = pagingTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
@@ -163,32 +175,7 @@ public class ScheduleRepositoryTest {
                     .orderBy(schedule.id.desc())
                     .fetch();
 
-            queryFactory.select(
-                            constructor(ScheduleCardResponse.class,
-                                    schedule.id,
-                                    schedule.title,
-                                    schedule.cityName,
-                                    constructor(SimpleProfileResponse.class,
-                                            member.id,
-                                            member.loginId,
-                                            member.nickname,
-                                            member.image,
-                                            member.numberOfReviews,
-                                            member.numberOfSchedules,
-                                            member.numberOfFollowers,
-                                            member.numberOfFollows
-                                    ),
-                                    schedule.totalCost,
-                                    schedule.numberOfHits,
-                                    schedule.numberOfLikes,
-                                    schedule.numberOfComments,
-                                    constructor(PeriodResponse.class,
-                                            schedule.period.startDate,
-                                            schedule.period.endDate
-                                    ),
-                                    schedule.publicFlag
-                            )
-                    )
+            queryFactory.select(getScheduleCardProjection())
                     .from(schedule)
                     .join(schedule.member, member)
                     .where(schedule.id.in(ids))
@@ -224,19 +211,11 @@ public class ScheduleRepositoryTest {
         List<Long> indexTimes = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             long startTime = System.currentTimeMillis();
-            queryFactory.select(
-                            constructor(EditableScheduleResponse.class,
-                                    schedule.id,
-                                    schedule.title,
-                                    schedule.cityName,
-                                    constructor(PeriodResponse.class,
-                                            schedule.period.startDate,
-                                            schedule.period.endDate
-                                    ),
-                                    schedule.publicFlag
-                            )
-                    ).from(schedule)
-                    .where(schedule.createdBy.eq(savedMember.getLoginId()))
+            queryFactory.select(getScheduleCardProjection())
+                    .from(schedule)
+                    .join(schedule.member, member)
+                    .limit(5)
+                    .orderBy(schedule.numberOfLikes.desc())
                     .fetch();
 
             long stopTime = System.currentTimeMillis();
@@ -247,21 +226,18 @@ public class ScheduleRepositoryTest {
             startTime = System.currentTimeMillis();
             List<Long> ids = queryFactory.select(schedule.id)
                     .from(schedule)
-                    .where(schedule.createdBy.eq(savedMember.getLoginId()))
+                    .limit(5)
+                    .orderBy(schedule.numberOfLikes.desc())
                     .fetch();
 
-            queryFactory.select(constructor(EditableScheduleResponse.class,
-                            schedule.id,
-                            schedule.title,
-                            schedule.cityName,
-                            constructor(PeriodResponse.class,
-                                    schedule.period.startDate,
-                                    schedule.period.endDate
-                            ),
-                            schedule.publicFlag))
+            // result query
+            queryFactory.select(getScheduleCardProjection())
                     .from(schedule)
+                    .join(schedule.member, member)
                     .where(schedule.id.in(ids))
+                    .orderBy(schedule.numberOfLikes.desc())
                     .fetch();
+
             stopTime = System.currentTimeMillis();
             long indexTime = stopTime - startTime;
             indexTimes.add(indexTime);
@@ -272,7 +248,7 @@ public class ScheduleRepositoryTest {
         // then
         double avgBasicQueryTime = basicTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
         double avgIndexTime = indexTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
-        log.info("== 결과(" + 10000000 + "건 기준) ==");
+        log.info("== 결과(" + 10000 + "건 기준) ==");
         log.info("기존 리스트 조회 평균 속도={}ms", String.format("%.0f", avgBasicQueryTime));
         log.info("커버링 인덱스 조회 평균 속도={}ms", String.format("%.0f", avgIndexTime));
         log.info("높은 성능={}, 성능 개선율={}",
@@ -310,6 +286,32 @@ public class ScheduleRepositoryTest {
         return memberRepository.save(memberCreate.toEntity(passwordEncoder));
     }
 
+    ConstructorExpression<ScheduleCardResponse> getScheduleCardProjection() {
+        return constructor(ScheduleCardResponse.class,
+                schedule.id,
+                schedule.title,
+                schedule.cityName,
+                constructor(SimpleProfileResponse.class,
+                        member.id,
+                        member.loginId,
+                        member.nickname,
+                        member.image,
+                        member.numberOfReviews,
+                        member.numberOfSchedules,
+                        member.numberOfFollowers,
+                        member.numberOfFollows
+                ),
+                schedule.totalCost,
+                schedule.numberOfHits,
+                schedule.numberOfLikes,
+                schedule.numberOfComments,
+                constructor(PeriodResponse.class,
+                        schedule.period.startDate,
+                        schedule.period.endDate
+                ),
+                schedule.publicFlag
+        );
+    }
 
     @Getter
     @Builder

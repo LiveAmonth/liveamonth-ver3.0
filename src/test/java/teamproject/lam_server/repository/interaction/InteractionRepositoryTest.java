@@ -16,6 +16,7 @@ import teamproject.lam_server.domain.member.dto.request.MemberCreate;
 import teamproject.lam_server.domain.member.entity.Member;
 import teamproject.lam_server.domain.member.repository.core.MemberRepository;
 import teamproject.lam_server.exception.notfound.MemberNotFound;
+import teamproject.lam_server.jdbc.interaction.InteractionJdbcRepository;
 import teamproject.lam_server.jdbc.member.MemberJdbcRepository;
 
 import javax.persistence.EntityManager;
@@ -39,79 +40,106 @@ public class InteractionRepositoryTest {
     @Autowired
     MemberJdbcRepository memberJdbcRepository;
     @Autowired
+    InteractionJdbcRepository interactionJdbcRepository;
+    @Autowired
     EntityManager em;
 
     @Test
     @DisplayName("상호작용(팔로우) 저장 성능 비교")
-    void compare_follow_member(){
+    void compare_follow_member() {
         // given
-        MemberCreate createTo =
-                MemberCreate.builder()
-                        .loginId("toMember")
-                        .password("memberPassword1!")
-                        .name("toMember")
-                        .nickname("toMember")
-                        .email("toMember@liveamonth.com")
-                        .birth(LocalDate.now().minusDays(1))
-                        .gender(GenderType.MALE.name())
-                        .build();
-        Member toMember = memberRepository.save(createTo.toEntity(passwordEncoder));
+        int count = 50000;
+        Member basicTo = createMember("basicTo");
+        Member basicFrom = createMember("basicFrom");
+        saveMemberWithBulk(count);
+        saveFollowWithBulk(basicFrom.getId(), basicTo.getId(), count);
+        em.clear();
+
+        // when
+        Member memberA;
+        Member memberB;
+        List<Long> nativeQueryTimes = new ArrayList<>();
+        List<Long> dirtyCheckingTimes = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            memberA = createMember("memberA" + i);
+            memberB = createMember("memberB" + i);
+            InteractionRequest request = new InteractionRequest();
+            request.setFrom(memberB.getId());
+            request.setTo(memberA.getId());
+
+            long startTime = System.currentTimeMillis();
+            followRepository.follow(request);
+            long stopTime = System.currentTimeMillis();
+            nativeQueryTimes.add(stopTime - startTime);
+            em.clear();
+
+            startTime = System.currentTimeMillis();
+            Member from = memberRepository
+                    .findByLoginId(memberA.getLoginId())
+                    .orElseThrow(MemberNotFound::new);
+            Member to = memberRepository
+                    .findById(request.getFrom())
+                    .orElseThrow(MemberNotFound::new);
+            followRepository.save(Follower.builder().from(from).to(to).build());
+            stopTime = System.currentTimeMillis();
+            dirtyCheckingTimes.add(stopTime - startTime);
+            em.clear();
+        }
+
+        double avgNativeQueryTime = nativeQueryTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
+        double avgDirtyCheckingTime = dirtyCheckingTimes.stream().mapToDouble(Long::longValue).average().getAsDouble();
+        log.info("== 결과(" + 10000 + "건 기준) ==");
+        log.info("Native Query 저장 평균 속도={}ms", String.format("%.0f", avgNativeQueryTime));
+        log.info("Dirty Checking 저장 평균 속도={}ms", String.format("%.0f", avgDirtyCheckingTime));
+        log.info("높은 성능={}, 성능 개선율={}",
+                avgNativeQueryTime < avgDirtyCheckingTime ? "Native Query" : "Dirty Checking",
+                getPerformanceImprovementRate(avgNativeQueryTime, avgDirtyCheckingTime));
+    }
+
+    private Member createMember(String name) {
         MemberCreate createFrom =
                 MemberCreate.builder()
-                        .loginId("fromMember")
+                        .loginId(name)
                         .password("memberPassword1!")
-                        .name("fromMember")
-                        .nickname("fromMember")
-                        .email("fromMember@liveamonth.com")
+                        .name(name)
+                        .nickname(name)
+                        .email(name + "@liveamonth.com")
                         .birth(LocalDate.now().minusDays(1))
                         .gender(GenderType.MALE.name())
                         .build();
-        Member fromMember = memberRepository.save(createFrom.toEntity(passwordEncoder));
-        int count = 1000;
-        List<MemberCreate> memberList = new ArrayList<>();
+        return memberRepository.save(createFrom.toEntity(passwordEncoder));
+    }
+
+    private void saveMemberWithBulk(int count) {
+        List<MemberCreate> memberCreates = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             MemberCreate memberCreate =
                     MemberCreate.builder()
                             .loginId("member" + i)
                             .password("memberPassword1!")
-                            .name("memberName" + i)
-                            .nickname("memberNickname" + i)
+                            .name("member" + i)
+                            .nickname("member" + i)
                             .email("member" + i + "@liveamonth.com")
                             .birth(LocalDate.now().minusDays(1))
                             .gender(GenderType.MALE.name())
                             .build();
-            memberList.add(memberCreate);
+            memberCreates.add(memberCreate);
         }
-        memberJdbcRepository.batchInsert(memberList);
-        em.clear();
+        memberJdbcRepository.batchInsert(memberCreates);
+    }
 
-        // when
-        InteractionRequest request = new InteractionRequest();
-        request.setTo(toMember.getId());
-        request.setFrom(fromMember.getId());
-
-        long startTime = System.currentTimeMillis();
-        followRepository.follow(request);
-        long stopTime = System.currentTimeMillis();
-        long queryTime = stopTime - startTime;
-
-        startTime = System.currentTimeMillis();
-        Member to = memberRepository
-                .findById(request.getFrom())
-                .orElseThrow(MemberNotFound::new);
-        Member from = memberRepository
-                .findById(request.getTo())
-                .orElseThrow(MemberNotFound::new);
-        followRepository.save(Follower.builder().from(from).to(to).build());
-        stopTime = System.currentTimeMillis();
-        long crudTime = stopTime - startTime;
-
-        log.info("== 결과(" + count + "건 기준) ==");
-        log.info("dirty checking={}ms", crudTime);
-        log.info("native query={}ms", queryTime);
-        log.info("더 빠른 방식={}, 성능 개선율={}",
-                crudTime < queryTime ? "dirty checking" : "native query",
-                getPerformanceImprovementRate(crudTime, queryTime));
+    private void saveFollowWithBulk(Long from, Long to, int count) {
+        List<InteractionRequest> interactions = new ArrayList<>();
+        for (int i = 10; i < count; i++) {
+            InteractionRequest request = new InteractionRequest();
+            request.setFrom(from);
+            request.setTo((long) i);
+            interactions.add(request);
+            request.setFrom((long) i);
+            request.setTo(to);
+            interactions.add(request);
+        }
+        interactionJdbcRepository.batchInsert(interactions);
     }
 
 }

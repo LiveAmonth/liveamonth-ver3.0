@@ -20,8 +20,7 @@ import static teamproject.lam_server.global.constants.ResponseMessage.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/interactions")
-public class
-InteractionApiController {
+public class InteractionApiController {
 
     private final InteractionServiceFinder interactionServiceFinder;
 
