@@ -137,12 +137,15 @@
 
 ### Querydsl-JPA
 - 대용량의 데이터가 쌓인 테이블 환경에서도 사용할 수 있도록 Querydsl-JPA 성능을 개선했습니다.
-  - 리스트 및 페이징 조회시 Cluster Key를 커버링 인덱스로 빠르게 조회한 뒤 select 컬럼을 조회해 페이징 조회시 2000%이상의 성능을 향상시켰습니다.
-  -
-  ![image](https://user-images.githubusercontent.com/48740872/204086267-6b0e3e24-5a54-4f60-8c5c-bca6e781f0f4.png)
+  - 리스트 및 페이징 조회시 Cluster Key를 커버링 인덱스로 빠르게 조회한 뒤 select 컬럼을 조회해 페이징 조회시 60000%이상의 성능을 향상시켰습니다.
+     - ![image](https://user-images.githubusercontent.com/48740872/207626154-bf83fc76-3a3f-4260-8543-cf3aa44d73ec.png)
+     - ![image](https://user-images.githubusercontent.com/48740872/207626184-677ec71a-698a-48d2-9be0-935593d117e9.png)
   - 엔티티보다 DTO조회를 우선적으로 고려했습니다.
-    ![image](https://user-images.githubusercontent.com/48740872/204084600-e1c81da9-26f1-418c-b9a4-8c7ba025e769.png)
-      - 응답에 필요한 컴럼만 가져오고 매개변수로 전달 받아 이미 값을 알고 있는 컬럼은 직접 값을 넣어 조회 컬럼수를 최소화하였습니다.
+     - ![image](https://user-images.githubusercontent.com/48740872/207626223-69c18af7-ebb3-4d71-a76a-22719e244110.png)
+     - 응답에 필요한 컴럼만 가져오고 매개변수로 전달 받아 이미 값을 알고 있는 컬럼은 직접 값을 넣어 조회 컬럼수를 최소화하였습니다.
+  - 팔로우, 좋아요와 같이 매핑 테이블의 형식을 가진 엔티티는 Dirty Checking 이나 매핑할 엔티티를 조회 후 저장하는 방식이 아닌 Native Query 방식으로 Id값을 이용해 직접적으로 저장했습니다.
+     - ![image](https://user-images.githubusercontent.com/48740872/207626264-2a4b797b-e163-4a5e-b292-4d1e72322204.png)
+     - 데이터 10,000건, 10회 수행 기준 약 120%의 성능이 향상되었습니다.
 
 
 # 🎞 UI 기능 및 화면
