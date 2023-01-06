@@ -32,7 +32,7 @@ public class ScheduleApiController {
             @PathVariable("login_id") String loginId,
             @RequestBody @Valid ScheduleCreate request) {
         PostIdResponse result = scheduleApiService.addSchedule(loginId, request);
-        return CustomResponse.success(CREATE_SCHEDULE,result);
+        return CustomResponse.success(CREATE_SCHEDULE, result);
     }
 
     @PatchMapping("/{schedule_id}")
@@ -54,6 +54,7 @@ public class ScheduleApiController {
         CustomPage<ScheduleCardResponse> result = scheduleApiService.search(cond, pageableDTO);
         return CustomResponse.success(READ_SCHEDULE, result);
     }
+
     @GetMapping("/best")
     public ResponseEntity<?> getBestSchedules() {
         List<ScheduleCardResponse> result = scheduleApiService.getBestSchedules();
