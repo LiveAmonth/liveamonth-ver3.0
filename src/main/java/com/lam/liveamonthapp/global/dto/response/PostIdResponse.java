@@ -1,0 +1,14 @@
+package com.lam.liveamonthapp.global.dto.response;
+
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+public class PostIdResponse {
+    private Long id;
+
+    public static PostIdResponse of(Long id) {
+        return PostIdResponse.builder().id(id).build();
+    }
+}
