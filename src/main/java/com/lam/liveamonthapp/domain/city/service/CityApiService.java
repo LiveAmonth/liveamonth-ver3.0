@@ -1,4 +1,4 @@
-package com.lam.liveamonthapp.domain.city.service.query;
+package com.lam.liveamonthapp.domain.city.service;
 
 import com.lam.liveamonthapp.domain.city.constants.CityIntroCategory;
 import com.lam.liveamonthapp.domain.city.constants.CityName;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 public interface CityApiService {
 
-    List<CityGridDataResponse> searchCurrentCityInfo();
+    List<CityGridDataResponse> getCitySummaryInfo();
 
     ExtraCityResponse searchTotalCityInfo(CityName cityName);
 
