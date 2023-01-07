@@ -31,7 +31,7 @@ public class CityApiServiceImpl implements CityApiService {
 
     @Override
     public List<CityGridDataResponse> getCitySummaryInfo() {
-        return cityQueryRepository.findCityGridInfo(INTRO, getCurrentMonth());
+        return cityQueryRepository.getCitySummaryInfo(getCurrentMonth());
     }
 
     @Override

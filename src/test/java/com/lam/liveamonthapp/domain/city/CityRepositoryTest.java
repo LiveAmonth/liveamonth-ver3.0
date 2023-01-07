@@ -6,6 +6,7 @@ import com.lam.liveamonthapp.domain.city.constants.TransportCategory;
 import com.lam.liveamonthapp.domain.city.dto.request.CityIntroCreate;
 import com.lam.liveamonthapp.domain.city.dto.request.CityTransportCreate;
 import com.lam.liveamonthapp.domain.city.dto.request.CityWeatherCreate;
+import com.lam.liveamonthapp.domain.city.dto.response.api.CityGridDataResponse;
 import com.lam.liveamonthapp.domain.city.entity.CityIntro;
 import com.lam.liveamonthapp.domain.city.entity.CityTransport;
 import com.lam.liveamonthapp.domain.city.entity.CityWeather;
@@ -13,8 +14,8 @@ import com.lam.liveamonthapp.domain.city.repository.bulk.CityBatchRepository;
 import com.lam.liveamonthapp.domain.city.repository.core.CityIntroRepository;
 import com.lam.liveamonthapp.domain.city.repository.core.CityTransportRepository;
 import com.lam.liveamonthapp.domain.city.repository.core.CityWeatherRepository;
+import com.lam.liveamonthapp.domain.city.repository.query.CityQueryRepository;
 import com.lam.liveamonthapp.util.JsonUtil;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -40,6 +43,8 @@ public class CityRepositoryTest {
     CityTransportRepository cityTransportRepository;
     @Autowired
     CityWeatherRepository cityWeatherRepository;
+    @Autowired
+    CityQueryRepository cityQueryRepository;
 
     List<CityIntroCreate> intros;
     List<CityTransportCreate> transports;
@@ -71,9 +76,9 @@ public class CityRepositoryTest {
                 .collect(Collectors.toList());
 
         // then
-        Assertions.assertThat(result.size()).isEqualTo(seoulIntros.size());
+        assertThat(result.size()).isEqualTo(seoulIntros.size());
         for (CityIntro cityIntro : result) {
-            Assertions.assertThat(contents).contains(cityIntro.getContent());
+            assertThat(contents).contains(cityIntro.getContent());
         }
     }
 
@@ -96,10 +101,10 @@ public class CityRepositoryTest {
         List<CityTransport> result = cityTransportRepository.findByName(name);
 
         // then
-        Assertions.assertThat(result.size()).isEqualTo(seoulTransports.size());
+        assertThat(result.size()).isEqualTo(seoulTransports.size());
         for (CityTransport transport : result) {
-            Assertions.assertThat(stationMap.containsKey(transport.getCityTransportCat())).isTrue();
-            Assertions.assertThat(stationMap.values()).contains(transport.getScore());
+            assertThat(stationMap.containsKey(transport.getCityTransportCat())).isTrue();
+            assertThat(stationMap.values()).contains(transport.getScore());
         }
     }
 
@@ -126,10 +131,47 @@ public class CityRepositoryTest {
                         CityWeather::getAverageDegree));
 
         // then
-        Assertions.assertThat(result.size()).isEqualTo(seoulWeathers.size());
+        assertThat(result.size()).isEqualTo(seoulWeathers.size());
         for (MonthCategory month : MonthCategory.values()) {
-            Assertions.assertThat(resultMap.get(month)).isEqualTo(weatherMap.get(month));
+            assertThat(resultMap.get(month)).isEqualTo(weatherMap.get(month));
         }
     }
+
+    @Test
+    @DisplayName("도시 요약 정보 조회")
+    void get_city_summary_info() {
+        // given
+        CityName city = CityName.SE;
+        MonthCategory month = MonthCategory.JAN;
+
+        Map<CityName, Float> janWeatherMap = cityWeatherRepository.findAll().stream()
+                .filter(cityWeather -> cityWeather.getMonth() == month)
+                .collect(Collectors.toMap(
+                        CityWeather::getName,
+                        CityWeather::getAverageDegree
+                ));
+
+        int expectedSeoulTransportScore = cityTransportRepository.findByName(city).stream()
+                .mapToInt(CityTransport::getScore)
+                .sum();
+
+        // when
+        List<CityGridDataResponse> result = cityQueryRepository.getCitySummaryInfo(month);
+
+        Integer seoulResultTransportScore = result.stream().collect(Collectors.toMap(
+                CityGridDataResponse::getName,
+                CityGridDataResponse::getTransportScore
+        )).get(city);
+
+        // then
+        assertThat(result.size()).isEqualTo(CityName.values().length);
+        // 서울의 교통 점수 확인
+        assertThat(seoulResultTransportScore).isEqualTo(expectedSeoulTransportScore);
+        // 모든 도시 1월 평균기온 확인
+        for (CityGridDataResponse data : result) {
+            assertThat(data.getAverageDegree()).isEqualTo(janWeatherMap.get(data.getName()));
+        }
+    }
+
 
 }

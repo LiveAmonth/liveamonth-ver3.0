@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.lam.liveamonthapp.domain.city.constants.CityIntroCategory.INTRO;
 import static com.lam.liveamonthapp.domain.city.entity.QCityIntro.cityIntro;
 import static com.lam.liveamonthapp.domain.city.entity.QCityTransport.cityTransport;
 import static com.lam.liveamonthapp.domain.city.entity.QCityWeather.cityWeather;
@@ -24,9 +25,10 @@ import static com.lam.liveamonthapp.domain.city.entity.QCityWeather.cityWeather;
 public class CityQueryRepository extends BasicRepository {
     private final JPAQueryFactory queryFactory;
 
-    public List<CityGridDataResponse> findCityGridInfo(CityIntroCategory category, MonthCategory month) {
+    public List<CityGridDataResponse> getCitySummaryInfo(MonthCategory month) {
         return queryFactory
-                .select(Projections.constructor(CityGridDataResponse.class, cityIntro.name,
+                .select(Projections.constructor(CityGridDataResponse.class,
+                        cityIntro.name,
                         cityIntro.image,
                         cityWeather.averageDegree,
                         cityTransport.score.sum().as("transportScore")))
@@ -37,7 +39,7 @@ public class CityQueryRepository extends BasicRepository {
                 .leftJoin(cityTransport).on(
                         joinCityNameEq(cityTransport.name))
                 .where(
-                        infoCatEq(category)
+                        infoCatEq(INTRO)
                 )
                 .groupBy(cityTransport.name)
                 .orderBy(OrderByNull.DEFAULT)
