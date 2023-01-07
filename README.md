@@ -1,4 +1,4 @@
-# Liveamonth ver.2.0.0
+# Liveamonth ver3.0
 
 ### [API 명세](https://www.notion.so/Liveamonth-API-Document-61d433570cff433a941f1d071a2b7156)
 #### [Liveavmonth Ver 1.0](https://github.com/LiveAmonth/LiveAmonth-ver.1.0.0)
