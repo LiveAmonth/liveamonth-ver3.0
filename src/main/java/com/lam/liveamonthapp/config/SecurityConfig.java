@@ -25,7 +25,6 @@ import com.lam.liveamonthapp.auth.exception.CustomAccessDeniedHandler;
 import com.lam.liveamonthapp.auth.exception.CustomAuthenticationEntryPoint;
 import com.lam.liveamonthapp.auth.jwt.CustomUserDetailsService;
 import com.lam.liveamonthapp.auth.jwt.JwtAuthenticationFilter;
-import com.lam.liveamonthapp.auth.oauth2.OAuth2AuthenticationFilter;
 
 import static com.lam.liveamonthapp.domain.member.constants.Role.*;
 
@@ -35,7 +34,6 @@ import static com.lam.liveamonthapp.domain.member.constants.Role.*;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final OAuth2AuthenticationFilter oAuth2AuthenticationFilter;
     private final CustomUserDetailsService customUserDetailsService;
 
     @Bean
@@ -111,8 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
                 .and()
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(oAuth2AuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.lam.liveamonthapp.paging.metaModel;
 
 import lombok.Getter;
 import lombok.ToString;
-import net.minidev.json.annotate.JsonIgnore;
 import com.lam.liveamonthapp.global.enumMapper.EnumMapperValue;
 
 /**
@@ -19,7 +18,6 @@ import com.lam.liveamonthapp.global.enumMapper.EnumMapperValue;
 public class MetaModelValue extends EnumMapperValue {
 
     private final String title;
-    @JsonIgnore
     private final String metaData;
 
     public MetaModelValue(MetaModelType metaModelType) {

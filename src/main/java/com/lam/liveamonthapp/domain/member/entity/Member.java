@@ -16,7 +16,6 @@ import com.lam.liveamonthapp.domain.interaction.entity.schedule.ScheduleLike;
 import com.lam.liveamonthapp.domain.member.constants.AccountState;
 import com.lam.liveamonthapp.domain.member.constants.GenderType;
 import com.lam.liveamonthapp.domain.member.constants.Role;
-import com.lam.liveamonthapp.domain.member.constants.SocialType;
 import com.lam.liveamonthapp.domain.review.entity.Review;
 import com.lam.liveamonthapp.domain.schedule.entity.Schedule;
 import com.lam.liveamonthapp.exception.badrequest.AlreadyDropMember;
@@ -74,8 +73,6 @@ public class Member extends BaseTimeEntity {
     private LocalDate birth;
     private String image;
     @Enumerated(EnumType.STRING)
-    private SocialType socialType;
-    @Enumerated(EnumType.STRING)
     private Role role;
     @Enumerated(EnumType.STRING)
     private AccountState status;
@@ -111,16 +108,6 @@ public class Member extends BaseTimeEntity {
         this.image = DEFAULT_PROFILE_FILE_NAME;
     }
 
-    @Builder(builderClassName = "socialBuilder", builderMethodName = "socialBuilder")
-    public Member(String email, String name, SocialType socialType) {
-        this.email = email;
-        this.name = name;
-        this.socialType = socialType;
-        this.role = Role.GUEST;
-        this.status = AccountState.NORMAL;
-        this.image = DEFAULT_PROFILE_FILE_NAME;
-    }
-
     // => 비즈니스 로직
     public int calcAge() {
         return Calendar.getInstance().get(Calendar.YEAR) - this.birth.getYear() + 1;
@@ -134,13 +121,6 @@ public class Member extends BaseTimeEntity {
         email = editor.getEmail();
     }
 
-    public void registerBasicInfo(OAuth2RegisterEditor editor) {
-        nickname = editor.getNickname();
-        password = editor.getPassword();
-        birth = editor.getBirth();
-        gender = editor.getGender();
-        conferRole(Role.USER);
-    }
 
     public void changePassword(PasswordEditor editor) {
         password = editor.getPassword();
@@ -150,14 +130,6 @@ public class Member extends BaseTimeEntity {
         return ProfileEditor.builder()
                 .nickname(nickname)
                 .email(email);
-    }
-
-    public OAuth2RegisterEditor.OAuth2RegisterEditorBuilder toOAuth2Editor() {
-        return OAuth2RegisterEditor.builder()
-                .nickname(nickname)
-                .password(password)
-                .birth(birth)
-                .gender(gender);
     }
 
     public PasswordEditor.PasswordEditorBuilder toPasswordEditor() {
@@ -170,10 +142,6 @@ public class Member extends BaseTimeEntity {
             throw new AlreadyDropMember();
         }
         this.status = AccountState.DROP;
-    }
-
-    public void connectSocial(SocialType socialType) {
-        this.socialType = socialType;
     }
 
     public void conferRole(Role role) {

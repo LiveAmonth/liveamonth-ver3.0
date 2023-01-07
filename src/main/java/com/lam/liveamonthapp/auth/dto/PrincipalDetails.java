@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import com.lam.liveamonthapp.domain.member.entity.Member;
 
 import java.util.Collection;
@@ -12,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Getter
-public class PrincipalDetails implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails{
     private final Member member;
     private Map<String, Object> attributes;
 
@@ -70,16 +69,5 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public boolean isEnabled() {
         // 계정이 사용 가능한지 확인하는 로직
         return true; // true -> 사용 가능
-    }
-
-    //OAuth2
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
-    public String getName() {
-        return member.getLoginId();
     }
 }

@@ -15,7 +15,6 @@ import com.lam.liveamonthapp.domain.member.constants.AccountState;
 import com.lam.liveamonthapp.domain.member.dto.request.MemberLogin;
 import com.lam.liveamonthapp.domain.member.dto.request.OAuth2RegisterEdit;
 import com.lam.liveamonthapp.domain.member.entity.Member;
-import com.lam.liveamonthapp.domain.member.entity.OAuth2RegisterEditor;
 import com.lam.liveamonthapp.domain.member.repository.core.MemberRepository;
 import com.lam.liveamonthapp.exception.badrequest.AlreadyUsedToken;
 import com.lam.liveamonthapp.exception.badrequest.InvalidRefreshToken;
@@ -118,43 +117,6 @@ public class AuthServiceImpl implements AuthService {
 
         // SecurityContext 에 있는 authentication 객체를 삭제.
         SecurityContextHolder.clearContext();
-    }
-
-    /**
-     * 소셜 로그인 가입 부분 수정 해야함... 이메일로 들어오는데 내 서비스는 아이디를 따로 만들어서 사용
-     * PrincipalDetail을 Authentication에서 가져올수 없음 로그인 아이디만 가져올수있음.
-     */
-    @Override
-    @Transactional
-    public TokenResponse socialRegister(OAuth2RegisterEdit request) {
-        PrincipalDetails oAuth2User = (PrincipalDetails) SecurityContextHolder.getContext().getAuthentication();
-        Member member = finder.getLoggedInMember();
-
-        OAuth2RegisterEditor editor = member.toOAuth2Editor()
-                .password(passwordEncoder.encode(request.getPassword()))
-                .nickname(request.getNickname())
-                .birth(request.getBirth())
-                .gender(request.getGender())
-                .build();
-
-        member.registerBasicInfo(editor);
-        UsernamePasswordAuthenticationToken authenticationToken = request.toAuthentication(member.getEmail());
-
-        /*
-          AuthenticationManagerBuilder 의 authenticate 메서드가 호출되면
-          CustomUserDetailService 에서 override 한 loadUserByUsername 이 호출됨.
-          loadUserByUsername 으로 가져온 UserDetails 객체를 가지고 password check 를 한다.
-          response -> Member(role...)
-         */
-        Authentication authentication = authenticationManagerBuilder.getObject()
-                .authenticate(authenticationToken);
-        // 인증 정보를 기반으로 토큰(access, refresh, expiration) 생성
-        TokenResponse tokenResponse = jwtTokenProvider.generateToken((Authentication) oAuth2User);
-
-        // RefreshToken Redis 저장, expirationTime 이 지나면 자동 삭제
-        redisRepository.save(jwtTokenProvider.getRefreshTokenKey((Authentication) oAuth2User), tokenResponse);
-
-        return tokenResponse;
     }
 
     /**

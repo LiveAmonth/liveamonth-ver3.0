@@ -41,6 +41,4 @@ public interface AuthService {
      * 5. SecurityContext 에 있는 authentication 객체를 삭제.
      */
     void logout(String accessToken);
-
-    TokenResponse socialRegister(OAuth2RegisterEdit request);
 }
