@@ -1,4 +1,4 @@
-package com.lam.liveamonthapp.domain.city.service.query;
+package com.lam.liveamonthapp.domain.city.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class CityApiServiceImpl implements CityApiService {
     private final CityQueryRepository cityQueryRepository;
 
     @Override
-    public List<CityGridDataResponse> searchCurrentCityInfo() {
+    public List<CityGridDataResponse> getCitySummaryInfo() {
         return cityQueryRepository.findCityGridInfo(INTRO, getCurrentMonth());
     }
 

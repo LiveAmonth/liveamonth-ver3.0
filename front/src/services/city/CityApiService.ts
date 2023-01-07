@@ -25,7 +25,7 @@ class CityApiService {
   }
 
   async getCityGridInfo() {
-    return await http.get("city/grid-infos").then((response) => {
+    return await http.get("city/summary-info").then((response) => {
       return response.data.data;
     });
   }

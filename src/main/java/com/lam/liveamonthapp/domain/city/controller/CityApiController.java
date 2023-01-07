@@ -11,7 +11,7 @@ import com.lam.liveamonthapp.domain.city.constants.CityName;
 import com.lam.liveamonthapp.domain.city.dto.response.api.CityGridDataResponse;
 import com.lam.liveamonthapp.domain.city.dto.response.api.ExtraCityResponse;
 import com.lam.liveamonthapp.domain.city.dto.response.api.ImageContentResponse;
-import com.lam.liveamonthapp.domain.city.service.query.CityApiService;
+import com.lam.liveamonthapp.domain.city.service.CityApiService;
 import com.lam.liveamonthapp.global.dto.response.CustomResponse;
 
 import java.util.List;
@@ -29,9 +29,9 @@ public class CityApiController {
      * dependence presentation layer::home(body)
      * -> slide info(top)
      */
-    @GetMapping("/grid-infos")
+    @GetMapping("/summary-info")
     public ResponseEntity<?> getCitySummaryInfo() {
-        List<CityGridDataResponse> result = cityApiService.searchCurrentCityInfo();
+        List<CityGridDataResponse> result = cityApiService.getCitySummaryInfo();
         return CustomResponse.success(result);
     }
 
