@@ -53,7 +53,7 @@ class CityApiDocsTest extends ApiDocsTest {
     @DisplayName("도시 요약 정보 조회")
     void get_city_summary() throws Exception {
         // when
-        ResultActions result = this.mockMvc.perform(get(BASIC_URL + "/grid-infos")
+        ResultActions result = this.mockMvc.perform(get(BASIC_URL + "/summary-info")
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.length()", is(CityName.values().length)))
