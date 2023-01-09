@@ -43,7 +43,6 @@ public class CommonController {
                 .cityIntroCategory(getDocs(CityIntroCategory.values()))
                 .cityName(getDocs(CityName.values()))
                 .transportCategory(getDocs(TransportCategory.values()))
-                .transportGrade(getDocs(TransportGrade.values()))
                 .monthCategory(getDocs(MonthCategory.values()))
                 .scheduleSearchType(getDocs(ScheduleSearchType.values()))
                 .scheduleFilterType(getDocs(ScheduleFilterType.values()))

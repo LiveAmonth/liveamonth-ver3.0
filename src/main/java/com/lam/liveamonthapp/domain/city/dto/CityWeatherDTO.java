@@ -1,16 +1,18 @@
-package com.lam.liveamonthapp.domain.city.dto.request;
+package com.lam.liveamonthapp.domain.city.dto;
 
-import lombok.*;
 import com.lam.liveamonthapp.domain.city.constants.CityName;
 import com.lam.liveamonthapp.domain.city.constants.MonthCategory;
-import com.lam.liveamonthapp.domain.city.entity.CityWeather;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CityWeatherCreate {
+public class CityWeatherDTO {
 
     @NotNull
     private CityName name;
@@ -22,14 +24,4 @@ public class CityWeatherCreate {
     private float min;
     @NotNull
     private float max;
-
-    public CityWeather toEntity() {
-        return CityWeather.builder()
-                .name(name)
-                .month(month)
-                .averageDegree(avg)
-                .maxDegree(max)
-                .minDegree(min)
-                .build();
-    }
 }

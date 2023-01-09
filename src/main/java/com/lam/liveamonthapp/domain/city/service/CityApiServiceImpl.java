@@ -1,60 +1,83 @@
 package com.lam.liveamonthapp.domain.city.service;
 
+import com.lam.liveamonthapp.domain.city.dto.CityIntroDTO;
+import com.lam.liveamonthapp.domain.city.dto.CityTransportDTO;
+import com.lam.liveamonthapp.domain.city.dto.CityWeatherDTO;
+import com.lam.liveamonthapp.domain.city.storage.CityStorage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.lam.liveamonthapp.domain.city.constants.CityIntroCategory;
 import com.lam.liveamonthapp.domain.city.constants.CityName;
 import com.lam.liveamonthapp.domain.city.constants.MonthCategory;
-import com.lam.liveamonthapp.domain.city.dto.response.api.CityGridDataResponse;
-import com.lam.liveamonthapp.domain.city.dto.response.api.ExtraCityResponse;
-import com.lam.liveamonthapp.domain.city.dto.response.api.ImageContentResponse;
-import com.lam.liveamonthapp.domain.city.entity.CityIntro;
-import com.lam.liveamonthapp.domain.city.repository.core.CityIntroRepository;
-import com.lam.liveamonthapp.domain.city.repository.core.CityTransportRepository;
-import com.lam.liveamonthapp.domain.city.repository.core.CityWeatherRepository;
-import com.lam.liveamonthapp.domain.city.repository.query.CityQueryRepository;
+import com.lam.liveamonthapp.domain.city.dto.response.CityGridDataResponse;
+import com.lam.liveamonthapp.domain.city.dto.response.ExtraCityResponse;
+import com.lam.liveamonthapp.domain.city.dto.response.ImageContentResponse;
 
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static com.lam.liveamonthapp.domain.city.constants.CityIntroCategory.INTRO;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class CityApiServiceImpl implements CityApiService {
-    private final CityIntroRepository cityIntroRepository;
-    private final CityWeatherRepository cityWeatherRepository;
-    private final CityTransportRepository cityTransportRepository;
-    private final CityQueryRepository cityQueryRepository;
+
+    private final CityStorage storage;
 
     @Override
     public List<CityGridDataResponse> getCitySummaryInfo() {
-        return cityQueryRepository.getCitySummaryInfo(getCurrentMonth());
+        // 도시 이미지, 이름 가져오기
+        Map<CityName, String> filteredIntro = getIntroContentsMap();
+        // 도시 평균 기온 가져오기
+        Map<CityName, Float> filteredWeather = getCityAverageTempMap();
+        // 도시 교통 점수 가져오기
+        Map<CityName, Integer> filteredTransport = getTransportsScoreMap();
+
+        // CityGridResponse로 합치기
+        return Arrays.stream(CityName.values())
+                .map(cityName -> new CityGridDataResponse(
+                        cityName,
+                        filteredIntro.get(cityName),
+                        filteredWeather.get(cityName),
+                        filteredTransport.get(cityName)))
+                .collect(Collectors.toList());
     }
 
     @Override
     public ExtraCityResponse searchTotalCityInfo(CityName cityName) {
-        return ExtraCityResponse.of(
-                cityTransportRepository.findByName(cityName),
-                cityWeatherRepository.findByName(cityName));
+        return ExtraCityResponse.of(storage.getTransportData(), storage.getWeatherData());
     }
 
     @Override
-    public Map<CityIntroCategory, List<ImageContentResponse>> getCity(CityName cityName) {
-        List<CityIntro> cityIntros = cityIntroRepository.findByName(cityName);
-        Map<CityIntroCategory, List<ImageContentResponse>> introMap = new HashMap<>();
-        for (CityIntro cityIntro : cityIntros) {
-            CityIntroCategory category = cityIntro.getCityInfoCat();
-            if (introMap.containsKey(cityIntro.getCityInfoCat()) && category != INTRO){
-                introMap.get(category).add(ImageContentResponse.of(cityIntro));
-            }else {
-                introMap.put(category, new ArrayList<>(Collections.singletonList(ImageContentResponse.of(cityIntro))));
-            }
+    public Map<CityIntroCategory, List<ImageContentResponse>> getCityIntro(CityName cityName) {
+        return storage.getIntroData().stream().collect(Collectors.groupingBy(
+                CityIntroDTO::getCategory,
+                Collectors.mapping(ImageContentResponse::of, Collectors.toList())
+        ));
+    }
 
-        }
-        return introMap;
+    private Map<CityName, String> getIntroContentsMap() {
+        return storage.getIntroData().stream()
+                .filter(intro -> intro.getCategory() == CityIntroCategory.INTRO)
+                .collect(Collectors.toMap(
+                        CityIntroDTO::getName,
+                        CityIntroDTO::getImage
+                ));
+    }
+
+    private Map<CityName, Float> getCityAverageTempMap() {
+        return storage.getWeatherData().stream()
+                .filter(weather -> weather.getMonth() == getCurrentMonth())
+                .collect(Collectors.toMap(
+                        CityWeatherDTO::getName,
+                        CityWeatherDTO::getAvg
+                ));
+    }
+
+    private Map<CityName, Integer> getTransportsScoreMap() {
+        return storage.getTransportData().stream()
+                .collect(Collectors.groupingBy(
+                        CityTransportDTO::getName,
+                        Collectors.summingInt(CityTransportDTO::getScore)));
     }
 
     private MonthCategory getCurrentMonth() {

@@ -66,11 +66,12 @@ public class ScheduleQueryRepository extends BasicRepository {
                 .fetch();
 
         // contents query
-        JPAQuery<ScheduleCardResponse> resultQuery = queryFactory.select(getScheduleCardProjection())
-                .from(schedule)
-                .join(schedule.member, member)
-                .where(scheduleIdIn(ids))
-                .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule));
+        JPAQuery<ScheduleCardResponse> resultQuery =
+                queryFactory.select(getScheduleCardProjection())
+                        .from(schedule)
+                        .join(schedule.member, member)
+                        .where(scheduleIdIn(ids))
+                        .orderBy(mapToOrderSpec(pageable.getSort(), Schedule.class, schedule));
 
         return PageableExecutionUtils.getPage(
                 fetchIndexingQuery(ids.isEmpty(), resultQuery),

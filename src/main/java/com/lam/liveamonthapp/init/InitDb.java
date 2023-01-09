@@ -5,14 +5,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import com.lam.liveamonthapp.init.service.*;
 
-import javax.annotation.PostConstruct;
-
 
 @Profile("local")
 @Component
 @RequiredArgsConstructor
 public class InitDb {
-    private final InitCityService initCityService;
     private final InitMemberService initMemberService;
     private final InitScheduleService initScheduleService;
     private final InitReviewService initReviewService;
@@ -20,20 +17,17 @@ public class InitDb {
     private final InitInteractionService initInteractionService;
     private final InitInquiryService initInquiryService;
 
-    @PostConstruct
+    //    @PostConstruct
     public void init() {
-        initCityService.initCityIntroData();
-        initCityService.initCityTransportData();
-        initCityService.initCityWeatherData();
-//        initMemberService.initMemberData();
-//        initScheduleService.initScheduleData();
-//        initScheduleService.initScheduleContentData();
-//        initReviewService.initReviewData();
-//        initCommentService.initScheduleCommentData();
-//        initCommentService.initReviewCommentData();
-//        initInteractionService.initInteractionData();
-//        initInteractionService.initScheduleLikeData();
-//        initInteractionService.initReviewLikeData();
-//        initInquiryService.initInquiryData();
+        initMemberService.initMemberData();
+        initScheduleService.initScheduleData();
+        initScheduleService.initScheduleContentData();
+        initReviewService.initReviewData();
+        initCommentService.initScheduleCommentData();
+        initCommentService.initReviewCommentData();
+        initInteractionService.initInteractionData();
+        initInteractionService.initScheduleLikeData();
+        initInteractionService.initReviewLikeData();
+        initInquiryService.initInquiryData();
     }
 }

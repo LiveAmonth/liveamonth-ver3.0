@@ -33,7 +33,6 @@ public class EnumConfig {
         enumMapper.put(CITY_INTRO_CATEGORY, CityIntroCategory.class);
         enumMapper.put(CITY_NAME, CityName.class);
         enumMapper.put(TRANSPORT_CATEGORY, TransportCategory.class);
-        enumMapper.put(TRANSPORT_GRADE, TransportGrade.class);
         enumMapper.put(MONTH_CATEGORY, MonthCategory.class);
         enumMapper.put(SCHEDULE_SEARCH_TYPE, ScheduleSearchType.class);
         enumMapper.put(SCHEDULE_FILTER_TYPE, ScheduleFilterType.class);

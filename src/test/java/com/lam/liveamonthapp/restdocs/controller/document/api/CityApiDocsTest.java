@@ -1,48 +1,41 @@
 package com.lam.liveamonthapp.restdocs.controller.document.api;
 
-import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.ResultActions;
-import com.lam.liveamonthapp.restdocs.controller.ApiDocsTest;
 import com.lam.liveamonthapp.domain.city.constants.CityName;
 import com.lam.liveamonthapp.domain.city.constants.MonthCategory;
 import com.lam.liveamonthapp.domain.city.constants.TransportCategory;
-import com.lam.liveamonthapp.init.service.InitCityService;
+import com.lam.liveamonthapp.restdocs.controller.ApiDocsTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Random;
 
+import static com.lam.liveamonthapp.domain.city.constants.CityIntroCategory.*;
+import static com.lam.liveamonthapp.domain.city.constants.CityName.*;
+import static com.lam.liveamonthapp.global.enumMapper.EnumClassConst.*;
+import static com.lam.liveamonthapp.restdocs.utils.ApiDocumentUtils.*;
+import static com.lam.liveamonthapp.restdocs.utils.DocsLinkGenerator.generateLinkCode;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.beneathPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.attributes;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static com.lam.liveamonthapp.domain.city.constants.CityIntroCategory.*;
-import static com.lam.liveamonthapp.domain.city.constants.CityName.*;
-import static com.lam.liveamonthapp.global.enumMapper.EnumClassConst.*;
-import static com.lam.liveamonthapp.restdocs.utils.ApiDocumentUtils.*;
-import static com.lam.liveamonthapp.restdocs.utils.DocsLinkGenerator.generateLinkCode;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CityApiDocsTest extends ApiDocsTest {
     static final String BASIC_URL = "/api/v1/city";
-    @Autowired
-    InitCityService initCityService;
 
     CityName cityName;
-
-    @BeforeAll
-    public void setUp() {
-        initCityService.initCityIntroData();
-        initCityService.initCityTransportData();
-        initCityService.initCityWeatherData();
-    }
 
     @BeforeEach
     void setUpCityName() {

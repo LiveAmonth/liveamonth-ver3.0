@@ -1,9 +1,11 @@
-package com.lam.liveamonthapp.domain.city.dto.request;
+package com.lam.liveamonthapp.domain.city.dto;
 
-import lombok.*;
 import com.lam.liveamonthapp.domain.city.constants.CityIntroCategory;
 import com.lam.liveamonthapp.domain.city.constants.CityName;
-import com.lam.liveamonthapp.domain.city.entity.CityIntro;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Lob;
 import javax.validation.constraints.NotEmpty;
@@ -13,7 +15,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CityIntroCreate {
+public class CityIntroDTO {
     @NotNull
     private CityName name;
 
@@ -27,14 +29,4 @@ public class CityIntroCreate {
     @NotEmpty
     @Pattern(regexp = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)", message = "지원하지 않는 확장자입니다.")
     private String image;
-
-    public CityIntro toEntity() {
-        return CityIntro.builder()
-                .name(name)
-                .category(this.category)
-                .content(this.content)
-                .image(this.image)
-                .build();
-    }
-
 }

@@ -1,4 +1,4 @@
-package com.lam.liveamonthapp.domain.city.dto.response.api;
+package com.lam.liveamonthapp.domain.city.dto.response;
 
 import lombok.Getter;
 import com.lam.liveamonthapp.domain.city.constants.CityName;
